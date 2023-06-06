@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>setaxis function &#8212; pyPLUTO 0.7.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="plot function" href="plot.html" />
+    <link rel="prev" title="create_axes function" href="create_axes.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">pyPLUTO 0.7.3 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="create_axes.html" title="create_axes function"
+             accesskey="P">previous</a> |
+          <a href="plot.html" title="plot function"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="setaxis-function">
+<span id="set-axis"></span><h1>setaxis function<a class="headerlink" href="#setaxis-function" title="Permalink to this heading">¶</a></h1>
+<p>The function set_axis has the following structure:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPLUTO.Image.set_axis">
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">set_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yes'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Image.set_axis" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Customization of a single subplot axis.
+Properties such as the range, scale and aspect of each subplot
+should be customized here.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- alpha: float, default 1.0</strong></dt><dd><p>Sets the opacity of the plot, where 1.0 means total opaque and 0.0 means
+total transparent.</p>
+</dd>
+<dt><strong>- aspect: {‘auto’, ‘equal’, float}, default ‘auto’</strong></dt><dd><p>Sets the aspect ratio of the plot.
+The ‘auto’ keyword is the default option (most likely the plot will
+be squared). The ‘equal’ keyword will set the same scaling for
+x and y. A float will fix the ratio between the y-scale and the x-scale
+(1.0 is the same as ‘equal’).</p>
+</dd>
+<dt><strong>- ax: ax object, default None</strong></dt><dd><p>The axis to customize. If None the current axis will be selected.</p>
+</dd>
+<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components (only for the current axis).</p>
+</dd>
+<dt><strong>- labelsize: float, default fontsize</strong></dt><dd><p>Sets the labels fontsize (which is the same for both labels).
+The default value corresponds to the value of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- minorticks: str, default None</strong></dt><dd><p>If not None enables the minor ticks on the plot (for both grid axes).</p>
+</dd>
+<dt><strong>- ticksdir: {‘in’, ‘out’}, default ‘in’</strong></dt><dd><p>Sets the ticks direction. The default option is ‘in’.</p>
+</dd>
+<dt><strong>- tickssize: float, default fontsize</strong></dt><dd><p>Sets the ticks fontsize (which is the same for both grid axes).
+The default value corresponds to the value of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- title: str, default None</strong></dt><dd><p>Places the title of the plot on top of it.</p>
+</dd>
+<dt><strong>- titlesize: float, default fontsize</strong></dt><dd><p>Sets the title fontsize. The default value corresponds to the value
+of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- xrange: [float, float], default [0,1]</strong></dt><dd><p>Sets the range in the x-direction. If not defined the code will
+compute the range while plotting the data.</p>
+</dd>
+<dt><strong>- xscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets automatically the scale
+on the x-axis. Data in log scale should be used with the keyword ‘log’,
+while data in linear scale should be used with the keyword ‘linear’.</p>
+</dd>
+<dt><strong>- xticks: {[float], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually ticks on
+x-axis. In order to completely remove the ticks the keyword should
+be used with None.</p>
+</dd>
+<dt><strong>- xtickslabels: {[str], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually the ticks
+labels on the x-axis. In order to completely remove the ticks the
+keyword should be used with None. Note that fixed tickslabels should
+always correspond to fixed ticks.</p>
+</dd>
+<dt><strong>- xtitle: str, default None</strong></dt><dd><p>Sets and places the label of the x-axis.</p>
+</dd>
+<dt><strong>- yrange: [float, float], default [0,1]</strong></dt><dd><p>Sets the range in the y-direction. If not defined the code will
+compute the range while plotting the data.</p>
+</dd>
+<dt><strong>- yscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets automatically the scale
+on the y-axis. Data in log scale should be used with the keyword ‘log’,
+while data in linear scale should be used with the keyword ‘linear’.</p>
+</dd>
+<dt><strong>- yticks: {[float], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually ticks on
+y-axis. In order to completely remove the ticks the keyword should
+be used with None.</p>
+</dd>
+<dt><strong>- ytickslabels: {[str], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually the ticks
+labels on the y-axis. In order to completely remove the ticks the
+keyword should be used with None. Note that fixed tickslabels should
+always correspond to fixed ticks.</p>
+</dd>
+<dt><strong>- ytitle: str, default None</strong></dt><dd><p>Sets and places the label of the y-axis.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>A function which sets seprartely the maximum and the minimum value in</dt><dd><p>both x- and y- directions is needed.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p class="rubric">Examples</p>
+<ul>
+<li><p>Example #1: create an axis and set title and labels on both axes</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">set_axis</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="n">titlesize</span> <span class="o">=</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x-axis&#39;</span><span class="p">,</span> <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y-axis&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #2: create an axis, remove the ticks for the x-axis and set manually the ticks for the y-axis</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">set_axis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xticks</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">yticks</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span><span class="o">-</span><span class="mf">0.6</span><span class="p">,</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">0.8</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #3: create two axes and invert the direction of the ticks in the first one</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">right</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">left</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">set_axis</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ticksdir</span> <span class="o">=</span> <span class="s1">&#39;out&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #4: create a 2x2 grid with axes labels and customed ticks</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]:</span>
+<span class="gp">&gt;&gt;&gt; </span>  <span class="n">I</span><span class="o">.</span><span class="n">set_axis</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x-axis&#39;</span><span class="p">,</span> <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y-title&#39;</span><span class="p">,</span> <span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.75</span><span class="p">],</span> <span class="n">yticks</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.75</span><span class="p">],</span> <span class="n">xtickslabels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1/4&#39;</span><span class="p">,</span><span class="s1">&#39;1/2&#39;</span><span class="p">,</span><span class="s1">&#39;3/4&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="image.html#pyPLUTO.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">setaxis function</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.set_axis"><code class="docutils literal notranslate"><span class="pre">set_axis()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="create_axes.html" title="create_axes function"
+              >previous</a> |
+            <a href="plot.html" title="plot function"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, G. Mattia, D. Crocco.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

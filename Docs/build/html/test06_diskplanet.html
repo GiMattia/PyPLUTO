@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>HD Disk-Planet &#8212; pyPLUTO 0.7.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="MHD Rotor" href="test04_rotor.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">pyPLUTO 0.7.3 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="test04_rotor.html" title="MHD Rotor"
+             accesskey="P">previous</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="hd-disk-planet">
+<span id="test06-diskplanet"></span><h1>HD Disk-Planet<a class="headerlink" href="#hd-disk-planet" title="Permalink to this heading">¶</a></h1>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/test06_diskplanet.png"><img alt="_images/test06_diskplanet.png" class="align-center" src="_images/test06_diskplanet.png" style="width: 600px;" /></a>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Disk-planet test.</span>
+
+<span class="sd">Authors:</span>
+
+<span class="sd">        D. Crocco</span>
+<span class="sd">        G. Mattia</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Creating the path for the data directory</span>
+<span class="n">plutodir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PLUTO_DIR&#39;</span><span class="p">]</span>
+<span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span><span class="o">+</span><span class="s1">&#39;/Test_Problems/HD/Disk_Planet&#39;</span>
+
+<span class="c1"># Loading the data into a pload object D.</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">wdir</span><span class="p">)</span>
+
+<span class="c1"># Creating the Image and the subplot axes (in order to have two zoom simultaneously)</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">()</span>
+
+<span class="c1"># Plotting the data</span>
+<span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1rc</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2rc</span><span class="p">,</span> <span class="n">cscale</span> <span class="o">=</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Density&#39;</span><span class="p">,</span><span class="n">vmin</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+
+<span class="c1">#Zooming the planet region</span>
+<span class="n">I</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">1.1</span><span class="p">],</span><span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span> <span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.74</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.9</span><span class="p">])</span>
+<span class="n">I</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">var</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">vx2</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">1.1</span><span class="p">],</span><span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span> <span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.07</span><span class="p">,</span><span class="mf">0.27</span><span class="p">,</span><span class="mf">0.67</span><span class="p">,</span><span class="mf">0.9</span><span class="p">],</span>
+       <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;magma&#39;</span><span class="p">,</span> <span class="n">cscale</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">vmin</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span>
+       <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$v_\phi$&#39;</span><span class="p">)</span>
+
+<span class="c1"># Saving the image</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test06_diskplanet.png&#39;</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="test01_sod.html">HD Sod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test02_ot.html">MHD OT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test03_rti.html">MHD RTI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test04_rotor.html">MHD Rotor</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">HD Disk-Planet</a></li>
+</ul>
+</li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="test04_rotor.html" title="MHD Rotor"
+              >previous</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, G. Mattia, D. Crocco.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

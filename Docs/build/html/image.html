@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Plotting the data &#8212; pyPLUTO 0.7.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="create_axes function" href="create_axes.html" />
+    <link rel="prev" title="Loading the data" href="load.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">pyPLUTO 0.7.3 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="load.html" title="Loading the data"
+             accesskey="P">previous</a> |
+          <a href="create_axes.html" title="create_axes function"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="plotting-the-data">
+<h1>Plotting the data<a class="headerlink" href="#plotting-the-data" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyPLUTO.Image">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyPLUTO.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LaTeX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Image" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The loaded data should be plot in a complete yet efficient way.
+The class <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image</span></code> is a quick tool in order to obtain plots
+for scientific articles.</p>
+<section id="subplots-creation-and-customization">
+<h2>Subplots creation and customization<a class="headerlink" href="#subplots-creation-and-customization" title="Permalink to this heading">¶</a></h2>
+<p>The first step of the plotting procedure is to create a list of axes
+(where each element of the axes list corresponds to a subplot).
+Three functions are built in order to give a good compromise between simplicity and
+customization:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
+</ul>
+</div>
+<p>The <a class="reference internal" href="create_axes.html#create-axes"><span class="std std-ref">create_axes function</span></a> creates a simple figure and set of axes, given a specific number
+of rows and columns. The subplots are automatically spaced evenly and the ratio between
+the different subplots sizes is 1. The aspect of the single subplots is automatically determined
+from the image size.</p>
+<p>The <a class="reference internal" href="create_axes.html#create-axes"><span class="std std-ref">create_axes function</span></a> allows for a better customization, since both the size ratios
+of the plots and the horizontal and vertical spacing are customizable. Moreover, this function is
+designed to be called multiple times for the same figure (e.g. in case of plots which span over
+a different number of columns). However, in such case the <a class="reference internal" href="create_axes.html#create-axes"><span class="std std-ref">create_axes function</span></a> should be
+called first in order to create the figure.</p>
+<p>Once the figure and the axes are created, they are customizable through:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="set_axis.html">setaxis function</a></li>
+</ul>
+</div>
+<p>Parameters as the axes range or scale should be defined here. However, in case of simple plots
+all the parameters in this function can be defined in the specific plotting functions.</p>
+</section>
+<section id="the-plotting-procedure">
+<h2>The plotting procedure<a class="headerlink" href="#the-plotting-procedure" title="Permalink to this heading">¶</a></h2>
+<p>At the moment only 1D and 2D plots are available.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Full 3D plotting is under active development.</p>
+</div>
+<p>The standard 1D and 2D plots can be produced through the functions:</p>
+<p>Parameters such as the line colors are almost fully customizable.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plot.html">plot function</a></li>
+</ul>
+</div>
+<p>1D plot <a class="reference internal" href="plot.html#plot"><span class="std std-ref">plot function</span></a></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="display.html">display function</a></li>
+</ul>
+</div>
+<p>2D plot <a class="reference internal" href="display.html#display"><span class="std std-ref">display function</span></a></p>
+</section>
+<section id="useful-plotting-tools">
+<h2>Useful plotting tools<a class="headerlink" href="#useful-plotting-tools" title="Permalink to this heading">¶</a></h2>
+<p>Although features such as the legend or colorbar can be easily included
+during the plotting procedure, sometimes the best choice (especially for
+non-trivial figures) is to add them during a later step.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">zoom function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text.html">text function</a></li>
+</ul>
+</div>
+<p>The pyPLUTO module allows for inset zooms through two functions, which, respectively,
+zoom 1D and 2D plots.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Plotting the data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pyPLUTO.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subplots-creation-and-customization">Subplots creation and customization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="set_axis.html">setaxis function</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-plotting-procedure">The plotting procedure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plot.html">plot function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="display.html">display function</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#useful-plotting-tools">Useful plotting tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="zoom.html">zoom function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="text.html">text function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="load.html" title="Loading the data"
+              >previous</a> |
+            <a href="create_axes.html" title="create_axes function"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, G. Mattia, D. Crocco.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

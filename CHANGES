@@ -1,0 +1,6 @@
+The functions simplegrid and customgrid now have a more customized output.
+In particular:
+- if the figure is an argument of the function is not returned
+- if the axes list contains only one element, the element is returned (and not the list).
+
+

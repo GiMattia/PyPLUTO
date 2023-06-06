@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+title: my_package
+message: If you use this software, please cite as below.
+date-released: 2022-03-29
+url: 'https://github.com/mpi-astronomy/mpia-python-template'
+version: 0.0.1
+type: software
+authors:
+  - family-names: Name
+    given-names: Author
+    email: author.name@email.com
+    affiliation: MPIA
+    orcid: 'https://orcid.org/0000-0003-1665-2073'
+
+# For citing software, see:
+
+# http://journals.aas.org/authors/references.html
+
+# GitHub has Zenodo DOI integration:
+# https://guides.github.com/activities/citable-code/
+
+# What is a CITATION.cff file: 
+# https://citation-file-format.github.io/
+
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!

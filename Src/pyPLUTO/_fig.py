@@ -258,6 +258,8 @@ def set_axis(self, ax = None, check = 'yes', **kwargs):
                 The default value corresponds to the value of the keyword 'fontsize'.
             - title: str, default None
                 Places the title of the plot on top of it.
+            - titlepad: float, default 8.0
+                Sets the distance between the title and the top of the plot
             - titlesize: float, default fontsize
                 Sets the title fontsize. The default value corresponds to the value
                 of the keyword 'fontsize'.
@@ -363,7 +365,8 @@ def set_axis(self, ax = None, check = 'yes', **kwargs):
 
     # Set title and axes labels
     if kwargs.get('title',None) is not None:
-        ax.set_title(kwargs['title'],   fontsize = kwargs.get('titlesize',self.fontsize))
+        ax.set_title(kwargs['title'],   fontsize = kwargs.get('titlesize',self.fontsize), 
+                                        titlepad = kwargs.get('titlepad', 8.0))
     if kwargs.get('xtitle',None) is not None:
         ax.set_xlabel(kwargs['xtitle'], fontsize = kwargs.get('labelsize',self.fontsize))
     if kwargs.get('ytitle',None) is not None:

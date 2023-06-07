@@ -366,7 +366,7 @@ def set_axis(self, ax = None, check = 'yes', **kwargs):
     # Set title and axes labels
     if kwargs.get('title',None) is not None:
         ax.set_title(kwargs['title'],   fontsize = kwargs.get('titlesize',self.fontsize), 
-                                        titlepad = kwargs.get('titlepad', 8.0))
+                                        pad      = kwargs.get('titlepad', 8.0))
     if kwargs.get('xtitle',None) is not None:
         ax.set_xlabel(kwargs['xtitle'], fontsize = kwargs.get('labelsize',self.fontsize))
     if kwargs.get('ytitle',None) is not None:

@@ -127,11 +127,6 @@ def read_grid(self):
         self.D['x2rc'] = np.outer(np.sin(self.D['x2r']), self.D['x1rp'])
         self.gridlist3 = ['x1p','x2p','x1rp','x2rp',
                           'x1c','x2c','x1rc','x2rc']
-    if self.D['dim'] == 3 and self.D['geom'] != 'CARTESIAN':
-        if self.D['geom'] == 'POLAR':
-            print('3D plot (non cartesian): work in progress...')
-        elif self.D['geom'] == 'SPHERCAL':
-            print('3D plot (non cartesian): work in progress...')
 
     # Compute the gridsize
     self.D['gridsize']     =  self.D['nx1']*self.D['nx2']*self.D['nx3']

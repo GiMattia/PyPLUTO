@@ -6,6 +6,7 @@ import matplotlib.lines   as mlines
 import matplotlib.widgets as mwdg
 import os                 as os
 import sys                as sys
+import pyvista            as pv
 
 
 from mpl_toolkits.axes_grid1               import make_axes_locatable

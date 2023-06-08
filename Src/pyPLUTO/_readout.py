@@ -268,6 +268,8 @@ def load_vars(self, vars, i, exout, text):
             shape = self.shape_st(self, j)
         else:
             shape = self.D['nshp']
+        #faeshape = (len(self.D['noutlist']),) + shape
+        #print(faeshape)
 
         # Load the variable through memory mapping
         scrh = np.memmap(self.filepath,self.Dinfo['binformat'][i],mode="c",offset=offset, shape = shape).T

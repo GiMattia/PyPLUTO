@@ -1,7 +1,5 @@
 from ._libraries import *
 
-print('Welcome to pyPLUTO!')
-
 class Load:
 
     D = {}

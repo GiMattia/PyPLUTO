@@ -107,6 +107,7 @@ def read_grid(self):
     self.D['x3r'][0]  = self.D['x3r'][1] - self.D['dx3'][0]
 
     # Compute the cartesian grid coordinates (non-cartesian geometry)
+
     if self.D['geom'] == 'POLAR':
         self.D['x1c']  = np.outer(np.cos(self.D['x2']),  self.D['x1'])
         self.D['x2c']  = np.outer(np.sin(self.D['x2']),  self.D['x1'])
@@ -116,17 +117,13 @@ def read_grid(self):
     elif self.D['geom'] == 'SPHERICAL':
         self.D['x1p']  = np.outer(np.sin(self.D['x2']),  self.D['x1'])
         self.D['x2p']  = self.D['x3']
-        self.D['x3p']  = np.outer(np.cos(self.D['x2']),  self.D['x1'])
+        
         self.D['x1rp'] = np.outer(np.sin(self.D['x2r']), self.D['x1r'])
         self.D['x2rp'] = self.D['x3r']
-        self.D['x3rp'] = np.outer(np.cos(self.D['x2r']), self.D['x1r']) 
-
-        self.D['x1c']  = np.outer(np.cos(self.D['x2']),  self.D['x1p'])
-        self.D['x2c']  = np.outer(np.sin(self.D['x2']),  self.D['x1p'])  
-        self.D['x1rc'] = np.outer(np.cos(self.D['x2r']), self.D['x1rp'])
-        self.D['x2rc'] = np.outer(np.sin(self.D['x2r']), self.D['x1rp'])
+        
         self.gridlist3 = ['x1p','x2p','x1rp','x2rp',
                           'x1c','x2c','x1rc','x2rc']
+
 
     # Compute the gridsize
     self.D['gridsize']     =  self.D['nx1']*self.D['nx2']*self.D['nx3']

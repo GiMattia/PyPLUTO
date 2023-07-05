@@ -7,7 +7,6 @@ def check_fig(self,ax):
         **Inputs:**
             ax  -- the set of axes\n
     '''
-    print(type(self.ax))
     fig = ax.get_figure()
     assert fig == self.fig
     nax = self.ax.index(ax)
@@ -302,7 +301,6 @@ def assign_ax(self, ax, **kwargs):
         ax = self.create_axes(ncol = 1, nrow = 1, check = 'no', **kwargs)
 
     elif ax is None and len(self.ax) > 0:
-        print(self.ax)
         ax  = self.fig.gca()
 
     nax = self.check_fig(ax)

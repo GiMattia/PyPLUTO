@@ -189,8 +189,10 @@ def create_axes(self, ncol = 1, nrow = 1, check = True, **kwargs):
 
     # Add axes
     for i in range(ncol*nrow):
-        self.add_ax(self.fig.add_subplot(nrow + self.nrow0, ncol + self.ncol0, i+1), len(self.ax))
-
+        if proj is None:
+            self.add_ax(self.fig.add_subplot(nrow + self.nrow0, ncol + self.ncol0, i+1), len(self.ax))
+        else:
+            self.add_ax(self.fig.add_subplot(nrow + self.nrow0, ncol + self.ncol0, i+1, projection=proj), len(self.ax))
         if custom_plot is True:
             row = int(i/ncol)
             col = int(i%ncol)

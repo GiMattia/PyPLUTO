@@ -148,3 +148,8 @@ class Tools:
     from ._lines     import fieldlines, field_interp, adv_field_line, check_closed_line
 
 from ._pytools   import savefig, show
+
+class LoadParticles:
+    def __new__(cls, nout = 'last', path = './' , datatype = None, 
+                     vars = True, text = True):
+        None

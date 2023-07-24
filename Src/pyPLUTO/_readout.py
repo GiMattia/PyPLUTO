@@ -20,21 +20,25 @@ def find_format(self, datatype):
             HDF5 and tab formats have not been implemented yet.
     '''
 
-    # Check if the file grid.out exists
-    if not os.path.isfile(self.path+'/grid.out'):
-        raise FileNotFoundError('file '+str(self.path)+'/grid.out not found!')
+    # Check if the file grid.out exists and that the path is a directory
+    if not self.pathdir.is_dir():
+        raise NotADirectoryError(f'directory {self.pathdir} not found!')
+    self.pathgrid = self.pathdir / 'grid.out'
+    if not self.pathgrid.is_file():
+        raise FileNotFoundError(f'directory {self.pathdir} has no grid.out!')
 
     # Recover the file format needed to load the files
     if datatype is None:
         self.rec_format(self)
     else:
-        if os.path.isfile(self.path+'/'+datatype+'.out'):
+        self.pathdata = self.pathdir  / (datatype + '.out')
+        if self.pathdata.is_file():
             self.format = datatype
         else:
-            raise FileNotFoundError('file "datatype".out not found!')
+            raise FileNotFoundError(f'file {datatype}.out not found!')
 
     # Store the charsize depending on the format
-    self.charsize = 8 if self.format == "dbl" else 4
+    self.charsize = 8 if self.format == 'dbl' else 4
     return None
 
 def read_grid(self):
@@ -51,19 +55,14 @@ def read_grid(self):
         None
     '''
 
-    # Initialize the gridfile path
-    outname = self.path+'/grid.out'
-
     # Initialize relevant lists
     nmax = []
     xL   = []
     xR   = []
 
     # Open and read the gridfile
-    gfp = open(outname, "r")
-    for i in gfp.readlines():
-        self.split_gridfile(self,i, xL, xR, nmax)
-    gfp.close()
+    with open(self.pathgrid, 'r') as gfp:
+        for i in gfp.readlines(): self.split_gridfile(self,i, xL, xR, nmax)
 
     # Compute nx1, nx2, nx3
     self.D['nx1'], self.D['nx2'], self.D['nx3'] = nmax
@@ -107,6 +106,7 @@ def read_grid(self):
     self.D['x3r'][0]  = self.D['x3r'][1] - self.D['dx3'][0]
 
     # Compute the cartesian grid coordinates (non-cartesian geometry)
+    # STILL VERY INCOMPLETE
 
     if self.D['geom'] == 'POLAR':
         self.D['x1c']  = np.outer(np.cos(self.D['x2']),  self.D['x1'])
@@ -121,8 +121,7 @@ def read_grid(self):
         self.D['x1rp'] = np.outer(np.sin(self.D['x2r']), self.D['x1r'])
         self.D['x2rp'] = np.outer(np.cos(self.D['x2r']), self.D['x1r'])
         
-        self.gridlist3 = ['x1p','x2p','x1rp','x2rp',
-                          'x1c','x2c','x1rc','x2rc']
+        self.gridlist3 = ['x1c','x2c','x1rc','x2rc']
 
 
     # Compute the gridsize
@@ -159,23 +158,25 @@ def read_vars(self, nout):
     self.Dinfo = {}
 
     # Open and read the 'filetype'.out file
-    outname = self.path+'/'+self.format+'.out'
-    with open(outname, 'r') as f:
+    with open(self.pathdata, 'r') as f:
         vfp = f.readlines()
+    #print(f'dcghdwcjhdgcjsh {len(vfp)}')
 
+    # REMEMBER TO TRANSFORM THEM IN ARRAYS
     self.D['timelist'] = []
     self.D['outlist']  = []
 
     # Check the output line
-    time = self.check_nout(self, nout, vfp)
+    time    = self.check_nout(self, nout, vfp)
+    lentime = len(time)
 
     # Store the relevant information in a dictionary
     arrinfo = ['typefile','endianess','binformat','varslist','endpath']
     for i in arrinfo:
-        self.Dinfo[i] = [None]*len(time)
+        self.Dinfo[i]   = [None]*lentime
     if len(time) > 1:
-        self.D['nout']  = [None]*len(time)
-        self.D['ntime'] = [None]*len(time)
+        self.D['nout']  = np.zeros(lentime, dtype=int)
+        self.D['ntime'] = np.zeros(lentime)
     for j, timeval in enumerate(time):
         try:
             vinfo   = vfp[timeval].split()
@@ -186,7 +187,7 @@ def read_vars(self, nout):
         if self.format == 'vtk': self.Dinfo['endianess'][j] = ">"
         self.Dinfo['binformat'][j] = self.Dinfo['endianess'][j]+'f'+str(self.charsize)
         self.Dinfo['varslist'][j]  = vinfo[6:]
-        self.Dinfo['endpath'][j]   = f'.{timeval:04d}.'+self.format
+        self.Dinfo['endpath'][j]   = f'.{timeval:04d}.{self.format}'
         if len(time) > 1:
             self.D['ntime'][j] = float(vinfo[1])
             self.D['nout'][j]  = int(timeval)
@@ -221,14 +222,16 @@ def load_vars(self, vars, i, exout, text):
                  'multiple_files': 'multiple files'}
 
     # Check if time is correct
-    if exout >= len(self.D['timelist']):
-        print('Wrong input file, '+str(exout)+' is higher than '+str(len(self.D['timelist'])))
+    lentime = len(self.D['timelist'])
+    if exout >= lentime:
+        print(f'Wrong input file, {exout} is higher than {lentime}')
         return None
     elif text == True:
-        print('Output file:      '+str(exout) + '   ('+type_dict[self.Dinfo['typefile'][i]]+')')
+        is_singlefile = type_dict[self.Dinfo['typefile'][i]]
+        print(f'Output file:      {exout}   ({is_singlefile})')
 
     # Check if only specific variables should be loaded
-    if vars == True:
+    if vars is True:
         load_vars = self.Dinfo['varslist'][i]
     elif isinstance(vars, list):
         load_vars = vars
@@ -236,7 +239,7 @@ def load_vars(self, vars, i, exout, text):
         load_vars = [vars]
 
     # Reconstruct full filepath
-    self.filepath = self.path+'data'+self.Dinfo['endpath'][i]
+    self.filepath = self.pathdir / ('data' + self.Dinfo['endpath'][i])
 
     # Compute non-vtk offset
     self.Dst = ['Bx1s','Ex1s','Bx2s','Ex2s','Bx3s','Ex3s']
@@ -251,7 +254,7 @@ def load_vars(self, vars, i, exout, text):
 
         # Change filepath and offset in case of multiples_files
         if self.Dinfo['typefile'][i] == 'multiple_files':
-            self.filepath = self.path+str(j)+self.Dinfo['endpath'][i]
+            self.filepath = self.pathdir / (j + self.Dinfo['endpath'][i])
             numvar = 0
 
         # Compute offset in case of 'vtk'

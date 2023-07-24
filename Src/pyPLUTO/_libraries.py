@@ -7,10 +7,10 @@ import matplotlib.widgets as mwdg
 import os                 as os
 import sys                as sys
 
-
 from mpl_toolkits.axes_grid1               import make_axes_locatable
 from matplotlib.widgets                    import Slider
 from matplotlib                            import rc
+from pathlib                               import Path
 
 
 #from mpl_toolkits.axes_grid1.inset_locator import InsetPosition

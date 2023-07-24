@@ -23,12 +23,14 @@ def rec_format(self):
     '''
     rec_format
     '''
-    for tryformat in self.PLUTO_formats:
-        if os.path.isfile(self.path+'/'+tryformat+'.out'):
+    PLUTO_formats = ['dbl','vtk','flt']
+    for tryformat in PLUTO_formats:
+        self.pathdata = self.pathdir / (tryformat + '.out')
+        if self.pathdata.is_file():
             self.format = tryformat
             break
     if self.format is None:
-        raise FileNotFoundError('file "datatype".out not found!')
+        raise FileNotFoundError('file "format".out not found!')
 
 def vtk_offset(self, i):
     '''
@@ -52,9 +54,11 @@ def vtk_offset(self, i):
 
 def check_nout(self,nout, vfp):
     if not isinstance(nout,list):
-        D = {nout: [nout], 'last': [len(vfp) - 1], 'all': list(range(len(vfp)))}
+        D = {nout: [nout], 'last': [len(vfp) - 1], 'all': [i for i, _ in enumerate(vfp)]}
         return D[nout]
     else:
+        for index, item in enumerate(nout):
+            if item == 'last': nout[index] = len(vfp) - 1
         nout.sort()
         return nout
 

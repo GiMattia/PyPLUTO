@@ -7,21 +7,22 @@ class Load:
     def __new__(cls, nout = 'last', path = './' , datatype = None, 
                      vars = True, text = True):
         
-        cls.path = path if path[-1] == '/' else path+'/'
+        cls.pathdir = Path(path)
+        if text is not False:
+            print(f'Loading folder:   {path}')
         if text is True:
-            print('Loading folder:   '+str(cls.path))
-            print('Preferred format: '+str(datatype))
+            print(f'Preferred format: {datatype}')
 
-        cls.PLUTO_formats = ['dbl','vtk','flt']
         cls.find_format(cls,datatype)
         if datatype == None and text == True:
-            print('Format found:     '+str(cls.format))
+            print(f'Format found:     {cls.format}')
 
         cls.read_grid(cls)
-        cls.read_vars(cls,nout)
-        if text == True:
+        cls.read_vars(cls,nout)   
+        if text is not False:
             print('Dimensions:       '+str(cls.D['dim']))
             print('Geometry:         '+str(cls.D['geom']))
+        if text is True:
             print('Grid variables:   '+str(cls.gridlist1)[:-1]+',')
             print('                   '+str(cls.gridlist2)[1:-1]+',')
             try:
@@ -31,10 +32,12 @@ class Load:
             print('                   '+str(cls.gridlist4)[1:])
             print('Time variables:   '+str(cls.addvarlist))
 
-        if isinstance(cls.D['nout'], list):
+        if isinstance(cls.D['nout'], np.ndarray):
             cls.D['noutlist'] = cls.D['nout']
         else:
-            cls.D['noutlist'] = [cls.D['nout']]
+            cls.D['noutlist'] = np.atleast_1d(cls.D['nout'])
+
+        cls.varlist = {}
         for i, exout in enumerate(cls.D['noutlist']):
             cls.load_vars(cls,vars,i,exout,text)
         

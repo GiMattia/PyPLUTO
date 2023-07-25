@@ -250,7 +250,6 @@ def load_vars(self, vars, i, exout, text):
     for j in load_vars:
 
         numvar = self.Dinfo['varslist'][i].index(j)
-        self.init_vardict(self, len(self.D['noutlist']), i, j)
 
         # Change filepath and offset in case of multiples_files
         if self.Dinfo['typefile'][i] == 'multiple_files':
@@ -270,6 +269,7 @@ def load_vars(self, vars, i, exout, text):
             shape = self.D['nshp']
         #faeshape = (len(self.D['noutlist']),) + shape
         #print(faeshape)
+        self.init_vardict(self, len(self.D['noutlist']), i, j, shape)
 
         # Load the variable through memory mapping
         scrh = np.memmap(self.filepath,self.Dinfo['binformat'][i],mode="c",offset=offset, shape = shape).T

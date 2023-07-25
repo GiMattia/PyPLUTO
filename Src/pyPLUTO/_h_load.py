@@ -62,10 +62,10 @@ def check_nout(self,nout, vfp):
         nout.sort()
         return nout
 
-def init_vardict(self, nouts, i, var):
+def init_vardict(self, nouts, i, var, shape):
     if nouts != 1 and i == 0:
-        self.D[var] = np.empty((nouts,), dtype=np.memmap)
-        #self.D[var] = [None]*nouts
+        self.D[var] = np.memmap('combined_data.dat', mode='w+', dtype=np.float32, shape = (nouts,) + shape)
+        #self.D[var] = np.empty((nouts,), dtype=np.memmap)
     return None
 
 def assign_var(self, nouts, time, var, scrh):

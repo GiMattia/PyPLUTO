@@ -47,7 +47,7 @@ class Load:
         def __init__(self, my_dict):
             for key in my_dict:
                 setattr(self, key, my_dict[key])
-
+    
     from ._readout import find_format, read_grid, read_vars, load_vars
     from ._h_load  import split_gridfile, rec_format, vtk_offset, gen_offset
     from ._h_load  import check_nout, init_vardict, assign_var, shape_st

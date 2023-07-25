@@ -64,7 +64,6 @@ def check_nout(self,nout, vfp):
 
 def init_vardict(self, nouts, i, var):
     if nouts != 1 and i == 0:
-        array_shape = (nouts,)
         self.D[var] = np.empty((nouts,), dtype=np.memmap)
         #self.D[var] = [None]*nouts
     return None

@@ -272,7 +272,7 @@ def load_vars(self, vars, i, exout, text):
         self.init_vardict(self, len(self.D['noutlist']), i, j, shape)
 
         # Load the variable through memory mapping
-        scrh = np.memmap(self.filepath,self.Dinfo['binformat'][i],mode="c",offset=offset, shape = shape).T
+        scrh = np.memmap(self.filepath,self.Dinfo['binformat'][i],mode="c",offset=offset, shape = shape)
         self.assign_var(self, len(self.D['noutlist']), i, j, scrh)
 
     if text == True:

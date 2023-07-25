@@ -40,6 +40,8 @@ class Load:
         cls.varlist = {}
         for i, exout in enumerate(cls.D['noutlist']):
             cls.load_vars(cls,vars,i,exout,text)
+
+        Path("combined_data.dat").unlink()
         
         return cls.Dict2Class(cls.D)
 

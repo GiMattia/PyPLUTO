@@ -92,7 +92,7 @@ def set_parax(self, ax, **kwargs):
     for i in kwargs.keys():
         if i in self.parax:
             axpar[i] = kwargs[i]
-    self.set_axis(ax = ax,**axpar)
+    self.set_axis(ax = ax, check = False, **axpar)
 
     return None
 

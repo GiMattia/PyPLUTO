@@ -132,8 +132,9 @@ def create_axes(self, ncol = 1, nrow = 1, check = True, **kwargs):
         '''
 
     # Check parameters
-    #if check is True:
-    #    self.check_par(self.parfig, 'create_axes', **kwargs)
+    param = {'fontsize','tight'}
+    if check is True:
+        self.check_par(param, 'create_axes', **kwargs)
 
     if kwargs.get('fontsize'):
         plt.rcParams.update({'font.size': kwargs['fontsize']})
@@ -223,7 +224,7 @@ def create_axes(self, ncol = 1, nrow = 1, check = True, **kwargs):
         self.tight = True
     return ret_ax
 
-def set_axis(self, ax = None, check = 'yes', **kwargs):
+def set_axis(self, ax = None, check = True, **kwargs):
     '''
         Customization of a single subplot axis.
         Properties such as the range, scale and aspect of each subplot
@@ -348,7 +349,7 @@ def set_axis(self, ax = None, check = 'yes', **kwargs):
     nax = self.check_fig(ax)
 
     # Check for unknown keywords
-    #if check == 'yes':
+    #if check is True:
     #    self.check_par(self.parax, 'setax', **kwargs)
 
     # Set fontsize

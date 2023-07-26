@@ -1,6 +1,5 @@
 from ._libraries import *
 
-
 def interactive(self, varx, vary = None, fig = None, **kwargs):
 
     # Store the variable

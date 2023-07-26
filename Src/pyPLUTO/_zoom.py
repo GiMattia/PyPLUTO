@@ -1,6 +1,6 @@
 from ._libraries import *
 
-def zoom(self,ax = None,**kwargs):
+def zoom(self,ax = None, check = True, **kwargs):
     '''
     creates an inset zoom of a 1D plot
 
@@ -172,8 +172,12 @@ def zoom(self,ax = None,**kwargs):
            >>> I.zoom(var = var2, xrange = [1,10], yrange = [10,20])
 
     '''
-    # Set all the keywords (print if a keyword does not match)
-    #self.check_par(self.parax + self.parzoom, 'zoomplot', **kwargs)
+    # Check parameters
+    param = {'alpha', 'aspect', 'ax', 'bottom', 'clabel', 'cmap', 'cpad', 'cpos', 'cscale', 'cticks', 'ctickslabels', 'fontsize', 'height', 'labelsize', 'left', 'lint',
+             'minorticks', 'pos', 'shading', 'ticksdir', 'tickssize', 'title', 'titlesize', 'top', 'transpose', 'var', 'vmax', 'vmin', 'width', 'x1', 'x2', 'xrange',
+             'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+    if check is True:
+        self.check_par(param, 'zoom', **kwargs)
 
     # Find figure and number of the axis
     ax = self.ax[-1] if ax is None else ax

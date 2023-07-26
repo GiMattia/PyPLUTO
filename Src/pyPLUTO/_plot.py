@@ -1,6 +1,6 @@
 from ._libraries import *
 
-def plot(self, x, y = [None], **kwargs):
+def plot(self, x, y = [None], check = True, **kwargs):
     '''
     Plot for a 1D function (or a 1D slice).
     A simple figure and a single axis can also be created.
@@ -166,8 +166,12 @@ def plot(self, x, y = [None], **kwargs):
     x = np.asarray(x)
     y = np.asarray(y)
 
-    # Set all the keywords (print if a keyword does not match)
-    #self.check_par(self.parfig + self.parax + self.parplot, 'plot', **kwargs)
+    # Check parameters
+    param = {'alpha', 'aspect', 'ax', 'c', 'figsize', 'fillstyle', 'fontsize', 'label', 'labelsize', 'legcols', 'legpad', 'legpos', 'legsize', 'legspace', 'ls',
+             'lw', 'marker', 'minorticks', 'ms', 'proj', 'ticksdir', 'tickssize', 'title', 'titlesize', 'x', 'xrange', 'xscale', 'xticks', 'xtickslabels',
+             'xtitle', 'y', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+    if check is True:
+        self.check_par(param, 'plot', **kwargs)
 
     # Set or create figure and axes
     ax, nax = self.assign_ax(kwargs.pop('ax',None),**kwargs)
@@ -203,7 +207,7 @@ def plot(self, x, y = [None], **kwargs):
 
     return None
 
-def legend(self, ax = None, check = 'yes', fromplot = False, **kwargs):
+def legend(self, ax = None, check = True, fromplot = False, **kwargs):
     '''
     Creation of the legend (from scratch or through the lines of the plot).
 
@@ -281,10 +285,10 @@ def legend(self, ax = None, check = 'yes', fromplot = False, **kwargs):
            >>> I.legend(legpos = 'lower right', ls = ['-','-.'], c = ['k', 'k'], label = ['continue', 'dotted'])
 
     '''
-
-    # Set all the keywords (print if a keyword does not match)
-    #if check == 'yes':
-    #    self.check_par(self.parplot, 'legend', **kwargs)
+    # Check parameters
+    param = {'ax', 'c', 'fillstyle', 'label', 'legcols', 'legpad', 'legpos', 'legsize', 'legspace', 'ls', 'lw', 'marker', 'ms'}
+    if check is True:
+        self.check_par(param, 'legend', **kwargs)
 
     # Find figure and number of the axis
     ax  = self.fig.gca() if ax is None else ax

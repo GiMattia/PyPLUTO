@@ -131,8 +131,10 @@ def create_axes(self, ncol = 1, nrow = 1, check = True, **kwargs):
 
         '''
 
+    
     # Check parameters
-    param = {'fontsize','tight'}
+    param = {'bottom', 'figsize', 'fontsize', 'hratio', 'hspace', 'left', 'ncol', 
+             'nrow', 'proj', 'right', 'suptitle', 'tight', 'top', 'wratio', 'wspace'}
     if check is True:
         self.check_par(param, 'create_axes', **kwargs)
 
@@ -349,8 +351,10 @@ def set_axis(self, ax = None, check = True, **kwargs):
     nax = self.check_fig(ax)
 
     # Check for unknown keywords
-    #if check is True:
-    #    self.check_par(self.parax, 'setax', **kwargs)
+    param = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 'ticksdir', 'tickssize', 'title', 'titlepad', 'titlesize', 'xrange', 
+             'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+    if check is True:
+        self.check_par(param, 'set_axis', **kwargs)
 
     # Set fontsize
     self.fontsize = kwargs.get('fontsize',self.fontsize)

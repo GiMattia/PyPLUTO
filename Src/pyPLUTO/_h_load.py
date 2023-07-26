@@ -16,8 +16,8 @@ def split_gridfile(self, i, xL, xR, nmax):
             xL.append(float(i.split()[1]))
             xR.append(float(i.split()[2]))
         except:
-            if i.split()[1] == 'GEOMETRY:'  : self.D['geom'] = i.split()[2]
-            if i.split()[1] == 'DIMENSIONS:': self.D['dim']  = int(i.split()[2])
+            if i.split()[1] == 'GEOMETRY:'  : self.geom = i.split()[2]
+            if i.split()[1] == 'DIMENSIONS:': self.dim  = int(i.split()[2])
 
 def rec_format(self):
     '''
@@ -63,36 +63,36 @@ def check_nout(self,nout, vfp):
         return nout
 
 def init_vardict(self, nouts, i, var, shape):
-    if nouts != 1 and var not in self.D:
+    if nouts != 1 and var not in self.__dict__.keys():
         with tempfile.NamedTemporaryFile() as temp_file:
-            self.D[var] = np.memmap(temp_file, mode='w+', dtype=np.float32, shape = (nouts,) + shape[::-1])
-        #self.D[var] = np.empty((nouts,), dtype=np.memmap)
+            self.D_vars[var] = np.memmap(temp_file, mode='w+', dtype=np.float32, shape = (nouts,) + shape[::-1])
+        #self.D_vars[var] = np.empty((nouts,), dtype=np.memmap)
     return None
 
 def assign_var(self, nouts, time, var, scrh):
     if nouts != 1:
-        self.D[var][time] = scrh
+        self.D_vars[var][time] = scrh
     else:
-        self.D[var] = scrh
+        self.D_vars[var] = scrh
     return None
 
 def shape_st(self, var):
     if var in self.Dst[0:2]:
-        return self.D['nshp_st1']
+        return self.nshp_st1
     elif var in self.Dst[2:4]:
-        return self.D['nshp_st2']
+        return self.nshp_st2
     else:
-        return self.D['nshp_st3']
+        return self.nshp_st3
 
 def gen_offset(self, vars):
     offset = [0]*len(vars)
     for i, var in enumerate(vars[:-1]):
         if var in self.Dst[:2]:
-            offset[i+1] = offset[i] + self.D['gridsize_st1']*self.charsize
+            offset[i+1] = offset[i] + self.gridsize_st1*self.charsize
         elif var in self.Dst[2:4]:
-            offset[i+1] = offset[i] + self.D['gridsize_st2']*self.charsize
+            offset[i+1] = offset[i] + self.gridsize_st2*self.charsize
         elif var in self.Dst[4:]:
-            offset[i+1] = offset[i] + self.D['gridsize_st3']*self.charsize    
+            offset[i+1] = offset[i] + self.gridsize_st3*self.charsize    
         else:
-            offset[i+1] = offset[i] + self.D['gridsize']*self.charsize
+            offset[i+1] = offset[i] + self.gridsize*self.charsize
     return offset

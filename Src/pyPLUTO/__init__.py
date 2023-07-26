@@ -2,60 +2,69 @@ from ._libraries import *
 
 class Load:
 
-    D = {}
-
-    def __new__(cls, nout = 'last', path = './' , datatype = None, 
+    def __init__(self, nout = 'last', path = './' , datatype = None, 
                      vars = True, text = True):
-        
-        cls.pathdir = Path(path)
+
+        self.D_vars = {}
+        self.pathdir = Path(path)
         if text is not False:
             print(f'Loading folder:   {path}')
         if text is True:
             print(f'Preferred format: {datatype}')
 
-        cls.find_format(cls,datatype)
+        self._find_format(datatype)
         if datatype == None and text == True:
-            print(f'Format found:     {cls.format}')
+            print(f'Format found:     {self.format}')
 
-        cls.read_grid(cls)
-        cls.read_vars(cls,nout)   
+        self._read_grid()
+        self._read_vars(nout)   
         if text is not False:
-            print('Dimensions:       '+str(cls.D['dim']))
-            print('Geometry:         '+str(cls.D['geom']))
+            print(f'Dimensions:       {self.dim}')
+            print(f'Geometry:         {self.geom}')
         if text is True:
-            print('Grid variables:   '+str(cls.gridlist1)[:-1]+',')
-            print('                   '+str(cls.gridlist2)[1:-1]+',')
+            print('Grid variables:   '+str(self.gridlist1)[:-1]+',')
+            print('                   '+str(self.gridlist2)[1:-1]+',')
             try:
-                print('                  '+str(cls.gridlist3)[1:-1]+',')
+                print('                  '+str(self.gridlist3)[1:-1]+',')
             except:
                 None
-            print('                   '+str(cls.gridlist4)[1:])
-            print('Time variables:   '+str(cls.addvarlist))
+            print('                   '+str(self.gridlist4)[1:])
+            print('Time variables:   '+str(self.addvarlist))
 
-        if isinstance(cls.D['nout'], np.ndarray):
-            cls.noutlist = cls.D['nout']
-            cls.varfiles = []
+        if isinstance(self.nout, np.ndarray):
+            self.noutlist = self.nout
+            self.varfiles = []
         else:
-            cls.noutlist = np.atleast_1d(cls.D['nout'])
+            self.noutlist = np.atleast_1d(self.nout)
 
-        cls.varlist = {}
-        for i, exout in enumerate(cls.noutlist):
-            cls.load_vars(cls,vars,i,exout,text)
-
-        #if isinstance(cls.D['nout'], np.ndarray):
-        #    Path("combined_data.dat").unlink()
+        self.varlist = {}
+        for i, exout in enumerate(self.noutlist):
+            self._load_vars(vars,i,exout,text)
         
-        return cls.Dict2Class(cls.D)
+        for key in self.D_vars:
+            setattr(self, key, self.D_vars[key])
 
-    class Dict2Class():
-        def __init__(self, my_dict):
-            for key in my_dict:
-                setattr(self, key, my_dict[key])
+        '''
+        allowed_vars = self._compute_allowed_vars()
+        allowed_dict = {var: getattr(self, var) for var in allowed_vars}
+        self.__dict__ = allowed_dict  
+        '''    
+
+    def __str__(self):
+        return f'''
+        Load class.
+        It loads the data.
+        Attributes: blablabla
+        Methods available: blablablax2
+        Please refrain from using "private" methods.
+        '''
+        
+        
     
-    from ._readout import find_format, read_grid, read_vars, load_vars
+    from ._readout import _find_format, _read_grid, _read_vars, _load_vars, _compute_allowed_vars
     from ._h_load  import split_gridfile, rec_format, vtk_offset, gen_offset
     from ._h_load  import check_nout, init_vardict, assign_var, shape_st
-
+    
 class Image:
 
     def __init__(self,LaTeX = True, text = False, fig = None, **kwargs):
@@ -120,6 +129,15 @@ class Image:
 
         self.create_fig(fig, **kwargs)
 
+    def __str__(self):
+        return f'''
+        Image class.
+        It plots the data.
+        Attributes: blablabla
+        Methods available: blablablax2
+        Please refrain from using "private" methods.
+        '''
+
     from ._h_image  import place_inset_pos, place_inset_loc
     from ._h_image  import set_parax, check_par, set_xrange, set_yrange
     from ._h_image  import set_xticks, set_yticks, check_rows, check_cols
@@ -150,14 +168,31 @@ class Tools:
             except:
                 None
 
+    def __str__(self):
+        return f'''
+        Tools class.
+        It manipulates the data.
+        Attributes: blablabla
+        Methods available: blablablax2
+        Please refrain from using "private" methods.
+        '''
+
     from ._datatools import slices, mirror
     from ._nabla     import gradient
     from ._lines     import fieldlines, field_interp, adv_field_line, check_closed_line
 
 from ._pytools   import savefig, show
 
-class LoadParticles:
-    def __new__(cls, nout = 'last', path = './' , datatype = None, 
+class LoadPart:
+    def __init__(self, nout = 'last', path = './' , datatype = None, 
                      vars = True, text = True):
-        
-        None
+        raise NotImplementedError('Loading of particles has not been implemented yet')
+          
+    def __str__(self):
+        return f'''
+        LoadPart class.
+        It loads the particles.
+        Attributes: blablabla
+        Methods available: blablablax2
+        Please refrain from using "private" methods.
+        '''

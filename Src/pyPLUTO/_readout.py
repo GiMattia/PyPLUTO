@@ -1,6 +1,6 @@
 from ._libraries import *
 
-def find_format(self, datatype):
+def _find_format(self, datatype):
     '''
     Finds the format of the data files to load.
     If no format is given the first format found between
@@ -29,7 +29,7 @@ def find_format(self, datatype):
 
     # Recover the file format needed to load the files
     if datatype is None:
-        self.rec_format(self)
+        self.rec_format()
     else:
         self.pathdata = self.pathdir  / (datatype + '.out')
         if self.pathdata.is_file():
@@ -41,7 +41,7 @@ def find_format(self, datatype):
     self.charsize = 8 if self.format == 'dbl' else 4
     return None
 
-def read_grid(self):
+def _read_grid(self):
     '''
     The file grid.out is read and all the grid information are stored
     in the Load class.
@@ -62,81 +62,81 @@ def read_grid(self):
 
     # Open and read the gridfile
     with open(self.pathgrid, 'r') as gfp:
-        for i in gfp.readlines(): self.split_gridfile(self,i, xL, xR, nmax)
+        for i in gfp.readlines(): self.split_gridfile(i, xL, xR, nmax)
 
     # Compute nx1, nx2, nx3
-    self.D['nx1'], self.D['nx2'], self.D['nx3'] = nmax
-    nx1p2 = self.D['nx1'] + self.D['nx2']
-    nx1p3 = self.D['nx1'] + self.D['nx2'] + self.D['nx3']
+    self.nx1, self.nx2, self.nx3 = nmax
+    nx1p2 = self.nx1 + self.nx2
+    nx1p3 = self.nx1 + self.nx2 + self.nx3
 
     # Compute the centered grid values
-    self.D['x1']  = np.asarray([0.5*(xL[i]+xR[i]) for i in range(self.D['nx1'])])
-    self.D['dx1'] = np.asarray([(xR[i]-xL[i])     for i in range(self.D['nx1'])])
-    self.D['x2']  = np.asarray([0.5*(xL[i]+xR[i]) for i in range(self.D['nx1'],nx1p2)])
-    self.D['dx2'] = np.asarray([(xR[i]-xL[i])     for i in range(self.D['nx1'],nx1p2)])
-    self.D['x3']  = np.asarray([0.5*(xL[i]+xR[i]) for i in range(nx1p2,        nx1p3)])
-    self.D['dx3'] = np.asarray([(xR[i]-xL[i])     for i in range(nx1p2,        nx1p3)])
+    self.x1  = np.asarray([0.5*(xL[i]+xR[i]) for i in range(self.nx1)])
+    self.dx1 = np.asarray([(xR[i]-xL[i])     for i in range(self.nx1)])
+    self.x2  = np.asarray([0.5*(xL[i]+xR[i]) for i in range(self.nx1,nx1p2)])
+    self.dx2 = np.asarray([(xR[i]-xL[i])     for i in range(self.nx1,nx1p2)])
+    self.x3  = np.asarray([0.5*(xL[i]+xR[i]) for i in range(nx1p2,        nx1p3)])
+    self.dx3 = np.asarray([(xR[i]-xL[i])     for i in range(nx1p2,        nx1p3)])
 
     # Determine the grid shape
-    if self.D['dim'] == 1:
-        self.D['nshp']     = (self.D['nx1'])
-        self.D['nshp_st1'] = (self.D['nx1'] + 1)
-    if self.D['dim'] == 2:
-        self.D['nshp']     = (self.D['nx2'],self.D['nx1'])
-        self.D['nshp_st1'] = (self.D['nx2'],self.D['nx1'] + 1)
-        self.D['nshp_st2'] = (self.D['nx2'] + 1,self.D['nx1'])
-    if self.D['dim'] == 3:
-        self.D['nshp']     = (self.D['nx3'],self.D['nx2'],self.D['nx1'])
-        self.D['nshp_st1'] = (self.D['nx3'],self.D['nx2'],self.D['nx1'] + 1)
-        self.D['nshp_st2'] = (self.D['nx3'],self.D['nx2'] + 1,self.D['nx1'])
-        self.D['nshp_st3'] = (self.D['nx3'] + 1,self.D['nx2'],self.D['nx1'])
+    if self.dim == 1:
+        self.nshp     = (self.nx1)
+        self.nshp_st1 = (self.nx1 + 1)
+    if self.dim == 2:
+        self.nshp     = (self.nx2,self.nx1)
+        self.nshp_st1 = (self.nx2,self.nx1 + 1)
+        self.nshp_st2 = (self.nx2 + 1,self.nx1)
+    if self.dim == 3:
+        self.nshp     = (self.nx3,self.nx2,self.nx1)
+        self.nshp_st1 = (self.nx3,self.nx2,self.nx1 + 1)
+        self.nshp_st2 = (self.nx3,self.nx2 + 1,self.nx1)
+        self.nshp_st3 = (self.nx3 + 1,self.nx2,self.nx1)
     #DDDDD = {True: 1, False: 0}
-    #print(DDDDD[self.D['dim'] == 1], DDDDD[self.D['dim'] == 2], DDDDD[self.D['dim'] == 3])
+    #print(DDDDD[self.dim == 1], DDDDD[self.dim == 2], DDDDD[self.dim == 3])
 
     # Compute the grid values at the interfaces
-    self.D['x1r']     = np.zeros(len(self.D['x1']) + 1)
-    self.D['x2r']     = np.zeros(len(self.D['x2']) + 1)
-    self.D['x3r']     = np.zeros(len(self.D['x3']) + 1)
+    self.x1r = np.zeros(len(self.x1) + 1)
+    self.x2r = np.zeros(len(self.x2) + 1)
+    self.x3r = np.zeros(len(self.x3) + 1)
 
-    self.D['x1r'][1:] = self.D['x1']     + self.D['dx1']/2.0
-    self.D['x1r'][0]  = self.D['x1r'][1] - self.D['dx1'][0]
-    self.D['x2r'][1:] = self.D['x2']     + self.D['dx2']/2.0
-    self.D['x2r'][0]  = self.D['x2r'][1] - self.D['dx2'][0]
-    self.D['x3r'][1:] = self.D['x3']     + self.D['dx3']/2.0
-    self.D['x3r'][0]  = self.D['x3r'][1] - self.D['dx3'][0]
+    self.x1r[1:] = self.x1     + self.dx1/2.0
+    self.x1r[0]  = self.x1r[1] - self.dx1[0]
+    self.x2r[1:] = self.x2     + self.dx2/2.0
+    self.x2r[0]  = self.x2r[1] - self.dx2[0]
+    self.x3r[1:] = self.x3     + self.dx3/2.0
+    self.x3r[0]  = self.x3r[1] - self.dx3[0]
 
     # Compute the cartesian grid coordinates (non-cartesian geometry)
     # STILL VERY INCOMPLETE
 
-    if self.D['geom'] == 'POLAR':
-        self.D['x1c']  = np.outer(np.cos(self.D['x2']),  self.D['x1'])
-        self.D['x2c']  = np.outer(np.sin(self.D['x2']),  self.D['x1'])
-        self.D['x1rc'] = np.outer(np.cos(self.D['x2r']), self.D['x1r'])
-        self.D['x2rc'] = np.outer(np.sin(self.D['x2r']), self.D['x1r'])
+    if self.geom == 'POLAR':
+        self.x1c  = np.outer(np.cos(self.x2),  self.x1)
+        self.x2c  = np.outer(np.sin(self.x2),  self.x1)
+        self.x1rc = np.outer(np.cos(self.x2r), self.x1r)
+        self.x2rc = np.outer(np.sin(self.x2r), self.x1r)
         self.gridlist3 = ['x1c','x2c','x1rc','x2rc']
-    elif self.D['geom'] == 'SPHERICAL':
-        self.D['x1p']  = np.outer(np.sin(self.D['x2']),  self.D['x1'])
-        self.D['x2p']  = np.outer(np.cos(self.D['x2']),  self.D['x1'])
+    elif self.geom == 'SPHERICAL':
+        self.x1p  = np.outer(np.sin(self.x2),  self.x1)
+        self.x2p  = np.outer(np.cos(self.x2),  self.x1)
         
-        self.D['x1rp'] = np.outer(np.sin(self.D['x2r']), self.D['x1r'])
-        self.D['x2rp'] = np.outer(np.cos(self.D['x2r']), self.D['x1r'])
+        self.x1rp = np.outer(np.sin(self.x2r), self.x1r)
+        self.x2rp = np.outer(np.cos(self.x2r), self.x1r)
         
         self.gridlist3 = ['x1c','x2c','x1rc','x2rc']
 
 
     # Compute the gridsize
-    self.D['gridsize']     =  self.D['nx1']*self.D['nx2']*self.D['nx3']
-    self.D['gridsize_st1'] = (self.D['nx1'] + 1)*self.D['nx2']*self.D['nx3']
-    self.D['gridsize_st2'] = self.D['nx1']*(self.D['nx2'] + 1)*self.D['nx3']
-    self.D['gridsize_st3'] = self.D['nx1']*self.D['nx2']*(self.D['nx3'] + 1)
+    self.gridsize     =  self.nx1*self.nx2*self.nx3
+    self.gridsize_st1 = (self.nx1 + 1)*self.nx2*self.nx3
+    self.gridsize_st2 = self.nx1*(self.nx2 + 1)*self.nx3
+    self.gridsize_st3 = self.nx1*self.nx2*(self.nx3 + 1)
 
     # Create grid lists (for output purposes)
-    self.gridlist1 = ['nx1','nx2','nx3','x1 ','x2 ','x3 ']
+    self.gridlist1 = ['nx1','nx2','nx3','x1','x2','x3']
     self.gridlist2 = ['dx1','dx2','dx3','x1r','x2r','x3r']
     self.gridlist4 = ['gridsize','nshp','dim','geom']
     return None
 
-def read_vars(self, nout):
+def _read_vars(self, nout):
     '''
     Reads tfe 'filetype'.out file and stores the relevant information within the
     class. Such information are the time array, the output variables, the file
@@ -163,11 +163,11 @@ def read_vars(self, nout):
     #print(f'dcghdwcjhdgcjsh {len(vfp)}')
 
     # REMEMBER TO TRANSFORM THEM IN ARRAYS
-    self.D['timelist'] = []
-    self.D['outlist']  = []
+    self.timelist = []
+    self.outlist  = []
 
     # Check the output line
-    time    = self.check_nout(self, nout, vfp)
+    time    = self.check_nout(nout, vfp)
     lentime = len(time)
 
     # Store the relevant information in a dictionary
@@ -175,8 +175,8 @@ def read_vars(self, nout):
     for i in arrinfo:
         self.Dinfo[i]   = [None]*lentime
     if len(time) > 1:
-        self.D['nout']  = np.zeros(lentime, dtype=int)
-        self.D['ntime'] = np.zeros(lentime)
+        self.nout  = np.zeros(lentime, dtype=int)
+        self.ntime = np.zeros(lentime)
     for j, timeval in enumerate(time):
         try:
             vinfo   = vfp[timeval].split()
@@ -189,22 +189,22 @@ def read_vars(self, nout):
         self.Dinfo['varslist'][j]  = vinfo[6:]
         self.Dinfo['endpath'][j]   = f'.{timeval:04d}.{self.format}'
         if len(time) > 1:
-            self.D['ntime'][j] = float(vinfo[1])
-            self.D['nout'][j]  = int(timeval)
+            self.ntime[j] = float(vinfo[1])
+            self.nout[j]  = int(timeval)
         else:
-            self.D['ntime'] = float(vinfo[1])
-            self.D['nout']  = int(timeval)
+            self.ntime = float(vinfo[1])
+            self.nout  = int(timeval)
 
     self.addvarlist = ['timelist','ntime','nout','outlist']
 
     # Reconstruct the time array
     for line in vfp:
-        self.D['outlist'].append(int(line.split()[0]))
-        self.D['timelist'].append(float(line.split()[1]))
+        self.outlist.append(int(line.split()[0]))
+        self.timelist.append(float(line.split()[1]))
 
     return None
 
-def load_vars(self, vars, i, exout, text):
+def _load_vars(self, vars, i, exout, text):
     '''
     Loads the variables. If default, all the variables are loaded.
 
@@ -222,7 +222,7 @@ def load_vars(self, vars, i, exout, text):
                  'multiple_files': 'multiple files'}
 
     # Check if time is correct
-    lentime = len(self.D['timelist'])
+    lentime = len(self.timelist)
     if exout >= lentime:
         print(f'Wrong input file, {exout} is higher than {lentime}')
         return None
@@ -232,11 +232,11 @@ def load_vars(self, vars, i, exout, text):
 
     # Check if only specific variables should be loaded
     if vars is True:
-        load_vars = self.Dinfo['varslist'][i]
+        self.load_vars = self.Dinfo['varslist'][i]
     elif isinstance(vars, list):
-        load_vars = vars
+        self.load_vars = vars
     else:
-        load_vars = [vars]
+        self.load_vars = [vars]
 
     # Reconstruct full filepath
     self.filepath = self.pathdir / ('data' + self.Dinfo['endpath'][i])
@@ -244,10 +244,10 @@ def load_vars(self, vars, i, exout, text):
     # Compute non-vtk offset
     self.Dst = ['Bx1s','Ex1s','Bx2s','Ex2s','Bx3s','Ex3s']
     if self.format != 'vtk':
-        st_offs = self.gen_offset(self,self.Dinfo['varslist'][i])
+        st_offs = self.gen_offset(self.Dinfo['varslist'][i])
 
     # Loop on loading variables
-    for j in load_vars:
+    for j in self.load_vars:
 
         numvar = self.Dinfo['varslist'][i].index(j)
 
@@ -260,23 +260,26 @@ def load_vars(self, vars, i, exout, text):
         if self.format != 'vtk':
             offset = st_offs[numvar]
         else:
-            offset = self.vtk_offset(self,j)
+            offset = self.vtk_offset(j)
 
         # If variable is staggered change the shape
         if j in self.Dst:
-            shape = self.shape_st(self, j)
+            shape = self.shape_st(j)
         else:
-            shape = self.D['nshp']
+            shape = self.nshp
         #faeshape = (len(self.D['noutlist']),) + shape
         #print(faeshape)
-        self.init_vardict(self, len(self.noutlist), i, j, shape)
+        self.init_vardict(len(self.noutlist), i, j, shape)
 
         # Load the variable through memory mapping
         scrh = np.memmap(self.filepath,self.Dinfo['binformat'][i],mode="c",offset=offset, shape = shape).T
-        self.assign_var(self, len(self.noutlist), i, j, scrh)
+        self.assign_var(len(self.noutlist), i, j, scrh)
 
     if text == True:
         print('Output variables: '+str(self.Dinfo['varslist'][i]))
-        print('Loaded variables: '+str(load_vars))
+        print('Loaded variables: '+str(self.load_vars))
 
     return None
+
+def _compute_allowed_vars(self):
+    return self.gridlist1

@@ -285,6 +285,7 @@ def legend(self, ax = None, check = True, fromplot = False, **kwargs):
            >>> I.legend(legpos = 'lower right', ls = ['-','-.'], c = ['k', 'k'], label = ['continue', 'dotted'])
 
     '''
+    #bala
     # Check parameters
     param = {'ax', 'c', 'fillstyle', 'label', 'legcols', 'legpad', 'legpos', 'legsize', 'legspace', 'ls', 'lw', 'marker', 'ms'}
     if check is True:

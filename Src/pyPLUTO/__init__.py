@@ -1,7 +1,5 @@
 from ._libraries import *
 
-print('Welcome to pyPLUTO!')
-
 class Load:
 
     D = {}
@@ -9,21 +7,22 @@ class Load:
     def __new__(cls, nout = 'last', path = './' , datatype = None, 
                      vars = True, text = True):
         
-        cls.path = path if path[-1] == '/' else path+'/'
+        cls.pathdir = Path(path)
+        if text is not False:
+            print(f'Loading folder:   {path}')
         if text is True:
-            print('Loading folder:   '+str(cls.path))
-            print('Preferred format: '+str(datatype))
+            print(f'Preferred format: {datatype}')
 
-        cls.PLUTO_formats = ['dbl','vtk','flt']
         cls.find_format(cls,datatype)
         if datatype == None and text == True:
-            print('Format found:     '+str(cls.format))
+            print(f'Format found:     {cls.format}')
 
         cls.read_grid(cls)
-        cls.read_vars(cls,nout)
-        if text == True:
+        cls.read_vars(cls,nout)   
+        if text is not False:
             print('Dimensions:       '+str(cls.D['dim']))
             print('Geometry:         '+str(cls.D['geom']))
+        if text is True:
             print('Grid variables:   '+str(cls.gridlist1)[:-1]+',')
             print('                   '+str(cls.gridlist2)[1:-1]+',')
             try:
@@ -33,12 +32,18 @@ class Load:
             print('                   '+str(cls.gridlist4)[1:])
             print('Time variables:   '+str(cls.addvarlist))
 
-        if isinstance(cls.D['nout'], list):
-            cls.D['noutlist'] = cls.D['nout']
+        if isinstance(cls.D['nout'], np.ndarray):
+            cls.noutlist = cls.D['nout']
+            cls.varfiles = []
         else:
-            cls.D['noutlist'] = [cls.D['nout']]
-        for i, exout in enumerate(cls.D['noutlist']):
+            cls.noutlist = np.atleast_1d(cls.D['nout'])
+
+        cls.varlist = {}
+        for i, exout in enumerate(cls.noutlist):
             cls.load_vars(cls,vars,i,exout,text)
+
+        #if isinstance(cls.D['nout'], np.ndarray):
+        #    Path("combined_data.dat").unlink()
         
         return cls.Dict2Class(cls.D)
 
@@ -46,7 +51,7 @@ class Load:
         def __init__(self, my_dict):
             for key in my_dict:
                 setattr(self, key, my_dict[key])
-
+    
     from ._readout import find_format, read_grid, read_vars, load_vars
     from ._h_load  import split_gridfile, rec_format, vtk_offset, gen_offset
     from ._h_load  import check_nout, init_vardict, assign_var, shape_st
@@ -150,3 +155,8 @@ class Tools:
     from ._lines     import fieldlines, field_interp, adv_field_line, check_closed_line
 
 from ._pytools   import savefig, show
+
+class LoadParticles:
+    def __new__(cls, nout = 'last', path = './' , datatype = None, 
+                     vars = True, text = True):
+        None

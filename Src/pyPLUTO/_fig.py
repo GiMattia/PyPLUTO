@@ -132,8 +132,9 @@ def create_axes(self, ncol = 1, nrow = 1, check = True, **kwargs):
         '''
 
     # Check parameters
-    #if check is True:
-    #    self.check_par(self.parfig, 'create_axes', **kwargs)
+    param = {'fontsize','tight'}
+    if check is True:
+        self.check_par(param, 'create_axes', **kwargs)
 
     if kwargs.get('fontsize'):
         plt.rcParams.update({'font.size': kwargs['fontsize']})
@@ -189,8 +190,10 @@ def create_axes(self, ncol = 1, nrow = 1, check = True, **kwargs):
 
     # Add axes
     for i in range(ncol*nrow):
-        self.add_ax(self.fig.add_subplot(nrow + self.nrow0, ncol + self.ncol0, i+1), len(self.ax))
-
+        if proj is None:
+            self.add_ax(self.fig.add_subplot(nrow + self.nrow0, ncol + self.ncol0, i+1), len(self.ax))
+        else:
+            self.add_ax(self.fig.add_subplot(nrow + self.nrow0, ncol + self.ncol0, i+1, projection=proj), len(self.ax))
         if custom_plot is True:
             row = int(i/ncol)
             col = int(i%ncol)
@@ -221,7 +224,7 @@ def create_axes(self, ncol = 1, nrow = 1, check = True, **kwargs):
         self.tight = True
     return ret_ax
 
-def set_axis(self, ax = None, check = 'yes', **kwargs):
+def set_axis(self, ax = None, check = True, **kwargs):
     '''
         Customization of a single subplot axis.
         Properties such as the range, scale and aspect of each subplot
@@ -258,6 +261,8 @@ def set_axis(self, ax = None, check = 'yes', **kwargs):
                 The default value corresponds to the value of the keyword 'fontsize'.
             - title: str, default None
                 Places the title of the plot on top of it.
+            - titlepad: float, default 8.0
+                Sets the distance between the title and the top of the plot
             - titlesize: float, default fontsize
                 Sets the title fontsize. The default value corresponds to the value
                 of the keyword 'fontsize'.
@@ -344,7 +349,7 @@ def set_axis(self, ax = None, check = 'yes', **kwargs):
     nax = self.check_fig(ax)
 
     # Check for unknown keywords
-    #if check == 'yes':
+    #if check is True:
     #    self.check_par(self.parax, 'setax', **kwargs)
 
     # Set fontsize
@@ -363,7 +368,8 @@ def set_axis(self, ax = None, check = 'yes', **kwargs):
 
     # Set title and axes labels
     if kwargs.get('title',None) is not None:
-        ax.set_title(kwargs['title'],   fontsize = kwargs.get('titlesize',self.fontsize))
+        ax.set_title(kwargs['title'],   fontsize = kwargs.get('titlesize',self.fontsize), 
+                                        pad      = kwargs.get('titlepad', 8.0))
     if kwargs.get('xtitle',None) is not None:
         ax.set_xlabel(kwargs['xtitle'], fontsize = kwargs.get('labelsize',self.fontsize))
     if kwargs.get('ytitle',None) is not None:

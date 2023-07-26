@@ -44,6 +44,9 @@ def plot(self, x, y = [None], **kwargs):
             The default value corresponds to the value of the keyword 'fontsize'.
         - legcols: int, default 1
             Sets the number of columns that the legend should have.
+        - legpad: float, default 0.8
+            Sets the space between the lines (or symbols) and the correspondibg text
+            in the legend.
         - legpos: int/str, default None
             If enabled, creates a legend. This keyword selects the legend location.
             The possible locations for the legend are indicated in the following link: 
@@ -226,6 +229,9 @@ def legend(self, ax = None, check = 'yes', fromplot = False, **kwargs):
             take the label which are already associated with the plot.   
         - legcols: int, default 1
             Sets the number of columns that the legend should have.
+        - legpad: float, default 0.8
+            Sets the space between the lines (or symbols) and the correspondibg text
+            in the legend.
         - legpos: int/str, default 0
             Selects the legend location. If not specified the standard matplotlib
             legend function will find the most suitable location.
@@ -289,6 +295,7 @@ def legend(self, ax = None, check = 'yes', fromplot = False, **kwargs):
     self.legpar[nax][0] = kwargs.get('legsize',  self.legpar[nax][0])
     self.legpar[nax][1] = kwargs.get('legcols',  self.legpar[nax][1])
     self.legpar[nax][2] = kwargs.get('legspace', self.legpar[nax][2])
+    self.legpar[nax][3] = kwargs.get('legpad',   self.legpar[nax][3])
 
     # Check if another unwanted legend is present and cancel it
     if fromplot is True:
@@ -312,12 +319,12 @@ def legend(self, ax = None, check = 'yes', fromplot = False, **kwargs):
                          fillstyle = fls[i%len(fls)]))
         legg = ax.legend(handles = lines, loc = self.legpos[nax],
                   fontsize = self.legpar[nax][0], ncol = self.legpar[nax][1],
-                  columnspacing = self.legpar[nax][2])
+                  columnspacing = self.legpar[nax][2], handletextpad = self.legpar[nax][3])
     else:
         ms = kwargs.get('ms',1.0)
         legg = ax.legend(loc = self.legpos[nax], fontsize = self.legpar[nax][0],
                   ncol = self.legpar[nax][1], markerscale = ms,
-                  columnspacing = self.legpar[nax][2])
+                  columnspacing = self.legpar[nax][2], handletextpad = self.legpar[nax][3])
     ax.add_artist(legg)
 
     return None

@@ -26,7 +26,7 @@ def add_ax(self,ax,i):
     self.setax.append(0)
     self.setay.append(0)
     self.legpos.append(None)
-    self.legpar.append([self.fontsize,1,2])
+    self.legpar.append([self.fontsize,1,2,0.8])
     self.vlims.append([])
     self.tickspar.append(0)
     self.shade.append('auto')
@@ -92,7 +92,7 @@ def set_parax(self, ax, **kwargs):
     for i in kwargs.keys():
         if i in self.parax:
             axpar[i] = kwargs[i]
-    self.set_axis(ax = ax,**axpar)
+    self.set_axis(ax = ax, check = False, **axpar)
 
     return None
 
@@ -299,7 +299,9 @@ def assign_ax(self, ax, **kwargs):
 
     if ax is None and len(self.ax) == 0:
         ax = self.create_axes(ncol = 1, nrow = 1, check = 'no', **kwargs)
+
     elif ax is None and len(self.ax) > 0:
         ax  = self.fig.gca()
+
     nax = self.check_fig(ax)
     return ax, nax

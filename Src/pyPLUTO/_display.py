@@ -300,7 +300,7 @@ def colorbar(self, axs = None, cax = None, **kwargs):
             for txt in cax.texts:
                 txt.set_visible(False)
             self.ntext[naxc] = 1
-
+            
     cbar = self.fig.colorbar(pcm, cax=cax,label=kwargs.get('clabel',''),
                 ticks = kwargs.get('cticks',None), orientation=ccor)
     ctkc = kwargs.get('ctickslabels','Default')

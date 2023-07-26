@@ -33,7 +33,7 @@ def fieldlines(self,var1, var2, x0 = None, y0 = None, **kwargs):
     var2 = var2*norm
 
     # Set keywords
-    maxsteps = 16384
+    maxsteps = kwargs.get('maxsteps', 16384)
     maxfail  = 1024
 
     tol     = kwargs.get('tol', 1.e-6)

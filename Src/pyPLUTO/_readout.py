@@ -269,11 +269,11 @@ def load_vars(self, vars, i, exout, text):
             shape = self.D['nshp']
         #faeshape = (len(self.D['noutlist']),) + shape
         #print(faeshape)
-        self.init_vardict(self, len(self.D['noutlist']), i, j, shape)
+        self.init_vardict(self, len(self.noutlist), i, j, shape)
 
         # Load the variable through memory mapping
-        scrh = np.memmap(self.filepath,self.Dinfo['binformat'][i],mode="c",offset=offset, shape = shape)
-        self.assign_var(self, len(self.D['noutlist']), i, j, scrh)
+        scrh = np.memmap(self.filepath,self.Dinfo['binformat'][i],mode="c",offset=offset, shape = shape).T
+        self.assign_var(self, len(self.noutlist), i, j, scrh)
 
     if text == True:
         print('Output variables: '+str(self.Dinfo['varslist'][i]))

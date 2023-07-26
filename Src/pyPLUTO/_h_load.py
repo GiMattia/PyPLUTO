@@ -63,8 +63,9 @@ def check_nout(self,nout, vfp):
         return nout
 
 def init_vardict(self, nouts, i, var, shape):
-    if nouts != 1 and i == 0:
-        self.D[var] = np.memmap('combined_data.dat', mode='w+', dtype=np.float32, shape = (nouts,) + shape)
+    if nouts != 1 and var not in self.D:
+        with tempfile.NamedTemporaryFile() as temp_file:
+            self.D[var] = np.memmap(temp_file, mode='w+', dtype=np.float32, shape = (nouts,) + shape[::-1])
         #self.D[var] = np.empty((nouts,), dtype=np.memmap)
     return None
 

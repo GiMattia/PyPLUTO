@@ -33,15 +33,17 @@ class Load:
             print('Time variables:   '+str(cls.addvarlist))
 
         if isinstance(cls.D['nout'], np.ndarray):
-            cls.D['noutlist'] = cls.D['nout']
+            cls.noutlist = cls.D['nout']
+            cls.varfiles = []
         else:
-            cls.D['noutlist'] = np.atleast_1d(cls.D['nout'])
+            cls.noutlist = np.atleast_1d(cls.D['nout'])
 
         cls.varlist = {}
-        for i, exout in enumerate(cls.D['noutlist']):
+        for i, exout in enumerate(cls.noutlist):
             cls.load_vars(cls,vars,i,exout,text)
 
-        Path("combined_data.dat").unlink()
+        #if isinstance(cls.D['nout'], np.ndarray):
+        #    Path("combined_data.dat").unlink()
         
         return cls.Dict2Class(cls.D)
 

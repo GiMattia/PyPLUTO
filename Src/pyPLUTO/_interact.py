@@ -29,8 +29,8 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
 
     # Display the data
     if splt == 2:
-        self.display(self.anim_var[0], ax = ax,  vmin = self.anim_var.min(), 
-                                       vmax = self.anim_var.max(), **kwargs)
+        self.display(self.anim_var[0], ax = ax,  vmin = kwargs.pop('vmin',self.anim_var.min()), 
+                                       vmax = kwargs.pop('vmax',self.anim_var.max()), **kwargs)
         self.anim_pcm = ax.collections[0]
     else:
         self.plot(varx,np.array(vary[0].tolist()), ax = ax, **kwargs)

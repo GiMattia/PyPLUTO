@@ -281,5 +281,14 @@ def _load_vars(self, vars, i, exout, text):
 
     return None
 
-def _compute_allowed_vars(self):
-    return self.gridlist1
+def _delete_vars(self):
+    allowed_vars = self.gridlist1
+    method_names = ['_delete_vars', 'rec_format']
+
+    allowed_dict = {var: getattr(self, var) for var in allowed_vars}
+    self.__dict__ = allowed_dict
+
+    for method_name in method_names:
+        if method_name in self.__class__.__dict__:
+            delattr(self.__class__, method_name)
+

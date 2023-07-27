@@ -2,6 +2,20 @@ from ._libraries import *
 
 class Load:
 
+    '''
+    def __new__(cls, *args, **kwargs):
+        new_instance = super().__new__(cls)
+
+        if kwargs.get('nout', 'last') is None:
+            return new_instance
+        else:
+            new_instance.__init__(nout = 'last', path = './' , datatype = None, 
+                     vars = True, text = True)
+            return new_instance
+    '''
+
+
+
     def __init__(self, nout = 'last', path = './' , datatype = None, 
                      vars = True, text = True):
 
@@ -44,11 +58,7 @@ class Load:
         for key in self.D_vars:
             setattr(self, key, self.D_vars[key])
 
-        '''
-        allowed_vars = self._compute_allowed_vars()
-        allowed_dict = {var: getattr(self, var) for var in allowed_vars}
-        self.__dict__ = allowed_dict  
-        '''    
+        #self._delete_vars() 
 
     def __str__(self):
         return f'''
@@ -58,10 +68,8 @@ class Load:
         Methods available: blablablax2
         Please refrain from using "private" methods.
         '''
-        
-        
     
-    from ._readout import _find_format, _read_grid, _read_vars, _load_vars, _compute_allowed_vars
+    from ._readout import _find_format, _read_grid, _read_vars, _load_vars, _delete_vars
     from ._h_load  import split_gridfile, rec_format, vtk_offset, gen_offset
     from ._h_load  import check_nout, init_vardict, assign_var, shape_st
     

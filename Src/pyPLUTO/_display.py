@@ -214,7 +214,7 @@ def display(self,var,check = True,**kwargs):
                         linewidth=0,rasterized=True)
     # Place the colorbar (use colorbar function)
     if cpos != None:
-        self.colorbar(ax, **kwargs)
+        self.colorbar(ax, check = False, **kwargs)
 
     # If tight_layout is enabled, is re-inforced
     if self.tight != False:

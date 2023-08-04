@@ -1,6 +1,20 @@
 from ._libraries import *
 
-def _find_format(self, datatype):
+def _check_parameters(self, nout: lintstr, path: str, datatype: str, vars: str, text: bool):
+
+    self.D_vars = {}
+
+    if not isinstance(path, str):
+        raise TypeError("Invalid data type. 'path' must be a non-empty string.")
+    elif not path.strip():
+        raise ValueError("'path' must not be an empty string.")
+    else:
+        self.pathdir = Path(path)
+
+
+    return None
+
+def _find_formatdata(self, datatype):
     '''
     Finds the format of the data files to load.
     If no format is given the first format found between
@@ -226,7 +240,7 @@ def _load_vars(self, vars, i, exout, text):
     if exout >= lentime:
         print(f'Wrong input file, {exout} is higher than {lentime}')
         return None
-    elif text == True:
+    elif text is not False:
         is_singlefile = type_dict[self.Dinfo['typefile'][i]]
         print(f'Output file:      {exout}   ({is_singlefile})')
 
@@ -274,10 +288,6 @@ def _load_vars(self, vars, i, exout, text):
         # Load the variable through memory mapping
         scrh = np.memmap(self.filepath,self.Dinfo['binformat'][i],mode="c",offset=offset, shape = shape).T
         self.assign_var(len(self.noutlist), i, j, scrh)
-
-    if text == True:
-        print('Output variables: '+str(self.Dinfo['varslist'][i]))
-        print('Loaded variables: '+str(self.load_vars))
 
     return None
 

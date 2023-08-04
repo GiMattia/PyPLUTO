@@ -54,11 +54,12 @@ def vtk_offset(self, i):
 
 def check_nout(self,nout, vfp):
     if not isinstance(nout,list):
-        D = {nout: [nout], 'last': [len(vfp) - 1], 'all': [i for i, _ in enumerate(vfp)]}
+        D = {nout: [nout],       'last': [len(vfp) - 1], 
+             -1: [len(vfp) - 1], 'all': [i for i, _ in enumerate(vfp)]}
         return D[nout]
     else:
         for index, item in enumerate(nout):
-            if item == 'last': nout[index] = len(vfp) - 1
+            if item == 'last' or item == -1: nout[index] = len(vfp) - 1
         nout.sort()
         return nout
 

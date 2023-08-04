@@ -16,35 +16,20 @@ class Load:
 
 
 
-    def __init__(self, nout = 'last', path = './' , datatype = None, 
-                     vars = True, text = True):
+    def __init__(self, nout:  lintstr = 'last', path: str = './' , datatype: str = None, 
+                     vars: listr = True, text: bool = True) -> None:
 
-        self.D_vars = {}
-        self.pathdir = Path(path)
+        self._check_parameters(nout, path, datatype, vars, text)
+
         if text is not False:
             print(f'Loading folder:   {path}')
-        if text is True:
-            print(f'Preferred format: {datatype}')
 
-        self._find_format(datatype)
-        if datatype == None and text == True:
-            print(f'Format found:     {self.format}')
+        self._find_formatdata(datatype)
 
         self._read_grid()
         self._read_vars(nout)   
-        if text is not False:
-            print(f'Dimensions:       {self.dim}')
-            print(f'Geometry:         {self.geom}')
-        if text is True:
-            print('Grid variables:   '+str(self.gridlist1)[:-1]+',')
-            print('                   '+str(self.gridlist2)[1:-1]+',')
-            try:
-                print('                  '+str(self.gridlist3)[1:-1]+',')
-            except:
-                None
-            print('                   '+str(self.gridlist4)[1:])
-            print('Time variables:   '+str(self.addvarlist))
-
+        if text is not False: print(f'Dimensions: {self.dim} ({self.geom})')
+    
         if isinstance(self.nout, np.ndarray):
             self.noutlist = self.nout
             self.varfiles = []
@@ -61,15 +46,44 @@ class Load:
         #self._delete_vars() 
 
     def __str__(self):
-        return f'''
+        text3 = f'''        - Cartesian projection              {['x1c','x2c','x1rc','x2rc']}\n''' 
+        text3 = text3 if self.geom != 'CARTESIAN' else ""
+
+        text = f'''
         Load class.
         It loads the data.
-        Attributes: blablabla
-        Methods available: blablablax2
-        Please refrain from using "private" methods.
+
+        File properties:
+        - Current path loaded      {self.pathdir} 
+        - Format loaded            {self.format}
+
+        Simulation properties
+        - Dimensions    (dim)      {self.dim}
+        - Geometry      (geom)     {self.geom}
+        - Grid size     (gridsize) {self.gridsize}
+        - Grid shape    (nshp)     {self.nshp}
+        - Output loaded (nout)     {self.nout}
+        - Time loaded   (mtime)    {self.ntime}
+
+        Public attributes:
+        - Number of cells in each direction {['nx1','nx2','nx3']}
+        - Grid values (cell center)         {['x1','x2','x3']}
+        - Grid values (face center)         {['x1r','x2r','x3r']}
+        - Cells size                        {['dx1','dx2','dx3']}
+        - Time attributes                   {['outlist','timelist']}\n{text3}        
+        Variables available:
+        {self.Dinfo['varslist'][0]}
+        Variables loaded: 
+        {self.load_vars}
+
+        Public methods available: WIP...
+
+        Please refrain from using "private" methods and attributes.
         '''
+        return text
     
-    from ._readout import _find_format, _read_grid, _read_vars, _load_vars, _delete_vars
+    from .readdata import _check_parameters, _find_formatdata, _read_grid, _read_vars
+    from .readdata import _load_vars, _delete_vars
     from ._h_load  import split_gridfile, rec_format, vtk_offset, gen_offset
     from ._h_load  import check_nout, init_vardict, assign_var, shape_st
     
@@ -204,3 +218,5 @@ class LoadPart:
         Methods available: blablablax2
         Please refrain from using "private" methods.
         '''
+
+    from ._readpart import _find_format

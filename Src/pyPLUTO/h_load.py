@@ -19,7 +19,7 @@ def _split_gridfile(self, i, xL, xR, nmax):
             if i.split()[1] == 'GEOMETRY:'  : self.geom = i.split()[2]
             if i.split()[1] == 'DIMENSIONS:': self.dim  = int(i.split()[2])
 
-def rec_format(self):
+def _rec_format(self):
     '''
     rec_format
     '''
@@ -32,7 +32,7 @@ def rec_format(self):
     if self.format is None:
         raise FileNotFoundError('file "format".out not found!')
 
-def vtk_offset(self, i):
+def _vtk_offset(self, i):
     '''
     vtk_offset
     '''
@@ -52,7 +52,7 @@ def vtk_offset(self, i):
     print('Offset not found!!')
     quit()
 
-def check_nout(self,nout, vfp):
+def _check_nout(self,nout, vfp):
     if not isinstance(nout,list):
         D = {nout: [nout],       'last': [len(vfp) - 1], 
              -1: [len(vfp) - 1], 'all': [i for i, _ in enumerate(vfp)]}
@@ -63,21 +63,21 @@ def check_nout(self,nout, vfp):
         nout.sort()
         return nout
 
-def init_vardict(self, nouts, i, var, shape):
+def _init_vardict(self, nouts, i, var, shape):
     if nouts != 1 and var not in self.D_vars.keys():
         with tempfile.NamedTemporaryFile() as temp_file:
             self.D_vars[var] = np.memmap(temp_file, mode='w+', dtype=np.float32, shape = (nouts,) + shape[::-1])
         #self.D_vars[var] = np.empty((nouts,), dtype=np.memmap)
     return None
 
-def assign_var(self, nouts, time, var, scrh):
+def _assign_var(self, nouts, time, var, scrh):
     if nouts != 1:
         self.D_vars[var][time] = scrh
     else:
         self.D_vars[var] = scrh
     return None
 
-def shape_st(self, var):
+def _shape_st(self, var):
     if var in self.Dst[0:2]:
         return self.nshp_st1
     elif var in self.Dst[2:4]:
@@ -85,7 +85,7 @@ def shape_st(self, var):
     else:
         return self.nshp_st3
 
-def gen_offset(self, vars):
+def _gen_offset(self, vars):
     offset = [0]*len(vars)
     for i, var in enumerate(vars[:-1]):
         if var in self.Dst[:2]:

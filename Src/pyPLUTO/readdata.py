@@ -43,7 +43,7 @@ def _find_formatdata(self, datatype):
 
     # Recover the file format needed to load the files
     if datatype is None:
-        self.rec_format()
+        self._rec_format()
     else:
         self.pathdata = self.pathdir  / (datatype + '.out')
         if self.pathdata.is_file():
@@ -181,7 +181,7 @@ def _read_vars(self, nout):
     self.outlist  = []
 
     # Check the output line
-    time    = self.check_nout(nout, vfp)
+    time    = self._check_nout(nout, vfp)
     lentime = len(time)
 
     # Store the relevant information in a dictionary
@@ -255,7 +255,7 @@ def _load_vars(self, vars, i, exout, text):
     # Compute non-vtk offset
     self.Dst = ['Bx1s','Ex1s','Bx2s','Ex2s','Bx3s','Ex3s']
     if self.format != 'vtk':
-        st_offs = self.gen_offset(self.Dinfo['varslist'][i])
+        st_offs = self._gen_offset(self.Dinfo['varslist'][i])
 
     # Loop on loading variables
     for j in self.load_vars:
@@ -271,26 +271,26 @@ def _load_vars(self, vars, i, exout, text):
         if self.format != 'vtk':
             offset = st_offs[numvar]
         else:
-            offset = self.vtk_offset(j)
+            offset = self._vtk_offset(j)
 
         # If variable is staggered change the shape
         if j in self.Dst:
-            shape = self.shape_st(j)
+            shape = self._shape_st(j)
         else:
             shape = self.nshp
         #faeshape = (len(self.D['noutlist']),) + shape
         #print(faeshape)
-        self.init_vardict(len(self.noutlist), i, j, shape)
+        self._init_vardict(len(self.noutlist), i, j, shape)
 
         # Load the variable through memory mapping
         scrh = np.memmap(self.filepath,self.Dinfo['binformat'][i],mode="c",offset=offset, shape = shape).T
-        self.assign_var(len(self.noutlist), i, j, scrh)
+        self._assign_var(len(self.noutlist), i, j, scrh)
 
     return None
 
 def _delete_vars(self):
     allowed_vars = self.gridlist1
-    method_names = ['_delete_vars', 'rec_format']
+    method_names = ['_delete_vars', '_rec_format']
 
     allowed_dict = {var: getattr(self, var) for var in allowed_vars}
     self.__dict__ = allowed_dict

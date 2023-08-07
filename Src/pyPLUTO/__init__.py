@@ -35,7 +35,7 @@ class Load:
             self.varfiles = []
         else:
             self.noutlist = np.atleast_1d(self.nout)
-+
+
         self.varlist = {}
         for i, exout in enumerate(self.noutlist):
             self._load_vars(vars,i,exout,text)
@@ -86,8 +86,8 @@ class Load:
     
     from .readdata import _check_parameters, _find_formatdata, _read_grid, _read_vars
     from .readdata import _load_vars, _delete_vars
-    from .h_load  import _split_gridfile, rec_format, vtk_offset, gen_offset
-    from .h_load  import check_nout, init_vardict, assign_var, shape_st
+    from .h_load   import _split_gridfile, _rec_format, _vtk_offset, _gen_offset
+    from .h_load   import _check_nout, _init_vardict, _assign_var, _shape_st
     
 class Image:
 

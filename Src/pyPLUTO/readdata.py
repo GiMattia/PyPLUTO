@@ -76,7 +76,7 @@ def _read_grid(self):
 
     # Open and read the gridfile
     with open(self.pathgrid, 'r') as gfp:
-        for i in gfp.readlines(): self.split_gridfile(i, xL, xR, nmax)
+        for i in gfp.readlines(): self._split_gridfile(i, xL, xR, nmax)
 
     # Compute nx1, nx2, nx3
     self.nx1, self.nx2, self.nx3 = nmax
@@ -240,9 +240,6 @@ def _load_vars(self, vars, i, exout, text):
     if exout >= lentime:
         print(f'Wrong input file, {exout} is higher than {lentime}')
         return None
-    elif text is not False:
-        is_singlefile = type_dict[self.Dinfo['typefile'][i]]
-        print(f'Output file:      {exout}   ({is_singlefile})')
 
     # Check if only specific variables should be loaded
     if vars is True:

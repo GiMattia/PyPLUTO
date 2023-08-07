@@ -16,8 +16,8 @@ class Load:
 
 
 
-    def __init__(self, nout:  lintstr = 'last', path: str = './' , datatype: str = None, 
-                     vars: listr = True, text: bool = True) -> None:
+    def __init__(self, nout = 'last', path: str  = './' , datatype: str = None, 
+                       vars =  True,  text: bool = True):
 
         self._check_parameters(nout, path, datatype, vars, text)
 
@@ -35,13 +35,15 @@ class Load:
             self.varfiles = []
         else:
             self.noutlist = np.atleast_1d(self.nout)
-
++
         self.varlist = {}
         for i, exout in enumerate(self.noutlist):
             self._load_vars(vars,i,exout,text)
         
         for key in self.D_vars:
             setattr(self, key, self.D_vars[key])
+        if text is not False: print(f'Output loaded: {self.nout}')
+        
 
         #self._delete_vars() 
 
@@ -63,9 +65,9 @@ class Load:
         - Grid size     (gridsize) {self.gridsize}
         - Grid shape    (nshp)     {self.nshp}
         - Output loaded (nout)     {self.nout}
-        - Time loaded   (mtime)    {self.ntime}
+        - Time loaded   (ntime)    {self.ntime}
 
-        Public attributes:
+        Public attributes available:
         - Number of cells in each direction {['nx1','nx2','nx3']}
         - Grid values (cell center)         {['x1','x2','x3']}
         - Grid values (face center)         {['x1r','x2r','x3r']}
@@ -84,8 +86,8 @@ class Load:
     
     from .readdata import _check_parameters, _find_formatdata, _read_grid, _read_vars
     from .readdata import _load_vars, _delete_vars
-    from ._h_load  import split_gridfile, rec_format, vtk_offset, gen_offset
-    from ._h_load  import check_nout, init_vardict, assign_var, shape_st
+    from .h_load  import _split_gridfile, rec_format, vtk_offset, gen_offset
+    from .h_load  import check_nout, init_vardict, assign_var, shape_st
     
 class Image:
 
@@ -110,16 +112,6 @@ class Image:
         self.legpar   = []
         self.tickspar = []
         self.shade    = []
-        self.parax    = ['fontsize','xrange','yrange','title','xtitle','ytitle',
-                         'titlesize','labelsize','tickssize','xticks','yticks',
-                         'xtickslabels','ytickslabels','xscale','yscale','alpha',
-                         'ticksdir','minorticks','aspect']
-        self.parfig   = ['fig','tight','figsize','fontsize','nwin','suptitle']
-        self.parplot  = ['axes','c','ls','lw','marker','ms','label','fillstyle',
-                         'legend','legsize','legcols', 'pos']
-        self.pardis   = ['axes','x1', 'x2','vmin','vmax','shading','cmap','cbar',
-                         'clabel','cscale','cticks','ctickslabels','lint']
-        self.parzoom  = ['left', 'width', 'top', 'height', 'pos', 'ind']
         self.LaTeX    = LaTeX
 
         if LaTeX is True:
@@ -144,20 +136,47 @@ class Image:
                 "text.usetex": True
             })
 
-
-
-        if text == True:
-            print('Creating Figure')
-
         self.create_fig(fig, **kwargs)
+        if text is not False:
+            print(f'Creating Figure in window {self.nwin}')
 
     def __str__(self):
-        return f'''
+        plt.rcParams['text.usetex'] = True
+        plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
+        return rf'''
         Image class.
         It plots the data.
-        Attributes: blablabla
-        Methods available: blablablax2
-        Please refrain from using "private" methods.
+
+        Image properties:
+        - Figure size:        {self.figsize}
+        - Window number:      {self.nwin}
+        - Number of subplots: {self.nrow0}x{self.ncol0}
+        - Global fontsize:    {self.fontsize}
+
+        Public attributes available: WIP...
+
+        Public methods available: 
+        - create_axes
+          It adds a set of [nrow,ncol] subplots to the figure.
+        - set_axis
+          Changes the parameter of a specific subplot
+        - plot
+          Plots one line in a subplot
+        - legend
+          Places a legend in a subplot
+        - dipslay
+          Plots a D quantity in a subplot
+        - colorbar
+          Places a colorbar in a subplotor next to a subplot
+        - zoom
+          Creates an inset zom region of a subplot
+        - text
+          Places the text in the figure or in a subplot
+        - interactive
+          Creates a slider of a quantity as function of time
+        
+
+        Please refrain from using "private" methods and attributes.
         '''
 
     from ._h_image  import place_inset_pos, place_inset_loc

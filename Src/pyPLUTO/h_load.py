@@ -1,7 +1,7 @@
 from ._libraries import *
 
 
-def split_gridfile(self, i, xL, xR, nmax):
+def _split_gridfile(self, i, xL, xR, nmax):
     '''
     split_gridfile
     '''

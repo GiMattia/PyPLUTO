@@ -184,6 +184,7 @@ def create_axes(self, ncol = 1, nrow = 1, check = True, **kwargs):
     if kwargs.get('figsize'):
         self.fig.set_figwidth(kwargs['figsize'][0])
         self.fig.set_figheight(kwargs['figsize'][1])
+        self.figsize = kwargs['figsize']
     elif not custom_plot is True and self.set_size is False:
         self.fig.set_figwidth(6*np.sqrt(ncol))
         self.fig.set_figheight(5*np.sqrt(nrow))

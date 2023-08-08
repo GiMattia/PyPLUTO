@@ -29,7 +29,7 @@ def rec_format(self):
         if self.pathdata.is_file():
             self.format = tryformat
             break
-    if self.format is None:
+    if not hasattr(self,"format"):
         raise FileNotFoundError('file "format".out not found!')
 
 def vtk_offset(self, i):
@@ -45,7 +45,7 @@ def vtk_offset(self, i):
         if spl0 == b'SCALARS':
             var = spl1.decode()
             f.readline()
-            if var == i: 
+            if var == i:
                 offset = f.tell()
                 f.close()
                 return offset
@@ -92,7 +92,7 @@ def gen_offset(self, vars):
         elif var in self.Dst[2:4]:
             offset[i+1] = offset[i] + self.D['gridsize_st2']*self.charsize
         elif var in self.Dst[4:]:
-            offset[i+1] = offset[i] + self.D['gridsize_st3']*self.charsize    
+            offset[i+1] = offset[i] + self.D['gridsize_st3']*self.charsize
         else:
             offset[i+1] = offset[i] + self.D['gridsize']*self.charsize
     return offset

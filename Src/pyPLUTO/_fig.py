@@ -40,12 +40,14 @@ def create_fig(self, fig, check = True, **kwargs):
 def create_axes(self, ncol = 1, nrow = 1, check = True, **kwargs):
     '''
         Creation of a set of axes using add_subplot.
+
         If additional parameters (like the figure limits or the spacing)
         are given, the plots are located using set_position.
         The spacing and the ratio between the plots can be given by hand.
         In case only few custom options are given, the code computes the rest
         (but gives a small warning); in case no custom option is given, the axes
-        are located through the standard methods of matplotlib
+        are located through the standard methods of matplotlib.
+        
         If more axes are created in the figure, the list of all axes is returned,
         otherwise the single axis is returned.
 

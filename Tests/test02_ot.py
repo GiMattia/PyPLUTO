@@ -1,9 +1,4 @@
 '''
-The Orszag-Tang test is a well-known problem for testing the formation of MHD shocks and
-the shock-shock interactions in a 2D dominion.
-
-The figure displays the density of the magnetic fluid at the time t = 3.14.
-
 Authors:
 
         D. Crocco

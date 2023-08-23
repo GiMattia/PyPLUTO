@@ -352,8 +352,11 @@ def set_axis(self, ax = None, check = True, **kwargs):
     nax = self.check_fig(ax)
 
     # Check for unknown keywords
-    param = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 'ticksdir', 'tickssize', 'title', 'titlepad', 'titlesize', 'xrange', 
-             'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+    param = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 
+             'minorticks', 'ticksdir', 'tickssize', 'title', 'titlepad', 
+             'titlesize', 'xrange', 'xscale', 'xticks', 'xtickslabels', 
+             'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+    
     if check is True:
         self.check_par(param, 'set_axis', **kwargs)
 

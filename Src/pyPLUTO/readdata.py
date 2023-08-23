@@ -1,6 +1,19 @@
 from ._libraries import *
 
-def _check_parameters(self, nout: lintstr, path: str, datatype: str, vars: str, text: bool):
+def _check_pathformat(self, nout, path: str, datatype: str, vars: str, text: bool) -> None:
+    '''
+    Check if the path is consistent, i.e. if the path
+    is given through a non-empty string.
+
+    Returns
+    -------
+
+        None
+
+    Parameters
+    ----------
+        - nout:     
+    '''
 
     self.D_vars = {}
 
@@ -14,7 +27,7 @@ def _check_parameters(self, nout: lintstr, path: str, datatype: str, vars: str, 
 
     return None
 
-def _find_formatdata(self, datatype):
+def _find_formatdata(self, datatype: str):
     '''
     Finds the format of the data files to load.
     If no format is given the first format found between
@@ -45,7 +58,7 @@ def _find_formatdata(self, datatype):
     if datatype is None:
         self._rec_format()
     else:
-        self.pathdata = self.pathdir  / (datatype + '.out')
+        self.pathdata = self.pathdir / (datatype + '.out')
         if self.pathdata.is_file():
             self.format = datatype
         else:
@@ -88,8 +101,8 @@ def _read_grid(self):
     self.dx1 = np.asarray([(xR[i]-xL[i])     for i in range(self.nx1)])
     self.x2  = np.asarray([0.5*(xL[i]+xR[i]) for i in range(self.nx1,nx1p2)])
     self.dx2 = np.asarray([(xR[i]-xL[i])     for i in range(self.nx1,nx1p2)])
-    self.x3  = np.asarray([0.5*(xL[i]+xR[i]) for i in range(nx1p2,        nx1p3)])
-    self.dx3 = np.asarray([(xR[i]-xL[i])     for i in range(nx1p2,        nx1p3)])
+    self.x3  = np.asarray([0.5*(xL[i]+xR[i]) for i in range(nx1p2,nx1p3)])
+    self.dx3 = np.asarray([(xR[i]-xL[i])     for i in range(nx1p2,nx1p3)])
 
     # Determine the grid shape
     if self.dim == 1:
@@ -152,7 +165,7 @@ def _read_grid(self):
 
 def _read_vars(self, nout):
     '''
-    Reads tfe 'filetype'.out file and stores the relevant information within the
+    Reads the 'filetype'.out file and stores the relevant information within the
     class. Such information are the time array, the output variables, the file
     type (single or multiples), the endianess, the simulation path and the bin
     format. All these information are relevant in order to open the output files

@@ -29,7 +29,7 @@ def _rec_format(self):
         if self.pathdata.is_file():
             self.format = tryformat
             break
-    if self.format is None:
+    if not hasattr(self,"format"):
         raise FileNotFoundError('file "format".out not found!')
 
 def _vtk_offset(self, i):
@@ -39,7 +39,7 @@ def _vtk_offset(self, i):
     f = open(self.filepath, 'rb')
     for l in f:
         try:
-            spl0, spl1  = l.split()[0:2]
+            spl0, spl1 = l.split()[0:2]
         except:
             spl0 = [None]
         if spl0 == b'SCALARS':
@@ -65,8 +65,9 @@ def _check_nout(self,nout, vfp):
 
 def _init_vardict(self, nouts, i, var, shape):
     if nouts != 1 and var not in self.D_vars.keys():
-        with tempfile.NamedTemporaryFile() as temp_file:
-            self.D_vars[var] = np.memmap(temp_file, mode='w+', dtype=np.float32, shape = (nouts,) + shape[::-1])
+        with tempfile.NamedTemporaryFile() as temp_file:           
+            sh_type = shape[::-1] if isinstance(shape, tuple) else (shape,)
+            self.D_vars[var] = np.memmap(temp_file, mode='w+', dtype=np.float32, shape = (nouts,) + sh_type)
         #self.D_vars[var] = np.empty((nouts,), dtype=np.memmap)
     return None
 
@@ -85,8 +86,24 @@ def _shape_st(self, var):
     else:
         return self.nshp_st3
 
-def _gen_offset(self, vars):
-    offset = [0]*len(vars)
+def _gen_offset(self, vars) -> List[str]:
+
+    '''
+    Generates offest in order to read the data.
+    BLBLBL Staggered quantities, ...
+    
+    Parameters
+    ----------
+
+        - vars: str
+            The list of variables to be loaded
+
+    Return
+    ------
+        The offset of the variable
+    '''
+
+    offset: List[str] = [0]*len(vars)
     for i, var in enumerate(vars[:-1]):
         if var in self.Dst[:2]:
             offset[i+1] = offset[i] + self.gridsize_st1*self.charsize

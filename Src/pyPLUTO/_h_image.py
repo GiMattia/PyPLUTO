@@ -8,7 +8,7 @@ def check_fig(self,ax):
             ax  -- the set of axes\n
     '''
     fig = ax.get_figure()
-    assert fig == self.fig
+    assert fig == self.fig, "The provided axes does not belong to the expected figure."
     nax = self.ax.index(ax)
     return nax
 
@@ -88,9 +88,11 @@ def set_parax(self, ax, **kwargs):
             ax       -- the selected set of axes
             **kwargs -- the selected parameters
     '''
+    param = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 'ticksdir', 'tickssize', 'title', 'titlepad', 'titlesize', 'xrange', 
+             'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     axpar = {}
     for i in kwargs.keys():
-        if i in self.parax:
+        if i in param:
             axpar[i] = kwargs[i]
     self.set_axis(ax = ax, check = False, **axpar)
 
@@ -109,7 +111,7 @@ def check_par(self, par, func, **kwargs):
     '''
     notfound = [(i) for i in kwargs.keys() if i not in par]
     if len(notfound) > 0:
-        print('WARNING: elements '+str(notfound)+' not found! Please check your spelling! (function '+func+')')
+        print(f'WARNING: elements {str(notfound)} not found! Please check your spelling! (function {func})')
     return None
 
 def set_xrange(self, ax, nax, xlim, case):
@@ -147,6 +149,8 @@ def set_yrange(self, ax, nax, ylim, case, x = None, y = None):
             case -- the case in exam (if range is fixed or variable)
             x    -- the x-array (to limit the y-range automatically)
             y    -- the y-array (to limit the y-range automatically)
+
+    FIX CASE 0 IT DOES NOT WORK
     '''
     if case == 0:
         yrange = np.where(np.logical_and(x >= x.min(), x <= x.max()))
@@ -298,7 +302,7 @@ def set_cscale(self, cscale, vmin, vmax, lint):
 def assign_ax(self, ax, **kwargs):
 
     if ax is None and len(self.ax) == 0:
-        ax = self.create_axes(ncol = 1, nrow = 1, check = 'no', **kwargs)
+        ax = self.create_axes(ncol = 1, nrow = 1, check = False, **kwargs)
 
     elif ax is None and len(self.ax) > 0:
         ax  = self.fig.gca()

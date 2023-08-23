@@ -14,16 +14,52 @@ class Load:
             return new_instance
     '''
 
-
-
     def __init__(self, nout = 'last', path: str  = './' , datatype: str = None, 
                        vars =  True,  text: bool = True):
+        '''
+        Initialization of the Load class.
+        The initialization corresponds to the loading, if wanted, of one or more
+        datafiles for the fluid.
+        The data are loaded in a numpy multidimensional array through memory mapping. Such approach
+        does not load the data until needed.
+        Basic operations (i.e. no numpy) are possible, as well as slicing the arrays, without
+        fully loading the data.
 
-        self._check_parameters(nout, path, datatype, vars, text)
+        Returns
+        -------
 
-        if text is not False:
-            print(f'Loading folder:   {path}')
+            The class, with the grid and the loaded variables.
 
+        Parameters
+        ----------
+
+            - nout: int/str/list, default 'last'
+                The files to be loaded. Possible choices are int values (which
+                correspond to the number of the output file), strings ('last', which
+                corresponds to the last file, 'all', which corresponds to all files)
+                or a list of the aforementioned types.
+                Note that the 'all' value should be used carefully, e.g. when the
+                data need to be shown interactively.
+            - path: str, default'./'
+                The path of the folder where the files should be loaded.
+            - datatype: str, default None
+                The format of the data file. If not specified, the code will look for 
+                the format from the list ['dbl','vtk','flt'] in the following order.
+                HDF5 and tab formats have not been implemented yet.
+            - vars: str/list/bool, default True
+                The variables to be loaded. The default value, True, corresponds to all the
+                variables.
+            - text: bool, default True
+                If a quick text (explaining the path and few information) should be
+                shown. In case the user needs a more detailed information of the structure
+                and attributes loaded from the class, the __str__ method provides
+                a easy display of all the important information.
+        '''
+
+        self._check_pathformat(nout, path, datatype, vars, text)
+
+        if text is not False: print(f'Loading folder:   {path}')
+            
         self._find_formatdata(datatype)
 
         self._read_grid()
@@ -56,8 +92,8 @@ class Load:
         It loads the data.
 
         File properties:
-        - Current path loaded      {self.pathdir} 
-        - Format loaded            {self.format}
+        - Current path loaded (pathdir)      {self.pathdir} 
+        - Format loaded       (format)       {self.format}
 
         Simulation properties
         - Dimensions    (dim)      {self.dim}
@@ -84,19 +120,22 @@ class Load:
         '''
         return text
     
-    from .readdata import _check_parameters, _find_formatdata, _read_grid, _read_vars
+    from .readdata import _check_pathformat, _find_formatdata, _read_grid, _read_vars
     from .readdata import _load_vars, _delete_vars
     from .h_load   import _split_gridfile, _rec_format, _vtk_offset, _gen_offset
     from .h_load   import _check_nout, _init_vardict, _assign_var, _shape_st
     
 class Image:
 
-    def __init__(self,LaTeX = True, text = False, fig = None, **kwargs):
+    def __init__(self,LaTeX = True, text: bool = False, fig = None, **kwargs):
 
-        self.fontsize = 17
-        self.tight    = True
-        self.nwin     = 1
-        self.figsize  = [8,5]
+       # self.assign_default()
+       # self.assign_LaTeX(LaTeX)
+
+        self.fontsize: int  = 17
+        self.tight:    bool = True
+        self.nwin:     int  = 1
+        self.figsize = [8,5]
         self.set_size = False
         self.nrow0    = 0
         self.ncol0    = 0
@@ -148,9 +187,9 @@ class Image:
         It plots the data.
 
         Image properties:
-        - Figure size:        {self.figsize}
+        - Figure size (figsize):        {self.figsize}
         - Window number:      {self.nwin}
-        - Number of subplots: {self.nrow0}x{self.ncol0}
+        - Number of subplots: {self.nrow0} x {self.ncol0}
         - Global fontsize:    {self.fontsize}
 
         Public attributes available: WIP...
@@ -164,7 +203,7 @@ class Image:
           Plots one line in a subplot
         - legend
           Places a legend in a subplot
-        - dipslay
+        - display
           Plots a D quantity in a subplot
         - colorbar
           Places a colorbar in a subplotor next to a subplot
@@ -223,6 +262,8 @@ class Tools:
     from ._lines     import fieldlines, field_interp, adv_field_line, check_closed_line
 
 from ._pytools   import savefig, show
+
+
 
 class LoadPart:
     def __init__(self, nout = 'last', path = './' , datatype = None, 

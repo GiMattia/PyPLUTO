@@ -305,7 +305,7 @@ def legend(self, ax = None, check = True, fromplot = False, **kwargs):
     # Check if another unwanted legend is present and cancel it
     if fromplot is True:
         lleg = ax.get_legend()
-        lleg.remove() if lleg is not None else None
+        if lleg is not None: lleg.remove()
 
     # Check is custom labels are on and plot the legend
     if kwargs.get('label') is not None:

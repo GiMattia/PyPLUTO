@@ -34,6 +34,6 @@ def mirror(self, oldvar, dirs = None, xax = None, yax = None):
     xax is not None and nax.append(axx)
     yax is not None and nax.append(axy)
     if len(nax) > 0:
-        return var, *nax
+        return var, nax
     else:
         return var

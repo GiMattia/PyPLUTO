@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 
 def create_fig(self, fig, check = True, **kwargs):
 

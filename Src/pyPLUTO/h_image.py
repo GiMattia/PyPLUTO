@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 
 def check_fig(self,ax):
     '''

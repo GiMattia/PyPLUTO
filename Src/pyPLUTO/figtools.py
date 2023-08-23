@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 
 def savefig(self, filename = 'img.png', bbox = 'tight'):
     self.fig.savefig(filename, bbox_inches = bbox)

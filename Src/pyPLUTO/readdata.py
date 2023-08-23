@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 
 def _check_pathformat(self, nout, path: str, datatype: str, vars: str, text: bool) -> None:
     '''

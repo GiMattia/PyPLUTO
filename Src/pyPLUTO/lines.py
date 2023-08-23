@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 
 def fieldlines(self,var1, var2, x0 = None, y0 = None, **kwargs):
     '''

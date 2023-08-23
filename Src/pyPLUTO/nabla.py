@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 
 def derivative(self, var, periodic = False):
 

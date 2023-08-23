@@ -1,5 +1,4 @@
-from ._libraries import *
-
+from .libraries import *
 
 def _split_gridfile(self, i, xL, xR, nmax):
     '''

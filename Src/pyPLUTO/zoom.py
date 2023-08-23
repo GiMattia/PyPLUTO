@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 
 def zoom(self,ax = None, check = True, **kwargs):
     '''

@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 
 def plot(self, x, y = [None], check = True, **kwargs):
     '''

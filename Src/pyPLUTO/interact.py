@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 
 def interactive(self, varx, vary = None, fig = None, **kwargs):
 

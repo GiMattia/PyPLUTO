@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 
 class Load:
 
@@ -218,18 +218,18 @@ class Image:
         Please refrain from using "private" methods and attributes.
         '''
 
-    from ._h_image  import place_inset_pos, place_inset_loc
-    from ._h_image  import set_parax, check_par, set_xrange, set_yrange
-    from ._h_image  import set_xticks, set_yticks, check_rows, check_cols
-    from ._h_image  import hide_text, set_cscale
-    from ._h_image  import check_fig, add_ax, assign_ax
+    from .h_image  import place_inset_pos, place_inset_loc
+    from .h_image  import set_parax, check_par, set_xrange, set_yrange
+    from .h_image  import set_xticks, set_yticks, check_rows, check_cols
+    from .h_image  import hide_text, set_cscale
+    from .h_image  import check_fig, add_ax, assign_ax
 
-    from ._fig      import create_fig, create_axes, set_axis
-    from ._plot     import plot, legend
-    from ._display  import display, colorbar
-    from ._interact import interactive, update_slider
-    from ._figtools import savefig, show, text
-    from ._zoom     import zoom, zoomplot, zoomdisplay
+    from .fig      import create_fig, create_axes, set_axis
+    from .plot     import plot, legend
+    from .display  import display, colorbar
+    from .interact import interactive, update_slider
+    from .figtools import savefig, show, text
+    from .zoom     import zoom, zoomplot, zoomdisplay
 
     from .ploadparticles import ploadparticles
 
@@ -257,11 +257,11 @@ class Tools:
         Please refrain from using "private" methods.
         '''
 
-    from ._datatools import slices, mirror
-    from ._nabla     import gradient
-    from ._lines     import fieldlines, field_interp, adv_field_line, check_closed_line
+    from .datatools import slices, mirror
+    from .nabla     import gradient
+    from .lines     import fieldlines, field_interp, adv_field_line, check_closed_line
 
-from ._pytools   import savefig, show
+from .pytools   import savefig, show
 
 
 
@@ -279,4 +279,4 @@ class LoadPart:
         Please refrain from using "private" methods.
         '''
 
-    from ._readpart import _find_format
+    from .readpart import _find_format

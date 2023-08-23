@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 
 def display(self,var,check = True,**kwargs):
     '''

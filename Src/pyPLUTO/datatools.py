@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 
 def slices(self, var, x1 = None, x2 = None, x3 = None, diag = False):
     newvar = np.copy(var)

@@ -27,4 +27,4 @@ else:
     lintstr = Union[str, List[str], List[Union[str, int]]]
     listr   = Union[str, List[str]]
 
-from ._h_pypluto import makelist
+from .h_pypluto import makelist

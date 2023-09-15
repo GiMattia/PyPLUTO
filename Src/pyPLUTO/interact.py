@@ -14,7 +14,7 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
     splt = np.ndim(vary[0])
 
     # Set or create figure and axes (to test)
-    ax, nax = self.assign_ax(kwargs.pop('ax', None), **kwargs, tight = False)
+    ax, nax = self._assign_ax(kwargs.pop('ax', None), **kwargs, tight = False)
     self.anim_ax  = ax
 
     # Position the slider
@@ -25,7 +25,7 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
 
     # Create the slider
     self.slider = Slider(sliderax,label="out", valmin=0, valmax=nsld, valinit = 0, valstep = 1, valfmt = '%d')
-    self.slider.on_changed(self.update_slider)
+    self.slider.on_changed(self._update_slider)
 
     # Display the data
     if splt == 2:
@@ -38,7 +38,7 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
 
     return None
 
-def update_slider(self, i):
+def _update_slider(self, i):
     var = self.anim_var[int(i)]
     if np.ndim(var) == 2:
         self.anim_pcm.set_array(var.T.ravel())

@@ -171,18 +171,18 @@ def plot(self, x, y = [None], check = True, **kwargs):
              'lw', 'marker', 'minorticks', 'ms', 'proj', 'ticksdir', 'tickssize', 'title', 'titlesize', 'x', 'xrange', 'xscale', 'xticks', 'xtickslabels',
              'xtitle', 'y', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
-        self.check_par(param, 'plot', **kwargs)
+        self._check_par(param, 'plot', **kwargs)
 
     # Set or create figure and axes
-    ax, nax = self.assign_ax(kwargs.pop('ax',None),**kwargs)
+    ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
 
     # Set ax parameters
-    self.set_parax(ax, **kwargs)
-    self.hide_text(nax, ax.texts)
+    self._set_parax(ax, **kwargs)
+    self._hide_text(nax, ax.texts)
 
     # Keyword xrange and yrange
-    self.set_xrange(ax, nax, [x.min(),x.max()], self.setax[nax])
-    self.set_yrange(ax, nax, [y.min(),y.max()], self.setay[nax], x = x, y = y)
+    self._set_xrange(ax, nax, [x.min(),x.max()], self.setax[nax])
+    self._set_yrange(ax, nax, [y.min(),y.max()], self.setay[nax], x = x, y = y)
 
     # Start plotting procedure
     ax.plot(x,y, c = kwargs.get('c',self.color[self.nline[nax]%len(self.color)]),
@@ -289,11 +289,11 @@ def legend(self, ax = None, check = True, fromplot = False, **kwargs):
     # Check parameters
     param = {'ax', 'c', 'fillstyle', 'label', 'legcols', 'legpad', 'legpos', 'legsize', 'legspace', 'ls', 'lw', 'marker', 'ms'}
     if check is True:
-        self.check_par(param, 'legend', **kwargs)
+        self._check_par(param, 'legend', **kwargs)
 
     # Find figure and number of the axis
     ax  = self.fig.gca() if ax is None else ax
-    nax = self.check_fig(ax)
+    nax = self._check_fig(ax)
 
     # Finds the legend parameters (position, columns, size and spacing)
     self.legpos[nax]    = kwargs.get('legpos',   self.legpos[nax])

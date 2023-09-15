@@ -1,37 +1,6 @@
 from .libraries import *
 
-def _check_pathformat(self, path: str) -> None:
-    '''
-    Check if the path is consistent, i.e. if the path
-    is given through a non-empty string.
-
-    Returns
-    -------
-
-        None
-
-    Parameters
-    ----------
-        - nout:     
-    '''
-
-    self.D_vars = {}
-
-    if not isinstance(path, str):
-        raise TypeError("Invalid data type. 'path' must be a non-empty string.")
-    elif not path.strip():
-        raise ValueError("'path' must not be an empty string.")
-    else:
-        self.pathdir = Path(path)
-
-    # Check if the file grid.out exists and that the path is a directory
-    if not self.pathdir.is_dir():
-        raise NotADirectoryError(f'directory {self.pathdir} not found!')
-
-
-    return None
-
-def _find_format(self, datatype: str, alone: bool) -> None:
+def _find_formatout(self, datatype: str) -> None:
     '''
     Finds the format of the data files to load.
     If no format is given the first format found between
@@ -50,10 +19,23 @@ def _find_format(self, datatype: str, alone: bool) -> None:
             order) dbl, vtk and flt.
             HDF5 and tab formats have not been implemented yet.
     '''
-    if alone is not True:
-        self._find_formatout(datatype)
+
+    self.pathgrid = self.pathdir / 'grid.out'
+    if not self.pathgrid.is_file():
+        raise FileNotFoundError(f'directory {self.pathdir} has no grid.out!')
+
+    # Recover the file format needed to load the files
+    if datatype is None:
+        self._rec_format()
     else:
-        self._find_formatfile(datatype)
+        self.pathdata = self.pathdir / (datatype + '.out')
+        if self.pathdata.is_file():
+            self.format = datatype
+        else:
+            raise FileNotFoundError(f'file {datatype}.out not found!')
+
+    # Store the charsize depending on the format
+    self.charsize = 8 if self.format == 'dbl' else 4
     return None
 
 def _read_grid(self):
@@ -151,7 +133,7 @@ def _read_grid(self):
     self.gridlist4 = ['gridsize','nshp','dim','geom']
     return None
 
-def _read_vars(self, nout):
+def _read_varsout(self, nout):
     '''
     Reads the 'filetype'.out file and stores the relevant information within the
     class. Such information are the time array, the output variables, the file

@@ -177,21 +177,21 @@ def zoom(self,ax = None, check = True, **kwargs):
              'minorticks', 'pos', 'shading', 'ticksdir', 'tickssize', 'title', 'titlesize', 'top', 'transpose', 'var', 'vmax', 'vmin', 'width', 'x1', 'x2', 'xrange',
              'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
-        self.check_par(param, 'zoom', **kwargs)
+        self._check_par(param, 'zoom', **kwargs)
 
     # Find figure and number of the axis
     ax = self.ax[-1] if ax is None else ax
-    nax = self.check_fig(ax)
+    nax = self._check_fig(ax)
 
     # Sets position of the zoom
     if kwargs.get('pos'):
-        axins = self.place_inset_pos(ax, kwargs['pos'])
+        axins = self._place_inset_pos(ax, kwargs['pos'])
     else:
-        axins = self.place_inset_loc(ax, **kwargs)
+        axins = self._place_inset_loc(ax, **kwargs)
     fontsize = kwargs.get('fontsize',self.fontsize - 5)
 
     # Adds the inset axis
-    self.add_ax(axins, len(self.ax))
+    self._add_ax(axins, len(self.ax))
 
     # Checks range and ticks
     '''
@@ -211,9 +211,9 @@ def zoom(self,ax = None, check = True, **kwargs):
     # Plots the lines
     pcm = ax.collections
     if len(pcm) > 0:
-        self.zoomdisplay(ax,nax,axins,**kwargs)
+        self._zoomdisplay(ax,nax,axins,**kwargs)
     else:
-        self.zoomplot(ax,nax,axins,**kwargs)
+        self._zoomplot(ax,nax,axins,**kwargs)
 
     # Indicates the inset zoom
     if kwargs.get('zoomlines',True) is True:
@@ -221,7 +221,7 @@ def zoom(self,ax = None, check = True, **kwargs):
 
     return None
 
-def zoomplot(self,ax,nax,axins,**kwargs):
+def _zoomplot(self,ax,nax,axins,**kwargs):
     lines = ax.get_lines()
     for i in lines:
         self.plot(i.get_xdata(), i.get_ydata(), c=i.get_color(),
@@ -229,7 +229,7 @@ def zoomplot(self,ax,nax,axins,**kwargs):
                   marker=i.get_marker(), ms=i.get_ms(),
                   ax=axins)
 
-def zoomdisplay(self,ax,nax,axins,**kwargs):
+def _zoomdisplay(self,ax,nax,axins,**kwargs):
     pcm = ax.collections[0]
     pnr = str(pcm.norm).split()[0].split(".")[2]
     dict_norm = {'Normalize': 'norm', 'LogNorm': 'log',

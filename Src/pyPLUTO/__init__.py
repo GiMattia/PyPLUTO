@@ -15,7 +15,7 @@ class Load:
     '''
 
     def __init__(self, nout = 'last', path: str  = './' , datatype: str = None, 
-                       vars =  True,  text: bool = True):
+                       vars =  True,  text: bool = True, alone: bool = False):
         '''
         Initialization of the Load class.
         The initialization corresponds to the loading, if wanted, of one or more
@@ -56,14 +56,14 @@ class Load:
                 a easy display of all the important information.
         '''
 
-        self._check_pathformat(nout, path, datatype, vars, text)
+        self._check_pathformat(path)
 
         if text is not False: print(f'Loading folder:   {path}')
             
-        self._find_formatdata(datatype)
+        self._find_format(datatype, alone)
 
         self._read_grid()
-        self._read_vars(nout)   
+        self._read_varsout(nout)   
         if text is not False: print(f'Dimensions: {self.dim} ({self.geom})')
     
         if isinstance(self.nout, np.ndarray):
@@ -120,10 +120,11 @@ class Load:
         '''
         return text
     
-    from .readdata import _check_pathformat, _find_formatdata, _read_grid, _read_vars
-    from .readdata import _load_vars, _delete_vars
-    from .h_load   import _split_gridfile, _rec_format, _vtk_offset, _gen_offset
-    from .h_load   import _check_nout, _init_vardict, _assign_var, _shape_st
+    from .readdata  import _check_pathformat, _find_format
+    from .readfluid import _find_formatout, _read_grid, _read_varsout
+    from .readfluid import _load_vars, _delete_vars
+    from .h_load    import _split_gridfile, _rec_format, _vtk_offset, _gen_offset
+    from .h_load    import _check_nout, _init_vardict, _assign_var, _shape_st
     
 class Image:
 
@@ -136,7 +137,7 @@ class Image:
         self.tight:    bool = True
         self.nwin:     int  = 1
         self.figsize = [8,5]
-        self.set_size = False
+        self._set_size = False
         self.nrow0    = 0
         self.ncol0    = 0
         self.ax       = []
@@ -187,10 +188,10 @@ class Image:
         It plots the data.
 
         Image properties:
-        - Figure size (figsize):        {self.figsize}
-        - Window number:      {self.nwin}
-        - Number of subplots: {self.nrow0} x {self.ncol0}
-        - Global fontsize:    {self.fontsize}
+        - Figure size        (figsize)       {self.figsize}
+        - Window number      (nwin)          {self.nwin}
+        - Number of subplots (nrow0 x ncol0) {self.nrow0} x {self.ncol0}
+        - Global fontsize    (fontsize)      {self.fontsize}
 
         Public attributes available: WIP...
 
@@ -204,7 +205,7 @@ class Image:
         - legend
           Places a legend in a subplot
         - display
-          Plots a D quantity in a subplot
+          Plots a 2D quantity in a subplot
         - colorbar
           Places a colorbar in a subplotor next to a subplot
         - zoom
@@ -218,18 +219,18 @@ class Image:
         Please refrain from using "private" methods and attributes.
         '''
 
-    from .h_image  import place_inset_pos, place_inset_loc
-    from .h_image  import set_parax, check_par, set_xrange, set_yrange
-    from .h_image  import set_xticks, set_yticks, check_rows, check_cols
-    from .h_image  import hide_text, set_cscale
-    from .h_image  import check_fig, add_ax, assign_ax
+    from .h_image  import _place_inset_pos, _place_inset_loc
+    from .h_image  import _set_parax, _check_par, _set_xrange, _set_yrange
+    from .h_image  import _set_xticks, _set_yticks, _check_rows, _check_cols
+    from .h_image  import _hide_text, _set_cscale
+    from .h_image  import _check_fig, _add_ax, _assign_ax
 
     from .fig      import create_fig, create_axes, set_axis
     from .plot     import plot, legend
     from .display  import display, colorbar
-    from .interact import interactive, update_slider
+    from .interact import interactive, _update_slider
     from .figtools import savefig, show, text
-    from .zoom     import zoom, zoomplot, zoomdisplay
+    from .zoom     import zoom, _zoomplot, _zoomdisplay
 
     from .ploadparticles import ploadparticles
 
@@ -266,8 +267,15 @@ from .pytools   import savefig, show
 
 
 class LoadPart:
-    def __init__(self, nout = 'last', path = './' , datatype = None, 
-                     vars = True, text = True):
+    def __init__(self, nout = 'last', path: str = './' , datatype: str = None, 
+                     vars = True, text: bool = True):
+        self._check_pathformat(path)
+
+        if text is not False: print(f'Loading folder:   {path}')
+            
+        self._find_format(datatype, True)
+        self._read_varsfile(nout, vars)
+
         raise NotImplementedError('Loading of particles has not been implemented yet')
           
     def __str__(self):
@@ -279,4 +287,5 @@ class LoadPart:
         Please refrain from using "private" methods.
         '''
 
-    from .readpart import _find_format
+    from .readdata import _check_pathformat, _find_format
+    from .readpart import _find_formatfile, _read_varsfile

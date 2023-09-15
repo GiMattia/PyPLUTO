@@ -1,6 +1,6 @@
 from .libraries import *
 
-def check_fig(self,ax):
+def _check_fig(self,ax):
     '''
     findfig function:
         Finds the figure given a set of axes.
@@ -12,7 +12,7 @@ def check_fig(self,ax):
     nax = self.ax.index(ax)
     return nax
 
-def add_ax(self,ax,i):
+def _add_ax(self,ax,i):
     '''
     addax function:
         Appends all the parameters in the hidden variables
@@ -33,7 +33,7 @@ def add_ax(self,ax,i):
     self.ax[i].annotate(str(i),(0.47,0.47),xycoords='axes fraction')
     return None
 
-def place_inset_pos(self, ax, pos):
+def _place_inset_pos(self, ax, pos):
     '''
     place_inset_pos function:
         Inserts a set of inset axes (given the position).
@@ -47,7 +47,7 @@ def place_inset_pos(self, ax, pos):
     height = pos[3] - pos[2]
     return ax.inset_axes([left, bottom, width, height])
 
-def place_inset_loc(self, ax, **kwargs):
+def _place_inset_loc(self, ax, **kwargs):
     '''
     place_inset_loc function:
         Inserts a set of inset axes (given the limits).
@@ -65,7 +65,7 @@ def place_inset_loc(self, ax, **kwargs):
     return ax.inset_axes([left, bottom, width, height])
 
 
-def hide_text(self, nax, txts):
+def _hide_text(self, nax: int, txts: str) -> None:
     '''
     hide_text function:
         Hides the text number from the plots.
@@ -74,12 +74,11 @@ def hide_text(self, nax, txts):
             txts -- text of the selected set of axes
     '''
     if self.ntext[nax] is None:
-        for txt in txts:
-            txt.set_visible(False)
+        [txt.set_visible(False) for txt in txts]
         self.ntext[nax] = 1
     return None
 
-def set_parax(self, ax, **kwargs):
+def _set_parax(self, ax, **kwargs):
     '''
     set_parax function:
         Sets the axes parameters through the function setaxis
@@ -98,7 +97,7 @@ def set_parax(self, ax, **kwargs):
 
     return None
 
-def check_par(self, par, func, **kwargs):
+def _check_par(self, par, func, **kwargs):
     '''
     check_par function:
         Checks if a parameter is in the corresponding list
@@ -114,7 +113,7 @@ def check_par(self, par, func, **kwargs):
         print(f'WARNING: elements {str(notfound)} not found! Please check your spelling! (function {func})')
     return None
 
-def set_xrange(self, ax, nax, xlim, case):
+def _set_xrange(self, ax, nax, xlim, case):
     '''
     set_xrange function:
         Sets the xlim of a set of axes and fixes it (if not
@@ -137,7 +136,7 @@ def set_xrange(self, ax, nax, xlim, case):
         self.setax[nax] = 1
     return None
 
-def set_yrange(self, ax, nax, ylim, case, x = None, y = None):
+def _set_yrange(self, ax, nax, ylim, case, x = None, y = None):
     '''
     set_yrange function:
         Sets the ylim of a set of axes and fixes it (if not
@@ -172,7 +171,7 @@ def set_yrange(self, ax, nax, ylim, case, x = None, y = None):
         self.setay[nax] = 1
     return None
 
-def set_xticks(self, ax, xtc, xtl):
+def _set_xticks(self, ax, xtc, xtl):
     '''
     set_xticks function:
         Sets ticks and tickslabels on the x-axis
@@ -184,7 +183,7 @@ def set_xticks(self, ax, xtc, xtl):
     if xtc is None:
         ax.set_xticks([])
         ax.set_xticklabels([])
-        if xtl != 'Default' and xtl is not None:
+        if xtl not in (None, 'Default'):
             print('Warning, define tickslabels with no ticks!! (function setax)')
     elif xtl != 'Default':
         if xtc != 'Default':
@@ -201,7 +200,7 @@ def set_xticks(self, ax, xtc, xtl):
     return None
 
 
-def set_yticks(self, ax, ytc, ytl):
+def _set_yticks(self, ax, ytc, ytl):
     '''
     set_ticks function:
         Sets ticks and tickslabels on the x-axis
@@ -213,7 +212,7 @@ def set_yticks(self, ax, ytc, ytl):
     if ytc is None:
         ax.set_yticks([])
         ax.set_yticklabels([])
-        if ytl != 'Default' and ytl is not None:
+        if ytl not in (None, 'Default'):
             print('Warning, define tickslabels with no ticks!! (function setax)')
     elif ytl != 'Default':
         if ytc != 'Default':
@@ -229,57 +228,49 @@ def set_yticks(self, ax, ytc, ytl):
             ax.set_yticks(ytc)
     return None
 
-def check_rows(self, hratio, hspace, nrow):
+def _check_rows(self, hratio, hspace, nrow):
     '''
     check_rows function:
-        Checks the width and spacing of the plots on a single column
-        **Inputs:**
-            hratio -- the ratio of the rows\n
-            hspace -- the space between the rows\n
-            nrow -- the number of rows in the single column
+    Checks the width and spacing of the plots on a single column
+    **Inputs:**
+        hratio -- the ratio of the rows\n
+        hspace -- the space between the rows\n
+        nrow -- the number of rows in the single column
     '''
-    if not isinstance(hspace, list):
-        hspace = [hspace]
-    if len(hratio) < nrow:
-        #print('WARNING! hratio is too short!!!')
-        hratio = hratio + [1.0]*(nrow - len(hratio))
-    if len(hratio) > nrow:
-        #print('WARNING! hratio is too long!!!')
-        hratio = hratio[:-(len(hratio) - nrow) or None]
-    if len(hspace) + 1 < nrow:
-        #print('WARNING! hspace is too short!!!')
-        hspace = hspace + [0.1]*(nrow - len(hspace) - 1)
-    if len(hspace) + 1 > nrow:
-        #print('WARNING! hspace is too long!!!')
-        hspace = hspace[:-(len(hspace) + 1 - nrow) or None]
-    return hspace, hratio
+    hspace = [hspace] if not isinstance(hspace, list) else hspace
+    hratio = hratio + [1.0] * (nrow - len(hratio))
+    hspace = hspace + [0.1] * (nrow - len(hspace) - 1)
 
-def check_cols(self, wratio, wspace, ncol):
+    if len(hratio) != nrow:
+        warnings.warn('WARNING! hratio has wrong length!!!', UserWarning)
+
+    if len(hspace) + 1 != nrow:
+        warnings.warn('WARNING! hspace has wrong length!!!', UserWarning)
+
+    return hspace[:nrow - 1], hratio[:nrow]
+
+def _check_cols(self, wratio, wspace, ncol):
     '''
     check_cols function:
-        Checks the width and spacing of the plots on a single row
-        **Inputs:**
-            hratio -- the ratio of the columns\n
-            hspace -- the space between the columns\n
-            nrow -- the number of rows in the single row
+    Checks the width and spacing of the plots on a single row
+    **Inputs:**
+        wratio -- the ratio of the columns\n
+        wspace -- the space between the columns\n
+        ncol -- the number of columns in the single row
     '''
-    if not isinstance(wspace, list):
-        wspace = [wspace]
-    if len(wratio) < ncol:
-        #print('WARNING! wratio is too short!!!')
-        wratio = wratio + [1.0]*(ncol - len(wratio))
-    if len(wratio) > ncol:
-        #print('WARNING! wratio is too long!!!')
-        wratio = wratio[:-(len(wratio) - ncol) or None]
-    if len(wspace) + 1 < ncol:
-        #print('WARNING! wspace is too short!!!')
-        wspace = wspace + [0.1]*(ncol - len(wspace) - 1)
-    if len(wspace) + 1 > ncol:
-        #print('WARNING! wspace is too long!!!')
-        wspace = wspace[:-(len(wspace) + 1 - ncol) or None]
-    return wspace, wratio
+    wspace = [wspace] if not isinstance(wspace, list) else wspace
+    wratio = wratio + [1.0] * (ncol - len(wratio))
+    wspace = wspace + [0.1] * (ncol - len(wspace) - 1)
 
-def set_cscale(self, cscale, vmin, vmax, lint):
+    if len(wratio) != ncol:
+        print('WARNING! wratio has wrong length!!!')
+
+    if len(wspace) + 1 != ncol:
+        print('WARNING! wspace has wrong length!!!')
+
+    return wspace[:ncol - 1], wratio[:ncol]
+
+def _set_cscale(self, cscale, vmin, vmax, lint):
     '''
     set_cscale function:
         Sets the colorscale of a pcolormesh
@@ -299,7 +290,7 @@ def set_cscale(self, cscale, vmin, vmax, lint):
         norm = mcol.Normalize(vmin = vmin,vmax = vmax)
     return norm
 
-def assign_ax(self, ax, **kwargs):
+def _assign_ax(self, ax, **kwargs):
 
     if ax is None and len(self.ax) == 0:
         ax = self.create_axes(ncol = 1, nrow = 1, check = False, **kwargs)
@@ -307,5 +298,5 @@ def assign_ax(self, ax, **kwargs):
     elif ax is None and len(self.ax) > 0:
         ax  = self.fig.gca()
 
-    nax = self.check_fig(ax)
+    nax = self._check_fig(ax)
     return ax, nax

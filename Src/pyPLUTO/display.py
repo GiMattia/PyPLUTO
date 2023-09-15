@@ -173,10 +173,10 @@ def display(self,var,check = True,**kwargs):
              'shading', 'ticksdir', 'tickssize', 'title', 'titlesize', 'transpose', 'var', 'vmax', 'vmin', 'x1', 'x2', 'xrange', 'xscale', 'xticks', 'xtickslabels',
              'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
-        self.check_par(param, 'display', **kwargs)
+        self._check_par(param, 'display', **kwargs)
 
     # Set or create figure and axes
-    ax, nax = self.assign_ax(kwargs.pop('ax',None),**kwargs)
+    ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
 
     # Keyword x1 and x2
     var = np.asarray(var)
@@ -192,8 +192,8 @@ def display(self,var,check = True,**kwargs):
         kwargs['yrange'] = [y.min(),y.max()]
 
     # Set ax parameters
-    self.set_parax(ax, **kwargs)
-    self.hide_text(nax, ax.texts)
+    self._set_parax(ax, **kwargs)
+    self._hide_text(nax, ax.texts)
 
     # Keywords vmin and vmax
     vmin = kwargs.get('vmin',var.min())
@@ -206,7 +206,7 @@ def display(self,var,check = True,**kwargs):
     self.vlims[nax] = [vmin,vmax,lint]
 
     # Set the colorbar scale (put in function)
-    norm = self.set_cscale(cscale, vmin, vmax, lint)
+    norm = self._set_cscale(cscale, vmin, vmax, lint)
 
     # Display the image
     pcm = ax.pcolormesh(x,y,var.T, shading=kwargs.get('shading','auto'),
@@ -289,10 +289,10 @@ def colorbar(self, axs = None, cax = None, check = True, **kwargs):
     # Check parameters
     param = {'axs', 'cax', 'clabel', 'cpad', 'cpos', 'cticks', 'ctickslabels'}
     if check is True:
-        self.check_par(param, 'colorbar', **kwargs)
+        self._check_par(param, 'colorbar', **kwargs)
 
     axs  = self.fig.gca() if axs is None else axs
-    nax  = self.check_fig(axs)
+    nax  = self._check_fig(axs)
     pcm  = axs.collections[0]
     cpad = kwargs.get('cpad',0.07)
     cpos = kwargs.get('cpos','right')
@@ -302,7 +302,7 @@ def colorbar(self, axs = None, cax = None, check = True, **kwargs):
         divider = make_axes_locatable(axs)
         cax = divider.append_axes(cpos, size="7%", pad=cpad) # 0.07 right
     else:
-        naxc = self.check_fig(cax)
+        naxc = self._check_fig(cax)
 
         if self.ntext[naxc] == None:
             for txt in cax.texts:

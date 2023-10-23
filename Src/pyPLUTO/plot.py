@@ -132,7 +132,7 @@ def plot(self, x, y = [None], check = True, **kwargs):
     Examples
     --------
 
-         - Example #1: create a simple plot of y as function of x
+        - Example #1: create a simple plot of y as function of x
          
             >>> import pyPLUTO as pp
             >>> I = pp.Image()

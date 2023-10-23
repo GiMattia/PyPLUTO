@@ -196,8 +196,8 @@ def display(self,var,check = True,**kwargs):
     self._hide_text(nax, ax.texts)
 
     # Keywords vmin and vmax
-    vmin = kwargs.get('vmin',var.min())
-    vmax = kwargs.get('vmax',var.max())
+    vmin = kwargs.get('vmin',np.nanmin(var))
+    vmax = kwargs.get('vmax',np.nanmax(var))
 
     # Keyword for colorbar and colorscale
     cpos     = kwargs.get('cpos',None)

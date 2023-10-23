@@ -11,8 +11,8 @@ def _find_formatfile(self, datatype: str) -> None:
         else:
             pattern = self.pathdir / ('particles.*.' + datatype)
 
-            matching_files = glob.glob(str(pattern))
-        if not matching_files:
+            self.matching_files = glob.glob(str(pattern))
+        if not self.matching_files:
             raise FileNotFoundError(f'file particles.*.{datatype} not found!')
         else:
             self.format = datatype 
@@ -23,7 +23,7 @@ def _find_formatfile(self, datatype: str) -> None:
         raise NameError('Invalid class name')
     return None
 
-def _read_varsfile(self, nout, vars):
+def _read_varsfile(self, nout) -> None:
     '''
     Reads the 'filetype'.out file and stores the relevant information within the
     class. Such information are the time array, the output variables, the file
@@ -43,6 +43,31 @@ def _read_varsfile(self, nout, vars):
 
     # Initialize the info dictionary
     self.Dinfo = {}
-
+    if isinstance (nout, list):
+        raise NotImplementedError('multiple loading not implemented yet')
+    last_file = self.matching_files[-1].split('.')[1]
+    if nout == 'last' or nout == -1:
+        time = last_file
+    else:
+        time = str(nout).zfill(4)
+    if self.format != 'vtk':
+        raise NotImplementedError('non-vtk files have not been implemented yet')
+    else:
+        self.pathdata = self.pathdir / ('particles.' + time + '.' + self.format)
+        self.endinaness = ">"
+        self._vtk_offsetfile()
+    self.binformat = f'{self.endianess}f{self.charsize}'
     return None
     
+def _load_particles(self, nout, vars) -> None:
+    if vars is True:
+        self.vars = list(self.off_dict.keys())
+    else:
+        self.vars = vars
+    #print(self.vars)
+    for i, var in enumerate(self.vars):
+
+        None
+        #...
+        #np.memmap()
+    return None

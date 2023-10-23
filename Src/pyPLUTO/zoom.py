@@ -206,7 +206,7 @@ def zoom(self,ax = None, check = True, **kwargs):
         kwargs['yticks'] = None
 
     # Sets axes parameters
-    self.set_parax(axins, **kwargs)
+    self._set_parax(axins, **kwargs)
 
     # Plots the lines
     pcm = ax.collections

@@ -1,12 +1,12 @@
 from .libraries import *
 
 def _check_fig(self,ax):
-    '''
+    """
     findfig function:
         Finds the figure given a set of axes.
         **Inputs:**
             ax  -- the set of axes\n
-    '''
+    """
     fig = ax.get_figure()
     assert fig == self.fig, "The provided axes does not belong to the expected figure."
     nax = self.ax.index(ax)
@@ -300,3 +300,61 @@ def _assign_ax(self, ax, **kwargs):
 
     nax = self._check_fig(ax)
     return ax, nax
+
+def _assign_default(self):
+    """
+    assign_default function:
+        Assigns the default parameters to the figure.
+    """
+
+    self.fontsize: int  = 17
+    self.tight: bool = True
+    self.nwin: int = 1
+    self.figsize = [8,5]
+    self._set_size = False
+    self.nrow0    = 0
+    self.ncol0    = 0
+    self.ax       = []
+                    # black, red, blue, cyan, green, orange
+    self.color    = ['k','#d7263d','#1815c5','#12e3c0','#3f6600','#f67451']
+    self.vlims    = []
+    self.nline    = []
+    self.ntext    = []
+    self.setax    = []
+    self.setay    = []
+    self.legpos   = []
+    self.legpar   = []
+    self.tickspar = []
+    self.shade    = []
+    #self.LaTeX    = LaTeX
+    return None
+
+def _assign_LaTeX(self, LaTeX):
+    """
+    
+    """
+    if LaTeX is True:
+        mpl.rcParams['mathtext.fontset'] = "stix"
+        mpl.rcParams['font.family'] = "STIXGeneral"
+
+    if LaTeX == 'pgf':
+        plt.switch_backend('pgf')
+
+        pgf_preamble = r"""
+        \usepackage{amsmath}
+        \usepackage{amssymb}
+        \usepackage{mathptmx}
+        \newcommand{\DS}{\displaystyle}
+        """
+
+        fontweight = kwargs.get('fontweight','normal')
+        mpl.rcParams.update({
+            'pgf.preamble': pgf_preamble,
+            'font.family': 'serif',
+            'font.weight': fontweight,
+            'text.usetex': True
+        })
+
+    return None
+
+

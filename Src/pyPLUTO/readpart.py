@@ -1,73 +1,45 @@
 from .libraries import *
 
-def _find_formatfile(self, datatype: str) -> None:
-
-    class_name = self.__class__.__name__
-    if class_name == 'Load':
-        raise NotImplementedError('Standalone fluid file load has not been implemented yet')
-    elif class_name == 'LoadPart':
-        if datatype is None:
-            raise NotImplementedError('particles rec format has not been implemented yet')
-        else:
-            pattern = self.pathdir / ('particles.*.' + datatype)
-
-            self.matching_files = glob.glob(str(pattern))
-        if not self.matching_files:
-            raise FileNotFoundError(f'file particles.*.{datatype} not found!')
-        else:
-            self.format = datatype 
-            if self.format != 'vtk':
-                raise NotImplementedError('non-vtk files have not been implemented yet')
-            self.charsize = 8 if self.format == 'dbl' else 4
-    else:
-        raise NameError('Invalid class name')
-    return None
-
-def _read_varsfile(self, nout) -> None:
-    '''
-    Reads the 'filetype'.out file and stores the relevant information within the
-    class. Such information are the time array, the output variables, the file
-    type (single or multiples), the endianess, the simulation path and the bin
-    format. All these information are relevant in order to open the output files
-    and access the data.
+def _store_bin_particles(self, i: int) -> None:
+    """
+    Routine to store the particles data. The routine loops over the
+    variables and stores the data in the dictionary from the 'tot' key.
+    Then the 'tot' keyword is removed from the dictionary for memory and
+    clarity reasons.
 
     Returns
     -------
-        None
 
+        None
+    
     Parameters
     ----------
-        - nout: int, default 'last'
-            the output file to be opened. If default ('last'), the last file
-    '''
 
-    # Initialize the info dictionary
-    self.Dinfo = {}
-    if isinstance (nout, list):
-        raise NotImplementedError('multiple loading not implemented yet')
-    last_file = self.matching_files[-1].split('.')[1]
-    if nout == 'last' or nout == -1:
-        time = last_file
-    else:
-        time = str(nout).zfill(4)
-    if self.format != 'vtk':
-        raise NotImplementedError('non-vtk files have not been implemented yet')
-    else:
-        self.pathdata = self.pathdir / ('particles.' + time + '.' + self.format)
-        self.endinaness = ">"
-        self._vtk_offsetfile()
-    self.binformat = f'{self.endianess}f{self.charsize}'
-    return None
-    
-def _load_particles(self, nout, vars) -> None:
-    if vars is True:
-        self.vars = list(self.off_dict.keys())
-    else:
-        self.vars = vars
-    #print(self.vars)
-    for i, var in enumerate(self.vars):
+        - i: int
+            the index of the file to be loaded. 
+    """
 
-        None
-        #...
-        #np.memmap()
+    # Mask the array (to be fixed for multiple loadings)
+    #masked_array = np.ma.masked_array(self._d_vars['tot'][0].astype('int'), 
+    #                                                 np.isnan(self._d_vars['tot'][0]))
+
+    # Start with column 0 (id) and loop over the variable names
+    ncol = 0
+    for j, var in enumerate(self._d_info['varskeys'][i]):
+
+        # Compute the size of the variable and store the data
+        szvar = self._vardim[j]
+        if self._lennout != 1:
+            # To be fixed for multiple loadings
+            raise NotImplementedError('multiple loading not implemented yet')
+            #self._d_vars[var][i][:] = self._d_vars['tot'][i][ncol:ncol+szvar]
+        else:
+            self._d_vars[var][:] = self._d_vars['tot'][ncol:ncol+szvar]
+
+        # Update the column counter
+        ncol += szvar
+
+    # Remove the 'tot' key from the dictionary
+    del self._d_vars['tot']
+
     return None

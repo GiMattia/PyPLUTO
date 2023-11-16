@@ -1,6 +1,7 @@
 from .libraries import *
 
 def interactive(self, varx, vary = None, fig = None, **kwargs):
+    # CHECK VMIN VMAX BOUNDS!!!
 
     # Store the variable
     if vary is None:

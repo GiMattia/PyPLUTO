@@ -30,7 +30,7 @@ Examples
 - maximum length of each line: 80 characters (including spaces and indentation)
 - all the string variables have the '' limiters, all the tex variables have the "" limiters
 
-- every public method MUST have at least 3 examples in he docstring
+- every public method MUST have at least 3 examples in the docstring
 - every private method must start with the character _
 - every public attribute should be explained in a comment in the same line
 - every private attribute should start with _

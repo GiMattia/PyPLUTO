@@ -1,6 +1,6 @@
 from .libraries import *
 
-def display(self,var,check = True,**kwargs):
+def display(self, var, check: bool = True, **kwargs):
     '''
     Plot for a 2D function (or a 2D slice) using the
     matplotlib's pcolormesh function.
@@ -9,8 +9,7 @@ def display(self,var,check = True,**kwargs):
     Returns
     -------
 
-
-    - Nothing is returned.
+    None
 
     Parameters
     ----------
@@ -91,9 +90,12 @@ def display(self,var,check = True,**kwargs):
     - vmax: float, default max(z)
         The maximum value of the colormap. If not defined, the maximum value
         of z will be taken.
+        IMPORTANT! WHEN FIXED THEN THEY STAY EVEN IF A NEW FIGURE IS DEFINED!!!
+        MAYBE PLACE A WARNING ALSO IF THE DATA PLOTTED IS CONSTANT!!
     - vmin: float, default min(z)
         The minimum value of the colormap. If not defined, the minimum value
         of z will be taken.
+        IMPORTANT! WHEN FIXED THEN THEY STAY EVEN IF A NEW FIGURE IS DEFINED!!!
     - x1: 1D/2D array, default 'Default'
         the 'x' array. If not defined, a default array will be generated
         depending on the size of z.
@@ -222,7 +224,7 @@ def display(self,var,check = True,**kwargs):
 
     return None
 
-def colorbar(self, axs = None, cax = None, check = True, **kwargs):
+def colorbar(self, axs = None, cax = None, check = True, scatter = None, **kwargs):
     '''
     method to display a colorbar in a selected position. If the keyword cax is
     enabled the colorbar is locates in a specific axis, otherwise an axis will
@@ -253,6 +255,9 @@ def colorbar(self, axs = None, cax = None, check = True, **kwargs):
             colorbar.
         - ctickslabels: str, default None
             If enabled, sets manually ticks labels on the colorbar.
+        - scatter: scatter object, default None
+            In case the colorbar refers to the particles, the scatter object 
+            is loaded in order to use the same colormap.
 
     Examples
     --------
@@ -293,7 +298,7 @@ def colorbar(self, axs = None, cax = None, check = True, **kwargs):
 
     axs  = self.fig.gca() if axs is None else axs
     nax  = self._check_fig(axs)
-    pcm  = axs.collections[0]
+    pcm  = axs.collections[0] if scatter is None else scatter
     cpad = kwargs.get('cpad',0.07)
     cpos = kwargs.get('cpos','right')
     ccor = 'vertical' if cpos in ['left','right'] else 'horizontal'

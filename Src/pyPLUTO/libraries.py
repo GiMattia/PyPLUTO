@@ -5,6 +5,7 @@ import matplotlib.pyplot  as plt
 import matplotlib.colors  as mcol
 import matplotlib.lines   as mlines
 import matplotlib.widgets as mwdg
+import matplotlib.cm      as cm
 import pandas             as pd
 
 import glob
@@ -29,6 +30,8 @@ from itertools                             import islice
 #from mpl_toolkits.axes_grid1.inset_locator import InsetPosition
 #from scipy.interpolate                     import RectBivariateSpline
 #from matplotlib                            import gridspec
+
+warnings.simplefilter('always', DeprecationWarning)
 
 """
 if sys.version_info >= (3, 10):

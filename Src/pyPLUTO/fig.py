@@ -1,6 +1,10 @@
 from .libraries import *
 
-def create_fig(self, fig, check: bool = True, **kwargs) -> None:
+def _create_fig(self, fig, check: bool = True, **kwargs) -> None:
+    """
+    Function that creates the figure associated to the Image.
+
+    """
 
     # Changes keywords if figure has been already assigned
     if fig is not None:
@@ -38,7 +42,7 @@ def create_fig(self, fig, check: bool = True, **kwargs) -> None:
     return None
 
 def create_axes(self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs):
-    '''
+    """
         Creation of a set of axes using add_subplot.
         If additional parameters (like the figure limits or the spacing)
         are given, the plots are located using set_position.
@@ -129,7 +133,7 @@ def create_axes(self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs
                >>> ax = I.create_axes(ncol = 2, nrow = 2, right = 0.7)
                >>> ax = I.create_axes(left = 0.75)
 
-        '''
+        """
 
     
     # Check parameters
@@ -229,7 +233,7 @@ def create_axes(self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs
     return ret_ax
 
 def set_axis(self, ax = None, check = True, **kwargs):
-    '''
+    """
         Customization of a single subplot axis.
         Properties such as the range, scale and aspect of each subplot
         should be customized here.
@@ -346,7 +350,7 @@ def set_axis(self, ax = None, check = True, **kwargs):
                >>> for i in [0,1,2,3]:
                >>>   I.set_axis(ax = ax[i], xtitle = 'x-axis', ytitle = 'y-title', xticks = [0.25,0.5,0.75], yticks = [0.25,0.5,0.75], xtickslabels = ['1/4','1/2','3/4'])
 
-    '''
+    """
 
     # Take last axis if not specified
     ax  = self.fig.gca() if ax is None else ax
@@ -362,8 +366,8 @@ def set_axis(self, ax = None, check = True, **kwargs):
         self._check_par(param, 'set_axis', **kwargs)
 
     # Set fontsize
-    self.fontsize = kwargs.get('fontsize',self.fontsize)
-    plt.rcParams.update({'font.size': self.fontsize})
+    if 'fontsize' in kwargs:
+        plt.rcParams.update({'font.size': self.fontsize})
 
     # Set aspect ratio
     if kwargs.get('aspect','Default') != 'Default':

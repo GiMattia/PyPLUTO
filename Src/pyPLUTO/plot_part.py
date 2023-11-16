@@ -32,8 +32,22 @@ def scatter(self, x, y, **kwargs):
     self._set_xrange(ax, nax, [np.nanmin(x),np.nanmax(x)], self.setax[nax])
     self._set_yrange(ax, nax, [np.nanmin(y),np.nanmax(y)], self.setay[nax], x = x, y = y)
 
+    # Keywords vmin and vmax FIX IT
+    vmin = kwargs.get('vmin',0)
+    vmax = kwargs.get('vmax',0)
+
+    # Keyword for colorbar and colorscale
+    cpos     = kwargs.get('cpos',None)
+    cscale   = kwargs.get('cscale','norm')
+    lint     = kwargs.get('lint',max(np.abs(vmin),vmax)*0.01)
+    self.vlims[nax] = [vmin,vmax,lint]
+
+    # Set the colorbar scale (put in function)
+    norm = self._set_cscale(cscale, vmin, vmax, lint)
+
     # Start scatter plot procedure
-    ax.scatter(x, y, **kwargs)
+    pcm = ax.scatter(x, y, cmap = kwargs.get('cmap',None), norm = norm,
+                     c = kwargs.get('c',None), s = kwargs.get('s',3))
 
     # Creation of the legend
     self.legpos[nax] = kwargs.get('legpos', self.legpos[nax])
@@ -42,6 +56,10 @@ def scatter(self, x, y, **kwargs):
         kwargs['label'] =  None
         self.legend(ax, check = 'no', fromplot = True, **kwargs)
         kwargs['label'] =  copy_label
+
+    # Place the colorbar (use colorbar function)
+    if cpos != None:
+        self.colorbar(ax, check = False, scatter = pcm, **kwargs)
 
     # If tight_layout is enabled, is re-inforced
     if self.tight != False:

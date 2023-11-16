@@ -19,9 +19,6 @@ def _check_pathformat(self, path: str) -> None:
             the path to the simulation directory
     """
 
-    # Initialize the dictionary of variables (duplicate, to be removed)
-    self.D_vars = {}
-
     # Check if the path is a non-empty string. Then convert the 
     # string to a Path object
     if not isinstance(path, str):
@@ -38,34 +35,9 @@ def _check_pathformat(self, path: str) -> None:
 
     return None
 
+
+
 def _find_format(self, datatype: str, alone: bool) -> None:
-    '''
-    Finds the format of the data files to load.
-    If no format is given the first format found between
-    dbl, vtk and flt (in this order) is taken.
-
-    Returns
-    -------
-
-        None
-
-    Parameters
-    ----------
-
-        - datatype: str, default None
-            the file format. If None the format is recovered between (in
-            order) dbl, vtk and flt.
-            HDF5 and tab formats have not been implemented yet.
-    '''
-    if alone is not True:
-        self._find_formatout(datatype)
-    else:
-        self._find_formatfile(datatype)
-    return None
-
-
-
-def _new_find_format(self, datatype: str, alone: bool) -> None:
     """
     Finds the format of the data files to load.
     At first, the code checks the filetype to be loaded (if fluid or
@@ -104,7 +76,7 @@ def _new_find_format(self, datatype: str, alone: bool) -> None:
 
     # Define the possible filetypes and set the keyword "alone"
     # accordingly
-    if class_name == 'Load' or class_name == 'NewLoad':
+    if class_name == 'Load':
         type_out = ['dbl','flt','vtk','dbl.h5','flt.h5']
         type_lon = ['vtk','dbl.h5','flt.h5']
         if datatype != 'vtk':
@@ -138,18 +110,99 @@ def _new_find_format(self, datatype: str, alone: bool) -> None:
         if self.format is not None:
             # Store the charsize depending on the format
             dbl = {"dbl","dbl.h5"}
-            self.charsize = 8 if self.format in dbl else 4
+            self._charsize = 8 if self.format in dbl else 4
             return None
         
     # No file has been found, so raise an error
     if datatype is not None:
         raise FileNotFoundError(f"Type {datatype} not found.")
     else:
-        raise FileNotFoundError(f"No available type has been found.")
+        raise FileNotFoundError(f"No available type has been found in {self.pathdir}.")
 
 
 
-def _new_load_vars(self, vars: bool, i: int, exout: int, endian: bool) -> None:
+def _findfiles(self, nout):
+    """
+    Finds the files to be loaded. If nout is a list, the function
+    loops over the list and finds the corresponding files. If nout
+    is an integer, the function finds the corresponding file. If
+    nout is 'last', the function finds the last file. If nout is
+    'all', the function finds all the files. Then, the function
+    stores the relevant information in a dictionary _d_info.
+
+    Returns
+    -------
+
+        None
+
+    Parameters
+    ----------
+
+        - nout: int
+            the output file to be loaded
+    """
+
+    # Find class name
+    class_name = self.__class__.__name__
+
+    # Split the matching fils and remove double keys
+    vars, outs = set(), set()
+    for elem in self._matching_files:
+        try:
+            vars.add(elem.split('/')[-1].split('.')[0])
+            outs.add(int(elem.split('.')[1]))
+        except:
+            raise NotImplementedError('Lagrangian particles not implemented yet')
+            vars.add(elem.split('/')[-1].split('.')[0])
+            outs.add(int(elem.split('.')[1]))           
+
+    # Sort the outputs in an array and check the number of outputs
+    self.outlist = np.array(sorted(outs))
+    self._check_nout(nout)
+    self._lennout = len(self.nout)
+    self.ntime = np.empty(self._lennout)
+
+    # Initialize the info dictionary
+    self._d_info = {
+    'typefile':  np.empty(self._lennout, dtype = 'U20'),
+    'endianess': np.empty(self._lennout, dtype = 'U20'),
+    'binformat': np.empty(self._lennout, dtype = 'U20'),
+    }
+
+    # Check if we are loading particle files
+    if class_name == 'LoadPart':
+        if 'particles' not in vars:
+            raise FileNotFoundError(f'file particles.*.{self.format} \
+                                    not found!')
+        self._d_info['typefile'][:] = 'single_file'  
+        self._d_info['varslist'] = [[] for _ in range(self._lennout)]  
+        self._d_info['varskeys'] = [[] for _ in range(self._lennout)] 
+
+        # Check if we are loading a single file (to be fixed)
+        if self._lennout != 1:
+            raise NotImplementedError('multiple loading not implemented yet')
+
+    # Check if fluid files are single or multiple. If multiple 
+    # find the variables
+    else:
+        if 'data' not in vars or self._multiple is True:
+            self._d_info['typefile'][:] = 'multiple_files'
+            self._d_info['varslist'] = np.empty((self._lennout,len(vars)), 
+                                              dtype = 'U20')
+            self._d_info['varslist'][:] =  list(vars)
+        else:
+            self._d_info['typefile'][:] = 'single_file'  
+            self._d_info['varslist'] = [[] for _ in range(self._lennout)]     
+           
+    # Compute the endpath
+    format_string = f'.%04d.{self.format}'
+    self._d_info['endpath'] = np.char.mod(format_string, self.nout)
+
+    return None
+
+
+
+def _load_variables(self, vars: bool, i: int, exout: int, endian: bool) -> None:
     """
     Loads the variables in the class. The function checks if the
     variables to be loaded are valid and then loads them. If the
@@ -181,38 +234,50 @@ def _new_load_vars(self, vars: bool, i: int, exout: int, endian: bool) -> None:
 
     # Find the class name and find the single_file filepath
     class_name  = self.__class__.__name__
-    if class_name == 'Load' or class_name == 'NewLoad':
-        self.filepath = self.pathdir / ('data' + self.Dinfo['endpath'][i])
+    if class_name == 'Load':
+        self._filepath = self.pathdir / ('data' + self._d_info['endpath'][i])
     else:
-        self.filepath = self.pathdir / ('particles' + self.Dinfo['endpath'][i])
+        self._filepath = self.pathdir / ('particles' + self._d_info['endpath'][i])
 
     # If files in single_file format, inspect the file
     # or compute the offset and shape
-    if self.Dinfo['typefile'][i] == 'single_file':
+    if self._d_info['typefile'][i] == 'single_file':
         self._compute_offset(i, endian, exout, None)
 
     # Check if only specific variables should be loaded
     if vars is True:
-        self.load_vars = self.Dinfo['varslist'][i]
+        self._load_vars = self._d_info['varslist'][i]
     else:
-        self.load_vars = makelist(vars)
+        self._load_vars = makelist(vars)
 
     # Loop over the variables to be loaded
-    for j in self.load_vars:
+    for j in self._load_vars:
     
         # Change filepath, offset and shape in case of multiple_files
-        if self.Dinfo['typefile'][i] == 'multiple_files':
-            self.filepath = self.pathdir / (j + self.Dinfo['endpath'][i])
+        if self._d_info['typefile'][i] == 'multiple_files':
+            self._filepath = self.pathdir / (j + self._d_info['endpath'][i])
             self._compute_offset(i, endian, exout, j)
 
         # Initialize the variables dictionary
-        self._new_init_vardict(j) if self.lennout != 1 else None
+        self._init_vardict(j) if self._lennout != 1 else None
 
         # Load the variable through memory mapping and store them in the class
         #if self.format not in {'dbl.h5','flt.h5'}:
-        scrh = np.memmap(self.filepath,self.Dinfo['binformat'][i],mode="r+",
-                         offset=self.offset[j], shape = self.shape[j]).T
-        self._new_assign_var(i, j, scrh)
-    #print(self.D_vars['tot'][0])
+        scrh = np.memmap(self._filepath,self._d_info['binformat'][i],mode="r+",
+                         offset=self._offset[j], shape = self._shape[j]).T
+        self._assign_var(i, j, scrh)
 
     return None
+
+"""
+def _delete_vars(self):
+    allowed_vars = self.gridlist1
+    method_names = ['_delete_vars', '_rec_format']
+
+    allowed_dict = {var: getattr(self, var) for var in allowed_vars}
+    self.__dict__ = allowed_dict
+
+    for method_name in method_names:
+        if method_name in self.__class__.__dict__:
+            delattr(self.__class__, method_name)
+"""

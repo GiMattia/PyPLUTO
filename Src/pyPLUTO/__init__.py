@@ -244,7 +244,7 @@ class Image:
         """
 
         self._assign_default()
-        self._assign_LaTeX(LaTeX)        
+        self._assign_LaTeX(LaTeX, kwargs.get('fontweight','normal'))        
         self._create_fig(fig, **kwargs)
         if text is not False:
 

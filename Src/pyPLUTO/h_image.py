@@ -329,7 +329,7 @@ def _assign_default(self):
     #self.LaTeX    = LaTeX
     return None
 
-def _assign_LaTeX(self, LaTeX):
+def _assign_LaTeX(self, LaTeX, fontweight):
     """
     
     """
@@ -347,7 +347,6 @@ def _assign_LaTeX(self, LaTeX):
         \newcommand{\DS}{\displaystyle}
         """
 
-        fontweight = kwargs.get('fontweight','normal')
         mpl.rcParams.update({
             'pgf.preamble': pgf_preamble,
             'font.family': 'serif',

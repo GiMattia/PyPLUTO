@@ -1,7 +1,7 @@
 from .libraries import *
 
 def display(self, var, check: bool = True, **kwargs):
-    '''
+    """
     Plot for a 2D function (or a 2D slice) using the
     matplotlib's pcolormesh function.
     A simple figure and a single axis can also be created.
@@ -168,7 +168,7 @@ def display(self, var, check: bool = True, **kwargs):
        >>> I = pp.Image()
        >>> I.display(var, cpos = 'right', cmap = 'RdBu_r', cscale = 'symlog', lint = 0.001, vmin = -1, vmax = 1)
 
-    '''
+    """
 
    # Check parameters
     param = {'aspect', 'ax', 'clabel', 'cmap', 'cpad', 'cpos', 'cscale', 'cticks', 'ctickslabels', 'figsize', 'fontsize', 'labelsize', 'lint', 'minorticks', 'proj', 

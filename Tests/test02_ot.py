@@ -1,6 +1,4 @@
 '''
-Orszag Tang test.
-
 Authors:
 
         D. Crocco

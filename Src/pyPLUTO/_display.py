@@ -1,6 +1,6 @@
 from ._libraries import *
 
-def display(self,var,check = 'yes',**kwargs):
+def display(self,var,check = True,**kwargs):
     '''
     Plot for a 2D function (or a 2D slice) using the
     matplotlib's pcolormesh function.
@@ -168,8 +168,12 @@ def display(self,var,check = 'yes',**kwargs):
 
     '''
 
-    # Check for unknown keywords
-    #self.check_par(self.parfig + self.parax + self.pardis, 'display', **kwargs)
+   # Check parameters
+    param = {'aspect', 'ax', 'clabel', 'cmap', 'cpad', 'cpos', 'cscale', 'cticks', 'ctickslabels', 'figsize', 'fontsize', 'labelsize', 'lint', 'minorticks', 'proj', 
+             'shading', 'ticksdir', 'tickssize', 'title', 'titlesize', 'transpose', 'var', 'vmax', 'vmin', 'x1', 'x2', 'xrange', 'xscale', 'xticks', 'xtickslabels',
+             'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+    if check is True:
+        self.check_par(param, 'display', **kwargs)
 
     # Set or create figure and axes
     ax, nax = self.assign_ax(kwargs.pop('ax',None),**kwargs)
@@ -210,7 +214,7 @@ def display(self,var,check = 'yes',**kwargs):
                         linewidth=0,rasterized=True)
     # Place the colorbar (use colorbar function)
     if cpos != None:
-        self.colorbar(ax, **kwargs)
+        self.colorbar(ax, check = False, **kwargs)
 
     # If tight_layout is enabled, is re-inforced
     if self.tight != False:
@@ -218,7 +222,7 @@ def display(self,var,check = 'yes',**kwargs):
 
     return None
 
-def colorbar(self, axs = None, cax = None, **kwargs):
+def colorbar(self, axs = None, cax = None, check = True, **kwargs):
     '''
     method to display a colorbar in a selected position. If the keyword cax is
     enabled the colorbar is locates in a specific axis, otherwise an axis will
@@ -282,6 +286,10 @@ def colorbar(self, axs = None, cax = None, **kwargs):
 
 
     '''
+    # Check parameters
+    param = {'axs', 'cax', 'clabel', 'cpad', 'cpos', 'cticks', 'ctickslabels'}
+    if check is True:
+        self.check_par(param, 'colorbar', **kwargs)
 
     axs  = self.fig.gca() if axs is None else axs
     nax  = self.check_fig(axs)

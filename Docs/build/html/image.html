@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Plotting the data &#8212; pyPLUTO 0.7.3 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=a5145ed4" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ebffa592"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="create_axes function" href="create_axes.html" />
@@ -46,9 +46,16 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyPLUTO.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LaTeX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Image" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<p>The loaded data should be plot in a complete yet efficient way.
-The class <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image</span></code> is a quick tool in order to obtain plots
-for scientific articles.</p>
+<p>The loaded data should be visualized in a complete yet efficient way.
+The class <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image</span></code> is a quick tool in order to obtain simple plots
+suitable for scientific articles.</p>
+<section id="image-initialization">
+<h2>Image initialization<a class="headerlink" href="#image-initialization" title="Permalink to this heading">¶</a></h2>
+<p>For the sake of simplicity, every Image class corresponds to one single figure.
+The reason behind such choice is that an Image including multiple figures would
+not be efficient in order to effectively remember where all the potential
+subplots are located.</p>
+</section>
 <section id="subplots-creation-and-customization">
 <h2>Subplots creation and customization<a class="headerlink" href="#subplots-creation-and-customization" title="Permalink to this heading">¶</a></h2>
 <p>The first step of the plotting procedure is to create a list of axes
@@ -131,6 +138,7 @@ zoom 1D and 2D plots.</p>
 <li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Plotting the data</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pyPLUTO.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#image-initialization">Image initialization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#subplots-creation-and-customization">Subplots creation and customization</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
 <li class="toctree-l3"><a class="reference internal" href="set_axis.html">setaxis function</a></li>
@@ -183,8 +191,8 @@ zoom 1D and 2D plots.</p>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2023, G. Mattia, D. Crocco.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2023, G. Mattia, D. Crocco.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.0.
     </div>
         </div>
         <div class="clearer"></div>

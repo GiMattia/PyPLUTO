@@ -40,12 +40,14 @@ def create_fig(self, fig, check = True, **kwargs):
 def create_axes(self, ncol = 1, nrow = 1, check = True, **kwargs):
     '''
         Creation of a set of axes using add_subplot.
+
         If additional parameters (like the figure limits or the spacing)
         are given, the plots are located using set_position.
         The spacing and the ratio between the plots can be given by hand.
         In case only few custom options are given, the code computes the rest
         (but gives a small warning); in case no custom option is given, the axes
-        are located through the standard methods of matplotlib
+        are located through the standard methods of matplotlib.
+        
         If more axes are created in the figure, the list of all axes is returned,
         otherwise the single axis is returned.
 
@@ -131,8 +133,10 @@ def create_axes(self, ncol = 1, nrow = 1, check = True, **kwargs):
 
         '''
 
+    
     # Check parameters
-    param = {'fontsize','tight'}
+    param = {'bottom', 'figsize', 'fontsize', 'hratio', 'hspace', 'left', 'ncol', 
+             'nrow', 'proj', 'right', 'suptitle', 'tight', 'top', 'wratio', 'wspace'}
     if check is True:
         self.check_par(param, 'create_axes', **kwargs)
 
@@ -349,8 +353,10 @@ def set_axis(self, ax = None, check = True, **kwargs):
     nax = self.check_fig(ax)
 
     # Check for unknown keywords
-    #if check is True:
-    #    self.check_par(self.parax, 'setax', **kwargs)
+    param = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 'ticksdir', 'tickssize', 'title', 'titlepad', 'titlesize', 'xrange', 
+             'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+    if check is True:
+        self.check_par(param, 'set_axis', **kwargs)
 
     # Set fontsize
     self.fontsize = kwargs.get('fontsize',self.fontsize)

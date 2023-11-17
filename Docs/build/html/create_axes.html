@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>create_axes function &#8212; pyPLUTO 0.7.3 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=a5145ed4" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ebffa592"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="setaxis function" href="set_axis.html" />
@@ -41,18 +41,18 @@
             
   <section id="create-axes-function">
 <span id="create-axes"></span><h1>create_axes function<a class="headerlink" href="#create-axes-function" title="Permalink to this heading">¶</a></h1>
-<p>The function create_axes has the following structure:</p>
+<p>The function create_axes generates new axes to locate future computed plots or displays.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPLUTO.Image.create_axes">
 <span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">create_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Image.create_axes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creation of a set of axes using add_subplot.
-If additional parameters (like the figure limits or the spacing)
+<dd><p>Creation of a set of axes using add_subplot.</p>
+<p>If additional parameters (like the figure limits or the spacing)
 are given, the plots are located using set_position.
 The spacing and the ratio between the plots can be given by hand.
 In case only few custom options are given, the code computes the rest
 (but gives a small warning); in case no custom option is given, the axes
-are located through the standard methods of matplotlib
-If more axes are created in the figure, the list of all axes is returned,
+are located through the standard methods of matplotlib.</p>
+<p>If more axes are created in the figure, the list of all axes is returned,
 otherwise the single axis is returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -162,6 +162,7 @@ fill the lacks with [0.1].</p>
 <li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="image.html#pyPLUTO.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#image-initialization">Image initialization</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">create_axes function</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.create_axes"><code class="docutils literal notranslate"><span class="pre">create_axes()</span></code></a></li>
@@ -209,8 +210,8 @@ fill the lacks with [0.1].</p>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2023, G. Mattia, D. Crocco.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2023, G. Mattia, D. Crocco.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.0.
     </div>
         </div>
         <div class="clearer"></div>

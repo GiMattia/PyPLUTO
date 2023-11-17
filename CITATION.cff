@@ -3,7 +3,7 @@ title: my_package
 message: If you use this software, please cite as below.
 date-released: 2022-03-29
 url: 'https://github.com/mpi-astronomy/mpia-python-template'
-version: 0.0.1
+version: 1.0
 type: software
 authors:
   - family-names: Name

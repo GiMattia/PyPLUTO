@@ -1,7 +1,7 @@
-from ._libraries import *
+from .libraries import *
 
-def display(self,var,check = True,**kwargs):
-    '''
+def display(self, var, check: bool = True, **kwargs):
+    """
     Plot for a 2D function (or a 2D slice) using the
     matplotlib's pcolormesh function.
     A simple figure and a single axis can also be created.
@@ -9,8 +9,7 @@ def display(self,var,check = True,**kwargs):
     Returns
     -------
 
-
-    - Nothing is returned.
+    None
 
     Parameters
     ----------
@@ -91,9 +90,12 @@ def display(self,var,check = True,**kwargs):
     - vmax: float, default max(z)
         The maximum value of the colormap. If not defined, the maximum value
         of z will be taken.
+        IMPORTANT! WHEN FIXED THEN THEY STAY EVEN IF A NEW FIGURE IS DEFINED!!!
+        MAYBE PLACE A WARNING ALSO IF THE DATA PLOTTED IS CONSTANT!!
     - vmin: float, default min(z)
         The minimum value of the colormap. If not defined, the minimum value
         of z will be taken.
+        IMPORTANT! WHEN FIXED THEN THEY STAY EVEN IF A NEW FIGURE IS DEFINED!!!
     - x1: 1D/2D array, default 'Default'
         the 'x' array. If not defined, a default array will be generated
         depending on the size of z.
@@ -166,17 +168,17 @@ def display(self,var,check = True,**kwargs):
        >>> I = pp.Image()
        >>> I.display(var, cpos = 'right', cmap = 'RdBu_r', cscale = 'symlog', lint = 0.001, vmin = -1, vmax = 1)
 
-    '''
+    """
 
    # Check parameters
     param = {'aspect', 'ax', 'clabel', 'cmap', 'cpad', 'cpos', 'cscale', 'cticks', 'ctickslabels', 'figsize', 'fontsize', 'labelsize', 'lint', 'minorticks', 'proj', 
              'shading', 'ticksdir', 'tickssize', 'title', 'titlesize', 'transpose', 'var', 'vmax', 'vmin', 'x1', 'x2', 'xrange', 'xscale', 'xticks', 'xtickslabels',
              'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
-        self.check_par(param, 'display', **kwargs)
+        self._check_par(param, 'display', **kwargs)
 
     # Set or create figure and axes
-    ax, nax = self.assign_ax(kwargs.pop('ax',None),**kwargs)
+    ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
 
     # Keyword x1 and x2
     var = np.asarray(var)
@@ -192,12 +194,12 @@ def display(self,var,check = True,**kwargs):
         kwargs['yrange'] = [y.min(),y.max()]
 
     # Set ax parameters
-    self.set_parax(ax, **kwargs)
-    self.hide_text(nax, ax.texts)
+    self._set_parax(ax, **kwargs)
+    self._hide_text(nax, ax.texts)
 
     # Keywords vmin and vmax
-    vmin = kwargs.get('vmin',var.min())
-    vmax = kwargs.get('vmax',var.max())
+    vmin = kwargs.get('vmin',np.nanmin(var))
+    vmax = kwargs.get('vmax',np.nanmax(var))
 
     # Keyword for colorbar and colorscale
     cpos     = kwargs.get('cpos',None)
@@ -206,7 +208,7 @@ def display(self,var,check = True,**kwargs):
     self.vlims[nax] = [vmin,vmax,lint]
 
     # Set the colorbar scale (put in function)
-    norm = self.set_cscale(cscale, vmin, vmax, lint)
+    norm = self._set_cscale(cscale, vmin, vmax, lint)
 
     # Display the image
     pcm = ax.pcolormesh(x,y,var.T, shading=kwargs.get('shading','auto'),
@@ -222,7 +224,7 @@ def display(self,var,check = True,**kwargs):
 
     return None
 
-def colorbar(self, axs = None, cax = None, check = True, **kwargs):
+def colorbar(self, axs = None, cax = None, check = True, scatter = None, **kwargs):
     '''
     method to display a colorbar in a selected position. If the keyword cax is
     enabled the colorbar is locates in a specific axis, otherwise an axis will
@@ -253,6 +255,9 @@ def colorbar(self, axs = None, cax = None, check = True, **kwargs):
             colorbar.
         - ctickslabels: str, default None
             If enabled, sets manually ticks labels on the colorbar.
+        - scatter: scatter object, default None
+            In case the colorbar refers to the particles, the scatter object 
+            is loaded in order to use the same colormap.
 
     Examples
     --------
@@ -289,11 +294,11 @@ def colorbar(self, axs = None, cax = None, check = True, **kwargs):
     # Check parameters
     param = {'axs', 'cax', 'clabel', 'cpad', 'cpos', 'cticks', 'ctickslabels'}
     if check is True:
-        self.check_par(param, 'colorbar', **kwargs)
+        self._check_par(param, 'colorbar', **kwargs)
 
     axs  = self.fig.gca() if axs is None else axs
-    nax  = self.check_fig(axs)
-    pcm  = axs.collections[0]
+    nax  = self._check_fig(axs)
+    pcm  = axs.collections[0] if scatter is None else scatter
     cpad = kwargs.get('cpad',0.07)
     cpos = kwargs.get('cpos','right')
     ccor = 'vertical' if cpos in ['left','right'] else 'horizontal'
@@ -302,7 +307,7 @@ def colorbar(self, axs = None, cax = None, check = True, **kwargs):
         divider = make_axes_locatable(axs)
         cax = divider.append_axes(cpos, size="7%", pad=cpad) # 0.07 right
     else:
-        naxc = self.check_fig(cax)
+        naxc = self._check_fig(cax)
 
         if self.ntext[naxc] == None:
             for txt in cax.texts:

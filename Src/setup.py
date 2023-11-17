@@ -3,9 +3,9 @@
 from setuptools import setup, find_packages
 
 setup(name='pyPLUTO',
-      version='0.7',
+      version='0.8.2',
       description="Python Visualisation module for PLUTO",
-      author="Giancarlo Mattia",
+      author="G. Mattia, D. Crocco",
       author_email="mattia@fi.infn.it",
       url="",
       packages=find_packages(),
@@ -14,6 +14,6 @@ setup(name='pyPLUTO',
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     	],
-      python_requires='>=3.6',
+      python_requires='>=3.9',
      )
 

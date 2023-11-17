@@ -1,4 +1,4 @@
-from ._libraries import *
+from .libraries import *
 def makelist(el):
     return el if isinstance(el,list) else [el]
 

@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>display function &#8212; pyPLUTO 0.7.3 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=a5145ed4" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ebffa592"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="zoom function" href="zoom.html" />
@@ -44,7 +44,11 @@
 <p>The function display has the following structure:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPLUTO.Image.display">
-<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yes'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Image.display" title="Permalink to this definition">¶</a></dt>
+<<<<<<< HEAD
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Image.display" title="Permalink to this definition">¶</a></dt>
+=======
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Image.display" title="Permalink to this definition">¶</a></dt>
+>>>>>>> master
 <dd><p>Plot for a 2D function (or a 2D slice) using the
 matplotlib’s pcolormesh function.
 A simple figure and a single axis can also be created.</p>
@@ -126,10 +130,13 @@ of the keyword ‘fontsize’.</p>
 <dt><strong>- var (not optional): 2D array</strong></dt><dd><p>The array to be plotted.</p>
 </dd>
 <dt><strong>- vmax: float, default max(z)</strong></dt><dd><p>The maximum value of the colormap. If not defined, the maximum value
-of z will be taken.</p>
+of z will be taken.
+IMPORTANT! WHEN FIXED THEN THEY STAY EVEN IF A NEW FIGURE IS DEFINED!!!
+MAYBE PLACE A WARNING ALSO IF THE DATA PLOTTED IS CONSTANT!!</p>
 </dd>
 <dt><strong>- vmin: float, default min(z)</strong></dt><dd><p>The minimum value of the colormap. If not defined, the minimum value
-of z will be taken.</p>
+of z will be taken.
+IMPORTANT! WHEN FIXED THEN THEY STAY EVEN IF A NEW FIGURE IS DEFINED!!!</p>
 </dd>
 <dt><strong>- x1: 1D/2D array, default ‘Default’</strong></dt><dd><p>the ‘x’ array. If not defined, a default array will be generated
 depending on the size of z.</p>
@@ -178,12 +185,9 @@ always correspond to fixed ticks.</p>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><dl class="simple">
-<dt>Nothing is returned.</dt><dd></dd>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
 </dl>
-</li>
-</ul>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -236,6 +240,7 @@ always correspond to fixed ticks.</p>
 <li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="image.html#pyPLUTO.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#image-initialization">Image initialization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="plot.html">plot function</a></li>
@@ -283,8 +288,8 @@ always correspond to fixed ticks.</p>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2023, G. Mattia, D. Crocco.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2023, G. Mattia, D. Crocco.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.0.
     </div>
         </div>
         <div class="clearer"></div>

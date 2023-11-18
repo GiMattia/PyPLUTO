@@ -1,6 +1,4 @@
 '''
-Rayleigh Taylor instability test.
-
 Authors:
 
         D. Crocco
@@ -30,8 +28,10 @@ ytcl = ['Default', None, None]
 # Loop over the different outputs
 for i in [0,1,2]:
     # Plotting the data
-    I.display(D.rho[i], x1 = D.x1r, x2 = D.x2r, ax = ax[i], title = r'$\tau = $' + str(round(D.simtime[i],i%2)),
-        cmap = 'inferno', xtitle = 'x', ytitle = ylab[i], aspect = 'equal', ytickslabels = ytcl[i], xticks = [-0.4,-0.2,0,0.2,0.4])
+    I.display(D.rho[i], x1 = D.x1r, x2 = D.x2r, ax = ax[i], 
+              title = r'$\tau = $' + str(round(D.timelist[i],i%2)), cmap = 'inferno', xtitle = 'x',
+              ytitle = ylab[i], aspect = 'equal', ytickslabels = ytcl[i], 
+              xticks = [-0.4,-0.2,0,0.2,0.4])
 
 # Placing the colorbar
 I.colorbar(axs = ax[0], cax = ax[-1])

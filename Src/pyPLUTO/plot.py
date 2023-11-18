@@ -1,7 +1,7 @@
 from .libraries import *
 
 def plot(self, x, y = [None], check = True, **kwargs):
-    '''
+    """
     Plot for a 1D function (or a 1D slice).
     A simple figure and a single axis can also be created.
 
@@ -132,7 +132,7 @@ def plot(self, x, y = [None], check = True, **kwargs):
     Examples
     --------
 
-         - Example #1: create a simple plot of y as function of x
+        - Example #1: create a simple plot of y as function of x
          
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
@@ -157,7 +157,7 @@ def plot(self, x, y = [None], check = True, **kwargs):
             >>> I.plot(x, y, label = 'y', legpos = 'lower right', xticks = [0.2,0.4,0.6,0.8])
         
 
-    '''
+    """
 
     # Convert x and y in numpy arrays
     if y[0] is None:

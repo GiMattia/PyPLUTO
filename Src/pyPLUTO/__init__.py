@@ -71,7 +71,7 @@ class Load:
         # Check if the user wants to load the data
         if nout is None:
             return
-
+        self.nfile_lp = None # File number for the Lagrangian particles
         self._d_vars   = {}   # Dictionary of variables loaded
         self._pathdata = None # Path to the data files to be loaded
         self._d_end = {'big': '>', 'little': '<', 
@@ -152,14 +152,13 @@ class Load:
         return text
     
     from .readdata  import _check_pathformat, _find_format, _findfiles, _load_variables
+    from .readdata    import _varsouts_f, _varsouts_p, _varsouts_lp
     from .readfluid import _read_grid, _read_outfile
     from .h_load    import _check_typeout, _check_typelon 
     from .h_load    import _split_gridfile, _check_nout
     from .h_load    import _inspect_bin, _inspect_vtk, _inspect_h5
     from .h_load    import _compute_offset, _offset_bin, _init_vardict
     from .h_load    import _assign_var
-
-
 
 class LoadPart:
 
@@ -227,6 +226,7 @@ class LoadPart:
         '''
 
     from .readdata  import _check_pathformat, _find_format, _findfiles, _load_variables
+    from .readdata    import _varsouts_f, _varsouts_p, _varsouts_lp
     from .readpart  import _store_bin_particles
     from .h_load    import _check_typeout, _check_typelon 
     from .h_load    import _split_gridfile, _check_nout

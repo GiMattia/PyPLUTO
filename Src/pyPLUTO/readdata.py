@@ -146,18 +146,29 @@ def _findfiles(self, nout):
     class_name = self.__class__.__name__
 
     # Split the matching fils and remove double keys
-    vars, outs = set(), set()
-    for elem in self._matching_files:
-        try:
-            vars.add(elem.split('/')[-1].split('.')[0])
-            outs.add(int(elem.split('.')[1]))
-        except:
-            raise NotImplementedError('Lagrangian particles not implemented yet')
-            vars.add(elem.split('/')[-1].split('.')[0])
-            outs.add(int(elem.split('.')[1]))           
+    self.set_vars, self.set_outs = set(), set()
 
+    # Create a dictionary of functions to be called
+    # (0 = fluid, 1 = particles, 2 = lagrangian particles)
+    varsouts = {0: self._varsouts_f, 1: self._varsouts_p, 2: self._varsouts_lp}
+    
+    # Set the condition for the dictionary
+    condition = (class_name == 'LoadPart') +  (self.nfile_lp is not None)
+    print(condition)
+
+    for elem in self._matching_files:
+        varsouts[condition](elem)
+        #    print(elem)
+        #    vars.add(elem.split('/')[-1].split('.')[0])
+        #    outs.add(int(elem.split('.')[1]))
+        #else:
+        #    vars.add(elem.split('/')[-1].split('.')[0].split('_')[0])
+            #print(elem.split('/')[-1].split('.')[0].split('_')[0])
+            #raise NotImplementedError('Lagrangian particles not implemented yet')
+            #outs.add(int(elem.split('.')[1]))           
+    print(self.set_vars,self.set_outs)
     # Sort the outputs in an array and check the number of outputs
-    self.outlist = np.array(sorted(outs))
+    self.outlist = np.array(sorted(self.set_outs))
     self._check_nout(nout)
     self._lennout = len(self.nout)
     self.ntime = np.empty(self._lennout)
@@ -171,13 +182,13 @@ def _findfiles(self, nout):
 
     # Check if we are loading particle files
     if class_name == 'LoadPart':
-        if 'particles' not in vars:
+        if 'particles' not in self.set_vars:
             raise FileNotFoundError(f'file particles.*.{self.format} \
                                     not found!')
         self._d_info['typefile'][:] = 'single_file'  
         self._d_info['varslist'] = [[] for _ in range(self._lennout)]  
-        self._d_info['varskeys'] = [[] for _ in range(self._lennout)] 
-
+        self._d_info['varskeys'] = [[] for _ in range(self._lennout)]
+        
         # Check if we are loading a single file (to be fixed)
         if self._lennout != 1:
             raise NotImplementedError('multiple loading not implemented yet')
@@ -185,19 +196,58 @@ def _findfiles(self, nout):
     # Check if fluid files are single or multiple. If multiple 
     # find the variables
     else:
-        if 'data' not in vars or self._multiple is True:
+        if 'data' not in self.set_vars or self._multiple is True:
             self._d_info['typefile'][:] = 'multiple_files'
-            self._d_info['varslist'] = np.empty((self._lennout,len(vars)), 
+            self._d_info['varslist'] = np.empty((self._lennout,len(self.set_vars)), 
                                               dtype = 'U20')
-            self._d_info['varslist'][:] =  list(vars)
+            self._d_info['varslist'][:] =  list(self.set_vars)
         else:
             self._d_info['typefile'][:] = 'single_file'  
             self._d_info['varslist'] = [[] for _ in range(self._lennout)]     
            
     # Compute the endpath
-    format_string = f'.%04d.{self.format}'
+    if self.nfile_lp is None:
+        format_string = f'.%04d.{self.format}'
+    else:
+        format_string = f'.%04d_ch{self.nfile_lp:02d}.{self.format}'
     self._d_info['endpath'] = np.char.mod(format_string, self.nout)
 
+    return None
+
+
+
+def _varsouts_f(self, elem):
+    vars = elem.split('/')[-1].split('.')[0]
+    outs = int(elem.split('.')[1])
+    if vars != 'particles':
+        self.set_vars.add(vars)
+        self.set_outs.add(outs)
+    return None
+
+
+
+def _varsouts_p(self, elem):
+    vars = elem.split('/')[-1].split('.')[0]
+    outs = int(elem.split('.')[1])
+    if vars == 'particles':
+        self.set_vars.add(vars)
+        self.set_outs.add(outs)
+    return None
+
+
+
+def _varsouts_lp(self, elem):
+    vars   = elem.split('/')[-1].split('.')[0].split('_')[0]
+    outs   = elem.split('.')[1]
+    
+    if vars == 'particles':
+        outn = int(outs.split('_')[0])
+        outc = int(outs.split('_')[1][2:])
+        if outc == self.nfile_lp:
+            self.set_vars.add(vars)
+            self.set_outs.add(outn)
+        else:
+            raise ValueError(f"Invalid number {self.nfile_lp}.")
     return None
 
 

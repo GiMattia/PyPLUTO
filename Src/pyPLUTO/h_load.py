@@ -528,6 +528,7 @@ def _init_vardict(self, var: str) -> None:
         # Compute the shape of the variable
         sh_type = self._shape[var][::-1] if isinstance(self._shape[var], tuple) else (self._shape[var],)
         if self.__class__.__name__ == 'LoadPart':
+            # IMPORTANT! TO BE CHANGED WHEN MULTIPLE LOAD IS IMPLEMENTED
             varsh = self._dictdim[var]
             shape = (varsh,) + sh_type if varsh != 1 else sh_type
         else:

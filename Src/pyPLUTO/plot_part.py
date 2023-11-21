@@ -32,9 +32,10 @@ def scatter(self, x, y, **kwargs):
     self._set_xrange(ax, nax, [np.nanmin(x),np.nanmax(x)], self.setax[nax])
     self._set_yrange(ax, nax, [np.nanmin(y),np.nanmax(y)], self.setay[nax], x = x, y = y)
 
-    # Keywords vmin and vmax FIX IT
-    vmin = kwargs.get('vmin',0)
-    vmax = kwargs.get('vmax',0)
+    # Keywords vmin and vmax
+    c    = kwargs.get('c',None)
+    vmin = kwargs.get('vmin',c.min()) if c is not None else kwargs.get('vmin',0.0)
+    vmax = kwargs.get('vmax',c.max()) if c is not None else kwargs.get('vmax',0.0)
 
     # Keyword for colorbar and colorscale
     cpos     = kwargs.get('cpos',None)

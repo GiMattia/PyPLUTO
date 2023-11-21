@@ -1,9 +1,71 @@
 from .libraries import *
 
 def fieldlines(self,var1, var2, x0 = None, y0 = None, **kwargs):
-    '''
-    Fieldlines function (WIP)
-    '''
+    """
+    Solve the field line equation for a given vector field (var1, var2)
+    and initial conditions (x0, y0). The field line equation is given by:
+    dx/ds = var1, dy/ds = var2, where s is the arc length.
+    The field line is integrated using a Runge-Kutta method of order 2.
+    The integration is performed in both directions from the initial
+    conditions (x0, y0) until the field line closes on itself or until
+    the maximum number of steps is reached.
+
+    Parameters
+    ----------
+
+        - var1 : array_like
+            First component of the vector field.
+
+        - var2 : array_like
+            Second component of the vector field.
+
+        - x0 : array_like
+            Initial x coordinate of the field line.
+        
+        - y0 : array_like
+            Initial y coordinate of the field line.
+
+        - maxsteps : int, optional
+            Maximum number of steps to integrate the field line.
+
+        - maxfail : int, optional
+            Maximum number of steps to integrate the field line.
+
+        - tol : float, optional
+            Tolerance for the field line to close on itself.
+
+        - cl_tol : float, optional
+            Tolerance for the field line to close on itself.
+
+        - order : str, optional
+            Order of the Runge-Kutta method to use. Available options are:
+            'RK2', 'RK4', 'RK23', 'RK32', 'RK45', 'RK54'.
+
+        - step : float, optional
+            Initial step size for the Runge-Kutta method.
+        
+        - maxstep : float, optional
+            Maximum step size for the Runge-Kutta method.
+
+        - minstep : float, optional
+            Minimum step size for the Runge-Kutta method.
+
+    Returns
+    -------
+
+        - lines : list
+            List of field lines. Each field line is a list of two arrays
+            containing the x and y coordinates of the field line.
+
+    Examples
+    --------
+
+    >>> import pyPLUTO as pp
+    >>> import numpy as np
+    >>> import matplotlib.pyplot as plt
+    ...
+
+    """
 
     lines = []
 

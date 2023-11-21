@@ -29,6 +29,7 @@ def _store_bin_particles(self, i: int) -> None:
 
         # Compute the size of the variable and store the data
         szvar = self._vardim[j]
+        print(np.shape(self._d_vars[var]), szvar)
         if self._lennout != 1:
             # To be fixed for multiple loadings
             raise NotImplementedError('multiple loading not implemented yet')

@@ -191,8 +191,8 @@ def _inspect_bin(self, i: int, endian: str) -> None:
 
     """
 
-    # Initialize the offset and shape arrays
-    self._offset, self._shape = ({},{})
+    # Initialize the offset, shape arrays and dimensions dictionary
+    self._offset, self._shape, self._dictdim = ({},{},{})
 
     # Open the file and read the lines
     f = open(self._filepath, 'rb')
@@ -204,11 +204,11 @@ def _inspect_bin(self, i: int, endian: str) -> None:
         except:
             break
 
-        # FInd the dimensions of the domain
+        # Find the dimensions of the domain
         if spl1 == b'dimensions':
             self.dim = int(spl2)
 
-        # FInd the endianess of the file and compute the binary format
+        # Find the endianess of the file and compute the binary format
         elif spl1 == b'endianity':
             self._d_info['endianess'][i] = '>' if endian == b'big' else '<'
             self._d_info['endianess'][i] = self._d_end[endian] if endian is not None \
@@ -221,6 +221,7 @@ def _inspect_bin(self, i: int, endian: str) -> None:
         elif spl1 == b'nparticles':
             self.nshp = int(l.split()[2])
             self.npart = self.nshp
+
         # To be fixed (multiple loading)
         elif spl1 == b'idCounter':
             self.maxpart = np.max([int(l.split()[2]), self.maxpart])
@@ -243,10 +244,10 @@ def _inspect_bin(self, i: int, endian: str) -> None:
             #self._shape['tot']  = (self.maxpart,np.sum(self.vardim))
 
     f.close()
-
     # Create the key variables in the vars dictionary
     for ind, j in enumerate(self._d_info['varskeys'][i]):
         self._shape[j] = self.nshp 
+        self._dictdim [j] = self._vardim[ind]  
         self._init_vardict(j)
 
     return None
@@ -526,7 +527,11 @@ def _init_vardict(self, var: str) -> None:
 
         # Compute the shape of the variable
         sh_type = self._shape[var][::-1] if isinstance(self._shape[var], tuple) else (self._shape[var],)
-        shape = (self._lennout,) + sh_type if self._lennout != 1 else sh_type
+        if self.__class__.__name__ == 'LoadPart':
+            varsh = self._dictdim[var]
+            shape = (varsh,) + sh_type if varsh != 1 else sh_type
+        else:
+            shape = (self._lennout,) + sh_type if self._lennout != 1 else sh_type
 
         # Create the dictionary key and fill the values with nan
         with tempfile.NamedTemporaryFile() as temp_file:           

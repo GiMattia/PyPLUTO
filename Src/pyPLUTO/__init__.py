@@ -115,6 +115,8 @@ class Load:
         return      
 
     def __str__(self):
+
+        txtshp = self.nshp if self.dim == 1 else self.nshp[::-1]
         text3 = f"""        - Cartesian projection              {['x1c','x2c','x1rc','x2rc']}\n"""
         text3 = text3 if self.geom != 'CARTESIAN' else ""
 
@@ -130,7 +132,7 @@ class Load:
         - Dimensions    (dim)      {self.dim}
         - Geometry      (geom)     {self.geom}
         - Grid size     (gridsize) {self.gridsize}
-        - Grid shape    (nshp)     {self.nshp[::-1]}
+        - Grid shape    (nshp)     {txtshp}
         - Output loaded (nout)     {self.nout}
         - Time loaded   (ntime)    {self.ntime}
 

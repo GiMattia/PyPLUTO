@@ -154,19 +154,11 @@ def _findfiles(self, nout):
     
     # Set the condition for the dictionary
     condition = (class_name == 'LoadPart') +  (self.nfile_lp is not None)
-    print(condition)
 
+    # Loop over the matching files and call the functions
     for elem in self._matching_files:
-        varsouts[condition](elem)
-        #    print(elem)
-        #    vars.add(elem.split('/')[-1].split('.')[0])
-        #    outs.add(int(elem.split('.')[1]))
-        #else:
-        #    vars.add(elem.split('/')[-1].split('.')[0].split('_')[0])
-            #print(elem.split('/')[-1].split('.')[0].split('_')[0])
-            #raise NotImplementedError('Lagrangian particles not implemented yet')
-            #outs.add(int(elem.split('.')[1]))           
-    print(self.set_vars,self.set_outs)
+        varsouts[condition](elem)       
+
     # Sort the outputs in an array and check the number of outputs
     self.outlist = np.array(sorted(self.set_outs))
     self._check_nout(nout)
@@ -217,37 +209,103 @@ def _findfiles(self, nout):
 
 
 def _varsouts_f(self, elem):
+    """
+    From the matching files finds the variables and the outputs
+    for the fluid files (variables are to be intended here as the 
+    first part of the output filename, they are the effective 
+    variables only in case of multiple files).
+
+    Returns
+    -------
+
+        None
+
+    Parameters
+    ----------
+
+        - elem: str
+            the matching file
+
+    """
+
+    # Splits the matching filename
     vars = elem.split('/')[-1].split('.')[0]
     outs = int(elem.split('.')[1])
+
+    # Finds the variables and the outputs
     if vars != 'particles':
         self.set_vars.add(vars)
         self.set_outs.add(outs)
+
     return None
 
 
 
 def _varsouts_p(self, elem):
+    """
+    From the matching files finds the outputs
+    for the particle files (not LP).
+
+    Returns
+    -------
+
+        None
+
+    Parameters
+    ----------
+
+        - elem: str
+            the matching file
+
+    """
+
+    # Splits the matching filename
     vars = elem.split('/')[-1].split('.')[0]
     outs = int(elem.split('.')[1])
+
+    # Finds the outputs
     if vars == 'particles':
         self.set_vars.add(vars)
         self.set_outs.add(outs)
+
     return None
 
 
 
 def _varsouts_lp(self, elem):
+    """
+    From the matching files finds the outputs
+    for the LP files.
+
+    Returns
+    -------
+
+        None
+
+    Parameters
+    ----------
+
+        - elem: str
+            the matching file
+
+    """
+
+    # Splits the matching filename
     vars   = elem.split('/')[-1].split('.')[0].split('_')[0]
     outs   = elem.split('.')[1]
     
+    # Finds the outputs
     if vars == 'particles':
         outn = int(outs.split('_')[0])
         outc = int(outs.split('_')[1][2:])
+
+        # Checks the _ch_ number
         if outc == self.nfile_lp:
             self.set_vars.add(vars)
             self.set_outs.add(outn)
         else:
             raise ValueError(f"Invalid number {self.nfile_lp}.")
+        
     return None
 
 

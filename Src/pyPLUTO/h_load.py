@@ -162,7 +162,8 @@ def _check_nout(self, nout) -> None:
     # length
     self.nout  = np.sort(np.unique(np.atleast_1d(Dnout)))
     if np.any(~np.isin(self.nout, self.outlist)):
-        raise ValueError(f"Error: Wrong output file(s) {self.nout}.")
+        raise ValueError(f"Error: Wrong output file(s) {self.nout} \
+                         in path {self.pathdir}.")
     
     return None
 

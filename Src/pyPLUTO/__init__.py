@@ -330,4 +330,4 @@ class Tools:
     from .nabla     import gradient
     from .lines     import fieldlines, field_interp, adv_field_line, check_closed_line
 
-from .pytools   import savefig, show
+from .pytools   import savefig, show, ring

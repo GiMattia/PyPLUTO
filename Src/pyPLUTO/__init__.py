@@ -8,18 +8,22 @@ class Load:
     Methods available: blablablax2
     """
 
-    def __init__(self, nout = 'last', path: str  = './', 
-                       datatype: str = None, vars =  True,  
-                       text: bool = True, alone: bool = False,
-                       multiple: bool = False, endian: str = None):
+    def __init__(self, nout: int | str | List[int|str] | None = 'last', 
+                       path: str  = './', 
+                       datatype: str | None = None, 
+                       vars: str | List[str] | bool | None =  True,  
+                       text: bool = True, 
+                       alone: bool = False,
+                       multiple: bool = False, 
+                       endian: str | None = None) -> None:
         """
         Initialization of the Load class.
-        The initialization corresponds to the loading, if wanted, of one or more
-        datafiles for the fluid.
-        The data are loaded in a numpy multidimensional array through memory mapping. Such approach
-        does not load the data until needed.
-        Basic operations (i.e. no numpy) are possible, as well as slicing the arrays, without
-        fully loading the data.
+        The initialization corresponds to the loading, if wanted, of one or 
+        more datafiles for the fluid.
+        The data are loaded in a memory mapped numpy multidimensional array. 
+        Such approach does not load the full data until needed.
+        Basic operations (i.e. no numpy) are possible, as well as slicing the 
+        arrays, without fully loading the data.
 
         Returns
         -------
@@ -29,7 +33,7 @@ class Load:
         Parameters
         ----------
 
-            - nout: int/str/list, default 'last'
+            - nout: int | str | list, default 'last'
                 The files to be loaded. Possible choices are int 
                 values (which correspond to the number of the output
                 file), strings ('last', which corresponds to the last
@@ -43,41 +47,52 @@ class Load:
                 The path of the folder where the files should be 
                 loaded.
             - datatype: str, default None
-                The format of the data file. If not specified, the 
-                code will look for the format from the list ['dbl','vtk','flt'] in the following order.
+                The format of the data file. If not specified, the code will 
+                look for the format from the list of possible formats.
                 HDF5 and tab formats have not been implemented yet.
             - vars: str/list/bool, default True
-                The variables to be loaded. The default value, True, corresponds to all the
-                variables.
+                The variables to be loaded. The default value, True, 
+                corresponds to all the variables.
             - text: bool, default True
-                If a quick text (explaining the path and few information) should be
-                shown. In case the user needs a more detailed information of the structure
-                and attributes loaded from the class, the __str__ method provides
-                a easy display of all the important information.
+                If a quick text (explaining the path and few information) 
+                should be shown. In case the user needs a more detailed 
+                information of the structure and attributes loaded from the 
+                class, the __str__ method provides a easy display of all the 
+                important information.
             - alone: bool, default False
-                If the files are standalone. If False, the code will look for the
-                grid file in the folder. If True, the code will look for the grid
-                information within the data files. Should be used only for non-binary files.
+                If the files are standalone. If False, the code will look for 
+                the grid file in the folder. If True, the code will look for 
+                the grid information within the data files. Should be used only
+                for non-binary files.
             - multiple: bool, default False
                 If the files are multiple. If False, the code will look for the
-                single files, otherwise for the multiple files each corresponding to the
-                loaded variables. Should be used only if both single files and multiple files are
-                present in the same format for the same datatype.
+                single files, otherwise for the multiple files each 
+                corresponding to the loaded variables. Should be used only if 
+                both single files and multiple files are present in the same 
+                format for the same datatype.
             - endian: str, default None
-                Endianess of the datafiles. Should be used only if specificachitectures
-                are used, since the code computes it by itself. Valid values are 'big' and 'little'.
+                Endianess of the datafiles. Should be used only if specific 
+                architectures are used, since the code computes it by itself. 
+                Valid values are 'big' and 'little' (or '<' and '>').
         """
 
         # Check if the user wants to load the data
         if nout is None:
             return
-        self.nfile_lp = None # File number for the Lagrangian particles
+        
+        # Initialization of key variables
+        self.nfile_lp  = None # File number for the dbl methods
         self._d_vars   = {}   # Dictionary of variables loaded
         self._pathdata = None # Path to the data files to be loaded
+
+        # Check the input endianess
         self._d_end = {'big': '>', 'little': '<', 
                       '>': '>', '<': '<', None: None} # Endianess dictionary
         if endian not in self._d_end.keys():
-            raise ValueError(f"Invalid endianess. Valid values are {self._d_end.keys()}")
+            raise ValueError(f"Invalid endianess. \
+                             Valid values are {self._d_end.keys()}")
+        
+        # Check the input multiple
         if isinstance (multiple, bool) is False:
             raise TypeError("Invalid data type. 'multiple' must be a boolean.")
         else:
@@ -109,15 +124,15 @@ class Load:
 
         # Print loaded folder and output
         if text is not False: 
-            _nout_output = self.nout[0] if len(self.nout) == 1 else list(self.nout)
-            print(f"Loading folder {path},     output {_nout_output}")
+            _nout_out = self.nout[0] if len(self.nout) == 1 else list(self.nout)
+            print(f"Loading folder {path},     output {_nout_out}")
 
         return      
 
     def __str__(self):
 
         txtshp = self.nshp if self.dim == 1 else self.nshp[::-1]
-        text3 = f"""        - Cartesian projection              {['x1c','x2c','x1rc','x2rc']}\n"""
+        text3 = f"""        - Projections {['x1c','x2c','x1rc','x2rc']}\n"""
         text3 = text3 if self.geom != 'CARTESIAN' else ""
 
         text = f"""
@@ -153,8 +168,8 @@ class Load:
         """
         return text
     
-    from .readdata  import _check_pathformat, _find_format, _findfiles, _load_variables
-    from .readdata    import _varsouts_f, _varsouts_p, _varsouts_lp
+    from .readdata  import _check_pathformat, _find_format, _load_variables
+    from .readdata  import _findfiles, _varsouts_f, _varsouts_p, _varsouts_lp
     from .readfluid import _read_grid, _read_outfile
     from .h_load    import _check_typeout, _check_typelon 
     from .h_load    import _split_gridfile, _check_nout
@@ -164,10 +179,15 @@ class Load:
 
 class LoadPart:
 
-    def __init__(self, nout = 'last', path: str  = './' , 
-                       datatype: str = None, vars =  True,  
-                       text: bool = True, alone: bool = True,
-                       multiple: bool = False, endian: str = None, nfile_lp: int = None):
+    def __init__(self, nout = 'last', 
+                       path: str  = './' , 
+                       datatype: str = None, 
+                       vars =  True,  
+                       text: bool = True, 
+                       alone: bool = True,
+                       multiple: bool = False,      # FIX and remove from LoadPart since it is not used
+                       endian: str = None, 
+                       nfile_lp: int = None):
         # Check if the user wants to load the data
         if nout is None:
             return
@@ -228,7 +248,7 @@ class LoadPart:
         '''
 
     from .readdata  import _check_pathformat, _find_format, _findfiles, _load_variables
-    from .readdata    import _varsouts_f, _varsouts_p, _varsouts_lp
+    from .readdata  import _varsouts_f, _varsouts_p, _varsouts_lp
     from .readpart  import _store_bin_particles
     from .h_load    import _check_typeout, _check_typelon 
     from .h_load    import _split_gridfile, _check_nout
@@ -240,7 +260,10 @@ class LoadPart:
 
 class Image:
 
-    def __init__(self, LaTeX: bool = True, text: bool = False, fig = None, **kwargs):
+    def __init__(self, LaTeX: bool | str = True, 
+                       text: bool = False, 
+                       fig: plt.figure = None, 
+                       **kwargs):
         """
         
         """
@@ -328,6 +351,7 @@ class Tools:
 
     from .datatools import slices, mirror
     from .nabla     import gradient
-    from .lines     import fieldlines, field_interp, adv_field_line, check_closed_line
+    from .lines     import fieldlines, field_interp, adv_field_line, 
+    from .lines     import check_closed_line
 
 from .pytools   import savefig, show, ring

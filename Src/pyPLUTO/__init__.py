@@ -351,7 +351,7 @@ class Tools:
 
     from .datatools import slices, mirror
     from .nabla     import gradient
-    from .lines     import fieldlines, field_interp, adv_field_line, 
+    from .lines     import fieldlines, field_interp, adv_field_line
     from .lines     import check_closed_line
 
 from .pytools   import savefig, show, ring

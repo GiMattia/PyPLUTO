@@ -34,8 +34,8 @@ def scatter(self, x, y, **kwargs):
 
     # Keywords vmin and vmax
     c    = kwargs.get('c',None)
-    vmin = kwargs.get('vmin',c.min()) if c is not None else kwargs.get('vmin',0.0)
-    vmax = kwargs.get('vmax',c.max()) if c is not None else kwargs.get('vmax',0.0)
+    vmin = kwargs.get('vmin',0.0) if c is None or isinstance (c, str) else kwargs.get('vmin',c.min())
+    vmax = kwargs.get('vmax',0.0) if c is None or isinstance (c, str) else kwargs.get('vmax',c.min())
 
     # Keyword for colorbar and colorscale
     cpos     = kwargs.get('cpos',None)
@@ -48,7 +48,10 @@ def scatter(self, x, y, **kwargs):
 
     # Start scatter plot procedure
     pcm = ax.scatter(x, y, cmap = kwargs.get('cmap',None), norm = norm,
-                     c = kwargs.get('c',None), s = kwargs.get('s',3))
+                     c = kwargs.get('c',None), s = kwargs.get('s',3),
+                     edgecolors = kwargs.get('edgecolors','none'),
+                     alpha = kwargs.get('alpha',1.0), 
+                     marker = kwargs.get('marker','o'))
 
     # Creation of the legend
     self.legpos[nax] = kwargs.get('legpos', self.legpos[nax])

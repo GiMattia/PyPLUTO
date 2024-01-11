@@ -1,6 +1,7 @@
 from .libraries import *
+from .__init__ import LoadPart
 
-def _store_bin_particles(self, i: int) -> None:
+def _store_bin_particles(self: LoadPart, i: int) -> None:
     """
     Routine to store the particles data. The routine loops over the
     variables and stores the data in the dictionary from the 'tot' key.
@@ -21,7 +22,7 @@ def _store_bin_particles(self, i: int) -> None:
 
     # Mask the array (to be fixed for multiple loadings)
     #masked_array = np.ma.masked_array(self._d_vars['tot'][0].astype('int'), 
-    #                                                 np.isnan(self._d_vars['tot'][0]))
+    #                                          np.isnan(self._d_vars['tot'][0]))
 
     # Start with column 0 (id) and loop over the variable names
     ncol = 0
@@ -29,7 +30,6 @@ def _store_bin_particles(self, i: int) -> None:
 
         # Compute the size of the variable and store the data
         szvar = self._vardim[j]
-        print(np.shape(self._d_vars[var]), szvar)
         if self._lennout != 1:
             # To be fixed for multiple loadings
             raise NotImplementedError('multiple loading not implemented yet')

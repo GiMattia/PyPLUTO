@@ -24,7 +24,9 @@ from mpl_toolkits.axes_grid1               import make_axes_locatable
 from matplotlib.widgets                    import Slider
 from matplotlib                            import rc
 from pathlib                               import Path
-from typing                                import List, Dict, Set, Tuple, NoReturn
+from matplotlib.figure                     import Figure
+from matplotlib.figure                     import SubFigure
+from typing                                import Callable, Mapping, Any, List, Dict, Set, Tuple, NoReturn
 from itertools                             import islice
 
 #from mpl_toolkits.axes_grid1.inset_locator import InsetPosition
@@ -32,15 +34,5 @@ from itertools                             import islice
 #from matplotlib                            import gridspec
 
 warnings.simplefilter('always', DeprecationWarning)
-
-"""
-if sys.version_info >= (3, 10):
-    lintstr = str | List | int
-    listr   = str | List
-else:
-    from typing import Union
-    lintstr = Union[str, List[str], List[Union[str, int]]]
-    listr   = Union[str, List[str]]
-"""
     
 from .h_pypluto import makelist

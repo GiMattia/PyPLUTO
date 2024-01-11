@@ -83,8 +83,8 @@ def display(self, var, check: bool = True, **kwargs):
         Sets the title fontsize. The default value corresponds to the value
         of the keyword 'fontsize'.
     - transpose: True/False, default False
-        Transposes the variable matrix. Use is not recommended if not really necessary
-        (e.g. in case of highly customized variables and plots)
+        Transposes the variable matrix. Use is not recommended if not really 
+        necessary (e.g. in case of highly customized variables and plots)
     - var (not optional): 2D array
         The array to be plotted.
     - vmax: float, default max(z)

@@ -1,6 +1,7 @@
 from .libraries import *
+from .__init__ import Load
 
-def _read_grid(self):
+def _read_grid(self: Load) -> None:
     """
     The file grid.out is read and all the grid information are stored
     in the Load class.
@@ -20,13 +21,16 @@ def _read_grid(self):
         None
     """
 
+    # Import the methods needed from other files
+    from .h_load import _split_gridfile
+
     # Initialize relevant lists
     nmax, xL, xR = [], [], []
 
     # Open and read the gridfile
     with open(self._pathgrid, 'r') as gfp:
         for i in gfp.readlines(): 
-            self._split_gridfile(i, xL, xR, nmax)
+            _split_gridfile(self, i, xL, xR, nmax)
 
     # Compute nx1, nx2, nx3
     self.nx1, self.nx2, self.nx3 = nmax
@@ -107,7 +111,7 @@ def _read_grid(self):
 
     return None
 
-def _read_outfile(self, nout, endian) -> None:
+def _read_outfile(self: Load, nout, endian) -> None:
     """
     Reads the datatype.out file and stores the relevant information
     within the class. Such information are the time array, the output
@@ -130,8 +134,11 @@ def _read_outfile(self, nout, endian) -> None:
             opened) and -1 (same as 'last')
     """
 
+    # Import the methods needed from other files
+    from .h_load import _check_nout
+
     # Open and read the 'filetype'.out file 
-    vfp  = pd.read_csv(self._pathdata, delim_whitespace = True, 
+    vfp = pd.read_csv(str(self._pathdata), delim_whitespace = True, 
                                   header = None)
     
     # Store the output and the time full list
@@ -139,7 +146,7 @@ def _read_outfile(self, nout, endian) -> None:
     self.timelist = np.array(vfp.iloc[:,1])
 
     # Check the output lines
-    self._check_nout(nout)
+    _check_nout(self, nout)
     self.ntime = self.timelist[self.nout]
     self._lennout = len(self.nout)
 

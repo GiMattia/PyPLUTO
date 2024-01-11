@@ -1,6 +1,13 @@
 from .libraries import *
+from .__init__ import Load, LoadPart
+from .readdata import *
 
-def _split_gridfile(self, i, xL, xR, nmax):
+def _split_gridfile(self: Load, 
+                    i: str, 
+                    xL: list[float], 
+                    xR: list[float], 
+                    nmax: list[int]
+                   ) -> None:
     """
     Splits the gridfile, storing the information in the variables
     passed by the function. Dimensions and geometry are stored in 
@@ -25,10 +32,10 @@ def _split_gridfile(self, i, xL, xR, nmax):
         except:
             pass
     
-    # CHeck if the splitted line has three strings
+    # Check if the splitted line has three strings
     if len(i.split()) == 3:
-        # Try to convert the first string to an integer (cell number 
-        # in a dimension) and the other two to floats (left and right cell boundaries)
+        # Try to convert the first string to an int (cell number in a dimension)
+        # and the other two to floats (left and right cell boundaries)
         try:
             int(i.split()[0])
             xL.append(float(i.split()[1]))
@@ -42,8 +49,9 @@ def _split_gridfile(self, i, xL, xR, nmax):
 
     return None
 
-def _check_typeout(self, datatype: str, type_out: List[str],
-                         type_lon: List[str]) -> List[str]:
+def _check_typeout(self: Load, 
+                   type_out: list[str]
+                  ) -> None:
     """
     Loops over possible formats in order to find, at first the 
     grid.out file, then the datatype.out file. If the datatype.out
@@ -66,12 +74,12 @@ def _check_typeout(self, datatype: str, type_out: List[str],
             the list of possible formats for the output file
             (not used here but in _check_typelon)
     """
-
+    
     # Loop over the possible formats
     for try_type in type_out:
 
         # Check if the grid.out file is present
-        self._pathgrid  = self.pathdir / 'grid.out'
+        self._pathgrid = self.pathdir / 'grid.out'
         self._pathdata = self.pathdir / (try_type + '.out')
         
         # Check if the datatype.out file is present
@@ -84,8 +92,7 @@ def _check_typeout(self, datatype: str, type_out: List[str],
 
 
 
-def _check_typelon(self, datatype: str, type_out: List[str],
-                         type_lon: List[str]) -> List[str]:
+def _check_typelon(self: Load | LoadPart, type_lon: list[str]) -> None:
     """
     Loops over posisble formats in order to find matching files
     with the datatype. If the file is found, the file format is
@@ -112,7 +119,7 @@ def _check_typelon(self, datatype: str, type_out: List[str],
     for try_type in type_lon:
 
         # Create the pattern to be searched
-        pattern = self.pathdir / ('*.*.' + try_type)
+        pattern: Path = self.pathdir / ('*.*.' + try_type)
         self._matching_files = glob.glob(str(pattern))
 
         # Check if the file is present
@@ -125,7 +132,7 @@ def _check_typelon(self, datatype: str, type_out: List[str],
 
 
 
-def _check_nout(self, nout) -> None:
+def _check_nout(self: Load | LoadPart, nout) -> None:
     """
     Finds the number of datafile to be loaded. If nout is a list,
     the function checks if the list contains the keyword 'last' or
@@ -149,7 +156,7 @@ def _check_nout(self, nout) -> None:
     """
 
     # Assign the last possible output file
-    last = self.outlist.tolist()[-1]
+    last: int = self.outlist.tolist()[-1]
 
     # Check if nout is a list and change the keywords
     if not isinstance(nout,list):
@@ -169,7 +176,7 @@ def _check_nout(self, nout) -> None:
 
 
 
-def _inspect_bin(self, i: int, endian: str) -> None:
+def _inspect_bin(self: Load | LoadPart, i: int, endian: str | None) -> None:
     """
     Routine to inspect the binary file and find the variables, the offset
     and the shape. The routine loops over the lines of the file and
@@ -191,6 +198,10 @@ def _inspect_bin(self, i: int, endian: str) -> None:
             the endianess of the files.
 
     """
+
+    # Be sure that the class loaded is correct:
+    if isinstance(self, Load):
+        raise TypeError("Error: Wrong class loaded.")
 
     # Initialize the offset, shape arrays and dimensions dictionary
     self._offset, self._shape, self._dictdim = ({},{},{})
@@ -214,6 +225,7 @@ def _inspect_bin(self, i: int, endian: str) -> None:
             self._d_info['endianess'][i] = '>' if endian == b'big' else '<'
             self._d_info['endianess'][i] = self._d_end[endian] if endian is not None \
                                     else self._d_info['endianess'][i]
+            
             scrh = 'f'if self._charsize == 4 else 'd'
             self._d_info['binformat'][i] = self._d_info['endianess'][i] + scrh
 
@@ -221,7 +233,7 @@ def _inspect_bin(self, i: int, endian: str) -> None:
         # number of particles in the simulation
         elif spl1 == b'nparticles':
             self.nshp = int(l.split()[2])
-            self.npart = self.nshp
+            #self.npart = self.nshp
 
         # To be fixed (multiple loading)
         elif spl1 == b'idCounter':
@@ -249,13 +261,13 @@ def _inspect_bin(self, i: int, endian: str) -> None:
     for ind, j in enumerate(self._d_info['varskeys'][i]):
         self._shape[j] = self.nshp 
         self._dictdim [j] = self._vardim[ind]  
-        self._init_vardict(j)
+        _init_vardict(self, j)
 
     return None
 
 
 
-def _inspect_vtk(self, i: int, endian: str) -> None:
+def _inspect_vtk(self: Load | LoadPart, i: int, endian: str | None) -> None:
     """
     Routine to inspect the vtk file and find the variables, the offset
     and the shape. The routine loops over the lines of the file and
@@ -277,9 +289,18 @@ def _inspect_vtk(self, i: int, endian: str) -> None:
             the endianess of the files.
     """
 
+    # Be sure that the class loaded is correct:
+    if isinstance(self, LoadPart):
+        raise TypeError("Error: Wrong class loaded.")
+
+    dir_map: Dict[str, str]= {}
+    gridvars: list[str] = []
+
     # Initialize the offset and shape arrays, the endianess and the coordinates dictionary
     self._offset, self._shape = ({},{})
     endl = self._d_info['endianess'][i] = '>' if endian is None else self._d_end[endian]
+    if endl is None:
+        raise ValueError("Error: Wrong endianess in vtk file.")
     if self._info is True:
         self.nshp = 0
         self._d_info['binformat'] = np.char.add(self._d_info['endianess'], 
@@ -359,7 +380,7 @@ def _inspect_vtk(self, i: int, endian: str) -> None:
 
 
 
-def _inspect_h5(self, i: int, exout: int) -> None:
+def _inspect_h5(self: Load | LoadPart, i: int, exout: int) -> None:
     """
     Inspects the h5 files (static grid) in order to find offset and shape
     of the different variables. If the files are standalone, 
@@ -379,12 +400,16 @@ def _inspect_h5(self, i: int, exout: int) -> None:
             the index of the output to be loaded.
     """
 
+    if isinstance(self, LoadPart):
+        raise TypeError("Error: Wrong class loaded.")
+
     # Initialize the offset and shape arrays
     self._offset, self._shape = ({},{})
 
     # Open the file with the h5py library
     try:
-        h5file = h5py.File(self._filepath,"r",)
+        #h5file: h5py.File = h5py.File(self._filepath,"r",) # CHECK TYPEHINT
+        h5file: Any = h5py.File(self._filepath,"r",)
     except:
         raise ImportError("Dependency 'h5py' not installed, required for reading HDF5 files")
     
@@ -417,7 +442,12 @@ def _inspect_h5(self, i: int, exout: int) -> None:
 
 
 
-def _compute_offset(self, i: int, endian: str, exout: int, var: str) -> None:
+def _compute_offset(self: Load | LoadPart, 
+                    i: int, 
+                    endian: str | None, 
+                    exout: int, 
+                    var: str | None
+                   ) -> None:
     """
     Routine to compute the offset and shape of the variables to be
     loaded. The routine calls different functions depending on the
@@ -440,22 +470,23 @@ def _compute_offset(self, i: int, endian: str, exout: int, var: str) -> None:
         - var: str
             the variable to be loaded.
     """
+    class_name: str = self.__class__.__name__
 
     # Depending on the file calls different routines
     if self.format == 'vtk':
-        self._inspect_vtk(i, endian)
+        _inspect_vtk(self, i, endian)
     elif self.format in {'dbl.h5','flt.h5'}:
-        self._inspect_h5(i, exout)
+        _inspect_h5(self, i, exout)
     elif self._alone is True:
-        self._inspect_bin(i, endian)
+        _inspect_bin(self, i, endian)
     else:
-        self._offset_bin(i, var)
+        _offset_bin(self, i, var)
 
     return None
 
 
 
-def _offset_bin(self, i: int, var: str) -> None:
+def _offset_bin(self: Load | LoadPart, i: int, var: str | None) -> None:
     """
     Routine to compute the offset and shape of the variables to be
     loaded. The routine, knowing the grid shape, computes the offset
@@ -476,10 +507,14 @@ def _offset_bin(self, i: int, var: str) -> None:
             the variable to be loaded.
     """
 
+    # Be sure that the class loaded is correct:
+    if isinstance(self, LoadPart):
+        raise TypeError("Error: Wrong class loaded.")
+
     # Initialize the offset and shape dictionaries and
     # the offset starting point
     self._offset, self._shape = ({},{})
-    off_start = self._off_start if hasattr(self, 'off_start') else 0
+    off_start = 0
 
     # Define the staggered variables shape
     grid_sizes = {
@@ -495,7 +530,7 @@ def _offset_bin(self, i: int, var: str) -> None:
 
     for var in varloop:
         # Compute the offset and shape
-        grid_size = grid_sizes.get(var, [self.nshp, self.gridsize])
+        grid_size = grid_sizes.get(var, [self.nshp, self.gridsize]) #type: ignore
         self._shape[var]  = grid_size[0]
         self._offset[var] = off_start
         off_start += grid_size[1]*self._charsize
@@ -504,7 +539,7 @@ def _offset_bin(self, i: int, var: str) -> None:
 
 
 
-def _init_vardict(self, var: str) -> None:
+def _init_vardict(self: Load | LoadPart, var: str) -> None:
     """
     If not initialized, a new dictionary is created to store the
     variables. The dictionary is stored in the class.
@@ -537,13 +572,13 @@ def _init_vardict(self, var: str) -> None:
 
         # Create the dictionary key and fill the values with nan
         with tempfile.NamedTemporaryFile() as temp_file:           
-            self._d_vars[var] = np.memmap(temp_file, mode='w+', dtype=np.float32, shape = shape)
+            self._d_vars[var] = np.memmap(temp_file, mode='w+', dtype=np.float32, shape = shape) # type: ignore
             self._d_vars[var][:] = np.nan
     return None
 
 
 
-def _assign_var(self, time: int, var: str, scrh: np.memmap) -> None:
+def _assign_var(self: Load | LoadPart, time: int, var: str, scrh: np.memmap) -> None:
     """
     Assigns the memmap object to the dictionary. If the number of
     outputs is 1, the variable is stored directly in the dictionary,
@@ -573,3 +608,112 @@ def _assign_var(self, time: int, var: str, scrh: np.memmap) -> None:
         self._d_vars[var] = scrh
 
     return None
+
+
+
+def _varsouts_f(self: Load | LoadPart, elem: str) -> None:
+    """
+    From the matching files finds the variables and the outputs
+    for the fluid files (variables are to be intended here as the 
+    first part of the output filename, they are the effective 
+    variables only in case of multiple files).
+
+    Returns
+    -------
+
+        None
+
+    Parameters
+    ----------
+
+        - elem: str
+            the matching file
+
+    """
+
+    # Splits the matching filename
+    vars: str = elem.split('/')[-1].split('.')[0]
+    outs: int = int(elem.split('.')[1])
+
+    # Finds the variables and the outputs
+    if vars != 'particles':
+        self.set_vars.add(vars)
+        self.set_outs.add(outs)
+
+    return None
+
+
+
+def _varsouts_p(self: Load | LoadPart, elem: str) -> None:
+    """
+    From the matching files finds the outputs
+    for the particle files (not LP).
+
+    Returns
+    -------
+
+        None
+
+    Parameters
+    ----------
+
+        - elem: str
+            the matching file
+
+    """
+
+    # Splits the matching filename
+    vars: str = elem.split('/')[-1].split('.')[0]
+    outs: int = int(elem.split('.')[1])
+
+    # Finds the outputs
+    if vars == 'particles':
+        self.set_vars.add(vars)
+        self.set_outs.add(outs)
+
+    return None
+
+
+
+def _varsouts_lp(self: Load | LoadPart, elem: str) -> None:
+    """
+    From the matching files finds the outputs
+    for the LP files.
+
+    Returns
+    -------
+
+        None
+
+    Parameters
+    ----------
+
+        - elem: str
+            the matching file
+
+    """
+
+    # Initialization or declaration of variables
+    outn: int # The output number
+    outc: int # The output ch number
+
+    # Splits the matching filename
+    vars: str = elem.split('/')[-1].split('.')[0].split('_')[0]
+    outs: str = elem.split('.')[1]
+    
+    # Finds the outputs
+    if vars == 'particles':
+        outn = int(outs.split('_')[0])
+        outc = int(outs.split('_')[1][2:])
+
+        # Checks the _ch_ number
+        if outc == self.nfile_lp:
+            self.set_vars.add(vars)
+            self.set_outs.add(outn)
+        else:
+            raise ValueError(f"Invalid number {self.nfile_lp}.")
+        
+    return None
+
+
+

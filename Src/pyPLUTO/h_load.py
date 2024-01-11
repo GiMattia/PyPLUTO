@@ -293,7 +293,7 @@ def _inspect_vtk(self: Load | LoadPart, i: int, endian: str | None) -> None:
     if isinstance(self, LoadPart):
         raise TypeError("Error: Wrong class loaded.")
 
-    dir_map: Dict[str, str]= {}
+    dir_map: dict[str, str]= {}
     gridvars: list[str] = []
 
     # Initialize the offset and shape arrays, the endianess and the coordinates dictionary

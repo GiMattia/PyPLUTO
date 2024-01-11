@@ -193,6 +193,9 @@ def create_axes(self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs
 
         bb = tt - hsize * hratio[nrow - 1] / htot
         hplot.append([bb, tt - bb])
+    else:
+        wplot = None
+        hplot = None
 
     if 'figsize' in kwargs:
         self.fig.set_figwidth(kwargs['figsize'][0])
@@ -207,7 +210,7 @@ def create_axes(self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs
     # Add axes
     for i in range(ncol*nrow):
         self._add_ax(self.fig.add_subplot(nrow + self.nrow0, ncol + self.ncol0, i+1, projection=proj), len(self.ax))
-        if custom_plot is True:
+        if wplot is not None and hplot is not None:
             row = int(i/ncol)
             col = int(i%ncol)
             self.ax[-1].set_position(pos=[wplot[col][0], hplot[row][0],

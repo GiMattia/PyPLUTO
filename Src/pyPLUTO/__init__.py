@@ -370,17 +370,24 @@ class LoadPart:
 
 class Image:
 
-    def __init__(self, LaTeX: bool | str = True, 
-                       text: bool = False, 
-                       fig: int | str | Figure | SubFigure | None = None, 
-                       **kwargs):
+    def __init__(self, 
+                 LaTeX: bool | str = True, 
+                 text: bool = False, 
+                 fig: int | str | Figure | SubFigure | None = None, 
+                 **kwargs: dict[str, Any]
+                ) -> None:
         """
         
         """
+        self.figsize: tuple[float, float] | None
+        self.nwin: int | None
+        self.nrow0: int | None
+        self.ncol0: int | None
+        self.fontsize: int | None
 
         self._assign_default()
         self._assign_LaTeX(LaTeX, kwargs.get('fontweight','normal'))        
-        self._create_fig(fig, **kwargs)
+        self._create_fig(fig, check = True, **kwargs)
         if text is not False:
 
             print(f"Creating Figure in window {self.nwin}")

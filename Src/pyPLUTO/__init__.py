@@ -14,7 +14,7 @@ class Load:
                  datatype: str | None = None, 
                  vars: str | list[str] | bool | None =  True,  
                  text: bool = True, 
-                 alone: bool | None = False,
+                 alone: bool | None = None,
                  multiple: bool = False, 
                  endian: str | None = None 
                 )-> None:
@@ -51,7 +51,7 @@ class Load:
             - datatype: str | None, default None
                 The format of the data file. If not specified, the code will 
                 look for the format from the list of possible formats.
-                HDF5 (AMR) and tab formats have not been implemented yet.
+                HDF5 (AMR) formats have not been implemented yet.
             - vars: str | list | bool | None, default True
                 The variables to be loaded. The default value, True, 
                 corresponds to all the variables.
@@ -276,7 +276,7 @@ class LoadPart:
         # Import the methods needed from other files
         from .readdata  import _check_pathformat, _find_format
         from .readdata  import _findfiles, _load_variables
-        from .readpart  import _store_bin_particles
+        from .readpart  import _store_bin_particles, _store_vtk_particles
 
         # Initialization or declaration of variables (used in this file)
         self._d_end: dict[str | None, str | None]  # Endianess dictionary
@@ -336,15 +336,21 @@ class LoadPart:
             _load_variables(self, vars,i,exout,endian)
             if self.format != 'vtk':
                 _store_bin_particles(self, i)  
-            else: 
-                raise NotImplementedError("vtk files have not been fully implemented yet")
+            else:
+                _store_vtk_particles(self)
+           # else: 
+            #    raise NotImplementedError("vtk files have not been fully implemented yet")
 
         # Assign the variables to the class
         for key in self._d_vars:
             setattr(self, key, self._d_vars[key])
         
         # Mask (Not currently, to be done) the id array and convert to int
-        self.id = self.id.astype('int')
+        if self.format != 'vtk':
+            self.id = self.id.astype('int')
+        else:
+            self.id = self.id.view('>i4')
+
         '''
         # NEEDED FOR MULTIPLE LOADINGS?
         with warnings.catch_warnings():

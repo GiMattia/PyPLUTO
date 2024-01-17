@@ -212,7 +212,7 @@ def _inspect_bin(self: Load | LoadPart, i: int, endian: str | None) -> None:
 
         # Split the lines (unsplit are binary data)
         try:
-            spl0, spl1, spl2 = l.split()[0:3]
+            _, spl1, spl2 = l.split()[0:3]
         except:
             break
 
@@ -263,119 +263,6 @@ def _inspect_bin(self: Load | LoadPart, i: int, endian: str | None) -> None:
         self._dictdim [j] = self._vardim[ind]  
         _init_vardict(self, j)
 
-    return None
-
-
-
-def _inspect_vtk(self: Load | LoadPart, i: int, endian: str | None) -> None:
-    """
-    Routine to inspect the vtk file and find the variables, the offset
-    and the shape. The routine loops over the lines of the file and
-    finds the relevant information. The routine also finds the time
-    information if the file is standalone. The routine also finds the
-    coordinates if the file is standalone and cartesian.
-
-    Returns
-    -------
-
-        None
-
-    Parameters
-    ----------
-
-        - i: int
-            the index of the file to be loaded.
-        - endian: str
-            the endianess of the files.
-    """
-
-    # Be sure that the class loaded is correct:
-    if isinstance(self, LoadPart):
-        raise TypeError("Error: Wrong class loaded.")
-
-    dir_map: dict[str, str]= {}
-    gridvars: list[str] = []
-
-    # Initialize the offset and shape arrays, the endianess and the coordinates dictionary
-    self._offset, self._shape = ({},{})
-    endl = self._d_info['endianess'][i] = '>' if endian is None else self._d_end[endian]
-    if endl is None:
-        raise ValueError("Error: Wrong endianess in vtk file.")
-    if self._info is True:
-        self.nshp = 0
-        self._d_info['binformat'] = np.char.add(self._d_info['endianess'], 
-                                          'f' + str(self._charsize))
-
-    # Open the file and read the lines
-    f = open(self._filepath, 'rb')
-    for l in f:
-
-        # Split the lines (unsplit are binary data)
-        try:
-            spl0, spl1, spl2 = l.split()[0:3]
-        except:
-            continue
-
-        # Find the coordinates and store them
-        if spl0 in [j + b"_COORDINATES" for j in [b"X", b"Y", b"Z"]] and self._info is True:
-            var_sel = spl0.decode()[0]
-            binf = endl+'d' if spl2.decode() == 'double' else endl+'f'
-            offset = f.tell()
-            shape = int(spl1)
-            scrh = np.memmap(self._filepath,dtype=binf,mode='r',offset=offset, shape = shape)
-            exec(f"{dir_map[var_sel]} = scrh")
-
-        # Find the scalars and compute their offset
-        elif spl0 == b'SCALARS':
-            var = spl1.decode()
-            f.readline()
-            self._offset[var] = f.tell()
-            self._shape[var] = self.nshp
-
-        # Compute the time information
-        elif spl0 == b'TIME' and self._alone is True:
-            binf = 8 if l.split()[3].decode() == 'double' else 4
-            f.tell() 
-            data  = f.read(binf) 
-            self.ntime[i] = struct.unpack(endl+'d', data)[0]
-        
-        # Find the dimensions and store them, computing the variables shape
-        elif spl0 == b'DIMENSIONS' and self._info is True:
-            self.nx1, self.nx2, self.nx3 = [max(int(i) - 1, 1) for i in l.split()[1:4]]
-            if self.nx3 == 1 and self.nx2 == 1:
-                self.nshp = self.nx1 
-                gridvars = ['self.x1r', 'self.x2', 'self.x3']
-            elif self.nx3 == 1:
-                self.nshp = (self.nx2, self.nx1)
-                gridvars = ['self.x1r', 'self.x2r', 'self.x3']
-            else:
-                self.nshp = (self.nx3, self.nx2, self.nx1)   
-                gridvars = ['self.x1r', 'self.x2r', 'self.x3r']  
-            dir_map = {'X': gridvars[0],
-                       'Y': gridvars[1],
-                       'Z': gridvars[2]}                                       
-
-        # Unstructured grids (non-cartesian geometries)
-        elif spl1 == b'STRUCTURED_GRID':
-            raise NotImplementedError('non-cartesian standalone vtk\'s have not been implemented yet')
-        
-    # Find the variables and store them (only if single_file)
-    if self._d_info['typefile'][i] == 'single_file' and self._alone is True:
-        self._d_info['varslist'][i] = np.array(list(self._offset.keys()))
-
-    # Compute the centered coordinates if the file is standalone and cartesian
-    if self._info is True:
-        if gridvars[0] == 'self.x1r':
-            self.x1  = 0.5*(self.x1r[:-1] + self.x1r[1:])
-        if gridvars[1] == 'self.x2r':
-            self.x2  = 0.5*(self.x2r[:-1] + self.x2r[1:])
-        if gridvars[2] == 'self.x3r':
-            self.x3  = 0.5*(self.x3r[:-1] + self.x3r[1:])
-
-    # Close the file and set the info flag to False
-    self._info = False
-    f.close()
-    
     return None
 
 
@@ -472,9 +359,15 @@ def _compute_offset(self: Load | LoadPart,
     """
     class_name: str = self.__class__.__name__
 
+    from .readfluid import _inspect_vtk as _inspect_vtk_f
+    from .readpart  import _inspect_vtk as _inspect_vtk_p
+
     # Depending on the file calls different routines
-    if self.format == 'vtk':
-        _inspect_vtk(self, i, endian)
+    if self.format == 'tab':
+        return None
+    elif self.format == 'vtk':
+        _inspect_vtk_f(self, i, endian) if class_name == 'Load' \
+            else _inspect_vtk_p(self, i, endian)
     elif self.format in {'dbl.h5','flt.h5'}:
         _inspect_h5(self, i, exout)
     elif self._alone is True:

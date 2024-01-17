@@ -1,16 +1,20 @@
 from .libraries import *
 
-def savefig(filename = 'img.png', bbox = 'tight'):
-    warning_message = """
+def savefig(filename: str | Path = 'img.png', 
+            bbox: str | None = 'tight'
+           ) -> None:
+    warning_message: str = """
     pyPLUTO.savefig is deprecated. 
     Please call savefig from the Image class instead"""
     warnings.warn(warning_message, DeprecationWarning)
     plt.savefig(filename, bbox_inches = bbox)
 
-def show(block = True):
+def show(block: bool = True) -> None:
     plt.show(block = block)
 
-def ring(length: float = 0.5, freq: int = 440) -> None:
+def ring(length: float = 0.5, 
+         freq: int = 440
+        ) -> None:
     if os.name == 'posix':
         try:
             os.system(f'play -nq -t alsa synth {length} sine {freq}')

@@ -89,8 +89,8 @@ def _find_format(self: Load | LoadPart, datatype: str | None,
 
     # Define the possible filetypes and set the keyword "alone" accordingly
     if class_name == 'Load':
-        type_out = ['dbl','flt','vtk','dbl.h5','flt.h5']
-        type_lon = ['vtk','dbl.h5','flt.h5']
+        type_out = ['dbl','flt','vtk','dbl.h5','flt.h5','tab']
+        type_lon = ['vtk','dbl.h5','flt.h5','tab']
         if datatype in {'dbl','flt'}:
             alone = False
     elif class_name == 'LoadPart':
@@ -265,7 +265,8 @@ def _load_variables(self: Load | LoadPart,
     """
 
     # Import the methods needed from other files
-    from .h_load import _compute_offset, _init_vardict, _assign_var
+    from .readfluid import _read_tabfile
+    from .h_load    import _compute_offset, _init_vardict, _assign_var
 
     # Find the class name and find the single_file filepath
     class_name: str = self.__class__.__name__
@@ -286,6 +287,10 @@ def _load_variables(self: Load | LoadPart,
     else:
         self._load_vars = makelist(vars)
 
+    if self.format  == 'tab':
+        _read_tabfile(self, i)
+        return None
+
     # Loop over the variables to be loaded
     for j in self._load_vars:
     
@@ -298,7 +303,6 @@ def _load_variables(self: Load | LoadPart,
         _init_vardict(self, j) if self._lennout != 1 else None
 
         # Load the variable through memory mapping and store them in the class
-        #if self.format not in {'dbl.h5','flt.h5'}:
         scrh = np.memmap(self._filepath,self._d_info['binformat'][i],mode="r+",
                          offset=self._offset[j], shape = self._shape[j]).T
         _assign_var(self, i, j, scrh)

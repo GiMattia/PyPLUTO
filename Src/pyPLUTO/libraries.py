@@ -24,9 +24,8 @@ from mpl_toolkits.axes_grid1               import make_axes_locatable
 from matplotlib.widgets                    import Slider
 from matplotlib                            import rc
 from pathlib                               import Path
-from matplotlib.figure                     import Figure
-from matplotlib.figure                     import SubFigure
-from typing                                import Callable, Mapping, NoReturn, Any
+from matplotlib.figure                     import Figure, SubFigure
+from typing                                import Callable, Mapping, Any
 from itertools                             import islice
 
 #from mpl_toolkits.axes_grid1.inset_locator import InsetPosition

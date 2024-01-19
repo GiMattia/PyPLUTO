@@ -1,6 +1,7 @@
 from .libraries import *
+from .__init__ import Image
 
-def zoom(self,ax = None, check = True, **kwargs):
+def zoom(self: Image, ax = None, check = True, **kwargs):
     '''
     creates an inset zoom of a 1D plot
 
@@ -172,26 +173,31 @@ def zoom(self,ax = None, check = True, **kwargs):
            >>> I.zoom(var = var2, xrange = [1,10], yrange = [10,20])
 
     '''
+
+    # Import methods from other files
+    from .h_image import _check_fig, _place_inset_pos, _place_inset_loc
+    from .h_image import _add_ax, _check_par, _set_parax
+
     # Check parameters
     param = {'alpha', 'aspect', 'ax', 'bottom', 'clabel', 'cmap', 'cpad', 'cpos', 'cscale', 'cticks', 'ctickslabels', 'fontsize', 'height', 'labelsize', 'left', 'lint',
              'minorticks', 'pos', 'shading', 'ticksdir', 'tickssize', 'title', 'titlesize', 'top', 'transpose', 'var', 'vmax', 'vmin', 'width', 'x1', 'x2', 'xrange',
              'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
-        self._check_par(param, 'zoom', **kwargs)
+        _check_par(self, param, 'zoom', **kwargs)
 
     # Find figure and number of the axis
     ax = self.ax[-1] if ax is None else ax
-    nax = self._check_fig(ax)
+    nax = _check_fig(self, ax)
 
     # Sets position of the zoom
     if kwargs.get('pos'):
-        axins = self._place_inset_pos(ax, kwargs['pos'])
+        axins = _place_inset_pos(self, ax, kwargs['pos'])
     else:
-        axins = self._place_inset_loc(ax, **kwargs)
+        axins = _place_inset_loc(self, ax, **kwargs)
     fontsize = kwargs.get('fontsize',self.fontsize - 5)
 
     # Adds the inset axis
-    self._add_ax(axins, len(self.ax))
+    _add_ax(self, axins, len(self.ax))
 
     # Checks range and ticks
     '''
@@ -206,7 +212,7 @@ def zoom(self,ax = None, check = True, **kwargs):
         kwargs['yticks'] = None
 
     # Sets axes parameters
-    self._set_parax(axins, **kwargs)
+    _set_parax(self, axins, **kwargs)
 
     # Plots the lines
     pcm = ax.collections
@@ -221,7 +227,7 @@ def zoom(self,ax = None, check = True, **kwargs):
 
     return None
 
-def _zoomplot(self,ax,nax,axins,**kwargs):
+def _zoomplot(self: Image,ax,nax,axins,**kwargs):
     lines = ax.get_lines()
     for i in lines:
         self.plot(i.get_xdata(), i.get_ydata(), c=i.get_color(),

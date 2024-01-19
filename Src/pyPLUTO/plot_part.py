@@ -1,6 +1,7 @@
 from .libraries import *
+from .__init__ import Image
 
-def scatter(self, x, y, **kwargs):
+def scatter(self: Image, x, y, **kwargs):
     '''
     Plots a scatter of particles or discrete points.
 
@@ -19,18 +20,24 @@ def scatter(self, x, y, **kwargs):
     --------
 
     '''
+
+    # Import methods from other files
+    from .h_image import _hide_text, _assign_ax, _set_parax
+    from .h_image import _set_xrange, _set_yrange, _set_cscale
+
+
     # Check parameters
 
     # Set or create figure and axes
-    ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
+    ax, nax = _assign_ax(self, kwargs.pop('ax',None),**kwargs)
 
     # Set ax parameters
-    self._set_parax(ax, **kwargs)
-    self._hide_text(nax, ax.texts)
+    _set_parax(self, ax, **kwargs)
+    _hide_text(self, nax, ax.texts)
 
     # Keyword xrange and yrange
-    self._set_xrange(ax, nax, [np.nanmin(x),np.nanmax(x)], self.setax[nax])
-    self._set_yrange(ax, nax, [np.nanmin(y),np.nanmax(y)], self.setay[nax], x = x, y = y)
+    _set_xrange(self, ax, nax, [np.nanmin(x),np.nanmax(x)], self.setax[nax])
+    _set_yrange(self, ax, nax, [np.nanmin(y),np.nanmax(y)], self.setay[nax], x = x, y = y)
 
     # Keywords vmin and vmax
     c    = kwargs.get('c',None)
@@ -40,11 +47,12 @@ def scatter(self, x, y, **kwargs):
     # Keyword for colorbar and colorscale
     cpos     = kwargs.get('cpos',None)
     cscale   = kwargs.get('cscale','norm')
-    lint     = kwargs.get('lint',max(np.abs(vmin),vmax)*0.01)
-    self.vlims[nax] = [vmin,vmax,lint]
+    tresh    = kwargs.get('tresh',max(np.abs(vmin),vmax)*0.01)
+    lint     = kwargs.get('lint',None)
+    self.vlims[nax] = [vmin,vmax,tresh]
 
     # Set the colorbar scale (put in function)
-    norm = self._set_cscale(cscale, vmin, vmax, lint)
+    norm = _set_cscale(self, cscale, vmin, vmax, tresh)
 
     # Start scatter plot procedure
     pcm = ax.scatter(x, y, cmap = kwargs.get('cmap',None), norm = norm,

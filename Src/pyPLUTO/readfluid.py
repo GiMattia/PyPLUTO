@@ -199,7 +199,7 @@ def _read_tabfile(self: Load | LoadPart, i: int) -> None:
         raise TypeError("Error: tab files and LoadPart are not compatible.")
     
     # Initialize the dictionary
-    Dict_tab: dict[str, np.ndarray] = {}
+    Dict_tab: dict[str, NDArray] = {}
     
     # Open and read the data.****.tab file, computing the empty lines
     vfp = pd.read_csv(str(self._filepath), delim_whitespace = True, 

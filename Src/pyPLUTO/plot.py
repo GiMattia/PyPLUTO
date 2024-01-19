@@ -1,6 +1,12 @@
 from .libraries import *
+from .__init__ import Image
 
-def plot(self, x, y = [None], check = True, **kwargs):
+def plot(self: Image, 
+         x: list[float] | NDArray, 
+         y: list[float] | NDArray | list[None] = [None], 
+         check: bool = True, 
+         **kwargs: Any
+        ) -> None:
     """
     Plot for a 1D function (or a 1D slice).
     A simple figure and a single axis can also be created.
@@ -159,6 +165,15 @@ def plot(self, x, y = [None], check = True, **kwargs):
 
     """
 
+    # Import methods from other files
+    from .h_image import _check_par, _assign_ax, _set_parax, _hide_text 
+    from .h_image import _set_xrange, _set_yrange
+
+    # Declare variables
+    ax: Axes
+    nax: int
+
+
     # Convert x and y in numpy arrays
     if y[0] is None:
         y = x
@@ -167,22 +182,22 @@ def plot(self, x, y = [None], check = True, **kwargs):
     y = np.asarray(y)
 
     # Check parameters
-    param = {'alpha', 'aspect', 'ax', 'c', 'figsize', 'fillstyle', 'fontsize', 'label', 'labelsize', 'legcols', 'legpad', 'legpos', 'legsize', 'legspace', 'ls',
+    param: set = {'alpha', 'aspect', 'ax', 'c', 'figsize', 'fillstyle', 'fontsize', 'label', 'labelsize', 'legcols', 'legpad', 'legpos', 'legsize', 'legspace', 'ls',
              'lw', 'marker', 'minorticks', 'ms', 'proj', 'ticksdir', 'tickssize', 'title', 'titlesize', 'x', 'xrange', 'xscale', 'xticks', 'xtickslabels',
              'xtitle', 'y', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
-        self._check_par(param, 'plot', **kwargs)
+        _check_par(self, param, 'plot', **kwargs)
 
     # Set or create figure and axes
-    ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
+    ax, nax = _assign_ax(self, kwargs.pop('ax',None),**kwargs)
 
     # Set ax parameters
-    self._set_parax(ax, **kwargs)
-    self._hide_text(nax, ax.texts)
+    _set_parax(self, ax, **kwargs)
+    _hide_text(self, nax, ax.texts)
 
     # Keyword xrange and yrange
-    self._set_xrange(ax, nax, [x.min(),x.max()], self.setax[nax])
-    self._set_yrange(ax, nax, [y.min(),y.max()], self.setay[nax], x = x, y = y)
+    _set_xrange(self, ax, nax, [x.min(),x.max()], self.setax[nax])
+    _set_yrange(self, ax, nax, [y.min(),y.max()], self.setay[nax], x = x, y = y)
 
     # Start plotting procedure
     ax.plot(x,y, c = kwargs.get('c',self.color[self.nline[nax]%len(self.color)]),
@@ -196,9 +211,9 @@ def plot(self, x, y = [None], check = True, **kwargs):
     # Creation of the legend
     self.legpos[nax] = kwargs.get('legpos', self.legpos[nax])
     if self.legpos[nax] != None:
-        copy_label = kwargs.get('label',None)
+        copy_label: str | None = kwargs.get('label',None)
         kwargs['label'] =  None
-        self.legend(ax, check = 'no', fromplot = True, **kwargs)
+        legend(self, ax, check = False, fromplot = True, **kwargs)
         kwargs['label'] =  copy_label
 
     # If tight_layout is enabled, is re-inforced
@@ -207,7 +222,12 @@ def plot(self, x, y = [None], check = True, **kwargs):
 
     return None
 
-def legend(self, ax = None, check = True, fromplot = False, **kwargs):
+def legend(self: Image, 
+           ax: Axes | None = None, 
+           check: bool = True, 
+           fromplot: bool = False, 
+           **kwargs: Any
+          ) -> None:
     '''
     Creation of the legend (from scratch or through the lines of the plot).
 
@@ -286,14 +306,17 @@ def legend(self, ax = None, check = True, fromplot = False, **kwargs):
 
     '''
 
+    # Import methods from other files
+    from .h_image import _check_par, _check_fig
+
     # Check parameters
     param = {'ax', 'c', 'fillstyle', 'label', 'legcols', 'legpad', 'legpos', 'legsize', 'legspace', 'ls', 'lw', 'marker', 'ms'}
     if check is True:
-        self._check_par(param, 'legend', **kwargs)
+        _check_par(self, param, 'legend', **kwargs)
 
     # Find figure and number of the axis
     ax  = self.fig.gca() if ax is None else ax
-    nax = self._check_fig(ax)
+    nax = _check_fig(self, ax)
 
     # Finds the legend parameters (position, columns, size and spacing)
     self.legpos[nax]    = kwargs.get('legpos',   self.legpos[nax])

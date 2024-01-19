@@ -24,7 +24,9 @@ from mpl_toolkits.axes_grid1               import make_axes_locatable
 from matplotlib.widgets                    import Slider
 from matplotlib                            import rc
 from pathlib                               import Path
+from numpy.typing                          import NDArray
 from matplotlib.figure                     import Figure, SubFigure
+from matplotlib.axes                       import Axes
 from typing                                import Callable, Mapping, Any
 from itertools                             import islice
 

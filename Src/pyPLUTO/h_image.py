@@ -1,6 +1,7 @@
 from .libraries import *
+from .__init__ import Image
 
-def _check_fig(self,ax):
+def _check_fig(self: Image,ax: Axes) -> int:
     """
     Finds the figure given a set of axes.
     If the set of axes does not belong to the figure, it raises an error.
@@ -18,17 +19,20 @@ def _check_fig(self,ax):
     """
 
     # Get the figure associated to the axes
-    fig = ax.get_figure()
+    fig: Figure | None = ax.get_figure()
 
     # Check if the figure is the same as the one in the class
     if fig != self.fig:
         raise ValueError("The provided axes does not belong to the expected figure.")
     
     # Find the number of the axes and return it
-    nax = self.ax.index(ax)
+    nax: int = self.ax.index(ax)
     return nax
 
-def _add_ax(self,ax,i):
+def _add_ax(self: Image,
+            ax: Axes,
+            i: int
+           ) -> None:
     """
     Adds the axes properties to the class info variables.
     The corresponding axis is appended (TO CHANGE!!! or at least
@@ -61,7 +65,9 @@ def _add_ax(self,ax,i):
 
     return None
 
-def _place_inset_pos(self, ax, pos):
+def _place_inset_pos(self: Image, 
+                     ax: Axes, 
+                     pos: list[float]) -> Axes:
     """
     Places an inset axes given the position (left, top, bottom, right).
 
@@ -80,13 +86,16 @@ def _place_inset_pos(self, ax, pos):
     """
 
     # Compute the position of the inset axis and return it
-    left   = pos[0]
-    bottom = pos[2]
-    width  = pos[1] - pos[0]
-    height = pos[3] - pos[2]
-    return ax.inset_axes([left, bottom, width, height])
+    left: float = pos[0]
+    bottom: float = pos[2]
+    width: float  = pos[1] - pos[0]
+    height: float = pos[3] - pos[2]
+    return ax.inset_axes((left, bottom, width, height))
 
-def _place_inset_loc(self, ax, **kwargs):
+def _place_inset_loc(self: Image, 
+                     ax: Axes, 
+                     **kwargs: Any
+                    ) -> Axes:
     """
     Places an inset axes given different keywords.
     In case both top and bottom are given, the top is given priority and a warning is
@@ -116,20 +125,20 @@ def _place_inset_loc(self, ax, **kwargs):
 
     # Check if both "top" and "bottom" keywords are given
     if kwargs.get('top') and kwargs.get('bottom'):
-         warning_message = """
+         warning_message: str = """
             Both top and bottom keywords are given, priority goes to the top"""
          warnings.warn(warning_message, UserWarning)
     
     # Compute the position of the inset axis and return it
-    left   = kwargs.get('left', 0.6)
-    width  = kwargs.get('width', 0.2)
-    height = kwargs.get('height', 0.15)
-    bottom = kwargs.get('top', 0.75) - height
-    bottom = kwargs.get('bottom', 0.6)
-    return ax.inset_axes([left, bottom, width, height])
+    left: float   = kwargs.get('left', 0.6)
+    width: float  = kwargs.get('width', 0.2)
+    height: float = kwargs.get('height', 0.15)
+    bottom: float = kwargs.get('top', 0.75) - height
+    bottom: float = kwargs.get('bottom', 0.6)
+    return ax.inset_axes((left, bottom, width, height))
 
 
-def _hide_text(self, nax: int, txts: str) -> None:
+def _hide_text(self: Image, nax: int, txts) -> None:
     """
     Hides the text placed when an axis is created (the number of the axis).
 
@@ -155,7 +164,7 @@ def _hide_text(self, nax: int, txts: str) -> None:
         self.ntext[nax] = 1
     return None
 
-def _set_parax(self, ax, **kwargs):
+def _set_parax(self: Image, ax: Axes, **kwargs: Any) -> None:
     """
     Selects the correct parameters to be set before calling the 
     set_axis method.
@@ -174,11 +183,11 @@ def _set_parax(self, ax, **kwargs):
             the selected parameters
     """
     # Set of the possible parameters
-    param = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 'ticksdir', 'tickssize', 'title', 'titlepad', 'titlesize', 'xrange', 
+    param: set = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 'ticksdir', 'tickssize', 'title', 'titlepad', 'titlesize', 'xrange', 
              'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     
     # Initialize the parameters dictionary and insert the allowed keywords
-    axpar = {}
+    axpar: dict = {}
     for i in kwargs.keys():
         if i in param:
             axpar[i] = kwargs[i]
@@ -188,7 +197,11 @@ def _set_parax(self, ax, **kwargs):
 
     return None
 
-def _check_par(self, par, func, **kwargs):
+def _check_par(self: Image, 
+               par: set[str], 
+               func: str, 
+               **kwargs: Any
+              ) -> None:
     """
     Checks if a parameter is in the corresponding list
     depending on the function. If the parameter does not
@@ -212,16 +225,21 @@ def _check_par(self, par, func, **kwargs):
     """
 
     # Check if the parameters are in the list
-    notfound = [(i) for i in kwargs.keys() if i not in par]
+    notfound: list[str] = [(i) for i in kwargs.keys() if i not in par]
 
     # If the parameters are not in the list, raise a warning
     if len(notfound) > 0:
-        warning_message = f"""WARNING: elements {str(notfound)} not found! Please check your spelling! (function {func})"""
+        warning_message: str = f"""WARNING: elements {str(notfound)} not found! Please check your spelling! (function {func})"""
         warnings.warn(warning_message, UserWarning)
 
     return None
 
-def _set_xrange(self, ax, nax, xlim, case):
+def _set_xrange(self: Image, 
+                ax: Axes, 
+                nax: int, 
+                xlim: list[float], 
+                case: int
+               ) -> None:
     """
     Sets the lower and upper limits of the x-axis of a set of axes (if
     not stated otherwise later).
@@ -256,8 +274,8 @@ def _set_xrange(self, ax, nax, xlim, case):
 
     # Case 2: the x-axis limit are changed automatically (previous limit present)
     if case == 2:
-        xmin = min(xlim[0],ax.get_xlim()[0])
-        xmax = max(xlim[1],ax.get_xlim()[1])
+        xmin: float = min(xlim[0],ax.get_xlim()[0])
+        xmax: float = max(xlim[1],ax.get_xlim()[1])
         ax.set_xlim(xmin,xmax)
 
     # Case 3: x-axis limits must be set manually
@@ -269,7 +287,14 @@ def _set_xrange(self, ax, nax, xlim, case):
 
     return None
 
-def _set_yrange(self, ax, nax, ylim, case, x = None, y = None):
+def _set_yrange(self: Image, 
+                ax: Axes, 
+                nax: int, 
+                ylim: list[float], 
+                case: int, 
+                x: NDArray | None = None, 
+                y: NDArray | None = None
+                ) -> None:
     """
     Sets the lower and upper limits of the y-axis of a set of axes (if
     not stated otherwise later).
@@ -302,6 +327,8 @@ def _set_yrange(self, ax, nax, ylim, case, x = None, y = None):
 
     # Case 0: the y-axis limits are set automatically (no previous limit)
     if case == 0:
+        if x is None or y is None:
+            raise ValueError("x and y arrays must be provided if case is 0")
 
         # Find the limits of the x-axis
         yrange = np.where(np.logical_and(x >= x.min(), x <= x.max()))
@@ -319,6 +346,9 @@ def _set_yrange(self, ax, nax, ylim, case, x = None, y = None):
 
     # Case 2: the y-axis limit are changed automatically (previous limit present)
     if case == 2:
+
+        if x is None or y is None:
+            raise ValueError("x and y arrays must be provided if case is 2")
 
         # Find the limits of the x-axis
         yrange = np.where(np.logical_and(x >= x.min(), x <= x.max()))
@@ -342,7 +372,11 @@ def _set_yrange(self, ax, nax, ylim, case, x = None, y = None):
 
     return None
 
-def _set_xticks(self, ax, xtc, xtl):
+def _set_xticks(self: Image, 
+                ax: Axes, 
+                xtc: str | list[float] | None, 
+                xtl: str | list[str] | None
+               ) -> None:
     """
     Sets the ticks and ticks labels on the x-axis of a selected axis.
 
@@ -366,13 +400,13 @@ def _set_xticks(self, ax, xtc, xtl):
         ax.set_xticks([])
         ax.set_xticklabels([])
         if xtl not in {None, 'Default'}:
-            warning_message = "Warning, tickslabels are defined with no ticks!! (function setax)"
+            warning_message: str = "Warning, tickslabels are defined with no ticks!! (function setax)"
             warnings.warn(warning_message, UserWarning)
     elif xtl != 'Default':
         if xtc != 'Default':
             ax.set_xticks(xtc)
         elif xtl is not None:
-            warning_message = "Warning, tickslabels should be fixed only when ticks are fixed (function setax)"
+            warning_message: str = "Warning, tickslabels should be fixed only when ticks are fixed (function setax)"
             warnings.warn(warning_message, UserWarning)
         if xtl is None:
             ax.set_xticklabels([])
@@ -384,7 +418,11 @@ def _set_xticks(self, ax, xtc, xtl):
     return None
 
 
-def _set_yticks(self, ax, ytc, ytl):
+def _set_yticks(self: Image, 
+                ax: Axes, 
+                ytc: str | list[float] | None, 
+                ytl : str | list[str] | None
+               ) -> None:
     """
     Sets the ticks and ticks labels on the y-axis of a selected axis.
 
@@ -423,7 +461,7 @@ def _set_yticks(self, ax, ytc, ytl):
             ax.set_yticks(ytc)
     return None
 
-def _check_rows(self, hratio, hspace, nrow):
+def _check_rows(self: Image, hratio: list[float], hspace: float | list[float], nrow: int) -> tuple[list[float], list[float]]:
     """
     Checks the width and spacing of the plots on a single column
 
@@ -458,7 +496,7 @@ def _check_rows(self, hratio, hspace, nrow):
 
     return hspace[:nrow - 1], hratio[:nrow]
 
-def _check_cols(self, wratio, wspace, ncol):
+def _check_cols(self: Image, wratio: list[float], wspace: float | list[float], ncol: int) -> tuple[list[float], list[float]]:
     """
     Checks the width and spacing of the plots on a single row
 
@@ -502,7 +540,12 @@ def _check_cols(self, wratio, wspace, ncol):
 
     return wspace[:ncol - 1], wratio[:ncol]
 
-def _set_cscale(self, cscale, vmin, vmax, tresh = None, lint = None):
+def _set_cscale(self: Image, 
+                cscale: str, 
+                vmin: float, 
+                vmax: float, 
+                tresh: float, 
+                lint:  float | None = None):
     """
     Sets the color scale of a pcolormesh given the scale, the minimum and the maximum.
 
@@ -529,7 +572,7 @@ def _set_cscale(self, cscale, vmin, vmax, tresh = None, lint = None):
     """
     
     if lint is not None and tresh is not None:
-        warnings.warn("'lint' and 'tresh' keyworda are both present, 'tresh' is used", UserWarning)
+        warnings.warn("'lint' and 'tresh' keywords are both present, 'tresh' is used", UserWarning)
     elif lint is not None:
         warnings.warn("'lint' keyword is deprecated, please use 'tresh' instead", UserWarning)
         tresh = lint
@@ -545,7 +588,7 @@ def _set_cscale(self, cscale, vmin, vmax, tresh = None, lint = None):
         norm = mcol.Normalize(vmin = vmin,vmax = vmax)
     return norm
 
-def _assign_ax(self, ax, **kwargs):
+def _assign_ax(self: Image, ax: Axes | list[Axes] | None, **kwargs: Any) -> tuple[Axes, int]:
     """
     Sets the axes of the figure where the plot/feature should go.
     If no axis is present, an axis is created. If the axis is present
@@ -568,54 +611,25 @@ def _assign_ax(self, ax, **kwargs):
             the selected parameters
     """
 
+    from .figure import create_axes
+
     if ax is None and len(self.ax) == 0:
-        ax = self.create_axes(ncol = 1, nrow = 1, check = False, **kwargs)
+        ax = create_axes(self, ncol = 1, nrow = 1, check = False, **kwargs)
 
     elif ax is None and len(self.ax) > 0:
         ax  = self.fig.gca()
 
-    nax = self._check_fig(ax)
+    if isinstance(ax, list):
+        ax = ax[0]
+    elif ax is None:
+        ax = self.fig.gca()
+
+    nax = _check_fig(self, ax)
     return ax, nax
 
-def _assign_default(self):
-    """
-    Assigns the default figures conditions.
-    IMPORTANT! Replace the lists with a dictionary!
-
-    Returns
-    -------
-
-        None
-    
-    Parameters
-    ----------
-
-        None
-    """
-
-    self.fontsize: int  = 17
-    self.tight: bool = True
-    self.nwin: int = 1
-    self.figsize = [8,5]
-    self._set_size = False
-    self.nrow0    = 0
-    self.ncol0    = 0
-    self.ax       = []
-                    # black, red, blue, cyan, green, orange
-    self.color    = ['k','#d7263d','#1815c5','#12e3c0','#3f6600','#f67451']
-    self.vlims    = []
-    self.nline    = []
-    self.ntext    = []
-    self.setax    = []
-    self.setay    = []
-    self.legpos   = []
-    self.legpar   = []
-    self.tickspar = []
-    self.shade    = []
-    #self.LaTeX    = LaTeX
-    return None
-
-def _assign_LaTeX(self, LaTeX, fontweight):
+def _assign_LaTeX(self: Image, 
+                  LaTeX: bool | str
+                 ) -> None:
     """
     Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX
     and should be used only to get vectorial figures with minimal file size.
@@ -650,7 +664,7 @@ def _assign_LaTeX(self, LaTeX, fontweight):
         mpl.rcParams.update({
             'pgf.preamble': pgf_preamble,
             'font.family': 'serif',
-            'font.weight': fontweight,
+            'font.weight': self.fontweight,
             'text.usetex': True
         })
 

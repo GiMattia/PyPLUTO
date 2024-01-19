@@ -120,7 +120,7 @@ class Load:
         from .readfluid import _read_grid, _read_outfile
         
         # Initialization or declaration of variables (used in this file)
-        self.nout: np.ndarray # Output to be loaded
+        self.nout: NDArray # Output to be loaded
         self._d_end: dict[str | None, str | None]  # Endianess dictionary
         self._multiple: bool    # Bool for single or multiple files
         self._alone: bool | None = None # Bool for standalone files
@@ -130,9 +130,9 @@ class Load:
         # Initialization or declaration of variables (used in other files)
         self.pathdir: Path   # Path to the simulation directory
         self.format: str | None = None    # The format of the files to be loaded
-        self.outlist: np.ndarray # The list of outputs to be loaded (CHECK TYPEHINT)
-        self.timelist: np.ndarray # The list of times to be loaded (CHECK TYPEHINT)
-        self.ntime: np.ndarray # The time array
+        self.outlist: NDArray # The list of outputs to be loaded
+        self.timelist: NDArray # The list of times to be loaded
+        self.ntime: NDArray # The time array
         self.set_vars: set[str] # The set of variables to be loaded
         self.set_outs: set[int] # The set of outputs to be loaded 
         self.geom: str # The geometry of the simulation
@@ -142,7 +142,7 @@ class Load:
 
         self._charsize: int # The data size in the files
         self._lennout: int # The number of outputs to be loaded
-        self._d_info: dict[str, Any] # Info dictionary (CHECK TYPEHINT)
+        self._d_info: dict[str, Any] # Info dictionary
         self._matching_files: list[str] # The list of files to be loaded
         self._pathgrid: Path # Path to the grid file
         self._pathdata: Path | None = None # Path to the data files to be loaded
@@ -151,25 +151,24 @@ class Load:
         self._offset: dict[str, int] # The offset of the variables
         self._shape: dict[str, tuple[int, ...]] # The shape of the variables
         self._vardim: list[int] # The dimension of the variables
-        self._dictdim: dict # The dictionary of dimensions (CHECK TYPEHINT)   
+        self._dictdim: dict # The dictionary of dimensions 
 
         # Declaration of the grid variables
-        self.x1: np.ndarray; self.x2: np.ndarray; self.x3: np.ndarray
-        self.x1r: np.ndarray; self.x2r: np.ndarray; self.x3r: np.ndarray
-        self.x1c: np.ndarray; self.x2c: np.ndarray
-        self.x1rc: np.ndarray; self.x2rc: np.ndarray
-        self.dx1: np.ndarray; self.dx2: np.ndarray; self.dx3: np.ndarray
+        self.x1: NDArray; self.x2: NDArray; self.x3: NDArray
+        self.x1r: NDArray; self.x2r: NDArray; self.x3r: NDArray
+        self.x1c: NDArray; self.x2c: NDArray
+        self.x1rc: NDArray; self.x2rc: NDArray
+        self.dx1: NDArray; self.dx2: NDArray; self.dx3: NDArray
         self.nx1: int; self.nx2: int; self.nx3: int
         self.gridsize: int
         self.gridlist3: list[str]
-        self.x1p: np.ndarray; self.x2p: np.ndarray
-        self.x1rp: np.ndarray; self.x2rp: np.ndarray
+        self.x1p: NDArray; self.x2p: NDArray
+        self.x1rp: NDArray; self.x2rp: NDArray
 
-        self._gridsize_st1: int; self._nshp_st1: np.ndarray
-        self._gridsize_st2: int; self._nshp_st2: np.ndarray
-        self._gridsize_st3: int; self._nshp_st3: np.ndarray
+        self._gridsize_st1: int; self._nshp_st1: NDArray
+        self._gridsize_st2: int; self._nshp_st2: NDArray
+        self._gridsize_st3: int; self._nshp_st3: NDArray
     
-
         _nout_out: int | list[int]       # Output to be printed
 
         # Check the input endianess
@@ -290,10 +289,10 @@ class LoadPart:
         self.pathdir: Path   # Path to the simulation directory
         self.format: str | None = None    # The format of the files to be loaded
         self._charsize: int # The data size in the files
-        self.outlist: np.ndarray # The list of outputs to be loaded (CHECK TYPEHINT)
-        self.timelist: np.ndarray # The list of times to be loaded (CHECK TYPEHINT)
+        self.outlist: NDArray # The list of outputs to be loaded (CHECK TYPEHINT)
+        self.timelist: NDArray # The list of times to be loaded (CHECK TYPEHINT)
         self._lennout: int # The number of outputs to be loaded
-        self.ntime: np.ndarray # The time array
+        self.ntime: NDArray # The time array
         self._d_info: dict[str, Any] # Info dictionary (CHECK TYPEHINT)
         self.set_vars: set[str] # The set of variables to be loaded
         self.set_outs: set[int] # The set of outputs to be loaded   
@@ -310,7 +309,7 @@ class LoadPart:
         self._dictdim: dict # The dictionary of dimensions (CHECK TYPEHINT)
         self.nfile_lp: int | None  = nfile_lp  # File number for the lp methods
         self.maxpart: int = 0  # Max number of particles in the simulation
-        self._vardim: np.ndarray # The dimension of the variables
+        self._vardim: NDArray # The dimension of the variables
 
         # Check the input endianess
         self._d_end = {'big': '>', 'little': '<', 
@@ -373,30 +372,89 @@ class LoadPart:
         Please refrain from using "private" methods.
         '''
 
-
 class Image:
 
     def __init__(self, 
                  LaTeX: bool | str = True, 
                  text: bool = False, 
-                 fig: int | str | Figure | SubFigure | None = None, 
-                 **kwargs: dict[str, Any]
+                 fig: Figure | None = None, 
+                 **kwargs: Any
                 ) -> None:
         """
         
         """
-        self.figsize: tuple[float, float] | None
-        self.nwin: int | None
-        self.nrow0: int | None
-        self.ncol0: int | None
-        self.fontsize: int | None
 
-        self._assign_default()
-        self._assign_LaTeX(LaTeX, kwargs.get('fontweight','normal'))        
-        self._create_fig(fig, check = True, **kwargs)
+        from .figure import _create_fig
+        from .h_image import _assign_LaTeX
+        
+
+        self.fontsize: int = 17
+        self.tight: bool = True
+        self.figsize: list[float] = [8,5]
+        self._set_size: bool = False
+        self.nwin: int = 1
+        self.nrow0: int = 0
+        self.ncol0: int = 0
+        self.ax: list[Axes] = []
+                                  # black, red, blue, cyan, green, orange
+        self.color: list[str] = ['k','#d7263d','#1815c5',
+                                 '#12e3c0','#3f6600','#f67451']
+        
+        self.vlims: list[list[float]] = []
+        self.nline: list[int] = []
+        self.ntext: list[Any | None] = []
+        self.setax: list[Any |int] = []
+        self.setay: list[Any |int] = []
+        self.legpos: list[int | str | None] = []
+        self.legpar: list[list[float]] = []
+        self.tickspar: list[Any | int] = []
+        self.shade: list[str] = []
+        self.fontweight: str = kwargs.get('fontweight','normal')
+        self.tg: bool
+        self.fig: Figure
+        self.anim_var:NDArray
+        self.anim_ax: Axes
+        self.slider: Slider
+        self.anim_pcm: Any # FIX
+
+        _assign_LaTeX(self, LaTeX)        
+        _create_fig(self, fig,True, **kwargs)
         if text is not False:
 
             print(f"Creating Figure in window {self.nwin}")
+
+        # Dynamically attach methods from other files
+        self._attach_methods()
+        
+    def _attach_methods(self):
+        from .figure    import create_axes, set_axis
+        from .plot      import plot, legend
+        from .display   import display, colorbar
+        from .figtools  import savefig, show, text
+        from .interact  import interactive, _update_slider
+        from .plot_part import scatter, histogram
+        from .zoom      import zoom, _zoomplot, _zoomdisplay
+
+        # Attach public methods to the Image instance
+        self.create_axes:    Callable = create_axes.__get__(self)
+        self.set_axis:       Callable = set_axis.__get__(self)
+        self.plot:           Callable = plot.__get__(self)
+        self.legend:         Callable = legend.__get__(self)
+        self.display:        Callable = display.__get__(self)
+        self.colorbar:       Callable = colorbar.__get__(self)
+        self.savefig:        Callable = savefig.__get__(self)
+        self.show:           Callable = show.__get__(self)
+        self.text:           Callable = text.__get__(self)
+        self.interactive:    Callable = interactive.__get__(self)
+        self.scatter:        Callable = scatter.__get__(self)
+        self.histogram:      Callable = histogram.__get__(self)
+        self.zoom:           Callable = zoom.__get__(self)
+
+        # Attach private methods to the Image instance
+        self._update_slider: Callable = _update_slider.__get__(self)
+        self._zoomplot:      Callable = _zoomplot.__get__(self)
+        self._zoomdisplay:   Callable = _zoomdisplay.__get__(self)
+
 
     def __str__(self):
         return rf"""
@@ -432,21 +490,6 @@ class Image:
 
         Please refrain from using "private" methods and attributes.
         """
-
-    from .h_image  import _place_inset_pos, _place_inset_loc
-    from .h_image  import _set_parax, _check_par, _set_xrange, _set_yrange
-    from .h_image  import _set_xticks, _set_yticks, _check_rows, _check_cols
-    from .h_image  import _hide_text, _set_cscale
-    from .h_image  import _check_fig, _add_ax, _assign_ax
-    from .h_image  import _assign_default, _assign_LaTeX
-
-    from .fig        import _create_fig, create_axes, set_axis
-    from .plot       import plot, legend
-    from .display    import display, colorbar
-    from .interact   import interactive, _update_slider
-    from .figtools   import savefig, show, text
-    from .zoom       import zoom, _zoomplot, _zoomdisplay
-    from .plot_part  import scatter, histogram
 
 
 class Tools:

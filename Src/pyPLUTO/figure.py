@@ -1,17 +1,37 @@
 from .libraries import *
+from .__init__ import Image
 
-def _create_fig(self, fig, check: bool = True, **kwargs) -> None:
+
+def _create_fig(self: Image, 
+                fig: Figure | None, 
+                check: bool = True, 
+                **kwargs: Any
+               ) -> None:
     """
     Function that creates the figure associated to the Image.
+    
+    Parameters
+    ----------
+    fig : Figure | None
+        The the figure instance.
+    check : bool, optional
+        If True, checks the parameters. The default is True.
+    **kwargs : Any
+        Additional parameters.
+    
+    Returns
+    -------
+
+    None.
 
     """
 
     # Changes keywords if figure has been already assigned
-    if fig is not None:
-        self.figsize       = [fig.get_figwidth(),fig.get_figheight()]
-        self.fontsize      = plt.rcParams['font.size']
-        self.nwin          = fig.number
-        self.tg            = fig.get_tight_layout()
+    if isinstance(fig,Figure):
+        self.figsize  = [fig.get_figwidth(),fig.get_figheight()]
+        self.fontsize = plt.rcParams['font.size']
+        self.nwin     = fig.number # type: ignore (It is correct)
+        self.tg       = fig.get_tight_layout()
 
     # If figsize is assigned, a keyword fixes it
     if 'figsize' in kwargs:
@@ -41,7 +61,12 @@ def _create_fig(self, fig, check: bool = True, **kwargs) -> None:
 
     return None
 
-def create_axes(self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs):
+def create_axes(self: Image, 
+                ncol: int = 1, 
+                nrow: int = 1, 
+                check: bool = True, 
+                **kwargs: Any
+               ):
     """
         Creation of a set of axes using add_subplot.
 
@@ -137,12 +162,13 @@ def create_axes(self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs
 
         """
 
+    from .h_image import _add_ax, _check_par, _check_rows, _check_cols
     
     # Check parameters
     param = {'bottom', 'figsize', 'fontsize', 'hratio', 'hspace', 'left', 'ncol', 
              'nrow', 'proj', 'right', 'suptitle', 'tight', 'top', 'wratio', 'wspace'}
     if check is True:
-        self._check_par(param, 'create_axes', **kwargs)
+        _check_par(self, param, 'create_axes', **kwargs)
 
     if 'fontsize' in kwargs:
         plt.rcParams.update({'font.size': kwargs['fontsize']})
@@ -162,8 +188,8 @@ def create_axes(self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs
         wratio = kwargs.get('wratio',[1.0])
         hratio = kwargs.get('hratio', [1.0])
 
-        hspace, hratio  = self._check_rows(hratio, hspace, nrow)
-        wspace, wratio  = self._check_cols(wratio, wspace, ncol)
+        hspace, hratio  = _check_rows(self, hratio, hspace, nrow)
+        wspace, wratio  = _check_cols(self, wratio, wspace, ncol)
 
         # Computes the height and width of every subplot
         hsize = top - bottom - sum(hspace)
@@ -209,12 +235,13 @@ def create_axes(self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs
 
     # Add axes
     for i in range(ncol*nrow):
-        self._add_ax(self.fig.add_subplot(nrow + self.nrow0, ncol + self.ncol0, i+1, projection=proj), len(self.ax))
+        _add_ax(self, self.fig.add_subplot(nrow + self.nrow0, ncol + self.ncol0, 
+                                           i+1, projection=proj), len(self.ax))
         if wplot is not None and hplot is not None:
             row = int(i/ncol)
             col = int(i%ncol)
-            self.ax[-1].set_position(pos=[wplot[col][0], hplot[row][0],
-                                          wplot[col][1], hplot[row][1]])
+            self.ax[-1].set_position(pos=(wplot[col][0], hplot[row][0],
+                                          wplot[col][1], hplot[row][1]))
 
     # Updates rows and columns
     self.nrow0 = self.nrow0 + nrow
@@ -228,16 +255,15 @@ def create_axes(self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs
         self.fig.suptitle(kwargs['suptitle'])
 
     # Tight layout
-    tg = kwargs.get('tight', self.tight)
-    if tg is False:
-        self.fig.set_tight_layout(None)
-        self.tight = False
-    else:
-        self.fig.set_tight_layout('tight')
-        self.tight = True
+    self.tight = kwargs.get('tight', self.tight)
+    self.fig.set_tight_layout(None if not self.tight else 'tight') # type: ignore (It is correct)
     return ret_ax
 
-def set_axis(self, ax = None, check = True, **kwargs):
+def set_axis(self: Image, 
+             ax: Axes | None = None, 
+             check: bool = True, 
+             **kwargs: Any
+            ):
     """
         Customization of a single subplot axis.
         Properties such as the range, scale and aspect of each subplot
@@ -357,18 +383,22 @@ def set_axis(self, ax = None, check = True, **kwargs):
 
     """
 
+    # Import methods from other files
+    from .h_image import _check_fig, _check_par, _set_xrange, _set_yrange
+    from .h_image import _set_xticks, _set_yticks
+
     # Take last axis if not specified
-    ax  = self.fig.gca() if ax is None else ax
-    nax = self._check_fig(ax)
+    ax = self.fig.gca() if ax is None else ax
+    nax: int = _check_fig(self, ax)
 
     # Check for unknown keywords
-    param = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 
+    param: set = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 
              'minorticks', 'ticksdir', 'tickssize', 'title', 'titlepad', 
              'titlesize', 'xrange', 'xscale', 'xticks', 'xtickslabels', 
              'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     
     if check is True:
-        self._check_par(param, 'set_axis', **kwargs)
+        _check_par(self, param, 'set_axis', **kwargs)
 
     # Set fontsize
     if 'fontsize' in kwargs:
@@ -380,9 +410,9 @@ def set_axis(self, ax = None, check = True, **kwargs):
 
     # Set xrange and yrange
     if kwargs.get('xrange',None) is not None:
-        self._set_xrange(ax, nax, kwargs['xrange'], 3)
+        _set_xrange(self, ax, nax, kwargs['xrange'], 3)
     if kwargs.get('yrange',None) is not None:
-        self._set_yrange(ax, nax, kwargs['yrange'], 3)
+        _set_yrange(self, ax, nax, kwargs['yrange'], 3)
 
     # Set title and axes labels
     if kwargs.get('title',None) is not None:
@@ -419,13 +449,14 @@ def set_axis(self, ax = None, check = True, **kwargs):
         ax.set_alpha(kwargs['alpha'])
 
     # Set ticks and tickslabels
-    xtc, ytc = kwargs.get('xticks', 'Default'), kwargs.get('yticks', 'Default')
-    xtl = kwargs.get('xtickslabels', 'Default')
-    ytl = kwargs.get('ytickslabels', 'Default')
+    xtc: str | list[float] | None = kwargs.get('xticks', 'Default')
+    ytc: str | list[float] | None = kwargs.get('yticks', 'Default')
+    xtl: str | list[str] | None = kwargs.get('xtickslabels', 'Default')
+    ytl: str | list[str] | None = kwargs.get('ytickslabels', 'Default')
     if xtc != 'Default' or xtl != 'Default':
-        self._set_xticks(ax, xtc, xtl)
+        _set_xticks(self, ax, xtc, xtl)
     if ytc != 'Default' or ytl != 'Default':
-        self._set_yticks(ax, ytc, ytl)
+        _set_yticks(self, ax, ytc, ytl)
 
     # Reinforces the tight_layout if needed
     if self.tight is not False:

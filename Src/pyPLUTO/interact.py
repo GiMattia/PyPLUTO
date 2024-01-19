@@ -1,7 +1,10 @@
 from .libraries import *
+from .__init__ import Image
 
-def interactive(self, varx, vary = None, fig = None, **kwargs):
+def interactive(self: Image, varx, vary = None, fig = None, **kwargs):
     # CHECK VMIN VMAX BOUNDS!!!
+
+    from .h_image import _assign_ax
 
     # Store the variable
     if vary is None:
@@ -15,14 +18,14 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
     splt = np.ndim(vary[0])
 
     # Set or create figure and axes (to test)
-    ax, nax = self._assign_ax(kwargs.pop('ax', None), **kwargs, tight = False)
+    ax, nax = _assign_ax(self, kwargs.pop('ax', None), **kwargs, tight = False)
     self.anim_ax  = ax
 
     # Position the slider
     pos_slider = ax.get_position()
     pos_x0 = pos_slider.x0*1.5
     pos_x1 = pos_slider.x1*0.95 - pos_x0
-    sliderax = self.fig.add_axes([pos_x0, 0.02, pos_x1, 0.04])
+    sliderax = self.fig.add_axes((pos_x0, 0.02, pos_x1, 0.04))
 
     # Create the slider
     self.slider = Slider(sliderax,label="out", valmin=0, valmax=nsld, valinit = 0, valstep = 1, valfmt = '%d')
@@ -39,7 +42,7 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
 
     return None
 
-def _update_slider(self, i):
+def _update_slider(self: Image, i: int) -> None:
     var = self.anim_var[int(i)]
     if np.ndim(var) == 2:
         self.anim_pcm.set_array(var.T.ravel())

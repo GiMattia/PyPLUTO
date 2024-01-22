@@ -58,10 +58,6 @@ def display(self: Image,
     - labelsize: float, default fontsize
         Sets the labels fontsize (which is the same for both labels).
         The default value corresponds to the value of the keyword 'fontsize'.
-    - lint: float, default max(abs(vmin),vmax)*0.01
-        Additional parameter in presence of a composite colormap. The specific cases are the following:
-        - twoslope colorscale: sets the limit between the two linear regimes.
-        - symlog: sets the limit between the logaitrhmic and the linear regime.
     - minorticks: str, default None
         If not None enables the minor ticks on the plot (for both grid axes). SUL SINGOLO ASSE?
     - proj: str, default None
@@ -90,6 +86,12 @@ def display(self: Image,
     - transpose: True/False, default False
         Transposes the variable matrix. Use is not recommended if not really 
         necessary (e.g. in case of highly customized variables and plots)
+    - tresh: float, default max(abs(vmin),vmax)*0.01
+        Sets the threshold for the colormap. If not defined, the threshold will
+        be set to 1% of the maximum absolute value of the variable.
+        The default cases are the following:
+        - twoslope colorscale: sets the limit between the two linear regimes.
+        - symlog: sets the limit between the logaitrhmic and the linear regime.
     - var (not optional): 2D array
         The array to be plotted.
     - vmax: float, default max(z)
@@ -177,7 +179,7 @@ def display(self: Image,
 
     # Import methods from other files
     from .h_image import _check_par, _set_cscale, _set_parax, _assign_ax 
-    from .h_image import _check_fig, _hide_text
+    from .h_image import _hide_text
 
     # Declare variables
     ax: Axes
@@ -217,7 +219,7 @@ def display(self: Image,
     # Keyword for colorbar and colorscale
     cpos     = kwargs.get('cpos',None)
     cscale   = kwargs.get('cscale','norm')
-    tresh    = kwargs.get('tresh',max(np.abs(vmin),vmax)*0.01)
+    tresh    = kwargs.get('tresh', max(np.abs(vmin),vmax)*0.01)
     lint     = kwargs.get('lint',None)
     self.vlims[nax] = [vmin,vmax,tresh]
 

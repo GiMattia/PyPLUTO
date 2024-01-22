@@ -571,12 +571,9 @@ def _set_cscale(self: Image,
 
     """
     
-    if lint is not None and tresh is not None:
-        warnings.warn("'lint' and 'tresh' keywords are both present, 'tresh' is used", UserWarning)
-    elif lint is not None:
-        warnings.warn("'lint' keyword is deprecated, please use 'tresh' instead", UserWarning)
-        tresh = lint
-
+    if lint is not None:
+        warnings.warn("'lint' keyword is deprecated, please use \
+                       'tresh' instead", UserWarning)
 
     if cscale == 'log':
         norm = mcol.LogNorm(vmin = vmin,vmax = vmax)

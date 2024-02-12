@@ -3,20 +3,23 @@ from .libraries import *
 def savefig(self, filename = 'img.png', bbox = 'tight'):
     self.fig.savefig(filename, bbox_inches = bbox)
 
-def show(self, block = True):
-    self.fig.show(block = block)
+def show(self, block: bool = True):
+    self.fig.show(block = block) # type: ignore
 
 def text(self, text, x = 0.9, y = 0.9, ax = None, **kwargs):
 
+    # Import methods from other files
+    from .h_image import _check_fig, _hide_text
+
     # Find figure and number of the axis
     ax = self.fig.gca() if ax is None else ax
-    nax = self._check_fig(ax)
+    nax = _check_fig(self, ax)
 
     coordinates = {'fraction': ax.transAxes, 'points': ax.transData, 'figure': self.fig.transFigure}
 
     xycoord = kwargs.get('xycoords', 'points')
 
-    self._hide_text(nax, ax.texts) and xycoord != 'figure'
+    if xycoord != 'figure': _hide_text(self, nax, ax.texts)
     coord = coordinates[xycoord]
     
     hortx = kwargs.get('horalign','left')

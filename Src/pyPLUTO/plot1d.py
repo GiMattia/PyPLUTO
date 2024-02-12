@@ -1,6 +1,12 @@
 from .libraries import *
+from .h_pypluto import _check_par
 
-def plot(self, x, y = [None], check = True, **kwargs):
+def plot(self, 
+         x: list[float] | NDArray, 
+         y: list[float] | NDArray | list[None] = [None], 
+         check: bool = True, 
+         **kwargs: Any
+        ) -> None:
     """
     Plot for a 1D function (or a 1D slice).
     A simple figure and a single axis can also be created.
@@ -159,6 +165,11 @@ def plot(self, x, y = [None], check = True, **kwargs):
 
     """
 
+    # Declare variables
+    ax: Axes
+    nax: int
+
+
     # Convert x and y in numpy arrays
     if y[0] is None:
         y = x
@@ -167,11 +178,11 @@ def plot(self, x, y = [None], check = True, **kwargs):
     y = np.asarray(y)
 
     # Check parameters
-    param = {'alpha', 'aspect', 'ax', 'c', 'figsize', 'fillstyle', 'fontsize', 'label', 'labelsize', 'legcols', 'legpad', 'legpos', 'legsize', 'legspace', 'ls',
+    param: set = {'alpha', 'aspect', 'ax', 'c', 'figsize', 'fillstyle', 'fontsize', 'label', 'labelsize', 'legcols', 'legpad', 'legpos', 'legsize', 'legspace', 'ls',
              'lw', 'marker', 'minorticks', 'ms', 'proj', 'ticksdir', 'tickssize', 'title', 'titlesize', 'x', 'xrange', 'xscale', 'xticks', 'xtickslabels',
              'xtitle', 'y', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
-        self._check_par(param, 'plot', **kwargs)
+        _check_par(param, 'plot', **kwargs)
 
     # Set or create figure and axes
     ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
@@ -196,9 +207,9 @@ def plot(self, x, y = [None], check = True, **kwargs):
     # Creation of the legend
     self.legpos[nax] = kwargs.get('legpos', self.legpos[nax])
     if self.legpos[nax] != None:
-        copy_label = kwargs.get('label',None)
+        copy_label: str | None = kwargs.get('label',None)
         kwargs['label'] =  None
-        self.legend(ax, check = 'no', fromplot = True, **kwargs)
+        legend(self, ax, check = False, fromplot = True, **kwargs)
         kwargs['label'] =  copy_label
 
     # If tight_layout is enabled, is re-inforced
@@ -207,7 +218,12 @@ def plot(self, x, y = [None], check = True, **kwargs):
 
     return None
 
-def legend(self, ax = None, check = True, fromplot = False, **kwargs):
+def legend(self, 
+           ax: Axes | None = None, 
+           check: bool = True, 
+           fromplot: bool = False, 
+           **kwargs: Any
+          ) -> None:
     '''
     Creation of the legend (from scratch or through the lines of the plot).
 
@@ -289,7 +305,7 @@ def legend(self, ax = None, check = True, fromplot = False, **kwargs):
     # Check parameters
     param = {'ax', 'c', 'fillstyle', 'label', 'legcols', 'legpad', 'legpos', 'legsize', 'legspace', 'ls', 'lw', 'marker', 'ms'}
     if check is True:
-        self._check_par(param, 'legend', **kwargs)
+        _check_par(param, 'legend', **kwargs)
 
     # Find figure and number of the axis
     ax  = self.fig.gca() if ax is None else ax

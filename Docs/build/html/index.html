@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Welcome to pyPLUTO’s documentation! &#8212; pyPLUTO 0.7.3 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=a5145ed4" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ebffa592"></script>
+    <title>Welcome to pyPLUTO’s documentation! &#8212; pyPLUTO 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Brief introduction to python" href="python.html" /> 
@@ -18,7 +18,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="#">pyPLUTO 0.7.3 documentation</a></div>
+          href="#">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="python.html" title="Brief introduction to python"
              accesskey="N">next</a> |
@@ -37,7 +37,7 @@
           <div class="body" role="main">
             
   <section id="welcome-to-pypluto-s-documentation">
-<h1>Welcome to pyPLUTO’s documentation!<a class="headerlink" href="#welcome-to-pypluto-s-documentation" title="Permalink to this heading">¶</a></h1>
+<h1>Welcome to pyPLUTO’s documentation!<a class="headerlink" href="#welcome-to-pypluto-s-documentation" title="Link to this heading">¶</a></h1>
 <p><strong>pyPLUTO</strong> is a Python library which loads and plots the data obtain from the PLUTO code simulations.
 The aim of this package is to simplify some non-trivial python routines in order to quickly recover
 plots that can be inserted in scientific publications.
@@ -48,7 +48,7 @@ the section <a class="reference internal" href="load.html#loadclass"><span class
 <p>This project is under active development.</p>
 </div>
 <section id="contents">
-<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this heading">¶</a></h2>
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
@@ -58,54 +58,30 @@ the section <a class="reference internal" href="load.html#loadclass"><span class
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="load.html#the-pypluto-load-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Load()</span></code> class</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="load.html#pyPLUTO.Load"><code class="docutils literal notranslate"><span class="pre">Load</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="load.html#the-pypluto-load-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Load()</span></code> class</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="image.html#pyPLUTO.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#image-initialization">Image initialization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="create_axes.html#pyPLUTO.Image.create_axes"><code class="docutils literal notranslate"><span class="pre">create_axes()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="set_axis.html">setaxis function</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="set_axis.html#pyPLUTO.Image.set_axis"><code class="docutils literal notranslate"><span class="pre">set_axis()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="set_axis.html">setaxis function</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plot.html">plot function</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plot.html#pyPLUTO.Image.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="display.html">display function</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="display.html#pyPLUTO.Image.display"><code class="docutils literal notranslate"><span class="pre">display()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="plot.html">plot function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="display.html">display function</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="zoom.html">zoom function</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="zoom.html#pyPLUTO.Image.zoom"><code class="docutils literal notranslate"><span class="pre">zoom()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="text.html">text function</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="text.html#pyPLUTO.Image.text"><code class="docutils literal notranslate"><span class="pre">text()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="zoom.html">zoom function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="text.html">text function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
 </ul>
 </li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tools.html#pyPLUTO.Tools"><code class="docutils literal notranslate"><span class="pre">Tools</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="test01_sod.html">HD Sod</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test02_ot.html">MHD OT</a></li>
@@ -119,7 +95,7 @@ the section <a class="reference internal" href="load.html#loadclass"><span class
 </section>
 </section>
 <section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
@@ -173,8 +149,8 @@ the section <a class="reference internal" href="load.html#loadclass"><span class
         <div class="right">
           
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023, G. Mattia, D. Crocco.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.0.
+    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
         </div>
         <div class="clearer"></div>

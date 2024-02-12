@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>create_axes function &#8212; pyPLUTO 0.7.3 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=a5145ed4" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ebffa592"></script>
+    <title>create_axes function &#8212; pyPLUTO 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="setaxis function" href="set_axis.html" />
@@ -19,7 +19,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyPLUTO 0.7.3 documentation</a></div>
+          href="index.html">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="image.html" title="Plotting the data"
              accesskey="P">previous</a> |
@@ -40,111 +40,8 @@
           <div class="body" role="main">
             
   <section id="create-axes-function">
-<span id="create-axes"></span><h1>create_axes function<a class="headerlink" href="#create-axes-function" title="Permalink to this heading">¶</a></h1>
+<span id="create-axes"></span><h1>create_axes function<a class="headerlink" href="#create-axes-function" title="Link to this heading">¶</a></h1>
 <p>The function create_axes generates new axes to locate future computed plots or displays.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="pyPLUTO.Image.create_axes">
-<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">create_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Image.create_axes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creation of a set of axes using add_subplot.
-If additional parameters (like the figure limits or the spacing)
-are given, the plots are located using set_position.
-The spacing and the ratio between the plots can be given by hand.
-In case only few custom options are given, the code computes the rest
-(but gives a small warning); in case no custom option is given, the axes
-are located through the standard methods of matplotlib.</p>
-<p>If more axes are created in the figure, the list of all axes is returned,
-otherwise the single axis is returned.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>- bottom: float, default 0.1</strong></dt><dd><p>The space from the bottom border to the last row of plots.</p>
-</dd>
-<dt><strong>- figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]</strong></dt><dd><p>Sets the figure size. The default value is computed from the number
-of rows and columns.</p>
-</dd>
-<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axes.</p>
-</dd>
-<dt><strong>- hratio: [float], default [1.0]</strong></dt><dd><p>Ratio between the rows of the plot. The default is that every plot
-row has the same height.</p>
-</dd>
-<dt><strong>- hspace: [float], default []</strong></dt><dd><p>The space between plot rows (in figure units). If not enough or
-too many spaces are considered, the program will remove the excess and
-fill the lacks with [0.1].</p>
-</dd>
-<dt><strong>- left: float, default 0.125</strong></dt><dd><p>The space from the left border to the leftmost column of plots.</p>
-</dd>
-<dt><strong>- ncol: int, default 1</strong></dt><dd><p>The number of columns of subplots.</p>
-</dd>
-<dt><strong>- nrow: int, default 1</strong></dt><dd><p>The number of rows of subplots.</p>
-</dd>
-<dt><strong>- proj: str, default None</strong></dt><dd><p>Custom projection for the plot (e.g. 3D). Recommended only if needed.
-WARNING: pyPLUTO does not support 3D plotting for now, only 3D axes.
-The 3D plot feature will be available in future releases.</p>
-</dd>
-<dt><strong>- right: float, default 0.9</strong></dt><dd><p>The space from the right border to the rightmost column of plots.</p>
-</dd>
-<dt><strong>- suptitle: str, default None</strong></dt><dd><p>Creates a figure title over all the subplots.</p>
-</dd>
-<dt><strong>- tight: bool, default True</strong></dt><dd><p>Enables/disables tight layout options for the figure. In case of a
-highly customized plot (e.g. ratios or space between rows and columns)
-the option is set by default to False since that option would not be available
-for standard matplotlib functions.</p>
-</dd>
-<dt><strong>- top: float, default 0.9</strong></dt><dd><p>The space from the top border to the first row of plots.</p>
-</dd>
-<dt><strong>- wratio: [float], default [1.0]</strong></dt><dd><p>Ratio between the columns of the plot. The default is that every plot
-column has the same width.</p>
-</dd>
-<dt><strong>- wspace: [float], default []</strong></dt><dd><p>The space between plot columns (in figure units). If not enough or
-too many spaces are considered, the program will remove the excess and
-fill the lacks with [0.1].</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><dl class="simple">
-<dt>The list of axes (if more axes are in the figure) or the axis</dt><dd><p>(if only one axis is present)</p>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<ul>
-<li><p>Example #1: create a simple grid of 2 columns and 2 rows on a new figure</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</li>
-<li><p>Example #2: create a grid of 2 columns with the first one having half the width of the second one</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wratio</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-</div>
-</li>
-<li><p>Example #3: create a grid of 2 rows with a lot of blank space between them</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">nrow</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">hspace</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">])</span>
-</pre></div>
-</div>
-</li>
-<li><p>Example #4: create a 2x2 grid with a fifth image on the right side</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">left</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">)</span>
-</pre></div>
-</div>
-</li>
-</ul>
-</dd></dl>
-
 </section>
 
 
@@ -161,19 +58,19 @@ fill the lacks with [0.1].</p>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="image.html#pyPLUTO.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#image-initialization">Image initialization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#image-initialization">Image initialization</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">create_axes function</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.create_axes"><code class="docutils literal notranslate"><span class="pre">create_axes()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">create_axes function</a></li>
 <li class="toctree-l3"><a class="reference internal" href="set_axis.html">setaxis function</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="zoom.html">zoom function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="text.html">text function</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">create_axes function</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
@@ -211,8 +108,8 @@ fill the lacks with [0.1].</p>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023, G. Mattia, D. Crocco.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.0.
+    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
         </div>
         <div class="clearer"></div>

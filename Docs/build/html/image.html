@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Plotting the data &#8212; pyPLUTO 0.7.3 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=a5145ed4" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ebffa592"></script>
+    <title>Plotting the data &#8212; pyPLUTO 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="create_axes function" href="create_axes.html" />
@@ -19,7 +19,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyPLUTO 0.7.3 documentation</a></div>
+          href="index.html">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="load.html" title="Loading the data"
              accesskey="P">previous</a> |
@@ -40,24 +40,19 @@
           <div class="body" role="main">
             
   <section id="plotting-the-data">
-<h1>Plotting the data<a class="headerlink" href="#plotting-the-data" title="Permalink to this heading">¶</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="pyPLUTO.Image">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyPLUTO.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LaTeX</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Image" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<h1>Plotting the data<a class="headerlink" href="#plotting-the-data" title="Link to this heading">¶</a></h1>
 <p>The loaded data should be visualized in a complete yet efficient way.
 The class <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image</span></code> is a quick tool in order to obtain simple plots
 suitable for scientific articles.</p>
 <section id="image-initialization">
-<h2>Image initialization<a class="headerlink" href="#image-initialization" title="Permalink to this heading">¶</a></h2>
+<h2>Image initialization<a class="headerlink" href="#image-initialization" title="Link to this heading">¶</a></h2>
 <p>For the sake of simplicity, every Image class corresponds to one single figure.
 The reason behind such choice is that an Image including multiple figures would
 not be efficient in order to effectively remember where all the potential
 subplots are located.</p>
 </section>
 <section id="subplots-creation-and-customization">
-<h2>Subplots creation and customization<a class="headerlink" href="#subplots-creation-and-customization" title="Permalink to this heading">¶</a></h2>
+<h2>Subplots creation and customization<a class="headerlink" href="#subplots-creation-and-customization" title="Link to this heading">¶</a></h2>
 <p>The first step of the plotting procedure is to create a list of axes
 (where each element of the axes list corresponds to a subplot).
 Three functions are built in order to give a good compromise between simplicity and
@@ -86,7 +81,7 @@ called first in order to create the figure.</p>
 all the parameters in this function can be defined in the specific plotting functions.</p>
 </section>
 <section id="the-plotting-procedure">
-<h2>The plotting procedure<a class="headerlink" href="#the-plotting-procedure" title="Permalink to this heading">¶</a></h2>
+<h2>The plotting procedure<a class="headerlink" href="#the-plotting-procedure" title="Link to this heading">¶</a></h2>
 <p>At the moment only 1D and 2D plots are available.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -108,7 +103,7 @@ all the parameters in this function can be defined in the specific plotting func
 <p>2D plot <a class="reference internal" href="display.html#display"><span class="std std-ref">display function</span></a></p>
 </section>
 <section id="useful-plotting-tools">
-<h2>Useful plotting tools<a class="headerlink" href="#useful-plotting-tools" title="Permalink to this heading">¶</a></h2>
+<h2>Useful plotting tools<a class="headerlink" href="#useful-plotting-tools" title="Link to this heading">¶</a></h2>
 <p>Although features such as the legend or colorbar can be easily included
 during the plotting procedure, sometimes the best choice (especially for
 non-trivial figures) is to add them during a later step.</p>
@@ -120,6 +115,11 @@ non-trivial figures) is to add them during a later step.</p>
 </div>
 <p>The pyPLUTO module allows for inset zooms through two functions, which, respectively,
 zoom 1D and 2D plots.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
+</ul>
+</div>
 </section>
 </section>
 
@@ -137,7 +137,6 @@ zoom 1D and 2D plots.</p>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Plotting the data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#pyPLUTO.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#image-initialization">Image initialization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#subplots-creation-and-customization">Subplots creation and customization</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
@@ -152,6 +151,7 @@ zoom 1D and 2D plots.</p>
 <li class="toctree-l2"><a class="reference internal" href="#useful-plotting-tools">Useful plotting tools</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="zoom.html">zoom function</a></li>
 <li class="toctree-l3"><a class="reference internal" href="text.html">text function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
 </ul>
 </li>
 </ul>
@@ -191,8 +191,8 @@ zoom 1D and 2D plots.</p>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023, G. Mattia, D. Crocco.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.0.
+    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
         </div>
         <div class="clearer"></div>

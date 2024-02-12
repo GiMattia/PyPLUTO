@@ -2,10 +2,9 @@ Plotting the data
 =================
 
 .. autoclass:: pyPLUTO.Image
-     :undoc-members:
 
 The loaded data should be visualized in a complete yet efficient way.
-The class ``pyPLUTO.Image`` is a quick tool in order to obtain simple plots 
+The class ``pyPLUTO.Image`` is a quick tool in order to obtain simple plots
 suitable for scientific articles.
 
 Image initialization
@@ -15,7 +14,7 @@ For the sake of simplicity, every Image class corresponds to one single figure.
 The reason behind such choice is that an Image including multiple figures would
 not be efficient in order to effectively remember where all the potential
 subplots are located.
- 
+
 
 Subplots creation and customization
 -----------------------------------
@@ -73,7 +72,7 @@ Parameters such as the line colors are almost fully customizable.
 
 .. toctree::
   :maxdepth: 1
-  
+
   display
 
 2D plot :ref:`display`
@@ -93,3 +92,11 @@ non-trivial figures) is to add them during a later step.
 
 The pyPLUTO module allows for inset zooms through two functions, which, respectively,
 zoom 1D and 2D plots.
+
+
+.. autoclass:: pyPLUTO.NewImage
+
+.. toctree::
+   :maxdepth: 1
+
+   create_axes

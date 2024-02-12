@@ -1,6 +1,13 @@
 from .libraries import *
+    # Import methods from other files
 
-def display(self, var, check: bool = True, **kwargs):
+from .h_pypluto import _check_par
+
+def display(self, 
+            var: NDArray, 
+            check: bool = True, 
+            **kwargs: Any
+           ) -> None:
     """
     Plot for a 2D function (or a 2D slice) using the
     matplotlib's pcolormesh function.
@@ -53,10 +60,6 @@ def display(self, var, check: bool = True, **kwargs):
     - labelsize: float, default fontsize
         Sets the labels fontsize (which is the same for both labels).
         The default value corresponds to the value of the keyword 'fontsize'.
-    - lint: float, default max(abs(vmin),vmax)*0.01
-        Additional parameter in presence of a composite colormap. The specific cases are the following:
-        - twoslope colorscale: sets the limit between the two linear regimes.
-        - symlog: sets the limit between the logaitrhmic and the linear regime.
     - minorticks: str, default None
         If not None enables the minor ticks on the plot (for both grid axes). SUL SINGOLO ASSE?
     - proj: str, default None
@@ -83,8 +86,14 @@ def display(self, var, check: bool = True, **kwargs):
         Sets the title fontsize. The default value corresponds to the value
         of the keyword 'fontsize'.
     - transpose: True/False, default False
-        Transposes the variable matrix. Use is not recommended if not really necessary
-        (e.g. in case of highly customized variables and plots)
+        Transposes the variable matrix. Use is not recommended if not really 
+        necessary (e.g. in case of highly customized variables and plots)
+    - tresh: float, default max(abs(vmin),vmax)*0.01
+        Sets the threshold for the colormap. If not defined, the threshold will
+        be set to 1% of the maximum absolute value of the variable.
+        The default cases are the following:
+        - twoslope colorscale: sets the limit between the two linear regimes.
+        - symlog: sets the limit between the logaitrhmic and the linear regime.
     - var (not optional): 2D array
         The array to be plotted.
     - vmax: float, default max(z)
@@ -170,20 +179,23 @@ def display(self, var, check: bool = True, **kwargs):
 
     """
 
+    # Declare variables
+    ax:  Axes
+    nax: int
+
    # Check parameters
-    param = {'aspect', 'ax', 'clabel', 'cmap', 'cpad', 'cpos', 'cscale', 'cticks', 'ctickslabels', 'figsize', 'fontsize', 'labelsize', 'lint', 'minorticks', 'proj', 
-             'shading', 'ticksdir', 'tickssize', 'title', 'titlesize', 'transpose', 'var', 'vmax', 'vmin', 'x1', 'x2', 'xrange', 'xscale', 'xticks', 'xtickslabels',
+    param: set = {'aspect', 'ax', 'clabel', 'cmap', 'cpad', 'cpos', 'cscale', 'cticks', 'ctickslabels', 'figsize', 'fontsize', 'labelsize', 'lint', 'minorticks', 'proj', 
+             'shading', 'ticksdir', 'tickssize', 'title', 'titlesize', 'transpose', 'tresh', 'var', 'vmax', 'vmin', 'x1', 'x2', 'xrange', 'xscale', 'xticks', 'xtickslabels',
              'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
-        self._check_par(param, 'display', **kwargs)
+        _check_par(param, 'display', **kwargs)
 
     # Set or create figure and axes
     ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
 
     # Keyword x1 and x2
     var = np.asarray(var)
-    if kwargs.get('transpose', False) is True:
-        var = var.T
+    if kwargs.get('transpose', False) is True: var = var.T
     x = np.asarray(kwargs.get('x1',np.arange(len(var[:,0])+1)))
     y = np.asarray(kwargs.get('x2',np.arange(len(var[0,:])+1)))
 
@@ -204,14 +216,18 @@ def display(self, var, check: bool = True, **kwargs):
     # Keyword for colorbar and colorscale
     cpos     = kwargs.get('cpos',None)
     cscale   = kwargs.get('cscale','norm')
-    lint     = kwargs.get('lint',max(np.abs(vmin),vmax)*0.01)
-    self.vlims[nax] = [vmin,vmax,lint]
+    tresh    = kwargs.get('tresh', max(np.abs(vmin),vmax)*0.01)
+    lint     = kwargs.get('lint',None)
+    self.vlims[nax] = [vmin,vmax,tresh]
 
     # Set the colorbar scale (put in function)
-    norm = self._set_cscale(cscale, vmin, vmax, lint)
+    norm = _set_cscale(cscale, vmin, vmax, tresh, lint)
+
+    # Select shading
+    shade = kwargs.get('shading','auto')
 
     # Display the image
-    pcm = ax.pcolormesh(x,y,var.T, shading=kwargs.get('shading','auto'),
+    pcm = ax.pcolormesh(x,y,var.T, shading = shade,
                         cmap = kwargs.get('cmap','afmhot'), norm = norm,
                         linewidth=0,rasterized=True)
     # Place the colorbar (use colorbar function)
@@ -224,7 +240,81 @@ def display(self, var, check: bool = True, **kwargs):
 
     return None
 
-def colorbar(self, axs = None, cax = None, check = True, scatter = None, **kwargs):
+def scatter(self, x, y, **kwargs):
+    '''
+    Plots a scatter of particles or discrete points.
+
+    Returns
+    -------
+        None
+
+    Parameters
+    ----------
+        - x: str
+            the x variable to plot
+        - y: str
+            the y variable to plot
+
+    Examples
+    --------
+
+    '''
+
+    # Check parameters
+
+    # Set or create figure and axes
+    ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
+
+    # Set ax parameters
+    self._set_parax(ax, **kwargs)
+    self._hide_text(nax, ax.texts)
+
+    # Keyword xrange and yrange
+    self._set_xrange(ax, nax, [np.nanmin(x),np.nanmax(x)], self.setax[nax])
+    self._set_yrange(ax, nax, [np.nanmin(y),np.nanmax(y)], self.setay[nax], x = x, y = y)
+
+    # Keywords vmin and vmax
+    c    = kwargs.get('c',None)
+    vmin = kwargs.get('vmin',0.0) if c is None or isinstance (c, str) else kwargs.get('vmin',c.min())
+    vmax = kwargs.get('vmax',0.0) if c is None or isinstance (c, str) else kwargs.get('vmax',c.min())
+
+    # Keyword for colorbar and colorscale
+    cpos     = kwargs.get('cpos',None)
+    cscale   = kwargs.get('cscale','norm')
+    tresh    = kwargs.get('tresh',max(np.abs(vmin),vmax)*0.01)
+    lint     = kwargs.get('lint',None)
+    self.vlims[nax] = [vmin,vmax,tresh]
+
+    # Set the colorbar scale (put in function)
+    norm = _set_cscale(cscale, vmin, vmax, tresh)
+
+    # Start scatter plot procedure
+    pcm = ax.scatter(x, y, cmap = kwargs.get('cmap',None), norm = norm,
+                     c = kwargs.get('c',None), s = kwargs.get('s',3),
+                     edgecolors = kwargs.get('edgecolors','none'),
+                     alpha = kwargs.get('alpha',1.0), 
+                     marker = kwargs.get('marker','o'))
+
+    # Creation of the legend
+    self.legpos[nax] = kwargs.get('legpos', self.legpos[nax])
+    if self.legpos[nax] != None:
+        copy_label = kwargs.get('label',None)
+        kwargs['label'] =  None
+        self.legend(ax, check = 'no', fromplot = True, **kwargs)
+        kwargs['label'] =  copy_label
+
+    # Place the colorbar (use colorbar function)
+    if cpos != None:
+        self.colorbar(ax, check = False, scatter = pcm, **kwargs)
+
+    # If tight_layout is enabled, is re-inforced
+    if self.tight != False:
+        self.fig.tight_layout()    
+
+    return None
+
+def colorbar(self, 
+             axs = None, cax = None, check = True, scatter = None, **kwargs):
     '''
     method to display a colorbar in a selected position. If the keyword cax is
     enabled the colorbar is locates in a specific axis, otherwise an axis will
@@ -291,10 +381,11 @@ def colorbar(self, axs = None, cax = None, check = True, scatter = None, **kwarg
 
 
     '''
+
     # Check parameters
     param = {'axs', 'cax', 'clabel', 'cpad', 'cpos', 'cticks', 'ctickslabels'}
     if check is True:
-        self._check_par(param, 'colorbar', **kwargs)
+        _check_par(param, 'colorbar', **kwargs)
 
     axs  = self.fig.gca() if axs is None else axs
     nax  = self._check_fig(axs)
@@ -322,3 +413,47 @@ def colorbar(self, axs = None, cax = None, check = True, scatter = None, **kwarg
     if self.tight == True:
         self.fig.tight_layout()
     return None
+
+def _set_cscale(cscale: str, 
+                vmin: float, 
+                vmax: float, 
+                tresh: float, 
+                lint:  float | None = None):
+    """
+    Sets the color scale of a pcolormesh given the scale, the minimum and the maximum.
+
+    Returns
+    -------
+
+        - norm: Normalize
+            the normalization of the colormap
+
+    Parameters
+    ----------
+
+        - cscale: str
+            the scale of the colormap
+        - vmin: float
+            the minimum of the colormap
+        - vmax: float
+            the maximum of the colormap
+        - tresh: float
+            the threshold between subscales (twoscale or symlog color scales)
+        - lint: float
+            the threshold between subscales (twoscale or symlog color scales), deprecated
+
+    """
+    
+    if lint is not None:
+        warnings.warn("'lint' keyword is deprecated, please use \
+                       'tresh' instead", UserWarning)
+
+    if cscale == 'log':
+        norm = mcol.LogNorm(vmin = vmin,vmax = vmax)
+    elif cscale == 'symlog':
+        norm = mcol.SymLogNorm(vmin = vmin,vmax = vmax,linthresh = tresh)
+    elif cscale == 'twoslope':
+        norm = mcol.TwoSlopeNorm(vmin = vmin, vcenter = tresh, vmax = vmax)
+    else:
+        norm = mcol.Normalize(vmin = vmin,vmax = vmax)
+    return norm

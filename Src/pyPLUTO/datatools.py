@@ -9,9 +9,9 @@ def slices(self, var, x1 = None, x2 = None, x3 = None, diag = False):
     if x1 != None:
         newvar = newvar[x1]
     if diag == 'maj':
-        None
+        pass
     elif diag == 'min':
-        None
+        pass
     return newvar
 
 def mirror(self, oldvar, dirs = None, xax = None, yax = None):

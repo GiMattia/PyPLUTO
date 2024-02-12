@@ -7,15 +7,16 @@
 # add these directories to sys.path here.
 import pathlib
 import sys
-sys.path.insert(0,str('../../Src/pyPLUTO/'))
+import os
+sys.path.insert(0,os.path.abspath('../../Src/pyPLUTO/'))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'pyPLUTO'
-copyright = '2023, G. Mattia, D. Crocco'
-author = 'G. Mattia D. Crocco'
-release = '0.7.3'
+copyright = '2024, G. Mattia, D. Crocco, --...'
+author = 'G. Mattia D. Crocco, ...'
+release = '1.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -44,3 +45,13 @@ html_show_sourcelink = False
 html_theme = "agogo"
 
 #html_theme = "pydata_sphinx_theme"
+
+# Add 'qualname' to autodoc_default_options
+# This enables the qualname option for autodoc directives
+#autodoc_default_options = {
+#    'members': True,
+#    'undoc-members': True,
+ #   'private-members': True,
+ #   'special-members': True,
+ #   'qualname': True,  # Enable the qualname option
+#}

@@ -1,7 +1,8 @@
 from .libraries import *
-from .__init__ import Image
+from .h_pypluto import _check_par
 
-def zoom(self: Image, ax = None, check = True, **kwargs):
+
+def zoom(self, ax = None, check = True, **kwargs):
     '''
     creates an inset zoom of a 1D plot
 
@@ -174,20 +175,16 @@ def zoom(self: Image, ax = None, check = True, **kwargs):
 
     '''
 
-    # Import methods from other files
-    from .h_image import _check_fig, _place_inset_pos, _place_inset_loc
-    from .h_image import _add_ax, _check_par, _set_parax
-
     # Check parameters
     param = {'alpha', 'aspect', 'ax', 'bottom', 'clabel', 'cmap', 'cpad', 'cpos', 'cscale', 'cticks', 'ctickslabels', 'fontsize', 'height', 'labelsize', 'left', 'lint',
              'minorticks', 'pos', 'shading', 'ticksdir', 'tickssize', 'title', 'titlesize', 'top', 'transpose', 'var', 'vmax', 'vmin', 'width', 'x1', 'x2', 'xrange',
              'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
-        _check_par(self, param, 'zoom', **kwargs)
+        _check_par(param, 'zoom', **kwargs)
 
     # Find figure and number of the axis
     ax = self.ax[-1] if ax is None else ax
-    nax = _check_fig(self, ax)
+    nax = self._check_fig(ax)
 
     # Sets position of the zoom
     if kwargs.get('pos'):
@@ -197,7 +194,7 @@ def zoom(self: Image, ax = None, check = True, **kwargs):
     fontsize = kwargs.get('fontsize',self.fontsize - 5)
 
     # Adds the inset axis
-    _add_ax(self, axins, len(self.ax))
+    self._add_ax(axins, len(self.ax))
 
     # Checks range and ticks
     '''
@@ -212,14 +209,14 @@ def zoom(self: Image, ax = None, check = True, **kwargs):
         kwargs['yticks'] = None
 
     # Sets axes parameters
-    _set_parax(self, axins, **kwargs)
+    self._set_parax(axins, **kwargs)
 
     # Plots the lines
     pcm = ax.collections
     if len(pcm) > 0:
-        self._zoomdisplay(ax,nax,axins,**kwargs)
+        _zoomdisplay(self,ax,nax,axins,**kwargs)
     else:
-        self._zoomplot(ax,nax,axins,**kwargs)
+        _zoomplot(self,ax,nax,axins,**kwargs)
 
     # Indicates the inset zoom
     if kwargs.get('zoomlines',True) is True:
@@ -227,13 +224,17 @@ def zoom(self: Image, ax = None, check = True, **kwargs):
 
     return None
 
-def _zoomplot(self: Image,ax,nax,axins,**kwargs):
+
+
+def _zoomplot(self,ax,nax,axins,**kwargs):
     lines = ax.get_lines()
     for i in lines:
         self.plot(i.get_xdata(), i.get_ydata(), c=i.get_color(),
                   ls=i.get_ls(), lw=i.get_lw(),
                   marker=i.get_marker(), ms=i.get_ms(),
                   ax=axins)
+
+
 
 def _zoomdisplay(self,ax,nax,axins,**kwargs):
     pcm = ax.collections[0]
@@ -259,3 +260,77 @@ def _zoomdisplay(self,ax,nax,axins,**kwargs):
     kwargs['lint'] = kwargs.pop('lint', self.vlims[nax][2])
 
     self.display(pcm0, x1=xc, x2=yc, ax=axins, check='no', shading = psh, **kwargs)
+
+
+
+def _place_inset_pos(ax: Axes, 
+                     pos: list[float]) -> Axes:
+    """
+    Places an inset axes given the position (left, top, bottom, right).
+
+    Returns
+    -------
+
+        - The inset axes
+
+    Parameters
+    ----------
+
+        - ax: ax
+            the axis where the inset axes is placed
+        - pos: list[float]
+            the position of the inset axes
+    """
+
+    # Compute the position of the inset axis and return it
+    left: float = pos[0]
+    bottom: float = pos[2]
+    width: float  = pos[1] - pos[0]
+    height: float = pos[3] - pos[2]
+    return ax.inset_axes((left, bottom, width, height))
+
+
+
+def _place_inset_loc(ax: Axes, 
+                     **kwargs: Any
+                    ) -> Axes:
+    """
+    Places an inset axes given different keywords.
+    In case both top and bottom are given, the top is given priority and a warning is
+    raised.
+
+    Returns
+    -------
+
+        - The inset axes
+
+    Parameters
+    ----------
+
+        - ax: ax
+            the axis where the inset axes is placed
+        - left: float
+            the left boundary
+        - top: float
+            the top boundary
+        - bottom: float
+            the bottom boundary
+        - width: float
+            the width of the inset axis
+        - height: float
+            the height of the inset axis
+    """
+
+    # Check if both "top" and "bottom" keywords are given
+    if kwargs.get('top') and kwargs.get('bottom'):
+         warning_message: str = """
+            Both top and bottom keywords are given, priority goes to the top"""
+         warnings.warn(warning_message, UserWarning)
+    
+    # Compute the position of the inset axis and return it
+    left: float   = kwargs.get('left', 0.6)
+    width: float  = kwargs.get('width', 0.2)
+    height: float = kwargs.get('height', 0.15)
+    bottom: float = kwargs.get('top', 0.75) - height
+    bottom: float = kwargs.get('bottom', 0.6)
+    return ax.inset_axes((left, bottom, width, height))

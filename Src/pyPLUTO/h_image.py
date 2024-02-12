@@ -1,7 +1,6 @@
 from .libraries import *
-from .__init__ import Image
 
-def _check_fig(self: Image,ax: Axes) -> int:
+def _check_fig(self, ax: Axes) -> int:
     """
     Finds the figure given a set of axes.
     If the set of axes does not belong to the figure, it raises an error.
@@ -29,7 +28,7 @@ def _check_fig(self: Image,ax: Axes) -> int:
     nax: int = self.ax.index(ax)
     return nax
 
-def _add_ax(self: Image,
+def _add_ax(self,
             ax: Axes,
             i: int
            ) -> None:
@@ -65,80 +64,8 @@ def _add_ax(self: Image,
 
     return None
 
-def _place_inset_pos(self: Image, 
-                     ax: Axes, 
-                     pos: list[float]) -> Axes:
-    """
-    Places an inset axes given the position (left, top, bottom, right).
 
-    Returns
-    -------
-
-        - The inset axes
-
-    Parameters
-    ----------
-
-        - ax: ax
-            the axis where the inset axes is placed
-        - pos: list[float]
-            the position of the inset axes
-    """
-
-    # Compute the position of the inset axis and return it
-    left: float = pos[0]
-    bottom: float = pos[2]
-    width: float  = pos[1] - pos[0]
-    height: float = pos[3] - pos[2]
-    return ax.inset_axes((left, bottom, width, height))
-
-def _place_inset_loc(self: Image, 
-                     ax: Axes, 
-                     **kwargs: Any
-                    ) -> Axes:
-    """
-    Places an inset axes given different keywords.
-    In case both top and bottom are given, the top is given priority and a warning is
-    raised.
-
-    Returns
-    -------
-
-        - The inset axes
-
-    Parameters
-    ----------
-
-        - ax: ax
-            the axis where the inset axes is placed
-        - left: float
-            the left boundary
-        - top: float
-            the top boundary
-        - bottom: float
-            the bottom boundary
-        - width: float
-            the width of the inset axis
-        - height: float
-            the height of the inset axis
-    """
-
-    # Check if both "top" and "bottom" keywords are given
-    if kwargs.get('top') and kwargs.get('bottom'):
-         warning_message: str = """
-            Both top and bottom keywords are given, priority goes to the top"""
-         warnings.warn(warning_message, UserWarning)
-    
-    # Compute the position of the inset axis and return it
-    left: float   = kwargs.get('left', 0.6)
-    width: float  = kwargs.get('width', 0.2)
-    height: float = kwargs.get('height', 0.15)
-    bottom: float = kwargs.get('top', 0.75) - height
-    bottom: float = kwargs.get('bottom', 0.6)
-    return ax.inset_axes((left, bottom, width, height))
-
-
-def _hide_text(self: Image, nax: int, txts) -> None:
+def _hide_text(self, nax: int, txts) -> None:
     """
     Hides the text placed when an axis is created (the number of the axis).
 
@@ -164,7 +91,7 @@ def _hide_text(self: Image, nax: int, txts) -> None:
         self.ntext[nax] = 1
     return None
 
-def _set_parax(self: Image, ax: Axes, **kwargs: Any) -> None:
+def _set_parax(self, ax: Axes, **kwargs: Any) -> None:
     """
     Selects the correct parameters to be set before calling the 
     set_axis method.
@@ -197,44 +124,7 @@ def _set_parax(self: Image, ax: Axes, **kwargs: Any) -> None:
 
     return None
 
-def _check_par(self: Image, 
-               par: set[str], 
-               func: str, 
-               **kwargs: Any
-              ) -> None:
-    """
-    Checks if a parameter is in the corresponding list
-    depending on the function. If the parameter does not
-    belong to the list it raises a warning.
-
-    Returns
-    -------
-
-        None
-
-    Parameters
-    ----------
-
-        - par: list[str]
-            the function parameters
-        - func: str
-            the name of the function
-        - **kwargs: dict
-            the selected parameters
-
-    """
-
-    # Check if the parameters are in the list
-    notfound: list[str] = [(i) for i in kwargs.keys() if i not in par]
-
-    # If the parameters are not in the list, raise a warning
-    if len(notfound) > 0:
-        warning_message: str = f"""WARNING: elements {str(notfound)} not found! Please check your spelling! (function {func})"""
-        warnings.warn(warning_message, UserWarning)
-
-    return None
-
-def _set_xrange(self: Image, 
+def _set_xrange(self, 
                 ax: Axes, 
                 nax: int, 
                 xlim: list[float], 
@@ -287,7 +177,7 @@ def _set_xrange(self: Image,
 
     return None
 
-def _set_yrange(self: Image, 
+def _set_yrange(self, 
                 ax: Axes, 
                 nax: int, 
                 ylim: list[float], 
@@ -372,220 +262,10 @@ def _set_yrange(self: Image,
 
     return None
 
-def _set_xticks(self: Image, 
-                ax: Axes, 
-                xtc: str | list[float] | None, 
-                xtl: str | list[str] | None
-               ) -> None:
-    """
-    Sets the ticks and ticks labels on the x-axis of a selected axis.
-
-    Returns
-    -------
-
-        None
-
-    Parameters
-    ----------
-
-        - ax: ax
-            the selected set of axes
-        - xtc: list[float]
-            the ticks of the x-axis
-        - xtl: list[float]
-            the ticks labels of the x-axis
-    """
-
-    if xtc is None:
-        ax.set_xticks([])
-        ax.set_xticklabels([])
-        if xtl not in {None, 'Default'}:
-            warning_message: str = "Warning, tickslabels are defined with no ticks!! (function setax)"
-            warnings.warn(warning_message, UserWarning)
-    elif xtl != 'Default':
-        if xtc != 'Default':
-            ax.set_xticks(xtc)
-        elif xtl is not None:
-            warning_message: str = "Warning, tickslabels should be fixed only when ticks are fixed (function setax)"
-            warnings.warn(warning_message, UserWarning)
-        if xtl is None:
-            ax.set_xticklabels([])
-        else:
-            ax.set_xticklabels(xtl)
-    else:
-        if xtc != 'Default':
-            ax.set_xticks(xtc)
-    return None
-
-
-def _set_yticks(self: Image, 
-                ax: Axes, 
-                ytc: str | list[float] | None, 
-                ytl : str | list[str] | None
-               ) -> None:
-    """
-    Sets the ticks and ticks labels on the y-axis of a selected axis.
-
-    Returns
-    -------
-
-        None
-
-    Parameters
-    ----------
-
-        - ax: ax
-            the selected set of axes
-        - ytc: list[float]
-            the ticks of the y-axis
-        - ytl: list[float]
-            the ticks labels of the y-axis
-    """
-
-    if ytc is None:
-        ax.set_yticks([])
-        ax.set_yticklabels([])
-        if ytl not in {None, 'Default'}:
-            print('Warning, define tickslabels with no ticks!! (function setax)')
-    elif ytl != 'Default':
-        if ytc != 'Default':
-            ax.set_yticks(ytc)
-        elif ytl is not None:
-            print('Warning, tickslabels should be fixed only when ticks are fixed (function setax)')
-        if ytl == None:
-            ax.set_yticklabels([])
-        else:
-            ax.set_yticklabels(ytl)
-    else:
-        if ytc != 'Default':
-            ax.set_yticks(ytc)
-    return None
-
-def _check_rows(self: Image, hratio: list[float], hspace: float | list[float], nrow: int) -> tuple[list[float], list[float]]:
-    """
-    Checks the width and spacing of the plots on a single column
-
-    Returns
-    -------
-
-        - hspace: list[float]
-            the space between the rows
-        - hratio: list[float]
-            the ratio of the rows
-
-    Parameters
-    ----------
-
-        - hratio: list[float]
-            the ratio of the rows
-        - hspace: list[float]
-            the space between the rows
-        - nrow: int
-            the number of rows in the single column
-    """
-
-    hspace = [hspace] if not isinstance(hspace, list) else hspace
-    hratio = hratio + [1.0] * (nrow - len(hratio))
-    hspace = hspace + [0.1] * (nrow - len(hspace) - 1)
-
-    if len(hratio) != nrow:
-        warnings.warn('WARNING! hratio has wrong length!', UserWarning)
-
-    if len(hspace) + 1 != nrow:
-        warnings.warn('WARNING! hspace has wrong length!', UserWarning)
-
-    return hspace[:nrow - 1], hratio[:nrow]
-
-def _check_cols(self: Image, wratio: list[float], wspace: float | list[float], ncol: int) -> tuple[list[float], list[float]]:
-    """
-    Checks the width and spacing of the plots on a single row
-
-    Returns
-    -------
-
-        - wspace: list[float]
-            the space between the columns
-        - wratio: list[float]
-            the ratio of the columns
-
-    Parameters
-    ----------
-
-        - wratio: list[float]
-            the ratio of the columns
-        - wspace: list[float]
-            the space between the columns
-        - ncol: int
-            the number of columns in the single row
-
-    """
-
-    '''
-    check_cols function:
-    Checks the width and spacing of the plots on a single row
-    **Inputs:**
-        wratio -- the ratio of the columns\n
-        wspace -- the space between the columns\n
-        ncol -- the number of columns in the single row
-    '''
-    wspace = [wspace] if not isinstance(wspace, list) else wspace
-    wratio = wratio + [1.0] * (ncol - len(wratio))
-    wspace = wspace + [0.1] * (ncol - len(wspace) - 1)
-
-    if len(wratio) != ncol:
-        warnings.warn('WARNING! wratio has wrong length!', UserWarning)
-
-    if len(wspace) + 1 != ncol:
-        warnings.warn('WARNING! wspace has wrong length!', UserWarning)
-
-    return wspace[:ncol - 1], wratio[:ncol]
-
-def _set_cscale(self: Image, 
-                cscale: str, 
-                vmin: float, 
-                vmax: float, 
-                tresh: float, 
-                lint:  float | None = None):
-    """
-    Sets the color scale of a pcolormesh given the scale, the minimum and the maximum.
-
-    Returns
-    -------
-
-        - norm: Normalize
-            the normalization of the colormap
-
-    Parameters
-    ----------
-
-        - cscale: str
-            the scale of the colormap
-        - vmin: float
-            the minimum of the colormap
-        - vmax: float
-            the maximum of the colormap
-        - tresh: float
-            the threshold between subscales (twoscale or symlog color scales)
-        - lint: float
-            the threshold between subscales (twoscale or symlog color scales), deprecated
-
-    """
-    
-    if lint is not None:
-        warnings.warn("'lint' keyword is deprecated, please use \
-                       'tresh' instead", UserWarning)
-
-    if cscale == 'log':
-        norm = mcol.LogNorm(vmin = vmin,vmax = vmax)
-    elif cscale == 'symlog':
-        norm = mcol.SymLogNorm(vmin = vmin,vmax = vmax,linthresh = tresh)
-    elif cscale == 'twoslope':
-        norm = mcol.TwoSlopeNorm(vmin = vmin, vcenter = tresh, vmax = vmax)
-    else:
-        norm = mcol.Normalize(vmin = vmin,vmax = vmax)
-    return norm
-
-def _assign_ax(self: Image, ax: Axes | list[Axes] | None, **kwargs: Any) -> tuple[Axes, int]:
+def _assign_ax(self, 
+               ax: Axes | list[Axes] | None, 
+               **kwargs: Any
+              ) -> tuple[Axes, int]:
     """
     Sets the axes of the figure where the plot/feature should go.
     If no axis is present, an axis is created. If the axis is present
@@ -608,10 +288,8 @@ def _assign_ax(self: Image, ax: Axes | list[Axes] | None, **kwargs: Any) -> tupl
             the selected parameters
     """
 
-    from .figure import create_axes
-
     if ax is None and len(self.ax) == 0:
-        ax = create_axes(self, ncol = 1, nrow = 1, check = False, **kwargs)
+        ax = self.create_axes(ncol = 1, nrow = 1, check = False, **kwargs)
 
     elif ax is None and len(self.ax) > 0:
         ax  = self.fig.gca()
@@ -621,50 +299,7 @@ def _assign_ax(self: Image, ax: Axes | list[Axes] | None, **kwargs: Any) -> tupl
     elif ax is None:
         ax = self.fig.gca()
 
-    nax = _check_fig(self, ax)
+    nax = self._check_fig(ax)
     return ax, nax
-
-def _assign_LaTeX(self: Image, 
-                  LaTeX: bool | str
-                 ) -> None:
-    """
-    Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX
-    and should be used only to get vectorial figures with minimal file size.
-
-    Returns
-    -------
-
-        None
-
-    Parameters
-    ----------
-
-        - LaTeX: bool
-            the LaTeX option
-        - fontweight: str
-            the fontweight of the LaTeX text
-    """
-    if LaTeX is True:
-        mpl.rcParams['mathtext.fontset'] = 'stix'
-        mpl.rcParams['font.family'] = 'STIXGeneral'
-
-    if LaTeX == 'pgf':
-        plt.switch_backend('pgf')
-
-        pgf_preamble = r"""
-        \usepackage{amsmath}
-        \usepackage{amssymb}
-        \usepackage{mathptmx}
-        \newcommand{\DS}{\displaystyle}
-        """
-
-        mpl.rcParams.update({
-            'pgf.preamble': pgf_preamble,
-            'font.family': 'serif',
-            'font.weight': self.fontweight,
-            'text.usetex': True
-        })
-
-    return None
 
 

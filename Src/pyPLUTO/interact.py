@@ -1,7 +1,6 @@
 from .libraries import *
-from .__init__ import Image
 
-def interactive(self: Image, varx, vary = None, fig = None, **kwargs):
+def interactive(self, varx, vary = None, fig = None, **kwargs):
     # CHECK VMIN VMAX BOUNDS!!!
 
     from .h_image import _assign_ax
@@ -18,7 +17,7 @@ def interactive(self: Image, varx, vary = None, fig = None, **kwargs):
     splt = np.ndim(vary[0])
 
     # Set or create figure and axes (to test)
-    ax, nax = _assign_ax(self, kwargs.pop('ax', None), **kwargs, tight = False)
+    ax, nax = self._assign_ax(kwargs.pop('ax', None), **kwargs, tight = False)
     self.anim_ax  = ax
 
     # Position the slider
@@ -42,7 +41,7 @@ def interactive(self: Image, varx, vary = None, fig = None, **kwargs):
 
     return None
 
-def _update_slider(self: Image, i: int) -> None:
+def _update_slider(self, i: int) -> None:
     var = self.anim_var[int(i)]
     if np.ndim(var) == 2:
         self.anim_pcm.set_array(var.T.ravel())

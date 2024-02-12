@@ -1,7 +1,7 @@
 from .libraries import *
-from .__init__ import Image
+from .h_pypluto import _check_par
 
-def plot(self: Image, 
+def plot(self, 
          x: list[float] | NDArray, 
          y: list[float] | NDArray | list[None] = [None], 
          check: bool = True, 
@@ -165,10 +165,6 @@ def plot(self: Image,
 
     """
 
-    # Import methods from other files
-    from .h_image import _check_par, _assign_ax, _set_parax, _hide_text 
-    from .h_image import _set_xrange, _set_yrange
-
     # Declare variables
     ax: Axes
     nax: int
@@ -186,18 +182,18 @@ def plot(self: Image,
              'lw', 'marker', 'minorticks', 'ms', 'proj', 'ticksdir', 'tickssize', 'title', 'titlesize', 'x', 'xrange', 'xscale', 'xticks', 'xtickslabels',
              'xtitle', 'y', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
-        _check_par(self, param, 'plot', **kwargs)
+        _check_par(param, 'plot', **kwargs)
 
     # Set or create figure and axes
-    ax, nax = _assign_ax(self, kwargs.pop('ax',None),**kwargs)
+    ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
 
     # Set ax parameters
-    _set_parax(self, ax, **kwargs)
-    _hide_text(self, nax, ax.texts)
+    self._set_parax(ax, **kwargs)
+    self._hide_text(nax, ax.texts)
 
     # Keyword xrange and yrange
-    _set_xrange(self, ax, nax, [x.min(),x.max()], self.setax[nax])
-    _set_yrange(self, ax, nax, [y.min(),y.max()], self.setay[nax], x = x, y = y)
+    self._set_xrange(ax, nax, [x.min(),x.max()], self.setax[nax])
+    self._set_yrange(ax, nax, [y.min(),y.max()], self.setay[nax], x = x, y = y)
 
     # Start plotting procedure
     ax.plot(x,y, c = kwargs.get('c',self.color[self.nline[nax]%len(self.color)]),
@@ -222,7 +218,7 @@ def plot(self: Image,
 
     return None
 
-def legend(self: Image, 
+def legend(self, 
            ax: Axes | None = None, 
            check: bool = True, 
            fromplot: bool = False, 
@@ -306,17 +302,14 @@ def legend(self: Image,
 
     '''
 
-    # Import methods from other files
-    from .h_image import _check_par, _check_fig
-
     # Check parameters
     param = {'ax', 'c', 'fillstyle', 'label', 'legcols', 'legpad', 'legpos', 'legsize', 'legspace', 'ls', 'lw', 'marker', 'ms'}
     if check is True:
-        _check_par(self, param, 'legend', **kwargs)
+        _check_par(param, 'legend', **kwargs)
 
     # Find figure and number of the axis
     ax  = self.fig.gca() if ax is None else ax
-    nax = _check_fig(self, ax)
+    nax = self._check_fig(ax)
 
     # Finds the legend parameters (position, columns, size and spacing)
     self.legpos[nax]    = kwargs.get('legpos',   self.legpos[nax])

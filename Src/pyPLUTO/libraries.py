@@ -13,6 +13,7 @@ import os
 import sys
 import tempfile
 import struct
+import shutil
 import warnings
 
 try:
@@ -27,7 +28,7 @@ from pathlib                               import Path
 from numpy.typing                          import NDArray
 from matplotlib.figure                     import Figure, SubFigure
 from matplotlib.axes                       import Axes
-from typing                                import Callable, Mapping, Any
+from typing                                import Callable, Mapping, Any, Type
 from itertools                             import islice
 
 #from mpl_toolkits.axes_grid1.inset_locator import InsetPosition
@@ -36,4 +37,4 @@ from itertools                             import islice
 
 warnings.simplefilter('always', DeprecationWarning)
     
-from .h_pypluto import makelist
+from .h_pypluto import makelist, _check_par

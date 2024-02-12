@@ -1,13 +1,12 @@
 from .libraries import *
-from .__init__ import Image
 
-def savefig(self: Image, filename = 'img.png', bbox = 'tight'):
+def savefig(self, filename = 'img.png', bbox = 'tight'):
     self.fig.savefig(filename, bbox_inches = bbox)
 
-def show(self: Image, block: bool = True):
+def show(self, block: bool = True):
     self.fig.show(block = block) # type: ignore
 
-def text(self: Image, text, x = 0.9, y = 0.9, ax = None, **kwargs):
+def text(self, text, x = 0.9, y = 0.9, ax = None, **kwargs):
 
     # Import methods from other files
     from .h_image import _check_fig, _hide_text

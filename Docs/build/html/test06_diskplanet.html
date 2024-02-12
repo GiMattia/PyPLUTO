@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>HD Disk-Planet &#8212; pyPLUTO 0.7.3 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=a5145ed4" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=ebffa592"></script>
+    <title>HD Disk-Planet &#8212; pyPLUTO 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="MHD Rotor" href="test04_rotor.html" /> 
@@ -18,7 +18,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyPLUTO 0.7.3 documentation</a></div>
+          href="index.html">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="test04_rotor.html" title="MHD Rotor"
              accesskey="P">previous</a> |
@@ -37,7 +37,7 @@
           <div class="body" role="main">
             
   <section id="hd-disk-planet">
-<span id="test06-diskplanet"></span><h1>HD Disk-Planet<a class="headerlink" href="#hd-disk-planet" title="Permalink to this heading">¶</a></h1>
+<span id="test06-diskplanet"></span><h1>HD Disk-Planet<a class="headerlink" href="#hd-disk-planet" title="Link to this heading">¶</a></h1>
 <p>The Disk-Planet test offers a nice view of an interaction of a planet embedded in an proto-stellar
 disk rotating around the protostar.</p>
 <p>The display shows the density profile of the disk and presents two different zooms of the
@@ -69,6 +69,7 @@ planet region in density scale and angular velocity scale.</p>
 <span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1rc</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2rc</span><span class="p">,</span> <span class="n">cscale</span> <span class="o">=</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Density&#39;</span><span class="p">,</span> 
           <span class="n">vmin</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
 
+<span class="n">quit</span><span class="p">()</span>
 <span class="c1">#Zooming the planet region</span>
 <span class="n">I</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">1.1</span><span class="p">],</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span> <span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.74</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.9</span><span class="p">])</span>
 <span class="n">I</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">var</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">vx2</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">1.1</span><span class="p">],</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span> <span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.07</span><span class="p">,</span><span class="mf">0.27</span><span class="p">,</span><span class="mf">0.67</span><span class="p">,</span><span class="mf">0.9</span><span class="p">],</span>
@@ -137,8 +138,8 @@ planet region in density scale and angular velocity scale.</p>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2023, G. Mattia, D. Crocco.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.0.
+    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
         </div>
         <div class="clearer"></div>

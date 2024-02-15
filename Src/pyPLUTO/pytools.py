@@ -25,7 +25,7 @@ def ring(length: float = 0.5,
              "'sox' package. \nPlease install it through the command \n"
              "\nsudo apt install sox \n\n"          
              "and try again.")
-            raise ImportError(text)
+            warnings.warn(text, UserWarning)
     elif os.name == 'nt':
         try:
             import winsound
@@ -37,10 +37,10 @@ def ring(length: float = 0.5,
             "pip install winsound\n\n"
 
             "and try again.")
-            raise ImportError(text)
+            warnings.warn(text, UserWarning)
     else:
         text = "pyPLUTO.ring is not implemented for this OS"
-        raise NotImplementedError(text)
+        warnings.warn(text, UserWarning)
     
 from functools import wraps
 

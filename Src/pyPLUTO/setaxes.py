@@ -8,7 +8,7 @@ def create_axes(self,
                 **kwargs: Any
                ):
     """
-    Creation of a set of axes using add_subplot.
+    Creation of a set of axes using add_subplot from the matplotlib library.
 
     If additional parameters (like the figure limits or the spacing)
     are given, the plots are located using set_position.

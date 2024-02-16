@@ -54,6 +54,7 @@ def _create_figure(self,
     
     Parameters
     ----------
+
     fig : Figure | None
         The the figure instance.
     check : bool, optional
@@ -65,13 +66,14 @@ def _create_figure(self,
     -------
 
     None.
+    
     """
 
     # Changes keywords if figure has been already assigned
     if isinstance(fig,Figure):
         self.figsize  = [fig.get_figwidth(),fig.get_figheight()]
         self.fontsize = plt.rcParams['font.size']
-        self.nwin     = fig.number # type: ignore (It is correct)
+        self.nwin     = fig.number
         self.tg       = fig.get_tight_layout()
 
     # If figsize is assigned, a keyword fixes it

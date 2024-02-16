@@ -8,99 +8,100 @@ def create_axes(self,
                 **kwargs: Any
                ):
     """
-        Creation of a set of axes using add_subplot.
+    Creation of a set of axes using add_subplot.
 
-        If additional parameters (like the figure limits or the spacing)
-        are given, the plots are located using set_position.
-        The spacing and the ratio between the plots can be given by hand.
-        In case only few custom options are given, the code computes the rest
-        (but gives a small warning); in case no custom option is given, the axes
-        are located through the standard methods of matplotlib.
+    If additional parameters (like the figure limits or the spacing)
+    are given, the plots are located using set_position.
+    The spacing and the ratio between the plots can be given by hand.
+    In case only few custom options are given, the code computes the rest
+    (but gives a small warning); in case no custom option is given, the axes
+    are located through the standard methods of matplotlib.
         
-        If more axes are created in the figure, the list of all axes is returned,
-        otherwise the single axis is returned.
+    If more axes are created in the figure, the list of all axes is returned,
+    otherwise the single axis is returned.
 
-        Returns
-        -------
+    Returns
+    -------
 
-            - The list of axes (if more axes are in the figure) or the axis
-              (if only one axis is present)
+    - The list of axes (if more axes are in the figure) or the axis
+      (if only one axis is present)
 
-        Parameters
-        ----------
+    Parameters
+    ----------
 
-            - bottom: float, default 0.1
-                The space from the bottom border to the last row of plots.
-            - figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]
-                Sets the figure size. The default value is computed from the number
-                of rows and columns.
-            - fontsize: float, default 17.0
-                Sets the fontsize for all the axes.
-            - hratio: [float], default [1.0]
-                Ratio between the rows of the plot. The default is that every plot
-                row has the same height.
-            - hspace: [float], default []
-                The space between plot rows (in figure units). If not enough or
-                too many spaces are considered, the program will remove the excess and
-                fill the lacks with [0.1].
-            - left: float, default 0.125
-                The space from the left border to the leftmost column of plots.
-            - ncol: int, default 1
-                The number of columns of subplots.
-            - nrow: int, default 1
-                The number of rows of subplots.
-            - proj: str, default None
-                Custom projection for the plot (e.g. 3D). Recommended only if needed.
-                WARNING: pyPLUTO does not support 3D plotting for now, only 3D axes.
-                The 3D plot feature will be available in future releases.
-            - right: float, default 0.9
-                The space from the right border to the rightmost column of plots.
-            - suptitle: str, default None
-                Creates a figure title over all the subplots.
-            - tight: bool, default True
-                Enables/disables tight layout options for the figure. In case of a
-                highly customized plot (e.g. ratios or space between rows and columns)
-                the option is set by default to False since that option would not be available
-                for standard matplotlib functions.
-            - top: float, default 0.9
-                The space from the top border to the first row of plots.
-            - wratio: [float], default [1.0]
-                Ratio between the columns of the plot. The default is that every plot
-                column has the same width.
-            - wspace: [float], default []
-                The space between plot columns (in figure units). If not enough or
-                too many spaces are considered, the program will remove the excess and
-                fill the lacks with [0.1].
+    - bottom: float, default 0.1
+        The space from the bottom border to the last row of plots.
+    - figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]
+        Sets the figure size. The default value is computed from the number
+        of rows and columns.
+    - fontsize: float, default 17.0
+        Sets the fontsize for all the axes.
+    - hratio: [float], default [1.0]
+        Ratio between the rows of the plot. The default is that every plot
+        row has the same height.
+    - hspace: [float], default []
+        The space between plot rows (in figure units). If not enough or
+        too many spaces are considered, the program will remove the excess and
+        fill the lacks with [0.1].
+    - left: float, default 0.125
+        The space from the left border to the leftmost column of plots.
+    - ncol: int, default 1
+        The number of columns of subplots.
+    - nrow: int, default 1
+        The number of rows of subplots.
+    - proj: str, default None
+        Custom projection for the plot (e.g. 3D). Recommended only if needed.
+        WARNING: pyPLUTO does not support 3D plotting for now, only 3D axes.
+        The 3D plot feature will be available in future releases.
+    - right: float, default 0.9
+        The space from the right border to the rightmost column of plots.
+    - suptitle: str, default None
+        Creates a figure title over all the subplots.
+    - tight: bool, default True
+        Enables/disables tight layout options for the figure. In case of a
+        highly customized plot (e.g. ratios or space between rows and columns)
+        the option is set by default to False since that option would not be 
+        available for standard matplotlib functions.
+    - top: float, default 0.9
+        The space from the top border to the first row of plots.
+    - wratio: [float], default [1.0]
+        Ratio between the columns of the plot. The default is that every plot
+        column has the same width.
+    - wspace: [float], default []
+        The space between plot columns (in figure units). If not enough or
+        too many spaces are considered, the program will remove the excess and
+        fill the lacks with [0.1].
 
-        Examples
-        --------
+    Examples
+    --------
 
-             - Example #1: create a simple grid of 2 columns and 2 rows on a new figure
+    - Example #1: create a simple grid of 2 columns and 2 rows on a new figure
 
-                >>> import pyPLUTO as pp
-                >>> I = pp.Image()
-                >>> ax = I.create_axes(ncol = 2, nrow = 2)
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes(ncol = 2, nrow = 2)
 
-             - Example #2: create a grid of 2 columns with the first one having half the width of the second one
+    - Example #2: create a grid of 2 columns with the first one having half the 
+                  width of the second one
 
-               >>> import pyPLUTO as pp
-               >>> I = pp.Image()
-               >>> ax = I.create_axes(ncol = 2, wratio = [0.5,1])
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes(ncol = 2, wratio = [0.5,1])
 
-             - Example #3: create a grid of 2 rows with a lot of blank space between them
+    - Example #3: create a grid of 2 rows with a lot of blank space between them
 
-               >>> import pyPLUTO as pp
-               >>> I = pp.Image()
-               >>> ax = I.create_axes(nrow = 2, hspace = [0.5])
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes(nrow = 2, hspace = [0.5])
 
-             - Example #4: create a 2x2 grid with a fifth image on the right side
+    - Example #4: create a 2x2 grid with a fifth image on the right side
 
-               >>> import pyPLUTO as pp
-               >>> I = pp.Image()
-               >>> ax = I.create_axes(ncol = 2, nrow = 2, right = 0.7)
-               >>> ax = I.create_axes(left = 0.75)
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes(ncol = 2, nrow = 2, right = 0.7)
+        >>> ax = I.create_axes(left = 0.75)
 
-        """
+    """
     
     # Check parameters
     param = {'bottom', 'figsize', 'fontsize', 'hratio', 'hspace', 'left', 'ncol', 
@@ -194,7 +195,7 @@ def create_axes(self,
 
     # Tight layout
     self.tight = kwargs.get('tight', self.tight)
-    self.fig.set_tight_layout(None if not self.tight else 'tight') # type: ignore (It is correct)
+    self.fig.set_tight_layout(None if not self.tight else 'tight')
     return ret_ax
 
 def set_axis(self, 

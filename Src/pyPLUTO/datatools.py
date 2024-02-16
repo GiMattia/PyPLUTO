@@ -1,6 +1,12 @@
 from .libraries import *
 
-def slices(self, var, x1 = None, x2 = None, x3 = None, diag = False):
+def slices(self, 
+           var: NDArray, 
+           x1: int | list = None, 
+           x2: int | list = None, 
+           x3: int | list = None, 
+           diag: bool = False
+          ):
     newvar = np.copy(var)
     if x3 != None:
         newvar = newvar[:,:,x3]

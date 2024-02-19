@@ -188,9 +188,9 @@ def zoom(self, ax = None, check = True, **kwargs):
 
     # Sets position of the zoom
     if kwargs.get('pos'):
-        axins = _place_inset_pos(self, ax, kwargs['pos'])
+        axins = _place_inset_pos(ax, kwargs['pos'])
     else:
-        axins = _place_inset_loc(self, ax, **kwargs)
+        axins = _place_inset_loc(ax, **kwargs)
     fontsize = kwargs.get('fontsize',self.fontsize - 5)
 
     # Adds the inset axis

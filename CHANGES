@@ -7,20 +7,20 @@ Aim and characteristics of the method/function
 Return
 ------
 
-    - parameters (if None no -)
+- parameters (if None no -)
     
 Parameters
 ----------
 
-    - parameters (if None no -)
+- parameters (if None no -)
     
 Examples
 --------
 
-    - Example #1: create a simple example
+- Example #1: create a simple example
          
-        >>> import pyPLUTO as pp
-        >>> do_stuff
+    >>> import pyPLUTO as pp
+    >>> do_stuff
 """
 
     begin method

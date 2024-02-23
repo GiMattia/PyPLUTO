@@ -20,27 +20,33 @@ def _assign_LaTeX(self,
         - fontweight: str
             the fontweight of the LaTeX text
     """
+
+    if LaTeX == 'pgf':
+        if not shutil.which('latex'): 
+            print('latex not installed')
+            LaTeX = True
+
+        else:
+            plt.switch_backend('pgf')
+
+            pgf_preamble = r"""
+            \usepackage{amsmath}
+            \usepackage{amssymb}
+            \usepackage{mathptmx}
+            \newcommand{\DS}{\displaystyle}
+            """
+
+            mpl.rcParams.update({
+                'pgf.preamble': pgf_preamble,
+                'font.family': 'serif',
+                'font.weight': self.fontweight,
+                'text.usetex': True
+            })
+
     if LaTeX is True:
         mpl.rcParams['mathtext.fontset'] = 'stix'
         mpl.rcParams['font.family'] = 'STIXGeneral'
 
-    if LaTeX == 'pgf':
-        if shutil.which('latex'): print('latex installed')
-        plt.switch_backend('pgf')
-
-        pgf_preamble = r"""
-        \usepackage{amsmath}
-        \usepackage{amssymb}
-        \usepackage{mathptmx}
-        \newcommand{\DS}{\displaystyle}
-        """
-
-        mpl.rcParams.update({
-            'pgf.preamble': pgf_preamble,
-            'font.family': 'serif',
-            'font.weight': self.fontweight,
-            'text.usetex': True
-        })
 
     return None
     

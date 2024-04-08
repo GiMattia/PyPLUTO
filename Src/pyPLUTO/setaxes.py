@@ -104,8 +104,9 @@ def create_axes(self,
     """
     
     # Check parameters
-    param = {'bottom', 'figsize', 'fontsize', 'hratio', 'hspace', 'left', 'ncol', 
-             'nrow', 'proj', 'right', 'suptitle', 'tight', 'top', 'wratio', 'wspace'}
+    param = {'bottom', 'figsize', 'fontsize', 'hratio', 'hspace', 'left', 
+             'ncol', 'nrow', 'proj', 'right', 'suptitle', 'tight', 'top', 
+             'wratio', 'wspace'}
     if check is True:
         _check_par(param, 'create_axes', **kwargs)
 
@@ -113,11 +114,17 @@ def create_axes(self,
         plt.rcParams.update({'font.size': kwargs['fontsize']})
 
     custom_plot = False
-    custom_axes = ['left', 'right', 'top', 'bottom', 'hspace', 'hratio', 'wspace', 'wratio']
+    custom_axes = ['left', 'right', 'top', 'bottom', 
+                   'hspace', 'hratio', 'wspace', 'wratio']
+    
+    # Check if custom axes are given
     if any(arg in kwargs for arg in custom_axes):
+
+        # Set the custom axes keywords
         custom_plot     = True
         kwargs['tight'] = False
 
+        # Get margins and subplots features
         left   = kwargs.get('left',0.125)
         right  = kwargs.get('right',0.9)
         top    = kwargs.get('top',0.9)
@@ -127,6 +134,7 @@ def create_axes(self,
         wratio = kwargs.get('wratio',[1.0])
         hratio = kwargs.get('hratio', [1.0])
 
+        # Check if the number of rows and columns is correct
         hspace, hratio  = _check_rows(hratio, hspace, nrow)
         wspace, wratio  = _check_cols(wratio, wspace, ncol)
 
@@ -142,26 +150,29 @@ def create_axes(self,
 
         # Computes left, right of every ax
         for i in islice(range(ncol), ncol - 1):
-            rr = wsize * wratio[i] / wtot
+            rr = wsize * wratio[i]/wtot
             wplot.append([ll, rr])
             ll += rr + wspace[i]
 
         # Computes top, bottom of every ax
         for i in islice(range(nrow), nrow - 1):
-            bb = tt - hsize * hratio[i] / htot
+            bb = tt - hsize * hratio[i]/htot
             hplot.append([bb, tt - bb])
             tt = bb - hspace[i]
 
         # Append the last items without extra space
-        rr = wsize * wratio[ncol - 1] / wtot
+        rr = wsize*wratio[ncol - 1]/wtot
         wplot.append([ll, rr])
 
-        bb = tt - hsize * hratio[nrow - 1] / htot
+        bb = tt - hsize*hratio[nrow - 1]/htot
         hplot.append([bb, tt - bb])
     else:
+
+        # Set the default axes features
         wplot = None
         hplot = None
 
+    # Change the figure size if requested or if the size is not set
     if 'figsize' in kwargs:
         self.fig.set_figwidth(kwargs['figsize'][0])
         self.fig.set_figheight(kwargs['figsize'][1])
@@ -170,9 +181,10 @@ def create_axes(self,
         self.fig.set_figwidth(6*np.sqrt(ncol))
         self.fig.set_figheight(5*np.sqrt(nrow))
 
+    # Set the projection if requested
     proj = kwargs.get('proj', None)
 
-    # Add axes
+    # Add axes and set position (if custom axes)
     for i in range(ncol*nrow):
         self._add_ax(self.fig.add_subplot(nrow + self.nrow0, ncol + self.ncol0, 
                                            i+1, projection=proj), len(self.ax))
@@ -189,14 +201,23 @@ def create_axes(self,
     # Check length of output
     ret_ax = self.ax[0] if len(self.ax) == 1 else self.ax
 
-    # Suptitle
+    # Set figure title if requested
     if 'suptitle' in kwargs:
         self.fig.suptitle(kwargs['suptitle'])
 
-    # Tight layout
+    # Change fontsize if requested
+    if 'fontsize' in kwargs:
+        plt.rcParams.update({'font.size': self.fontsize})
+
+    # Tight layout (depending on the subplot creation)
     self.tight = kwargs.get('tight', self.tight)
     self.fig.set_tight_layout(None if not self.tight else 'tight')
+
+    # Return the list of axes (if more than one) or the single axis (if only 
+    # one). WARNING: this return may be changed to None in future releases.
     return ret_ax
+
+
 
 def set_axis(self, 
              ax: Axes | None = None, 

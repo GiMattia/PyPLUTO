@@ -74,10 +74,8 @@ def fieldlines(self,var1, var2, x0 = None, y0 = None, **kwargs):
     if x0 == None or y0 == None:
         print('Do not get here, please specify the footpoints for now. Work in progress...')
         return None, None
-    if not isinstance(x0, list):
-        x0 = [x0]
-    if not isinstance(y0, list):
-        y0 = [y0]
+    x0 = [x0] if not isinstance(x0, list) else x0
+    y0 = [y0] if not isinstance(y0, list) else y0
 
     # Get domain size (Take the initial and final coordinates
     # slightly larger to allow a seed to be specified on the boundary.

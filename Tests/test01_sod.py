@@ -1,10 +1,32 @@
-'''
+"""
+HD shock-tube test
+
+This test shows how to plot different quantities from a 
+test problem in the same plot.
+
+The package "os" is loaded to create the path to the directory
+$PLUTO_DIR/Test_problems/HD/Sod, where the the Sod HD test
+problem is located (see section 0.2 of the userguide to
+run the shock-tube problem).
+
+In this script the quatities plotted are density, pressure
+and velocity (component x) in different colors.
+A legend is placed (legpos 0 means that the location is chosen 
+automatically) in order to differenciate the lines.
+The image is then saved and shown on screen.
+
 Authors:
 
-        D. Crocco
-        G. Mattia
-'''
+    D. Crocco
+    G. Mattia
+        
+Date:
+    
+    23/02/2024
 
+"""
+
+# Loading the relevant packages
 import pyPLUTO as pp
 import os
 
@@ -13,17 +35,18 @@ plutodir = os.environ['PLUTO_DIR']
 wdir     = plutodir+'/Test_Problems/HD/Sod'
 
 # Loading the data into a pload object D.
-D = pp.Load(path = wdir, text = False)
+D = pp.Load(path = wdir)
 
-# Creating the Image
+# Creating the Image class
 I = pp.Image(figsize = [7,5])
 
 # Plotting the data
 I.plot(D.x1, D.rho, label = r'$\rho$', title = 'Sod shock tube test',
-    xtitle = '$x$', xrange = [0.0,1.0], yrange = [-0.05,1.05], legpos = 0)
+                    xtitle = '$x$', xrange = [0.0,1.0], 
+                    yrange = [-0.05,1.05], legpos = 0)
 I.plot(D.x1, D.prs, label = r'$p$')
 I.plot(D.x1, D.vx1, label = r'$v_x$')
 
-# Saving the image
-pp.savefig('test01_sod.png')
+# Saving the image and showing the plot
+I.savefig('test01_sod.png')
 pp.show()

@@ -42,17 +42,39 @@
   <section id="hd-sod">
 <span id="test01-sod"></span><h1>HD Sod<a class="headerlink" href="#hd-sod" title="Link to this heading">¶</a></h1>
 <p>A one-dimensional Riemann problem where density, pressure and velocity of a ideal gas
-are given at the left and at the right end of the dominion.</p>
-<p>The plot shows the profiles of the three quantities at the time t = 0.2.</p>
+are given at the left and at the right end of the domain.</p>
+<p>This plot shows the profiles of the three quantities at the time t = 0.2.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/test01_sod.png"><img alt="_images/test01_sod.png" class="align-center" src="_images/test01_sod.png" style="width: 600px;" /></a>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">HD shock-tube test</span>
+
+<span class="sd">This test shows how to plot different quantities from a </span>
+<span class="sd">test problem in the same plot.</span>
+
+<span class="sd">The package &quot;os&quot; is loaded to create the path to the directory</span>
+<span class="sd">$PLUTO_DIR/Test_problems/HD/Sod, where the the Sod HD test</span>
+<span class="sd">problem is located (see section 0.2 of the userguide to</span>
+<span class="sd">run the shock-tube problem).</span>
+
+<span class="sd">In this script the quatities plotted are density, pressure</span>
+<span class="sd">and velocity (component x) in different colors.</span>
+<span class="sd">A legend is placed (legpos 0 means that the location is chosen </span>
+<span class="sd">automatically) in order to differenciate the lines.</span>
+<span class="sd">The image is then saved and shown on screen.</span>
+
 <span class="sd">Authors:</span>
 
-<span class="sd">        D. Crocco</span>
-<span class="sd">        G. Mattia</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    D. Crocco</span>
+<span class="sd">    G. Mattia</span>
+<span class="sd">        </span>
+<span class="sd">Date:</span>
+<span class="sd">    </span>
+<span class="sd">    23/02/2024</span>
 
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Loading the relevant packages</span>
 <span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
@@ -61,19 +83,20 @@ are given at the left and at the right end of the dominion.</p>
 <span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span><span class="o">+</span><span class="s1">&#39;/Test_Problems/HD/Sod&#39;</span>
 
 <span class="c1"># Loading the data into a pload object D.</span>
-<span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">wdir</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">wdir</span><span class="p">)</span>
 
-<span class="c1"># Creating the Image</span>
+<span class="c1"># Creating the Image class</span>
 <span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
 
 <span class="c1"># Plotting the data</span>
 <span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\rho$&#39;</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Sod shock tube test&#39;</span><span class="p">,</span>
-    <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;$x$&#39;</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">1.05</span><span class="p">],</span> <span class="n">legpos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;$x$&#39;</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],</span> 
+                    <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">1.05</span><span class="p">],</span> <span class="n">legpos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">prs</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$p$&#39;</span><span class="p">)</span>
 <span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">vx1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$v_x$&#39;</span><span class="p">)</span>
 
-<span class="c1"># Saving the image</span>
-<span class="n">pp</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test01_sod.png&#39;</span><span class="p">)</span>
+<span class="c1"># Saving the image and showing the plot</span>
+<span class="n">I</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test01_sod.png&#39;</span><span class="p">)</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -90,7 +113,6 @@ are given at the left and at the right end of the dominion.</p>
           
           <h3>Table of Contents</h3>
           <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>

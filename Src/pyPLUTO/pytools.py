@@ -3,6 +3,9 @@ from .libraries import *
 def savefig(filename: str | Path = 'img.png', 
             bbox: str | None = 'tight'
            ) -> None:
+    """
+    ...
+    """
     warning_message: str = """
     pyPLUTO.savefig is deprecated. 
     Please call savefig from the Image class instead"""

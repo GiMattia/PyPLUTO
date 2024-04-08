@@ -190,8 +190,7 @@ class Load:
             raise TypeError("Invalid data type. 'multiple' must be a boolean.")
         else:
             self._multiple = multiple
-
-       
+    
         self._check_pathformat(path)
             
         # Find the format of the data files
@@ -214,6 +213,10 @@ class Load:
         # Assign the variables to the class
         for key in self._d_vars:
             setattr(self, key, self._d_vars[key])
+
+        # Transpose nshp (to match with variables)
+        if self.dim > 1:
+            self.nshp = self.nshp[::-1]
 
         # Print loaded folder and output
         if text: 
@@ -338,7 +341,7 @@ class Tools:
         '''
 
     from .datatools import slices, mirror
-    from .nabla     import gradient
+    #from .nabla     import gradient
     from .lines     import fieldlines, field_interp, adv_field_line
     from .lines     import check_closed_line
 """

@@ -3,9 +3,9 @@
 from setuptools import setup, find_packages
 
 setup(name='pyPLUTO',
-      version='0.8.2',
+      version='1',
       description="Python Visualisation module for PLUTO",
-      author="G. Mattia, D. Crocco",
+      author="G. Mattia, D. Crocco, ...",
       author_email="mattia@fi.infn.it",
       url="",
       packages=find_packages(),

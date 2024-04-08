@@ -17,8 +17,6 @@ def _assign_LaTeX(self,
 
         - LaTeX: bool
             the LaTeX option
-        - fontweight: str
-            the fontweight of the LaTeX text
     """
 
     if LaTeX == 'pgf':
@@ -26,13 +24,14 @@ def _assign_LaTeX(self,
             print('latex not installed')
             LaTeX = True
 
-        else:
+        try:
             plt.switch_backend('pgf')
 
             pgf_preamble = r"""
             \usepackage{amsmath}
             \usepackage{amssymb}
             \usepackage{mathptmx}
+            \usepackage[detect-all]{siunitx}
             \newcommand{\DS}{\displaystyle}
             """
 
@@ -42,6 +41,15 @@ def _assign_LaTeX(self,
                 'font.weight': self.fontweight,
                 'text.usetex': True
             })
+
+        except: 
+            str1 = """XeLaTeX is required to use the pgf backend.
+                      Please, install XeLaTeX and try again."""
+            str2 = "The pgf backend is not available."
+            output = str1 if LaTeX is True else str2
+            warnings.warn(output, UserWarning)
+            LaTeX = True
+
 
     if LaTeX is True:
         mpl.rcParams['mathtext.fontset'] = 'stix'

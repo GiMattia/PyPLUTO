@@ -21,7 +21,6 @@ Contents
 
 .. toctree::
 
-   python
    install
    load
    image

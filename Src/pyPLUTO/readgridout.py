@@ -19,6 +19,9 @@ def _read_grid(self) -> None:
 
         None
     """
+    if self._alone is True:
+        print(self.format)
+        return None
 
     # Initialize relevant lists
     nmax, xL, xR = [], [], []
@@ -33,7 +36,20 @@ def _read_grid(self) -> None:
     nx1p2 = self.nx1 + self.nx2
     nx1p3 = self.nx1 + self.nx2 + self.nx3
 
-    # Compute the centered and staggered grid values
+    # Define grid shapes based on dimensions
+    nx1s, nx2s, nx3s = self.nx1 + 1, self.nx2 + 1, self.nx3 + 1
+    GRID_SHAPES = {
+        1: lambda nx1, _, __: (nx1, nx1s, None, None),
+        2: lambda nx1, nx2, _: ((nx2, nx1), (nx2, nx1s),
+                                (nx2s, nx1), None),
+        3: lambda nx1, nx2, nx3: ((nx3, nx2, nx1), (nx3, nx2, nx1s),
+                             (nx3, nx2s, nx1), (nx3s, nx2, nx1))}
+    
+    # Determine grid shape based on dimension
+    (self.nshp, self._nshp_st1, self._nshp_st2, self._nshp_st3) = \
+        GRID_SHAPES[self.dim](self.nx1, self.nx2, self.nx3)
+    
+     # Compute the centered and staggered grid values
     self.x1r = np.array(xL[0:self.nx1] + [xR[self.nx1-1]])
     self.x1  = 0.5*(self.x1r[:-1] + self.x1r[1:])
     self.dx1 = self.x1r[1:] - self.x1r[:-1]
@@ -45,19 +61,6 @@ def _read_grid(self) -> None:
     self.x3r = np.array(xL[nx1p2:nx1p3] + [xR[nx1p3-1]])
     self.x3  = 0.5*(self.x3r[:-1] + self.x3r[1:])
     self.dx3 = self.x3r[1:] - self.x3r[:-1]
-
-    # Define grid shapes based on dimensions
-    nx1s, nx2s, nx3s = self.nx1 + 1, self.nx2 + 1, self.nx3 + 1
-    GRID_SHAPES = {
-        1: lambda nx1, _, __: (nx1, nx1s, None, None),
-        2: lambda nx1, nx2, _: ((nx2, nx1), (nx2, nx1s),
-                                (nx2s, nx1), None),
-        3: lambda nx1, nx2, nx3: ((nx3, nx2, nx1), (nx3, nx2, nx1s),
-                             (nx3, nx2s, nx1), (nx3s, nx2, nx1))}
-
-    # Determine grid shape based on dimension
-    (self.nshp, self._nshp_st1, self._nshp_st2, self._nshp_st3) = \
-        GRID_SHAPES[self.dim](self.nx1, self.nx2, self.nx3)
 
     # Compute the cartesian grid coordinates (non-cartesian geometry)
     # STILL VERY INCOMPLETE (3D spherical missing and needs testing)
@@ -87,7 +90,7 @@ def _read_grid(self) -> None:
         self.x1rp = (np.sin(x2r_2D)*x1r_2D).T
         self.x2rp = (np.cos(x2r_2D)*x1r_2D).T
         
-        self.gridlist3 = ['x1c','x2c','x1rc','x2rc']
+        self.gridlist3 = ['x1p','x2p','x1rp','x2rp']
         del x1_2D, x2_2D, x1r_2D, x2r_2D
 
         """
@@ -114,6 +117,8 @@ def _read_grid(self) -> None:
     self._gridsize_st3 = self.nx1*self.nx2*nx3s
 
     return None
+
+
 
 def _read_outfile(self, nout, endian) -> None:
     """
@@ -164,7 +169,11 @@ def _read_outfile(self, nout, endian) -> None:
                                     else self._d_info['endianess']
     
     # Store the variables list
-    self._d_info['varslist'] = np.array(vfp.iloc[self.nout,6:])
+    if self.format not in {'dbl.h5', 'flt.h5'}:
+        self._d_info['varslist'] = np.array(vfp.iloc[self.nout,6:])
+    else:
+        self.varsh5 = np.array(vfp.iloc[self.nout,6:])[0]
+        self._d_info['varslist'] = [[] for _ in range(self._lennout)]  
 
     # Compute binformat and endpath
     self._d_info['binformat'] = np.char.add(self._d_info['endianess'], 
@@ -173,6 +182,8 @@ def _read_outfile(self, nout, endian) -> None:
     self._d_info['endpath'] = np.char.mod(format_string, self.nout)
 
     return None
+
+
 
 def _split_gridfile(self, 
                     i: str, 

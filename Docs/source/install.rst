@@ -2,7 +2,7 @@ Installation
 ============
 
 The latest version of the *PyPLUTO* code is officially distributed with the
-latest version (5.0) of the *PLUTO* code. This can be downloaded from PlutoDownload_.
+latest version (4.4) of the *PLUTO* code. This can be downloaded from PlutoDownload_.
 
 .. _PlutoDownload: http://plutocode.ph.unito.it/download.html
 
@@ -40,17 +40,18 @@ This time the installation is done from the Src directory through the setup.py f
    (.venv) $ cd Src
    Src$ pip install ./
 
-3. If pip has not been installed a global installation through the ``setup.py`` can be done:
+Installation without pip
+------------------------
+
+If pip has not been installed a global installation through the ``setup.py`` can be done:
 
 .. code-block:: console
 
    (.venv) $ cd Src
    Src$ python setup.py install
 
-Installation without pip
-------------------------
 
-If pip is not installed, a good pratice is to create your own PYTHONPATH
+However, a good pratice is to create your own PYTHONPATH
 and do a local install in the following way:
 
 1. Create a directory where to store this module.

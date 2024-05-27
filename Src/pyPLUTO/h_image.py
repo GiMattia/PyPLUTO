@@ -1,6 +1,8 @@
 from .libraries import *
 
-def _check_fig(self, ax: Axes) -> int:
+def _check_fig(self, 
+               ax: Axes
+              ) -> int:
     """
     Finds the figure given a set of axes.
     If the set of axes does not belong to the figure, it raises an error.
@@ -8,25 +10,42 @@ def _check_fig(self, ax: Axes) -> int:
     Returns
     -------
 
-        The number of the selected set of axes
+    - The number of the selected set of axes
     
     Parameters
     ----------
 
-        - ax: axes
-            the set of axes
+    - ax: axes
+        the set of axes
+
+    Notes
+    -----
+
+    - None
+
+    Examples
+    --------
+
+    - Example #1: Find the axis and axis index
+        >>> _check_fig(ax)
+
     """
 
+    warnings.warn("The method _check_fig is deprecated.", UserWarning)
     # Get the figure associated to the axes
-    fig: Figure | None = ax.get_figure()
+    fig = ax.get_figure()
 
     # Check if the figure is the same as the one in the class
     if fig != self.fig:
-        raise ValueError("The provided axes does not belong to the expected figure.")
+        text = "The provided axis does not belong to the expected figure."
+        raise ValueError(text)
     
     # Find the number of the axes and return it
-    nax: int = self.ax.index(ax)
+    nax = self.ax.index(ax)
+
+    # Return the index of the axis
     return nax
+
 
 def _add_ax(self,
             ax: Axes,
@@ -40,17 +59,33 @@ def _add_ax(self,
     Returns
     -------
 
-        None
+    - None
 
     Parameters
 
-        - ax: ax
-            the axis to be added
-        - i: int
-            the index of the axis in the list
+    - ax: ax
+        the axis to be added
+    - i: int
+        the index of the axis in the list
+
+    Notes
+    -----
+
+    - None
+
+    Examples
+    --------
+
+    - Example #1: Add the axis to the class info variables
+
+        >>> _add_ax(ax, i)
+
     """
 
+    # Append the axis to the list of axes
     self.ax.append(ax)
+
+    # Append the axis properties to the class info variables
     self.nline.append(0)
     self.ntext.append(None)
     self.setax.append(0)
@@ -60,27 +95,46 @@ def _add_ax(self,
     self.vlims.append([])
     self.tickspar.append(0)
     self.shade.append('auto')
+
+    # Position the axis index in the middle of the axis
     self.ax[i].annotate(str(i),(0.47,0.47),xycoords='axes fraction')
 
+    # End of the function
     return None
 
 
-def _hide_text(self, nax: int, txts) -> None:
+def _hide_text(self, 
+               nax: int, 
+               txts: str | None
+              ) -> None:
     """
-    Hides the text placed when an axis is created (the number of the axis).
+    Hides the text placed when an axis is created (the axis index).
 
     Returns
     -------
 
-        None
+    -None
 
     Parameters
     ----------
 
-        - nax: int
-            the number of the selected set of axes
-        - txts: str
-            the text of the selected set of axes
+    - nax: int
+        the number of the selected set of axes
+    - txts: str
+        the text of the selected set of axes
+
+    Notes
+    -----
+
+    - None
+
+    Examples
+    --------
+
+    - Example #1: Hide the text of the selected set of axes
+
+        >>> _hide_text(nax, txts)
+
     """
 
     # Check if the text has already been removed
@@ -89,7 +143,10 @@ def _hide_text(self, nax: int, txts) -> None:
 
         # Set the text as removed
         self.ntext[nax] = 1
+
+    # End of the function
     return None
+
 
 def _set_parax(self, ax: Axes, **kwargs: Any) -> None:
     """
@@ -109,6 +166,7 @@ def _set_parax(self, ax: Axes, **kwargs: Any) -> None:
         - **kwargs: dict
             the selected parameters
     """
+    warnings.warn("The method _set_parax is deprecated.", UserWarning)
     # Set of the possible parameters
     param: set = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 'ticksdir', 'tickssize', 'title', 'titlepad', 'titlesize', 'xrange', 
              'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
@@ -124,6 +182,7 @@ def _set_parax(self, ax: Axes, **kwargs: Any) -> None:
 
     return None
 
+
 def _set_xrange(self, 
                 ax: Axes, 
                 nax: int, 
@@ -133,7 +192,6 @@ def _set_xrange(self,
     """
     Sets the lower and upper limits of the x-axis of a set of axes (if
     not stated otherwise later).
-    IMPORTANT: PUT CHANCE TO SET ONLY ONE LIMIT!!!
 
     Returns
     -------
@@ -151,6 +209,19 @@ def _set_xrange(self,
             the limits of the x-axis
         - case: int
             the case in exam (if range is fixed or variable)
+
+    Notes
+    -----
+
+    - Put chance to set only one limit!
+
+    Examples
+    --------
+
+    - Example #1: Set the x-axis limits of the selected set of axes
+
+        >>> _set_xrange(ax, nax, xlim, case)
+
     """
 
     # Case 0: the x-axis limits are set automatically (no previous limit)
@@ -160,22 +231,26 @@ def _set_xrange(self,
         # Case switched to 2 (previous limits are present now)
         self.setax[nax] = 2
 
-    # Case 1: limits are already set and they should not be changed (aka do nothing)
+    # Case 1: limits are already set and they should not be changed 
+    #         (aka do nothing)
 
-    # Case 2: the x-axis limit are changed automatically (previous limit present)
+    # Case 2: the x-axis limit are changed automatically 
+    #         (previous limit present)
     if case == 2:
-        xmin: float = min(xlim[0],ax.get_xlim()[0])
-        xmax: float = max(xlim[1],ax.get_xlim()[1])
+        xmin = min(xlim[0],ax.get_xlim()[0])
+        xmax = max(xlim[1],ax.get_xlim()[1])
         ax.set_xlim(xmin,xmax)
 
-    # Case 3: x-axis limits must be set manually
+    # Case 3: x-axis limits are set manually
     if case == 3:
         ax.set_xlim(xlim[0],xlim[1])
 
         # Case switched to 1 (no change unless stated explicitly otherwise)
         self.setax[nax] = 1
 
+    # End of the function
     return None
+
 
 def _set_yrange(self, 
                 ax: Axes, 
@@ -190,8 +265,6 @@ def _set_yrange(self,
     not stated otherwise later).
     Unlike the x-axis, the y-axis limits are recovered depending on both
     the x-data and the y-data.
-
-    IMPORTANT: PUT CHANCE TO SET ONLY ONE LIMIT!!!
 
     Returns
     -------
@@ -213,6 +286,19 @@ def _set_yrange(self,
             the x-array (to limit the y-range automatically)
         - y: list[float]
             the y-array (to limit the y-range automatically)
+
+    Notes
+    -----
+
+    - Put chance to set only one limit!  
+
+    Examples
+    --------
+
+    - Example #1: Set the y-axis limits of the selected set of axes
+
+        >>> _set_yrange(ax, nax, ylim, case)  
+            
     """
 
     # Case 0: the y-axis limits are set automatically (no previous limit)
@@ -232,9 +318,11 @@ def _set_yrange(self,
         # Switch to case 2 (previous limits are present now)
         self.setay[nax] = 2
 
-    # Case 1: limits are already set and they should not be changed (aka do nothing)
+    # Case 1: limits are already set and they should not be changed 
+    # (aka do nothing)
 
-    # Case 2: the y-axis limit are changed automatically (previous limit present)
+    # Case 2: the y-axis limit are changed automatically 
+    #(previous limit present)
     if case == 2:
 
         if x is None or y is None:
@@ -260,7 +348,9 @@ def _set_yrange(self,
         # Case switched to 1 (no change unless stated explicitly otherwise)
         self.setay[nax] = 1
 
+    # End of the function
     return None
+
 
 def _assign_ax(self, 
                ax: Axes | list[Axes] | None, 
@@ -286,20 +376,56 @@ def _assign_ax(self,
             the selected set of axes
         - **kwargs: dict
             the selected parameters
+
+    Notes
+    -----
+
+    - None
+
+    Examples
+    --------
+
+    - Example #1: Set the axes of the figure
+
+        >>> _assign_ax(ax, **kwargs)
+
+    - Example #2: Set the axes of the figure (no axis selected)
+
+        >>> _assign_ax(None, **kwargs)
+
+    - Example #3: Set the axes of the figure (axis is a list)
+
+        >>> _assign_ax([ax], **kwargs)
+
     """
 
+    # Check if the axis is None and no axis is present (and create one)
     if ax is None and len(self.ax) == 0:
         ax = self.create_axes(ncol = 1, nrow = 1, check = False, **kwargs)
 
+    # Check if the axis is None and an axis is present (and select the last one)
     elif ax is None and len(self.ax) > 0:
         ax  = self.fig.gca()
 
-    if isinstance(ax, list):
+    # Check if the axis is a list and select the first element
+    elif isinstance(ax, list):
         ax = ax[0]
-    elif ax is None:
-        ax = self.fig.gca()
+    # If none of the previous cases is satisfied assert that ax is an axis
+    elif not isinstance(ax, Axes):
+        raise ValueError("The provided axis is not valid.")
 
-    nax = self._check_fig(ax)
+    # Get the figure associated to the axes
+    fig = ax.get_figure()
+
+    # Check if the figure is the same as the one in the class
+    if fig != self.fig:
+        text = "The provided axis does not belong to the expected figure."
+        raise ValueError(text)
+    
+    # Find the number of the axes and return it
+    nax = self.ax.index(ax)
+
+    # Return the axis and its index
     return ax, nax
 
 

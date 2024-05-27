@@ -14,21 +14,35 @@ def _read_tabfile(self, i: int) -> None:
     Parameters
     ----------
 
-        - i: int
-            the index of the file to be loaded.
+    - i: int
+        the index of the file to be loaded.
+
+    Notes
+    -----
+
+    - None
+
+    Examples
+    --------
+
+    - Example #1: Read the data.0000.tab file
+
+        >>> _read_tabfile(0)
 
     """
     
     # Initialize the dictionary
-    Dict_tab: dict[str, NDArray] = {}
+    Dict_tab = {}
     
     # Open and read the data.****.tab file, computing the empty lines
     vfp = pd.read_csv(str(self._filepath), delim_whitespace = True, 
                                   header = None, skip_blank_lines=False)
-    scrhlines: pd.Series = vfp.isnull().all(axis=1)
-    empty_lines: int = vfp[scrhlines].shape[0]
+    
+    # Find the empty lines
+    scrhlines   = vfp.isnull().all(axis=1)
+    empty_lines = vfp[scrhlines].shape[0]
 
-    # If the file is empty, the grid is 1D
+    # If the file is empty the grid is 1D, otherwise 2D
     if empty_lines > 0:
 
         # Remove the empty lines
@@ -39,6 +53,7 @@ def _read_tabfile(self, i: int) -> None:
         if not hasattr(self,'dim'):
             lines_in_block = vfp.groupby('block').size()
 
+            # Store the gridsize
             self.nx1 = empty_lines
             self.nx2 = len(lines_in_block)
             
@@ -111,6 +126,7 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
 
         # Find the coordinates and store them
         if spl0 in [j + b"_COORDINATES" for j in [b"X", b"Y", b"Z"]] and self._info is True:
+            # set self.geom
             var_sel = spl0.decode()[0]
             binf = endl+'d' if spl2.decode() == 'double' else endl+'f'
             offset = f.tell()
@@ -138,6 +154,7 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
             if self.nx3 == 1 and self.nx2 == 1:
                 self.nshp = self.nx1 
                 gridvars = ['self.x1r', 'self.x2', 'self.x3']
+                # set self.dim EEEEEEEEE
             elif self.nx3 == 1:
                 self.nshp = (self.nx2, self.nx1)
                 gridvars = ['self.x1r', 'self.x2r', 'self.x3']
@@ -150,23 +167,26 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
 
         # Unstructured grids (non-cartesian geometries)
         elif spl1 == b'STRUCTURED_GRID':
-            raise NotImplementedError('non-cartesian standalone vtk\'s have not been implemented yet')
-        
+            raise NotImplementedError(f"non-cartesian standalone vtk files \
+                                        have not been implemented yet")
+
     # Find the variables and store them (only if single_file)
     if self._d_info['typefile'][i] == 'single_file' and self._alone is True:
         self._d_info['varslist'][i] = np.array(list(self._offset.keys()))
 
     # Compute the centered coordinates if the file is standalone and cartesian
     if self._info is True:
+
+        self._read_grid()
         if gridvars[0] == 'self.x1r':
             self.x1  = 0.5*(self.x1r[:-1] + self.x1r[1:])
         if gridvars[1] == 'self.x2r':
             self.x2  = 0.5*(self.x2r[:-1] + self.x2r[1:])
         if gridvars[2] == 'self.x3r':
             self.x3  = 0.5*(self.x3r[:-1] + self.x3r[1:])
-
-    # Close the file and set the info flag to False
-    self._info = False
+        self._info = False
+    
+    # Close the file
     f.close()
     
     return None
@@ -196,22 +216,28 @@ def _inspect_h5(self, i: int, exout: int) -> None:
 
     # Open the file with the h5py library
     try:
-        #h5file: h5py.File = h5py.File(self._filepath,"r",) # CHECK TYPEHINT
-        h5file: Any = h5py.File(self._filepath,"r",)
+        h5file  = h5py.File(self._filepath,"r",)
     except:
         raise ImportError("Dependency 'h5py' not installed, required for reading HDF5 files")
     
     # Selects the binformat
     self._d_info['binformat'][i] = 'd' if self.format == 'dbl.h5' else 'f'
 
-    # If standalone file, finds the variables to be loaded
+    filevars = h5file[f'Timestep_{exout}']['vars']
+
+    # If standalone file, finds the variables to be loaded, else 
+    # remove variables in the .out file that are not present in the actual file
     if self._alone is True:
-        self._d_info['varslist'][i] = list(h5file[f'Timestep_{exout}']['vars'].keys())
+        self._d_info['varslist'][i] = set(filevars.keys())
+    else:
+        self._d_info['varslist'][i] = list(set(filevars.keys()) \
+                                    & set(self.varsh5))
 
     # Loop over the variables and store the offset and shape
     for j in self._d_info['varslist'][i]:
-        self._offset[j] = h5file[f'Timestep_{exout}']['vars'][j].id.get_offset()
-        self._shape[j]  = h5file[f'Timestep_{exout}']['vars'][j].shape
+        # insert try and warning (staggred variables??) EEEEEEEEE
+        self._offset[j] = filevars[j].id.get_offset()
+        self._shape[j]  = filevars[j].shape
 
     # If standalone file, finds the coordinates
     if self._info is True:
@@ -221,6 +247,7 @@ def _inspect_h5(self, i: int, exout: int) -> None:
         self.x1r  = h5file['node_coords']['X'][:]
         self.x2r  = h5file['node_coords']['Y'][:]
         self.x3r  = h5file['node_coords']['Z'][:]
+        self._read_grid()
         self._info = False
 
     # Close the file
@@ -244,21 +271,25 @@ def _compute_offset(self,
     Returns
     -------
 
-        None
+    - None
     
     Parameters
     ----------
 
-        - i: int
-            the index of the file to be loaded.
-        - endian: str
-            the endianess of the files.
-        - exout: int
-            the index of the output to be loaded.
-        - var: str
-            the variable to be loaded.
+    - i: int
+        the index of the file to be loaded.
+    - endian: str
+        the endianess of the files.
+    - exout: int
+        the index of the output to be loaded.
+    - var: str
+        the variable to be loaded.
+
+
     """
-    class_name: str = self.__class__.__name__
+    if self._alone is not True:
+        # Read the grid file
+        self._read_grid()
 
     # Depending on the file calls different routines
     if self.format == 'tab':
@@ -284,23 +315,27 @@ def _offset_bin(self, i: int, var: str | None) -> None:
     Returns
     -------
 
-        None
+    - None
 
     Parameters
     ----------
 
-        - i: int
-            the index of the file to be loaded.
-        - var: str
-            the variable to be loaded.
+    - i: int
+        the index of the file to be loaded.
+    - var: str
+        the variable to be loaded.
     """
 
-    # Initialize the offset and shape dictionaries and
-    # the offset starting point
+    # Read the grid file if not already read
+    if self._info is True:
+        self._read_grid()
+        self._info = False
+
+    # Initialize the offset and shape dictionaries and the offset starting point
     self._offset, self._shape = ({},{})
     off_start = 0
 
-    # Define the staggered variables shape
+    # Define the staggered variables shape (Magnetic and electric field)
     grid_sizes = {
         'Bx1s': [self._nshp_st1, self._gridsize_st1], 
         'Ex1s': [self._nshp_st1, self._gridsize_st1],
@@ -313,10 +348,13 @@ def _offset_bin(self, i: int, var: str | None) -> None:
     varloop = self._d_info['varslist'][i] if var is None else [var]
 
     for var in varloop:
-        # Compute the offset and shape
-        grid_size = grid_sizes.get(var, [self.nshp, self.gridsize]) #type: ignore
+        # Get the grid shape and size (centered or staggered)
+        grid_size = grid_sizes.get(var, [self.nshp, self.gridsize])
         self._shape[var]  = grid_size[0]
+        # Assign the offset
         self._offset[var] = off_start
+        # Move to next variable
         off_start += grid_size[1]*self._charsize
 
+    # End of function
     return None

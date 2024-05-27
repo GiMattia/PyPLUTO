@@ -2,10 +2,10 @@ from .libraries import *
 
 def slices(self, 
            var: NDArray, 
-           x1: int | list = None, 
-           x2: int | list = None, 
-           x3: int | list = None, 
-           diag: bool = False
+           x1: int | list | None = None, 
+           x2: int | list | None = None, 
+           x3: int | list | None = None, 
+           diag: bool | None = None
           ):
     newvar = np.copy(var)
     if x3 != None:

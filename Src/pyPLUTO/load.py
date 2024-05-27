@@ -1,11 +1,4 @@
 from .libraries   import *
-from .readformat  import _check_pathformat, _find_format
-from .readdata    import _load_variables, _check_nout, _findfiles
-from .readdata    import _init_vardict, _assign_var
-from .readgridout import _read_grid, _read_outfile, _split_gridfile
-from .readfluid   import _compute_offset, _inspect_h5, _inspect_vtk
-from .readfluid   import _offset_bin, _read_tabfile
-
 
 class Load:
     """
@@ -37,12 +30,12 @@ class Load:
         Returns
         -------
 
-        The class, with the grid and the loaded variables.
+        - None
 
         Parameters
         ----------
 
-        nout: int | str | list | None, default 'last'
+        - nout: int | str | list | None, default 'last'
             The files to be loaded. Possible choices are int 
             values (which correspond to the number of the output
             file), strings ('last', which corresponds to the last
@@ -51,75 +44,109 @@ class Load:
             Note that the 'all' value should be used carefully, 
             e.g. only when the data need to be shown interactively.
 
-        path: str, default'./'
+        - path: str, default'./'
             The path of the folder where the files should be 
             loaded.
 
-        datatype: str | None, default None
+        - datatype: str | None, default None
             The format of the data file. If not specified, the code will 
             look for the format from the list of possible formats.
             HDF5 (AMR) formats have not been implemented yet.
 
-        vars: str | list | bool | None, default True
+        - vars: str | list | bool | None, default True
             The variables to be loaded. The default value, True, 
             corresponds to all the variables.
 
-        text: bool, default True
-            If a quick text (explaining the path and few information) 
-            should be shown. In case the user needs a more detailed 
-            information of the structure and attributes loaded from the 
-            class, the __str__ method provides a easy display of all the 
-            important information.
+        - text: bool, default True
+            If True, the folder and output are printed.
+            In case the user needs a more detailed information of the structure 
+            and attributes loaded from the class, the __str__ method provides a 
+            easy display of all the important information.
 
-        alone: bool | None, default False
+        - alone: bool | None, default False
             If the files are standalone. If False, the code will look for 
             the grid file in the folder. If True, the code will look for 
             the grid information within the data files. Should be used only
             for non-binary files.
 
-        multiple: bool, default False
+        - multiple: bool, default False
             If the files are multiple. If False, the code will look for the
             single files, otherwise for the multiple files each 
             corresponding to the loaded variables. Should be used only if 
             both single files and multiple files are present in the same 
             format for the same datatype.
 
-        endian: str | None, default None
+        - endian: str | None, default None
             Endianess of the datafiles. Should be used only if specific 
             architectures are used, since the code computes it by itself. 
             Valid values are 'big' and 'little' (or '<' and '>').
+        
+        Notes
+        -----
 
-        Examples (CHECK)
+        - Extend the read_grid also to the vtk format (alone) and h5 format.
+        - Warning if the .out files are not found.
 
+        Examples
+        --------
+
+        - Example #1: Load the data from the default folder and output
+        
             >>> import pyPLUTO as pp
             >>> D = pp.Load()
             Loading folder ./,     output [0]
 
+        - Example #2: Load the data from the default folder but output 0    
+
             >>> D = pp.Load(nout = 0)
             Loading folder ./,     output [0]
+
+        - Example #3: Load the data from the default folder but last output 
+          is specified    
 
             >>> D = pp.Load(nout = 'last')
             Loading folder ./,     output [1]
 
+        - Example #4: Load the data from the default folder and all outputs    
+
             >>> D = pp.Load(nout = 'all')
             Loading folder ./,     output [0, 1, 2, 3, 4]
+
+        - Example #5: Load the data from the default folder and multiple 
+          selected outputs    
 
             >>> D = pp.Load(nout = [0,1,2])
             Loading folder ./,     output [0, 1, 2]
 
+        - Example #6: Load the data from the default folder and multiple 
+          selected outputs and variables    
+
             >>> D = pp.Load(nout = [0,1,2], vars = ['rho','vel1'])
             Loading folder ./,     output [0, 1, 2]
 
+        - Example #7: Load the data from the default folder, multiple selected
+          outputs and variables, without text
+
             >>> D = pp.Load(nout = [0,1,2], vars = ['rho','vel1'], text = False)
             
+        - Example #8: Load the data from the default format with selected output
+          and format
+        
             >>> D = pp.Load(data = 'vtk', nout = 0)
             Loading folder ./,     output [0]
 
+        - Example #9: Load the data from the default folder with selected 
+          output, variables and format
+
             >>> D = pp.Load(data = 'vtk', nout = 0, vars = ['rho','vel1'])
             Loading folder ./,     output [0]
-
+        
+        - Example #10: Load the data from a specific folder with selected
+          output  
+        
             >>> D = pp.Load(path = './data/', nout = 0)
             Loading folder ./data/,     output [0]
+
         """
 
         # Check if the user wants to load the data
@@ -131,7 +158,7 @@ class Load:
         self._d_end: dict[str | None, str | None]  # Endianess dictionary
         self._multiple: bool    # Bool for single or multiple files
         self._alone: bool | None = None # Bool for standalone files
-        self._info: bool # Bool for info (linked to alone)
+        self._info: bool = True # Bool for info (linked to alone)
         self._d_vars: dict = {} # The dictionary of variables
 
         # Initialization or declaration of variables (used in other files)
@@ -161,15 +188,15 @@ class Load:
         self._dictdim: dict # The dictionary of dimensions 
 
         # Declaration of the grid variables
-        self.x1: NDArray; self.x2: NDArray; self.x3: NDArray
-        self.x1r: NDArray; self.x2r: NDArray; self.x3r: NDArray
-        self.x1c: NDArray; self.x2c: NDArray
-        self.x1rc: NDArray; self.x2rc: NDArray
-        self.dx1: NDArray; self.dx2: NDArray; self.dx3: NDArray
-        self.nx1: int; self.nx2: int; self.nx3: int
-        self.gridsize: int
-        self.gridlist3: list[str]
-        self.x1p: NDArray; self.x2p: NDArray
+        self.x1: NDArray; self.x2: NDArray; self.x3: NDArray # centered grid
+        self.x1r: NDArray; self.x2r: NDArray; self.x3r: NDArray # staggered grid
+        self.x1c: NDArray; self.x2c: NDArray # cartesian centered grid 
+        self.x1rc: NDArray; self.x2rc: NDArray # cartesian staggered grid
+        self.dx1: NDArray; self.dx2: NDArray; self.dx3: NDArray # cell size
+        self.nx1: int; self.nx2: int; self.nx3: int # number of cells
+        self.gridsize: int # total number of cells
+        self.gridlist3: list[str] 
+        self.x1p: NDArray; self.x2p: NDArray 
         self.x1rp: NDArray; self.x2rp: NDArray
 
         self._gridsize_st1: int; self._nshp_st1: NDArray
@@ -200,11 +227,8 @@ class Load:
         # the number of files to be loaded) or opening the *.out files
         if self._alone is True:
             self._findfiles(nout)
-            self._info = True
         else:
-            self._read_grid()
             self._read_outfile(nout, endian)
-            self._info = False
 
         # For every output load the desired variables
         for i, exout in enumerate(self.nout):
@@ -215,21 +239,22 @@ class Load:
             setattr(self, key, self._d_vars[key])
 
         # Transpose nshp (to match with variables)
-        if self.dim > 1:
-            self.nshp = self.nshp[::-1]
+        try:
+            self.nshp = self.nshp[::-1] if self.dim > 1 else self.nshp
+        except:
+            pass
 
         # Print loaded folder and output
         if text: 
             _nout_out = self.nout[0] if len(self.nout) == 1 else list(self.nout)
-            print(f"Loading folder {path},     output {_nout_out}")
+            print(f"Load: folder {path},     output {_nout_out}")
 
         return   
  
     def __str__(self):
-        # CHECK
 
         txtshp = self.nshp if isinstance(self.nshp, int) else self.nshp[::-1]
-        text3 = f"""        - Projections {['x1c','x2c','x1rc','x2rc']}\n"""
+        text3 = f"        - Projections {['x1c','x2c','x1rc','x2rc']}\n"
         text3 = text3 if self.geom != 'CARTESIAN' else ""
 
         text = f"""
@@ -265,56 +290,20 @@ class Load:
         """
         return text
     
+    """
     def __getattr__(self, name):
         try:
             return getattr(self, f'_{name}')
         except:
             raise AttributeError(f"'Load' object has no attribute '{name}'")
-
-    def _check_pathformat(self,*args,**kwargs):
-        return _check_pathformat(self,*args,**kwargs)
-    
-    def _find_format(self,*args,**kwargs):
-        return _find_format(self,*args,**kwargs)
-    
-    def _findfiles(self,*args,**kwargs):
-        return _findfiles(self,*args,**kwargs)
-    
-    def _load_variables(self,*args,**kwargs):
-        return _load_variables(self,*args,**kwargs)
-    
-    def _read_grid(self,*args,**kwargs):
-        return _read_grid(self,*args,**kwargs)
-    
-    def _read_outfile(self,*args,**kwargs):
-        return _read_outfile(self,*args,**kwargs)
-    
-    def _check_nout(self,*args,**kwargs):
-        return _check_nout(self,*args,**kwargs)
-    
-    def _split_gridfile(self,*args,**kwargs):
-        return _split_gridfile(self,*args,**kwargs)
-    
-    def _init_vardict(self,*args,**kwargs):
-        return _init_vardict(self,*args,**kwargs)
-    
-    def _assign_var(self,*args,**kwargs):
-        return _assign_var(self,*args,**kwargs)
-    
-    def _compute_offset(self,*args,**kwargs):
-        return _compute_offset(self,*args,**kwargs)
-    
-    def _inspect_h5(self,*args,**kwargs):
-        return _inspect_h5(self,*args,**kwargs)
-    
-    def _inspect_vtk(self,*args,**kwargs):
-        return _inspect_vtk(self,*args,**kwargs)
-
-    def _offset_bin(self,*args,**kwargs):
-        return _offset_bin(self,*args,**kwargs)
-    
-    def _read_tabfile(self,*args,**kwargs):
-        return _read_tabfile(self,*args,**kwargs)
+    """
+            
+    from .readformat  import _check_pathformat, _find_format
+    from .readdata    import _load_variables, _check_nout, _findfiles
+    from .readdata    import _init_vardict, _assign_var
+    from .readgridout import _read_grid, _read_outfile, _split_gridfile
+    from .readfluid   import _compute_offset, _inspect_h5, _inspect_vtk
+    from .readfluid   import _offset_bin, _read_tabfile
 
 """
 class Tools:

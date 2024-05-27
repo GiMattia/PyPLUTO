@@ -1,14 +1,4 @@
 from .libraries  import *
-from .figure     import _create_figure, _assign_LaTeX
-from .setaxes    import create_axes, set_axis
-from .plot1d     import plot, legend
-from .plot2d     import display, scatter, colorbar
-from .plotzoom   import zoom
-from .pytools    import copy_docstring
-from .imagetools import savefig, show, text
-from .interact   import interactive, _update_slider
-from .h_image    import _check_fig, _add_ax, _hide_text, _set_parax
-from .h_image    import _set_xrange, _set_yrange, _assign_ax
 
 class Image:
     """
@@ -31,7 +21,7 @@ class Image:
         self.nrow0: int = 0
         self.ncol0: int = 0
         self.ax: list[Axes] = []
-                                  # black, red, blue, cyan, green, orange
+                                # black, red, blue, cyan, green, orange
         self.color: list[str] = ['k','#d7263d','#1815c5',
                                  '#12e3c0','#3f6600','#f67451']
         
@@ -50,12 +40,13 @@ class Image:
         self.anim_var: NDArray
         self.anim_ax: Axes
         self.slider: Slider
-        self.anim_pcm: Any # FIXME: Type
+        self.anim_pcm: Any
 
         self._assign_LaTeX(LaTeX)
         self._create_figure(fig, text, **kwargs)
         if text is not False:
             print(f"Creating Figure in window {self.nwin}")
+
 
     def __getattr__(self, name):
         try:
@@ -63,6 +54,7 @@ class Image:
         except:
             raise AttributeError(f"'Image' object has no attribute '{name}'")
     
+
     def __str__(self):
         return rf"""
         Image class.
@@ -98,85 +90,16 @@ class Image:
         Please refrain from using "private" methods and attributes.
         """
     
-    @copy_docstring(create_axes)
-    def create_axes(self,*args,**kwargs):
-        return create_axes(self,*args,**kwargs)
+    from .setaxes    import create_axes, set_axis
+    from .plot1d     import plot, legend
+    from .plot2d     import display, scatter, colorbar
+    from .plotzoom   import zoom
+    from .imagetools import savefig, show, text
+    from .interact   import interactive, _update_slider
+    from .figure     import _create_figure, _assign_LaTeX
+    from .h_image    import _check_fig, _add_ax, _hide_text, _set_parax
+    from .h_image    import _set_xrange, _set_yrange, _assign_ax
 
-    @copy_docstring(set_axis)
-    def set_axis(self,*args,**kwargs):
-        return set_axis(self,*args,**kwargs)
-    
-    @copy_docstring(plot)
-    def plot(self,*args,**kwargs):
-        return plot(self,*args,**kwargs)
-    
-    @copy_docstring(legend)
-    def legend(self,*args,**kwargs):
-        return legend(self,*args,**kwargs)
-    
-    @copy_docstring(display)
-    def display(self,*args,**kwargs):
-        return display(self,*args,**kwargs)
-    
-    @copy_docstring(scatter)
-    def scatter(self,*args,**kwargs):
-        return scatter(self,*args,**kwargs)
-    
-    @copy_docstring(colorbar)
-    def colorbar(self,*args,**kwargs):
-        return colorbar(self,*args,**kwargs)
-    
-    @copy_docstring(savefig)
-    def savefig(self,*args,**kwargs):
-        return savefig(self,*args,**kwargs)
-    
-    @copy_docstring(show)
-    def show(self,*args,**kwargs):
-        return show(self,*args,**kwargs)
-    
-    @copy_docstring(text)
-    def text(self,*args,**kwargs):
-        return text(self,*args,**kwargs)
-    
-    @copy_docstring(zoom)
-    def zoom(self,*args,**kwargs):
-        return zoom(self,*args,**kwargs)
-    
-    @copy_docstring(interactive)
-    def interactive(self,*args,**kwargs):
-        return interactive(self,*args,**kwargs)
-    
-    @copy_docstring(_update_slider)
-    def _update_slider(self,*args,**kwargs):
-        return _update_slider(self,*args,**kwargs)
-    
-    def _create_figure(self,*args,**kwargs):
-        return _create_figure(self,*args,**kwargs)
-    
-    def _assign_LaTeX(self,*args,**kwargs):
-        return _assign_LaTeX(self,*args,**kwargs)
-    
-    def _check_fig(self,*args,**kwargs):
-        return _check_fig(self,*args,**kwargs)
-    
-    def _add_ax(self,*args,**kwargs):
-        return _add_ax(self,*args,**kwargs)
-    
-    def _hide_text(self,*args,**kwargs):
-        return _hide_text(self,*args,**kwargs)
-    
-    def _set_parax(self,*args,**kwargs):
-        return _set_parax(self,*args,**kwargs)
-    
-    def _set_xrange(self,*args,**kwargs):
-        return _set_xrange(self,*args,**kwargs)
-    
-    def _set_yrange(self,*args,**kwargs):
-        return _set_yrange(self,*args,**kwargs)
-    
-    def _assign_ax(self,*args,**kwargs):
-        return _assign_ax(self,*args,**kwargs)
-    
 
     
 

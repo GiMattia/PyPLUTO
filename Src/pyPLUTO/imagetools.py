@@ -4,7 +4,7 @@ def savefig(self, filename = 'img.png', bbox = 'tight'):
     self.fig.savefig(filename, bbox_inches = bbox)
 
 def show(self, block: bool = True):
-    self.fig.show(block = block) # type: ignore
+    self.fig.show(block = block)
 
 def text(self, text, x = 0.9, y = 0.9, ax = None, **kwargs):
 

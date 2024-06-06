@@ -1,13 +1,12 @@
 from .libraries import *
-import numpy as np
 from typing import Optional, Union
-#from pyPLUTO import Load
-import warnings
 
-'''
-def _is_number(value):
+
+def _is_number(value: Any
+              ) -> bool:
     return isinstance(value, (int, float))
 
+'''
 def _islice_imin_imax(xvalue,xgrid):
     N = len(xgrid)
     i = np.argmin(abs(xgrid-xvalue))

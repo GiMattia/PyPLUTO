@@ -301,9 +301,12 @@ class Load:
     from .readformat  import _check_pathformat, _find_format
     from .readdata    import _load_variables, _check_nout, _findfiles
     from .readdata    import _init_vardict, _assign_var
-    from .readgridout import _read_grid, _read_outfile, _split_gridfile
+    from .readgridout import _read_gridfile, _read_outfile, _split_gridfile
+    from .readgridout import _read_grid_vtk, _read_grid_h5
     from .readfluid   import _compute_offset, _inspect_h5, _inspect_vtk
     from .readfluid   import _offset_bin, _read_tabfile
+    from .write_files import write_h5, write_vtk, write_tab, write_bin, write_files
+    from .read_files  import read_h5
 
 """
 class Tools:

@@ -473,6 +473,7 @@ def _set_cscale(cscale: str,
     if lint is not None:
         warnings.warn("'lint' keyword is deprecated, please use \
                        'tresh' instead", UserWarning)
+        tresh  = lint if tresh is None else tresh
 
     if cscale == 'log':
         norm = mcol.LogNorm(vmin = vmin,vmax = vmax)

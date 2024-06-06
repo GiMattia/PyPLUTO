@@ -95,10 +95,11 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
     Parameters
     ----------
 
-        - i: int
-            the index of the file to be loaded.
-        - endian: str
-            the endianess of the files.
+    - i: int
+        the index of the file to be loaded.
+    - endian: str
+        the endianess of the files.
+
     """
 
     dir_map: dict[str, str]= {}
@@ -118,7 +119,7 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
     f = open(self._filepath, 'rb')
     for l in f:
 
-        # Split the lines (unsplit are binary data)
+        # Split the lines (unsplit are binary data or useless lines)
         try:
             spl0, spl1, spl2 = l.split()[0:3]
         except:
@@ -126,13 +127,27 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
 
         # Find the coordinates and store them
         if spl0 in [j + b"_COORDINATES" for j in [b"X", b"Y", b"Z"]] and self._info is True:
-            # set self.geom
+            self.geom = 'CARTESIAN'
             var_sel = spl0.decode()[0]
             binf = endl+'d' if spl2.decode() == 'double' else endl+'f'
             offset = f.tell()
             shape = int(spl1)
             scrh = np.memmap(self._filepath,dtype=binf,mode='r',offset=offset, shape = shape)
             exec(f"{dir_map[var_sel]} = scrh")
+
+        elif spl0 == b'POINTS' and self._info is True:
+            binf = endl+'d' if spl2.decode() == 'double' else endl+'f'
+            offset = f.tell()
+            shape = int(spl1)
+            scrh = np.memmap(self._filepath,dtype  = binf, 
+                                            mode   = 'r', 
+                                            offset = offset, 
+                                            shape  = 3*shape)
+
+            for j in range(self.dim):
+                exec(f"{gridvars[j]} = scrh[{j}::3]")
+                exec(f"{gridvars[j]} = {gridvars[j]}.reshape({nshp_grid})")
+            self.geom = 'UNKNOWN'
 
         # Find the scalars and compute their offset
         elif spl0 == b'SCALARS':
@@ -150,25 +165,26 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
         
         # Find the dimensions and store them, computing the variables shape
         elif spl0 == b'DIMENSIONS' and self._info is True:
+            nshp_grid = [int(i) for i in l.split()[1:4]]
             self.nx1, self.nx2, self.nx3 = [max(int(i) - 1, 1) for i in l.split()[1:4]]
             if self.nx3 == 1 and self.nx2 == 1:
+                self.dim  = 1
                 self.nshp = self.nx1 
-                gridvars = ['self.x1r', 'self.x2', 'self.x3']
-                # set self.dim EEEEEEEEE
+                nshp_grid = (self.nx1 + 1)
+                gridvars  = ['self.x1r', 'self.x2', 'self.x3']     
             elif self.nx3 == 1:
+                self.dim  = 2
                 self.nshp = (self.nx2, self.nx1)
-                gridvars = ['self.x1r', 'self.x2r', 'self.x3']
+                nshp_grid = (self.nx2 + 1, self.nx1 + 1)
+                gridvars  = ['self.x1r', 'self.x2r', 'self.x3']
             else:
+                self.dim = 3
                 self.nshp = (self.nx3, self.nx2, self.nx1)   
+                nshp_grid = (self.nx3 + 1, self.nx2 + 1, self.nx1 + 1)
                 gridvars = ['self.x1r', 'self.x2r', 'self.x3r']  
             dir_map = {'X': gridvars[0],
                        'Y': gridvars[1],
                        'Z': gridvars[2]}                                       
-
-        # Unstructured grids (non-cartesian geometries)
-        elif spl1 == b'STRUCTURED_GRID':
-            raise NotImplementedError(f"non-cartesian standalone vtk files \
-                                        have not been implemented yet")
 
     # Find the variables and store them (only if single_file)
     if self._d_info['typefile'][i] == 'single_file' and self._alone is True:
@@ -177,13 +193,7 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
     # Compute the centered coordinates if the file is standalone and cartesian
     if self._info is True:
 
-        self._read_grid()
-        if gridvars[0] == 'self.x1r':
-            self.x1  = 0.5*(self.x1r[:-1] + self.x1r[1:])
-        if gridvars[1] == 'self.x2r':
-            self.x2  = 0.5*(self.x2r[:-1] + self.x2r[1:])
-        if gridvars[2] == 'self.x3r':
-            self.x3  = 0.5*(self.x3r[:-1] + self.x3r[1:])
+        self._read_grid_vtk(gridvars)
         self._info = False
     
     # Close the file
@@ -215,29 +225,37 @@ def _inspect_h5(self, i: int, exout: int) -> None:
     self._offset, self._shape = ({},{})
 
     # Open the file with the h5py library
-    try:
-        h5file  = h5py.File(self._filepath,"r",)
-    except:
-        raise ImportError("Dependency 'h5py' not installed, required for reading HDF5 files")
+    h5file  = h5py.File(self._filepath,"r",)
     
     # Selects the binformat
     self._d_info['binformat'][i] = 'd' if self.format == 'dbl.h5' else 'f'
 
-    filevars = h5file[f'Timestep_{exout}']['vars']
+    try:
+        cellvars = h5file[f'Timestep_{exout}']['vars']
+    except:
+        cellvars = {}
+    try:
+        stagvars = h5file[f'Timestep_{exout}']['stag_vars']
+    except:
+        stagvars = {}
 
     # If standalone file, finds the variables to be loaded, else 
     # remove variables in the .out file that are not present in the actual file
     if self._alone is True:
-        self._d_info['varslist'][i] = set(filevars.keys())
+        self._d_info['varslist'][i] = set(cellvars.keys()) | set(stagvars.keys())
     else:
-        self._d_info['varslist'][i] = list(set(filevars.keys()) \
-                                    & set(self.varsh5))
+        self._d_info['varslist'][i] = set(self.varsh5)
 
     # Loop over the variables and store the offset and shape
     for j in self._d_info['varslist'][i]:
-        # insert try and warning (staggred variables??) EEEEEEEEE
-        self._offset[j] = filevars[j].id.get_offset()
-        self._shape[j]  = filevars[j].shape
+        if j in cellvars:
+            self._offset[j] = cellvars[j].id.get_offset()
+            self._shape[j]  = cellvars[j].shape
+        elif j in stagvars:
+            self._offset[j] = stagvars[j].id.get_offset()
+            self._shape[j]  = stagvars[j].shape
+        else:
+            raise ValueError(f"Error: Variable {j} not found in the HDF5 file.")
 
     # If standalone file, finds the coordinates
     if self._info is True:
@@ -247,7 +265,7 @@ def _inspect_h5(self, i: int, exout: int) -> None:
         self.x1r  = h5file['node_coords']['X'][:]
         self.x2r  = h5file['node_coords']['Y'][:]
         self.x3r  = h5file['node_coords']['Z'][:]
-        self._read_grid()
+        self._read_grid_h5()
         self._info = False
 
     # Close the file
@@ -289,7 +307,7 @@ def _compute_offset(self,
     """
     if self._alone is not True:
         # Read the grid file
-        self._read_grid()
+        self._read_gridfile()
 
     # Depending on the file calls different routines
     if self.format == 'tab':

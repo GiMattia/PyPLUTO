@@ -18,6 +18,16 @@ except ImportError:  # Python <3.8
     del pkg_resources
 '''
 
+__version__ = "1.0.0"
+
+try:
+    __IPYTHON__
+    _in_ipython_session = True
+except NameError:
+    _in_ipython_session = False
+
+print(f"pyPLUTO version: {__version__}")
+print(f"Running in IPython: {_in_ipython_session}")
 
 # Set color warning formatter
 def color_warning(message, category, filename, lineno, file=None, line=None):

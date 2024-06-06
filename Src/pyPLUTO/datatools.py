@@ -14,9 +14,9 @@ def slices(self,
         newvar = newvar[:,x2]
     if x1 != None:
         newvar = newvar[x1]
-    if diag == 'maj':
+    if diag is not None:
         pass
-    elif diag == 'min':
+    if diag == 'min':
         pass
     return newvar
 

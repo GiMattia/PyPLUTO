@@ -23,10 +23,10 @@ I = pp.Image()
 # Creating the subplots (3 for the temporal evolution and 1 for the colorbar)
 ax = I.create_axes(ncol = 2)
 
-I.display(D.rho, cpos = 'right', aspect = 'equal', x1 = D.x1rc, x2 = D.x2rc, ax = ax[0], cscale = 'log')
-I.display(D.prs, cpos = 'right', aspect = 'equal', x1 = D.x1rc, x2 = D.x2rc, ax = ax[1], cscale = 'log')
+I.display(D.rho, cpos = 'right', aspect = 'equal', x1 = D.x1rc, x2 = D.x2rc, ax = I.ax[0], cscale = 'log')
+I.display(D.prs, cpos = 'right', aspect = 'equal', x1 = D.x1rc, x2 = D.x2rc, ax = I.ax[1], cscale = 'log')
 
-T  = pp.Tools(D)
+#T  = pp.Tools(D)
 
 #lines = T.contour(D.Ax3)
 

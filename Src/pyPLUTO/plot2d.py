@@ -1,13 +1,11 @@
 from .libraries import *
     # Import methods from other files
 
-from .h_pypluto import _check_par
-
 def display(self, 
             var: NDArray, 
             check: bool = True, 
             **kwargs: Any
-           ) -> None:
+           ) -> QuadMesh:
     """
     Plot for a 2D function (or a 2D slice) using the
     matplotlib's pcolormesh function.
@@ -21,7 +19,8 @@ def display(self,
     Parameters
     ----------
 
-
+    - alpha: float, default 1.0
+        Sets the transparency of the plot.
     - aspect: {'auto', 'equal', float}, default 'auto'
         Sets the aspect ratio of the plot.
         The 'auto' keyword is the default option (most likely the plot will
@@ -150,6 +149,12 @@ def display(self,
     - ytitle: str, default None
         Sets and places the label of the y-axis.
 
+    Notes
+    -----
+
+    - If not x or y is given, no shading can be selected. This issue must be
+        fixed in future releases.
+
     Examples
     --------
 
@@ -179,16 +184,13 @@ def display(self,
 
     """
 
-    # Declare variables
-    ax:  Axes
-    nax: int
 
    # Check parameters
     param: set = {'aspect', 'ax', 'clabel', 'cmap', 'cpad', 'cpos', 'cscale', 'cticks', 'ctickslabels', 'figsize', 'fontsize', 'labelsize', 'lint', 'minorticks', 'proj', 
              'shading', 'ticksdir', 'tickssize', 'title', 'titlesize', 'transpose', 'tresh', 'var', 'vmax', 'vmin', 'x1', 'x2', 'xrange', 'xscale', 'xticks', 'xtickslabels',
              'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
-        _check_par(param, 'display', **kwargs)
+        check_par(param, 'display', **kwargs)
 
     # Set or create figure and axes
     ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
@@ -225,20 +227,21 @@ def display(self,
 
     # Select shading
     shade = kwargs.get('shading','auto')
+    alpha = kwargs.get('alpha',1.0)
 
     # Display the image
     pcm = ax.pcolormesh(x,y,var.T, shading = shade,
                         cmap = kwargs.get('cmap','afmhot'), norm = norm,
-                        linewidth=0,rasterized=True)
+                        linewidth=0,rasterized=True, alpha = alpha)
     # Place the colorbar (use colorbar function)
     if cpos != None:
-        self.colorbar(ax, check = False, **kwargs)
+        self.colorbar(pcm, check = False, **kwargs)
 
     # If tight_layout is enabled, is re-inforced
     if self.tight != False:
         self.fig.tight_layout()
 
-    return None
+    return pcm
 
 def scatter(self, x, y, **kwargs):
     '''
@@ -260,6 +263,10 @@ def scatter(self, x, y, **kwargs):
 
     '''
 
+    # Convert x and y to numpy arrays (if necessary)
+    x =np.asarray(x)
+    y =np.asarray(y)
+
     # Check parameters
 
     # Set or create figure and axes
@@ -275,8 +282,9 @@ def scatter(self, x, y, **kwargs):
 
     # Keywords vmin and vmax
     c    = kwargs.get('c',None)
-    vmin = kwargs.get('vmin',0.0) if c is None or isinstance (c, str) else kwargs.get('vmin',c.min())
-    vmax = kwargs.get('vmax',0.0) if c is None or isinstance (c, str) else kwargs.get('vmax',c.min())
+    # If c is a list convert to array
+    vmin = kwargs.get('vmin',0.0) if c is None or isinstance (c, str) else kwargs.get('vmin',np.asarray(c).min())
+    vmax = kwargs.get('vmax',0.0) if c is None or isinstance (c, str) else kwargs.get('vmax',np.asarray(c).min())
 
     # Keyword for colorbar and colorscale
     cpos     = kwargs.get('cpos',None)
@@ -305,7 +313,7 @@ def scatter(self, x, y, **kwargs):
 
     # Place the colorbar (use colorbar function)
     if cpos != None:
-        self.colorbar(ax, check = False, scatter = pcm, **kwargs)
+        self.colorbar(pcm, check = False, **kwargs)
 
     # If tight_layout is enabled, is re-inforced
     if self.tight != False:
@@ -314,7 +322,12 @@ def scatter(self, x, y, **kwargs):
     return None
 
 def colorbar(self, 
-             axs = None, cax = None, check = True, scatter = None, **kwargs):
+             pcm = None,
+             axs = None, 
+             cax = None, 
+             check = True, 
+             **kwargs
+            ) -> None:
     '''
     method to display a colorbar in a selected position. If the keyword cax is
     enabled the colorbar is locates in a specific axis, otherwise an axis will
@@ -345,10 +358,23 @@ def colorbar(self,
             colorbar.
         - ctickslabels: str, default None
             If enabled, sets manually ticks labels on the colorbar.
-        - scatter: scatter object, default None
-            In case the colorbar refers to the particles, the scatter object 
-            is loaded in order to use the same colormap.
+        - extend: {'neither','both','min','max'}, default 'neither'
+            Sets the extension of the triangular colorbar extension.
+        - extendrect: bool, default False
+            If True, the colorbar extension will be rectangular.
+        - pcm: QuadMesh | PathCollection | None, default None
+            The collection to be used for the colorbar. If None, the axs will be
+            used. If both pcm and axs are not None, pcm will be used.
 
+    Notes
+    -----
+
+        - If multiple subplots are present, multiple colorbars cannot be created
+          from the display routine. This issue must be fixed in future releases.
+        - Colorbar should not overlap the plot or other colormaps
+        - Exted the colormap to more positions (e.g., top, bottom) with 
+          correct spacing
+          
     Examples
     --------
 
@@ -383,13 +409,19 @@ def colorbar(self,
     '''
 
     # Check parameters
-    param = {'axs', 'cax', 'clabel', 'cpad', 'cpos', 'cticks', 'ctickslabels'}
+    param = {'axs', 'cax', 'clabel', 'cpad', 'cpos', 'cticks', 
+             'ctickslabels', 'extend', 'pcm'}
     if check is True:
-        _check_par(param, 'colorbar', **kwargs)
+        check_par(param, 'colorbar', **kwargs)
 
-    axs  = self.fig.gca() if axs is None else axs
+    if pcm is not None and axs is not None:
+        warn = "Both pcm and axs are not None, pcm will be used"
+        warnings.warn(warn, UserWarning)
+
+    axs = pcm.axes if pcm is not None else axs if axs is not None \
+                                      else self.fig.gca()
     nax  = self._check_fig(axs)
-    pcm  = axs.collections[0] if scatter is None else scatter
+    pcm  = axs.collections[0] if pcm is None else pcm
     cpad = kwargs.get('cpad',0.07)
     cpos = kwargs.get('cpos','right')
     ccor = 'vertical' if cpos in ['left','right'] else 'horizontal'
@@ -406,7 +438,9 @@ def colorbar(self,
             self.ntext[naxc] = 1
             
     cbar = self.fig.colorbar(pcm, cax=cax,label=kwargs.get('clabel',''),
-                ticks = kwargs.get('cticks',None), orientation=ccor)
+                ticks = kwargs.get('cticks',None), orientation=ccor,
+                extend = kwargs.get('extend','neither'),
+                extendrect = kwargs.get('extendrect',False))
     ctkc = kwargs.get('ctickslabels','Default')
     if ctkc != 'Default':
         cbar.ax.set_yticklabels(ctkc)
@@ -447,13 +481,14 @@ def _set_cscale(cscale: str,
     if lint is not None:
         warnings.warn("'lint' keyword is deprecated, please use \
                        'tresh' instead", UserWarning)
+        tresh  = lint if tresh is None else tresh
 
     if cscale == 'log':
         norm = mcol.LogNorm(vmin = vmin,vmax = vmax)
     elif cscale == 'symlog':
         norm = mcol.SymLogNorm(vmin = vmin,vmax = vmax,linthresh = tresh)
     elif cscale == 'twoslope':
-        norm = mcol.TwoSlopeNorm(vmin = vmin, vcenter = tresh, vmax = vmax)
+        norm = mcol.TwoSlopeNorm(vmin = vmin, vmax = vmax, vcenter = tresh)
     else:
         norm = mcol.Normalize(vmin = vmin,vmax = vmax)
     return norm

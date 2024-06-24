@@ -280,7 +280,6 @@ def _compute_offset(self,
         - var: str
             the variable to be loaded.
     """
-    class_name: str = self.__class__.__name__
 
     # Depending on the file calls different routines
     if self.format == 'vtk':

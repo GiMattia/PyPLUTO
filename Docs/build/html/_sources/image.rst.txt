@@ -93,10 +93,3 @@ non-trivial figures) is to add them during a later step.
 The pyPLUTO module allows for inset zooms through two functions, which, respectively,
 zoom 1D and 2D plots.
 
-
-.. autoclass:: pyPLUTO.NewImage
-
-.. toctree::
-   :maxdepth: 1
-
-   create_axes

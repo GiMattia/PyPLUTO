@@ -2,10 +2,10 @@
 
 from setuptools import setup, find_packages
 
-setup(name='pyPLUTO',
-      version='0.8.2',
+setup(name='PyPLUTO',
+      version='1.0',
       description="Python Visualisation module for PLUTO",
-      author="G. Mattia, D. Crocco",
+      author="G. Mattia, D. Crocco, ...",
       author_email="mattia@fi.infn.it",
       url="",
       packages=find_packages(),
@@ -14,6 +14,6 @@ setup(name='pyPLUTO',
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     	],
-      python_requires='>=3.9',
+      python_requires='>=3.10',
      )
 

@@ -15,6 +15,7 @@ import tempfile
 import struct
 import shutil
 import warnings
+import traceback
 
 try:
     import h5py           as h5py
@@ -22,6 +23,7 @@ except ImportError:
     pass
 
 from mpl_toolkits.axes_grid1               import make_axes_locatable
+from matplotlib.collections                import PathCollection, QuadMesh
 from matplotlib.widgets                    import Slider
 from matplotlib                            import rc
 from pathlib                               import Path
@@ -34,7 +36,8 @@ from itertools                             import islice
 #from mpl_toolkits.axes_grid1.inset_locator import InsetPosition
 #from scipy.interpolate                     import RectBivariateSpline
 #from matplotlib                            import gridspec
-
-warnings.simplefilter('always', DeprecationWarning)
     
-from .h_pypluto import makelist, _check_par
+from .h_pypluto import makelist, check_par, _check_par
+
+# Append created methods to __all__
+__all__ = [name for name in globals()] + ['_check_par']

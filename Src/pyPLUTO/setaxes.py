@@ -1,5 +1,4 @@
 from .libraries import *
-from .h_pypluto import _check_par
 
 def create_axes(self, 
                 ncol: int = 1, 
@@ -8,115 +7,136 @@ def create_axes(self,
                 **kwargs: Any
                ):
     """
-        Creation of a set of axes using add_subplot.
+    Creation of a set of axes using add_subplot from the matplotlib library.
 
-        If additional parameters (like the figure limits or the spacing)
-        are given, the plots are located using set_position.
-        The spacing and the ratio between the plots can be given by hand.
-        In case only few custom options are given, the code computes the rest
-        (but gives a small warning); in case no custom option is given, the axes
-        are located through the standard methods of matplotlib.
+    If additional parameters (like the figure limits or the spacing)
+    are given, the plots are located using set_position.
+    The spacing and the ratio between the plots can be given by hand.
+    In case only few custom options are given, the code computes the rest
+    (but gives a small warning); in case no custom option is given, the axes
+    are located through the standard methods of matplotlib.
         
-        If more axes are created in the figure, the list of all axes is returned,
-        otherwise the single axis is returned.
+    If more axes are created in the figure, the list of all axes is returned,
+    otherwise the single axis is returned.
 
-        Returns
-        -------
+    Returns
+    -------
 
-            - The list of axes (if more axes are in the figure) or the axis
-              (if only one axis is present)
+    - The list of axes (if more axes are in the figure) or the axis
+      (if only one axis is present)
 
-        Parameters
-        ----------
+    Parameters
+    ----------
 
-            - bottom: float, default 0.1
-                The space from the bottom border to the last row of plots.
-            - figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]
-                Sets the figure size. The default value is computed from the number
-                of rows and columns.
-            - fontsize: float, default 17.0
-                Sets the fontsize for all the axes.
-            - hratio: [float], default [1.0]
-                Ratio between the rows of the plot. The default is that every plot
-                row has the same height.
-            - hspace: [float], default []
-                The space between plot rows (in figure units). If not enough or
-                too many spaces are considered, the program will remove the excess and
-                fill the lacks with [0.1].
-            - left: float, default 0.125
-                The space from the left border to the leftmost column of plots.
-            - ncol: int, default 1
-                The number of columns of subplots.
-            - nrow: int, default 1
-                The number of rows of subplots.
-            - proj: str, default None
-                Custom projection for the plot (e.g. 3D). Recommended only if needed.
-                WARNING: pyPLUTO does not support 3D plotting for now, only 3D axes.
-                The 3D plot feature will be available in future releases.
-            - right: float, default 0.9
-                The space from the right border to the rightmost column of plots.
-            - suptitle: str, default None
-                Creates a figure title over all the subplots.
-            - tight: bool, default True
-                Enables/disables tight layout options for the figure. In case of a
-                highly customized plot (e.g. ratios or space between rows and columns)
-                the option is set by default to False since that option would not be available
-                for standard matplotlib functions.
-            - top: float, default 0.9
-                The space from the top border to the first row of plots.
-            - wratio: [float], default [1.0]
-                Ratio between the columns of the plot. The default is that every plot
-                column has the same width.
-            - wspace: [float], default []
-                The space between plot columns (in figure units). If not enough or
-                too many spaces are considered, the program will remove the excess and
-                fill the lacks with [0.1].
+    - bottom: float, default 0.1
+        The space from the bottom border to the last row of plots.
+    - check: bool, default True
+        If enabled perform a check on the method's parameters, raising a warning
+        if a parameter is not present among the set of available parameters.
+    - figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]
+        Sets the figure size. The default value is computed from the number
+        of rows and columns.
+    - fontsize: float, default 17.0
+        Sets the fontsize for all the axes.
+    - hratio: [float], default [1.0]
+        Ratio between the rows of the plot. The default is that every plot
+        row has the same height.
+    - hspace: [float], default []
+        The space between plot rows (in figure units). If not enough or
+        too many spaces are considered, the program will remove the excess and
+        fill the lacks with [0.1].
+    - left: float, default 0.125
+        The space from the left border to the leftmost column of plots.
+    - ncol: int, default 1
+        The number of columns of subplots.
+    - nrow: int, default 1
+        The number of rows of subplots.
+    - proj: str, default None
+        Custom projection for the plot (e.g. 3D). Recommended only if needed.
+        WARNING: pyPLUTO does not support 3D plotting for now, only 3D axes.
+        The 3D plot feature will be available in future releases.
+    - right: float, default 0.9
+        The space from the right border to the rightmost column of plots.
+    - suptitle: str, default None
+        Creates a figure title over all the subplots.
+    - tight: bool, default True
+        Enables/disables tight layout options for the figure. In case of a
+        highly customized plot (e.g. ratios or space between rows and columns)
+        the option is set by default to False since that option would not be 
+        available for standard matplotlib functions.
+    - top: float, default 0.9
+        The space from the top border to the first row of plots.
+    - wratio: [float], default [1.0]
+        Ratio between the columns of the plot. The default is that every plot
+        column has the same width.
+    - wspace: [float], default []
+        The space between plot columns (in figure units). If not enough or
+        too many spaces are considered, the program will remove the excess and
+        fill the lacks with [0.1].
 
-        Examples
-        --------
+    Notes
+    -----
 
-             - Example #1: create a simple grid of 2 columns and 2 rows on a new figure
+    - The subplot_mosaic method of matplotlib will be implemented in future
+      releases.
+    - This method may return None in the future releases
+    - Sharex and sharey are not implemented yet
 
-                >>> import pyPLUTO as pp
-                >>> I = pp.Image()
-                >>> ax = I.create_axes(ncol = 2, nrow = 2)
+    Examples
+    --------
 
-             - Example #2: create a grid of 2 columns with the first one having half the width of the second one
+    - Example #1: create a simple grid of 2 columns and 2 rows on a new figure
 
-               >>> import pyPLUTO as pp
-               >>> I = pp.Image()
-               >>> ax = I.create_axes(ncol = 2, wratio = [0.5,1])
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes(ncol = 2, nrow = 2)
 
-             - Example #3: create a grid of 2 rows with a lot of blank space between them
+    - Example #2: create a grid of 2 columns with the first one having half the 
+                  width of the second one
 
-               >>> import pyPLUTO as pp
-               >>> I = pp.Image()
-               >>> ax = I.create_axes(nrow = 2, hspace = [0.5])
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes(ncol = 2, wratio = [0.5,1])
 
-             - Example #4: create a 2x2 grid with a fifth image on the right side
+    - Example #3: create a grid of 2 rows with a lot of blank space between them
 
-               >>> import pyPLUTO as pp
-               >>> I = pp.Image()
-               >>> ax = I.create_axes(ncol = 2, nrow = 2, right = 0.7)
-               >>> ax = I.create_axes(left = 0.75)
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes(nrow = 2, hspace = [0.5])
 
-        """
+    - Example #4: create a 2x2 grid with a fifth image on the right side
+
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes(ncol = 2, nrow = 2, right = 0.7)
+        >>> ax = I.create_axes(left = 0.75)
+
+    """
     
     # Check parameters
-    param = {'bottom', 'figsize', 'fontsize', 'hratio', 'hspace', 'left', 'ncol', 
-             'nrow', 'proj', 'right', 'suptitle', 'tight', 'top', 'wratio', 'wspace'}
+    param = {'bottom', 'figsize', 'fontsize', 'hratio', 'hspace', 'left', 
+             'ncol', 'nrow', 'proj', 'right', 'suptitle', 'tight', 'top', 
+             'wratio', 'wspace'}
     if check is True:
-        _check_par(param, 'create_axes', **kwargs)
+        check_par(param, 'create_axes', **kwargs)
 
+    # Change fontsize if requested
     if 'fontsize' in kwargs:
         plt.rcParams.update({'font.size': kwargs['fontsize']})
 
+    # Set of custom plot keywords
     custom_plot = False
-    custom_axes = ['left', 'right', 'top', 'bottom', 'hspace', 'hratio', 'wspace', 'wratio']
+    custom_axes = {'left', 'right', 'top', 'bottom', 
+                   'hspace', 'hratio', 'wspace', 'wratio'}
+
+    # Check if custom axes are given
     if any(arg in kwargs for arg in custom_axes):
+
+        # Set the custom axes keywords
         custom_plot     = True
         kwargs['tight'] = False
 
+        # Get margins and subplots features
         left   = kwargs.get('left',0.125)
         right  = kwargs.get('right',0.9)
         top    = kwargs.get('top',0.9)
@@ -126,55 +146,63 @@ def create_axes(self,
         wratio = kwargs.get('wratio',[1.0])
         hratio = kwargs.get('hratio', [1.0])
 
-        hspace, hratio  = _check_rows(hratio, hspace, nrow)
-        wspace, wratio  = _check_cols(wratio, wspace, ncol)
-
+        # Check if the number of rows and columns is correct
+        hspace, hratio  = _check_rowcol(hratio, hspace, nrow, 'rows')
+        wspace, wratio  = _check_rowcol(wratio, wspace, ncol, 'cols')
+        
         # Computes the height and width of every subplot
-        hsize = top - bottom - sum(hspace)
-        wsize = right - left - sum(wspace)
-        htot = sum(hratio)
-        wtot = sum(wratio)
-        ll = left
-        tt = top
+        hsize = top   - bottom - sum(hspace)
+        wsize = right - left   - sum(wspace)
+        htot  = sum(hratio)
+        wtot  = sum(wratio)
+        ll    = left
+        tt    = top
         hplot = []
         wplot = []
 
         # Computes left, right of every ax
         for i in islice(range(ncol), ncol - 1):
-            rr = wsize * wratio[i] / wtot
+            rr = wsize*wratio[i]/wtot
             wplot.append([ll, rr])
             ll += rr + wspace[i]
 
         # Computes top, bottom of every ax
         for i in islice(range(nrow), nrow - 1):
-            bb = tt - hsize * hratio[i] / htot
+            bb = tt - hsize*hratio[i]/htot
             hplot.append([bb, tt - bb])
             tt = bb - hspace[i]
 
         # Append the last items without extra space
-        rr = wsize * wratio[ncol - 1] / wtot
+        rr = wsize*wratio[ncol - 1]/wtot
         wplot.append([ll, rr])
 
-        bb = tt - hsize * hratio[nrow - 1] / htot
+        bb = tt - hsize*hratio[nrow - 1]/htot
         hplot.append([bb, tt - bb])
     else:
+
+        # Set the default axes features
         wplot = None
         hplot = None
 
+    # Change the figure size if requested
     if 'figsize' in kwargs:
         self.fig.set_figwidth(kwargs['figsize'][0])
         self.fig.set_figheight(kwargs['figsize'][1])
         self.figsize = kwargs['figsize']
+    # Set the figure size if not custom plot
     elif not custom_plot is True and self._set_size is False:
         self.fig.set_figwidth(6*np.sqrt(ncol))
         self.fig.set_figheight(5*np.sqrt(nrow))
 
+    # Set the projection if requested
     proj = kwargs.get('proj', None)
 
-    # Add axes
+    # Add axes and set position (if custom axes)
     for i in range(ncol*nrow):
-        self._add_ax(self.fig.add_subplot(nrow + self.nrow0, ncol + self.ncol0, 
-                                           i+1, projection=proj), len(self.ax))
+        self._add_ax(self.fig.add_subplot(nrow + self.nrow0, 
+                                          ncol + self.ncol0, i + 1, 
+                                          projection = proj), len(self.ax))     
+        # Set position if custom axes
         if wplot is not None and hplot is not None:
             row = int(i/ncol)
             col = int(i%ncol)
@@ -188,14 +216,19 @@ def create_axes(self,
     # Check length of output
     ret_ax = self.ax[0] if len(self.ax) == 1 else self.ax
 
-    # Suptitle
+    # Set figure title if requested
     if 'suptitle' in kwargs:
         self.fig.suptitle(kwargs['suptitle'])
 
-    # Tight layout
+    # Tight layout (depending on the subplot creation)
     self.tight = kwargs.get('tight', self.tight)
-    self.fig.set_tight_layout(None if not self.tight else 'tight') # type: ignore (It is correct)
+    self.fig.set_tight_layout(None if not self.tight else 'tight')
+
+    # End of the function
+    # Return the list of axes (if more than one) or the single axis (if only 
+    # one). WARNING: this return may be changed to None in future releases.
     return ret_ax
+
 
 def set_axis(self, 
              ax: Axes | None = None, 
@@ -203,143 +236,157 @@ def set_axis(self,
              **kwargs: Any
             ):
     """
-        Customization of a single subplot axis.
-        Properties such as the range, scale and aspect of each subplot
-        should be customized here.
+    Customization of a single subplot axis.
+    Properties such as the range, scale and aspect of each subplot
+    should be customized here.
 
-        Returns
-        -------
-            None
+    Returns
+    -------
+    
+    - None
 
-        Parameters
-        ----------
-            - alpha: float, default 1.0
-                Sets the opacity of the plot, where 1.0 means total opaque and 0.0 means
-                total transparent.
-            - aspect: {'auto', 'equal', float}, default 'auto'
-                Sets the aspect ratio of the plot.
-                The 'auto' keyword is the default option (most likely the plot will
-                be squared). The 'equal' keyword will set the same scaling for
-                x and y. A float will fix the ratio between the y-scale and the x-scale
-                (1.0 is the same as 'equal').
-            - ax: ax object, default None
-                The axis to customize. If None the current axis will be selected.
-            - fontsize: float, default 17.0
-                Sets the fontsize for all the axis components (only for the current axis).
-            - labelsize: float, default fontsize
-                Sets the labels fontsize (which is the same for both labels).
-                The default value corresponds to the value of the keyword 'fontsize'.
-            - minorticks: str, default None
-                If not None enables the minor ticks on the plot (for both grid axes).
-            - ticksdir: {'in', 'out'}, default 'in'
-                Sets the ticks direction. The default option is 'in'.
-            - tickssize: float, default fontsize
-                Sets the ticks fontsize (which is the same for both grid axes).
-                The default value corresponds to the value of the keyword 'fontsize'.
-            - title: str, default None
-                Places the title of the plot on top of it.
-            - titlepad: float, default 8.0
-                Sets the distance between the title and the top of the plot
-            - titlesize: float, default fontsize
-                Sets the title fontsize. The default value corresponds to the value
-                of the keyword 'fontsize'.
-            - xrange: [float, float], default [0,1]
-                Sets the range in the x-direction. If not defined the code will
-                compute the range while plotting the data.
-            - xscale: {'linear','log'}, default 'linear'
-                If enabled (and different from 'Default'), sets automatically the scale
-                on the x-axis. Data in log scale should be used with the keyword 'log',
-                while data in linear scale should be used with the keyword 'linear'.
-            - xticks: {[float], None, 'Default'}, default 'Default'
-                If enabled (and different from 'Default'), sets manually ticks on
-                x-axis. In order to completely remove the ticks the keyword should
-                be used with None.
-            - xtickslabels: {[str], None, 'Default'}, default 'Default'
-                If enabled (and different from 'Default'), sets manually the ticks
-                labels on the x-axis. In order to completely remove the ticks the
-                keyword should be used with None. Note that fixed tickslabels should
-                always correspond to fixed ticks.
-            - xtitle: str, default None
-                Sets and places the label of the x-axis.
-            - yrange: [float, float], default [0,1]
-                Sets the range in the y-direction. If not defined the code will
-                compute the range while plotting the data.
-            - yscale: {'linear','log'}, default 'linear'
-                If enabled (and different from 'Default'), sets automatically the scale
-                on the y-axis. Data in log scale should be used with the keyword 'log',
-                while data in linear scale should be used with the keyword 'linear'.
-            - yticks: {[float], None, 'Default'}, default 'Default'
-                If enabled (and different from 'Default'), sets manually ticks on
-                y-axis. In order to completely remove the ticks the keyword should
-                be used with None.
-            - ytickslabels: {[str], None, 'Default'}, default 'Default'
-                If enabled (and different from 'Default'), sets manually the ticks
-                labels on the y-axis. In order to completely remove the ticks the
-                keyword should be used with None. Note that fixed tickslabels should
-                always correspond to fixed ticks.
-            - ytitle: str, default None
-                Sets and places the label of the y-axis.
+    Parameters
+    ----------
+
+    - alpha: float, default 1.0
+        Sets the opacity of the plot, where 1.0 means total opaque and 0.0 means
+        total transparent.
+    - aspect: {'auto', 'equal', float}, default 'auto'
+        Sets the aspect ratio of the plot. The 'auto' keyword is the default 
+        option (most likely the plot will be squared). The 'equal' keyword will
+        set the same scaling for x and y. A float will fix the ratio between the
+        y-scale and the x-scale (1.0 is the same as 'equal').
+    - ax: ax object, default None
+        The axis to customize. If None the current axis will be selected.
+    - check: bool, default True
+        If enabled perform a check on the method's parameters, raising a warning
+        if a parameter is not present among the set of available parameters.
+    - fontsize: float, default 17.0
+        Sets the fontsize for all the axis components (only for the current 
+        axis).
+    - grid: bool, default False
+        Enables/disables the grid on the plot.
+    - labelsize: float, default fontsize
+        Sets the labels fontsize (which is the same for both labels).
+        The default value corresponds to the value of the keyword 'fontsize'.
+    - minorticks: str, default None
+        If not None enables the minor ticks on the plot (for both grid axes).
+    - ticksdir: {'in', 'out'}, default 'in'
+        Sets the ticks direction. The default option is 'in'.
+    - tickssize: float, default fontsize
+        Sets the ticks fontsize (which is the same for both grid axes).
+        The default value corresponds to the value of the keyword 'fontsize'.
+    - title: str, default None
+        Places the title of the plot on top of it.
+    - titlepad: float, default 8.0
+        Sets the distance between the title and the top of the plot
+    - titlesize: float, default fontsize
+        Sets the title fontsize. The default value corresponds to the value
+        of the keyword 'fontsize'.
+    - xrange: [float, float], default [0,1]
+        Sets the range in the x-direction. If not defined the code will
+        compute the range while plotting the data.
+    - xscale: {'linear','log'}, default 'linear'
+        If enabled (and different from True), sets automatically the scale
+        on the x-axis. Data in log scale should be used with the keyword 'log',
+        while data in linear scale should be used with the keyword 'linear'.
+    - xticks: {[float], None, True}, default True
+        If enabled (and different from True), sets manually ticks on
+        x-axis. In order to completely remove the ticks the keyword should
+        be used with None.
+    - xtickslabels: {[str], None, True}, default True
+        If enabled (and different from True), sets manually the ticks
+        labels on the x-axis. In order to completely remove the ticks the
+        keyword should be used with None. Note that fixed tickslabels should
+        always correspond to fixed ticks.
+    - xtitle: str, default None
+        Sets and places the label of the x-axis.
+    - yrange: [float, float], default [0,1]
+        Sets the range in the y-direction. If not defined the code will
+        compute the range while plotting the data.
+    - yscale: {'linear','log'}, default 'linear'
+        If enabled (and different from True), sets automatically the scale
+        on the y-axis. Data in log scale should be used with the keyword 'log',
+        while data in linear scale should be used with the keyword 'linear'.
+    - yticks: {[float], None, True}, default True
+        If enabled (and different from True), sets manually ticks on
+        y-axis. In order to completely remove the ticks the keyword should
+        be used with None.
+    - ytickslabels: {[str], None, True}, default True
+        If enabled (and different from True), sets manually the ticks
+        labels on the y-axis. In order to completely remove the ticks the
+        keyword should be used with None. Note that fixed tickslabels should
+        always correspond to fixed ticks.
+    - ytitle: str, default None
+        Sets and places the label of the y-axis.
 
     Notes
     -----
 
-        - A function which sets seprartely the maximum and the minimum value in
-            both x- and y- directions is needed.
+    - A function which sets seprartely the maximum and the minimum value in
+        both x- and y- directions is needed.
+    - All the 'Default' keywords are set to True in the code. The user should
+        use now True instead of 'Default' (which will be removed in future)
 
     Examples
     --------
 
-             - Example #1: create an axis and set title and labels on both axes
+    - Example #1: create an axis and set title and labels on both axes
 
-               >>> import pyPLUTO as pp
-               >>> I = pp.Image()
-               >>> ax = I.create_axes()
-               >>> I.set_axis(title = 'Title', titlesize = 30.0, xtitle = 'x-axis', ytitle = 'y-axis')
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes()
+        >>> I.set_axis(title = 'Title', titlesize = 30.0, xtitle = 'x-axis', 
+        ... ytitle = 'y-axis')
 
-             - Example #2: create an axis, remove the ticks for the x-axis and set manually the ticks for the y-axis
+    - Example #2: create an axis, remove the ticks for the x-axis and
+      set manually the ticks for the y-axis
 
-               >>> import pyPLUTO as pp
-               >>> I = pp.Image()
-               >>> ax = I.create_axes()
-               >>> I.set_axis(ax, xticks = None, yrange = [-1.0,1.0], yticks = [-0.8,-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8])
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes()
+        >>> I.set_axis(ax, xticks = None, yrange = [-1.0,1.0], 
+        ... yticks = [-0.8,-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8])
 
-             - Example #3: create two axes and invert the direction of the ticks in the first one
+    - Example #3: create two axes and invert the direction of the ticks in the 
+      first one
 
-               >>> import pyPLUTO as pp
-               >>> I = pp.Image()
-               >>> ax = I.create_axes(right = 0.7)
-               >>> ax = I.create_axes(left = 0.8)
-               >>> I.set_axis(ax = ax[0], ticksdir = 'out')
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes(right = 0.7)
+        >>> ax = I.create_axes(left = 0.8)
+        >>> I.set_axis(ax = ax[0], ticksdir = 'out')
 
-             - Example #4: create a 2x2 grid with axes labels and customed ticks
+    - Example #4: create a 2x2 grid with axes labels and customed ticks
 
-               >>> import pyPLUTO as pp
-               >>> I = pp.Image()
-               >>> ax = I.create_axes(ncol = 2, nrow = 2)
-               >>> for i in [0,1,2,3]:
-               >>>   I.set_axis(ax = ax[i], xtitle = 'x-axis', ytitle = 'y-title', xticks = [0.25,0.5,0.75], yticks = [0.25,0.5,0.75], xtickslabels = ['1/4','1/2','3/4'])
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes(ncol = 2, nrow = 2)
+        >>> for i in [0,1,2,3]:
+        ...     I.set_axis(ax = ax[i], xtitle = 'x-axis', ytitle = 'y-title', 
+        ...     xticks = [0.25,0.5,0.75], yticks = [0.25,0.5,0.75], 
+        ...     xtickslabels = ['1/4','1/2','3/4'])
+        ...
 
     """
 
-    # Take last axis if not specified
-    ax = self.fig.gca() if ax is None else ax
-    nax: int = self._check_fig(ax)
-
-    # Check for unknown keywords
-    param: set = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 
-             'minorticks', 'ticksdir', 'tickssize', 'title', 'titlepad', 
-             'titlesize', 'xrange', 'xscale', 'xticks', 'xtickslabels', 
-             'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
-    
+    # Check parameters
+    param = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 
+             'ticksdir', 'tickssize', 'title', 'titlepad', 'titlesize', 
+             'xrange', 'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 
+             'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
-        _check_par(param, 'set_axis', **kwargs)
+        check_par(param, 'set_axis', **kwargs)
+
+    # Take last axis if not specified
+    ax, nax = self._assign_ax(ax,**kwargs)
 
     # Set fontsize
     if 'fontsize' in kwargs:
         plt.rcParams.update({'font.size': self.fontsize})
 
     # Set aspect ratio
-    if kwargs.get('aspect','Default') != 'Default':
+    if kwargs.get('aspect',True) not in {True, 'Default'}:
         ax.set_aspect(kwargs['aspect'])
 
     # Set xrange and yrange
@@ -350,222 +397,224 @@ def set_axis(self,
 
     # Set title and axes labels
     if kwargs.get('title',None) is not None:
-        ax.set_title(kwargs['title'],   fontsize = kwargs.get('titlesize',self.fontsize), 
-                                        pad      = kwargs.get('titlepad', 8.0))
+        ax.set_title(kwargs['title'], fontsize = kwargs.get('titlesize',
+                                                            self.fontsize), 
+                                      pad      = kwargs.get('titlepad', 8.0))
     if kwargs.get('xtitle',None) is not None:
-        ax.set_xlabel(kwargs['xtitle'], fontsize = kwargs.get('labelsize',self.fontsize))
+        ax.set_xlabel(kwargs['xtitle'], fontsize = kwargs.get('labelsize',
+                                                              self.fontsize))
     if kwargs.get('ytitle',None) is not None:
-        ax.set_ylabel(kwargs['ytitle'], fontsize = kwargs.get('labelsize',self.fontsize))
+        ax.set_ylabel(kwargs['ytitle'], fontsize = kwargs.get('labelsize',
+                                                              self.fontsize))
 
-    # Set tickssize
-    if kwargs.get('tickssize','Default') != 'Default':
+    # Set ticks size
+    if kwargs.get('tickssize',True) not in {True, 'Default'}:
         ax.tick_params(axis='x', labelsize = kwargs['tickssize'])
         ax.tick_params(axis='y', labelsize = kwargs['tickssize'])
 
-    # Minor ticks and ticks direction
+    # Set ticks direction
     if kwargs.get('ticksdir') or self.tickspar[nax] == 0:
         tckd = kwargs.get('ticksdir', 'in')
-        ax.tick_params(axis='both', which='major', direction=tckd, right='off', top='off')
+        ax.tick_params(axis='both', which='major', direction=tckd, 
+                       right='off', top='off')
         ax.tick_params(which='minor', direction=tckd, right='off', top='off')
 
+    # Set minor ticks
     if kwargs.get('minorticks') or self.tickspar[nax] == 0:
-        ax.minorticks_on() if kwargs.get('minorticks', 'on') != 'off' else ax.minorticks_off()
+        mintks = kwargs.get('minorticks', 'on')
+        ax.minorticks_on() if mintks != 'off' else ax.minorticks_off()
 
+    # Set parameter that fixes the minorticks and ticksdir
     self.tickspar[nax] = 1
 
-
     # Scales and alpha
-    if kwargs.get('xscale','Default') != 'Default':
+    if kwargs.get('xscale',True) not in {True, 'Default'}:
         ax.set_xscale(kwargs['xscale'])
-    if kwargs.get('yscale','Default') != 'Default':
+    if kwargs.get('yscale',True) not in {True, 'Default'}:
         ax.set_yscale(kwargs['yscale'])
     if kwargs.get('alpha'):
         ax.set_alpha(kwargs['alpha'])
 
     # Set ticks and tickslabels
-    xtc: str | list[float] | None = kwargs.get('xticks', 'Default')
-    ytc: str | list[float] | None = kwargs.get('yticks', 'Default')
-    xtl: str | list[str] | None = kwargs.get('xtickslabels', 'Default')
-    ytl: str | list[str] | None = kwargs.get('ytickslabels', 'Default')
-    if xtc != 'Default' or xtl != 'Default':
-        _set_xticks(ax, xtc, xtl)
-    if ytc != 'Default' or ytl != 'Default':
-        _set_yticks(ax, ytc, ytl)
+    xtc = kwargs.get('xticks', True)
+    ytc = kwargs.get('yticks', True)
+    xtl = kwargs.get('xtickslabels', True)
+    ytl = kwargs.get('ytickslabels', True)
+    if (xtc != 'Default' and xtc is not True) or \
+       (xtl != 'Default' and xtl is not True):
+        _set_ticks(ax, xtc, xtl, 'x')
+    if (ytc != 'Default' and ytc is not True) or \
+       (ytl != 'Default' and ytl is not True):
+        _set_ticks(ax, ytc, ytl, 'y')
+
+    # Sets grid on the axis
+    if kwargs.get('grid',False) is True:
+        ax.grid(True)
 
     # Reinforces the tight_layout if needed
     if self.tight is not False:
         self.fig.tight_layout()
 
-    return None
-
-def _check_rows(hratio: list[float], 
-                hspace: float | list[float], 
-                nrow: int
-               ) -> tuple[list[float], list[float]]:
-    """
-    Checks the width and spacing of the plots on a single column
-
-    Returns
-    -------
-
-        - hspace: list[float]
-            the space between the rows
-        - hratio: list[float]
-            the ratio of the rows
-
-    Parameters
-    ----------
-
-        - hratio: list[float]
-            the ratio of the rows
-        - hspace: list[float]
-            the space between the rows
-        - nrow: int
-            the number of rows in the single column
-    """
-
-    hspace = [hspace] if not isinstance(hspace, list) else hspace
-    hratio = hratio + [1.0] * (nrow - len(hratio))
-    hspace = hspace + [0.1] * (nrow - len(hspace) - 1)
-
-    if len(hratio) != nrow:
-        warnings.warn('WARNING! hratio has wrong length!', UserWarning)
-
-    if len(hspace) + 1 != nrow:
-        warnings.warn('WARNING! hspace has wrong length!', UserWarning)
-
-    return hspace[:nrow - 1], hratio[:nrow]
-
-def _check_cols(wratio: list[float], 
-                wspace: float | list[float], 
-                ncol: int
-               ) -> tuple[list[float], list[float]]:
-    """
-    Checks the width and spacing of the plots on a single row
-
-    Returns
-    -------
-
-        - wspace: list[float]
-            the space between the columns
-        - wratio: list[float]
-            the ratio of the columns
-
-    Parameters
-    ----------
-
-        - wratio: list[float]
-            the ratio of the columns
-        - wspace: list[float]
-            the space between the columns
-        - ncol: int
-            the number of columns in the single row
-
-    """
-
-    '''
-    check_cols function:
-    Checks the width and spacing of the plots on a single row
-    **Inputs:**
-        wratio -- the ratio of the columns\n
-        wspace -- the space between the columns\n
-        ncol -- the number of columns in the single row
-    '''
-    wspace = [wspace] if not isinstance(wspace, list) else wspace
-    wratio = wratio + [1.0] * (ncol - len(wratio))
-    wspace = wspace + [0.1] * (ncol - len(wspace) - 1)
-
-    if len(wratio) != ncol:
-        warnings.warn('WARNING! wratio has wrong length!', UserWarning)
-
-    if len(wspace) + 1 != ncol:
-        warnings.warn('WARNING! wspace has wrong length!', UserWarning)
-
-    return wspace[:ncol - 1], wratio[:ncol]
-
-def _set_xticks(ax: Axes, 
-                xtc: str | list[float] | None, 
-                xtl: str | list[str] | None
-               ) -> None:
-    """
-    Sets the ticks and ticks labels on the x-axis of a selected axis.
-
-    Returns
-    -------
-
-        None
-
-    Parameters
-    ----------
-
-        - ax: ax
-            the selected set of axes
-        - xtc: list[float]
-            the ticks of the x-axis
-        - xtl: list[float]
-            the ticks labels of the x-axis
-    """
-
-    if xtc is None:
-        ax.set_xticks([])
-        ax.set_xticklabels([])
-        if xtl not in {None, 'Default'}:
-            warning_message: str = "Warning, tickslabels are defined with no ticks!! (function setax)"
-            warnings.warn(warning_message, UserWarning)
-    elif xtl != 'Default':
-        if xtc != 'Default':
-            ax.set_xticks(xtc)
-        elif xtl is not None:
-            warning_message: str = "Warning, tickslabels should be fixed only when ticks are fixed (function setax)"
-            warnings.warn(warning_message, UserWarning)
-        if xtl is None:
-            ax.set_xticklabels([])
-        else:
-            ax.set_xticklabels(xtl)
-    else:
-        if xtc != 'Default':
-            ax.set_xticks(xtc)
+    # End of the function
     return None
 
 
-def _set_yticks(ax: Axes, 
-                ytc: str | list[float] | None, 
-                ytl : str | list[str] | None
-               ) -> None:
+def _check_rowcol(ratio: list[float], 
+                  space: float | list[float], 
+                  length: int,
+                  func: str
+                 ) -> tuple[list[float], list[float]]:
     """
-    Sets the ticks and ticks labels on the y-axis of a selected axis.
-
+    Checks the width and spacing of the plots on a single row or column.
+    
     Returns
     -------
 
-        None
+    - space: list[float]
+        the space between the rows or columns
+    - ratio: list[float]
+        the ratio of the rows or columns
 
     Parameters
     ----------
 
-        - ax: ax
-            the selected set of axes
-        - ytc: list[float]
-            the ticks of the y-axis
-        - ytl: list[float]
-            the ticks labels of the y-axis
+    - ratio: list[float]
+        the ratio of the rows or columns
+    - space: list[float]
+        the space between the rows or columns
+    - length: int
+        the number of rows or columns in the single row or column
+    - func: str
+        the function to check (rows or cols)
+    
+    Notes
+    -----
+
+    - None
+
+    Examples
+    --------
+
+    - Example #1: ratio and space are given correctly (rows)
+
+        >>> _check_rowcol([1,2,3], [0.1,0.2], 3, 'rows')
+    
+    - Example #2: ratio and space are given incorrectly (rows) (raises warning)
+
+        >>> _check_rowcol([], 0.1, 3, 'rows')
+
+    - Example #3: ratio and space are given correctly (cols)
+
+        >>> _check_rowcol([1,2,3], [0.1,0.2], 3, 'cols')
+
+    """
+    
+    rat = {'rows': 'hratio', 'cols': 'wratio'}
+    spc = {'rows': 'hspace', 'cols': 'wspace'}
+    
+    # Check if space is a list
+    space = makelist(space)
+
+    # Fill the lists with the default values
+    ratio = ratio + [1.0]*(length - len(ratio))
+    space = space + [0.1]*(length - len(space) - 1)
+
+    # Check if the lists have the correct length
+    if len(ratio) != length:
+        warnings.warn(f"WARNING! {rat[func]} has wrong length!", UserWarning)
+    if len(space) + 1 != length:
+        warnings.warn(f"WARNING! {spc[func]} has wrong length!", UserWarning)
+
+    # End of the function. Return the lists
+    return space[:length - 1], ratio[:length]
+
+
+def _set_ticks(ax: Axes, 
+               tc: str | list[float] | None, 
+               tl: str | list[str] | None,
+               typeaxis: str
+              ) -> None:
+    """
+    Sets the ticks and ticks labels on the x- or y-axis of a selected axis.
+
+    Returns
+    -------
+
+    - None
+
+    Parameters
+    ----------
+
+    - ax: ax
+        the selected set of axes
+    - tc: list[float]
+        the ticks of the x-axis
+    - tl: list[float]
+        the ticks labels of the x-axis
+    - typeaxis: str
+        the type of axis (x or y)
+
+    Notes
+    -----
+
+    - None
+
+    Examples
+    --------
+
+    - Example #1: set ticks and ticks labels on the x-axis
+
+        >>> _set_ticks(ax, [0,1,2,3], ['0','1','2','3'], 'x')
+
+    - Example #2: set ticks and ticks labels on the y-axis (no ticks)
+
+        >>> _set_ticks(ax, None, None, 'y')
+
+    - Example #3: set ticks and ticks labels on the x-axis (no ticks labels)
+
+        >>> _set_ticks(ax, [0,1,2,3], None, 'x')
+
     """
 
-    if ytc is None:
-        ax.set_yticks([])
-        ax.set_yticklabels([])
-        if ytl not in {None, 'Default'}:
-            print('Warning, define tickslabels with no ticks!! (function setax)')
-    elif ytl != 'Default':
-        if ytc != 'Default':
-            ax.set_yticks(ytc)
-        elif ytl is not None:
-            print('Warning, tickslabels should be fixed only when ticks are fixed (function setax)')
-        if ytl == None:
-            ax.set_yticklabels([])
+    set_ticks = {'x': ax.set_xticks, 'y': ax.set_yticks}
+    set_label = {'x': ax.set_xticklabels, 'y': ax.set_yticklabels}
+
+    # Ticks are None
+    if tc is None:
+
+        set_ticks[typeaxis]([])
+        set_label[typeaxis]([])
+
+        # If tickslabels are not None raise a warning
+        if tl != 'Default' and tl is not True:
+            warn = "Warning, tickslabels are defined with no" \
+                   "ticks!! (function setax)"
+            warnings.warn(warn, UserWarning)
+    
+    # Ticks are not None and tickslabels are custom
+    elif tl != 'Default' and tl is not True:
+
+        # Ticks are not None, then are set
+        if tc != 'Default' and tc is not True and  \
+           tl != 'Default' and tl is not True:
+            set_ticks[typeaxis](tc)
+        
+        # Ticks are Default with custom tickslabels, a warning is raised
+        elif tl is not None:
+            warn = "Warning, tickslabels should be fixed only" \
+                   "when ticks are fixed (function setax)"
+            warnings.warn(warn, UserWarning)
+
+        # Ticks are set custom, then tickslabels are set
+        if tl is None:
+            set_label[typeaxis]([])
         else:
-            ax.set_yticklabels(ytl)
+            set_label[typeaxis](tl)
+    
+    # Ticks are custom, tickslabels are default
     else:
-        if ytc != 'Default':
-            ax.set_yticks(ytc)
+        if tc != 'Default' and tc is not True:
+            set_ticks[typeaxis](tc)
+
+    # End of the function
     return None

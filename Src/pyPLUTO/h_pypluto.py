@@ -1,9 +1,46 @@
 from .libraries import *
 
-def makelist(el: Any) -> list[Any]:
+def makelist(el: Any
+            ) -> list[Any]:
+    """
+    If the element is not a list, it converts it into a list.
+
+    Returns
+    -------
+
+    - the list of elements
+
+    Parameters
+    ----------
+
+    - el: Any
+        the element to be converted into a list
+
+    Notes
+    -----
+
+    - None
+
+    Examples
+    --------
+
+    - Example #1: element is a list
+
+        >>> makelist([1,2,3])
+        [1,2,3]
+
+    - Example #2: element is not a list
+
+        >>> makelist(1)
+        [1]
+        
+    """
+
+    # Return the element as a list
     return el if isinstance(el,list) else [el]
 
-def _check_par(par: set[str], 
+
+def check_par(par: set[str], 
                func: str, 
                **kwargs: Any
               ) -> None:
@@ -15,17 +52,35 @@ def _check_par(par: set[str],
     Returns
     -------
 
-        None
+    - None
 
     Parameters
     ----------
 
-        - par: list[str]
-            the function parameters
-        - func: str
-            the name of the function
-        - **kwargs: dict
-            the selected parameters
+    - par: list[str]
+        the function correct parameters
+    - func: str
+        the name of the function
+    - **kwargs: dict
+        the selected parameters
+
+    Notes
+    -----
+
+    - None
+
+    Examples
+    --------
+
+    - Example #1: check if the parameters are in the list (no warning)
+
+        **kwargs = {'a': 1, 'b': 2, 'c': 3}
+        >>> check_par({'a','b','c'}, 'func', **kwargs)
+    
+    - Example #2: check if the parameters are in the list (raises warning)
+    
+        **kwargs = {'a': 1, 'd': 2, 'c': 3}
+        >>> check_par({'a','b','c'}, 'func', **kwargs)
 
     """
 
@@ -34,8 +89,18 @@ def _check_par(par: set[str],
 
     # If the parameters are not in the list, raise a warning
     if len(notfound) > 0:
-        warning_message: str = f"""WARNING: elements {str(notfound)} not found! Please check your spelling! (function {func})"""
-        warnings.warn(warning_message, UserWarning)
+        warn = f"WARNING: elements {str(notfound)} not found!" \
+               f"Please check your spelling! (function {func})"
+        warnings.warn(warn, UserWarning)
 
+    # End of the function
     return None
 
+
+def _check_par(par: set[str], 
+               func: str, 
+               **kwargs: Any
+              ) -> None:
+    
+    # The function check_par is called (_check_par is deprecated)
+    check_par(par, func, **kwargs)

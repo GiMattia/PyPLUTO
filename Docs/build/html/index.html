@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Welcome to pyPLUTO’s documentation! &#8212; pyPLUTO 1.0 documentation</title>
+    <title>Welcome to PyPLUTO’s documentation! &#8212; pyPLUTO 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
@@ -13,14 +13,14 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Brief introduction to python" href="python.html" /> 
+    <link rel="next" title="Installation" href="install.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
           href="#">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="python.html" title="Brief introduction to python"
+          <a href="install.html" title="Installation"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -37,8 +37,9 @@
           <div class="body" role="main">
             
   <section id="welcome-to-pypluto-s-documentation">
-<h1>Welcome to pyPLUTO’s documentation!<a class="headerlink" href="#welcome-to-pypluto-s-documentation" title="Link to this heading">¶</a></h1>
-<p><strong>pyPLUTO</strong> is a Python library which loads and plots the data obtain from the PLUTO code simulations.
+<h1>Welcome to PyPLUTO’s documentation!<a class="headerlink" href="#welcome-to-pypluto-s-documentation" title="Link to this heading">¶</a></h1>
+<p><strong>PyPLUTO</strong> is a Python library which loads and plots the data obtain from
+the PLUTO code simulations.
 The aim of this package is to simplify some non-trivial python routines in order to quickly recover
 plots that can be inserted in scientific publications.
 Check out the <a class="reference internal" href="install.html"><span class="doc">Installation</span></a> section for further information regarding the installation,
@@ -51,43 +52,68 @@ the section <a class="reference internal" href="load.html#loadclass"><span class
 <h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="install.html#global-installation">Global installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#local-installation">Local installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#installation-with-pip">Installation with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#installation-without-pip">Installation without pip</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="load.html#the-pypluto-load-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Load()</span></code> class</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="image.html#image-initialization">Image initialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="set_axis.html">setaxis function</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plot.html">plot function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="display.html">display function</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="zoom.html">zoom function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="text.html">text function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="load.html#the-pypluto-load-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Load()</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="load.html#pyPLUTO.Load"><code class="docutils literal notranslate"><span class="pre">Load</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="image.html#pyPLUTO.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#image-initialization">Image initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="create_axes.html#pyPLUTO.Image.create_axes"><code class="docutils literal notranslate"><span class="pre">Image.create_axes()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="set_axis.html">setaxis function</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="set_axis.html#pyPLUTO.Image.set_axis"><code class="docutils literal notranslate"><span class="pre">set_axis()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plot.html">plot function</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plot.html#pyPLUTO.Image.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="display.html">display function</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="display.html#pyPLUTO.Image.display"><code class="docutils literal notranslate"><span class="pre">Image.display()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="zoom.html">zoom function</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="zoom.html#pyPLUTO.Image.zoom"><code class="docutils literal notranslate"><span class="pre">zoom()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="text.html">text function</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="text.html#pyPLUTO.Image.text"><code class="docutils literal notranslate"><span class="pre">text()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="test01_sod.html">HD Sod</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test02_ot.html">MHD OT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test03_rti.html">MHD RTI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test04_rotor.html">MHD Rotor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test06_diskplanet.html">HD Disk-Planet</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#how-do-i-install-pypluto">How do I install pyPLUTO?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#can-i-use-pypluto-with-python-3-9">Can I use pyPLUTO with Python 3.9?</a></li>
 </ul>
 </li>
 </ul>
@@ -112,12 +138,12 @@ the section <a class="reference internal" href="load.html#loadclass"><span class
           
           <h3>Table of Contents</h3>
           <ul>
-<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
           <div role="search">
@@ -137,7 +163,7 @@ the section <a class="reference internal" href="load.html#loadclass"><span class
       <div class="footer">
         <div class="left">
           <div role="navigation" aria-label="related navigaton">
-            <a href="python.html" title="Brief introduction to python"
+            <a href="install.html" title="Installation"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>

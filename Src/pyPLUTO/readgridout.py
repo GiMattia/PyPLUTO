@@ -1,6 +1,116 @@
 from .libraries import *
 
-def _read_grid(self) -> None:
+def _read_grid_h5(self) -> None:
+    """
+    Variables that we already have: x1 x2 x3 x1r x2r x3r
+    Variables that we need: nx1 nx2 nx3 nshp nx1s nx2s nx3s dim
+                            nshp_st1 nshp_st2 nshp_st3 
+                            gridsize gridsize_st1 gridsize_st2 gridsize_st3
+
+    """
+    self.nshp = np.shape(self.x1)
+    self.dim = len(self.nshp)
+    self.nx1, self.nx2, self.nx3 = (self.nshp + (1,1,1))[:3]
+    nx1s, nx2s, nx3s = self.nx1 + 1, self.nx2 + 1, self.nx3 + 1
+
+    GRID_SHAPES = {
+        1: lambda nx1, _, __: (nx1s, None, None),
+        2: lambda nx1, nx2, _: ((nx2, nx1s),
+                                (nx2s, nx1), None),
+        3: lambda nx1, nx2, nx3: ((nx3, nx2, nx1s),
+                             (nx3, nx2s, nx1), (nx3s, nx2, nx1))}
+    
+    # Determine grid shape based on dimension
+    (self._nshp_st1, self._nshp_st2, self._nshp_st3) = \
+        GRID_SHAPES[self.dim](self.nx1, self.nx2, self.nx3)
+    
+    self.dx1 = self.x1r[1:] - self.x1r[:-1]
+    self.dx1 = 0.5*(self.dx1[:, 1:] + self.dx1[:, :-1]) if self.dim > 1 else self.dx1
+    self.dx1 = 0.5*(self.dx1[:, :, 1:] + self.dx1[:, :, :-1]) if self.dim > 2 else self.dx1
+    
+    self.dx2 = self.x2r[1:] - self.x2r[:-1]
+    self.dx2 = 0.5*(self.dx2[:, 1:] + self.dx2[:, :-1]) if self.dim > 1 else self.dx2
+    self.dx2 = 0.5*(self.dx2[:, :, 1:] + self.dx2[:, :, :-1]) if self.dim > 2 else self.dx2
+
+    self.dx3 = self.x3r[1:] - self.x3r[:-1]
+    self.dx3 = 0.5*(self.dx3[:, 1:] + self.dx3[:, :-1]) if self.dim > 1 else self.dx3
+    self.dx3 = 0.5*(self.dx3[:, :, 1:] + self.dx3[:, :, :-1]) if self.dim > 2 else self.dx3
+    
+    
+    # Compute the gridsize both centered and staggered
+    self.gridsize      = self.nx1*self.nx2*self.nx3
+    self._gridsize_st1 = nx1s*self.nx2*self.nx3
+    self._gridsize_st2 = self.nx1*nx2s*self.nx3
+    self._gridsize_st3 = self.nx1*self.nx2*nx3s
+
+    warn = ("The geometry is unknown, the grid is assumed to be cartesian. "
+            "\nThe grid interpolation may not be accurate and should be "
+            "used only for visualization purposes. \nFor a more accurate "
+            "interpolation, the loading with the .out file is recommended.\n")
+    warnings.warn(warn, UserWarning)
+
+    return None
+
+def _read_grid_vtk(self, gridvars) -> None:
+    """
+    RECTILINEAR GRID
+    Variables that we already have: x1r x2r x3r nshp dim nx1 nx2 nx3
+    Variables that we need: x1 x2 x3 dx1 dx2 dx3  gridsize
+    """
+
+    self.gridsize = self.nx1*self.nx2*self.nx3
+
+    if self.geom == 'UNKNOWN':
+
+        if gridvars[0] == 'self.x1r':
+            self.x1 = 0.5*(self.x1r[1:] + self.x1r[:-1])
+            self.x1 = 0.5*(self.x1[:, 1:] + self.x1[:, :-1]) if self.dim > 1 else self.x1
+            self.x1 = 0.5*(self.x1[:, :, 1:] + self.x1[:, :, :-1]) if self.dim > 2 else self.x1
+            
+            self.dx1 = self.x1r[1:] - self.x1r[:-1]
+            self.dx1 = 0.5*(self.dx1[:, 1:] + self.dx1[:, :-1]) if self.dim > 1 else self.dx1
+            self.dx1 = 0.5*(self.dx1[:, :, 1:] + self.dx1[:, :, :-1]) if self.dim > 2 else self.dx1
+        
+        if gridvars[1] == 'self.x2r':
+            self.x2 = 0.5*(self.x2r[1:] + self.x2r[:-1])
+            self.x2 = 0.5*(self.x2[:, 1:] + self.x2[:, :-1]) 
+            self.x2 = 0.5*(self.x2[:, :, 1:] + self.x2[:, :, :-1]) if self.dim > 2 else self.x2
+        
+            self.dx2 = self.x2r[1:] - self.x2r[:-1]
+            self.dx2 = 0.5*(self.dx2[:, 1:] + self.dx2[:, :-1])
+            self.dx2 = 0.5*(self.dx2[:, :, 1:] + self.dx2[:, :, :-1]) if self.dim > 2 else self.dx2
+
+        if gridvars[2] == 'self.x3r':
+            self.x3 = 0.5*(self.x3r[1:] + self.x3r[:-1])
+            self.x3 = 0.5*(self.x3[:, 1:] + self.x3[:, :-1])
+            self.x3 = 0.5*(self.x3[:, :, 1:] + self.x3[:, :, :-1])
+
+            self.dx3 = self.x3r[1:] - self.x3r[:-1]
+            self.dx3 = 0.5*(self.dx3[:, 1:] + self.dx3[:, :-1])
+            self.dx3 = 0.5*(self.dx3[:, :, 1:] + self.dx3[:, :, :-1])
+
+        warn = ("The geometry is unknown, the grid is assumed to be cartesian. "
+                "\nThe grid interpolation may not be accurate and should be "
+                "used only for visualization purposes. \nFor a more accurate "
+                "interpolation, the loading with the .out file is recommended.\n")
+        warnings.warn(warn, UserWarning)
+
+        return None
+
+    if gridvars[0] == 'self.x1r':
+        self.x1  = 0.5*(self.x1r[:-1] + self.x1r[1:])
+        self.dx1 = self.x1r[1:] - self.x1r[:-1]
+    if gridvars[1] == 'self.x2r':
+        self.x2  = 0.5*(self.x2r[:-1] + self.x2r[1:])
+        self.dx2 = self.x2r[1:] - self.x2r[:-1]
+    if gridvars[2] == 'self.x3r':
+        self.x3  = 0.5*(self.x3r[:-1] + self.x3r[1:])
+        self.dx3 = self.x3r[1:] - self.x3r[:-1]
+
+    return None
+
+
+def _read_gridfile(self) -> None:
     """
     The file grid.out is read and all the grid information are stored
     in the Load class.
@@ -33,7 +143,20 @@ def _read_grid(self) -> None:
     nx1p2 = self.nx1 + self.nx2
     nx1p3 = self.nx1 + self.nx2 + self.nx3
 
-    # Compute the centered and staggered grid values
+    # Define grid shapes based on dimensions
+    nx1s, nx2s, nx3s = self.nx1 + 1, self.nx2 + 1, self.nx3 + 1
+    GRID_SHAPES = {
+        1: lambda nx1, _, __: (nx1, nx1s, None, None),
+        2: lambda nx1, nx2, _: ((nx2, nx1), (nx2, nx1s),
+                                (nx2s, nx1), None),
+        3: lambda nx1, nx2, nx3: ((nx3, nx2, nx1), (nx3, nx2, nx1s),
+                             (nx3, nx2s, nx1), (nx3s, nx2, nx1))}
+    
+    # Determine grid shape based on dimension
+    (self.nshp, self._nshp_st1, self._nshp_st2, self._nshp_st3) = \
+        GRID_SHAPES[self.dim](self.nx1, self.nx2, self.nx3)
+    
+     # Compute the centered and staggered grid values
     self.x1r = np.array(xL[0:self.nx1] + [xR[self.nx1-1]])
     self.x1  = 0.5*(self.x1r[:-1] + self.x1r[1:])
     self.dx1 = self.x1r[1:] - self.x1r[:-1]
@@ -45,19 +168,6 @@ def _read_grid(self) -> None:
     self.x3r = np.array(xL[nx1p2:nx1p3] + [xR[nx1p3-1]])
     self.x3  = 0.5*(self.x3r[:-1] + self.x3r[1:])
     self.dx3 = self.x3r[1:] - self.x3r[:-1]
-
-    # Define grid shapes based on dimensions
-    nx1s, nx2s, nx3s = self.nx1 + 1, self.nx2 + 1, self.nx3 + 1
-    GRID_SHAPES = {
-        1: lambda nx1, _, __: (nx1, nx1s, None, None),
-        2: lambda nx1, nx2, _: ((nx2, nx1), (nx2, nx1s),
-                                (nx2s, nx1), None),
-        3: lambda nx1, nx2, nx3: ((nx3, nx2, nx1), (nx3, nx2, nx1s),
-                             (nx3, nx2s, nx1), (nx3s, nx2, nx1))}
-
-    # Determine grid shape based on dimension
-    (self.nshp, self._nshp_st1, self._nshp_st2, self._nshp_st3) = \
-        GRID_SHAPES[self.dim](self.nx1, self.nx2, self.nx3)
 
     # Compute the cartesian grid coordinates (non-cartesian geometry)
     # STILL VERY INCOMPLETE (3D spherical missing and needs testing)
@@ -73,10 +183,6 @@ def _read_grid(self) -> None:
         self.x2c  = (np.sin(x2_2D)*x1_2D).T
         self.x1rc = (np.cos(x2r_2D)*x1r_2D).T
         self.x2rc = (np.sin(x2r_2D)*x1r_2D).T
-        #self.x1c  = np.outer(np.cos(self.x2),  self.x1)
-        #self.x2c  = np.outer(np.sin(self.x2),  self.x1)
-        #self.x1rc = np.outer(np.cos(self.x2r), self.x1r)
-        #self.x2rc = np.outer(np.sin(self.x2r), self.x1r)
 
         self.gridlist3 = ['x1c','x2c','x1rc','x2rc']
         del x1_2D, x2_2D, x1r_2D, x2r_2D
@@ -90,14 +196,26 @@ def _read_grid(self) -> None:
         self.x2p  = (np.cos(x2_2D)*x1_2D).T
         self.x1rp = (np.sin(x2r_2D)*x1r_2D).T
         self.x2rp = (np.cos(x2r_2D)*x1r_2D).T
-        #self.x1p  = np.outer(np.sin(self.x2),  self.x1)
-        #self.x2p  = np.outer(np.cos(self.x2),  self.x1)
-        #self.x1rp = np.outer(np.sin(self.x2r), self.x1r)
-        #self.x2rp = np.outer(np.cos(self.x2r), self.x1r)
         
-        self.gridlist3 = ['x1c','x2c','x1rc','x2rc']
+        self.gridlist3 = ['x1p','x2p','x1rp','x2rp']
         del x1_2D, x2_2D, x1r_2D, x2r_2D
 
+        """
+        # TOO MUCH MEMORY REQUIRED TO DO THE MESHGRID!!!
+        x1_3D, x2_3D, x3_3D   = np.meshgrid(self.x1, self.x2, 
+                                            self.x3, indexing='ij')
+        x1r_3D, x2r_3D, x3r_3D = np.meshgrid(self.x1r, self.x2r, 
+                                             self.x3r, indexing='ij')        
+        
+        self.x1c  = (np.sin(x2_3D)*np.cos(x3_3D)*x1_3D).T
+        self.x2c  = (np.sin(x2_3D)*np.sin(x3_3D)*x1_3D).T
+        self.x3c  = (np.cos(x2_3D)*x1_3D).T
+        self.x1rc = (np.sin(x2r_3D)*np.cos(x3r_3D)*x1r_3D).T
+        self.x2rc = (np.sin(x2r_3D)*np.sin(x3r_3D)*x1r_3D).T
+        self.x3rc = (np.cos(x2r_3D)*x1r_3D).T
+
+        del x1_3D, x2_3D, x3_3D, x1r_3D, x2r_3D, x3r_3D
+        """
 
     # Compute the gridsize both centered and staggered
     self.gridsize      = self.nx1*self.nx2*self.nx3
@@ -105,7 +223,11 @@ def _read_grid(self) -> None:
     self._gridsize_st2 = self.nx1*nx2s*self.nx3
     self._gridsize_st3 = self.nx1*self.nx2*nx3s
 
+    self._info = False
+
     return None
+
+
 
 def _read_outfile(self, nout, endian) -> None:
     """
@@ -156,7 +278,11 @@ def _read_outfile(self, nout, endian) -> None:
                                     else self._d_info['endianess']
     
     # Store the variables list
-    self._d_info['varslist'] = np.array(vfp.iloc[self.nout,6:])
+    if self.format not in {'dbl.h5', 'flt.h5'}:
+        self._d_info['varslist'] = np.array(vfp.iloc[self.nout,6:])
+    else:
+        self.varsh5 = np.array(vfp.iloc[self.nout,6:])[0]
+        self._d_info['varslist'] = [[] for _ in range(self._lennout)]  
 
     # Compute binformat and endpath
     self._d_info['binformat'] = np.char.add(self._d_info['endianess'], 
@@ -165,6 +291,8 @@ def _read_outfile(self, nout, endian) -> None:
     self._d_info['endpath'] = np.char.mod(format_string, self.nout)
 
     return None
+
+
 
 def _split_gridfile(self, 
                     i: str, 

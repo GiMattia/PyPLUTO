@@ -1,69 +1,80 @@
 Installation
 ============
 
-The latest version of the *pyPLUTO* code is officially distributed with the
-latest version (5.0) of the *PLUTO* code. This can be downloaded from PlutoDownload_.
+The latest version of the *PyPLUTO* code is officially distributed with the
+latest version (4.4) of the *PLUTO* code. This can be downloaded from 
+PlutoDownload_.
 
 .. _PlutoDownload: http://plutocode.ph.unito.it/download.html
 
-The current version of *pyPLUTO* has been updated to support Python version 3.6 or newer.
-Additional packages that are required are numpy, matplotlib (3.5 or newer) and scipy.
+The current version of *PyPLUTO* has been updated to support Python version 
+3.10 or newer.
+Additional packages that are required are numpy, matplotlib, pandas and scipy.
 
-For all the methods the installing directory is the pyPLUTO directory (or a subfolder):
+For all the methods the installing directory is the PyPLUTO directory (or a 
+subfolder):
 
 .. code-block:: console
 
    $ cd $PLUTO_DIR/Tools/pyPLUTO
 
-For the sake of simplicity, we will assume to be in the pyPLUTO directory  from now until the
-end of the installation process.
+For the sake of simplicity, we will assume to be in the pyPLUTO directory from
+now until the end of the installation process.
+If you are using a virtual environment, activate it before proceeding and make
+sure that the required packages are installed and that Python version is 3.10 
+or newer.
 
-Global installation
--------------------
+Installation with pip
+---------------------
 
-A global installation of pyPLUTO by default creates a PYTHONPATH.
-Three ways of global installation can be followed, depending on which libraries and
-software are installed on the computer.
+A global installation of PyPLUTO by default creates a PYTHONPATH.
+Three ways of global installation can be followed, depending on which 
+libraries and software are installed on the computer.
 
-1. The first method is (if pip is installed) to install pyPLUTO from the main directory
-through the command:
+1. The first method is (if pip is installed) to install PyPLUTO from the main 
+directory through the command:
 
 .. code-block:: console
 
    (.venv) $ pip install ./
 
-2. If this procedure does not work another installation (again through pip) is possible.
-This time the installation is done from the Src directory through the setup.py file:
+2. If this procedure does not work another installation (again through pip) is 
+possible.
+This time the installation is done from the Src directory through the setup.py 
+file:
 
 .. code-block:: console
 
    (.venv) $ cd Src
    Src$ pip install ./
 
-3. If pip has not been installed a global installation through the ``setup.py`` can be done:
+Installation without pip
+------------------------
+
+If pip has not been installed a global installation through the ``setup.py`` can
+be done:
 
 .. code-block:: console
 
    (.venv) $ cd Src
    Src$ python setup.py install
 
-Local installation
--------------------
 
-If pip is not installed, a good pratice is to create your own PYTHONPATH
+However, a good pratice is to create your own PYTHONPATH
 and do a local install in the following way:
 
 1. Create a directory where to store this module.
-This directory does not need to be in the pyPLUTO folder, it can be in the HOME
-directory or any of its subfolders. For the sake of simplicity we will assume that this
-directory will be created as a direct subfolder of the HOME directory:
+This directory does not need to be in the PyPLUTO folder, it can be in the $HOME
+directory or any of its subfolders. For the sake of simplicity we will assume 
+that this
+directory will be created as a direct subfolder of the $HOME directory:
 
 .. code-block:: console
 
   (.venv) $ cd
   $ mkdir MyPython_Modules
 
-2. Go back to the pyPLUTO directory:
+2. Go back to the PyPLUTO directory:
 
 .. code-block:: console
 
@@ -75,8 +86,8 @@ directory will be created as a direct subfolder of the HOME directory:
 
   (.venv)/Src$ python setup.py install --prefix=~/MyPython_Modules
 
-Remember that, in case you created the ``MyPython_Modules`` folder in a different
-location you should install the code following:
+Remember that, in case you created the ``MyPython_Modules`` folder in a 
+different location you should install the code following:
 
 .. code-block:: console
 
@@ -89,9 +100,9 @@ location you should install the code following:
   export PYTHONPATH =~/MyPython_Modules/lib/python<ver>/site-packages
   export PATH =~/MyPython_Modules/bin:$PATH
 
-where ``<ver>`` indicates the python version used to install pyPLUTO.
+where ``<ver>`` indicates the python version used to install PyPLUTO.
 
-5. Update the ``~/.bashrc`` file:
+5. Update the ``~/.bashrc`` file by closing the terminal or typing:
 
 .. code-block:: console
 

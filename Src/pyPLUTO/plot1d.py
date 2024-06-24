@@ -181,6 +181,15 @@ def plot(self,
         ... xticks = [0.2,0.4,0.6,0.8])
         ... 
 
+    - Example #5: create plots on already existing axes
+
+        >>> import pypLUTO as pp
+        >>> I = pp.Image()
+        >>> I.create_axes(ncol = 2)
+        >>> I.plot(x, y, ax = I.ax[0])
+        >>> I.plot(x, y*y, ax = I.ax[1])
+        >>> I.plot(x, z, ax = I.ax[0])
+
     """
 
     # If only one argument is given, it is the y-axis

@@ -44,8 +44,50 @@
 <p>The function text has the following structure:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPLUTO.Image.text">
-<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Image.text" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.85</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.85</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPLUTO.Image.text" title="Link to this definition">¶</a></dt>
+<dd><p>Insertion of a text box inside the figure created with Image class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- ax: axis object, default None</strong></dt><dd><p>The axis where to insert the text box. If None, the last considered axis 
+will be used.</p>
+</dd>
+<dt><strong>- c: str, default ‘k’</strong></dt><dd><p>Determines the text color.</p>
+</dd>
+<dt><strong>- horalign</strong></dt><dd></dd>
+<dt><strong>- text (not optional): str</strong></dt><dd><p>The text that will appear on the text box</p>
+</dd>
+<dt><strong>- textsize: float, default fontsize</strong></dt><dd><p>Sets the text fontsize. The default value corresponds to the value of
+the actual fontsize in the figure.</p>
+</dd>
+<dt><strong>- veralign</strong></dt><dd></dd>
+<dt><strong>- x: float, default 0.85</strong></dt><dd><p>The horizontal starting position of the text box, in units of figure
+size.</p>
+</dd>
+<dt><strong>- xycoords</strong></dt><dd></dd>
+<dt><strong>- y: float, default 0.85</strong></dt><dd><p>The vertical starting position of the text box, in units of figure size.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>None</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p>Example #1: create a simple text box</p></li>
+</ul>
+<p>bla bla bla</p>
+</dd></dl>
 
 </section>
 

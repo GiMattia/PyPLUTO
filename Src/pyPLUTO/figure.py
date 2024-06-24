@@ -15,11 +15,11 @@ def _assign_LaTeX(self,
     Parameters
     ----------
 
-    - LaTeX: bool, default False
+    - LaTeX: bool | str, default False
         the LaTeX option. Is True is selected, the default LaTeX font
         is used. If 'pgf' is selected, the pgf backend is used.
         If XeLaTeX is not installed and the 'pgf' option is selected, the 
-        LaTeX option True is used.
+        LaTeX option True is used as backup strategy.
 
     Notes
     -----
@@ -73,8 +73,8 @@ def _assign_LaTeX(self,
         # If errors occur, the LaTeX option True is used and a warning 
         # message is displayed
         except: 
-            str1 = "XeLaTeX is required to use the pgf backend.\n" \
-                   "Please, install XeLaTeX and try again."
+            str1 = ("XeLaTeX is required to use the pgf backend.\n" 
+                    "Please, install XeLaTeX and try again.")
             str2 = "The pgf backend is not available."
             warn = str1 if LaTeX is True else str2
             warnings.warn(warn, UserWarning)
@@ -99,7 +99,8 @@ def _create_figure(self,
                    **kwargs: Any
                   ) -> None:
     """
-    Function that creates the figure associated to the Image.
+    Function that creates the figure associated to the Image. It is called 
+    by default when the Image class is instantiated.
 
     Returns
     -------
@@ -110,8 +111,9 @@ def _create_figure(self,
     ----------
 
     - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a warning
-        if a parameter is not present among the set of available parameters.
+        If enabled perform a check on the method's parameters, raising a 
+        warning if a parameter is not present among the set of available 
+        parameters.
     - close: bool, default True
         If True, the existing figure with the same window number is closed.
     - fig: Figure | None, default None

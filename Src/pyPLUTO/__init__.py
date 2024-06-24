@@ -5,36 +5,25 @@ from .image     import Image
 from .load      import Load
 from .loadpart  import LoadPart
 
-'''
-try:
-    import importlib.metadata
-
-    __version__ = importlib.metadata.version("plutoplot")
-    del importlib
-except ImportError:  # Python <3.8
-    import pkg_resources
-
-    __version__ = pkg_resources.get_distribution("plutoplot").version
-    del pkg_resources
-'''
-
 __version__ = "1.0.0"
 
 try:
-    __IPYTHON__
-    _in_ipython_session = True
+    shell = get_ipython().__class__.__name__
+    if shell == 'ZMQInteractiveShell':
+        __session__= "Jupyter notebook or qtconsole"
+    elif shell == 'TerminalInteractiveShell':
+        __session__ = "Terminal running IPython"
+    else:
+        __session__ = "Unknown session"
 except NameError:
-    _in_ipython_session = False
-
-print(f"pyPLUTO version: {__version__}")
-print(f"Running in IPython: {_in_ipython_session}")
+    __session__ = "Standard Python interpreter"
+print(f"PyPLUTO version: {__version__}   session: {__session__}")
 
 # Set color warning formatter
 def color_warning(message, category, filename, lineno, file=None, line=None):
     message = (f"\33[33m{category.__name__}: {message}"
                f"[{filename}:{lineno}]\33[0m\n")  # Yellow color for warnings
     return message
-# Set color warning formatter
 warnings.simplefilter('always', DeprecationWarning)
 warnings.formatwarning = color_warning
 

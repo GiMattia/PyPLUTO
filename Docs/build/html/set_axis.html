@@ -61,6 +61,9 @@ y-scale and the x-scale (1.0 is the same as ‘equal’).</p>
 </dd>
 <dt><strong>- ax: ax object, default None</strong></dt><dd><p>The axis to customize. If None the current axis will be selected.</p>
 </dd>
+<dt><strong>- check: bool, default True</strong></dt><dd><p>If enabled perform a check on the method’s parameters, raising a warning
+if a parameter is not present among the set of available parameters.</p>
+</dd>
 <dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components (only for the current 
 axis).</p>
 </dd>
@@ -86,15 +89,15 @@ of the keyword ‘fontsize’.</p>
 <dt><strong>- xrange: [float, float], default [0,1]</strong></dt><dd><p>Sets the range in the x-direction. If not defined the code will
 compute the range while plotting the data.</p>
 </dd>
-<dt><strong>- xscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets automatically the scale
+<dt><strong>- xscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from True), sets automatically the scale
 on the x-axis. Data in log scale should be used with the keyword ‘log’,
 while data in linear scale should be used with the keyword ‘linear’.</p>
 </dd>
-<dt><strong>- xticks: {[float], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually ticks on
+<dt><strong>- xticks: {[float], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on
 x-axis. In order to completely remove the ticks the keyword should
 be used with None.</p>
 </dd>
-<dt><strong>- xtickslabels: {[str], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually the ticks
+<dt><strong>- xtickslabels: {[str], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
 labels on the x-axis. In order to completely remove the ticks the
 keyword should be used with None. Note that fixed tickslabels should
 always correspond to fixed ticks.</p>
@@ -104,15 +107,15 @@ always correspond to fixed ticks.</p>
 <dt><strong>- yrange: [float, float], default [0,1]</strong></dt><dd><p>Sets the range in the y-direction. If not defined the code will
 compute the range while plotting the data.</p>
 </dd>
-<dt><strong>- yscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets automatically the scale
+<dt><strong>- yscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from True), sets automatically the scale
 on the y-axis. Data in log scale should be used with the keyword ‘log’,
 while data in linear scale should be used with the keyword ‘linear’.</p>
 </dd>
-<dt><strong>- yticks: {[float], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually ticks on
+<dt><strong>- yticks: {[float], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on
 y-axis. In order to completely remove the ticks the keyword should
 be used with None.</p>
 </dd>
-<dt><strong>- ytickslabels: {[str], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually the ticks
+<dt><strong>- ytickslabels: {[str], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
 labels on the y-axis. In order to completely remove the ticks the
 keyword should be used with None. Note that fixed tickslabels should
 always correspond to fixed ticks.</p>

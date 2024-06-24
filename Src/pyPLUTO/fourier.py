@@ -1,6 +1,4 @@
-import numpy as np
-import pyPLUTO as pp
-import matplotlib.pyplot as plt
+from .libraries import *
 
 def FourierTransform1D(f, dxi):
     """

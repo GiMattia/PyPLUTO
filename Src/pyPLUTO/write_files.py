@@ -1,6 +1,6 @@
 from .libraries import *
 
-def write_h5(self, 
+def _write_h5(self, 
              data: NDArray | dict, 
              filename: str,
              dataname: str | None = None, 
@@ -35,7 +35,7 @@ def write_h5(self,
         >>> write_h5('data.h5')
 
     """
-    
+
     # Create the path to the HDF5 file
     path_h5 = self.pathdir / filename
     if not filename.endswith('.h5'): path_h5 += '.h5'
@@ -215,9 +215,15 @@ def write_bin(self):
     # End of the function
     return None
 
-def write_files(self):
+def write_file(self, 
+             data: NDArray | dict, 
+             filename: str,
+             datatype: str | None = None,
+             dataname: str | None = None, 
+             grid: bool = False
+            ) -> None:
     """
-    Write the data to the output files.
+    Write the data to a file.
 
     Returns
     -------
@@ -227,7 +233,8 @@ def write_files(self):
     Parameters
     ----------
 
-    - None
+    - filename: str
+        the name of the file
 
     Notes
     -----
@@ -237,27 +244,27 @@ def write_files(self):
     Examples
     --------
 
-    - Example #1: Write the data to the output files
-
-        >>> write_files()
+    - Example #1: Write the data to a file
+    
+            >>> write_file('data.h5')
 
     """
     
+    # Check the datatype of the input data
+    if datatype is None: datatype = filename.split('.')[-1]
+    poss_types = {'dbl', 'flt', 'vtk', 'h5', 'tab'}
+    if datatype not in poss_types:
+        warn = f"Invalid datatype: {datatype}. Resetting to 'h5'"
+        warnings.warn(warn)
+        datatype = 'h5'
+        
     # Check the format of the output files
-    if self.format == 'dbl':
-        write_bin(self)
-    elif self.format == 'flt':
-        write_bin(self)
-    elif self.format == 'vtk':
-        write_vtk(self)
-    elif self.format == 'dbl.h5':
-        write_h5(self)
-    elif self.format == 'flt.h5':
-        write_h5(self)
-    elif self.format == 'tab':
-        write_tab(self)
-    elif self.format == 'bin':
-        write_bin(self)
+    if datatype == 'h5':
+        _write_h5(self, data, filename, dataname, grid)
+    else:
+        warn = f"Invalid datatype: {datatype}, not implemented yet!"
+        warnings.warn(warn)
+        pass
     
     # End of the function
     return None

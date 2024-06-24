@@ -45,8 +45,8 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPLUTO.Image.plot">
 <span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[None]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPLUTO.Image.plot" title="Link to this definition">¶</a></dt>
-<dd><p>Creation of a 1D function plot (or a 1D slice plot).</p>
-<p>It creates a simple figure and a single axis if none are given prior.
+<dd><p>Creation of a 1D function plot (or a 1D slice plot).
+It creates a simple figure and a single axis if none are given prior.
 If a single function argument is given, it plots the graph of that function
 using a linear variable as x parameter. However, if a pair of arrays is
 provided, it plots the second as a function of the first one.</p>
@@ -191,21 +191,18 @@ always correspond to fixed ticks.</p>
 <p class="rubric">Notes</p>
 <ul class="simple">
 <li><p>Minorticks on single axis?</p></li>
-<li><p>check description has been had, decide to keep it or not</p></li>
 </ul>
 <p class="rubric">Examples</p>
-<ul class="simple">
-<li><p>Example #1: create a simple plot of y as function of x</p></li>
-</ul>
+<ul>
+<li><p>Example #1: create a simple plot of y as function of x</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
-<ul class="simple">
+</li>
 <li><p>Example #2: create a plot of y as function of x with custom range of the 
-axes and titles</p></li>
-</ul>
+axes and titles</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],</span> 
@@ -213,7 +210,7 @@ axes and titles</p></li>
 <span class="gp">...</span>
 </pre></div>
 </div>
-<ul>
+</li>
 <li><p>Example #3: create a plot with logarithmic scale on y-axis</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
@@ -226,7 +223,7 @@ axes and titles</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">legpos</span> <span class="o">=</span> <span class="s1">&#39;lower right&#39;</span><span class="p">,</span> 
 <span class="gp">... </span><span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">0.8</span><span class="p">])</span>
-<span class="gp">...</span>
+<span class="gp">... </span>
 </pre></div>
 </div>
 </li>

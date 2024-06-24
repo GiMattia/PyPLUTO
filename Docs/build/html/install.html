@@ -42,27 +42,35 @@
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
 <p>The latest version of the <em>PyPLUTO</em> code is officially distributed with the
-latest version (4.4) of the <em>PLUTO</em> code. This can be downloaded from <a class="reference external" href="http://plutocode.ph.unito.it/download.html">PlutoDownload</a>.</p>
-<p>The current version of <em>PyPLUTO</em> has been updated to support Python version 3.10 or newer.
-Additional packages that are required are numpy, matplotlib and scipy.</p>
-<p>For all the methods the installing directory is the PyPLUTO directory (or a subfolder):</p>
+latest version (4.4) of the <em>PLUTO</em> code. This can be downloaded from
+<a class="reference external" href="http://plutocode.ph.unito.it/download.html">PlutoDownload</a>.</p>
+<p>The current version of <em>PyPLUTO</em> has been updated to support Python version
+3.10 or newer.
+Additional packages that are required are numpy, matplotlib, pandas and scipy.</p>
+<p>For all the methods the installing directory is the PyPLUTO directory (or a
+subfolder):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$PLUTO_DIR</span>/Tools/pyPLUTO
 </pre></div>
 </div>
-<p>For the sake of simplicity, we will assume to be in the pyPLUTO directory  from now until the
-end of the installation process.</p>
+<p>For the sake of simplicity, we will assume to be in the pyPLUTO directory from
+now until the end of the installation process.
+If you are using a virtual environment, activate it before proceeding and make
+sure that the required packages are installed and that Python version is 3.10
+or newer.</p>
 <section id="installation-with-pip">
 <h2>Installation with pip<a class="headerlink" href="#installation-with-pip" title="Link to this heading">¶</a></h2>
 <p>A global installation of PyPLUTO by default creates a PYTHONPATH.
-Three ways of global installation can be followed, depending on which libraries and
-software are installed on the computer.</p>
-<p>1. The first method is (if pip is installed) to install PyPLUTO from the main directory
-through the command:</p>
+Three ways of global installation can be followed, depending on which
+libraries and software are installed on the computer.</p>
+<p>1. The first method is (if pip is installed) to install PyPLUTO from the main
+directory through the command:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>./
 </pre></div>
 </div>
-<p>2. If this procedure does not work another installation (again through pip) is possible.
-This time the installation is done from the Src directory through the setup.py file:</p>
+<p>2. If this procedure does not work another installation (again through pip) is
+possible.
+This time the installation is done from the Src directory through the setup.py
+file:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>Src
 <span class="go">Src$ pip install ./</span>
 </pre></div>
@@ -70,7 +78,8 @@ This time the installation is done from the Src directory through the setup.py f
 </section>
 <section id="installation-without-pip">
 <h2>Installation without pip<a class="headerlink" href="#installation-without-pip" title="Link to this heading">¶</a></h2>
-<p>If pip has not been installed a global installation through the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> can be done:</p>
+<p>If pip has not been installed a global installation through the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> can
+be done:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>Src
 <span class="go">Src$ python setup.py install</span>
 </pre></div>
@@ -78,9 +87,10 @@ This time the installation is done from the Src directory through the setup.py f
 <p>However, a good pratice is to create your own PYTHONPATH
 and do a local install in the following way:</p>
 <p>1. Create a directory where to store this module.
-This directory does not need to be in the PyPLUTO folder, it can be in the HOME
-directory or any of its subfolders. For the sake of simplicity we will assume that this
-directory will be created as a direct subfolder of the HOME directory:</p>
+This directory does not need to be in the PyPLUTO folder, it can be in the $HOME
+directory or any of its subfolders. For the sake of simplicity we will assume
+that this
+directory will be created as a direct subfolder of the $HOME directory:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span><span class="nb">cd</span>
 <span class="gp">$ </span>mkdir<span class="w"> </span>MyPython_Modules
 </pre></div>
@@ -97,8 +107,8 @@ directory will be created as a direct subfolder of the HOME directory:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span><span class="go">/Src$ python setup.py install --prefix=~/MyPython_Modules</span>
 </pre></div>
 </div>
-<p>Remember that, in case you created the <code class="docutils literal notranslate"><span class="pre">MyPython_Modules</span></code> folder in a different
-location you should install the code following:</p>
+<p>Remember that, in case you created the <code class="docutils literal notranslate"><span class="pre">MyPython_Modules</span></code> folder in a
+different location you should install the code following:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span><span class="go">/Src$ python setup.py install --prefix=&lt;path to MyPython_Modules&gt;</span>
 </pre></div>
 </div>
@@ -138,6 +148,7 @@ location you should install the code following:</p>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
           <div role="search">

@@ -305,8 +305,9 @@ class Load:
     from .readgridout import _read_grid_vtk, _read_grid_h5
     from .readfluid   import _compute_offset, _inspect_h5, _inspect_vtk
     from .readfluid   import _offset_bin, _read_tabfile
-    from .write_files import write_h5, write_vtk, write_tab, write_bin, write_files
-    from .read_files  import read_h5
+    from .write_files import _write_h5, write_vtk, write_tab, write_bin, write_file
+    from .read_files  import _read_h5
+    from .transform   import slices, mirror
 
 """
 class Tools:

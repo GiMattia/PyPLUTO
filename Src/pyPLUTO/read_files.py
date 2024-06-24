@@ -40,7 +40,7 @@ def read_vtk(self):
     # End of the function
     return None
 
-def read_h5(self, filename: str):
+def _read_h5(self, filename: str):
     """
     Read the data from a HDF5 file.
 
@@ -191,7 +191,7 @@ def read_files(self):
     
     # Check if the format is HDF5
     elif self.format in ['dbl.h5', 'flt.h5']:
-        read_h5(self)
+        _read_h5(self)
     
     # Check if the format is tab
     elif self.format == 'tab':

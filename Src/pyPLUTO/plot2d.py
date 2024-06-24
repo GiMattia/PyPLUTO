@@ -19,7 +19,8 @@ def display(self,
     Parameters
     ----------
 
-
+    - alpha: float, default 1.0
+        Sets the transparency of the plot.
     - aspect: {'auto', 'equal', float}, default 'auto'
         Sets the aspect ratio of the plot.
         The 'auto' keyword is the default option (most likely the plot will
@@ -226,11 +227,12 @@ def display(self,
 
     # Select shading
     shade = kwargs.get('shading','auto')
+    alpha = kwargs.get('alpha',1.0)
 
     # Display the image
     pcm = ax.pcolormesh(x,y,var.T, shading = shade,
                         cmap = kwargs.get('cmap','afmhot'), norm = norm,
-                        linewidth=0,rasterized=True)
+                        linewidth=0,rasterized=True, alpha = alpha)
     # Place the colorbar (use colorbar function)
     if cpos != None:
         self.colorbar(pcm, check = False, **kwargs)
@@ -356,6 +358,10 @@ def colorbar(self,
             colorbar.
         - ctickslabels: str, default None
             If enabled, sets manually ticks labels on the colorbar.
+        - extend: {'neither','both','min','max'}, default 'neither'
+            Sets the extension of the triangular colorbar extension.
+        - extendrect: bool, default False
+            If True, the colorbar extension will be rectangular.
         - pcm: QuadMesh | PathCollection | None, default None
             The collection to be used for the colorbar. If None, the axs will be
             used. If both pcm and axs are not None, pcm will be used.
@@ -404,7 +410,7 @@ def colorbar(self,
 
     # Check parameters
     param = {'axs', 'cax', 'clabel', 'cpad', 'cpos', 'cticks', 
-             'ctickslabels', 'pcm'}
+             'ctickslabels', 'extend', 'pcm'}
     if check is True:
         check_par(param, 'colorbar', **kwargs)
 
@@ -432,7 +438,9 @@ def colorbar(self,
             self.ntext[naxc] = 1
             
     cbar = self.fig.colorbar(pcm, cax=cax,label=kwargs.get('clabel',''),
-                ticks = kwargs.get('cticks',None), orientation=ccor)
+                ticks = kwargs.get('cticks',None), orientation=ccor,
+                extend = kwargs.get('extend','neither'),
+                extendrect = kwargs.get('extendrect',False))
     ctkc = kwargs.get('ctickslabels','Default')
     if ctkc != 'Default':
         cbar.ax.set_yticklabels(ctkc)

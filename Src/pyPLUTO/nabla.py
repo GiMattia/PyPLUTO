@@ -31,10 +31,11 @@ def _warning_cylindrical():
 
 def gradient(dat: Load,
              var: np.ndarray,
-             x1slice: Optional[Union[float, int, None]] = None,
-             x2slice: Optional[Union[float, int, None]] = None,
-             x3slice: Optional[Union[float, int, None]] = None,
-             edge_order: int = 2) -> np.ndarray:
+             x1slice: float | int | None = None,
+             x2slice: float | int | None = None,
+             x3slice: float | int | None = None,
+             edge_order: int = 2
+            ) -> np.ndarray:
     """
     Computes the gradient of a specified field 'var' in all available directions using
     second-order accurate central differences via the NumPy gradient() function.

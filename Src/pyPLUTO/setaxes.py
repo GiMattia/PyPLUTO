@@ -513,7 +513,9 @@ def _check_rowcol(ratio: list[float],
     spc = {'rows': 'hspace', 'cols': 'wspace'}
     
     # Check if space is a list
-    space = makelist(space)
+    #IF FLOAT MAKE IT LIST WITH THE VALUE!!!
+    newspace = makelist(space)
+    space    = space if isinstance(space, list) else newspace*length
 
     # Fill the lists with the default values
     ratio = ratio + [1.0]*(length - len(ratio))

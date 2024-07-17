@@ -93,7 +93,6 @@ def FourierTransform(f, *dx):
         kz = np.fft.fftfreq(nz, dx[1])
         return 2 * np.pi * ky, 2 * np.pi * kz, np.abs(fk[:, :ny // 2 + 1, :nz // 2 + 1])
 
-
 # Set the plot parameters
 datapath='3D_Data/'
 nalg = [datapath+'128/', datapath+'256/', datapath+'512/']  # List of directories

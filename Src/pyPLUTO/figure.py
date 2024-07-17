@@ -127,6 +127,10 @@ def _create_figure(self,
         The window number.
     - suptitle: str, default None
         The super title of the figure.
+    - style: str, default 'default'
+        The style of the figure. Possible values are: 'seaborn', 'ggplot',
+        'fivethirtyeight', 'bmh', 'grayscale', 'dark_background', 'classic',
+        etc.
     - tight: bool, default True
         If True, the tight layout is used.
 
@@ -157,9 +161,12 @@ def _create_figure(self,
     """
 
     # Check parameters
-    param = {'close','fig','figsize','fontsize','nwin','suptitle','tight'}
+    param = {'close','fig','figsize','fontsize','nwin','style','suptitle',
+             'tight'}
     if check is True:
         check_par(param, 'create_fig', **kwargs)
+
+    plt.style.use(kwargs.get('style','default'))
 
     # Changes keywords if figure has been already assigned
     if isinstance(fig,Figure):

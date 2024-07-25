@@ -104,3 +104,30 @@ def _check_par(par: set[str],
     
     # The function check_par is called (_check_par is deprecated)
     check_par(par, func, **kwargs)
+
+# Set color warning formatter
+def color_warning(message, category, filename, lineno, file=None, line=None):
+    message = (f"\33[33m{category.__name__}: {message}"
+               f"[{filename}:{lineno}]\33[0m\n")  
+    return message
+
+# Set color error formatter
+def color_error(type, value, tb):
+    traceback_str = "".join(traceback.format_tb(tb))
+    sys.stderr.write(f"\033[91m{traceback_str}\033[0m")
+    sys.stderr.write(f"\33[31m{value}\33[0m\n")  # Red color for errors
+
+# Define the session
+def find_session():
+    try:
+        shell = get_ipython().__class__.__name__
+        if shell == 'ZMQInteractiveShell':
+            session = "Jupyter notebook or qtconsole"
+        elif shell == 'TerminalInteractiveShell':
+            session = "Terminal running IPython"
+        else:
+            session = "Unknown session"
+    except NameError:
+        session = "Standard Python interpreter"
+    
+    return session

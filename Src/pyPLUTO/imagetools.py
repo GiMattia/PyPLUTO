@@ -130,11 +130,10 @@ def text(self,
     """
 
     # Import methods from other files
-    from .h_image import _check_fig, _hide_text
+    from .h_image import _hide_text
 
     # Find figure and number of the axis
-    ax = self.fig.gca() if ax is None else ax
-    nax = _check_fig(self, ax)
+    ax, nax = self._assign_ax(ax, **kwargs)
 
     coordinates = {'fraction': ax.transAxes, 'points': ax.transData, 'figure': self.fig.transFigure}
 

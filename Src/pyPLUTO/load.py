@@ -308,6 +308,7 @@ class Load:
     from .write_files import _write_h5, write_vtk, write_tab, write_bin, write_file
     from .read_files  import _read_h5
     from .transform   import slices, mirror
+    from .fourier     import fourier
 
 """
 class Tools:

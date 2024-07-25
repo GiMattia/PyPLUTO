@@ -205,8 +205,8 @@ def zoom(self, ax = None, check = True, **kwargs):
         _check_par(param, 'zoom', **kwargs) #type: ignore
 
     # Find figure and number of the axis
-    ax = self.ax[-1] if ax is None else ax
-    nax = self._check_fig(ax)
+    ax      = self.ax[-1] if ax is None else ax
+    ax, nax = self._assign_ax(ax, **kwargs)
 
     # Sets position of the zoom
     if kwargs.get('pos'):
@@ -229,7 +229,7 @@ def zoom(self, ax = None, check = True, **kwargs):
     if not kwargs.get('yticks'): kwargs['yticks'] = None
 
     # Sets axes parameters
-    self._set_parax(axins, **kwargs)
+    self.set_axis(ax = ax, check = False, **kwargs)
 
     # Plots the lines
     pcm = ax.collections

@@ -4,6 +4,11 @@ class Image:
     """
     Class that creates a new figure and sets the LaTeX 
     conditions and blablabla...
+
+    - style: str, default 'default'
+        The style of the figure. Possible values are: 'seaborn', 'ggplot',
+        'fivethirtyeight', 'bmh', 'grayscale', 'dark_background', 'classic',
+        etc.
     """
 
     def __init__(self, 
@@ -41,6 +46,8 @@ class Image:
         self.anim_ax: Axes
         self.slider: Slider
         self.anim_pcm: Any
+
+        plt.style.use(kwargs.get('style','default'))
 
         self._assign_LaTeX(LaTeX)
         self._create_figure(fig, text, **kwargs)
@@ -97,7 +104,7 @@ class Image:
     from .imagetools import savefig, show, text
     from .interact   import interactive, _update_slider
     from .figure     import _create_figure, _assign_LaTeX
-    from .h_image    import _check_fig, _add_ax, _hide_text, _set_parax
+    from .h_image    import _add_ax, _hide_text
     from .h_image    import _set_xrange, _set_yrange, _assign_ax
 
 

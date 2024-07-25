@@ -37,7 +37,8 @@ from itertools                             import islice
 #from scipy.interpolate                     import RectBivariateSpline
 #from matplotlib                            import gridspec
     
-from .h_pypluto import makelist, check_par, _check_par
+from .h_pypluto import makelist, check_par, color_warning, color_error
+from .h_pypluto import find_session, _check_par
 
 # Append created methods to __all__
 __all__ = [name for name in globals()] + ['_check_par']

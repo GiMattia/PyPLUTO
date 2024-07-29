@@ -17,9 +17,10 @@ def _assign_LaTeX(self,
 
     - LaTeX: bool | str, default False
         the LaTeX option. Is True is selected, the default LaTeX font
-        is used. If 'pgf' is selected, the pgf backend is used.
-        If XeLaTeX is not installed and the 'pgf' option is selected, the 
-        LaTeX option True is used as backup strategy.
+        is used. If 'pgf' is selected, the pgf backend is used to save pdf
+        figures with minimal file size. If XeLaTeX is not installed and the 
+        'pgf' option is selected, the LaTeX option True is used as backup 
+        strategy.
 
     Notes
     -----
@@ -49,6 +50,8 @@ def _assign_LaTeX(self,
             warnings.warn(warn, UserWarning)
             LaTeX = True
 
+    # LaTeX inatalled, try now to set the pgf backend
+    if LaTeX == 'pgf':
         # Set the pgf backend
         try:
             plt.switch_backend('pgf')
@@ -88,7 +91,7 @@ def _assign_LaTeX(self,
             mpl.rcParams['mathtext.fontset'] = 'stix'
             mpl.rcParams['font.family']      = 'STIXGeneral'
         except:
-            warn = "The LaTeX option is not available."
+            warn = "The LaTeX = True option is not available."
             warnings.warn(warn, UserWarning)
 
     # End of the function
@@ -129,6 +132,8 @@ def _create_figure(self,
         The window number.
     - suptitle: str, default None
         The super title of the figure.
+    - suptitlesize: str | int, default 'large'
+        The super title size.
     - tight: bool, default True
         If True, the tight layout is used.
 
@@ -190,7 +195,8 @@ def _create_figure(self,
 
     # Suptitle
     if 'suptitle' in kwargs:
-        self.fig.suptitle(kwargs['suptitle'])
+        self.fig.suptitle(kwargs['suptitle'], 
+                          fontsize = kwargs.get('suptitlesize','large'))
 
     # Tight layout
     if self.tight is True:

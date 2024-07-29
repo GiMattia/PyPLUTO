@@ -231,7 +231,7 @@ def display(self,
 
     # Display the image
     pcm = ax.pcolormesh(x,y,var.T, shading = shade,
-                        cmap = kwargs.get('cmap','afmhot'), norm = norm,
+                        cmap = kwargs.get('cmap','plasma'), norm = norm,
                         linewidth=0,rasterized=True, alpha = alpha)
     # Place the colorbar (use colorbar function)
     if cpos != None:

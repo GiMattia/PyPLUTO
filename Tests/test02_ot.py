@@ -1,26 +1,19 @@
 """
 Classical MHD Orszag-Tang test
 
-This test shows how to display a 2D quantity from a test problem
- in a single plot.
+This test shows how to display a 2D quantity from a test problem in a single 
+subplot.
 
 The package "os" is loaded to create the path to the directory
-$PLUTO_DIR/Test_problems/MHD/Orszag_Tang, where the the test
-problem is located (see section 0.3 of the userguide to
-run the shock-tube problem).
+$PLUTO_DIR/Test_problems/MHD/Orszag_Tang, where the the test problem is located 
+(see section 0.3 of the userguide to run the shock-tube problem).
 
-In the script the spatial dependence of the density is displayed,
-with a colorbar positioned on the right side of the figure.
-The image is then saved and shown on screen.
-
-Authors:
-
-    D. Crocco
-    G. Mattia
-
-Date:
-
-    23/02/2024
+In the script the spatial dependence of the density is displayed, with a 
+colorbar positioned dinamically on the right side of the figure. 
+In order to properly display the grreek letter rho, the r character is used
+before the string and the LaTeX interpreter is activated by setting it to True
+(see line 31). All the keywords necessary to customize the plot are iwithin the 
+display method. The image is then saved and shown on screen.
 """
 
 # Loading the relevant packages
@@ -38,9 +31,10 @@ D = pp.Load(path = wdir, datatype = 'vtk')
 I = pp.Image(figsize = [7,6])
 
 # Plotting the data
-I.display(D.rho, x1 = D.x1r, x2 = D.x2r, title = r'Density $\rho$ [Orszag Tang test]',
-    xtitle = 'x', ytitle = 'y', cpos = 'right', cmap = 'RdBu_r')
+I.display(D.rho, x1 = D.x1r, x2 = D.x2r, xtitle = 'x', ytitle = 'y',
+                 title = r'Density $\rho$ [Orszag Tang test]',
+                 cpos = 'right', cmap = 'RdBu_r', clabel = r'$\rho$')
 
 # Saving the image
-pp.savefig('test02_ot.png')
+I.savefig('test02_ot.png')
 pp.show()

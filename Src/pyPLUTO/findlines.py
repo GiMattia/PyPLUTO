@@ -198,12 +198,73 @@ def check_closed_line(self,xf,yf,xi,yi,tol, k):
     else:
         return False
 
-def contour_lines(self,**kwargs):
-    fig_contour = plt.figure()
-    ax_contour = fig_contour.add_subplot()
-
-    xc = kwargs.get('x1',self.Grid['x1'])
-    yc = kwargs.get('x2',self.Grid['x2'])
 
 
-    return None
+def contour_lines(self,var, **kwargs):
+    """
+    Generate contour lines for a given variable.
+    """
+
+    # Get the variable, if it is a string, get the variable from the dataset.
+    # The .T is used to transpose the variable to the correct shape.
+    if isinstance(var, str):
+        try:
+            var = getattr(self,var).T
+        except:
+            print(f"Variable {var} not found in the dataset.")
+            return None
+    else:
+        var = var.T
+    
+    # Get the grid information and provide a default value for the coordinates
+    # if they are not provided depending on the geometry.
+    if self.geom == "SPHERICAL":
+        x1 = self.x1p
+        x2 = self.x2p
+    elif self.geom == "POLAR" and len(self.x1) == 1:
+        x1 = self.x1
+        x2 = self.x3
+    elif self.geom == "POLAR":
+        x1 = self.x1c
+        x2 = self.x2c
+    else:
+        x1 = self.x1
+        x2 = self.x2
+    
+    x1 = kwargs.get('x1',x1)
+    x2 = kwargs.get('x2',x2)
+
+    # Get the variable information (minimum and maximum values)
+    vmin = kwargs.get('vmin',np.min(var))
+    vmax = kwargs.get('vmax',np.max(var))
+
+
+    # Compute the levels of the contours, in linear or logarithmic scale
+    levels     = kwargs.get('levels',np.linspace(vmin,vmax,10))
+    levelscale = kwargs.get('levelscale','linear')
+    if isinstance(levels, int):
+        levels = np.linspace(vmin,vmax,levels) if levelscale == 'linear' else \
+                 np.logspace(np.log10(vmin),np.log10(vmax),levels)
+    if isinstance(levels, float):
+        levels = [levels]
+
+    # Set colormap
+    if 'cmap' in kwargs:
+        cmap = plt.get_cmap(kwargs.get('cmap'))
+
+    # Initialize the list of lines
+    lines_list = []
+
+    # Get the contour generator and the lines for every level
+    cont_gen = cp.contour_generator(x1, x2, var, name='serial')
+    for indx, level in enumerate(levels):
+        contour = cont_gen.lines(level)
+        for line in contour:
+            x_c = line[:, 0]
+            y_c = line[:, 1]
+            col = cmap(indx/(len(levels) - 1)) if 'cmap' in kwargs else 'k'
+
+            lines_list.append([x_c, y_c, col]) if len(line) > 1 else None
+
+    # Return the list of lines
+    return lines_list

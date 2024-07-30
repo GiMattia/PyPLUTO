@@ -99,10 +99,11 @@ class Image:
     
     from .setaxes    import create_axes, set_axis
     from .plot1d     import plot, legend
-    from .plot2d     import display, scatter, colorbar
+    from .plot2d     import display, scatter, colorbar, _set_cscale
     from .plotzoom   import zoom
     from .imagetools import savefig, show, text
     from .interact   import interactive, _update_slider
+    from .plotlines  import contour
     from .figure     import _create_figure, _assign_LaTeX
     from .h_image    import _add_ax, _hide_text
     from .h_image    import _set_xrange, _set_yrange, _assign_ax

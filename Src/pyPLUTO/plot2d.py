@@ -223,7 +223,7 @@ def display(self,
     self.vlims[nax] = [vmin,vmax,tresh]
 
     # Set the colorbar scale (put in function)
-    norm = _set_cscale(cscale, vmin, vmax, tresh, lint)
+    norm = self._set_cscale(cscale, vmin, vmax, tresh, lint)
 
     # Select shading
     shade = kwargs.get('shading','auto')
@@ -294,7 +294,7 @@ def scatter(self, x, y, **kwargs):
     self.vlims[nax] = [vmin,vmax,tresh]
 
     # Set the colorbar scale (put in function)
-    norm = _set_cscale(cscale, vmin, vmax, tresh)
+    norm = self._set_cscale(cscale, vmin, vmax, tresh)
 
     # Start scatter plot procedure
     pcm = ax.scatter(x, y, cmap = kwargs.get('cmap',None), norm = norm,
@@ -444,7 +444,8 @@ def colorbar(self,
         self.fig.tight_layout()
     return None
 
-def _set_cscale(cscale: str, 
+def _set_cscale(self,
+                cscale: str, 
                 vmin: float, 
                 vmax: float, 
                 tresh: float, 

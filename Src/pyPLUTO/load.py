@@ -309,7 +309,7 @@ class Load:
     from .read_files  import _read_h5
     from .transform   import slices, mirror
     from .fourier     import fourier
-    from .findlines   import contour_lines
+    from .findlines   import find_contour
 
 """
 class Tools:

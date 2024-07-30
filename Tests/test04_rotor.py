@@ -32,7 +32,7 @@ D = pp.Load(path = wdir)
 
 # Creating the Image
 I = pp.Image(nwin = 2, suptitle = 'Rotor test MHD', figsize = [11,5],
-             suptitlesize = 27)
+             suptitlesize = 25)
 
 # Creating the subplots (2 for the different variables)
 ax = I.create_axes(ncol = 2)
@@ -50,11 +50,11 @@ I.display(B2, cpos = 'right', aspect = 'equal', x1 = D.x1rc, x2 = D.x2rc,
 #               levels = np.linspace(D.Ax3.min(),D.Ax3.max(),10), color = 'b')
 
 # Plot the contour lines
-lines = D.contour_lines(D.Ax3)
+lines = D.find_contour(D.Ax3)
 for line in lines:
     I.plot(line[0], line[1], ax = I.ax[0], c = 'b')
 
-lines = D.contour_lines("Ax3", levels = 10, cmap = 'RdYlBu')
+lines = D.find_contour("Ax3", levels = 10, cmap = 'RdYlBu')
 for line in lines:
     I.plot(line[0], line[1], ax = I.ax[1], c = line[2])
 

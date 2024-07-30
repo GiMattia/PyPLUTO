@@ -200,7 +200,7 @@ def check_closed_line(self,xf,yf,xi,yi,tol, k):
 
 
 
-def contour_lines(self,var, **kwargs):
+def find_contour(self,var, **kwargs):
     """
     Generate contour lines for a given variable.
     """

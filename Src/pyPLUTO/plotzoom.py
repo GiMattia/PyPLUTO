@@ -201,12 +201,15 @@ def zoom(self, ax = None, check = True, **kwargs):
              'var', 'vmax', 'vmin', 'width', 'x1', 'x2', 'xrange', 'xscale', 
              'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 
              'ytickslabels', 'ytitle', 'zoomlines'}
+    
     if check is True:
-        _check_par(param, 'zoom', **kwargs) #type: ignore
+        _check_par(param, 'zoom', **kwargs)
+
+    self.tight = False
 
     # Find figure and number of the axis
-    ax = self.ax[-1] if ax is None else ax
-    nax = self._check_fig(ax)
+    ax      = self.ax[-1] if ax is None else ax
+    ax, nax = self._assign_ax(ax, **kwargs)
 
     # Sets position of the zoom
     if kwargs.get('pos'):
@@ -218,18 +221,12 @@ def zoom(self, ax = None, check = True, **kwargs):
     # Adds the inset axis
     self._add_ax(axins, len(self.ax))
 
-    # Checks range and ticks
-    '''
-    if not kwargs.get('xrange'):
-        print('Missing xrange (function zoomplot)')
-    if not kwargs.get('yrange'):
-        print('Missing yrange (function zoomplot)')
-    '''
+    # Set ticks (None is the default value)
     if not kwargs.get('xticks'): kwargs['xticks'] = None
     if not kwargs.get('yticks'): kwargs['yticks'] = None
 
     # Sets axes parameters
-    self._set_parax(axins, **kwargs)
+    self.set_axis(ax = axins, check = False, **kwargs)
 
     # Plots the lines
     pcm = ax.collections

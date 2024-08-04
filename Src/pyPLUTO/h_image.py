@@ -1,52 +1,5 @@
 from .libraries import *
 
-def _check_fig(self, 
-               ax: Axes
-              ) -> int:
-    """
-    Finds the figure given a set of axes.
-    If the set of axes does not belong to the figure, it raises an error.
-
-    Returns
-    -------
-
-    - The number of the selected set of axes
-    
-    Parameters
-    ----------
-
-    - ax: axes
-        the set of axes
-
-    Notes
-    -----
-
-    - None
-
-    Examples
-    --------
-
-    - Example #1: Find the axis and axis index
-        >>> _check_fig(ax)
-
-    """
-
-    warnings.warn("The method _check_fig is deprecated.", UserWarning)
-    # Get the figure associated to the axes
-    fig = ax.get_figure()
-
-    # Check if the figure is the same as the one in the class
-    if fig != self.fig:
-        text = "The provided axis does not belong to the expected figure."
-        raise ValueError(text)
-    
-    # Find the number of the axes and return it
-    nax = self.ax.index(ax)
-
-    # Return the index of the axis
-    return nax
-
-
 def _add_ax(self,
             ax: Axes,
             i: int
@@ -91,7 +44,7 @@ def _add_ax(self,
     self.setax.append(0)
     self.setay.append(0)
     self.legpos.append(None)
-    self.legpar.append([self.fontsize,1,2,0.8])
+    self.legpar.append([self.fontsize,1,2,0.8,0.8])
     self.vlims.append([])
     self.tickspar.append(0)
     self.shade.append('auto')
@@ -113,7 +66,7 @@ def _hide_text(self,
     Returns
     -------
 
-    -None
+    - None
 
     Parameters
     ----------
@@ -148,41 +101,6 @@ def _hide_text(self,
     return None
 
 
-def _set_parax(self, ax: Axes, **kwargs: Any) -> None:
-    """
-    Selects the correct parameters to be set before calling the 
-    set_axis method.
-
-    Returns
-    -------
-
-        None
-
-    Parameters
-    ----------
-
-        - ax: ax
-            the selected set of axes
-        - **kwargs: dict
-            the selected parameters
-    """
-    warnings.warn("The method _set_parax is deprecated.", UserWarning)
-    # Set of the possible parameters
-    param: set = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 'ticksdir', 'tickssize', 'title', 'titlepad', 'titlesize', 'xrange', 
-             'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
-    
-    # Initialize the parameters dictionary and insert the allowed keywords
-    axpar: dict = {}
-    for i in kwargs.keys():
-        if i in param:
-            axpar[i] = kwargs[i]
-
-    # Call of the function set_axis to set the parameters
-    self.set_axis(ax = ax, check = False, **axpar)
-
-    return None
-
-
 def _set_xrange(self, 
                 ax: Axes, 
                 nax: int, 
@@ -196,24 +114,25 @@ def _set_xrange(self,
     Returns
     -------
 
-        None
+    - None
 
     Parameters
     ----------
 
-        - ax: ax
-            the selected set of axes
-        - nax: int
-            the number of the selected set of axes
-        - xlim: list[float]
-            the limits of the x-axis
-        - case: int
-            the case in exam (if range is fixed or variable)
+    - ax: ax
+        the selected set of axes
+    - nax: int
+        the number of the selected set of axes
+    - xlim: list[float]
+        the limits of the x-axis
+    - case: int
+        the case in exam (if range is fixed or variable)
 
     Notes
     -----
 
-    - Put chance to set only one limit!
+    - The chance to set only one limit dinamically will be implemented
+      in the future.
 
     Examples
     --------
@@ -274,23 +193,24 @@ def _set_yrange(self,
     Parameters
     ----------
 
-        - ax: ax
-            the selected set of axes
-        - nax: int
-            the number of the selected set of axes
-        - ylim: list[float]
-            the limits of the y-axis
-        - case: int
-            the case in exam (if range is fixed or variable)
-        - x: list[float]
-            the x-array (to limit the y-range automatically)
-        - y: list[float]
-            the y-array (to limit the y-range automatically)
+    - ax: ax
+        the selected set of axes
+    - nax: int
+        the number of the selected set of axes
+    - ylim: list[float]
+        the limits of the y-axis
+    - case: int
+        the case in exam (if range is fixed or variable)
+    - x: list[float]
+        the x-array (to limit the y-range automatically)
+    - y: list[float]
+        the y-array (to limit the y-range automatically)
 
     Notes
     -----
 
-    - Put chance to set only one limit!  
+    - The chance to set only one limit dinamically will be implemented
+      in the future. 
 
     Examples
     --------
@@ -364,18 +284,18 @@ def _assign_ax(self,
     Returns
     -------
 
-        - ax: ax
-            the selected set of axes
-        - nax: int
-            the number of the selected set of axes
+    - ax: ax
+        the selected set of axes
+    - nax: int
+        the number of the selected set of axes
 
     Parameters
     ----------
 
-        - ax: ax
-            the selected set of axes
-        - **kwargs: dict
-            the selected parameters
+    - ax: ax
+        the selected set of axes
+    - **kwargs: dict
+        the selected parameters
 
     Notes
     -----

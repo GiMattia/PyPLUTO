@@ -208,7 +208,7 @@ def display(self,
         kwargs['yrange'] = [y.min(),y.max()]
 
     # Set ax parameters
-    self._set_parax(ax, **kwargs)
+    self.set_axis(ax = ax, check = False, **kwargs)
     self._hide_text(nax, ax.texts)
 
     # Keywords vmin and vmax
@@ -223,7 +223,7 @@ def display(self,
     self.vlims[nax] = [vmin,vmax,tresh]
 
     # Set the colorbar scale (put in function)
-    norm = _set_cscale(cscale, vmin, vmax, tresh, lint)
+    norm = self._set_cscale(cscale, vmin, vmax, tresh, lint)
 
     # Select shading
     shade = kwargs.get('shading','auto')
@@ -231,7 +231,7 @@ def display(self,
 
     # Display the image
     pcm = ax.pcolormesh(x,y,var.T, shading = shade,
-                        cmap = kwargs.get('cmap','afmhot'), norm = norm,
+                        cmap = kwargs.get('cmap','plasma'), norm = norm,
                         linewidth=0,rasterized=True, alpha = alpha)
     # Place the colorbar (use colorbar function)
     if cpos != None:
@@ -273,7 +273,7 @@ def scatter(self, x, y, **kwargs):
     ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
 
     # Set ax parameters
-    self._set_parax(ax, **kwargs)
+    self.set_axis(ax = ax, check = False, **kwargs)
     self._hide_text(nax, ax.texts)
 
     # Keyword xrange and yrange
@@ -294,7 +294,7 @@ def scatter(self, x, y, **kwargs):
     self.vlims[nax] = [vmin,vmax,tresh]
 
     # Set the colorbar scale (put in function)
-    norm = _set_cscale(cscale, vmin, vmax, tresh)
+    norm = self._set_cscale(cscale, vmin, vmax, tresh)
 
     # Start scatter plot procedure
     pcm = ax.scatter(x, y, cmap = kwargs.get('cmap',None), norm = norm,
@@ -420,7 +420,7 @@ def colorbar(self,
 
     axs = pcm.axes if pcm is not None else axs if axs is not None \
                                       else self.fig.gca()
-    nax  = self._check_fig(axs)
+    axs, naxs = self._assign_ax(axs, **kwargs)
     pcm  = axs.collections[0] if pcm is None else pcm
     cpad = kwargs.get('cpad',0.07)
     cpos = kwargs.get('cpos','right')
@@ -430,12 +430,8 @@ def colorbar(self,
         divider = make_axes_locatable(axs)
         cax = divider.append_axes(cpos, size="7%", pad=cpad) # 0.07 right
     else:
-        naxc = self._check_fig(cax)
-
-        if self.ntext[naxc] == None:
-            for txt in cax.texts:
-                txt.set_visible(False)
-            self.ntext[naxc] = 1
+        cax, naxc = self._assign_ax(cax, **kwargs)
+        self._hide_text(naxc, cax.texts)
             
     cbar = self.fig.colorbar(pcm, cax=cax,label=kwargs.get('clabel',''),
                 ticks = kwargs.get('cticks',None), orientation=ccor,
@@ -448,7 +444,8 @@ def colorbar(self,
         self.fig.tight_layout()
     return None
 
-def _set_cscale(cscale: str, 
+def _set_cscale(self,
+                cscale: str, 
                 vmin: float, 
                 vmax: float, 
                 tresh: float, 

@@ -55,6 +55,8 @@ def plot(self,
     - labelsize: float, default fontsize
         Sets the labels fontþsize (which is the same for both labels).
         The default value corresponds to the value of the keyword 'fontsize'.
+    - legalpha: float, default 0.8
+        Sets the opacity of the legend.
     - legcols: int, default 1
         Sets the number of columns that the legend should have.
     - legpad: float, default 0.8
@@ -203,11 +205,11 @@ def plot(self,
 
     # Check parameters
     param = {'alpha', 'aspect', 'ax', 'c', 'figsize', 'fillstyle', 'fontsize', 
-             'label', 'labelsize', 'legcols', 'legpad', 'legpos', 'legsize', 
-             'legspace', 'ls', 'lw', 'marker', 'minorticks', 'ms', 'proj', 
-             'ticksdir', 'tickssize', 'title', 'titlesize', 'x', 'xrange', 
-             'xscale', 'xticks', 'xtickslabels', 'xtitle', 'y', 'yrange', 
-             'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+             'label', 'labelsize', 'legalpha', 'legcols', 'legpad', 'legpos', 
+             'legsize', 'legspace', 'ls', 'lw', 'marker', 'minorticks', 'ms', 
+             'proj', 'ticksdir', 'tickssize', 'title', 'titlesize', 'x', 
+             'xrange', 'xscale', 'xticks', 'xtickslabels', 'xtitle', 'y', 
+             'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
         check_par(param, 'plot', **kwargs)
 
@@ -283,7 +285,9 @@ def legend(self,
         ('full'). 
     - label: [str], default None
         Associates a label to each line. If not specified, the program will take
-        the label which are already associated with the plot.   
+        the label which are already associated with the plot. 
+    - legalpha: float, default 0.8
+        Sets the opacity of the legend.  
     - legcols: int, default 1
         Sets the number of columns that the legend should have.
     - legpad: float, default 0.8
@@ -348,8 +352,8 @@ def legend(self,
     """
 
     # Check parameters
-    param = {'ax', 'c', 'fillstyle', 'label', 'legcols', 'legpad', 'legpos', 
-             'legsize', 'legspace', 'ls', 'lw', 'marker', 'ms'}
+    param = {'ax', 'c', 'fillstyle', 'label', 'legalpha', 'legcols', 'legpad', 
+             'legpos', 'legsize', 'legspace', 'ls', 'lw', 'marker', 'ms'}
     if check is True:
         check_par(param, 'legend', **kwargs)
 
@@ -362,6 +366,7 @@ def legend(self,
     self.legpar[nax][1] = kwargs.get('legcols',  self.legpar[nax][1])
     self.legpar[nax][2] = kwargs.get('legspace', self.legpar[nax][2])
     self.legpar[nax][3] = kwargs.get('legpad',   self.legpar[nax][3])
+    self.legpar[nax][4] = kwargs.get('legalpha', self.legpar[nax][4])
 
     # Check if another unwanted legend is present and cancel it
     # (only when the legend is called from the plot function)
@@ -391,7 +396,8 @@ def legend(self,
                   fontsize = self.legpar[nax][0], 
                   ncol = self.legpar[nax][1],
                   columnspacing = self.legpar[nax][2], 
-                  handletextpad = self.legpar[nax][3])
+                  handletextpad = self.legpar[nax][3],
+                  framealpha = self.legpar[nax][4])
     else:
         # Set the markerscale
         ms = kwargs.get('ms',1.0)
@@ -400,7 +406,8 @@ def legend(self,
                   fontsize = self.legpar[nax][0],
                   ncol = self.legpar[nax][1], 
                   columnspacing = self.legpar[nax][2], 
-                  handletextpad = self.legpar[nax][3])
+                  handletextpad = self.legpar[nax][3],
+                  framealpha = self.legpar[nax][4])
         
     # Add the legend to the axis
     ax.add_artist(legg)

@@ -1,0 +1,14 @@
+Metadata-Version: 1.2
+Name: PyPLUTO
+Version: 1.0
+Summary: Python Visualisation module for PLUTO
+Home-page: UNKNOWN
+Author: G. Mattia, D. Crocco, ...
+Author-email: mattia@fi.infn.it
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10

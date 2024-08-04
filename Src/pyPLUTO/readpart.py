@@ -145,7 +145,7 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
             self._shape['tinj'] = self.dim
 
         
-        elif spl1 == b'Four-Velocity':
+        elif spl1 == b'Four-Velocity' or spl1 == b'Velocity':
             self._shape['vel']  = (self.dim,int(l.split()[3]))
             self._offset['vel'] = f.tell()
         

@@ -4,7 +4,8 @@ def _write_h5(self,
              data: NDArray | dict, 
              filename: str,
              dataname: str | None = None, 
-             grid: bool = False
+             grid: bool = False,
+             **kwargs: Any
             ) -> None:
     """
     Write the data to a HDF5 file.
@@ -54,15 +55,15 @@ def _write_h5(self,
         
         # Write the grid to the HDF5 file
         if grid is True:
-            f.create_dataset('nx1', data = self.nx1)
-            f.create_dataset('nx2', data = self.nx2)
-            f.create_dataset('nx3', data = self.nx3)
-            f.create_dataset('x1', data = self.x1)
-            f.create_dataset('x2', data = self.x2)
-            f.create_dataset('x3', data = self.x3)
-            f.create_dataset('dx1', data = self.dx1)
-            f.create_dataset('dx2', data = self.dx2)
-            f.create_dataset('dx3', data = self.dx3)
+            f.create_dataset('nx1', data = kwargs.get('nx1', self.nx1))
+            f.create_dataset('nx2', data = kwargs.get('nx2', self.nx2))
+            f.create_dataset('nx3', data = kwargs.get('nx3', self.nx3))
+            f.create_dataset('x1',  data = kwargs.get('x1',  self.x1))
+            f.create_dataset('x2',  data = kwargs.get('x2',  self.x2))
+            f.create_dataset('x3',  data = kwargs.get('x3',  self.x3))
+            f.create_dataset('dx1', data = kwargs.get('dx1', self.dx1))
+            f.create_dataset('dx2', data = kwargs.get('dx2', self.dx2))
+            f.create_dataset('dx3', data = kwargs.get('dx3', self.dx3))
     
     # End of the function
     return None
@@ -262,7 +263,8 @@ def write_file(self,
     if datatype == 'h5':
         _write_h5(self, data, filename, dataname, grid)
     else:
-        warn = f"Invalid datatype: {datatype}, not implemented yet!"
+        warn = f"Invalid datatype: {datatype}, not implemented yet! " \
+                "Resetting to 'h5'"
         warnings.warn(warn)
         pass
     

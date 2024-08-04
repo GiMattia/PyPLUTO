@@ -65,7 +65,7 @@ def contour(self,
     tresh    = kwargs.get('tresh', max(np.abs(vmin),vmax)*0.01)
     lint     = kwargs.get('lint',None)
 
-    if colors in 'kwargs' and cmap in 'kwargs':
+    if 'colors' in 'kwargs' and 'cmap' in 'kwargs':
         warn = "Both colors and cmap are defined. Using c."
         warnings.warn(warn)
 
@@ -87,3 +87,9 @@ def contour(self,
         self.fig.tight_layout()
 
     return cnt
+
+def streamplot(self, **kwargs: Any) -> None:
+    pass
+
+def quiver(self, **kwargs: Any) -> None:
+    pass

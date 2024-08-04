@@ -44,7 +44,7 @@ def _add_ax(self,
     self.setax.append(0)
     self.setay.append(0)
     self.legpos.append(None)
-    self.legpar.append([self.fontsize,1,2,0.8])
+    self.legpar.append([self.fontsize,1,2,0.8,0.8])
     self.vlims.append([])
     self.tickspar.append(0)
     self.shade.append('auto')

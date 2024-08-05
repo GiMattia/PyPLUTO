@@ -57,6 +57,10 @@ def create_axes(self,
         The 3D plot feature will be available in future releases.
     - right: float, default 0.9
         The space from the right border to the rightmost column of plots.
+    - sharex: bool | str | Matplotlib axis, default False
+        Enables/disables the sharing of the x-axis between the subplots.
+    - sharey: bool | str | Matplotlib axis, default False
+        Enables/disables the sharing of the y-axis between the subplots.
     - suptitle: str, default None
         Creates a figure title over all the subplots.
     - tight: bool, default True
@@ -115,8 +119,8 @@ def create_axes(self,
     
     # Check parameters
     param = {'bottom', 'figsize', 'fontsize', 'hratio', 'hspace', 'left', 
-             'ncol', 'nrow', 'proj', 'right', 'suptitle', 'tight', 'top', 
-             'wratio', 'wspace'}
+             'ncol', 'nrow', 'proj', 'right', 'sharex', 'sharey', 'suptitle', 
+             'tight', 'top', 'wratio', 'wspace'}
     if check is True:
         check_par(param, 'create_axes', **kwargs)
 
@@ -197,17 +201,34 @@ def create_axes(self,
     # Set the projection if requested
     proj = kwargs.get('proj', None)
 
+    # Set sharex and sharey
+    sharex = kwargs.get('sharex', False)
+    sharey = kwargs.get('sharey', False)
+
     # Add axes and set position (if custom axes)
     for i in range(ncol*nrow):
         self._add_ax(self.fig.add_subplot(nrow + self.nrow0, 
                                           ncol + self.ncol0, i + 1, 
-                                          projection = proj), len(self.ax))     
+                                          projection = proj), len(self.ax)) 
+
+        # Compute row and column
+        row = int(i/ncol)
+        col = int(i%ncol)    
+
         # Set position if custom axes
         if wplot is not None and hplot is not None:
-            row = int(i/ncol)
-            col = int(i%ncol)
             self.ax[-1].set_position(pos=(wplot[col][0], hplot[row][0],
                                           wplot[col][1], hplot[row][1]))
+            
+        # Share axes if requested
+        if sharex is True and i > 0:
+            self.ax[-1].sharex(self.ax[0])
+        elif isinstance (sharex, Axes):
+            self.ax[-1].sharex(sharex)
+        if sharey is True and i > 0:
+            self.ax[-1].sharey(self.ax[0])
+        elif isinstance (sharey, Axes):
+            self.ax[-1].sharey(sharey)
 
     # Updates rows and columns
     self.nrow0 = self.nrow0 + nrow
@@ -271,6 +292,10 @@ def set_axis(self,
         The default value corresponds to the value of the keyword 'fontsize'.
     - minorticks: str, default None
         If not None enables the minor ticks on the plot (for both grid axes).
+    - sharex: Matplotlib axis | False, default False
+        Shares the x-axis with another axis.
+    - sharey: Matplotlib axis | False, default False
+        Shares the y-axis with another axis.
     - ticksdir: {'in', 'out'}, default 'in'
         Sets the ticks direction. The default option is 'in'.
     - tickssize: float, default fontsize
@@ -372,9 +397,9 @@ def set_axis(self,
 
     # Check parameters
     param = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 
-             'ticksdir', 'tickssize', 'title', 'titlepad', 'titlesize', 
-             'xrange', 'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 
-             'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+             'sharex', 'sharey', 'ticksdir', 'tickssize', 'title', 'titlepad', 
+             'titlesize', 'range', 'xscale', 'xticks', 'xtickslabels', 'xtitle',
+              'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
         check_par(param, 'set_axis', **kwargs)
 
@@ -390,22 +415,28 @@ def set_axis(self,
         ax.set_aspect(kwargs['aspect'])
 
     # Set xrange and yrange
-    if kwargs.get('xrange',None) is not None:
+    if kwargs.get('xrange', None) is not None:
         self._set_xrange(ax, nax, kwargs['xrange'], 3)
-    if kwargs.get('yrange',None) is not None:
+    if kwargs.get('yrange', None) is not None:
         self._set_yrange(ax, nax, kwargs['yrange'], 3)
 
     # Set title and axes labels
-    if kwargs.get('title',None) is not None:
+    if kwargs.get('title', None) is not None:
         ax.set_title(kwargs['title'], fontsize = kwargs.get('titlesize',
                                                             self.fontsize), 
                                       pad      = kwargs.get('titlepad', 8.0))
-    if kwargs.get('xtitle',None) is not None:
+    if kwargs.get('xtitle', None) is not None:
         ax.set_xlabel(kwargs['xtitle'], fontsize = kwargs.get('labelsize',
                                                               self.fontsize))
-    if kwargs.get('ytitle',None) is not None:
+    if kwargs.get('ytitle', None) is not None:
         ax.set_ylabel(kwargs['ytitle'], fontsize = kwargs.get('labelsize',
                                                               self.fontsize))
+        
+    # Set sharex and sharey
+    if kwargs.get('sharex', False) is not False:
+        ax.sharex(kwargs['sharex'])
+    if kwargs.get('sharey', False) is not False:
+        ax.sharey(kwargs['sharey'])
 
     # Set ticks size
     if kwargs.get('tickssize',True) not in {True, 'Default'}:

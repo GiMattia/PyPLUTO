@@ -12,6 +12,7 @@ import pandas             as pd
 import glob
 import os
 import sys
+import mmap
 import tempfile
 import struct
 import shutil

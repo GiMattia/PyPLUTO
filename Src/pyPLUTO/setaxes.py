@@ -292,9 +292,9 @@ def set_axis(self,
         The default value corresponds to the value of the keyword 'fontsize'.
     - minorticks: str, default None
         If not None enables the minor ticks on the plot (for both grid axes).
-    - sharex: Matplotlib axis, default False
+    - sharex: Matplotlib axis | False, default False
         Shares the x-axis with another axis.
-    - sharey: Matplotlib axis, default False
+    - sharey: Matplotlib axis | False, default False
         Shares the y-axis with another axis.
     - ticksdir: {'in', 'out'}, default 'in'
         Sets the ticks direction. The default option is 'in'.

@@ -2,7 +2,11 @@ from .libraries import *
 from .h_pypluto import _check_par
 
 
-def zoom(self, ax = None, check = True, **kwargs):
+def zoom(self, 
+         ax = None, 
+         check = True, 
+         **kwargs
+        ):
     """
     Creation of an inset zoom of an already existent plot or display.
     
@@ -216,14 +220,14 @@ def zoom(self, ax = None, check = True, **kwargs):
         axins = _place_inset_pos(ax, kwargs['pos'])
     else:
         axins = _place_inset_loc(ax, **kwargs)
-    fontsize = kwargs.get('fontsize',self.fontsize - 5)
+    kwargs['fontsize'] = kwargs.get('fontsize',self.fontsize - 5)
 
     # Adds the inset axis
     self._add_ax(axins, len(self.ax))
 
     # Set ticks (None is the default value)
-    if not kwargs.get('xticks'): kwargs['xticks'] = None
-    if not kwargs.get('yticks'): kwargs['yticks'] = None
+    if 'xticks' not in kwargs: kwargs['xticks'] = None
+    if 'yticks' not in kwargs: kwargs['yticks'] = None
 
     # Sets axes parameters
     self.set_axis(ax = axins, check = False, **kwargs)
@@ -243,17 +247,35 @@ def zoom(self, ax = None, check = True, **kwargs):
 
 
 
-def _zoomplot(self,ax,nax,axins,**kwargs):
+def _zoomplot(self,
+              ax: Axes,
+              nax: int,
+              axins: Axes,
+              **kwargs: Any
+             ) -> None:
+    """
+    
+    """
     lines = ax.get_lines()
     for i in lines:
         self.plot(i.get_xdata(), i.get_ydata(), c=i.get_color(),
                   ls=i.get_ls(), lw=i.get_lw(),
                   marker=i.get_marker(), ms=i.get_ms(),
                   ax=axins)
+    
+    return None
 
 
 
-def _zoomdisplay(self,ax,nax,axins,**kwargs):
+def _zoomdisplay(self,
+                 ax: Axes,
+                 nax: int,
+                 axins: Axes,
+                 **kwargs: Any
+                ) -> None:
+    """
+    
+    """
     pcm = ax.collections[0]
     pnr = str(pcm.norm).split()[0].split(".")[2]
     dict_norm = {'Normalize': 'norm', 'LogNorm': 'log',
@@ -276,12 +298,16 @@ def _zoomdisplay(self,ax,nax,axins,**kwargs):
     kwargs['vmax']  = kwargs.pop('vmax', self.vlims[nax][1])
     kwargs['tresh'] = kwargs.pop('tresh', self.vlims[nax][2])
 
-    self.display(pcm0, x1=xc, x2=yc, ax=axins, check='no', shading = psh, **kwargs)
+    self.display(pcm0, x1 = xc, x2 = yc, ax = axins, check = False, 
+                    shading = psh, **kwargs)
+    
+    return None
 
 
 
 def _place_inset_pos(ax: Axes, 
-                     pos: list[float]) -> Axes:
+                     pos: list[float]
+                    ) -> Axes:
     """
     Places an inset axes given the position (left, top, bottom, right).
 
@@ -306,10 +332,10 @@ def _place_inset_pos(ax: Axes,
     """
 
     # Compute the position of the inset axis and return it
-    left: float = pos[0]
-    bottom: float = pos[2]
-    width: float  = pos[1] - pos[0]
-    height: float = pos[3] - pos[2]
+    left   = pos[0]
+    bottom = pos[2]
+    width  = pos[1] - pos[0]
+    height = pos[3] - pos[2]
     return ax.inset_axes((left, bottom, width, height))
 
 
@@ -356,9 +382,9 @@ def _place_inset_loc(ax: Axes,
          warnings.warn(warn, UserWarning)
     
     # Compute the position of the inset axis and return it
-    left: float   = kwargs.get('left', 0.6)
-    width: float  = kwargs.get('width', 0.2)
-    height: float = kwargs.get('height', 0.15)
-    bottom: float = kwargs.get('top', 0.75) - height
-    bottom: float = kwargs.get('bottom', 0.6)
+    left   = kwargs.get('left', 0.6)
+    width  = kwargs.get('width', 0.2)
+    height = kwargs.get('height', 0.15)
+    bottom = kwargs.get('top', 0.75) - height
+    bottom = kwargs.get('bottom', 0.6)
     return ax.inset_axes((left, bottom, width, height))

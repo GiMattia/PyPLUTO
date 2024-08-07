@@ -2,7 +2,7 @@ Loading the data
 ================
 
 PLUTO has several output files, depending on the users' needs.
-With pyPLUTO the data loading is done through the ``pyPLUTO.Load()`` class and it
+With PyPLUTO the data loading is done through the ``pyPLUTO.Load()`` class and it
 is available for dbl, vtk and flt files.
 
 .. note::

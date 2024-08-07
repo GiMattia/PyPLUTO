@@ -4,9 +4,9 @@ HD Sod
 ======
 
 A one-dimensional Riemann problem where density, pressure and velocity of a ideal gas 
-are given at the left and at the right end of the domain.
+are given at the left and at the right end of the dominion.
 
-This plot shows the profiles of the three quantities at the time t = 0.2.
+The plot shows the profiles of the three quantities at the time t = 0.2.
 
 
   .. image:: ../../Tests/test01_sod.png

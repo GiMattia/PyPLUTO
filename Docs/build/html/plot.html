@@ -83,11 +83,15 @@ rows and columns.</p>
 </dd>
 <dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axes.</p>
 </dd>
+<dt><strong>- grid: bool, default False</strong></dt><dd><p>If enabled, creates a grid on the plot.</p>
+</dd>
 <dt><strong>- label: str, default None</strong></dt><dd><p>Associates a label to each line. Such labels will be used for the
 creation of the legend.</p>
 </dd>
 <dt><strong>- labelsize: float, default fontsize</strong></dt><dd><p>Sets the labels fontþsize (which is the same for both labels).
 The default value corresponds to the value of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- legalpha: float, default 0.8</strong></dt><dd><p>Sets the opacity of the legend.</p>
 </dd>
 <dt><strong>- legcols: int, default 1</strong></dt><dd><p>Sets the number of columns that the legend should have.</p>
 </dd>
@@ -227,6 +231,16 @@ axes and titles</p>
 </pre></div>
 </div>
 </li>
+<li><p>Example #5: create plots on already existing axes</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pypLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
 </ul>
 </dd></dl>
 
@@ -261,6 +275,7 @@ axes and titles</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
           <div role="search">

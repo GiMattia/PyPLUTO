@@ -114,9 +114,10 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
         self.nshp = 0
         self._d_info['binformat'] = np.char.add(self._d_info['endianess'], 
                                           'f' + str(self._charsize))
-
+    
     # Open the file and read the lines
     f = open(self._filepath, 'rb')
+
     for l in f:
 
         # Split the lines (unsplit are binary data or useless lines)
@@ -151,10 +152,13 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
 
         # Find the scalars and compute their offset
         elif spl0 == b'SCALARS':
+            break
+            """
             var = spl1.decode()
             f.readline()
             self._offset[var] = f.tell()
             self._shape[var] = self.nshp
+            """
 
         # Compute the time information
         elif spl0 == b'TIME' and self._alone is True:
@@ -184,7 +188,43 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
                 gridvars = ['self.x1r', 'self.x2r', 'self.x3r']  
             dir_map = {'X': gridvars[0],
                        'Y': gridvars[1],
-                       'Z': gridvars[2]}                                       
+                       'Z': gridvars[2]} 
+
+
+    # New memmap strategy for vtk files
+    mmapped_file = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+    search_pos = 0
+    while True:
+        scalars_pos = mmapped_file.find(b'SCALARS', search_pos)
+        if scalars_pos == -1:
+            break  # No more occurrences found
+
+        # Move to the end of the 'SCALARS' line
+        line_end = mmapped_file.find(b'\n', scalars_pos)
+        line     = mmapped_file[scalars_pos:line_end]
+        parts    = line.split()
+        var      = parts[1].decode()
+
+        # Move to the start of the scalar data
+        lookup_table_pos = mmapped_file.find(b'LOOKUP_TABLE default', \
+                                                       line_end)
+        offset = mmapped_file.find(b'\n', lookup_table_pos) + 1
+
+        if self._info is not True:
+            scrh = offset - scalars_pos + self.gridsize*4 + 1
+            for var in self._d_info['varslist'][i]:
+                self._offset[var] = offset
+                self._shape[var]  = self.nshp
+                offset = offset + scrh + len(var) - \
+                                        len(self._d_info['varslist'][i][0])
+            break
+        else:
+            self._offset[var] = offset
+            self._shape[var]  = self.nshp
+
+        search_pos = line_end + 1  # Continue searching after the current line
+
+    mmapped_file.close()                          
 
     # Find the variables and store them (only if single_file)
     if self._d_info['typefile'][i] == 'single_file' and self._alone is True:
@@ -192,14 +232,16 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
 
     # Compute the centered coordinates if the file is standalone and cartesian
     if self._info is True:
+        print(self.geom)
 
         self._read_grid_vtk(gridvars)
         self._info = False
-    
+
     # Close the file
     f.close()
     
     return None
+
 
 def _inspect_h5(self, i: int, exout: int) -> None:
     """

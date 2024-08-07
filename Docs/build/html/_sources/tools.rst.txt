@@ -1,2 +1,4 @@
 Manipulating the data
 =====================
+
+.. autofunction:: pyPLUTO.Image._create_figure

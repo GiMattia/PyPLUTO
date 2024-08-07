@@ -202,6 +202,7 @@ class LoadPart:
         except:
             raise AttributeError(f"'Load' object has no attribute '{name}'")
 
+    from .parttools   import  spectrum, select
     from .readformat  import _check_pathformat, _find_format
     from .readdata    import _load_variables, _check_nout, _findfiles
     from .readdata    import _init_vardict, _assign_var

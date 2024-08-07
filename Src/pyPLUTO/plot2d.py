@@ -56,11 +56,13 @@ def display(self,
         of rows and columns.
     - fontsize: float, default 17.0
         Sets the fontsize for all the axes.
+    - grid: Bool, default False
+        Enables the grid on the plot.
     - labelsize: float, default fontsize
         Sets the labels fontsize (which is the same for both labels).
         The default value corresponds to the value of the keyword 'fontsize'.
     - minorticks: str, default None
-        If not None enables the minor ticks on the plot (for both grid axes). SUL SINGOLO ASSE?
+        If not None enables the minor ticks on the plot (for both grid axes). 
     - proj: str, default None
         Custom projection for the plot (e.g. 3D). Recommended only if needed.
         This keyword should be used only if the axis is created.
@@ -98,12 +100,9 @@ def display(self,
     - vmax: float, default max(z)
         The maximum value of the colormap. If not defined, the maximum value
         of z will be taken.
-        IMPORTANT! WHEN FIXED THEN THEY STAY EVEN IF A NEW FIGURE IS DEFINED!!!
-        MAYBE PLACE A WARNING ALSO IF THE DATA PLOTTED IS CONSTANT!!
     - vmin: float, default min(z)
         The minimum value of the colormap. If not defined, the minimum value
         of z will be taken.
-        IMPORTANT! WHEN FIXED THEN THEY STAY EVEN IF A NEW FIGURE IS DEFINED!!!
     - x1: 1D/2D array, default 'Default'
         the 'x' array. If not defined, a default array will be generated
         depending on the size of z.
@@ -154,6 +153,8 @@ def display(self,
 
     - If not x or y is given, no shading can be selected. This issue must be
         fixed in future releases.
+    - Check if vmin and vmax remain the same after new figure is creates
+    - Minorticks should be customized also to single axis
 
     Examples
     --------
@@ -164,31 +165,42 @@ def display(self,
        >>> I = pp.Image()
        >>> I.display(var, title = 'title', cpos = 'right')
 
-    - Example #2: create a 2d plot with title on the axes, bottom colorbar and custom shading
+    - Example #2: create a 2d plot with title on the axes, bottom colorbar and 
+      custom shading
 
        >>> import pyPLUTO as pp
        >>> I = pp.Image()
-       >>> I.display(x1, x2, var, xtitle = 'x', ytitle = 'y', cpos = 'bottom', shading = 'gouraud', cpad = 0.3)
+       >>> I.display(x1, x2, var, xtitle = 'x', ytitle = 'y', cpos = 'bottom', 
+                             shading = 'gouraud', cpad = 0.3)
 
-    - Example #3: create a 2d plot con custom range on axes and logarithmic scale colorbar
-
-       >>> import pyPLUTO as pp
-       >>> I = pp.Image()
-       >>> I.display(var, xrange = [2,3], yrange = [2,4], cbar = 'right', cscale = 'log')
-
-    - Example #4: create a 2d plot with a custom symmetric logarithmic colorbar with custom ticks.
+    - Example #3: create a 2d plot con custom range on axes and logarithmic 
+      scale colorbar
 
        >>> import pyPLUTO as pp
        >>> I = pp.Image()
-       >>> I.display(var, cpos = 'right', cmap = 'RdBu_r', cscale = 'symlog', lint = 0.001, vmin = -1, vmax = 1)
+       >>> I.display(var, xrange = [2,3], yrange = [2,4], cbar = 'right', 
+                          cscale = 'log')
+
+    - Example #4: create a 2d plot with a custom symmetric logarithmic colorbar 
+      with custom ticks.
+
+       >>> import pyPLUTO as pp
+       >>> I = pp.Image()
+       >>> I.display(var, cpos = 'right', cmap = 'RdBu_r', cscale = 'symlog', 
+                          tresh = 0.001, vmin = -1, vmax = 1)
 
     """
 
 
    # Check parameters
-    param: set = {'aspect', 'ax', 'clabel', 'cmap', 'cpad', 'cpos', 'cscale', 'cticks', 'ctickslabels', 'figsize', 'fontsize', 'labelsize', 'lint', 'minorticks', 'proj', 
-             'shading', 'ticksdir', 'tickssize', 'title', 'titlesize', 'transpose', 'tresh', 'var', 'vmax', 'vmin', 'x1', 'x2', 'xrange', 'xscale', 'xticks', 'xtickslabels',
-             'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+    param: set = {'aspect', 'ax', 'clabel', 'cmap', 'cpad', 'cpos', 'cscale', 
+                  'cticks', 'ctickslabels', 'figsize', 'fontsize', 'grid', 
+                  'labelsize', 'lint', 'minorticks', 'proj', 'shading', 
+                  'ticksdir', 'tickssize', 'title', 'titlesize', 'transpose', 
+                  'tresh', 'var', 'vmax', 'vmin', 'x1', 'x2', 'xrange', 
+                  'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 
+                  'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+    
     if check is True:
         check_par(param, 'display', **kwargs)
 
@@ -244,24 +256,33 @@ def display(self,
     return pcm
 
 def scatter(self, x, y, **kwargs):
-    '''
-    Plots a scatter of particles or discrete points.
+    """
+    Scatter plot for a 2D function (or a 2D slice) using the matplotlib's
+    scatter function. A simple figure and a single axis can also be created.
 
     Returns
     -------
-        None
+
+    - the scatter plot
 
     Parameters
     ----------
-        - x: str
-            the x variable to plot
-        - y: str
-            the y variable to plot
+
+    - alpha: float, default 1.0
+        Sets the transparency of the plot
+    ...
+
+    Notes
+    -----
+
+    - None
 
     Examples
     --------
 
-    '''
+    ...
+
+    """
 
     # Convert x and y to numpy arrays (if necessary)
     x =np.asarray(x)
@@ -272,19 +293,23 @@ def scatter(self, x, y, **kwargs):
     # Set or create figure and axes
     ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
 
+    # Keywords xrange and yrange
+    if not kwargs.get('xrange'):
+        kwargs['xrange'] = [x.min(),x.max()]
+    if not kwargs.get('yrange'):
+        kwargs['yrange'] = [y.min(),y.max()]
+
     # Set ax parameters
     self.set_axis(ax = ax, check = False, **kwargs)
     self._hide_text(nax, ax.texts)
 
-    # Keyword xrange and yrange
-    self._set_xrange(ax, nax, [np.nanmin(x),np.nanmax(x)], self.setax[nax])
-    self._set_yrange(ax, nax, [np.nanmin(y),np.nanmax(y)], self.setay[nax], x = x, y = y)
-
     # Keywords vmin and vmax
     c    = kwargs.get('c',None)
     # If c is a list convert to array
-    vmin = kwargs.get('vmin',0.0) if c is None or isinstance (c, str) else kwargs.get('vmin',np.asarray(c).min())
-    vmax = kwargs.get('vmax',0.0) if c is None or isinstance (c, str) else kwargs.get('vmax',np.asarray(c).min())
+    vmin = kwargs.get('vmin',0.0) if c is None or isinstance (c, str) else \
+           kwargs.get('vmin',np.asarray(c).min())
+    vmax = kwargs.get('vmax',0.0) if c is None or isinstance (c, str) else \
+           kwargs.get('vmax',np.asarray(c).min())
 
     # Keyword for colorbar and colorscale
     cpos     = kwargs.get('cpos',None)
@@ -293,7 +318,7 @@ def scatter(self, x, y, **kwargs):
     lint     = kwargs.get('lint',None)
     self.vlims[nax] = [vmin,vmax,tresh]
 
-    # Set the colorbar scale (put in function)
+    # Set the colorbar scale
     norm = self._set_cscale(cscale, vmin, vmax, tresh)
 
     # Start scatter plot procedure
@@ -319,7 +344,7 @@ def scatter(self, x, y, **kwargs):
     if self.tight != False:
         self.fig.tight_layout()    
 
-    return None
+    return pcm
 
 def colorbar(self, 
              pcm = None,
@@ -328,7 +353,7 @@ def colorbar(self,
              check = True, 
              **kwargs
             ) -> None:
-    '''
+    """
     method to display a colorbar in a selected position. If the keyword cax is
     enabled the colorbar is locates in a specific axis, otherwise an axis will
     be shrunk in order to place the colorbar.
@@ -340,73 +365,72 @@ def colorbar(self,
 
     Parameters
     ----------
-        - axs: axis object, default None
-            The axes where the display that will be used for the colorbar is located.
-            If None, the last considered axis will be used.
-        - cax: axis object, default None
-            The axes where the colorbar should be placed. If None, the colorbar
-            will be placed next to the axis axs.
-        - clabel: str, default None
-            Sets the label of the colorbar.
-        - cpad: float, default 0.07
-            Fraction of original axes between colorbar and the axes (in case cax is
-            not defined). RENDERE ADATTIVO IN BASE ALLA POSIZIONE
-        - cpos: {'top','bottom','left','right'}, default 'right'
-            Sets the position of the colorbar.
-        - cticks: {[float], None}, default None
-            If enabled (and different from None), sets manually ticks on the
-            colorbar.
-        - ctickslabels: str, default None
-            If enabled, sets manually ticks labels on the colorbar.
-        - extend: {'neither','both','min','max'}, default 'neither'
-            Sets the extension of the triangular colorbar extension.
-        - extendrect: bool, default False
-            If True, the colorbar extension will be rectangular.
-        - pcm: QuadMesh | PathCollection | None, default None
-            The collection to be used for the colorbar. If None, the axs will be
-            used. If both pcm and axs are not None, pcm will be used.
+    - axs: axis object, default None
+        The axes where the display that will be used for the colorbar is 
+        located. If None, the last considered axis will be used.
+    - cax: axis object, default None
+        The axes where the colorbar should be placed. If None, the colorbar
+        will be placed next to the axis axs.
+    - clabel: str, default None
+        Sets the label of the colorbar.
+    - cpad: float, default 0.07
+        Fraction of original axes between colorbar and the axes (in case cax is
+        not defined). 
+    - cpos: {'top','bottom','left','right'}, default 'right'
+        Sets the position of the colorbar.
+    - cticks: {[float], None}, default None
+        If enabled (and different from None), sets manually ticks on the
+        colorbar.
+    - ctickslabels: str, default None
+        If enabled, sets manually ticks labels on the colorbar.
+    - extend: {'neither','both','min','max'}, default 'neither'
+        Sets the extension of the triangular colorbar extension.
+    - extendrect: bool, default False
+        If True, the colorbar extension will be rectangular.
+    - pcm: QuadMesh | PathCollection | None, default None
+        The collection to be used for the colorbar. If None, the axs will be
+        used. If both pcm and axs are not None, pcm will be used.
 
     Notes
     -----
 
-        - If multiple subplots are present, multiple colorbars cannot be created
-          from the display routine. This issue must be fixed in future releases.
-        - Colorbar should not overlap the plot or other colormaps
-        - Exted the colormap to more positions (e.g., top, bottom) with 
+    - If multiple subplots are present, multiple colorbars cannot be created
+      from the display routine. This issue must be fixed in future releases.
+    - Colorbar should not overlap the plot or other colormaps
+    - Exted the colormap to more positions (e.g., top, bottom) with 
           correct spacing
           
     Examples
     --------
 
-        - Example #1: create a standard colorbar on the right
+    - Example #1: create a standard colorbar on the right
 
-           >>> import pyPLUTO as pp
-           >>> I = pp.Image()
-           >>> I.display(var)
-           >>> I.colorbar()
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> I.display(var)
+        >>> I.colorbar()
 
-        - Example #2: create a colorbar in a different axis
+    - Example #2: create a colorbar in a different axis
 
-           >>> import pyPLUTO as pp
-           >>> I = pp.Image()
-           >>> ax = I.create_axes(ncol = 2)
-           >>> I.display(var, ax = ax[0])
-           >>> I.colorbar(axs = ax[0], cax = ax[1])
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes(ncol = 2)
+        >>> I.display(var, ax = ax[0])
+        >>> I.colorbar(axs = ax[0], cax = ax[1])
 
-        - Example #3: create a set of 3 displays with a colorbar on the bottom
-                      Another colorbar is shown on the right of the topmost display
+    - Example #3: create a set of 3 displays with a colorbar on the bottom.
+      Another colorbar is shown on the right of the topmost display
 
-           >>> import pyPLUTO as pp
-           >>> I = pp.Image()
-           >>> ax = I.create_axes(nrow = 4)
-           >>> I.display(var1, ax = ax[0])
-           >>> I.colorbar(axs = ax[0])
-           >>> I.display(var2, ax = ax[1])
-           >>> I.display(var3, ax = ax[2])
-           >>> I.colorbar(axs = ax[2], cax = ax[3])
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> ax = I.create_axes(nrow = 4)
+        >>> I.display(var1, ax = ax[0])
+        >>> I.colorbar(axs = ax[0])
+        >>> I.display(var2, ax = ax[1])
+        >>> I.display(var3, ax = ax[2])
+        >>> I.colorbar(axs = ax[2], cax = ax[3])
 
-
-    '''
+    """
 
     # Check parameters
     param = {'axs', 'cax', 'clabel', 'cpad', 'cpos', 'cticks', 
@@ -420,11 +444,11 @@ def colorbar(self,
 
     axs = pcm.axes if pcm is not None else axs if axs is not None \
                                       else self.fig.gca()
-    axs, naxs = self._assign_ax(axs, **kwargs)
-    pcm  = axs.collections[0] if pcm is None else pcm
-    cpad = kwargs.get('cpad',0.07)
-    cpos = kwargs.get('cpos','right')
-    ccor = 'vertical' if cpos in ['left','right'] else 'horizontal'
+    axs, _ = self._assign_ax(axs, **kwargs)
+    pcm    = axs.collections[0] if pcm is None else pcm
+    cpad   = kwargs.get('cpad',0.07)
+    cpos   = kwargs.get('cpos','right')
+    ccor   = 'vertical' if cpos in ['left','right'] else 'horizontal'
 
     if cax == None:
         divider = make_axes_locatable(axs)
@@ -451,27 +475,49 @@ def _set_cscale(self,
                 tresh: float, 
                 lint:  float | None = None):
     """
-    Sets the color scale of a pcolormesh given the scale, the minimum and the maximum.
+    Sets the color scale of a pcolormesh given the scale, the minimum and the 
+    maximum.
 
     Returns
     -------
 
-        - norm: Normalize
-            the normalization of the colormap
+    - norm: Normalize
+        the normalization of the colormap
 
     Parameters
     ----------
 
-        - cscale: str
-            the scale of the colormap
-        - vmin: float
-            the minimum of the colormap
-        - vmax: float
-            the maximum of the colormap
-        - tresh: float
-            the threshold between subscales (twoscale or symlog color scales)
-        - lint: float
-            the threshold between subscales (twoscale or symlog color scales), deprecated
+    - cscale: str
+        the scale of the colormap
+    - vmin: float
+        the minimum of the colormap
+    - vmax: float
+        the maximum of the colormap
+    - tresh: float
+        the threshold between subscales (twoscale or symlog color scales)
+    - lint: float
+        the threshold between subscales (twoscale or symlog color scales), 
+        deprecated
+
+    Notes
+    -----
+
+    - The lint keyword is deprecated, please use tresh instead
+
+    Examples
+    --------
+
+    - Example #1: set a linear colormap between 0 and 1
+
+        >>> _set_cscale('linear', 0.0, 1.0)
+
+    - Example #2: set a logarithmic colormap between 0.1 and 1
+
+        >>> _set_cscale('log', 0.1, 1.0)
+
+    - Example #3: set a twoslope colormap between -1 and 1 with threshold 0.1
+
+        >>> _set_cscale('twoslope', -1.0, 1.0, 0.1)
 
     """
     
@@ -481,11 +527,11 @@ def _set_cscale(self,
         tresh  = lint if tresh is None else tresh
 
     if cscale == 'log':
-        norm = mcol.LogNorm(vmin = vmin,vmax = vmax)
+        norm = mcol.LogNorm(vmin = vmin, vmax = vmax)
     elif cscale == 'symlog':
-        norm = mcol.SymLogNorm(vmin = vmin,vmax = vmax,linthresh = tresh)
+        norm = mcol.SymLogNorm(vmin = vmin, vmax = vmax, linthresh = tresh)
     elif cscale == 'twoslope':
         norm = mcol.TwoSlopeNorm(vmin = vmin, vmax = vmax, vcenter = tresh)
     else:
-        norm = mcol.Normalize(vmin = vmin,vmax = vmax)
+        norm = mcol.Normalize(vmin = vmin, vmax = vmax)
     return norm

@@ -27,8 +27,7 @@ class Image:
         self.ncol0: int = 0
         self.ax: list[Axes] = []
                                 # black, red, blue, cyan, green, orange
-        self.color: list[str] = ['k','#d7263d','#1815c5',
-                                 '#12e3c0','#3f6600','#f67451']
+      
         
         self.vlims: list[list[float]] = []
         self.nline: list[int] = []
@@ -48,6 +47,11 @@ class Image:
         self.anim_pcm: Any
 
         plt.style.use(kwargs.get('style','default'))
+
+        self.color = self._choose_colorlines(kwargs.get('numcolor',10), 
+                                             kwargs.get('oldcolor',False),
+                                             kwargs.get('withblack',False),
+                                             kwargs.get('withwhite',False))
 
         self._assign_LaTeX(LaTeX)
         self._create_figure(fig, text, **kwargs)
@@ -105,7 +109,7 @@ class Image:
     from .interact   import interactive, _update_slider
     from .plotlines  import contour
     from .figure     import _create_figure, _assign_LaTeX
-    from .h_image    import _add_ax, _hide_text
+    from .h_image    import _add_ax, _hide_text, _choose_colorlines
     from .h_image    import _set_xrange, _set_yrange, _assign_ax
 
 

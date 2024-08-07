@@ -49,6 +49,8 @@ def plot(self,
         ('full').
     - fontsize: float, default 17.0
         Sets the fontsize for all the axes.
+    - grid: bool, default False
+        If enabled, creates a grid on the plot.
     - label: str, default None
         Associates a label to each line. Such labels will be used for the
         creation of the legend.
@@ -205,6 +207,7 @@ def plot(self,
 
     # Check parameters
     param = {'alpha', 'aspect', 'ax', 'c', 'figsize', 'fillstyle', 'fontsize', 
+             'grid',
              'label', 'labelsize', 'legalpha', 'legcols', 'legpad', 'legpos', 
              'legsize', 'legspace', 'ls', 'lw', 'marker', 'minorticks', 'ms', 
              'proj', 'ticksdir', 'tickssize', 'title', 'titlesize', 'x', 

@@ -90,10 +90,12 @@ of rows and columns.</p>
 </dd>
 <dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axes.</p>
 </dd>
+<dt><strong>- grid: Bool, default False</strong></dt><dd><p>Enables the grid on the plot.</p>
+</dd>
 <dt><strong>- labelsize: float, default fontsize</strong></dt><dd><p>Sets the labels fontsize (which is the same for both labels).
 The default value corresponds to the value of the keyword ‘fontsize’.</p>
 </dd>
-<dt><strong>- minorticks: str, default None</strong></dt><dd><p>If not None enables the minor ticks on the plot (for both grid axes). SUL SINGOLO ASSE?</p>
+<dt><strong>- minorticks: str, default None</strong></dt><dd><p>If not None enables the minor ticks on the plot (for both grid axes).</p>
 </dd>
 <dt><strong>- proj: str, default None</strong></dt><dd><p>Custom projection for the plot (e.g. 3D). Recommended only if needed.
 This keyword should be used only if the axis is created.
@@ -130,13 +132,10 @@ The default cases are the following:
 <dt><strong>- var (not optional): 2D array</strong></dt><dd><p>The array to be plotted.</p>
 </dd>
 <dt><strong>- vmax: float, default max(z)</strong></dt><dd><p>The maximum value of the colormap. If not defined, the maximum value
-of z will be taken.
-IMPORTANT! WHEN FIXED THEN THEY STAY EVEN IF A NEW FIGURE IS DEFINED!!!
-MAYBE PLACE A WARNING ALSO IF THE DATA PLOTTED IS CONSTANT!!</p>
+of z will be taken.</p>
 </dd>
 <dt><strong>- vmin: float, default min(z)</strong></dt><dd><p>The minimum value of the colormap. If not defined, the minimum value
-of z will be taken.
-IMPORTANT! WHEN FIXED THEN THEY STAY EVEN IF A NEW FIGURE IS DEFINED!!!</p>
+of z will be taken.</p>
 </dd>
 <dt><strong>- x1: 1D/2D array, default ‘Default’</strong></dt><dd><p>the ‘x’ array. If not defined, a default array will be generated
 depending on the size of z.</p>
@@ -197,6 +196,8 @@ always correspond to fixed ticks.</p>
 </dd>
 </dl>
 </li>
+<li><p>Check if vmin and vmax remain the same after new figure is creates</p></li>
+<li><p>Minorticks should be customized also to single axis</p></li>
 </ul>
 <p class="rubric">Examples</p>
 <ul>
@@ -207,24 +208,30 @@ always correspond to fixed ticks.</p>
 </pre></div>
 </div>
 </li>
-<li><p>Example #2: create a 2d plot with title on the axes, bottom colorbar and custom shading</p>
+<li><p>Example #2: create a 2d plot with title on the axes, bottom colorbar and 
+custom shading</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">shading</span> <span class="o">=</span> <span class="s1">&#39;gouraud&#39;</span><span class="p">,</span> <span class="n">cpad</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;bottom&#39;</span><span class="p">,</span> 
+<span class="go">                      shading = &#39;gouraud&#39;, cpad = 0.3)</span>
 </pre></div>
 </div>
 </li>
-<li><p>Example #3: create a 2d plot con custom range on axes and logarithmic scale colorbar</p>
+<li><p>Example #3: create a 2d plot con custom range on axes and logarithmic 
+scale colorbar</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="n">cbar</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">cscale</span> <span class="o">=</span> <span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="n">cbar</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> 
+<span class="go">                   cscale = &#39;log&#39;)</span>
 </pre></div>
 </div>
 </li>
-<li><p>Example #4: create a 2d plot with a custom symmetric logarithmic colorbar with custom ticks.</p>
+<li><p>Example #4: create a 2d plot with a custom symmetric logarithmic colorbar 
+with custom ticks.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;RdBu_r&#39;</span><span class="p">,</span> <span class="n">cscale</span> <span class="o">=</span> <span class="s1">&#39;symlog&#39;</span><span class="p">,</span> <span class="n">lint</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;RdBu_r&#39;</span><span class="p">,</span> <span class="n">cscale</span> <span class="o">=</span> <span class="s1">&#39;symlog&#39;</span><span class="p">,</span> 
+<span class="go">                   tresh = 0.001, vmin = -1, vmax = 1)</span>
 </pre></div>
 </div>
 </li>
@@ -262,6 +269,7 @@ always correspond to fixed ticks.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
           <div role="search">

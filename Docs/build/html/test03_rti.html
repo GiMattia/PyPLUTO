@@ -47,13 +47,30 @@ by the effect of gravity.</p>
 <p>The figure displays at different times the instability of the interface.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/test03_rti.png"><img alt="_images/test03_rti.png" class="align-center" src="_images/test03_rti.png" style="width: 600px;" /></a>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">Authors:</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Classical MHD Rayleigh-Taylor instability test.</span>
 
-<span class="sd">        D. Crocco</span>
-<span class="sd">        G. Mattia</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">This test shows how to display a 2D quantity from a test problem at different </span>
+<span class="sd">times in different subplots.</span>
 
+<span class="sd">The package &quot;os&quot; is loaded to create the path to the directory </span>
+<span class="sd">$PLUTO_DIR/Test_problems/MHD/Rayleigh_Taylor, where the the test problem is</span>
+<span class="sd">located.</span>
+
+<span class="sd">In the script the spatial dependence of the density is displayed at three</span>
+<span class="sd">different times in three different subplots. Here the subplots are created </span>
+<span class="sd">through the create_axes method, which allows to create a grid of subplots with a</span>
+<span class="sd">given number of columns and a given width ratio between the subplots. The </span>
+<span class="sd">colorbar is placed in the last subplot through the colorbar method. The y labels</span>
+<span class="sd">and y ticks labels are customized in order to show the flexibility of PyPLUTO in</span>
+<span class="sd">terms of plot customization. The image is then saved and shown on screen.</span>
+
+<span class="sd">The title of the subplots is set to the time of the simulation, which is stored</span>
+<span class="sd">in the timelist attribute of the pload object D. In order to display a fixed </span>
+<span class="sd">number of decimal digits, the f-string formatting is used (see line 38).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Loading the relevant packages</span>
 <span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
@@ -71,14 +88,14 @@ by the effect of gravity.</p>
 <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">wratio</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">],</span> <span class="n">wspace</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.005</span><span class="p">,</span><span class="mf">0.005</span><span class="p">,</span><span class="mf">0.005</span><span class="p">])</span>
 
 <span class="c1"># Customizing y labels and y ticks labels</span>
-<span class="n">ylab</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="n">ylab</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>       <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 <span class="n">ytcl</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Default&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 
 <span class="c1"># Loop over the different outputs</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]:</span>
     <span class="c1"># Plotting the data</span>
-    <span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1r</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2r</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-              <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\tau = $&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">timelist</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">i</span><span class="o">%</span><span class="mi">2</span><span class="p">)),</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;inferno&#39;</span><span class="p">,</span> <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
+    <span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1r</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2r</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;inferno&#39;</span><span class="p">,</span>
+              <span class="n">title</span> <span class="o">=</span> <span class="sa">rf</span><span class="s1">&#39;$\tau = $</span><span class="si">{</span><span class="n">D</span><span class="o">.</span><span class="n">timelist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
               <span class="n">ytitle</span> <span class="o">=</span> <span class="n">ylab</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">aspect</span> <span class="o">=</span> <span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">ytickslabels</span> <span class="o">=</span> <span class="n">ytcl</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
               <span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.4</span><span class="p">])</span>
 
@@ -86,7 +103,7 @@ by the effect of gravity.</p>
 <span class="n">I</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">axs</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
 <span class="c1"># Saving the image</span>
-<span class="n">pp</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test03_rti.png&#39;</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test03_rti.png&#39;</span><span class="p">)</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -115,6 +132,7 @@ by the effect of gravity.</p>
 <li class="toctree-l2"><a class="reference internal" href="test06_diskplanet.html">HD Disk-Planet</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
           <div role="search">

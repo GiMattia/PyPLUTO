@@ -348,4 +348,37 @@ def _assign_ax(self,
     # Return the axis and its index
     return ax, nax
 
+def _choose_colorlines(self, 
+                      numcolor: int,
+                      oldcolor: bool,
+                      withblack: bool = False,
+                      withwhite: bool = False
+                     ) -> list[str]:
+    """
+
+    Returns
+    -------
+
+    - colors: list[str]
+        the list of colors for the lines
+
+    """
+    if oldcolor:    # black, red, blue, cyan, green, orange
+        return ['k','#d7263d','#1815c5', '#12e3c0','#3f6600','#f67451']
+    
+    dictcol = { 0: '#ffffff',  1: '#e8ecfb',  2: '#d9cce3',  3: '#d1bbd7', 
+                4: '#caaccb',  5: '#ba8db4',  6: '#ae76a3',  7: '#aa6f9e',
+                8: '#994f88',  9: '#882e72', 10: '#1965b0', 11: '#437dbf',
+               12: '#5289c7', 13: '#6195cf', 14: '#7bafde', 15: '#4eb265',
+               16: '#90c987', 17: '#cae0ab', 18: '#f7f056', 19: '#f7cb45',
+               20: '#f6c141', 21: '#f4a736', 22: '#f1932d', 23: '#ee8026',
+               24: '#e8601c', 25: '#e65518', 26: '#dc050c', 27: '#a5170e',
+               28: '#72190e', 29: '#42150a', 30: '#777777', 31: '#000000'}
+    
+    lstc = [10,26,18,15,14,17,9,25,28,23,11,2,5,7,16,21,8,27,4,13,19,29,1,30]
+
+    lstc = [0] + lstc if withwhite else [31] + lstc if withblack else lstc
+    return [dictcol[lstc[i]] for i in range(numcolor)]
+
+
 

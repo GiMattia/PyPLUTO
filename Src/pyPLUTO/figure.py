@@ -104,13 +104,13 @@ def _create_figure(self,
                    **kwargs: Any
                   ) -> None:
     """
-    Function that creates the figure associated to the Image. It is called 
-    by default when the Image class is instantiated.
+    Function that creates the figure associated to an Image instance. It is 
+    called by default when the Image class is instantiated.
 
     Returns
     -------
 
-    - None.
+    - None
     
     Parameters
     ----------
@@ -133,14 +133,14 @@ def _create_figure(self,
     - suptitle: str, default None
         The super title of the figure.
     - suptitlesize: str | int, default 'large'
-        The super title size.
+        The figure title size.
     - tight: bool, default True
         If True, the tight layout is used.
 
     Notes
     -----
 
-    - None.
+    - None
 
     Examples
     --------
@@ -153,7 +153,7 @@ def _create_figure(self,
 
         >>> _create_figure(fig = fig)
 
-    - Example #3: Create a new figure with a super title and different size
+    - Example #3: Create a new figure with different size and a figure title
 
         >>> _create_figure(suptitle = 'Super Title', figsize = [10,5])
 
@@ -164,7 +164,8 @@ def _create_figure(self,
     """
 
     # Check parameters
-    param = {'close','fig','figsize','fontsize','nwin','suptitle','tight'}
+    param = {'close','fig','figsize','fontsize','nwin','suptitle',
+             'suptitlesize','tight'}
     if check is True:
         check_par(param, 'create_fig', **kwargs)
 

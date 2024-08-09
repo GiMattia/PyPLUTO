@@ -3,7 +3,7 @@ from .libraries import *
 def contour(self, 
             var: NDArray, 
             **kwargs: Any
-           ) -> None:
+           ) -> LineCollection:
     """
     Plots a contour plot of a given variable. The function uses the 
     matplotlib.pyplot.contour function. The function returns None.
@@ -88,8 +88,72 @@ def contour(self,
 
     return cnt
 
-def streamplot(self, **kwargs: Any) -> None:
-    pass
 
-def quiver(self, **kwargs: Any) -> None:
-    pass
+def streamplot(self, 
+               var1, 
+               var2, 
+               **kwargs: Any
+              ) -> LineCollection:
+    """
+    Plots a streamplot of a vector field. The function uses the streamplot
+    function from matplotlib.pyplot. The function returns None.
+    """
+
+    if np.shape(var1) != np.shape(var2):
+        raise ValueError("The shapes of the variables are different.")
+    
+    # Set or create figure and axes
+    ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
+    x = np.asarray(kwargs.get('x1',np.arange(len(var1[:,0]))))
+    y = np.asarray(kwargs.get('x2',np.arange(len(var1[0,:]))))
+
+    # Keyword x1 and x2
+    var1, var2 = np.asarray(var1.T), np.asarray(var2.T)
+    if kwargs.get('transpose', False) is True: var1, var2 = var1.T, var2.T
+
+    # Set ax parameters
+    self.set_axis(ax = ax, check = False, **kwargs)
+    self._hide_text(nax, ax.texts)  
+
+    # Keyword for colorbar and colorscale
+    color = kwargs.get('colors',None)  
+    cmap  = kwargs.get('cmap',None)
+    cpos  = kwargs.get('cpos',None)
+    cscale = kwargs.get('cscale','norm')
+    tresh = kwargs.get('tresh', max(np.abs(np.nanmin(var1)),np.nanmax(var1))*0.01)
+
+    if 'colors' in 'kwargs' and 'cmap' in 'kwargs':
+        warn = "Both colors and cmap are defined. Using c."
+        warnings.warn(warn)
+
+    # Set the lines properties
+    linewidth = kwargs.get('linewidth',1)
+    density   = kwargs.get('density',1)
+    arrowstyle = kwargs.get('arrowstyle','-|>')
+    arrowsize = kwargs.get('arrowsize',1)
+    minlength = kwargs.get('minlength',0.1)
+    integration_direction = kwargs.get('integration_direction','both')
+    start_points = kwargs.get('start_points',None)
+    maxlength = kwargs.get('maxlength',1000)
+    broken_streamlines = kwargs.get('brokenlines',True)
+
+    # Set the colorbar scale
+    norm = self._set_cscale(cscale, np.nanmin(var1), np.nanmax(var1), tresh)
+
+    # Plot the streamplot
+    strm = ax.streamplot(x, y, var1, var2, norm = norm, cmap = cmap, color = color,
+                         linewidth = linewidth, density = density, arrowstyle = arrowstyle,
+                         arrowsize = arrowsize, minlength = minlength, integration_direction = integration_direction,
+                         start_points = start_points, maxlength = maxlength, broken_streamlines = broken_streamlines)
+    
+    if cpos != None:
+        self.colorbar(strm, check = False, **kwargs)
+
+    # If tight_layout is enabled, is re-inforced
+    if self.tight != False:
+        self.fig.tight_layout()
+
+    return strm
+
+
+

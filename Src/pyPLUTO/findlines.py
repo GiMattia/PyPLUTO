@@ -3,15 +3,36 @@ from .libraries import *
 def _check_var(self,var, transpose):
     if isinstance(var, str):
         try:
-            var = getattr(self,var).T
+            var = getattr(self,var)
         except:
             print(f"Variable {var} not found in the dataset.")
             return None
     else:
-        var = var.T
+        var = var
     if transpose is True:
         var = var.T
     return var
+
+def vector_field(t, y, var1, var2, xc, yc):
+
+    # Get the coordinates
+    x, y = y
+
+    # Compute indices for closest grid points in xc and yc
+    i0 = np.abs(x - xc).argmin()
+    j0 = np.abs(y - yc).argmin()
+
+    # Interpolate U and V at the given coordinates
+    scrhUx = np.interp(x, xc, var1[:, j0])
+    scrhUy = np.interp(y, yc, var1[i0])
+    scrhVx = np.interp(x, xc, var2[:, j0])
+    scrhVy = np.interp(y, yc, var2[i0])
+
+    # Compute the resulting vector field components
+    qx = scrhUx + scrhUy - var1[i0, j0]
+    qy = scrhVx + scrhVy - var2[i0, j0]
+
+    return [qx, qy]
 
 def find_fieldlines(self,
                var1,
@@ -26,210 +47,130 @@ def find_fieldlines(self,
     var1 = self._check_var(var1, kwargs.get('transpose', False))
     var2 = self._check_var(var2, kwargs.get('transpose', False))
 
-
-    pass
-    
-
-def fieldlines(self,
-               var1,
-               var2, 
-               x0 = None, 
-               y0 = None, 
-               **kwargs: Any
-              ) -> list:
-    """
-    Solve the field line equation for a given vector field (var1, var2)
-    and initial conditions (x0, y0). The field line equation is given by:
-    dx/ds = var1, dy/ds = var2, where s is the arc length.
-    The field line is integrated using a Runge-Kutta method of order 2.
-    The integration is performed in both directions from the initial
-    conditions (x0, y0) until the field line closes on itself or until
-    the maximum number of steps is reached.
-
-    Returns
-    -------
-
-    - lines : list
-        List of field lines. Each field line is a list of two arrays
-        containing the x and y coordinates of the field line.
-
-    Parameters
-    ----------
-
-    - var1 : array_like
-        First component of the vector field.
-    - var2 : array_like
-        Second component of the vector field.
-    - x0 : array_like
-        Initial x coordinate of the field line.
-    - y0 : array_like
-        Initial y coordinate of the field line.
-    - maxsteps : int
-        Maximum number of steps to integrate the field line.
-    - maxfail : int
-        Maximum number of steps to integrate the field line.
-    - tol : float
-        Tolerance for the field line to close on itself.
-    - cl_tol : float
-        Tolerance for the field line to close on itself.
-    - order : str
-        Order of the Runge-Kutta method to use. Available options are:
-        'RK2', 'RK4', 'RK23', 'RK32', 'RK45', 'RK54'.
-    - step : float
-        Initial step size for the Runge-Kutta method.
-    - maxstep : float
-        Maximum step size for the Runge-Kutta method.
-    - minstep : float
-        Minimum step size for the Runge-Kutta method.
-
-    Notes
-    -----
-
-    - None
-
-    Examples
-    --------
-
-    >>> import pyPLUTO as pp
-    >>> import numpy as np
-    >>> import matplotlib.pyplot as plt
-    ...
-
-    """
-
-    lines = []
-
+    # Get the grid information
     xc = kwargs.get('x1',self.x1)
     yc = kwargs.get('x2',self.x2)
-    if x0 == None or y0 == None:
-        print('Do not get here, please specify the footpoints for now. Work in progress...')
+
+    # Get the footpoints
+    if x0 is None or y0 is None:
+        warnings.warn("Footpoints not provided, please provide the footpoints.")
         return None, None
-    x0 = [x0] if not isinstance(x0, list) else x0
-    y0 = [y0] if not isinstance(y0, list) else y0
 
-    # Get domain size (Take the initial and final coordinates
+    x0 = makelist(x0)
+    y0 = makelist(y0)
+
+    # Get the domain size (Take the initial and final coordinates
     # slightly larger to allow a seed to be specified on the boundary.
-
     xbeg = xc[0]  - 0.51*(xc[1]  - xc[0])
     xend = xc[-1] + 0.51*(xc[-1] - xc[-2])
 
     ybeg = yc[0]  - 0.51*(yc[1]  - yc[0])
     yend = yc[-1] + 0.51*(yc[-1] - yc[-2])
 
-    # Normalize vectors to 1, only direction can change
+    # Set the keywords
+    rtol  = kwargs.get('rtol', 1.e-3)
+    atol  = kwargs.get('atol', 1.e-6)
+    ctol  = kwargs.get('ctol', 1.e-6)
+    order = kwargs.get('order','RK45')
+    dense = kwargs.get('dense',False)
 
-    norm = 1/np.sqrt(var1*var1 + var2*var2 + 1.e-18)
-    var1 = var1*norm
-    var2 = var2*norm
+    step    = kwargs.get('step',min((xend - xbeg)/self.nx1,\
+                                    (yend - ybeg)/self.nx2))
+    
+    maxstep = kwargs.get('maxstep',100*step)
+    numstep = kwargs.get('maxsteps', 16384)
+    tfin    = maxstep*numstep
 
-    # Set keywords
-    maxsteps = kwargs.get('maxsteps', 16384)
-    maxfail  = 1024
+    def system(t, y):
+        return vector_field(t, y, var1, var2, xc, yc)
+    
+    # Event to detect if the field line exits the domain
+    def outside_domain(t, y):
+        
+        if y[0] < xbeg or y[0] > xend or \
+           y[1] < ybeg or y[1] > yend:
+            return 0  # Trigger event (exiting the domain)
+        return 1  # Do not trigger event (still within the domain)
 
-    tol     = kwargs.get('tol', 1.e-6)
-    cl_tol  = kwargs.get('cl_tol', 1.e-4)
-    order   = kwargs.get('order','RK2')
-    step    = kwargs.get('step',min((xend - xbeg)/len(xc),(yend - ybeg)/len(yc)))
-    maxstep = 100*step
-    minstep = 0.05*step
+    # Event to detect if the field line closes on itself
+    def close_to_start(t, y):
+        dist_0 = np.linalg.norm(y - np.asarray(self.init_pos))
+        if dist_0 < ctol and t > maxstep:
+            self.loop_dom = True
+            print("EXIT")
+            return 0
+        self.oldpos = y
+        return 1
+    
+    # Event to detect if the maximum number of steps is reached
+    def max_num_steps(t, y):
+        self.stepnum += 1
+        if self.stepnum > numstep:
+            return 0
+        return 1
+    
+    close_to_start.terminal  = True if kwargs.get('close',True) is True else False
+    close_to_start.direction = 0
 
-    for ind, xpos in enumerate(x0):
-        lines.append(None)
-        xline = []
-        yline = []
-        ypos = y0[ind]
-        xclose = xpos
-        yclose = ypos
-        inside_domain = xpos > xbeg and xpos < xend and ypos > ybeg and ypos < yend
-        isclosed = False
-        if not inside_domain:
-            print("Footpoint outside the domain!!")
-            return None
-        for s in [-1,1]:
-            xl, yl = [xpos], [ypos]
-            dh    = 0.02*s*step
-            k     = 0
-            kfail = 0
-            while inside_domain and k < maxsteps - 1:
-                #dh = s*min([np.abs(dh), maxstep])
-                #dh = s*max([np.abs(dh), minstep])
+    outside_domain.terminal = True
+    outside_domain.direction = 0
 
-                dh, xup, yup = self.adv_field_line(var1,var2,xc,yc,xl[-1],yl[-1],order,dh)
-                xl.append(xup)
-                yl.append(yup)
-                k = k + 1
-                isclosed = self.check_closed_line(xl[-1], yl[-1], xclose, yclose, cl_tol, k)
-              #  if isclosed is True:
-              #      break
-            if s == -1:
-                xline = xline + xl[::-1]
-                yline = yline + yl[::-1]
-            else:
-                xline = xline + xl[1:]
-                yline = yline + yl[1:]
-            xclose = xline[0]
-            yclose = yline[0]
-           # if isclosed is True:
-           #     break
+    max_num_steps.terminal = True
+    max_num_steps.direction = 0
 
-        lines[ind] = [xline, yline]
-        print(k)
-    return lines
+    lines_list = []
+    linekwargs = {}
 
-def field_interp(self,var1,var2,xc,yc,xp,yp):
-    q = []
-    U = var1
-    V = var2
-    i0 = np.abs(xp - xc).argmin()
-    j0 = np.abs(yp - yc).argmin()
-    scrhUx = np.interp(xp, xc, U[:, j0])
-    scrhUy = np.interp(yp, yc, U[i0, :])
-    q.append(scrhUx + scrhUy - U[i0, j0])
-    scrhVx = np.interp(xp, xc, V[:, j0])
-    scrhVy = np.interp(yp, yc, V[i0, :])
-    q.append(scrhVx + scrhVy - V[i0, j0])
-    return q
-
-def adv_field_line(self,var1,var2,xc,yc,xl,yl,order,dh):
-    if order == 'RK2':
-        k1   = self.field_interp(var1, var2, xc, yc, xl, yl)
-        xk1  = xl + 0.5*dh*k1[0]
-        yk1  = yl + 0.5*dh*k1[1]
-
-        k2   = self.field_interp(var1, var2, xc, yc, xk1, yk1)
-        xres = xl + 0.5*dh*k2[0]
-        yres = yl + 0.5*dh*k2[1]
-    if order == 'RK4':
-        k1   = self.field_interp(var1, var2, xc, yc, xl, yl)
-        xk1  = xl + 0.5*dh*k1[0]
-        yk1  = yl + 0.5*dh*k1[1]
-
-        k2   = self.field_interp(var1, var2, xc, yc, xk1, yk1)
-        xk1  = xl + 0.5*dh*k2[0]
-        yk1  = yl + 0.5*dh*k2[1]
-
-        k3 = self.field_interp(var1, var2, xc, yc, xk1, yk1)
-        xk1  = xl + dh*k3[0]
-        yk1  = yl + dh*k3[1]
-
-        k4 = self.field_interp(var1, var2, xc, yc, xk1, yk1)
-        xres = xl + dh*(k1[0] + 2.0*(k2[0] + k3[0]) + k4[0])/6.0
-        yres = yl + dh*(k1[1] + 2.0*(k2[1] + k3[1]) + k4[1])/6.0
-    if order == 'RK32' or order == 'RK23':
-        print(order + ' not available yet!')
-        quit()
-    if order == 'RK54' or order == 'RK45':
-        print(order + ' not available yet!')
-        quit()
-    return dh, xres,yres
+    if order == 'LSODA':
+        linekwargs['minstep'] = kwargs.get('minstep',0.05*step)
 
 
+    for ind, xp in enumerate(x0):
 
-def check_closed_line(self,xf,yf,xi,yi,tol, k):
-    if np.sqrt((xf - xi)**2 + (yf - yi)**2) < tol and k > 1:
-        return True
-    else:
-        return False
+        self.loop_dom  = False
+        yp            = y0[ind]
+        self.init_pos = [xp, yp]
+        self.oldpos   = [xp, yp]
+        self.stepnum  = 0
+        t_span        = (0, tfin)
+
+        # Integrate forward
+        
+        sol_forward  = solve_ivp(system, t_span, [xp, yp], method = order,
+                                         events=[outside_domain, max_num_steps,
+                                                 close_to_start], rtol = rtol, 
+                                         atol = atol, max_step = maxstep, 
+                                         first_step = step,
+                                         dense_output = dense, **linekwargs)
+        
+        numstep = 0 if self.loop_dom is True else numstep
+        self.init_pos = [sol_forward.y.T[:,0][-1], sol_forward.y.T[:,1][-1]]
+        self.stepnum = 0
+        t_span       = (0, -tfin)
+        sol_backward = solve_ivp(system, t_span, [xp, yp], method = order,
+                                         events=[outside_domain, max_num_steps,
+                                                 close_to_start], rtol = rtol, 
+                                         atol = atol, max_step = 0.1, 
+                                         first_step = 0.1,
+                                         dense_output = dense, **linekwargs)
+
+        x_line = np.vstack((sol_backward.y.T[::-1],sol_forward.y.T))[:, 0]
+        y_line = np.vstack((sol_backward.y.T[::-1],sol_forward.y.T))[:, 1]
+
+        if self.loop_dom is True:
+            x_line = np.append(x_line, x_line[0])
+            y_line = np.append(y_line, y_line[0])
+
+        print("Final integration time: ", sol_forward.t[-1])
+        print("Final step number: ", self.stepnum)
+
+        lines_list.append([x_line, y_line]) if len(x_line) > 1 else None
+
+    for method_name in ['init_pos', 'stepnum', 'out_dom', 'oldpos']:
+        if method_name in self.__class__.__dict__:
+            delattr(self.__class__, method_name)
+
+    return lines_list
 
 
 

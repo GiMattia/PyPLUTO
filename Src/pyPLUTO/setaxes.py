@@ -407,8 +407,8 @@ def set_axis(self,
     ax, nax = self._assign_ax(ax,**kwargs)
 
     # Set fontsize
-    if 'fontsize' in kwargs:
-        plt.rcParams.update({'font.size': self.fontsize})
+    self.fontsize = kwargs.get('fontsize',self.fontsize)
+    plt.rcParams.update({'font.size': self.fontsize})
 
     # Set aspect ratio
     if kwargs.get('aspect',True) not in {True, 'Default'}:
@@ -442,6 +442,8 @@ def set_axis(self,
     if kwargs.get('tickssize',True) not in {True, 'Default'}:
         ax.tick_params(axis='x', labelsize = kwargs['tickssize'])
         ax.tick_params(axis='y', labelsize = kwargs['tickssize'])
+    else:
+        ax.tick_params(axis='both', labelsize = self.fontsize)
 
     # Set ticks direction
     if kwargs.get('ticksdir') or self.tickspar[nax] == 0:

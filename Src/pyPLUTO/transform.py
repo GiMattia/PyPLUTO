@@ -183,6 +183,7 @@ def mirror(self,
     else:
         return newvar
     
+
 def repeat(self, 
            var: NDArray, 
            dirs: str | list, 
@@ -262,3 +263,12 @@ def repeat(self,
     else:
         return newvar
 
+
+
+def reshape_cartesian(self,
+                      var: NDArray
+                     )-> tuple[NDArray]:
+    """
+    Function that reshapes a variable into a cartesian grid.
+
+    """

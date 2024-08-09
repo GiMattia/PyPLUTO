@@ -323,9 +323,11 @@ def _assign_ax(self,
     if ax is None and len(self.ax) == 0:
         ax = self.create_axes(ncol = 1, nrow = 1, check = False, **kwargs)
 
-    # Check if the axis is None and an axis is present (and select the last one)
+    # Check if the axis is None and an axis is present (and select the last one,
+    # the current axis if it belongs to the one saved in the figure or the last
+    # one saved 
     elif ax is None and len(self.ax) > 0:
-        ax  = self.fig.gca()
+        ax  = self.fig.gca() if self.fig.gca() in self.ax else self.ax[-1]
 
     # Check if the axis is a list and select the first element
     elif isinstance(ax, list):

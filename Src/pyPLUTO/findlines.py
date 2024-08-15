@@ -141,16 +141,43 @@ def find_fieldlines(self,
     Parameters
     ----------
 
+    - atol: float, default 1e-6
+        The absolute tolerance for the integration.
+    - close: bool, default True
+        If True, it checks if the line is closed on itself.
+    - ctol: float, default 1e-6
+        The absolute tolerance for line closing on itself.
+    - dense: bool, default False
+        If True, the grid is dense (dense=True) or sparse (dense=False).
+    - maxstep: float, default 100*step
+        The maximum step size for the integration.
+    - minstep: float, default 0.05*step
+        The minimum step size for the integration (only used if order is LSODA).
+    - numsteps: int, default 16384
+        The maximum number of steps for the integration.
+    - order: str, default 'RK45'
+        The integration method. Available options are: 'RK45', 'RK23', 'DOP853',
+        'Radau', 'BDF', 'LSODA'.
+    - rtol: float, default 1e-6
+        The relative tolerance for the integration.
+    - step: float, default min((xend - xbeg)/self.nx1, (yend - ybeg)/self.nx2)
+        The initial step size for the integration.
+    - text: bool, default False
+        If True some additional information is printed.
+    - transpose: bool, default False
+        If True, the variables are transposed.
     - var1: str | NDArray
         The first variable to be interpolated.
     - var2: str | NDArray
         The second variable to be interpolated.
     - x0: list
         The x coordinates of the footpoints.
+    - x1: NDArray | list | None, default self.x1
+        The x coordinates of the grid.
+    - x2: NDArray | list | None, default self.x2
+        The y coordinates of the grid.
     - y0: list
         The y coordinates of the footpoints.
-    - method: str, default 'RK45'
-        The integration method. Available options are...
 
     ... (to be continued)
 
@@ -251,7 +278,8 @@ def find_fieldlines(self,
     
 
     # Set the events to be triggered
-    close_to_start.terminal  = True if kwargs.get('close',True) is True else False
+    close_to_start.terminal  = True if kwargs.get('close',True) is True \
+                                    else False
     close_to_start.direction = 0
 
     outside_domain.terminal = True

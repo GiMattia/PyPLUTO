@@ -1,5 +1,4 @@
 from .libraries import *
-from .h_pypluto import _check_par
 
 
 def zoom(self, 
@@ -207,7 +206,7 @@ def zoom(self,
              'ytickslabels', 'ytitle', 'zoomlines'}
     
     if check is True:
-        _check_par(param, 'zoom', **kwargs)
+        check_par(param, 'zoom', **kwargs)
 
     self.tight = False
 

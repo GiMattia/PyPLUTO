@@ -97,14 +97,6 @@ def check_par(par: set[str],
     return None
 
 
-def _check_par(par: set[str], 
-               func: str, 
-               **kwargs: Any
-              ) -> None:
-    
-    # The function check_par is called (_check_par is deprecated)
-    check_par(par, func, **kwargs)
-
 # Set color warning formatter
 def color_warning(message, category, filename, lineno, file=None, line=None):
     message = (f"\33[33m{category.__name__}: {message}"

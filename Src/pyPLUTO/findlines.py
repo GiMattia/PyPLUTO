@@ -1,14 +1,12 @@
 from .libraries import *
 
-def _check_var(self,var, transpose):
+def _check_var(self,var,transpose):
     if isinstance(var, str):
         try:
             var = getattr(self,var)
         except:
             print(f"Variable {var} not found in the dataset.")
             return None
-    else:
-        var = var
     if transpose is True:
         var = var.T
     return var
@@ -44,12 +42,16 @@ def find_fieldlines(self,
     
     # Get the variable, if it is a string, get the variable from the dataset.
     # The .T is used to transpose the variable to the correct shape.
-    var1 = self._check_var(var1, kwargs.get('transpose', False))
-    var2 = self._check_var(var2, kwargs.get('transpose', False))
+    varx = self._check_var(var1, kwargs.get('transpose', False))
+    vary = self._check_var(var2, kwargs.get('transpose', False))
 
     # Get the grid information
     xc = kwargs.get('x1',self.x1)
     yc = kwargs.get('x2',self.x2)
+
+    # Check if the grid is uniform
+    if not np.all(np.diff(xc) == np.diff(xc)[0]):
+        warnings.warn("The grid is not uniform. Only uniform grids are supported.")
 
     # Get the footpoints
     if x0 is None or y0 is None:
@@ -60,7 +62,7 @@ def find_fieldlines(self,
     y0 = makelist(y0)
 
     # Get the domain size (Take the initial and final coordinates
-    # slightly larger to allow a seed to be specified on the boundary.
+    # slightly larger to allow a seed to be specified on the boundary).
     xbeg = xc[0]  - 0.51*(xc[1]  - xc[0])
     xend = xc[-1] + 0.51*(xc[-1] - xc[-2])
 
@@ -82,7 +84,7 @@ def find_fieldlines(self,
     tfin    = maxstep*numstep
 
     def system(t, y):
-        return vector_field(t, y, var1, var2, xc, yc)
+        return vector_field(t, y, varx, vary, xc, yc)
     
     # Event to detect if the field line exits the domain
     def outside_domain(t, y):

@@ -63,7 +63,6 @@ def _assign_LaTeX(self,
             \usepackage{mathptmx}
             \usepackage{siunitx}
             \usepackage[T1]{fontenc}
-            \usepackage{lmodern}
             \newcommand{\DS}{\displaystyle}
             """
 
@@ -96,6 +95,41 @@ def _assign_LaTeX(self,
 
     # End of the function
     return None
+
+
+def _choose_colorlines(self, 
+                      numcolor:  int,
+                      oldcolor:  bool,
+                      withblack: bool,
+                      withwhite: bool
+                     ) -> list[str]:
+    """
+
+    Returns
+    -------
+
+    - colors: list[str]
+        the list of colors for the lines
+
+    """
+    if oldcolor:    # black, red, blue, cyan, green, orange
+        return ['k','#d7263d','#1815c5', '#12e3c0','#3f6600','#f67451']
+
+    # New colors
+    self.dictcol = { 0: '#ffffff',  1: '#e8ecfb',  2: '#d9cce3',  3: '#d1bbd7', 
+                     4: '#caaccb',  5: '#ba8db4',  6: '#ae76a3',  7: '#aa6f9e',
+                     8: '#994f88',  9: '#882e72', 10: '#1e3888', 11: '#437dbf',
+                    12: '#5289c7', 13: '#6195cf', 14: '#7bafde', 15: '#4eb265',
+                    16: '#90c987', 17: '#cae0ab', 18: '#f7f056', 19: '#f7cb45',
+                    20: '#f6c141', 21: '#f4a736', 22: '#f1932d', 23: '#ee8026',
+                    24: '#e8601c', 25: '#e65518', 26: '#dc050c', 27: '#a5170e',
+                    28: '#72190e', 29: '#42150a', 30: '#777777', 31: '#000000'}
+
+    # Order             
+    lstc = [10,26,15,23,14,17,7,25,28,18,11,2,9,16,5,21,8,27,4,13,19,29,1,30]
+
+    lstc = [0] + lstc if withwhite else [31] + lstc if withblack else lstc
+    return [self.dictcol[lstc[i]] for i in range(numcolor)]
     
     
 def _create_figure(self, 

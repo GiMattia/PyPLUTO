@@ -307,7 +307,7 @@ class Load:
     from .readfluid   import _offset_bin, _read_tabfile
     from .write_files import _write_h5, write_vtk, write_tab, write_bin, write_file
     from .read_files  import _read_h5
-    from .transform   import slices, mirror
+    from .transform   import slices, mirror, cartesian_vector, reshape_cartesian
     from .fourier     import fourier
     from .findlines   import find_contour, find_fieldlines, vector_field, _check_var  
 

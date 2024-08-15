@@ -77,6 +77,7 @@ def _inspect_bin(self, i: int, endian: str | None) -> None:
             #self._shape['tot']  = (self.maxpart,np.sum(self.vardim))
 
     f.close()
+    print(self._offset)
     # Create the key variables in the vars dictionary
     for ind, j in enumerate(self._d_info['varskeys'][i]):
         self._shape[j] = self.nshp 
@@ -214,7 +215,7 @@ def _store_bin_particles(self, i: int) -> None:
         ncol += szvar
 
     # Remove the 'tot' key from the dictionary
-    del self._d_vars['tot']
+    #del self._d_vars['tot']
 
     return None
 

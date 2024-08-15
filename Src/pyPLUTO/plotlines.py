@@ -108,8 +108,17 @@ def streamplot(self,
     y = np.asarray(kwargs.get('x2',np.arange(len(var1[0,:]))))
 
     # Keyword x1 and x2
-    var1, var2 = np.asarray(var1.T), np.asarray(var2.T)
-    if kwargs.get('transpose', False) is True: var1, var2 = var1.T, var2.T
+    varx, vary = np.asarray(var1.T).copy(), np.asarray(var2.T).copy()
+    if kwargs.get('transpose', False) is True: varx, vary = varx.T, vary.T
+
+    # 
+    fieldmod = np.sqrt(varx**2 + vary**2)
+    vmax     = kwargs.get('vmax', np.nanmax(fieldmod))
+    vmin     = kwargs.get('vmin', np.nanmin(fieldmod))
+
+    # Apply the masks to set the corresponding elements in varx and vary to NaN
+    mask = np.logical_or(fieldmod > vmax, fieldmod < vmin)
+    varx[mask] = vary[mask] = np.nan
 
     # Set ax parameters
     self.set_axis(ax = ax, check = False, **kwargs)
@@ -120,31 +129,36 @@ def streamplot(self,
     cmap  = kwargs.get('cmap',None)
     cpos  = kwargs.get('cpos',None)
     cscale = kwargs.get('cscale','norm')
-    tresh = kwargs.get('tresh', max(np.abs(np.nanmin(var1)),np.nanmax(var1))*0.01)
+    tresh = kwargs.get('tresh', max(np.abs(vmin),vmax)*0.01)
 
     if 'colors' in 'kwargs' and 'cmap' in 'kwargs':
         warn = "Both colors and cmap are defined. Using c."
         warnings.warn(warn)
 
     # Set the lines properties
-    linewidth = kwargs.get('linewidth',1)
-    density   = kwargs.get('density',1)
-    arrowstyle = kwargs.get('arrowstyle','-|>')
-    arrowsize = kwargs.get('arrowsize',1)
-    minlength = kwargs.get('minlength',0.1)
+    linewidth             = kwargs.get('linewidth',1)
+    density               = kwargs.get('density',1)
+    arrowstyle            = kwargs.get('arrowstyle','-|>')
+    arrowsize             = kwargs.get('arrowsize',1)
+    minlength             = kwargs.get('minlength',0.1)
     integration_direction = kwargs.get('integration_direction','both')
-    start_points = kwargs.get('start_points',None)
-    maxlength = kwargs.get('maxlength',1000)
-    broken_streamlines = kwargs.get('brokenlines',True)
+    start_points          = kwargs.get('start_points',None)
+    maxlength             = kwargs.get('maxlength',5)
+    broken_streamlines    = kwargs.get('brokenlines',True)
 
     # Set the colorbar scale
-    norm = self._set_cscale(cscale, np.nanmin(var1), np.nanmax(var1), tresh)
+    norm = self._set_cscale(cscale, vmin, vmax, tresh)
 
     # Plot the streamplot
-    strm = ax.streamplot(x, y, var1, var2, norm = norm, cmap = cmap, color = color,
-                         linewidth = linewidth, density = density, arrowstyle = arrowstyle,
-                         arrowsize = arrowsize, minlength = minlength, integration_direction = integration_direction,
-                         start_points = start_points, maxlength = maxlength, broken_streamlines = broken_streamlines)
+    strm = ax.streamplot(x, y, vary, varx, norm = norm, cmap = cmap, 
+                               color = color, linewidth = linewidth, 
+                               density = density,
+                               arrowsize = arrowsize, minlength = minlength,
+                               maxlength = maxlength, 
+                               start_points = start_points,
+                               arrowstyle = arrowstyle,
+                               integration_direction = integration_direction,
+                               broken_streamlines = broken_streamlines)
     
     if cpos != None:
         self.colorbar(strm, check = False, **kwargs)
@@ -152,6 +166,8 @@ def streamplot(self,
     # If tight_layout is enabled, is re-inforced
     if self.tight != False:
         self.fig.tight_layout()
+
+    del varx, vary
 
     return strm
 

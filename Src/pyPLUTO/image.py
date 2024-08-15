@@ -108,8 +108,8 @@ class Image:
     from .imagetools import savefig, show, text
     from .interact   import interactive, _update_slider
     from .plotlines  import contour, streamplot
-    from .figure     import _create_figure, _assign_LaTeX
-    from .h_image    import _add_ax, _hide_text, _choose_colorlines
+    from .figure     import _create_figure, _assign_LaTeX, _choose_colorlines
+    from .h_image    import _add_ax, _hide_text
     from .h_image    import _set_xrange, _set_yrange, _assign_ax
 
 

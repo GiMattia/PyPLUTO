@@ -29,6 +29,9 @@ from matplotlib.collections                import PathCollection, QuadMesh
 from matplotlib.widgets                    import Slider
 from matplotlib                            import rc
 from scipy.integrate                       import solve_ivp
+from scipy.interpolate                     import RectBivariateSpline
+from scipy.interpolate                     import RegularGridInterpolator
+from scipy.ndimage                         import map_coordinates
 from pathlib                               import Path
 from numpy.typing                          import NDArray
 from matplotlib.figure                     import Figure, SubFigure
@@ -38,11 +41,10 @@ from typing                                import Callable, Mapping, Any, Type
 from itertools                             import islice
 
 #from mpl_toolkits.axes_grid1.inset_locator import InsetPosition
-#from scipy.interpolate                     import RectBivariateSpline
 #from matplotlib                            import gridspec
     
 from .h_pypluto import makelist, check_par, color_warning, color_error
-from .h_pypluto import find_session, _check_par
+from .h_pypluto import find_session
 
 # Append created methods to __all__
-__all__ = [name for name in globals()] + ['_check_par']
+#__all__ = [name for name in globals()]

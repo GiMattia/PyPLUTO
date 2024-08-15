@@ -105,17 +105,60 @@ def _choose_colorlines(self,
                      ) -> list[str]:
     """
 
+    Chooses the colors for the lines. Depending on the number of colors
+    and the option 'oldcolor', the colors are:
+
+    - black, red, blue, cyan, green, orange (oldcolor = True)
+    - a new list of colors (oldcolor = False)
+
+    Both color lists are suited for all types of color vision deficiencies.
+
     Returns
     -------
 
     - colors: list[str]
         the list of colors for the lines
 
+    Parameters
+    ----------
+
+    - numcolor: int
+        the number of colors
+    - oldcolor: bool
+        if True, the old colors are used
+    - withblack: bool
+        if True, the black color is used as first color
+    - withwhite: bool
+        if True, the white color is used as first color
+
+    Notes
+    -----
+
+    - The withblack and withwhite options are only used if oldcolor = False
+      and they cannot be used together (priority goes to black).
+
+    Examples
+    --------
+
+    - Example #1: oldcolor = True
+        
+        >>> _choose_colorlines(6, True)
+
+    - Example #2: oldcolor = False, withblack = True
+        
+        >>> _choose_colorlines(6, False, True)
+
+    - Example #3: 12 colors, oldcolor = False, withwhite = True
+
+        >>> _choose_colorlines(12, False, False, True)
+
     """
+
+    # Old colors
     if oldcolor:    # black, red, blue, cyan, green, orange
         return ['k','#d7263d','#1815c5', '#12e3c0','#3f6600','#f67451']
 
-    # New colors
+    # New colors dictionary (black and white included)
     self.dictcol = { 0: '#ffffff',  1: '#e8ecfb',  2: '#d9cce3',  3: '#d1bbd7', 
                      4: '#caaccb',  5: '#ba8db4',  6: '#ae76a3',  7: '#aa6f9e',
                      8: '#994f88',  9: '#882e72', 10: '#1e3888', 11: '#437dbf',
@@ -125,10 +168,13 @@ def _choose_colorlines(self,
                     24: '#e8601c', 25: '#e65518', 26: '#dc050c', 27: '#a5170e',
                     28: '#72190e', 29: '#42150a', 30: '#777777', 31: '#000000'}
 
-    # Order             
+    # Colors are ordered to avoid color vision deficiencies           
     lstc = [10,26,15,23,14,17,7,25,28,18,11,2,9,16,5,21,8,27,4,13,19,29,1,30]
 
+    # Black and white addition
     lstc = [0] + lstc if withwhite else [31] + lstc if withblack else lstc
+
+    # End of function, return the colors
     return [self.dictcol[lstc[i]] for i in range(numcolor)]
     
     

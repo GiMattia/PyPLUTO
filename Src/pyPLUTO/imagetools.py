@@ -75,7 +75,9 @@ def show(self,
     
     """
 
-    self.fig.show(block = block)
+    warn = "Image show is deprecated, please use pp.show instead"
+    warnings.warn(warn, DeprecationWarning)
+    self.fig.show()
 
     return None
 

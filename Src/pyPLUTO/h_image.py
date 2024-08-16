@@ -292,10 +292,11 @@ def _assign_ax(self,
     Parameters
     ----------
 
-    - ax: ax
+    - ax: ax | int | list[ax] | None
         the selected set of axes
-    - **kwargs: dict
-        the selected parameters
+    - **kwargs: Any
+        the keyword arguments to be passed to the create_axes function
+        (not written here since is not public method)
 
     Notes
     -----
@@ -332,6 +333,12 @@ def _assign_ax(self,
     # Check if the axis is a list and select the first element
     elif isinstance(ax, list):
         ax = ax[0]
+    
+    # Check if the axis is an int, and select the corresponding axis from 
+    # the list of axes
+    elif isinstance(ax, int):
+        ax = self.ax[ax]
+
     # If none of the previous cases is satisfied assert that ax is an axis
     elif not isinstance(ax, Axes):
         raise ValueError("The provided axis is not valid.")

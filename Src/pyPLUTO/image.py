@@ -18,42 +18,44 @@ class Image:
                  **kwargs: Any
                 ) -> None:
 
-        self.fontsize: int = 17
-        self.tight: bool = True
-        self.figsize: list[float] = [8,5]
-        self._set_size: bool = False
-        self.nwin: int = 1
-        self.nrow0: int = 0
-        self.ncol0: int = 0
-        self.ax: list[Axes] = []
-                                # black, red, blue, cyan, green, orange
-      
-        
-        self.vlims: list[list[float]] = []
-        self.nline: list[int] = []
-        self.ntext: list[Any | None] = []
-        self.setax: list[Any |int] = []
-        self.setay: list[Any |int] = []
-        self.legpos: list[int | str | None] = []
-        self.legpar: list[list[float]] = []
-        self.tickspar: list[Any | int] = []
-        self.shade: list[str] = []
-        self.fontweight: str = kwargs.get('fontweight','normal')
-        self.tg: bool
-        self.fig: Figure
-        self.anim_var: NDArray
-        self.anim_ax: Axes
-        self.slider: Slider
-        self.anim_pcm: Any
+        self.fontsize: int = 17 # fontsize
+        self.tight: bool = True # tight layout
+        self.figsize: list[float] = [8,5] # figure size
+        self._set_size: bool = False # if True the figure size is set
+        self.nwin: int = 1 # window number
+        self.nrow0: int = 0 # number of rows in the figure
+        self.ncol0: int = 0 # number of columns in the figure
+        self.ax: list[Axes] = [] # list of axes in the figure 
+        self.vlims: list[list[float]] = [] # colorscale limits
+        self.nline: list[int] = [] # number of lines in the axis
+        self.ntext: list[Any | None] = [] # text in the axis
+        self.setax: list[Any |int] = [] # keyword for the range in x-direction
+        self.setay: list[Any |int] = [] # keyword for the range in y-direction
+        self.legpos: list[int | str | None] = [] # legend position
+        self.legpar: list[list[float]] = [] # legend parameters
+        self.tickspar: list[Any | int] = [] # ticks parameters
+        self.shade: list[str] = [] # shading of the plot
+        self.fontweight: str = kwargs.get('fontweight','normal') # fontweight
+        self.tg: bool # tight layout of the figure
+        self.fig: Figure # the figure associated to the image
+        self.anim_var: NDArray # the variable to be animated
+        self.anim_ax: Axes # the axes of the animation
+        self.slider: Slider # the slider
+        self.anim_pcm: Any # the animation collection
 
+        # Set the style of the figure
         plt.style.use(kwargs.get('style','default'))
 
+        # Set the options for the color lines
         self.color = self._choose_colorlines(kwargs.get('numcolor',10), 
                                              kwargs.get('oldcolor',False),
                                              kwargs.get('withblack',False),
                                              kwargs.get('withwhite',False))
 
+        # Set the LaTeX option
         self._assign_LaTeX(LaTeX)
+
+        # Create the figure
         self._create_figure(fig, text, **kwargs)
         if text is not False:
             print(f"Creating Figure in window {self.nwin}")
@@ -77,8 +79,6 @@ class Image:
         - Number of subplots (nrow0 x ncol0) {self.nrow0} x {self.ncol0}
         - Global fontsize    (fontsize)      {self.fontsize}
 
-        Public attributes available: WIP...
-
         Public methods available: 
         - create_axes
           Adds a set of [nrow,ncol] subplots to the figure.
@@ -96,6 +96,11 @@ class Image:
           Creates an inset zoom region of a subplot
         - text
           Places the text in the figure or in a subplot
+        - savefig
+          Saves the figure
+        - show
+          Shows the figure
+        
         
 
         Please refrain from using "private" methods and attributes.

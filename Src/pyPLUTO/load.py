@@ -2,10 +2,7 @@ from .libraries   import *
 
 class Load:
     """
-    Load class.
-    It loads the data.
-    Attributes: blablabla
-    Methods available: blablablax2
+    The Load class loads the data (fluid) from the output files.
     """
 
     def __init__(self, 

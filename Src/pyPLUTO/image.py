@@ -61,8 +61,11 @@ class Image:
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: create an empty image
 
@@ -190,7 +193,7 @@ class Image:
         
         Public attributes available:
 
-        - ax
+        - ax: 
             The list of axes in the figure
         - fig
             The figure associated to the image

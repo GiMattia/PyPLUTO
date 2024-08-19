@@ -34,8 +34,11 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
       very complex plots. Instead, it gives a very nice overview of the data
       as functions of time (like in other softwares such as visit or paraview).
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Create an interactive 2D plot
 
@@ -121,7 +124,11 @@ def _update_slider(self, i: int) -> None:
 
     - None.
 
+    ----
+
+    ========
     Examples
+    ========
 
     - Example #1: Update the data in the interactive plot
 

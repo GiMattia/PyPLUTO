@@ -3,8 +3,8 @@
 display function
 ================
 
+.. autofunction:: pyPLUTO.Image.display
 
+|
 
-The function display has the following structure:
-
-.. automethod:: pyPLUTO.Image.display
+----

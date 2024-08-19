@@ -26,8 +26,11 @@ def savefig(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: save an empty image
 
@@ -61,8 +64,11 @@ def show(self,
 
     - This method is deprecated, please use pp.show instead
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: show an empty image
 
@@ -128,8 +134,11 @@ def text(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Insert text inside a specific axis
 

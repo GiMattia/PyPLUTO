@@ -19,14 +19,19 @@ def read_vtk(self):
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Read the data from a VTK file
 
         >>> read_vtk()
 
     """
+
+    raise NotImplementedError("read_vtk() is not yet implemented.")
     
     # Create the path to the VTK file
     self._pathvtk = self.pathdir / (self.format + '.vtk')
@@ -59,8 +64,11 @@ def _read_h5(self, filename: str):
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Read the data from a HDF5 file
 
@@ -101,14 +109,19 @@ def read_tab(self):
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Read the data from a tab file
 
         >>> read_tab()
 
     """
+
+    raise NotImplementedError("read_tab() is not yet implemented.")
     
     # Create the path to the tab file
     self._pathtab = self.pathdir / (self.format + '.out')
@@ -138,14 +151,19 @@ def read_bin(self):
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Read the data from a binary file
 
         >>> read_bin()
 
     """
+
+    raise NotImplementedError("read_bin() is not yet implemented.")
     
     # Create the path to the binary file
     self._pathbin = self.pathdir / (self.format + '.out')
@@ -176,8 +194,11 @@ def read_files(self):
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Read the data from the output files
 

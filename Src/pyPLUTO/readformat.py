@@ -26,8 +26,11 @@ def _check_pathformat(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: path is a string
 
@@ -109,8 +112,11 @@ def _find_format(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Find the format of the fluid files
 
@@ -228,8 +234,11 @@ def _check_typeout(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Check the format of the output files
 
@@ -290,8 +299,11 @@ def _check_typelon(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Check the format of the output files
 

@@ -21,8 +21,11 @@ def makelist(el: Any
 
     - None
 
+     ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: element is a list
 
@@ -69,8 +72,11 @@ def check_par(par: set[str],
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: check if the parameters are in the list (no warning)
 
@@ -111,15 +117,22 @@ def color_error(type, value, tb):
 
 # Define the session
 def find_session():
+
     try:
-        shell = get_ipython().__class__.__name__
-        if shell == 'ZMQInteractiveShell':
-            session = "Jupyter notebook or qtconsole"
-        elif shell == 'TerminalInteractiveShell':
-            session = "Terminal running IPython"
-        else:
-            session = "Unknown session"
-    except NameError:
+        from IPython import get_ipython
+    except ImportError:
+        def get_ipython():
+            return None
+
+    ipython = get_ipython()
+    shell = ipython.__class__.__name__   
+    if ipython is None:
         session = "Standard Python interpreter"
+    elif shell == 'ZMQInteractiveShell':
+        session = "Jupyter notebook or qtconsole"
+    elif shell == 'TerminalInteractiveShell':
+        session = "Terminal running IPython"
+    else:
+        session = "Unknown session"    
     
     return session

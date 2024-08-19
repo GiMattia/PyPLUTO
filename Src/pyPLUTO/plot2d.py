@@ -156,8 +156,11 @@ def display(self,
     - Check if vmin and vmax remain the same after new figure is creates
     - Minorticks should be customized also to single axis
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: create a simple 2d plot with title and colorbar on the right
 
@@ -277,16 +280,19 @@ def scatter(self, x, y, **kwargs):
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     ...
 
     """
 
     # Convert x and y to numpy arrays (if necessary)
-    x =np.asarray(x)
-    y =np.asarray(y)
+    x = np.asarray(x)
+    y = np.asarray(y)
 
     # Check parameters
 
@@ -400,8 +406,11 @@ def colorbar(self,
     - Exted the colormap to more positions (e.g., top, bottom) with 
           correct spacing
           
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: create a standard colorbar on the right
 
@@ -503,9 +512,12 @@ def _set_cscale(self,
     -----
 
     - The lint keyword is deprecated, please use tresh instead
+    
+    ----
 
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: set a linear colormap between 0 and 1
 

@@ -39,8 +39,11 @@ def _load_variables(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Load all the variables
 
@@ -158,8 +161,11 @@ def _check_nout(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Load the last file
 
@@ -230,8 +236,11 @@ def _findfiles(self,
 
     - nfile_lp should be found automatically
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Load the last file
 
@@ -356,8 +365,11 @@ def _init_vardict(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Initialize the dictionary of a non-initialized variable
 
@@ -428,8 +440,11 @@ def _assign_var(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Assign the variable to the dictionary (single output time)
 
@@ -481,8 +496,11 @@ def _varsouts(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Find the outputs (particles, non LP)
 
@@ -565,8 +583,11 @@ def _varsouts_f(self, elem: str) -> None:
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Find the variables and the outputs
 
@@ -610,8 +631,11 @@ def _varsouts_p(self, elem: str) -> None:
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Find the outputs
 
@@ -654,8 +678,11 @@ def _varsouts_lp(self, elem: str) -> None:
 
         - nfile_lp should be found automatically
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Find the outputs
 

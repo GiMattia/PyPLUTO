@@ -41,8 +41,11 @@ def fourier(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Compute the Fourier transform of a given array
 
@@ -133,8 +136,11 @@ def fourier_spacing(dx: float | int | list | np.ndarray
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Check the grid spacing and return the correct value
 

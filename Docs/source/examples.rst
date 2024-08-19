@@ -1,6 +1,6 @@
 .. _examples:
 
-Examples with pyPLUTO
+Examples with PyPLUTO
 =====================
 
 .. toctree::
@@ -10,3 +10,7 @@ Examples with pyPLUTO
   test03_rti
   test04_rotor
   test06_diskplanet
+
+|
+
+----

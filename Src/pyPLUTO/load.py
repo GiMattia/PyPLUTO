@@ -2,7 +2,122 @@ from .libraries   import *
 
 class Load:
     """
-    The Load class loads the data (fluid) from the output files.
+    The Load class loads the data (fluid) from the output files. The 
+    initialization corresponds to the loading, if wanted, of one or more 
+    datafiles for the fluid. The data are loaded in a memory mapped numpy 
+    multidimensional array. Such approach does not load the full data until 
+    needed. Basic operations (i.e. no numpy) are possible, as well as slicing 
+    the arrays, without fully loading the data.
+
+    Returns
+    -------
+
+    - None
+
+    Parameters
+    ----------
+
+    - nout: int | str | list | None, default 'last'
+        The files to be loaded. Possible choices are int values (which 
+        correspond to the number of the output file), strings ('last', which 
+        corresponds to the last file, 'all', which corresponds to all files) or 
+        a list of the aforementioned types. Note that the 'all' value should be 
+        used carefully, e.g. only when the data need to be shown interactively. 
+    - path: str, default './'
+        The path of the folder where the files should be loaded.
+    - datatype: str | None, default None
+        The format of the data file. If not specified, the code will look for 
+        the format from the list of possible formats. HDF5 (AMR) formats have 
+        not been implemented yet.
+    - vars: str | list | bool | None, default True
+        The variables to be loaded. The default value, True, corresponds to all 
+        the variables.
+    - text: bool, default True
+        If True, the folder and output are printed. In case the user needs a 
+        more detailed information of the structure and attributes loaded from 
+        the class, the __str__ method provides a easy display of all the 
+        important information.
+    - alone: bool | None, default False
+        If the files are standalone. If False, the code will look for the 
+        grid file in the folder. If True, the code will look for the grid 
+        information within the data files. Should be used only for non-binary 
+        files.
+    - multiple: bool, default False
+        If the files are multiple. If False, the code will look for the single 
+        files, otherwise for the multiple files each corresponding to the loaded
+        variables. Should be used only if both single files and multiple files 
+        are present in the same format for the same datatype.
+    - endian: str | None, default None
+        Endianess of the datafiles. Should be used only if specific 
+        architectures are used, since the code computes it by itself. Valid 
+        values are 'big' and 'little' (or '<' and '>').
+        
+    Notes
+    -----
+
+    - Warning if the .out files are not found.
+
+    ----
+
+    ========
+    Examples
+    ========
+
+    - Example #1: Load the data from the default folder and output
+        
+        >>> D = pp.Load()
+        Loading folder ./,     output [0]
+
+    - Example #2: Load the data from the default folder but output 0    
+
+        >>> D = pp.Load(nout = 0)
+        Loading folder ./,     output [0]
+
+    - Example #3: Load the data from the default folder but last output is 
+        specified    
+
+        >>> D = pp.Load(nout = 'last')
+        Loading folder ./,     output [1]
+
+    - Example #4: Load the data from the default folder and all outputs    
+
+        >>> D = pp.Load(nout = 'all')
+        Loading folder ./,     output [0, 1, 2, 3, 4]
+
+    - Example #5: Load the data from the default folder and multiple 
+      selected outputs    
+
+        >>> D = pp.Load(nout = [0,1,2])
+        Loading folder ./,     output [0, 1, 2]
+
+    - Example #6: Load the data from the default folder and multiple selected 
+      outputs and variables    
+
+        >>> D = pp.Load(nout = [0,1,2], vars = ['rho','vel1'])
+        Loading folder ./,     output [0, 1, 2]
+
+    - Example #7: Load the data from the default folder, multiple selected
+      outputs and variables, without text
+
+        >>> D = pp.Load(nout = [0,1,2], vars = ['rho','vel1'], text = False)
+            
+    - Example #8: Load the data from the default format with selected output
+      and format
+        
+        >>> D = pp.Load(data = 'vtk', nout = 0)
+        Loading folder ./,     output [0]
+
+    - Example #9: Load the data from the default folder with selected output, 
+      variables and format
+
+        >>> D = pp.Load(data = 'vtk', nout = 0, vars = ['rho','vel1'])
+        Loading folder ./,     output [0]
+        
+    - Example #10: Load the data from a specific folder with selected output  
+        
+        >>> D = pp.Load(path = './data/', nout = 0)
+        Loading folder ./data/,     output [0]
+
     """
 
     def __init__(self, 
@@ -15,136 +130,6 @@ class Load:
                  multiple: bool = False, 
                  endian: str | None = None 
                 )-> None:
-        """
-        Initialization of the Load class.
-        The initialization corresponds to the loading, if wanted, of one or 
-        more datafiles for the fluid.
-        The data are loaded in a memory mapped numpy multidimensional array. 
-        Such approach does not load the full data until needed.
-        Basic operations (i.e. no numpy) are possible, as well as slicing the 
-        arrays, without fully loading the data.
-
-        Returns
-        -------
-
-        - None
-
-        Parameters
-        ----------
-
-        - nout: int | str | list | None, default 'last'
-            The files to be loaded. Possible choices are int 
-            values (which correspond to the number of the output
-            file), strings ('last', which corresponds to the last
-            file, 'all', which corresponds to all files) or a 
-            list of the aforementioned types.
-            Note that the 'all' value should be used carefully, 
-            e.g. only when the data need to be shown interactively.
-
-        - path: str, default'./'
-            The path of the folder where the files should be 
-            loaded.
-
-        - datatype: str | None, default None
-            The format of the data file. If not specified, the code will 
-            look for the format from the list of possible formats.
-            HDF5 (AMR) formats have not been implemented yet.
-
-        - vars: str | list | bool | None, default True
-            The variables to be loaded. The default value, True, 
-            corresponds to all the variables.
-
-        - text: bool, default True
-            If True, the folder and output are printed.
-            In case the user needs a more detailed information of the structure 
-            and attributes loaded from the class, the __str__ method provides a 
-            easy display of all the important information.
-
-        - alone: bool | None, default False
-            If the files are standalone. If False, the code will look for 
-            the grid file in the folder. If True, the code will look for 
-            the grid information within the data files. Should be used only
-            for non-binary files.
-
-        - multiple: bool, default False
-            If the files are multiple. If False, the code will look for the
-            single files, otherwise for the multiple files each 
-            corresponding to the loaded variables. Should be used only if 
-            both single files and multiple files are present in the same 
-            format for the same datatype.
-
-        - endian: str | None, default None
-            Endianess of the datafiles. Should be used only if specific 
-            architectures are used, since the code computes it by itself. 
-            Valid values are 'big' and 'little' (or '<' and '>').
-        
-        Notes
-        -----
-
-        - Extend the read_grid also to the vtk format (alone) and h5 format.
-        - Warning if the .out files are not found.
-
-        Examples
-        --------
-
-        - Example #1: Load the data from the default folder and output
-        
-            >>> import pyPLUTO as pp
-            >>> D = pp.Load()
-            Loading folder ./,     output [0]
-
-        - Example #2: Load the data from the default folder but output 0    
-
-            >>> D = pp.Load(nout = 0)
-            Loading folder ./,     output [0]
-
-        - Example #3: Load the data from the default folder but last output 
-          is specified    
-
-            >>> D = pp.Load(nout = 'last')
-            Loading folder ./,     output [1]
-
-        - Example #4: Load the data from the default folder and all outputs    
-
-            >>> D = pp.Load(nout = 'all')
-            Loading folder ./,     output [0, 1, 2, 3, 4]
-
-        - Example #5: Load the data from the default folder and multiple 
-          selected outputs    
-
-            >>> D = pp.Load(nout = [0,1,2])
-            Loading folder ./,     output [0, 1, 2]
-
-        - Example #6: Load the data from the default folder and multiple 
-          selected outputs and variables    
-
-            >>> D = pp.Load(nout = [0,1,2], vars = ['rho','vel1'])
-            Loading folder ./,     output [0, 1, 2]
-
-        - Example #7: Load the data from the default folder, multiple selected
-          outputs and variables, without text
-
-            >>> D = pp.Load(nout = [0,1,2], vars = ['rho','vel1'], text = False)
-            
-        - Example #8: Load the data from the default format with selected output
-          and format
-        
-            >>> D = pp.Load(data = 'vtk', nout = 0)
-            Loading folder ./,     output [0]
-
-        - Example #9: Load the data from the default folder with selected 
-          output, variables and format
-
-            >>> D = pp.Load(data = 'vtk', nout = 0, vars = ['rho','vel1'])
-            Loading folder ./,     output [0]
-        
-        - Example #10: Load the data from a specific folder with selected
-          output  
-        
-            >>> D = pp.Load(path = './data/', nout = 0)
-            Loading folder ./data/,     output [0]
-
-        """
 
         # Check if the user wants to load the data
         if nout is None:
@@ -214,7 +199,8 @@ class Load:
             raise TypeError("Invalid data type. 'multiple' must be a boolean.")
         else:
             self._multiple = multiple
-    
+
+        # Check if the path is an existing directory
         self._check_pathformat(path)
             
         # Find the format of the data files
@@ -281,19 +267,31 @@ class Load:
         Variables loaded: 
         {self._load_vars}
 
-        Public methods available: WIP...
+        Public methods available: 
+        
+        - slices
+        - mirror
+        - cartesian_vector
+        - reshape_cartesian
+        - write_file
+        - fourier
+        - nabla
+        - find_contour
+        - find_fieldlines
+        - vector_field
+
 
         Please refrain from using "private" methods and attributes.
         """
         return text
     
-    """
+    
     def __getattr__(self, name):
         try:
             return getattr(self, f'_{name}')
         except:
             raise AttributeError(f"'Load' object has no attribute '{name}'")
-    """
+    
             
     from .readformat  import _check_pathformat, _find_format
     from .readdata    import _load_variables, _check_nout, _findfiles
@@ -302,38 +300,10 @@ class Load:
     from .readgridout import _read_grid_vtk, _read_grid_h5
     from .readfluid   import _compute_offset, _inspect_h5, _inspect_vtk
     from .readfluid   import _offset_bin, _read_tabfile
-    from .write_files import _write_h5, write_vtk, write_tab, write_bin, write_file
+    from .write_files import _write_h5, write_file
     from .read_files  import _read_h5
     from .transform   import slices, mirror, cartesian_vector, reshape_cartesian
     from .fourier     import fourier
-    from .findlines   import find_contour, find_fieldlines, vector_field, _check_var  
-
-"""
-class Tools:
-
-    def __init__(self,D):
-        self.Grid = {}
-        self.gridlist = ['nx1','nx2','nx3','x1','x2','x3',
-                         'dx1','dx2','dx3','x1r','x2r','x3r',
-                         'x1c','x2c','x1rc','x2rc',
-                         'gridsize','nshp','dim','geom']
-        for i in self.gridlist:
-            try:
-                self.Grid[i] = getattr(D,i)
-            except:
-                pass
-
-    def __str__(self):
-        return f'''
-        Tools class.
-        It manipulates the data.
-        Attributes: blablabla
-        Methods available: blablablax2
-        Please refrain from using "private" methods.
-        '''
-
-    from .datatools import slices, mirror
-    #from .nabla     import gradient
-    from .lines     import fieldlines, field_interp, adv_field_line
-    from .lines     import check_closed_line
-"""
+    from .findlines   import find_contour, find_fieldlines, vector_field
+    from .findlines   import _check_var  
+    from .nabla       import gradient, curl, divergence

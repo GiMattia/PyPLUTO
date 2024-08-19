@@ -22,8 +22,11 @@ def _read_tabfile(self, i: int) -> None:
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Read the data.0000.tab file
 

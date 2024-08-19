@@ -3,6 +3,8 @@
 setaxis function
 ================
 
-The function set_axis has the following structure:
+.. automethod:: pyPLUTO.Image.set_axis
 
-.. autofunction:: pyPLUTO.Image.set_axis
+|
+
+----

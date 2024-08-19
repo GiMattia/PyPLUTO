@@ -48,8 +48,11 @@ def slices(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Slice the variable in the 3 directions
         
@@ -132,8 +135,11 @@ def mirror(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Mirror the variable in the left direction
             
@@ -217,8 +223,11 @@ def repeat(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Repeat the variable in the left direction
 

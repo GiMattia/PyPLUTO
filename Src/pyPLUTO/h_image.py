@@ -26,8 +26,11 @@ def _add_ax(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Add the axis to the class info variables
 
@@ -81,8 +84,11 @@ def _hide_text(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Hide the text of the selected set of axes
 
@@ -134,8 +140,11 @@ def _set_xrange(self,
     - The chance to set only one limit dinamically will be implemented
       in the future.
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Set the x-axis limits of the selected set of axes
 
@@ -212,8 +221,11 @@ def _set_yrange(self,
     - The chance to set only one limit dinamically will be implemented
       in the future. 
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Set the y-axis limits of the selected set of axes
 
@@ -303,8 +315,11 @@ def _assign_ax(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Set the axes of the figure
 

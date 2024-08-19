@@ -27,8 +27,11 @@ def _assign_LaTeX(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: LaTeX option True
         
@@ -137,8 +140,11 @@ def _choose_colorlines(self,
     - The withblack and withwhite options are only used if oldcolor = False
       and they cannot be used together (priority goes to black).
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: oldcolor = True
         
@@ -222,8 +228,11 @@ def _create_figure(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Create a new figure
 

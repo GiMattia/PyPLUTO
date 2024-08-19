@@ -40,8 +40,11 @@ def ring(length: float = 0.5,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Make a sound with a frequency of 440 Hz and a length 
       of 0.5 seconds

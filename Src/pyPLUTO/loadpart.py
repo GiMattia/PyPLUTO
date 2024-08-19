@@ -1,82 +1,73 @@
 from .libraries import *
 
 class LoadPart:
+    """
+    Load the particles from the simulation. The class is used to load the 
+    particles from the simulation and store the data in the class attributes. 
+    The data are loaded in a memory mapped numpy multidimensional array. Such 
+    approach does not load the full data until needed. Basic operations (i.e. 
+    no numpy) are possible, as well as slicing the arrays, without fully loading
+    the data. At the moment, only one output can be loaded at a time.
 
-    def __init__(self, 
-                 nout: int | str | None = 'last',   
-                 path: str  = './' , 
-                 datatype: str | None = None, 
-                 vars: str | list[str] | bool | None =  True,  
-                 text: bool = True, 
-                 endian: str | None = None,
-                 nfile_lp: int | None = None
-                ) -> None:
-        """
-        Load the particles from the simulation. The class is used to load
-        the particles from the simulation and store the data in the class
-        attributes. 
-        The data are loaded in a memory mapped numpy multidimensional array. 
-        Such approach does not load the full data until needed.
-        Basic operations (i.e. no numpy) are possible, as well as slicing the 
-        arrays, without fully loading the data.
-        At the moment, only one output can be loaded at a time.
+    Returns
+    -------
 
-        Returns
-        -------
+    - None.
 
-        - None.
+    Parameters
+    ----------
 
-        Parameters
-        ----------
-
-        - nout: int | str | list | None, default 'last'
-            The output number to be loaded. If 'last' the last output is loaded.
-            If None, the data are not loaded.
+    - nout: int | str | list | None, default 'last'
+        The output number to be loaded. If 'last' the last output is loaded.
+        If None, the data are not loaded.
         
-        - path: str, default './'
-            The path to the simulation directory.
+    - path: str, default './'
+        The path to the simulation directory.
 
-        - datatype: str, default None
-            The format of the data files to be loaded. If None, the code
-            finds the format between dbl, flt and vtk.
+    - datatype: str, default None
+        The format of the data files to be loaded. If None, the code
+        finds the format between dbl, flt and vtk.
 
-        - vars: str | list | bool | None, default True
-            The variables to be loaded. If True, all the variables are loaded.
-            If None, the data are not loaded.
+    - vars: str | list | bool | None, default True
+        The variables to be loaded. If True, all the variables are loaded.
+        If None, the data are not loaded.
 
-        - text: bool, default True
-            If True, the folder and output are printed.
-            In case the user needs a more detailed information of the structure 
-            and attributes loaded from the class, the __str__ method provides a 
-            easy display of all the important information.
+    - text: bool, default True
+        If True, the folder and output are printed.
+        In case the user needs a more detailed information of the structure 
+        and attributes loaded from the class, the __str__ method provides a 
+        easy display of all the important information.
 
-        - endian: str | None, default None
-            The endianess of the data files. If None, the code finds the 
-            endianess.
+    - endian: str | None, default None
+        The endianess of the data files. If None, the code finds the 
+        endianess.
 
-        - nfile_lp: int | None, default None
-            The file number for the lp methods. If None, the code finds the 
-            file number.
+    - nfile_lp: int | None, default None
+        The file number for the lp methods. If None, the code finds the 
+        file number.
 
-        Notes
-        -----
+    Notes
+    -----
 
-        - In future releases, multiple output files will be accessible at the 
-            same time
+    - In future releases, multiple output files will be accessible at the 
+        same time
 
-        Examples
-        --------
+    ----
 
-        - Example #1: Load the last output from the simulation
+    ========
+    Examples
+    ========
 
-            >>> LoadPart()
+    - Example #1: Load the last output from the simulation
 
-        - Example #2: Load the last output from the simulation with a specific
-          endianess
+        >>> LoadPart()
 
-            >>> LoadPart(endian = 'big')
+    - Example #2: Load the last output from the simulation with a specific
+        endianess
 
-        - Example #3: Load the last output from the simulation with a specific
+    >>> LoadPart(endian = 'big')
+
+    - Example #3: Load the last output from the simulation with a specific
           set of variables
 
             >>> LoadPart(vars = ['rho','vx','vy','vz'])
@@ -97,6 +88,17 @@ class LoadPart:
             >>> LoadPart(nfile_lp = 1)
 
         """
+        
+
+    def __init__(self, 
+                 nout: int | str | None = 'last',   
+                 path: str  = './' , 
+                 datatype: str | None = None, 
+                 vars: str | list[str] | bool | None =  True,  
+                 text: bool = True, 
+                 endian: str | None = None,
+                 nfile_lp: int | None = None
+                ) -> None:
         
         # Check if the user wants to load the data
         if nout is None:
@@ -175,7 +177,7 @@ class LoadPart:
             self.id = np.ma.masked_array(self.id.astype('int'), np.isnan(self.id))
         """        
 
-        # CHange the id variable to int depending on the format loaded
+        # Change the id variable to int depending on the format loaded
         if self.format != 'vtk':
             self.id = self.id.astype('int')
         else:
@@ -191,16 +193,21 @@ class LoadPart:
         return f"""
         LoadPart class.
         It loads the particles.
-        Attributes: ...
-        Methods available: ...
-        Please refrain from using "private" methods.
+        
+        File properties:
+        - Current path loaded (pathdir)      {self.pathdir} 
+        - Format loaded       (format)       {self.format}
+
+        Simulation properties
+
+        ... to be completed ...
         """
 
     def __getattr__(self, name):
         try:
             return getattr(self, f'_{name}')
         except:
-            raise AttributeError(f"'Load' object has no attribute '{name}'")
+            raise AttributeError(f"'LoadPart' object has no attribute '{name}'")
 
     from .parttools   import  spectrum, select
     from .readformat  import _check_pathformat, _find_format

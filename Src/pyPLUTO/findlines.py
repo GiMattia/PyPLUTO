@@ -29,8 +29,11 @@ def _check_var(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: var is a numpy array
 
@@ -86,8 +89,11 @@ def vector_field(t, y, var1, var2, xc, yc):
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Compute the vector field at the given time and coordinates
 
@@ -186,8 +192,11 @@ def find_fieldlines(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Find field lines using the vector field
 
@@ -409,8 +418,11 @@ def find_contour(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Generate contour lines for a given variable.
 
@@ -435,7 +447,7 @@ def find_contour(self,
 
     # Get the variable, if it is a string, get the variable from the dataset.
     # The .T is used to transpose the variable to the correct shape.
-    var = self._check_var(var, kwargs.get('transpose', False))
+    var = self._check_var(var, kwargs.get('transpose', False)).T
     
     # Get the grid information and provide a default value for the coordinates
     # if they are not provided depending on the geometry.

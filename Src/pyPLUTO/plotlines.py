@@ -28,8 +28,11 @@ def contour(self,
     - Need to improve the colorbar, now only lines are plotted and not the 
       full colormap.
     
+    ----
+
+    ========
     Examples
-    --------
+    ========
     
     - Example #1: Plot a contour plot of a variable
         

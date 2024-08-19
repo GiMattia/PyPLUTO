@@ -168,8 +168,11 @@ def zoom(self,
 
     - Link too long       
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: create a simple zoom of a 1d plot
 
@@ -219,7 +222,8 @@ def zoom(self,
         axins = _place_inset_pos(ax, kwargs['pos'])
     else:
         axins = _place_inset_loc(ax, **kwargs)
-    kwargs['fontsize'] = kwargs.get('fontsize',self.fontsize - 5)
+    kwargs['fontsize']  = kwargs.get('fontsize', self.fontsize - 3)
+    kwargs['titlesize'] = kwargs.get('titlesize',self.fontsize)
 
     # Adds the inset axis
     self._add_ax(axins, len(self.ax))

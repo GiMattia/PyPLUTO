@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>legend function &#8212; pyPLUTO 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="colorbar function" href="colorbar.html" />
+    <link rel="prev" title="interactive function" href="interactive.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">pyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="interactive.html" title="interactive function"
+             accesskey="P">previous</a> |
+          <a href="colorbar.html" title="colorbar function"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="legend-function">
+<span id="legend"></span><h1>legend function<a class="headerlink" href="#legend-function" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPLUTO.Image.legend">
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromplot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPLUTO.Image.legend" title="Link to this definition">¶</a></dt>
+<dd><p>Creation of a legend referring to the current figure.</p>
+<p>If no labels are given, it shows the labels of all the plots in the figure,
+ordered by entry. If specific labels are given, it shows those ones.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>- ax: axis object, default None</strong></dt><dd><p>The axis where to insert the legend. If None, the last considered axis 
+will be used.</p>
+</dd>
+<dt><strong>- c: str, default [‘k’,’#12e3c0’,’#3f6600’,’#1815c5’,’#f67451’,’#d7263d’]</strong></dt><dd><p>Determines the line color. If not defined, the program will loop over an
+array of 6 color which are different for the most common vision
+deficiencies.</p>
+</dd>
+<dt><strong>- check: bool, default True</strong></dt><dd><p>If enabled perform a check on the method’s parameters, raising a warning
+if a parameter is not present among the set of available parameters.</p>
+</dd>
+<dt><strong>- fillstyle: {‘full’, ‘left’, ‘right’, ‘bottom’, ‘top’, ‘none’},</strong></dt><dd><blockquote>
+<div><p>default ‘full’</p>
+</div></blockquote>
+<p>Sets the marker filling. The default value is the fully filled marker
+(‘full’).</p>
+</dd>
+<dt><strong>- label: [str], default None</strong></dt><dd><p>Associates a label to each line. If not specified, the program will take
+the label which are already associated with the plot.</p>
+</dd>
+<dt><strong>- legalpha: float, default 0.8</strong></dt><dd><p>Sets the opacity of the legend.</p>
+</dd>
+<dt><strong>- legcols: int, default 1</strong></dt><dd><p>Sets the number of columns that the legend should have.</p>
+</dd>
+<dt><strong>- legpad: float, default 0.8</strong></dt><dd><p>Sets the space between the lines (or symbols) and the correspondibg text
+in the legend.</p>
+</dd>
+<dt><strong>- legpos: int/str, default 0</strong></dt><dd><p>Selects the legend location. If not specified the standard matplotlib
+legend function will find the most suitable location.</p>
+</dd>
+<dt><strong>- legsize: float, default fontsize</strong></dt><dd><p>Sets the fontsize of the legend. The default value is the default 
+fontsize value.</p>
+</dd>
+<dt><strong>- legspace: float, default 2</strong></dt><dd><p>Sets the space between the legend columns, in font-size units.</p>
+</dd>
+<dt><strong>- ls: {‘-’, ‘–’, ‘-.’, ‘:’, ‘ ‘, ect.}, default ‘-’</strong></dt><dd><p>Sets the linestyle. The choices available are the ones defined in the 
+matplotlib package. Here are reported the most common ones.</p>
+</dd>
+<dt><strong>- lw: float, default 1.3</strong></dt><dd><p>Sets the linewidth of each line.</p>
+</dd>
+<dt><strong>- marker: {‘o’, ‘v’, ‘^’, ‘&lt;’, ‘&gt;’, ‘X’, ‘ ‘, etc.}, default ‘ ‘</strong></dt><dd><p>Sets an optional symbol for every point. The default value is no marker 
+(’ ‘).</p>
+</dd>
+<dt><strong>- ms: float, default 5 8f label) or 1 (if not label)</strong></dt><dd><p>Sets the marker size from the default value of 5.0 (if label is given)
+or the marker scale from the default value of 1.0 (if not label).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>None</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<ul>
+<li><p>Example #1: create a standard legend</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;label&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #2: create a legend with custom labels</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #3: create a double legend for four lines in a single plot</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y4</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">legpos</span> <span class="o">=</span> <span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">],</span> 
+<span class="gp">... </span><span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;black lines&#39;</span><span class="p">,</span> <span class="s1">&#39;red lines&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">legpos</span> <span class="o">=</span> <span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-.&#39;</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">],</span> 
+<span class="gp">... </span><span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;continue&#39;</span><span class="p">,</span> <span class="s1">&#39;dotted&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="image.html#the-pypluto-image-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image()</span></code> class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">legend function</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.legend"><code class="docutils literal notranslate"><span class="pre">legend()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="colorbar.html">colorbar function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="zoom.html">zoom function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="savefig.html">savefig function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="text.html">text function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="interactive.html" title="interactive function"
+              >previous</a> |
+            <a href="colorbar.html" title="colorbar function"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

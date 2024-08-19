@@ -153,8 +153,11 @@ def plot(self,
 
     - Minorticks on single axis?
              
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: create a simple plot of y as function of x
          
@@ -324,8 +327,11 @@ def legend(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: create a standard legend
         

@@ -697,7 +697,6 @@ def _varsouts_lp(self, elem: str) -> None:
     # Splits the matching filename
     vars: str = elem.split('/')[-1].split('.')[0]#.split('_')[0]
     outs: str = elem.split('/')[-1].split('.')[1]
-    print(vars, outs)
     
     # Finds the outputs
     if vars == 'particles':

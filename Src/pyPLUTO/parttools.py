@@ -29,9 +29,10 @@ def spectrum(self,
     bins = kwargs.get('bins') if bin in kwargs else bins
 
     # Compute the histogram
-    hist, _ = np.histogram(var,bins = bins, range = (vmin,vmax),
+    hist, bins = np.histogram(var,bins = bins, range = (vmin,vmax),
                                   density = kwargs.get('density',True))
 
+    bins = 0.5*(bins[1:] + bins[:-1])
     # Return the histogram
     return hist, bins
 

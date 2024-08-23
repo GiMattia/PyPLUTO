@@ -295,7 +295,7 @@ def divergence(self,
         krange = k
 
     if self.dim == 1:
-        var1 = v1[irange]
+        var1 = np.copy(v1[irange])
 
         rr = self.x1[irange]
 
@@ -314,8 +314,8 @@ def divergence(self,
         return div1[i]
     
     elif self.dim == 2:
-        var1 = v1[irange,jrange]
-        var2 = v2[irange,jrange]
+        var1 = np.copy(v1[irange,jrange])
+        var2 = np.copy(v2[irange,jrange])
 
         if self.geom != 'CARTESIAN':
             rr, tt = np.meshgrid(self.x1[irange],
@@ -350,8 +350,8 @@ def divergence(self,
     elif self.dim == 3:
 
         if self.nx2 == 1:
-            var1 = v1[irange,0,krange]
-            var3 = v3[irange,0,krange]
+            var1 = np.copy(v1[irange,0,krange])
+            var3 = np.copy(v3[irange,0,krange])
     
             if self.geom != 'CARTESIAN':
                 rr, _ = np.meshgrid(self.x1[irange],
@@ -381,9 +381,9 @@ def divergence(self,
             return div1[i,k] + div3[i,k]
         
         else:
-            var1 = v1[irange,jrange,krange]
-            var2 = v2[irange,jrange,krange]
-            var3 = v3[irange,jrange,krange]
+            var1 = np.copy(v1[irange,jrange,krange])
+            var2 = np.copy(v2[irange,jrange,krange])
+            var3 = np.copy(v3[irange,jrange,krange])
 
             if self.geom != 'CARTESIAN':
                 rr, tt, _ = np.meshgrid(self.x1[irange],
@@ -487,9 +487,9 @@ def curl(self,
         raise ValueError('curl() requires DIMENSION >= 2')
     
     elif self.dim == 2:
-        var1 = v1[irange,jrange]
-        var2 = v2[irange,jrange]
-        var3 = v3[irange,jrange]
+        var1 = np.copy(v1[irange,jrange])
+        var2 = np.copy(v2[irange,jrange])
+        var3 = np.copy(v3[irange,jrange])
 
         if self.geom != 'CARTESIAN':
             rr, tt = np.meshgrid(self.x1[irange],
@@ -536,9 +536,9 @@ def curl(self,
     elif self.dim == 3:
 
         if self.nx2 == 1:
-            var1 = v1[irange,0,krange]
-            var2 = v2[irange,0,krange]
-            var3 = v3[irange,0,krange]
+            var1 = np.copy(v1[irange,0,krange])
+            var2 = np.copy(v2[irange,0,krange])
+            var3 = np.copy(v3[irange,0,krange])
     
             if self.geom != 'CARTESIAN':
                 rr, _ = np.meshgrid(self.x1[irange],
@@ -573,9 +573,9 @@ def curl(self,
             return np.asarray([curl1[i,k],curl2[i,k],curl3[i,k]])
         
         else:
-            var1 = v1[irange,jrange,krange]
-            var2 = v2[irange,jrange,krange]
-            var3 = v3[irange,jrange,krange]
+            var1 = np.copy(v1[irange,jrange,krange])
+            var2 = np.copy(v2[irange,jrange,krange])
+            var3 = np.copy(v3[irange,jrange,krange])
 
             if self.geom != 'CARTESIAN':
                 rr, tt, _ = np.meshgrid(self.x1[irange],

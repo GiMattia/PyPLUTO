@@ -28,8 +28,11 @@ def _write_h5(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Write the data to a HDF5 file
 
@@ -88,8 +91,11 @@ def write_vtk(self):
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Write the data to a VTK file
 
@@ -97,6 +103,7 @@ def write_vtk(self):
 
     """
     
+    raise NotImplementedError("write_vtk() is not yet implemented.")
     # Create the path to the VTK file
     self._pathvtk = self.pathdir / (self.format + '.vtk')
     
@@ -144,14 +151,19 @@ def write_tab(self):
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Write the data to a tab-separated file
 
         >>> write_tab()
 
     """
+
+    raise NotImplementedError("write_tab() is not yet implemented.")
     
     # Create the path to the tab-separated file
     self._pathtab = self.pathdir / (self.format + '.tab')
@@ -194,14 +206,19 @@ def write_bin(self):
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Write the data to a binary file
 
         >>> write_bin()
 
     """
+
+    raise NotImplementedError("write_bin() is not yet implemented.")
     
     # Create the path to the binary file
     self._pathbin = self.pathdir / (self.format + '.bin')
@@ -242,8 +259,11 @@ def write_file(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Write the data to a file
     

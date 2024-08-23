@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>colorbar function &#8212; pyPLUTO 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="zoom function" href="zoom.html" />
+    <link rel="prev" title="legend function" href="legend.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">pyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="legend.html" title="legend function"
+             accesskey="P">previous</a> |
+          <a href="zoom.html" title="zoom function"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="colorbar-function">
+<span id="colorbar"></span><h1>colorbar function<a class="headerlink" href="#colorbar-function" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyPLUTO.Image.colorbar">
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">colorbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pcm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPLUTO.Image.colorbar" title="Link to this definition">¶</a></dt>
+<dd><p>method to display a colorbar in a selected position. If the keyword cax is
+enabled the colorbar is locates in a specific axis, otherwise an axis will
+be shrunk in order to place the colorbar.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- axs: axis object, default None</strong></dt><dd><p>The axes where the display that will be used for the colorbar is 
+located. If None, the last considered axis will be used.</p>
+</dd>
+<dt><strong>- cax: axis object, default None</strong></dt><dd><p>The axes where the colorbar should be placed. If None, the colorbar
+will be placed next to the axis axs.</p>
+</dd>
+<dt><strong>- clabel: str, default None</strong></dt><dd><p>Sets the label of the colorbar.</p>
+</dd>
+<dt><strong>- cpad: float, default 0.07</strong></dt><dd><p>Fraction of original axes between colorbar and the axes (in case cax is
+not defined).</p>
+</dd>
+<dt><strong>- cpos: {‘top’,’bottom’,’left’,’right’}, default ‘right’</strong></dt><dd><p>Sets the position of the colorbar.</p>
+</dd>
+<dt><strong>- cticks: {[float], None}, default None</strong></dt><dd><p>If enabled (and different from None), sets manually ticks on the
+colorbar.</p>
+</dd>
+<dt><strong>- ctickslabels: str, default None</strong></dt><dd><p>If enabled, sets manually ticks labels on the colorbar.</p>
+</dd>
+<dt><strong>- extend: {‘neither’,’both’,’min’,’max’}, default ‘neither’</strong></dt><dd><p>Sets the extension of the triangular colorbar extension.</p>
+</dd>
+<dt><strong>- extendrect: bool, default False</strong></dt><dd><p>If True, the colorbar extension will be rectangular.</p>
+</dd>
+<dt><strong>- pcm: QuadMesh | PathCollection | None, default None</strong></dt><dd><p>The collection to be used for the colorbar. If None, the axs will be
+used. If both pcm and axs are not None, pcm will be used.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>If multiple subplots are present, multiple colorbars cannot be created
+from the display routine. This issue must be fixed in future releases.</p></li>
+<li><p>Colorbar should not overlap the plot or other colormaps</p></li>
+<li><dl class="simple">
+<dt>Exted the colormap to more positions (e.g., top, bottom) with </dt><dd><p>correct spacing</p>
+</dd>
+</dl>
+</li>
+</ul>
+<hr class="docutils" />
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<ul>
+<li><p>Example #1: create a standard colorbar on the right</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #2: create a colorbar in a different axis</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">axs</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #3: create a set of 3 displays with a colorbar on the bottom.
+Another colorbar is shown on the right of the topmost display</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">nrow</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">axs</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">var2</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">var3</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">axs</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">cax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="image.html#the-pypluto-image-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image()</span></code> class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="legend.html">legend function</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">colorbar function</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.colorbar"><code class="docutils literal notranslate"><span class="pre">colorbar()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="zoom.html">zoom function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="savefig.html">savefig function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="text.html">text function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="legend.html" title="legend function"
+              >previous</a> |
+            <a href="zoom.html" title="zoom function"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

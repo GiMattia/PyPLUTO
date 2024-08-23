@@ -13,17 +13,17 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Examples with pyPLUTO" href="examples.html" />
-    <link rel="prev" title="zoom function" href="zoom.html" /> 
+    <link rel="next" title="Examples with PyPLUTO" href="examples.html" />
+    <link rel="prev" title="savefig function" href="savefig.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
           href="index.html">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="zoom.html" title="zoom function"
+          <a href="savefig.html" title="savefig function"
              accesskey="P">previous</a> |
-          <a href="examples.html" title="Examples with pyPLUTO"
+          <a href="examples.html" title="Examples with PyPLUTO"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -41,7 +41,6 @@
             
   <section id="text-function">
 <span id="text"></span><h1>text function<a class="headerlink" href="#text-function" title="Link to this heading">¶</a></h1>
-<p>The function text has the following structure:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPLUTO.Image.text">
 <span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.85</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.85</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPLUTO.Image.text" title="Link to this definition">¶</a></dt>
@@ -54,17 +53,25 @@ will be used.</p>
 </dd>
 <dt><strong>- c: str, default ‘k’</strong></dt><dd><p>Determines the text color.</p>
 </dd>
-<dt><strong>- horalign</strong></dt><dd></dd>
+<dt><strong>- horalign: str, default ‘left’</strong></dt><dd><p>The horizontal alignment. Possible values are ‘left’, ‘center’, ‘right’.</p>
+</dd>
 <dt><strong>- text (not optional): str</strong></dt><dd><p>The text that will appear on the text box</p>
 </dd>
 <dt><strong>- textsize: float, default fontsize</strong></dt><dd><p>Sets the text fontsize. The default value corresponds to the value of
 the actual fontsize in the figure.</p>
 </dd>
-<dt><strong>- veralign</strong></dt><dd></dd>
+<dt><strong>- veralign: str, default ‘baseline’</strong></dt><dd><p>The vertical alignment. Possible values are ‘baseline’, ‘bottom’, 
+‘center’, ‘center_baseline’, ‘top’.</p>
+</dd>
 <dt><strong>- x: float, default 0.85</strong></dt><dd><p>The horizontal starting position of the text box, in units of figure
 size.</p>
 </dd>
-<dt><strong>- xycoords</strong></dt><dd></dd>
+<dt><strong>- xycoords: str, default ‘fraction’</strong></dt><dd><p>The coordinate system used. Possible values are ‘figure fraction’, 
+which sets the position as a fraction of the axis (inside the axis lie
+values between 0 and 1), ‘points’, which sets the position in units of
+the x/y coordinate system, and ‘figure’, which sets the position as a
+fraction of the figure.</p>
+</dd>
 <dt><strong>- y: float, default 0.85</strong></dt><dd><p>The vertical starting position of the text box, in units of figure size.</p>
 </dd>
 </dl>
@@ -82,13 +89,46 @@ size.</p>
 <ul class="simple">
 <li><p>None</p></li>
 </ul>
-<p class="rubric">Examples</p>
-<ul class="simple">
-<li><p>Example #1: create a simple text box</p></li>
+<hr class="docutils" />
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<ul>
+<li><p>Example #1: Insert text inside a specific axis</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #2: Insert text inside the last axis</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #3: Insert text inside the last axis with a specific fontsize</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">textsize</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><dl>
+<dt>Example #4: Insert text inside the last axis with a specific fontsize and</dt><dd><p>a specific color</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">textsize</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p>Example #5: Insert text inside the last axis with a points position</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">xycoords</span> <span class="o">=</span> <span class="s1">&#39;points&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
 </ul>
-<p>bla bla bla</p>
+</section>
 </dd></dl>
 
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
 </section>
 
 
@@ -101,16 +141,19 @@ size.</p>
           
           <h3>Table of Contents</h3>
           <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="image.html#pyPLUTO.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#image-initialization">Image initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#the-pypluto-image-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image()</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="legend.html">legend function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="colorbar.html">colorbar function</a></li>
 <li class="toctree-l3"><a class="reference internal" href="zoom.html">zoom function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="savefig.html">savefig function</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">text function</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.text"><code class="docutils literal notranslate"><span class="pre">text()</span></code></a></li>
 </ul>
@@ -119,7 +162,7 @@ size.</p>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
@@ -140,9 +183,9 @@ size.</p>
       <div class="footer">
         <div class="left">
           <div role="navigation" aria-label="related navigaton">
-            <a href="zoom.html" title="zoom function"
+            <a href="savefig.html" title="savefig function"
               >previous</a> |
-            <a href="examples.html" title="Examples with pyPLUTO"
+            <a href="examples.html" title="Examples with PyPLUTO"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>

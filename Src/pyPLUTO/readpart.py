@@ -77,6 +77,7 @@ def _inspect_bin(self, i: int, endian: str | None) -> None:
             #self._shape['tot']  = (self.maxpart,np.sum(self.vardim))
 
     f.close()
+
     # Create the key variables in the vars dictionary
     for ind, j in enumerate(self._d_info['varskeys'][i]):
         self._shape[j] = self.nshp 
@@ -119,6 +120,9 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
 
     # Open the file and read the lines
     f = open(self._filepath, 'rb')
+
+    """
+
     for l in f:
 
         # Split the lines (unsplit are binary data)
@@ -134,20 +138,15 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
             self._offset['points'] = f.tell()
             self._shape['points']  = (self.dim,3)
 
-        elif spl1 == b'Identity':
-            f.readline()
-            self._offset['id'] = f.tell()
-            self._shape['id'] = self.dim
+        #elif spl1 == b'Identity':
+        #    f.readline()
+        #    self._offset['id'] = f.tell()
+        #    self._shape['id'] = self.dim
         
-        elif spl1 == b'tinj':
-            f.readline()
-            self._offset['tinj'] = f.tell()
-            self._shape['tinj'] = self.dim
-
-        
-        elif spl1 == b'Four-Velocity' or spl1 == b'Velocity':
-            self._shape['vel']  = (self.dim,int(l.split()[3]))
-            self._offset['vel'] = f.tell()
+        #elif spl1 == b'tinj':
+        #    f.readline()
+        #    self._offset['tinj'] = f.tell()
+        #    self._shape['tinj'] = self.dim
         
         elif spl0 == b'SCALARS':
             var = spl1.decode()
@@ -161,11 +160,87 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
             self._shape[var]  = (self.dim,int(l.split()[3]))
             self._offset[var] = f.tell()
 
-        # Find the variables and store them
-        self._d_info['binformat'][i] = self._d_info['endianess'][i] + 'f'
-        self._d_info['varslist'][i] = np.array(list(self._offset.keys()))
+    print(self._offset, self._shape)
+    """
+
+    mmapped_file = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+
+    search_pos = 0
+
+    while True:
+        # Find the next occurrence of the header
+        points_pos  = mmapped_file.find(b'POINTS', search_pos)
+
+        # Determine the closest header found
+        if points_pos == -1 :#and scalars_pos == -1 and vectors_pos == -1:
+            break  # No more headers found
+
+        #min_pos = min((pos for pos in [points_pos, scalars_pos, vectors_pos] if pos != -1))
+
+        #if min_pos == points_pos:
+           # Handle POINTS
+        line_end = mmapped_file.find(b'\n', points_pos)
+        line     = mmapped_file[points_pos:line_end:1]
+        parts    = line.split()
+        self.dim = int(parts[1])
+
+        offset = line_end + 1
+        self._offset['points'] = offset
+        self._shape['points']  = (self.dim,3)
+
+        search_pos = line_end + 3*4*self.dim + 1
+
+    while True:
+        # Find the next occurrence of the header
+        #points_pos  = mmapped_file.find(b'POINTS', search_pos)
+        scalars_pos = mmapped_file.find(b'SCALARS', search_pos)
+        #vectors_pos = -1#mmapped_file.find(b'VECTORS', search_pos)
+
+        # Determine the closest header found
+        if scalars_pos == -1 :#and scalars_pos == -1 and vectors_pos == -1:
+            break  # No more headers found
+
+        # Move to the end of the 'SCALARS' line
+        line_end = mmapped_file.find(b'\n', scalars_pos)
+        line     = mmapped_file[scalars_pos:line_end]
+        parts    = line.split()
+        var      = parts[1].decode()
+
+        # Move to the start of the scalar data
+        lookup_table_pos = mmapped_file.find(b'LOOKUP_TABLE default', \
+                                                   line_end)
+        self._offset[var] = mmapped_file.find(b'\n', lookup_table_pos) + 1
+        self._shape[var]  = self.dim
+
+        search_pos = line_end + 4*self.dim + 1
+
+    while True:
+            
+        vectors_pos = mmapped_file.find(b'VECTORS', search_pos)
+
+        # Determine the closest header found
+        if vectors_pos == -1 :#and scalars_pos == -1 and vectors_pos == -1:
+            break  # No more headers found
+        #elif min_pos == vectors_pos:
+        # Handle VECTORS
+        line_end = mmapped_file.find(b'\n', vectors_pos)
+        line     = mmapped_file[vectors_pos:line_end]
+        parts    = line.split()
+        var      = parts[1].decode()
+
+        self._shape[var]  = (self.dim,int(parts[3]))
+        self._offset[var] = line_end + 1
+
+        search_pos = line_end + self.dim*int(parts[3])*4 + 1
+
+    mmapped_file.close()
+
+    # Find the variables and store them
+    self._d_info['binformat'][i] = self._d_info['endianess'][i] + 'f'
+    self._d_info['varslist'][i] = np.array(list(self._offset.keys()))
 
     f.close()
+
     # Create the key variables in the vars dictionary
     for ind, j in enumerate(self._d_info['varskeys'][i]):
         self._shape[j] = self.nshp 
@@ -236,20 +311,45 @@ def _store_vtk_particles(self, i: int) -> None:
             the index of the file to be loaded. 
     """
 
+    vardict = {'points':        ['x1', 'x2', 'x3'], 
+               'Velocity':      ['vx1', 'vx2', 'vx3'], 
+               'Four-Velocity': ['vx1', 'vx2', 'vx3']}
+
     # Store the position in the dictionary
-    self._d_vars['x1'] = self._d_vars['points'][0]
-    self._d_vars['x2'] = self._d_vars['points'][1]
-    self._d_vars['x3'] = self._d_vars['points'][2]
+    for var in vardict.keys():
+        if var in self._d_vars:
+            for i, j in enumerate(vardict[var]): 
+                self._d_vars[j] = self._d_vars[var][i]
+            del self._d_vars[var]
+
+    # Store the id in the dictionary
+    if 'Identity' in self._d_vars:
+        self._d_vars['id'] = self._d_vars['Identity']
+        del self._d_vars['Identity']
+
+    #if 'points' in self._d_vars:
+    #    self._d_vars['x1'] = self._d_vars['points'][0]
+    #    self._d_vars['x2'] = self._d_vars['points'][1]
+    #    self._d_vars['x3'] = self._d_vars['points'][2]
+    #    del self._d_vars['points']
 
     # Store the velocity in the dictionary
-    self._d_vars['vx1'] = self._d_vars['vel'][0]
-    self._d_vars['vx2'] = self._d_vars['vel'][1]
-    self._d_vars['vx3'] = self._d_vars['vel'][2]
-
-    # Remove the 'points' and 'vel' keys from the dictionary
-    del self._d_vars['points']
-    del self._d_vars['vel']
-
+    #if 'Four-Velocity' in self._d_vars:
+    #    self._d_vars['vx1'] = self._d_vars['Four-Velocity'][0]
+    #    self._d_vars['vx2'] = self._d_vars['Four-Velocity'][1]
+    #    self._d_vars['vx3'] = self._d_vars['Four-Velocity'][2]
+    #    del self._d_vars['Four-Velocity']
+    #elif 'Velocity' in self._d_vars:
+    #    self._d_vars['vx1'] = self._d_vars['Velocity'][0]
+    #    self._d_vars['vx2'] = self._d_vars['Velocity'][1]
+    #    self._d_vars['vx3'] = self._d_vars['Velocity'][2]
+    #    del self._d_vars['Velocity']
+    #elif 'vel' in self._d_vars:
+    #    self._d_vars['vx1'] = self._d_vars['vel'][0]
+    #    self._d_vars['vx2'] = self._d_vars['vel'][1]
+    #    self._d_vars['vx3'] = self._d_vars['vel'][2]
+    #    del self._d_vars['vel']
+  
     return None
 
 def _compute_offset(self, 

@@ -30,9 +30,15 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
     -----
 
     - Check vmin and vmax to set the colorbar limits.
+    - Interact is a very primordial version and it should not be used tu perform
+      very complex plots. Instead, it gives a very nice overview of the data
+      as functions of time (like in other softwares such as visit or paraview).
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Create an interactive 2D plot
 
@@ -75,13 +81,13 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
 
     # Position the slider
     pos_slider = ax.get_position()
-    pos_x0 = pos_slider.x0*1.5
-    pos_x1 = pos_slider.x1*0.95 - pos_x0
-    sliderax = self.fig.add_axes((pos_x0, 0.02, pos_x1, 0.04))
+    pos_x0     = pos_slider.x0*1.5
+    pos_x1     = pos_slider.x1*0.95 - pos_x0
+    sliderax   = self.fig.add_axes((pos_x0, 0.02, pos_x1, 0.04))
 
     # Create the slider
-    self.slider = Slider(sliderax,label="out", valmin=0,
-                         valmax=nsld, valinit = 0, valstep = 1, valfmt = '%d')
+    self.slider = Slider(sliderax, label = "out", valmin = 0, valmax = nsld, 
+                                   valinit = 0, valstep = 1, valfmt = '%d')
     self.slider.on_changed(self._update_slider)
 
     # Display the data
@@ -94,7 +100,7 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
     else:
         # Plot the data if it is 1D
         self.plot(varx,np.array(vary[0].tolist()), ax = ax, **kwargs)
-        self.anim_pcm =  ax.get_lines()[0]
+        self.anim_pcm = ax.get_lines()[0]
 
     return None
 
@@ -118,7 +124,11 @@ def _update_slider(self, i: int) -> None:
 
     - None.
 
+    ----
+
+    ========
     Examples
+    ========
 
     - Example #1: Update the data in the interactive plot
 

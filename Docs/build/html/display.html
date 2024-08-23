@@ -13,7 +13,7 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="zoom function" href="zoom.html" />
+    <link rel="next" title="scatter function" href="scatter.html" />
     <link rel="prev" title="plot function" href="plot.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
@@ -23,7 +23,7 @@
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="plot.html" title="plot function"
              accesskey="P">previous</a> |
-          <a href="zoom.html" title="zoom function"
+          <a href="scatter.html" title="scatter function"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -41,10 +41,9 @@
             
   <section id="display-function">
 <span id="display"></span><h1>display function<a class="headerlink" href="#display-function" title="Link to this heading">¶</a></h1>
-<p>The function display has the following structure:</p>
-<dl class="py method">
+<dl class="py function">
 <dt class="sig sig-object py" id="pyPLUTO.Image.display">
-<span class="sig-prename descclassname"><span class="pre">Image.</span></span><span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">QuadMesh</span></span></span><a class="headerlink" href="#pyPLUTO.Image.display" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">QuadMesh</span></span></span><a class="headerlink" href="#pyPLUTO.Image.display" title="Link to this definition">¶</a></dt>
 <dd><p>Plot for a 2D function (or a 2D slice) using the
 matplotlib’s pcolormesh function.
 A simple figure and a single axis can also be created.</p>
@@ -199,7 +198,9 @@ always correspond to fixed ticks.</p>
 <li><p>Check if vmin and vmax remain the same after new figure is creates</p></li>
 <li><p>Minorticks should be customized also to single axis</p></li>
 </ul>
-<p class="rubric">Examples</p>
+<hr class="docutils" />
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
 <ul>
 <li><p>Example #1: create a simple 2d plot with title and colorbar on the right</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
@@ -236,8 +237,13 @@ with custom ticks.</p>
 </div>
 </li>
 </ul>
+</section>
 </dd></dl>
 
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
 </section>
 
 
@@ -250,25 +256,29 @@ with custom ticks.</p>
           
           <h3>Table of Contents</h3>
           <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="image.html#pyPLUTO.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#image-initialization">Image initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#the-pypluto-image-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image()</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="plot.html">plot function</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">display function</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.display"><code class="docutils literal notranslate"><span class="pre">Image.display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.display"><code class="docutils literal notranslate"><span class="pre">display()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="scatter.html">scatter function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contour.html">contour function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamplot.html">streamplot function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="interactive.html">interactive function</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
@@ -291,7 +301,7 @@ with custom ticks.</p>
           <div role="navigation" aria-label="related navigaton">
             <a href="plot.html" title="plot function"
               >previous</a> |
-            <a href="zoom.html" title="zoom function"
+            <a href="scatter.html" title="scatter function"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>

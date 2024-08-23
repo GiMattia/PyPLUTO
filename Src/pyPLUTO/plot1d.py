@@ -153,8 +153,11 @@ def plot(self,
 
     - Minorticks on single axis?
              
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: create a simple plot of y as function of x
          
@@ -224,8 +227,11 @@ def plot(self,
     self._hide_text(nax, ax.texts)
 
     # Keyword xrange and yrange
-    self._set_xrange(ax, nax, [x.min(),x.max()], self.setax[nax])
-    self._set_yrange(ax, nax, [y.min(),y.max()], self.setay[nax], x = x, y = y)
+    #self._set_xrange(ax, nax, [x.min(),x.max()], self.setax[nax])
+    #self._set_yrange(ax, nax, [y.min(),y.max()], self.setay[nax], x = x, y = y)
+    self._set_xrange(ax, nax, [np.nanmin(x),np.nanmax(x)], self.setax[nax])
+    self._set_yrange(ax, nax, [np.nanmin(y),np.nanmax(y)], self.setay[nax], 
+                              x = x, y = y)
 
     # Set color line and increase the number of lines (if default color)
     col_line = kwargs.get('c',self.color[self.nline[nax]%len(self.color)])
@@ -321,8 +327,11 @@ def legend(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: create a standard legend
         

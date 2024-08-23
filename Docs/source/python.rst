@@ -3,9 +3,11 @@
 Brief introduction to python
 ============================
 
-Since pyPLUTO is written in python, it is important to know the basics of the python language.
-This page does NOT replace any of the great python courses available online, but represents
-a quick collection of python tips in order to understand and use more efficiently pyPLUTO.
+Since PyPLUTO is written in python, it is important to know the basics of the 
+python language.
+This page does NOT replace any of the great python courses available online,
+but represents a quick collection of python tips in order to understand and use 
+more efficiently PyPLUTO.
 
 Variables and operations in python:
 
@@ -16,3 +18,7 @@ Classes and objects:
 Modules:
 
 Numpy arrays:
+
+|
+
+----

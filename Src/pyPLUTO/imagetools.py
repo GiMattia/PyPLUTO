@@ -26,8 +26,11 @@ def savefig(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: save an empty image
 
@@ -42,7 +45,6 @@ def savefig(self,
     return None
 
 def show(self, 
-         block: bool = True
         ) -> None:
     """
     Outputs on screen the figure created with Image class.
@@ -55,17 +57,18 @@ def show(self,
     Parameters
     ----------
 
-    - block: bool, default True
-        Blocks the functioning of the terminal from which the script has been
-        launched
+    - None
 
     Notes
     -----
 
-    - None
+    - This method is deprecated, please use pp.show instead
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: show an empty image
 
@@ -75,7 +78,9 @@ def show(self,
     
     """
 
-    self.fig.show(block = block)
+    warn = "Image show is deprecated, please use pp.show instead"
+    warnings.warn(warn, DeprecationWarning)
+    self.fig.show()
 
     return None
 
@@ -102,17 +107,25 @@ def text(self,
         will be used.
     - c: str, default 'k'
         Determines the text color.
-    - horalign
+    - horalign: str, default 'left'
+        The horizontal alignment. Possible values are 'left', 'center', 'right'.
     - text (not optional): str
         The text that will appear on the text box
     - textsize: float, default fontsize
         Sets the text fontsize. The default value corresponds to the value of
         the actual fontsize in the figure.
-    - veralign
+    - veralign: str, default 'baseline'
+        The vertical alignment. Possible values are 'baseline', 'bottom', 
+        'center', 'center_baseline', 'top'.
     - x: float, default 0.85
         The horizontal starting position of the text box, in units of figure
         size.
-    - xycoords
+    - xycoords: str, default 'fraction'
+        The coordinate system used. Possible values are 'figure fraction', 
+        which sets the position as a fraction of the axis (inside the axis lie
+        values between 0 and 1), 'points', which sets the position in units of
+        the x/y coordinate system, and 'figure', which sets the position as a
+        fraction of the figure.
     - y: float, default 0.85
         The vertical starting position of the text box, in units of figure size.
 
@@ -121,32 +134,62 @@ def text(self,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
-    - Example #1: create a simple text box
-    bla bla bla      
-    
+    - Example #1: Insert text inside a specific axis
+
+        >>> I.text('text', x = 0.5, y = 0.5, ax = ax)
+
+    - Example #2: Insert text inside the last axis
+
+        >>> I.text('text', x = 0.5, y = 0.5)
+
+    - Example #3: Insert text inside the last axis with a specific fontsize
+
+        >>> I.text('text', x = 0.5, y = 0.5, textsize = 20)
+
+    - Example #4: Insert text inside the last axis with a specific fontsize and
+        a specific color
+
+        >>> I.text('text', x = 0.5, y = 0.5, textsize = 20, c = 'r')
+
+    - Example #5: Insert text inside the last axis with a points position
+
+        >>> I.text('text', x = 0.5, y = 0.5, xycoords = 'points')
+
     """
-
-    # Import methods from other files
-    from .h_image import _hide_text
 
     # Find figure and number of the axis
     ax, nax = self._assign_ax(ax, **kwargs)
 
-    coordinates = {'fraction': ax.transAxes, 'points': ax.transData, 'figure': self.fig.transFigure}
+    # Dictionary with the possible 'xycoords' values
+    coordinates = {'fraction': ax.transAxes, 
+                   'points': ax.transData, 
+                   'figure': self.fig.transFigure}
 
+    # Set the 'xycoords' keyword
     xycoord = kwargs.get('xycoords', 'fraction')
 
-    if xycoord != 'figure': _hide_text(self, nax, ax.texts)
+    # If the text is inside a specific axis, hide the text of the create_axes
+    # function
+    if xycoord != 'figure': self._hide_text(nax, ax.texts)
+
+    # Set the 'xycoords' value
     coord = coordinates[xycoord]
     
+    # Set the 'veralign' and 'horalign' values
     hortx = kwargs.get('horalign','left')
     vertx = kwargs.get('veralign','baseline')
 
-    ax.text(x, y, text, c = kwargs.get('c','k'), fontsize = kwargs.get('textsize', self.fontsize),
-                            transform = coord, horizontalalignment = hortx, verticalalignment = vertx)
+    # Insert the text
+    ax.text(x, y, text, c = kwargs.get('c', 'k'), transform = coord, 
+                        fontsize = kwargs.get('textsize', self.fontsize),
+                        horizontalalignment = hortx, verticalalignment = vertx)
 
+    # End of the function
     return None
 

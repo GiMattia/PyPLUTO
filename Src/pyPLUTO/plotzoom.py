@@ -1,5 +1,4 @@
 from .libraries import *
-from .h_pypluto import _check_par
 
 
 def zoom(self, 
@@ -169,8 +168,11 @@ def zoom(self,
 
     - Link too long       
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: create a simple zoom of a 1d plot
 
@@ -207,7 +209,7 @@ def zoom(self,
              'ytickslabels', 'ytitle', 'zoomlines'}
     
     if check is True:
-        _check_par(param, 'zoom', **kwargs)
+        check_par(param, 'zoom', **kwargs)
 
     self.tight = False
 
@@ -220,7 +222,8 @@ def zoom(self,
         axins = _place_inset_pos(ax, kwargs['pos'])
     else:
         axins = _place_inset_loc(ax, **kwargs)
-    kwargs['fontsize'] = kwargs.get('fontsize',self.fontsize - 5)
+    kwargs['fontsize']  = kwargs.get('fontsize', self.fontsize - 3)
+    kwargs['titlesize'] = kwargs.get('titlesize',self.fontsize)
 
     # Adds the inset axis
     self._add_ax(axins, len(self.ax))

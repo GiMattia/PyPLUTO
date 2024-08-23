@@ -86,8 +86,11 @@ def create_axes(self,
     - This method may return None in the future releases
     - Sharex and sharey are not implemented yet
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: create a simple grid of 2 columns and 2 rows on a new figure
 
@@ -353,8 +356,11 @@ def set_axis(self,
     - All the 'Default' keywords are set to True in the code. The user should
         use now True instead of 'Default' (which will be removed in future)
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: create an axis and set title and labels on both axes
 
@@ -525,8 +531,11 @@ def _check_rowcol(ratio: list[float],
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: ratio and space are given correctly (rows)
 
@@ -594,8 +603,11 @@ def _set_ticks(ax: Axes,
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: set ticks and ticks labels on the x-axis
 

@@ -22,8 +22,11 @@ def _read_tabfile(self, i: int) -> None:
 
     - None
 
+    ----
+
+    ========
     Examples
-    --------
+    ========
 
     - Example #1: Read the data.0000.tab file
 
@@ -401,8 +404,8 @@ def _offset_bin(self, i: int, var: str | None) -> None:
         'Ex1s': [self._nshp_st1, self._gridsize_st1],
         'Bx2s': [self._nshp_st2, self._gridsize_st2], 
         'Ex2s': [self._nshp_st2, self._gridsize_st2], 
-        'Bx3s': [self._nshp_st3, self._gridsize_st2], 
-        'Ex3s': [self._nshp_st3, self._gridsize_st2]}
+        'Bx3s': [self._nshp_st3, self._gridsize_st3], 
+        'Ex3s': [self._nshp_st3, self._gridsize_st3]}
 
     # Loop over the variables to be loaded (None for single files)
     varloop = self._d_info['varslist'][i] if var is None else [var]

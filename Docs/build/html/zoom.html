@@ -13,17 +13,17 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="text function" href="text.html" />
-    <link rel="prev" title="display function" href="display.html" /> 
+    <link rel="next" title="savefig function" href="savefig.html" />
+    <link rel="prev" title="colorbar function" href="colorbar.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
           href="index.html">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="display.html" title="display function"
+          <a href="colorbar.html" title="colorbar function"
              accesskey="P">previous</a> |
-          <a href="text.html" title="text function"
+          <a href="savefig.html" title="savefig function"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -41,7 +41,6 @@
             
   <section id="zoom-function">
 <span id="zoom"></span><h1>zoom function<a class="headerlink" href="#zoom-function" title="Link to this heading">¶</a></h1>
-<p>The function zoom has the following structure:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pyPLUTO.Image.zoom">
 <span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">zoom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Image.zoom" title="Link to this definition">¶</a></dt>
@@ -208,7 +207,9 @@ option is True.</p>
 <ul class="simple">
 <li><p>Link too long</p></li>
 </ul>
-<p class="rubric">Examples</p>
+<hr class="docutils" />
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
 <ul>
 <li><p>Example #1: create a simple zoom of a 1d plot</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
@@ -237,8 +238,13 @@ option is True.</p>
 </div>
 </li>
 </ul>
+</section>
 </dd></dl>
 
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
 </section>
 
 
@@ -251,25 +257,28 @@ option is True.</p>
           
           <h3>Table of Contents</h3>
           <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="image.html#pyPLUTO.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#image-initialization">Image initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image.html#the-pypluto-image-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image()</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="legend.html">legend function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="colorbar.html">colorbar function</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">zoom function</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.zoom"><code class="docutils literal notranslate"><span class="pre">zoom()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="savefig.html">savefig function</a></li>
 <li class="toctree-l3"><a class="reference internal" href="text.html">text function</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
@@ -290,9 +299,9 @@ option is True.</p>
       <div class="footer">
         <div class="left">
           <div role="navigation" aria-label="related navigaton">
-            <a href="display.html" title="display function"
+            <a href="colorbar.html" title="colorbar function"
               >previous</a> |
-            <a href="text.html" title="text function"
+            <a href="savefig.html" title="savefig function"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>

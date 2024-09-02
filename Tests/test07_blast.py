@@ -36,5 +36,5 @@ I.display(D.Bx1[q[2]], x1 = D.x1r[q[2][0]], x2 = D.x2r[q[2][1]])
 I.display(D.Bx2[q[3]], x1 = D.x1r[q[3][0]], x2 = D.x2r[q[3][1]])
 
 # Saving the image
-pp.savefig('test07_blast.png')
+I.savefig('test07_blast.png')
 pp.show()

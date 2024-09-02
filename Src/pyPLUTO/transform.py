@@ -50,7 +50,6 @@ def slices(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -137,7 +136,6 @@ def mirror(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -225,7 +223,6 @@ def repeat(self,
 
     ----
 
-    ========
     Examples
     ========
 

@@ -31,7 +31,6 @@ def _check_var(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -91,7 +90,6 @@ def vector_field(t, y, var1, var2, xc, yc):
 
     ----
 
-    ========
     Examples
     ========
 
@@ -194,7 +192,6 @@ def find_fieldlines(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -420,7 +417,6 @@ def find_contour(self,
 
     ----
 
-    ========
     Examples
     ========
 

@@ -43,7 +43,6 @@ def fourier(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -138,7 +137,6 @@ def fourier_spacing(dx: float | int | list | np.ndarray
 
     ----
 
-    ========
     Examples
     ========
 

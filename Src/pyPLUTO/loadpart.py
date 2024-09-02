@@ -54,7 +54,6 @@ class LoadPart:
 
     ----
 
-    ========
     Examples
     ========
 

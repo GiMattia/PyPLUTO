@@ -21,7 +21,6 @@ def read_vtk(self):
 
     ----
 
-    ========
     Examples
     ========
 
@@ -66,7 +65,6 @@ def _read_h5(self, filename: str):
 
     ----
 
-    ========
     Examples
     ========
 
@@ -111,7 +109,6 @@ def read_tab(self):
 
     ----
 
-    ========
     Examples
     ========
 
@@ -153,7 +150,6 @@ def read_bin(self):
 
     ----
 
-    ========
     Examples
     ========
 
@@ -175,7 +171,7 @@ def read_bin(self):
     # End of the function
     return None
 
-def read_files(self):
+def read_file(self):
     """
     Read the data from the output files.
 
@@ -196,7 +192,6 @@ def read_files(self):
 
     ----
 
-    ========
     Examples
     ========
 

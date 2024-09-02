@@ -24,7 +24,6 @@ def _read_tabfile(self, i: int) -> None:
 
     ----
 
-    ========
     Examples
     ========
 

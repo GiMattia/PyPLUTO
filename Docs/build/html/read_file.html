@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Brief introduction to python &#8212; pyPLUTO 1.0 documentation</title>
+    <title>&lt;no title&gt; &#8212; pyPLUTO 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
@@ -13,17 +13,17 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation" href="install.html" />
-    <link rel="prev" title="Welcome to PyPLUTO’s documentation!" href="index.html" /> 
+    <link rel="next" title="&lt;no title&gt;" href="write_file.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="load.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
           href="index.html">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="index.html" title="Welcome to PyPLUTO’s documentation!"
+          <a href="load.html" title="&lt;no title&gt;"
              accesskey="P">previous</a> |
-          <a href="install.html" title="Installation"
+          <a href="write_file.html" title="&lt;no title&gt;"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -39,23 +39,44 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="brief-introduction-to-python">
-<span id="python"></span><h1>Brief introduction to python<a class="headerlink" href="#brief-introduction-to-python" title="Link to this heading">¶</a></h1>
-<p>Since PyPLUTO is written in python, it is important to know the basics of the
-python language.
-This page does NOT replace any of the great python courses available online,
-but represents a quick collection of python tips in order to understand and use
-more efficiently PyPLUTO.</p>
-<p>Variables and operations in python:</p>
-<p>Lists:</p>
-<p>Classes and objects:</p>
-<p>Modules:</p>
-<p>Numpy arrays:</p>
+  <dl class="py function" id="read-file">
+<dt class="sig sig-object py" id="pyPLUTO.Load.read_file">
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Load.</span></span><span class="sig-name descname"><span class="pre">read_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Load.read_file" title="Link to this definition">¶</a></dt>
+<dd><p>Read the data from the output files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- None</strong></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>None</p></li>
+</ul>
+<hr class="docutils" />
+<p class="rubric">Examples</p>
+<ul>
+<li><p>Example #1: Read the data from the output files</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read_files</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</dd></dl>
+
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <hr class="docutils" />
-</section>
 
 
             <div class="clearer"></div>
@@ -67,9 +88,17 @@ more efficiently PyPLUTO.</p>
           
           <h3>Table of Contents</h3>
           <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Brief introduction to python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="loadclass.html">Loading the data</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="loadclass.html#loading-the-fluid-files">Loading the fluid files</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="load.html"><code class="docutils literal notranslate"><span class="pre">Load</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">read_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="write_file.html"><code class="docutils literal notranslate"><span class="pre">write_file()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="loadclass.html#loading-the-particles-files">Loading the particles files</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
@@ -93,9 +122,9 @@ more efficiently PyPLUTO.</p>
       <div class="footer">
         <div class="left">
           <div role="navigation" aria-label="related navigaton">
-            <a href="index.html" title="Welcome to PyPLUTO’s documentation!"
+            <a href="load.html" title="&lt;no title&gt;"
               >previous</a> |
-            <a href="install.html" title="Installation"
+            <a href="write_file.html" title="&lt;no title&gt;"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>

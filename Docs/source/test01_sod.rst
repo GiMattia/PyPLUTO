@@ -19,3 +19,5 @@ The plot shows the profiles of the three quantities at the time t = 0.2.
 |
 
 ----
+
+.. This is a comment to prevent the document from ending with a transition.

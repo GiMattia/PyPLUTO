@@ -158,7 +158,6 @@ def display(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -282,7 +281,6 @@ def scatter(self, x, y, **kwargs):
 
     ----
 
-    ========
     Examples
     ========
 
@@ -408,7 +406,6 @@ def colorbar(self,
           
     ----
 
-    ========
     Examples
     ========
 
@@ -515,7 +512,6 @@ def _set_cscale(self,
     
     ----
 
-    ========
     Examples
     ========
 

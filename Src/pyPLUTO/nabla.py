@@ -22,7 +22,6 @@ def _is_number(value: Any
 
     ----
 
-    ========
     Examples
     ========
 
@@ -66,7 +65,6 @@ def _islice_imin_imax(xvalue,xgrid):
 
     ----
 
-    ========
     Examples
     ========
 

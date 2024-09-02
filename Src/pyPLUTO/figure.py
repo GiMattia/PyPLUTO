@@ -29,7 +29,6 @@ def _assign_LaTeX(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -142,7 +141,6 @@ def _choose_colorlines(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -230,7 +228,6 @@ def _create_figure(self,
 
     ----
 
-    ========
     Examples
     ========
 

@@ -28,7 +28,6 @@ def savefig(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -66,7 +65,6 @@ def show(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -136,7 +134,6 @@ def text(self,
 
     ----
 
-    ========
     Examples
     ========
 

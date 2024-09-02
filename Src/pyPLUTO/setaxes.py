@@ -88,7 +88,6 @@ def create_axes(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -358,7 +357,6 @@ def set_axis(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -533,7 +531,6 @@ def _check_rowcol(ratio: list[float],
 
     ----
 
-    ========
     Examples
     ========
 
@@ -605,7 +602,6 @@ def _set_ticks(ax: Axes,
 
     ----
 
-    ========
     Examples
     ========
 

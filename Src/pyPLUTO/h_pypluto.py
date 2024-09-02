@@ -23,7 +23,6 @@ def makelist(el: Any
 
      ----
 
-    ========
     Examples
     ========
 
@@ -74,7 +73,6 @@ def check_par(par: set[str],
 
     ----
 
-    ========
     Examples
     ========
 

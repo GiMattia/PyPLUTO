@@ -32,3 +32,5 @@ to take advance to the most up-to-date features.
 |
 
 ----
+
+.. This is a comment to prevent the document from ending with a transition.

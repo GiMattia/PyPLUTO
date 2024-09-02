@@ -32,7 +32,8 @@ from numpy.typing                          import NDArray
 from matplotlib.figure                     import Figure, SubFigure
 from matplotlib.axes                       import Axes
 from matplotlib.collections                import LineCollection
-from typing                                import Callable, Mapping, Any, Type
+from collections.abc                       import Callable, Mapping
+from typing                                import Any
 from itertools                             import islice
 
 try:

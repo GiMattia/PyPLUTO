@@ -98,11 +98,11 @@ def fourier(self,
 
         # Check if the grid spacing is provided
         try:
-            spacing[pars] = fourier_spacing(kwargs[pars])
+            spacing[pars] = _fourier_spacing(kwargs[pars])
         # If the grid spacing is not provided or not valid, use the default 
         # grid spacing (and set it to 1 if it still not valid)
         except:
-            spacing[pars] = fourier_spacing(getattr(self, def_attr))
+            spacing[pars] = _fourier_spacing(getattr(self, def_attr))
             spacing[pars] = 1.0 if spacing[pars] is None else spacing[pars]
         # Check if the Fourier transform should be computed in this direction
         if kwargs.get(dir,True) is True and dim > numdir:

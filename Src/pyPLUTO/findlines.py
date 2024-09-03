@@ -265,7 +265,7 @@ def find_fieldlines(self,
 
     # Define the system of differential equations
     def system(t, y):
-        return vector_field(t, y, varx, vary, xc, yc)
+        return _vector_field(t, y, varx, vary, xc, yc)
     
     # Event to detect if the field line exits the domain
     def outside_domain(t, y):

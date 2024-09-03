@@ -303,6 +303,6 @@ class Load:
     from .read_files  import _read_h5, read_file
     from .transform   import slices, mirror, cartesian_vector, reshape_cartesian
     from .fourier     import fourier
-    from .findlines   import find_contour, find_fieldlines, vector_field
+    from .findlines   import find_contour, find_fieldlines
     from .findlines   import _check_var  
     from .nabla       import gradient, curl, divergence

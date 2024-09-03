@@ -95,6 +95,7 @@ class Image:
 
     def __init__(self, 
                  LaTeX: bool | str = True, 
+                 check: bool = True,
                  text: bool = False, 
                  fig: Figure | None = None, 
                  **kwargs: Any
@@ -125,6 +126,12 @@ class Image:
         self.slider: Slider # the slider
         self.anim_pcm: Any # the animation collection
 
+        # Check parameters
+        param = {'close','figsize','fontsize','nwin','suptitle',
+                 'suptitlesize','tight'}
+
+        check_par(param, '__init__', **kwargs)
+
         # Set the style of the figure
         plt.style.use(kwargs.get('style','default'))
 
@@ -138,7 +145,7 @@ class Image:
         self._assign_LaTeX(LaTeX)
 
         # Create the figure
-        self._create_figure(fig, text, **kwargs)
+        self._create_figure(fig, check, **kwargs)
         if text is not False:
             print(f"Creating Figure in window {self.nwin}")
 
@@ -193,7 +200,7 @@ class Image:
         Public attributes available:
 
         - ax: 
-            The list of axes in the figure
+            The list of relevant axes in the figure
         - fig
             The figure associated to the image
         - fontsize

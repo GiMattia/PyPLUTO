@@ -366,7 +366,3 @@ def _assign_ax(self,
 
     # Return the axis and its index
     return ax, nax
-
-
-
-

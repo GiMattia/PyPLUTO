@@ -160,6 +160,10 @@ def text(self,
 
     """
 
+    # Check parameters
+    param = {'c','horalign','textsize','veralign','xycoords'}
+    check_par(param, 'text', **kwargs)
+
     # Find figure and number of the axis
     ax, nax = self._assign_ax(ax, **kwargs)
 
@@ -189,4 +193,3 @@ def text(self,
 
     # End of the function
     return None
-

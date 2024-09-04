@@ -396,8 +396,6 @@ def reshape_uniform(x1, x2, *args, **kwargs):
 
 def _convert2cartgrid(R, Z, new_r, new_t):
 
-    print(np.shape(R), np.shape(Z), np.shape(new_r), np.shape(new_t))
-
     # Convert Cartesian coordinates (R, Z) to polar (Rs, Th)
     Rs = np.sqrt(R**2 + Z**2)
 

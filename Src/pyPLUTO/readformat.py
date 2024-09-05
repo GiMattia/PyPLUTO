@@ -28,7 +28,6 @@ def _check_pathformat(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -114,7 +113,6 @@ def _find_format(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -236,7 +234,6 @@ def _check_typeout(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -301,7 +298,6 @@ def _check_typelon(self,
 
     ----
 
-    ========
     Examples
     ========
 

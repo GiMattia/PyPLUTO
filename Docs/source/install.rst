@@ -7,13 +7,12 @@ PlutoDownload_.
 
 .. _PlutoDownload: http://plutocode.ph.unito.it/download.html
 
-The current version of *PyPLUTO* has been updated to support Python version 3.6 
+The current version of *PyPLUTO* has been updated to support Python version 3.10
 or newer.
-Additional packages that are required are numpy, matplotlib (3.5 or newer) and 
-scipy.
+Additional packages that are required are numpy, matplotlib,
+scipy, pandas and h5py (although the latter is not mandatory).
 
-For all the methods the installing directory is the PyPLUTO directory 
-(or a subfolder):
+All the relevant files are stored in the PyPLUTO directory, whichcan be accessed by typing:
 
 .. code-block:: console
 
@@ -26,21 +25,20 @@ now until the end of the installation process.
 
 ----
 
-Global installation
--------------------
+Installation with pip
+---------------------
 
-A global installation of PyPLUTO by default creates a PYTHONPATH.
-Three ways of global installation can be followed, depending on which libraries 
-and software are installed on the computer.
+The easiest and most efficient PyPLUTO installation is through pip, which can 
+Tdone in two ways:
 
-1. The first method is (if pip is installed) to install PyPLUTO from the main 
+1. The first method is to install PyPLUTO from the main 
 directory through the command:
 
 .. code-block:: console
 
    (.venv) $ pip install ./
 
-2. If this procedure does not work another installation (again through pip) is 
+2. If this procedure does not work another installation is 
 possible.
 This time the installation is done from the Src directory through the setup.py 
 file:
@@ -49,8 +47,14 @@ file:
 
    (.venv) $ cd Src
    Src$ pip install ./
+   
+Note that in this way, if you are working with conda, your installation will be always
+confined within your conda environment.
+   
+Installation without pip
+------------------------
 
-3. If pip has not been installed a global installation through the ``setup.py`` 
+If pip has not been installed a global installation through the ``setup.py`` 
 can be done:
 
 .. code-block:: console
@@ -58,14 +62,8 @@ can be done:
    (.venv) $ cd Src
    Src$ python setup.py install
 
-|
 
-----
-
-Local installation
--------------------
-
-If pip is not installed, a good pratice is to create your own PYTHONPATH
+However, a good pratice is to create your own PYTHONPATH
 and do a local install in the following way:
 
 1. Create a directory where to store this module.
@@ -115,3 +113,5 @@ where ``<ver>`` indicates the python version used to install PyPLUTO.
 |
 
 ----
+
+.. This is a comment to prevent the document from ending with a transition.

@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Loading the data &#8212; pyPLUTO 1.0 documentation</title>
+    <title>&lt;no title&gt; &#8212; pyPLUTO 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
@@ -13,17 +13,17 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Manipulating the data" href="tools.html" />
-    <link rel="prev" title="Installation" href="install.html" /> 
+    <link rel="next" title="&lt;no title&gt;" href="read_file.html" />
+    <link rel="prev" title="Loading the data" href="loadclass.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
           href="index.html">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="install.html" title="Installation"
+          <a href="loadclass.html" title="Loading the data"
              accesskey="P">previous</a> |
-          <a href="tools.html" title="Manipulating the data"
+          <a href="read_file.html" title="&lt;no title&gt;"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -39,27 +39,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="loading-the-data">
-<h1>Loading the data<a class="headerlink" href="#loading-the-data" title="Link to this heading">¶</a></h1>
-<p>PLUTO has several output files, depending on the users’ needs.
-With PyPLUTO the data loading is done through the <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Load()</span></code> class and
-it is available for dbl, vtk and flt files.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>So far the AMR has not been included yet.</p>
-</div>
-<p id="loadclass">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Load()</span></code> class is one of the key components of the PyPLUTO
-package, designed to load the data in the standard PLUTO formats. The formats
-available are dbl, vtk and flt.
-Once loaded, the data can be manipulated with various Tools and plotted through
-the <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image()</span></code> class.</p>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<hr class="docutils" />
-<section id="the-pypluto-load-class">
-<h2>The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Load()</span></code> class<a class="headerlink" href="#the-pypluto-load-class" title="Link to this heading">¶</a></h2>
-<dl class="py class">
+  <dl class="py class" id="load">
 <dt class="sig sig-object py" id="pyPLUTO.Load">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyPLUTO.</span></span><span class="sig-name descname"><span class="pre">Load</span></span><a class="headerlink" href="#pyPLUTO.Load" title="Link to this definition">¶</a></dt>
 <dd><p>The Load class loads the data (fluid) from the output files. The 
@@ -121,8 +101,7 @@ values are ‘big’ and ‘little’ (or ‘&lt;’ and ‘&gt;’).</p>
 <li><p>Warning if the .out files are not found.</p></li>
 </ul>
 <hr class="docutils" />
-<section id="examples">
-<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h3>
+<p class="rubric">Examples</p>
 <ul>
 <li><p>Example #1: Load the data from the default folder and output</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">()</span>
@@ -192,15 +171,12 @@ variables and format</p>
 </div>
 </li>
 </ul>
-</section>
 </dd></dl>
 
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <hr class="docutils" />
-</section>
-</section>
 
 
             <div class="clearer"></div>
@@ -212,13 +188,15 @@ variables and format</p>
           
           <h3>Table of Contents</h3>
           <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Loading the data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-pypluto-load-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Load()</span></code> class</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pyPLUTO.Load"><code class="docutils literal notranslate"><span class="pre">Load</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="loadclass.html">Loading the data</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="loadclass.html#loading-the-fluid-files">Loading the fluid files</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">Load</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="read_file.html"><code class="docutils literal notranslate"><span class="pre">read_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="write_file.html"><code class="docutils literal notranslate"><span class="pre">write_file()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="loadclass.html#loading-the-particles-files">Loading the particles files</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
@@ -244,9 +222,9 @@ variables and format</p>
       <div class="footer">
         <div class="left">
           <div role="navigation" aria-label="related navigaton">
-            <a href="install.html" title="Installation"
+            <a href="loadclass.html" title="Loading the data"
               >previous</a> |
-            <a href="tools.html" title="Manipulating the data"
+            <a href="read_file.html" title="&lt;no title&gt;"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>

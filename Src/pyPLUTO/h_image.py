@@ -28,7 +28,6 @@ def _add_ax(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -86,7 +85,6 @@ def _hide_text(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -142,7 +140,6 @@ def _set_xrange(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -223,7 +220,6 @@ def _set_yrange(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -317,7 +313,6 @@ def _assign_ax(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -371,7 +366,3 @@ def _assign_ax(self,
 
     # Return the axis and its index
     return ax, nax
-
-
-
-

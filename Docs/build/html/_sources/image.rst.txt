@@ -1,3 +1,5 @@
+.. _imageclass:
+
 Plotting the data
 =================
 
@@ -141,3 +143,5 @@ respectively, zoom 1D and 2D plots.
 |
 
 ----
+
+.. This is a comment to prevent the document from ending with a transition.

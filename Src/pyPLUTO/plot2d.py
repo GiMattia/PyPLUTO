@@ -158,7 +158,6 @@ def display(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -217,9 +216,9 @@ def display(self,
     y = np.asarray(kwargs.get('x2',np.arange(len(var[0,:])+1)))
 
     # Keywords xrange and yrange
-    if not kwargs.get('xrange'):
+    if not kwargs.get('xrange') and not self.setax[nax] == 1:
         kwargs['xrange'] = [x.min(),x.max()]
-    if not kwargs.get('yrange'):
+    if not kwargs.get('yrange') and not self.setay[nax] == 1:
         kwargs['yrange'] = [y.min(),y.max()]
 
     # Set ax parameters
@@ -282,7 +281,6 @@ def scatter(self, x, y, **kwargs):
 
     ----
 
-    ========
     Examples
     ========
 
@@ -408,7 +406,6 @@ def colorbar(self,
           
     ----
 
-    ========
     Examples
     ========
 
@@ -515,7 +512,6 @@ def _set_cscale(self,
     
     ----
 
-    ========
     Examples
     ========
 

@@ -30,7 +30,6 @@ def _write_h5(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -93,7 +92,6 @@ def write_vtk(self):
 
     ----
 
-    ========
     Examples
     ========
 
@@ -153,7 +151,6 @@ def write_tab(self):
 
     ----
 
-    ========
     Examples
     ========
 
@@ -208,7 +205,6 @@ def write_bin(self):
 
     ----
 
-    ========
     Examples
     ========
 
@@ -261,7 +257,6 @@ def write_file(self,
 
     ----
 
-    ========
     Examples
     ========
 

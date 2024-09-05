@@ -155,7 +155,6 @@ def plot(self,
              
     ----
 
-    ========
     Examples
     ========
 
@@ -329,7 +328,6 @@ def legend(self,
 
     ----
 
-    ========
     Examples
     ========
 

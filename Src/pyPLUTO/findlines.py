@@ -31,7 +31,6 @@ def _check_var(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -47,6 +46,8 @@ def _check_var(self,
         >>> _check_var("Bx1", False)
     
     """
+
+    #ME LO METTI UN BEL COMMENTINO QUI?
     if isinstance(var, str):
         try:
             var = getattr(self,var)
@@ -57,7 +58,7 @@ def _check_var(self,
     return var
 
 
-def vector_field(t, y, var1, var2, xc, yc):
+def _vector_field(t, y, var1, var2, xc, yc):
     """
     Compute the vector field at the given time and coordinates by interpolating
     the variables var1 and var2 at the given coordinates.
@@ -91,7 +92,6 @@ def vector_field(t, y, var1, var2, xc, yc):
 
     ----
 
-    ========
     Examples
     ========
 
@@ -122,13 +122,14 @@ def vector_field(t, y, var1, var2, xc, yc):
     return [qx, qy]
 
 def find_fieldlines(self,
-               var1,
-               var2, 
-               x0 = None, 
-               y0 = None, 
-               text = False,
-               **kwargs: Any
-              ) -> list:
+                    var1,
+                    var2, 
+                    x0 = None, 
+                    y0 = None, 
+                    text = False,
+                    check: bool = True,
+                    **kwargs: Any
+                   ) -> list:
     """
     Find field lines using the vector field. The field lines are computed by
     interpolating the variables var1 and var2 at the footpoints x0 and y0.
@@ -194,7 +195,6 @@ def find_fieldlines(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -211,6 +211,12 @@ def find_fieldlines(self,
         >>> find_fieldlines(var1, var2, [x1, x2], [y1, y2])
 
     """
+
+    # Check parameters
+    param = {'atol','close','ctol','dense','maxstep','minstep','numsteps',
+             'order','rtol','step','text','transpose','x1','x2'}
+    if check is True:
+        check_par(param, 'find_fieldlines', **kwargs)
     
     # Get the variable, if it is a string, get the variable from the dataset.
     # The .T is used to transpose the variable to the correct shape.
@@ -259,7 +265,7 @@ def find_fieldlines(self,
 
     # Define the system of differential equations
     def system(t, y):
-        return vector_field(t, y, varx, vary, xc, yc)
+        return _vector_field(t, y, varx, vary, xc, yc)
     
     # Event to detect if the field line exits the domain
     def outside_domain(t, y):
@@ -370,6 +376,7 @@ def find_fieldlines(self,
 
 def find_contour(self,
                  var: str | np.ndarray, 
+                 check: bool = True,
                  **kwargs: Any
                 ) -> list:
     """
@@ -420,30 +427,35 @@ def find_contour(self,
 
     ----
 
-    ========
     Examples
     ========
 
     - Example #1: Generate contour lines for a given variable.
 
-    >>> lines_list = find_contour(var)
+        >>> lines_list = find_contour(var)
 
     - Example #2: Generate contour lines for a given variable and coordinates.
 
-    >>> lines_list = find_contour(var, x1=x1, x2=x2)
+        >>> lines_list = find_contour(var, x1=x1, x2=x2)
 
     - Example #3: Generate contour lines for a given variable and coordinates
       with a logarithmic scale.
 
-    >>> lines_list = find_contour(var, x1=x1, x2=x2, levelscale='logarithmic')
+        >>> lines_list = find_contour(var, x1=x1, x2=x2, 
+        >>> ... levelscale='logarithmic')
 
     - Example #4: Generate contour lines for a given variable and coordinates
       with a logarithmic scale and a colormap.
 
-    >>> lines_list = find_contour(var, x1=x1, x2=x2, levelscale='logarithmic', 
-    >>> ... cmap='jet')
+        >>> lines_list = find_contour(var, x1=x1, x2=x2, 
+        >>> ... levelscale='logarithmic', cmap='jet')
 
     """
+
+    # Check parameters
+    param = {'cmap','levels','levelscale','vmax','vmin','x1','x2'}
+    if check is True:
+        check_par(param, 'find_contour', **kwargs)
 
     # Get the variable, if it is a string, get the variable from the dataset.
     # The .T is used to transpose the variable to the correct shape.

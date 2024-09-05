@@ -2,6 +2,7 @@ from .libraries import *
     
 def fourier(self, 
             f: np.ndarray, 
+            check: bool = True,
             **kwargs: Any
            ) -> tuple[list[np.ndarray], np.ndarray]:
     """
@@ -43,25 +44,29 @@ def fourier(self,
 
     ----
 
-    ========
     Examples
     ========
 
     - Example #1: Compute the Fourier transform of a given array
 
-        >>> freqs, f = fourier(f)
+        >>> freqs, f = fourier(func)
 
     - Example #2: Compute the Fourier transform of a given array in 2D with 
       custom grid spacing
 
-        >>> freqs, f = fourier(f, dx=1, dy=1)
+        >>> freqs, f = fourier(func, dx=1, dy=1)
 
     - Example #3: Compute the Fourier transform of a 3D without considering 
       the x-direction
 
-        >>> freqs, f = fourier(f, xdir=False)
+        >>> freqs, f = fourier(func, xdir=False)
 
     """
+
+    # Check parameters
+    param = {'dx','dy','dz','xdir','ydir','zdir'}
+    if check is True:
+        check_par(param, 'fourier', **kwargs)
     
     # Convert the input array to a numpy array
     f = np.asarray(f)
@@ -84,7 +89,7 @@ def fourier(self,
     spacing = {}
 
     # Loop over directions
-    for param, def_attr, dir, numdir in dir_par:
+    for pars, def_attr, dir, numdir in dir_par:
 
         # If the number of dimensions is less than the number of directions
         # break
@@ -93,17 +98,17 @@ def fourier(self,
 
         # Check if the grid spacing is provided
         try:
-            spacing[param] = fourier_spacing(kwargs[param])
+            spacing[pars] = _fourier_spacing(kwargs[pars])
         # If the grid spacing is not provided or not valid, use the default 
         # grid spacing (and set it to 1 if it still not valid)
         except:
-            spacing[param] = fourier_spacing(getattr(self, def_attr))
-            spacing[param] = 1.0 if spacing[param] is None else spacing[param]
+            spacing[pars] = _fourier_spacing(getattr(self, def_attr))
+            spacing[pars] = 1.0 if spacing[pars] is None else spacing[pars]
         # Check if the Fourier transform should be computed in this direction
         if kwargs.get(dir,True) is True and dim > numdir:
             axes.append(numdir)
             # Compute the frequencies
-            freqs.append(2.0*np.pi*np.fft.rfftfreq(shp[numdir], spacing[param]))
+            freqs.append(2.0*np.pi*np.fft.rfftfreq(shp[numdir], spacing[pars]))
 
     # Compute the Fourier transform
     fk = np.fft.fftn(f, axes = axes)
@@ -113,8 +118,8 @@ def fourier(self,
     freqs = freqs[0] if len(freqs) == 1 else freqs
     return freqs, np.abs(fk[slices])
 
-def fourier_spacing(dx: float | int | list | np.ndarray
-                   ) -> float:
+def _fourier_spacing(dx: float | int | list | np.ndarray
+                    ) -> float:
     """
     Check the grid spacing and return the correct value. If the grid spacing
     is not valid (negative), raise an error.
@@ -138,7 +143,6 @@ def fourier_spacing(dx: float | int | list | np.ndarray
 
     ----
 
-    ========
     Examples
     ========
 
@@ -147,6 +151,7 @@ def fourier_spacing(dx: float | int | list | np.ndarray
         >>> scrh = fourier_spacing(dx)
         
     """
+
     # Check if the grid spacing is a list or numpy array, then take the first 
     # element
     scrh = dx[0] if not isinstance(dx, (float,int)) else dx

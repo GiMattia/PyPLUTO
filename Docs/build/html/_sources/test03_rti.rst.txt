@@ -20,3 +20,5 @@ The figure displays at different times the instability of the interface.
 |
 
 ----
+
+.. This is a comment to prevent the document from ending with a transition.

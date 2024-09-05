@@ -8,22 +8,21 @@ def makelist(el: Any
     Returns
     -------
 
-    - the list of elements
+    - The list of chosen elements
 
     Parameters
     ----------
 
     - el: Any
-        the element to be converted into a list
+        The element to be converted into a list
 
     Notes
     -----
 
     - None
 
-     ----
+    ----
 
-    ========
     Examples
     ========
 
@@ -48,9 +47,8 @@ def check_par(par: set[str],
               **kwargs: Any
              ) -> None:
     """
-    Checks if a parameter is in the corresponding list
-    depending on the function. If the parameter does not
-    belong to the list it raises a warning.
+    Checks if a parameter is in the corresponding list depending on the 
+    function. If the parameter does not belong to the list it raises a warning.
 
     Returns
     -------
@@ -74,7 +72,6 @@ def check_par(par: set[str],
 
     ----
 
-    ========
     Examples
     ========
 

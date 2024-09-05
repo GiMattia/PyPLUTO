@@ -36,7 +36,6 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
 
     ----
 
-    ========
     Examples
     ========
 
@@ -126,7 +125,6 @@ def _update_slider(self, i: int) -> None:
 
     ----
 
-    ========
     Examples
     ========
 

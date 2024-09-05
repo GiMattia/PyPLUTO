@@ -20,3 +20,5 @@ zooms of the planet region in density scale and angular velocity scale.
 |
 
 ----
+
+.. This is a comment to prevent the document from ending with a transition.

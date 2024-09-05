@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Loading the data &#8212; pyPLUTO 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="load.html" />
+    <link rel="prev" title="Installation" href="install.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">pyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="install.html" title="Installation"
+             accesskey="P">previous</a> |
+          <a href="load.html" title="&lt;no title&gt;"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="loading-the-data">
+<span id="loadclass"></span><h1>Loading the data<a class="headerlink" href="#loading-the-data" title="Link to this heading">¶</a></h1>
+<p>PLUTO has several output files (for both fluids and particles), depending on the users’ needs.
+The fluid variables can be written into binary files (in double or single precision),
+vtk files or hdf5 files (in double or single precision).
+The particles’ variables can be written in binary files (in double or single precision) and
+vtk files.
+All the formats can be opened with PyPLUTO, with or without the .out file (if the fluid
+varibales are written on vtk or hdf5 files).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>So far the AMR has not been included yet.</p>
+</div>
+<section id="loading-the-fluid-files">
+<h2>Loading the fluid files<a class="headerlink" href="#loading-the-fluid-files" title="Link to this heading">¶</a></h2>
+<p>The <a class="reference internal" href="load.html#load"><span class="std std-ref">Load</span></a> class is one of the key components of the PyPLUTO
+package, designed to load the fluid data in the standard PLUTO formats. The formats
+available are dbl, vtk, flt, dbl.h5 and flt.h5.</p>
+<div class="toctree-wrapper compound">
+</div>
+<p>The vtk and h5 filed can be loaded as standalones (i.e. without the .out files).
+However, we highly discourage the users to do so, especially if the simulation is
+run in non-cartesian coordinates.</p>
+<p>Other h5 files can also be read through the <a class="reference internal" href="read_file.html#read-file"><span class="std std-ref">read_file</span></a> method
+(only h5 are possible for now) and written through the <a class="reference internal" href="write_file.html#write-file"><span class="std std-ref">write_file</span></a>
+method (only h5 are possible for now).</p>
+</section>
+<section id="loading-the-particles-files">
+<h2>Loading the particles files<a class="headerlink" href="#loading-the-particles-files" title="Link to this heading">¶</a></h2>
+<p>The <a class="reference internal" href="loadpart.html#loadpart"><span class="std std-ref">LoadPart</span></a> class is one of the key components of the PyPLUTO
+package, designed to load the particles data in the standard PLUTO formats. The formats
+available are dbl, vtk, flt.
+Particles are loaded as standalones, i.e. no additional file is necessary.</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Loading the data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#loading-the-fluid-files">Loading the fluid files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="load.html"><code class="docutils literal notranslate"><span class="pre">Load</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="read_file.html"><code class="docutils literal notranslate"><span class="pre">read_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="write_file.html"><code class="docutils literal notranslate"><span class="pre">write_file()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#loading-the-particles-files">Loading the particles files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="loadpart.html"><code class="docutils literal notranslate"><span class="pre">LoadPart</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="install.html" title="Installation"
+              >previous</a> |
+            <a href="load.html" title="&lt;no title&gt;"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -29,7 +29,6 @@ def _assign_LaTeX(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -101,13 +100,12 @@ def _assign_LaTeX(self,
 
 
 def _choose_colorlines(self, 
-                      numcolor:  int,
-                      oldcolor:  bool,
-                      withblack: bool,
-                      withwhite: bool
-                     ) -> list[str]:
+                       numcolor:  int,
+                       oldcolor:  bool,
+                       withblack: bool,
+                       withwhite: bool
+                      ) -> list[str]:
     """
-
     Chooses the colors for the lines. Depending on the number of colors
     and the option 'oldcolor', the colors are:
 
@@ -142,7 +140,6 @@ def _choose_colorlines(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -185,8 +182,7 @@ def _choose_colorlines(self,
     
     
 def _create_figure(self, 
-                   fig: Figure | None, 
-                   check: bool = True, 
+                   fig: Figure | None,  
                    **kwargs: Any
                   ) -> None:
     """
@@ -230,7 +226,6 @@ def _create_figure(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -251,12 +246,6 @@ def _create_figure(self,
         >>> _create_figure(nwin = 2)
 
     """
-
-    # Check parameters
-    param = {'close','fig','figsize','fontsize','nwin','suptitle',
-             'suptitlesize','tight'}
-    if check is True:
-        check_par(param, 'create_fig', **kwargs)
 
     # Changes keywords if figure has been already assigned
     if isinstance(fig,Figure):

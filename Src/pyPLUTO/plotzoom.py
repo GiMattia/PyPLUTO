@@ -170,7 +170,6 @@ def zoom(self,
 
     ----
 
-    ========
     Examples
     ========
 

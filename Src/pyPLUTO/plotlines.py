@@ -30,7 +30,6 @@ def contour(self,
     
     ----
 
-    ========
     Examples
     ========
     
@@ -128,7 +127,7 @@ def streamplot(self,
     self._hide_text(nax, ax.texts)  
 
     # Keyword for colorbar and colorscale
-    color = kwargs.get('colors',None)  
+    color = kwargs.get('c',None)  
     cmap  = kwargs.get('cmap',None)
     cpos  = kwargs.get('cpos',None)
     cscale = kwargs.get('cscale','norm')
@@ -139,7 +138,7 @@ def streamplot(self,
         warnings.warn(warn)
 
     # Set the lines properties
-    linewidth             = kwargs.get('linewidth',1)
+    linewidth             = kwargs.get('lw',1)
     density               = kwargs.get('density',1)
     arrowstyle            = kwargs.get('arrowstyle','-|>')
     arrowsize             = kwargs.get('arrowsize',1)

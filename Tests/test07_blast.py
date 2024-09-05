@@ -10,7 +10,7 @@ import os
 
 # Creating the path for the data directory
 plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir+'/Test_Problems/HD/Disk_Planet'
+wdir     = plutodir+'/Test_Problems/MHD/Blast'
 
 # Loading the data into a pload object D.
 D = pp.Load(path = wdir)
@@ -18,18 +18,23 @@ D = pp.Load(path = wdir)
 # Creating the Image and the subplot axes (in order to have two zoom simultaneously)
 I = pp.Image()
 ax = I.create_axes()
+I.set_axis(xrange = [D.x1.min(),D.x1.max()], yrange = [D.x2.min(),D.x2.max()])
+
+q = [
+    (slice(0, D.nx1//2), slice(0, D.nx2//2)),   # Bottom-left
+    (slice(0, D.nx1//2), slice(D.nx2//2, D.nx2)), # Top-left
+    (slice(D.nx1//2, D.nx1), slice(0, D.nx2//2)), # Bottom-right
+    (slice(D.nx1//2, D.nx1), slice(D.nx2//2, D.nx2))# Top-right
+]
+
+
 
 # Plotting the data
-I.display(D.rho, x1 = D.x1rc, x2 = D.x2rc, cscale = 'log', cpos = 'right', title = 'Density', 
-          vmin = 0.1)
-
-quit()
-#Zooming the planet region
-I.zoom(xrange = [0.9,1.1], yrange = [-0.1,0.1], pos = [0.74,0.95,0.7,0.9])
-I.zoom(var = D.vx2, xrange = [0.9,1.1], yrange = [-0.1,0.1], pos = [0.07,0.27,0.67,0.9],
-       cpos = 'bottom', cmap = 'magma', cscale = 'linear', vmin = 5, vmax = 7, ax = ax,
-       title = r'$v_\phi$')
+I.display(D.vx1[q[0]], x1 = D.x1r[q[0][0]], x2 = D.x2r[q[0][1]])
+I.display(D.vx2[q[1]], x1 = D.x1r[q[1][0]], x2 = D.x2r[q[1][1]])
+I.display(D.Bx1[q[2]], x1 = D.x1r[q[2][0]], x2 = D.x2r[q[2][1]])
+I.display(D.Bx2[q[3]], x1 = D.x1r[q[3][0]], x2 = D.x2r[q[3][1]])
 
 # Saving the image
-pp.savefig('test06_diskplanet.png')
+I.savefig('test07_blast.png')
 pp.show()

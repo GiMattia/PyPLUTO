@@ -42,7 +42,6 @@ def ring(length: float = 0.5,
 
     ----
 
-    ========
     Examples
     ========
 

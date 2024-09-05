@@ -28,7 +28,6 @@ def savefig(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -66,7 +65,6 @@ def show(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -136,7 +134,6 @@ def text(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -162,6 +159,10 @@ def text(self,
         >>> I.text('text', x = 0.5, y = 0.5, xycoords = 'points')
 
     """
+
+    # Check parameters
+    param = {'c','horalign','textsize','veralign','xycoords'}
+    check_par(param, 'text', **kwargs)
 
     # Find figure and number of the axis
     ax, nax = self._assign_ax(ax, **kwargs)
@@ -192,4 +193,3 @@ def text(self,
 
     # End of the function
     return None
-

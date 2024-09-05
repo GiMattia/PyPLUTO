@@ -41,7 +41,6 @@ def _load_variables(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -163,7 +162,6 @@ def _check_nout(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -238,7 +236,6 @@ def _findfiles(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -367,7 +364,6 @@ def _init_vardict(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -442,7 +438,6 @@ def _assign_var(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -498,7 +493,6 @@ def _varsouts(self,
 
     ----
 
-    ========
     Examples
     ========
 
@@ -585,7 +579,6 @@ def _varsouts_f(self, elem: str) -> None:
 
     ----
 
-    ========
     Examples
     ========
 
@@ -633,7 +626,6 @@ def _varsouts_p(self, elem: str) -> None:
 
     ----
 
-    ========
     Examples
     ========
 
@@ -680,7 +672,6 @@ def _varsouts_lp(self, elem: str) -> None:
 
     ----
 
-    ========
     Examples
     ========
 

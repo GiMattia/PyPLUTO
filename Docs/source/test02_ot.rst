@@ -19,3 +19,5 @@ The figure displays the density of the magnetic fluid at the time t = 3.14.
 |
 
 ----
+
+.. This is a comment to prevent the document from ending with a transition.

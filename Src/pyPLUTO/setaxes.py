@@ -5,7 +5,7 @@ def create_axes(self,
                 nrow: int = 1, 
                 check: bool = True, 
                 **kwargs: Any
-               ):
+               ) -> Axes:
     """
     Creation of a set of axes using add_subplot from the matplotlib library.
 
@@ -30,9 +30,6 @@ def create_axes(self,
 
     - bottom: float, default 0.1
         The space from the bottom border to the last row of plots.
-    - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a warning
-        if a parameter is not present among the set of available parameters.
     - figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]
         Sets the figure size. The default value is computed from the number
         of rows and columns.
@@ -98,7 +95,7 @@ def create_axes(self,
         >>> ax = I.create_axes(ncol = 2, nrow = 2)
 
     - Example #2: create a grid of 2 columns with the first one having half the 
-                  width of the second one
+        width of the second one
 
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
@@ -120,9 +117,9 @@ def create_axes(self,
     """
     
     # Check parameters
-    param = {'bottom', 'figsize', 'fontsize', 'hratio', 'hspace', 'left', 
-             'ncol', 'nrow', 'proj', 'right', 'sharex', 'sharey', 'suptitle', 
-             'tight', 'top', 'wratio', 'wspace'}
+    param = {'bottom','figsize','fontsize','hratio','hspace','left','ncol',
+             'nrow','proj','right','sharex','sharey','suptitle','tight','top',
+             'wratio','wspace'}
     if check is True:
         check_par(param, 'create_axes', **kwargs)
 
@@ -257,7 +254,7 @@ def set_axis(self,
              ax: Axes | None = None, 
              check: bool = True, 
              **kwargs: Any
-            ):
+            ) -> None:
     """
     Customization of a single subplot axis.
     Properties such as the range, scale and aspect of each subplot
@@ -281,9 +278,6 @@ def set_axis(self,
         y-scale and the x-scale (1.0 is the same as 'equal').
     - ax: ax object, default None
         The axis to customize. If None the current axis will be selected.
-    - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a warning
-        if a parameter is not present among the set of available parameters.
     - fontsize: float, default 17.0
         Sets the fontsize for all the axis components (only for the current 
         axis).
@@ -369,7 +363,7 @@ def set_axis(self,
         ... ytitle = 'y-axis')
 
     - Example #2: create an axis, remove the ticks for the x-axis and
-      set manually the ticks for the y-axis
+        set manually the ticks for the y-axis
 
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
@@ -378,7 +372,7 @@ def set_axis(self,
         ... yticks = [-0.8,-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8])
 
     - Example #3: create two axes and invert the direction of the ticks in the 
-      first one
+        first one
 
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
@@ -395,15 +389,14 @@ def set_axis(self,
         ...     I.set_axis(ax = ax[i], xtitle = 'x-axis', ytitle = 'y-title', 
         ...     xticks = [0.25,0.5,0.75], yticks = [0.25,0.5,0.75], 
         ...     xtickslabels = ['1/4','1/2','3/4'])
-        ...
 
     """
 
     # Check parameters
     param = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 
              'sharex', 'sharey', 'ticksdir', 'tickssize', 'title', 'titlepad', 
-             'titlesize', 'range', 'xscale', 'xticks', 'xtickslabels', 'xtitle',
-              'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+             'titlesize', 'xrange', 'xscale', 'xticks', 'xtickslabels', 
+             'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
         check_par(param, 'set_axis', **kwargs)
 

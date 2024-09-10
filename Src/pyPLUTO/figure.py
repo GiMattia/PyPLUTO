@@ -16,7 +16,7 @@ def _assign_LaTeX(self,
     ----------
 
     - LaTeX: bool | str, default False
-        the LaTeX option. Is True is selected, the default LaTeX font
+        The LaTeX option. Is True is selected, the default LaTeX font
         is used. If 'pgf' is selected, the pgf backend is used to save pdf
         figures with minimal file size. If XeLaTeX is not installed and the 
         'pgf' option is selected, the LaTeX option True is used as backup 
@@ -118,25 +118,25 @@ def _choose_colorlines(self,
     -------
 
     - colors: list[str]
-        the list of colors for the lines
+        The list of colors for the lines.
 
     Parameters
     ----------
 
     - numcolor: int
-        the number of colors
+        The number of colors.
     - oldcolor: bool
-        if True, the old colors are used
+        If True, the old colors are used.
     - withblack: bool
-        if True, the black color is used as first color
+        If True, the black color is used as first color.
     - withwhite: bool
-        if True, the white color is used as first color
+        If True, the white color is used as first color.
 
     Notes
     -----
 
     - The withblack and withwhite options are only used if oldcolor = False
-      and they cannot be used together (priority goes to black).
+        and they cannot be used together (priority goes to black).
 
     ----
 
@@ -163,16 +163,17 @@ def _choose_colorlines(self,
 
     # New colors dictionary (black and white included)
     self.dictcol = { 0: '#ffffff',  1: '#e8ecfb',  2: '#d9cce3',  3: '#d1bbd7', 
-                     4: '#caaccb',  5: '#ba8db4',  6: '#ae76a3',  7: '#aa6f9e',
-                     8: '#994f88',  9: '#882e72', 10: '#1e3888', 11: '#437dbf',
+                     4: '#caaccb',  5: '#ae76a3',  6: '#aa6f9e',  7: '#994f88',  
+                     8: '#882e72',  9: '#0104fe', 10: '#1e3888', 11: '#437dbf',
                     12: '#5289c7', 13: '#6195cf', 14: '#7bafde', 15: '#4eb265',
                     16: '#90c987', 17: '#cae0ab', 18: '#f7f056', 19: '#f7cb45',
                     20: '#f6c141', 21: '#f4a736', 22: '#f1932d', 23: '#ee8026',
                     24: '#e8601c', 25: '#e65518', 26: '#dc050c', 27: '#a5170e',
-                    28: '#72190e', 29: '#42150a', 30: '#777777', 31: '#000000'}
+                    28: '#72190e', 29: '#42150a', 30: '#777777', 31: '#000000',
+                    32: '#0104fe'}
 
     # Colors are ordered to avoid color vision deficiencies           
-    lstc = [10,26,15,23,14,17,7,25,28,18,11,2,9,16,5,21,8,27,4,13,19,29,1,30]
+    lstc = [9,26,15,23,14,17,6,25,28,18,11,2,8,16,10,21,7,27,4,13,19,29,1,30]
 
     # Black and white addition
     lstc = [0] + lstc if withwhite else [31] + lstc if withblack else lstc

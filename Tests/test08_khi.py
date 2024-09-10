@@ -20,7 +20,7 @@ I = pp.Image()
 ax = I.create_axes()
 
 # Plotting the data
-I.display(D.rho, x1 = D.x1rc, x2 = D.x2rc, cscale = 'log', cpos = 'right', title = 'Density', 
+I.display(D.rho, x1 = D.x1rc, x2 = D.x2rc, cscale = 'log', cpos = 'right', title = 'Density',
           vmin = 0.1)
 
 quit()
@@ -31,5 +31,5 @@ I.zoom(var = D.vx2, xrange = [0.9,1.1], yrange = [-0.1,0.1], pos = [0.07,0.27,0.
        title = r'$v_\phi$')
 
 # Saving the image
-pp.savefig('test06_diskplanet.png')
+pp.savefig('test08_khi.png')
 pp.show()

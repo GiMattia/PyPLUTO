@@ -30,13 +30,13 @@ class Image:
     - fontsize: int, default 17
         The font size.
     - LaTeX: bool | str, default False
-        the LaTeX option. Is True is selected, the default LaTeX font
+        The LaTeX option. Is True is selected, the default LaTeX font
         is used. If 'pgf' is selected, the pgf backend is used to save pdf
         figures with minimal file size. If XeLaTeX is not installed and the
         'pgf' option is selected, the LaTeX option True is used as backup
         strategy.
     - numcolor: int
-        the number of colors
+        The number of colors.
     - nwin: int, default 1
         The window number.
     - oldcolor: bool
@@ -52,9 +52,9 @@ class Image:
     - tight: bool, default True
         If True, the tight layout is used.
     - withblack: bool
-        if True, the black color is used as first color
+        If True, the black color is used as first color.
     - withwhite: bool
-        if True, the white color is used as first color
+        If True, the white color is used as first color.
 
     Notes
     -----
@@ -100,6 +100,13 @@ class Image:
                  fig: Figure | None = None,
                  **kwargs: Any
                 ) -> None:
+        
+        # Check parameters
+        param = {'close','figsize','fontsize','numcolor','nwin','oldcolor',
+                 'style','suptitle','suptitlesize','tight','withblack',
+                 'withwhite'}
+        if check is True:
+            check_par(param, '__init__', **kwargs)
 
         self.fontsize: int = 17 # fontsize
         self.tight: bool = True # tight layout
@@ -125,11 +132,6 @@ class Image:
         self.anim_ax: Axes # the axes of the animation
         self.slider: Slider # the slider
         self.anim_pcm: Any # the animation collection
-
-        # Check parameters
-        param = {'close','figsize','fontsize','nwin','suptitle',
-                 'suptitlesize','tight'}
-        check_par(param, '__init__', **kwargs)
 
         # Set the style of the figure
         plt.style.use(kwargs.get('style','default'))
@@ -170,46 +172,46 @@ class Image:
         Public methods available:
 
         - create_axes
-            Adds a set of [nrow,ncol] subplots to the figure
+            Adds a set of [nrow,ncol] subplots to the figure.
         - colorbar
-            Places a colorbar in a subplot or next to a subplot
+            Places a colorbar in a subplot or next to a subplot.
         - contour
-            Plots a contour plot in a subplot
+            Plots a contour plot in a subplot.
         - display
-            Plots a 2D quantity in a subplot
+            Plots a 2D quantity in a subplot.
         - interactive
-            Creates an interactive plot with a slider to change the data
+            Creates an interactive plot with a slider to change the data.
         - legend
-            Places one legend in a subplot
+            Places one legend in a subplot.
         - set_axis
-            Changes the parameter of a specific subplot
+            Changes the parameter of a specific subplot.
         - plot
-            Plots one line in a subplot
+            Plots one line in a subplot.
         - savefig
-            Saves the figure in a file
+            Saves the figure in a file.
         - scatter
-            Plots a scatter plot in a subplot
+            Plots a scatter plot in a subplot.
         - streamplot
-            Plots a stream plot in a subplot
+            Plots a stream plot in a subplot.
         - text
-            Places the text in the figure or in a subplot
+            Places the text in the figure or in a subplot.
         - zoom
-            Creates an inset zoom region of a subplot
+            Creates an inset zoom region of a subplot.
 
         Public attributes available:
 
         - ax:
-            The list of relevant axes in the figure
+            The list of relevant axes in the figure.
         - fig
-            The figure associated to the image
+            The figure associated to the image.
         - fontsize
-            The fontsize in the figure
+            The fontsize in the figure.
         - fontweight
-            The fontweight in the figure
+            The fontweight in the figure.
         - nwin
-            The window number
+            The window number.
         - tg
-            The tight layout of the figure
+            The tight layout of the figure.
 
         Please do not use 'private' methods and attributes if not absolutely
         necessary.

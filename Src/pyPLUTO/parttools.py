@@ -3,17 +3,52 @@ from .libraries import *
 def spectrum(self, 
              var = None, 
              scale = 'lin', 
+             check: bool = True,
              **kwargs
-            ):
+            ) -> list[np.ndarray]:
     """
-    Compute the spectrum of a given particle variable
+    Compute the spectrum of a given particle variable.
+
+    Returns
+    -------
+
+    - bins: np.ndarray
+        The x1 array of the histogram.
+    - hist: np.ndarray
+        The x2 array of the histogram.
 
     Parameters
     ----------
 
-    ...
+    - nbins: int
+        The number of bins wanted for the histogram.
+    - scale: {'lin','log'}, default 'lin'
+        The scale of the histogram, linear or logarithmic.
+    - var: np.ndarray
+        The chosen variable for the histogram.
+    - vmin: float
+        The minimum value of the chosen variable.
+    - vmax: float
+        The maximum value of the chosen variable.
+
+    Notes
+    -----
+
+    - CONTROLLARE SE CI SONO TUTTE LE KEYWORDS
+
+    ----
+
+    Examples
+    ========    
+
+    INSERIRE UN ESEMPIO
     
     """
+
+    # Check parameters
+    param = {'nbins','vmin','vmax'}
+    if check is True:
+        check_par(param, 'spectrum', **kwargs)
 
     # Set limits
     vmin = kwargs.get('vmin',np.nanmin(var))
@@ -36,6 +71,7 @@ def spectrum(self,
     # Return the histogram
     return hist, bins
 
+
 def select(self,
            var: np.ndarray, 
            cond: str | Callable, 
@@ -43,11 +79,35 @@ def select(self,
            ascending: bool = True
           ) -> np.ndarray:
     """
-    ...
+    QUALCOSA
+
+    Returns
+    -------
+
+    - indx: np.ndarray
+
+    Parameters
+    ----------
+
+    - ascending
+    - cond
+    - sort
+    - var
+
+    Notes
+    -----
+
+    - SCRIVERE
+
+    ----
+
+    Examples
+    ========
+
+    AGGIUNGERE
 
     """
 
-    
     # Determine the indices that satisfy the condition
     if isinstance(cond, str):
         warn = ("The condition should be a callable function to "

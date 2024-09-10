@@ -11,8 +11,15 @@ def savefig(filename: str | Path = 'img.png',
     warnings.warn(warn, DeprecationWarning)
     plt.savefig(filename, bbox_inches = bbox)
 
-def show(block: bool = True) -> None:
+    return None
+
+
+def show(block: bool = True
+        ) -> None:
     plt.show(block = block)
+
+    return None
+
 
 def ring(length: float = 0.5, 
          freq: int = 440
@@ -26,7 +33,6 @@ def ring(length: float = 0.5,
 
     - length: float, default 0.5
         The length of the sound in seconds.
-
     - freq: int, default 440
         The frequency of the sound in Hz.
 

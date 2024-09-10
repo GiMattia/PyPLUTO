@@ -3,7 +3,7 @@ from .libraries import *
 def _check_var(self,
                var: str | NDArray,
                transpose: bool
-             ):
+             ) -> np.ndarray:
     """
     Function that checks returns a variable. If the variable is a numpy array,
     it is simply returned (and the transpose is taken into account). If the 
@@ -13,13 +13,13 @@ def _check_var(self,
     Returns
     -------
 
-    - var: NDArray
+    - var: np.ndarray
         The variable.
 
     Parameters
     ----------
 
-    - var: str | NDArray
+    - var: str | np.ndarray
         The variable to be checked.
     - transpose: bool
         If True, the variable is transposed.
@@ -27,7 +27,7 @@ def _check_var(self,
     Notes
     -----
 
-    - None
+    - COMMENTO SOTTO
 
     ----
 
@@ -58,7 +58,13 @@ def _check_var(self,
     return var
 
 
-def _vector_field(t, y, var1, var2, xc, yc):
+def _vector_field(t, 
+                  y, 
+                  var1, 
+                  var2, 
+                  xc, 
+                  yc
+                 ) -> list[np.ndarray]:
     """
     Compute the vector field at the given time and coordinates by interpolating
     the variables var1 and var2 at the given coordinates.
@@ -66,23 +72,25 @@ def _vector_field(t, y, var1, var2, xc, yc):
     Returns
     -------
 
-    - qx, qy: NDArray
-        The vector field components.
+    - qx: np.ndarray
+        The x1 vector field component.
+    - qy: np.ndarray
+        The x2 vector field component.
 
     Parameters
     ----------
 
     - t: float
         The time variable (not used here).
-    - y: NDArray
-        The coordinates. The first and second dimension are x and y.
-    - var1: NDArray
+    - var1: np.ndarray
         The first variable to be interpolated.
-    - var2: NDArray
+    - var2: np.ndarray
         The second variable to be interpolated.
-    - xc: NDArray
+    - xc: np.ndarray
         The x coordinates of the grid.
-    - yc: NDArray
+    - y: np.ndarray
+        The coordinates. The first and second dimension are x and y.
+    - yc: np.ndarray
         The y coordinates of the grid.
 
     Notes
@@ -120,6 +128,7 @@ def _vector_field(t, y, var1, var2, xc, yc):
 
     # Return the vector field
     return [qx, qy]
+
 
 def find_fieldlines(self,
                     var1,
@@ -191,7 +200,7 @@ def find_fieldlines(self,
     Notes
     -----
 
-    - None
+    - IL TO BE CONTINUED QUA SOPRA
 
     ----
 
@@ -381,12 +390,11 @@ def find_contour(self,
                 ) -> list:
     """
     Generate contour lines for a given variable.
-    ...
 
     Returns
     -------
 
-    - lines_list : list
+    - lines_list: list
         List of contour lines. The strcuture of the list is 
         [[x1, y1], [x2, y2], ...] where x1, y1, x2, y2 are numpy arrays 
         representing the coordinates of the field lines.
@@ -394,29 +402,29 @@ def find_contour(self,
     Parameters
     ----------
 
-    - cmap : str, default None
+    - cmap: str, default None
         The colormap to use to associate each level with a color.
         The colormap can also be a color, which is used for all the levels.
         If not provided, all the lines are associated with the color black.
-    - levels : int | array_like, default 10
+    - levels: int | np.ndarray, default 10
         The levels of number of levels or the list of levels for the contours. 
         If an integer is provided, the levels are generated using a linear or
         logarithmic scale. If an array is provided, the levels are taken from
         the array.
-    - levelscale : str, default 'linear'
+    - levelscale: str, default 'linear'
         The scale of the levels. Available options are 'linear' and 
         'logarithmic'.
-    - var : str | array_like
+    - var: str | array_like
         The variable to plot. If a string is provided, the variable is taken 
         from the dataset.
-    - vmax : float, default np.max(var)
+    - vmax: float, default np.max(var)
         The maximum value of the variable.
-    - vmin : float, default np.min(var)
+    - vmin: float, default np.min(var)
         The minimum value of the variable.
-    - x1 : array_like, default self.x1
+    - x1: np.ndarray, default self.x1
         The x1 coordinates. If the geometry is non-Cartesian, the x1 cartesian 
         coordinates are taken from the dataset.
-    - x2 : array_like, default self.x2
+    - x2: np.ndarray, default self.x2
         The x2 coordinates. If the geometry is non-Cartesian, the x2 cartesian
         coordinates are taken from the dataset.
     
@@ -439,13 +447,13 @@ def find_contour(self,
         >>> lines_list = find_contour(var, x1=x1, x2=x2)
 
     - Example #3: Generate contour lines for a given variable and coordinates
-      with a logarithmic scale.
+        with a logarithmic scale.
 
         >>> lines_list = find_contour(var, x1=x1, x2=x2, 
         >>> ... levelscale='logarithmic')
 
     - Example #4: Generate contour lines for a given variable and coordinates
-      with a logarithmic scale and a colormap.
+        with a logarithmic scale and a colormap.
 
         >>> lines_list = find_contour(var, x1=x1, x2=x2, 
         >>> ... levelscale='logarithmic', cmap='jet')

@@ -14,10 +14,10 @@ def fourier(self,
     Returns
     -------
 
-    - freqs: np.ndarray
-        The frequency array. It is a list of arrays if the input is in 2D or 3D.
     - f: np.ndarray
         The transformed array.
+    - freqs: np.ndarray
+        The frequency array. It is a list of arrays if the input is in 2D or 3D.
 
     Parameters
     ----------
@@ -117,6 +117,7 @@ def fourier(self,
     slices = tuple(slice(0, dim//2 + 1) for dim in shp)
     freqs = freqs[0] if len(freqs) == 1 else freqs
     return freqs, np.abs(fk[slices])
+
 
 def _fourier_spacing(dx: float | int | list | np.ndarray
                     ) -> float:

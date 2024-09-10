@@ -1,6 +1,12 @@
 from .libraries import *
 
-def interactive(self, varx, vary = None, fig = None, **kwargs):
+def interactive(self, 
+                varx, 
+                vary = None, 
+                fig = None, 
+                check: bool = True,
+                **kwargs
+               ) -> None:
     """
     Creates an interactive plot with a slider to change the data.
     Warning: it works only with the fluid variables.
@@ -8,7 +14,7 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
     Returns
     -------
 
-    - None.
+    - None
 
     Parameters
     ----------
@@ -31,8 +37,10 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
 
     - Check vmin and vmax to set the colorbar limits.
     - Interact is a very primordial version and it should not be used tu perform
-      very complex plots. Instead, it gives a very nice overview of the data
-      as functions of time (like in other softwares such as visit or paraview).
+        very complex plots. Instead, it gives a very nice overview of the data
+        as functions of time (like in other softwares such as visit or 
+        paraview).
+    - CHIARIRE UTILIZZO DI FIG
 
     ----
 
@@ -58,6 +66,11 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
         >>> pp.show()
 
     """
+
+    # Check parameters
+    param = {'ax','vmin','vmax'}
+    if check is True:
+        check_par(param, 'interactive', **kwargs)
 
     # Store the variable x
     if vary is None:
@@ -103,14 +116,17 @@ def interactive(self, varx, vary = None, fig = None, **kwargs):
 
     return None
 
-def _update_slider(self, i: int) -> None:
+
+def _update_slider(self, 
+                   i: int
+                  ) -> None:
     """
     Updates the data in the interactive plot.
 
     Returns
     -------
 
-    - None.
+    - None
 
     Parameters
     ----------
@@ -121,7 +137,7 @@ def _update_slider(self, i: int) -> None:
     Notes
     -----
 
-    - None.
+    - None
 
     ----
 

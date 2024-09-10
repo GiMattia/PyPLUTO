@@ -1,11 +1,10 @@
 from .libraries import *
 
-
 def zoom(self, 
          ax = None, 
-         check = True, 
+         check: bool = True, 
          **kwargs
-        ):
+        ) -> Axes:
     """
     Creation of an inset zoom of an already existent plot or display.
     
@@ -17,7 +16,7 @@ def zoom(self,
     Returns
     -------
 
-    - None
+    - Axis object where the zoom plot is set
 
     Parameters
     ----------
@@ -35,10 +34,7 @@ def zoom(self,
         The axis to customize. If None the current axis will be selected.
     - bottom: float, default 0.6 + height
         Bottom position of the inset plot. If not defined the program will give 
-        a standard value.
-    - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a warning
-        if a parameter is not present among the set of available parameters.    
+        a standard value.   
     - clabel: str, default None
         Sets the label of the colorbar.
     - cmap: str, default 'hot'
@@ -206,7 +202,6 @@ def zoom(self,
              'var', 'vmax', 'vmin', 'width', 'x1', 'x2', 'xrange', 'xscale', 
              'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 
              'ytickslabels', 'ytitle', 'zoomlines'}
-    
     if check is True:
         check_par(param, 'zoom', **kwargs)
 
@@ -248,7 +243,6 @@ def zoom(self,
     return axins
 
 
-
 def _zoomplot(self,
               ax: Axes,
               nax: int,
@@ -266,7 +260,6 @@ def _zoomplot(self,
                   ax=axins)
     
     return None
-
 
 
 def _zoomdisplay(self,
@@ -306,7 +299,6 @@ def _zoomdisplay(self,
     return None
 
 
-
 def _place_inset_pos(ax: Axes, 
                      pos: list[float]
                     ) -> Axes:
@@ -339,7 +331,6 @@ def _place_inset_pos(ax: Axes,
     width  = pos[1] - pos[0]
     height = pos[3] - pos[2]
     return ax.inset_axes((left, bottom, width, height))
-
 
 
 def _place_inset_loc(ax: Axes, 
@@ -389,4 +380,5 @@ def _place_inset_loc(ax: Axes,
     height = kwargs.get('height', 0.15)
     bottom = kwargs.get('top', 0.75) - height
     bottom = kwargs.get('bottom', 0.6)
+
     return ax.inset_axes((left, bottom, width, height))

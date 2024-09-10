@@ -17,9 +17,9 @@ def savefig(self,
 
     - bbox: {'tight', None}, default 'tight'
         Crops the white borders of the Image to create a more balanced image
-        file
+        file.
     - filename: str, default 'img.png'
-        The name of the saved image file
+        The name of the saved image file.
 
     Notes
     -----
@@ -42,6 +42,7 @@ def savefig(self,
     self.fig.savefig(filename, bbox_inches = bbox)
 
     return None
+
 
 def show(self, 
         ) -> None:
@@ -82,11 +83,13 @@ def show(self,
 
     return None
 
+
 def text(self, 
          text: str, 
          x: float = 0.85, 
          y: float = 0.85, 
          ax: Axes | None = None,
+         check: bool = True,
          **kwargs: Any
         ) -> None:
     """
@@ -162,7 +165,8 @@ def text(self,
 
     # Check parameters
     param = {'c','horalign','textsize','veralign','xycoords'}
-    check_par(param, 'text', **kwargs)
+    if check is True:
+        check_par(param, 'text', **kwargs)
 
     # Find figure and number of the axis
     ax, nax = self._assign_ax(ax, **kwargs)

@@ -37,9 +37,6 @@ def plot(self,
         Determines the line color. If not defined, the program will loop over an
         array of 6 color which are different for the most common vision
         deficiencies.
-    - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a warning
-        if a parameter is not present among the set of available parameters.
     - figsize: [float, float], default [8,5]
         Sets the figure size. The default value is computed from the number of 
         rows and columns.
@@ -165,7 +162,7 @@ def plot(self,
         >>> I.plot(x, y)
             
     - Example #2: create a plot of y as function of x with custom range of the 
-      axes and titles
+        axes and titles
          
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
@@ -208,13 +205,12 @@ def plot(self,
         y = np.asarray(y)
 
     # Check parameters
-    param = {'alpha', 'aspect', 'ax', 'c', 'figsize', 'fillstyle', 'fontsize', 
-             'grid',
-             'label', 'labelsize', 'legalpha', 'legcols', 'legpad', 'legpos', 
-             'legsize', 'legspace', 'ls', 'lw', 'marker', 'minorticks', 'ms', 
-             'proj', 'ticksdir', 'tickssize', 'title', 'titlesize', 'x', 
-             'xrange', 'xscale', 'xticks', 'xtickslabels', 'xtitle', 'y', 
-             'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+    param = {'alpha','aspect','ax','c','figsize','fillstyle','fontsize','grid',
+             'label','labelsize','legalpha','legcols','legpad','legpos',
+             'legsize','legspace','ls','lw','marker','minorticks','ms','proj',
+             'ticksdir','tickssize','title','titlesize','xrange','xscale',
+             'xticks','xtickslabels','xtitle','yrange','yscale','yticks',
+             'ytickslabels','ytitle'}
     if check is True:
         check_par(param, 'plot', **kwargs)
 
@@ -258,6 +254,7 @@ def plot(self,
     # End of the function
     return None
 
+
 def legend(self, 
            ax: Axes | None = None, 
            check: bool = True, 
@@ -284,9 +281,8 @@ def legend(self,
         Determines the line color. If not defined, the program will loop over an
         array of 6 color which are different for the most common vision
         deficiencies.
-    - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a warning
-        if a parameter is not present among the set of available parameters.
+    - edgecolor: list[str], default [None]
+        Sets the edge color of the legend. The default value is black ('k').
     - fillstyle: {'full', 'left', 'right', 'bottom', 'top', 'none'}, 
                  default 'full'
         Sets the marker filling. The default value is the fully filled marker
@@ -362,8 +358,8 @@ def legend(self,
     """
 
     # Check parameters
-    param = {'ax', 'c', 'fillstyle', 'label', 'legalpha', 'legcols', 'legpad', 
-             'legpos', 'legsize', 'legspace', 'ls', 'lw', 'marker', 'ms'}
+    param = {'c','edgecolor','fillstyle','label','legalpha','legcols','legpad',
+             'legpos','legsize','legspace','ls','lw','marker','ms'}
     if check is True:
         check_par(param, 'legend', **kwargs)
 
@@ -388,19 +384,21 @@ def legend(self,
     if kwargs.get('label') is not None:
         lab = kwargs['label'] if isinstance(kwargs['label'], list) \
                               else [kwargs['label']]
-        col = makelist(kwargs.get('c',['k']))
-        ls  = makelist(kwargs.get('ls',['-']))
-        lw  = makelist(kwargs.get('lw',[1.5]))
-        mrk = makelist(kwargs.get('marker',['']))
-        ms  = makelist(kwargs.get('ms',[5.0]))
-        fls = makelist(kwargs.get('fillstyle',['full']))
+        col    = makelist(kwargs.get('c',['k']))
+        ls     = makelist(kwargs.get('ls',['-']))
+        lw     = makelist(kwargs.get('lw',[1.5]))
+        mrk    = makelist(kwargs.get('marker',['']))
+        ms     = makelist(kwargs.get('ms',[5.0]))
+        fls    = makelist(kwargs.get('fillstyle',['full']))
+        edgcol = makelist(kwargs.get('edgecolor',[None]))
         lines = []
         # Create the list of lines
         for i, val in enumerate(lab):
             lines.append(mlines.Line2D([], [], label = val, 
                          color = col[i%len(col)], ls = ls[i%len(ls)], 
                          lw = lw[i%len(lw)], marker = mrk[i%len(mrk)], 
-                         ms = ms[i%len(ms)], fillstyle = fls[i%len(fls)]))
+                         ms = ms[i%len(ms)], fillstyle = fls[i%len(fls)],
+                         markeredgecolor = edgcol[i%len(edgcol)]))
         # Create the legend
         legg = ax.legend(handles = lines, loc = self.legpos[nax],
                   fontsize = self.legpar[nax][0], 

@@ -15,11 +15,12 @@ def _add_ax(self,
     - None
 
     Parameters
+    ----------
 
     - ax: ax
-        the axis to be added
+        The axis to be added.
     - i: int
-        the index of the axis in the list
+        The index of the axis in the list.
 
     Notes
     -----
@@ -74,9 +75,9 @@ def _hide_text(self,
     ----------
 
     - nax: int
-        the number of the selected set of axes
+        The number of the selected set of axes.
     - txts: str
-        the text of the selected set of axes
+        The text of the selected set of axes.
 
     Notes
     -----
@@ -124,19 +125,19 @@ def _set_xrange(self,
     ----------
 
     - ax: ax
-        the selected set of axes
-    - nax: int
-        the number of the selected set of axes
-    - xlim: list[float]
-        the limits of the x-axis
+        The selected set of axes.
     - case: int
-        the case in exam (if range is fixed or variable)
+        The case in exam (if range is fixed or variable).
+    - nax: int
+        The number of the selected set of axes.
+    - xlim: list[float]
+        The limits of the x-axis.
 
     Notes
     -----
 
     - The chance to set only one limit dinamically will be implemented
-      in the future.
+        in the future.
 
     ----
 
@@ -194,29 +195,29 @@ def _set_yrange(self,
     Returns
     -------
 
-        None
+    - None
 
     Parameters
     ----------
 
     - ax: ax
-        the selected set of axes
-    - nax: int
-        the number of the selected set of axes
-    - ylim: list[float]
-        the limits of the y-axis
+        The selected set of axes.
     - case: int
-        the case in exam (if range is fixed or variable)
-    - x: list[float]
-        the x-array (to limit the y-range automatically)
-    - y: list[float]
-        the y-array (to limit the y-range automatically)
+        The case in exam (if range is fixed or variable).
+    - nax: int
+        The number of the selected set of axes.
+    - x: np.ndarray
+        The x-array (to limit the y-range automatically).
+    - y: np.ndarray
+        The y-array (to limit the y-range automatically).
+    - ylim: list[float]
+        The limits of the y-axis.
 
     Notes
     -----
 
     - The chance to set only one limit dinamically will be implemented
-      in the future. 
+        in the future. 
 
     ----
 
@@ -293,18 +294,18 @@ def _assign_ax(self,
     -------
 
     - ax: ax
-        the selected set of axes
+        The selected set of axes.
     - nax: int
-        the number of the selected set of axes
+        The number of the selected set of axes.
 
     Parameters
     ----------
 
     - ax: ax | int | list[ax] | None
-        the selected set of axes
+        The selected set of axes.
     - **kwargs: Any
-        the keyword arguments to be passed to the create_axes function
-        (not written here since is not public method)
+        The keyword arguments to be passed to the create_axes function
+        (not written here since is not public method).
 
     Notes
     -----

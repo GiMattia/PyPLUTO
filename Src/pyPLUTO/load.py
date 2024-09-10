@@ -17,6 +17,24 @@ class Load:
     Parameters
     ----------
 
+    - alone: bool | None, default False
+        If the files are standalone. If False, the code will look for the 
+        grid file in the folder. If True, the code will look for the grid 
+        information within the data files. Should be used only for non-binary 
+        files.
+    - datatype: str | None, default None
+        The format of the data file. If not specified, the code will look for 
+        the format from the list of possible formats. HDF5 (AMR) formats have 
+        not been implemented yet.
+    - endian: str | None, default None
+        Endianess of the datafiles. Should be used only if specific 
+        architectures are used, since the code computes it by itself. Valid 
+        values are 'big' and 'little' (or '<' and '>').
+    - multiple: bool, default False
+        If the files are multiple. If False, the code will look for the single 
+        files, otherwise for the multiple files each corresponding to the loaded
+        variables. Should be used only if both single files and multiple files 
+        are present in the same format for the same datatype.
     - nout: int | str | list | None, default 'last'
         The files to be loaded. Possible choices are int values (which 
         correspond to the number of the output file), strings ('last', which 
@@ -25,32 +43,14 @@ class Load:
         used carefully, e.g. only when the data need to be shown interactively. 
     - path: str, default './'
         The path of the folder where the files should be loaded.
-    - datatype: str | None, default None
-        The format of the data file. If not specified, the code will look for 
-        the format from the list of possible formats. HDF5 (AMR) formats have 
-        not been implemented yet.
-    - vars: str | list | bool | None, default True
-        The variables to be loaded. The default value, True, corresponds to all 
-        the variables.
     - text: bool, default True
         If True, the folder and output are printed. In case the user needs a 
         more detailed information of the structure and attributes loaded from 
         the class, the __str__ method provides a easy display of all the 
         important information.
-    - alone: bool | None, default False
-        If the files are standalone. If False, the code will look for the 
-        grid file in the folder. If True, the code will look for the grid 
-        information within the data files. Should be used only for non-binary 
-        files.
-    - multiple: bool, default False
-        If the files are multiple. If False, the code will look for the single 
-        files, otherwise for the multiple files each corresponding to the loaded
-        variables. Should be used only if both single files and multiple files 
-        are present in the same format for the same datatype.
-    - endian: str | None, default None
-        Endianess of the datafiles. Should be used only if specific 
-        architectures are used, since the code computes it by itself. Valid 
-        values are 'big' and 'little' (or '<' and '>').
+    - vars: str | list | bool | None, default True
+        The variables to be loaded. The default value, True, corresponds to all 
+        the variables.
         
     Notes
     -----
@@ -84,30 +84,30 @@ class Load:
         Loading folder ./,     output [0, 1, 2, 3, 4]
 
     - Example #5: Load the data from the default folder and multiple 
-      selected outputs    
+        selected outputs    
 
         >>> D = pp.Load(nout = [0,1,2])
         Loading folder ./,     output [0, 1, 2]
 
     - Example #6: Load the data from the default folder and multiple selected 
-      outputs and variables    
+        outputs and variables    
 
         >>> D = pp.Load(nout = [0,1,2], vars = ['rho','vel1'])
         Loading folder ./,     output [0, 1, 2]
 
     - Example #7: Load the data from the default folder, multiple selected
-      outputs and variables, without text
+        outputs and variables, without text
 
         >>> D = pp.Load(nout = [0,1,2], vars = ['rho','vel1'], text = False)
             
     - Example #8: Load the data from the default format with selected output
-      and format
+        and format
         
         >>> D = pp.Load(data = 'vtk', nout = 0)
         Loading folder ./,     output [0]
 
     - Example #9: Load the data from the default folder with selected output, 
-      variables and format
+        variables and format
 
         >>> D = pp.Load(data = 'vtk', nout = 0, vars = ['rho','vel1'])
         Loading folder ./,     output [0]
@@ -128,7 +128,7 @@ class Load:
                  alone: bool | None = None,
                  multiple: bool = False, 
                  endian: str | None = None 
-                )-> None:
+                ) -> None:
 
         # Check if the user wants to load the data
         if nout is None:
@@ -232,6 +232,7 @@ class Load:
             print(f"Load: folder {path},     output {_nout_out}")
 
         return   
+    
  
     def __str__(self):
 
@@ -290,8 +291,7 @@ class Load:
             return getattr(self, f'_{name}')
         except:
             raise AttributeError(f"'Load' object has no attribute '{name}'")
-    
-            
+         
     from .readformat  import _check_pathformat, _find_format
     from .readdata    import _load_variables, _check_nout, _findfiles
     from .readdata    import _init_vardict, _assign_var
@@ -306,3 +306,4 @@ class Load:
     from .findlines   import find_contour, find_fieldlines
     from .findlines   import _check_var  
     from .nabla       import gradient, curl, divergence
+    

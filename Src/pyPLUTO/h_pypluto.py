@@ -8,13 +8,14 @@ def makelist(el: Any
     Returns
     -------
 
-    - The list of chosen elements
+    - list
+        The list of chosen elements.
 
     Parameters
     ----------
 
     - el: Any
-        The element to be converted into a list
+        The element to be converted into a list.
 
     Notes
     -----
@@ -58,12 +59,12 @@ def check_par(par: set[str],
     Parameters
     ----------
 
-    - par: list[str]
-        the function correct parameters
     - func: str
-        the name of the function
+        The name of the function.
+    - par: list[str]
+        The function correct parameters.
     - **kwargs: dict
-        the selected parameters
+        The selected parameters.
 
     Notes
     -----
@@ -106,11 +107,13 @@ def color_warning(message, category, filename, lineno, file=None, line=None):
                f"[{filename}:{lineno}]\33[0m\n")  
     return message
 
+
 # Set color error formatter
 def color_error(type, value, tb):
     traceback_str = "".join(traceback.format_tb(tb))
     sys.stderr.write(f"\033[91m{traceback_str}\033[0m")
     sys.stderr.write(f"\33[31m{value}\33[0m\n")  # Red color for errors
+
 
 # Define the session
 def find_session():

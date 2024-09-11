@@ -74,7 +74,6 @@ def fourier(self,
     # Check the dimensions of the input array
     dim = f.ndim
     shp = f.shape
-    print(shp, dim)
 
     # Define the axes to include in the Fourier transform
     axes  = []

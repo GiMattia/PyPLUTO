@@ -20,12 +20,10 @@ I = pp.Image()
 ax = I.create_axes()
 I.set_axis(xrange = [D.x1.min(),D.x1.max()], yrange = [D.x2.min(),D.x2.max()])
 
-q = [
-    (slice(0, D.nx1//2), slice(0, D.nx2//2)),   # Bottom-left
-    (slice(0, D.nx1//2), slice(D.nx2//2, D.nx2)), # Top-left
-    (slice(D.nx1//2, D.nx1), slice(0, D.nx2//2)), # Bottom-right
-    (slice(D.nx1//2, D.nx1), slice(D.nx2//2, D.nx2))# Top-right
-]
+q = [(slice(0, D.nx1//2), slice(0, D.nx2//2)),         # Bottom-left
+     (slice(0, D.nx1//2), slice(D.nx2//2, D.nx2)),     # Top-left
+     (slice(D.nx1//2, D.nx1), slice(0, D.nx2//2)),     # Bottom-right
+     (slice(D.nx1//2, D.nx1), slice(D.nx2//2, D.nx2))] # Top-right
 
 
 

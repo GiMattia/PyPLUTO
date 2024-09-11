@@ -27,7 +27,7 @@ def _check_var(self,
     Notes
     -----
 
-    - COMMENTO SOTTO
+    - None
 
     ----
 
@@ -47,27 +47,33 @@ def _check_var(self,
     
     """
 
-    #ME LO METTI UN BEL COMMENTINO QUI?
+    # If var is a string the code tries to recover it from the class attributes,
+    # if failed it raises an error
     if isinstance(var, str):
         try:
             var = getattr(self,var)
         except:
             raise ValueError(f"Variable {var} not found in the dataset.")
+        
+    # If the transpose keyword is True, the variable is transposed.
     if transpose is True:
         var = var.T
+
+    # Return the variable
     return var
 
 
-def _vector_field(t, 
-                  y, 
-                  var1, 
-                  var2, 
-                  xc, 
-                  yc
+def _vector_field(t: float, 
+                  y: np.ndarray, 
+                  var1: np.ndarray, 
+                  var2: np.ndarray, 
+                  xc: np.ndarray,  
+                  yc: np.ndarray
                  ) -> list[np.ndarray]:
     """
     Compute the vector field at the given time and coordinates by interpolating
-    the variables var1 and var2 at the given coordinates.
+    the variables var1 and var2 at the given coordinates. The interpolation is
+    made through the routine np.interpolate.
 
     Returns
     -------
@@ -131,11 +137,11 @@ def _vector_field(t,
 
 
 def find_fieldlines(self,
-                    var1,
-                    var2, 
-                    x0 = None, 
-                    y0 = None, 
-                    text = False,
+                    var1: str | np.ndarray,
+                    var2: str | np.ndarray, 
+                    x0: list | float | None = None, 
+                    y0: list | float | None = None, 
+                    text: bool = False,
                     check: bool = True,
                     **kwargs: Any
                    ) -> list:
@@ -223,7 +229,7 @@ def find_fieldlines(self,
 
     # Check parameters
     param = {'atol','close','ctol','dense','maxstep','minstep','numsteps',
-             'order','rtol','step','text','transpose','x1','x2'}
+             'order','rtol','step','transpose','x1','x2'}
     if check is True:
         check_par(param, 'find_fieldlines', **kwargs)
     
@@ -243,7 +249,7 @@ def find_fieldlines(self,
 
     # Get the footpoints
     if x0 is None or y0 is None:
-        raise ValueError("Footpoints not provided.")
+        raise ValueError("Footpoints not provided. Please provide footpoints!")
 
     # Make sure x0 and y0 are lists
     x0 = makelist(x0)
@@ -269,7 +275,7 @@ def find_fieldlines(self,
                                     (yend - ybeg)/self.nx2))
     
     maxstep = kwargs.get('maxstep',100*step)
-    numstep = kwargs.get('maxsteps', 16384)
+    numstep = kwargs.get('numsteps', 16384)
     tfin    = maxstep*numstep
 
     # Define the system of differential equations

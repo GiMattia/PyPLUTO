@@ -46,42 +46,8 @@ def savefig(self,
 
 def show(self, 
         ) -> None:
-    """
-    Outputs on screen the figure created with Image class.
-
-    Returns
-    -------
-
-    - None
-
-    Parameters
-    ----------
-
-    - None
-
-    Notes
-    -----
-
-    - This method is deprecated, please use pp.show instead
-
-    ----
-
-    Examples
-    ========
-
-    - Example #1: show an empty image
-
-        >>> import pyPLUTO as pp
-        >>> I = pp.Image()
-        >>> I.show()
-    
-    """
-
-    warn = "Image show is deprecated, please use pp.show instead"
-    warnings.warn(warn, DeprecationWarning)
-    self.fig.show()
-
-    return None
+    raise NotImplementedError("Image show is deprecated, \
+                              please use pp.show instead")
 
 
 def text(self, 

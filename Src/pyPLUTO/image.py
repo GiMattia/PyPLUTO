@@ -16,10 +16,6 @@ class Image:
     Parameters
     ----------
 
-    - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a
-        warning if a parameter is not present among the set of available
-        parameters.
     - close: bool, default True
         If True, the existing figure with the same window number is closed.
     - fig: Figure | None, default None
@@ -35,8 +31,9 @@ class Image:
         figures with minimal file size. If XeLaTeX is not installed and the
         'pgf' option is selected, the LaTeX option True is used as backup
         strategy.
-    - numcolor: int
-        The number of colors.
+    - numcolor: int, default 10
+        The number of colors in the colorscheme. The default number is 10, but
+        the full list contains 30 colors (+ black or white).
     - nwin: int, default 1
         The window number.
     - oldcolor: bool

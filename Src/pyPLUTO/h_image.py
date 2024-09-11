@@ -6,8 +6,7 @@ def _add_ax(self,
            ) -> None:
     """
     Adds the axes properties to the class info variables.
-    The corresponding axis is appended (TO CHANGE!!! or at least
-    to be checked) to the list of axes.
+    The corresponding axis is appended to the list of axes.
 
     Returns
     -------
@@ -137,7 +136,7 @@ def _set_xrange(self,
     -----
 
     - The chance to set only one limit dinamically will be implemented
-        in the future.
+      in future code releases
 
     ----
 
@@ -217,7 +216,7 @@ def _set_yrange(self,
     -----
 
     - The chance to set only one limit dinamically will be implemented
-        in the future. 
+      in future code releases
 
     ----
 

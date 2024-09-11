@@ -4,8 +4,8 @@ def _assign_LaTeX(self,
                   LaTeX: bool | str
                  ) -> None:
     """
-    Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX
-    and should be used only to get vectorial figures with minimal file size.
+    Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX and should be 
+    used only to get vectorial figures with minimal file size.
 
     Returns
     -------
@@ -16,11 +16,10 @@ def _assign_LaTeX(self,
     ----------
 
     - LaTeX: bool | str, default False
-        The LaTeX option. Is True is selected, the default LaTeX font
-        is used. If 'pgf' is selected, the pgf backend is used to save pdf
-        figures with minimal file size. If XeLaTeX is not installed and the 
-        'pgf' option is selected, the LaTeX option True is used as backup 
-        strategy.
+        The LaTeX option. Is True is selected, the default LaTeX font is used. 
+        If 'pgf' is selected, the pgf backend is used to save pdf figures with 
+        minimal file size. If XeLaTeX is not installed and the 'pgf' option is 
+        selected, the LaTeX option True is used as backup strategy.
 
     Notes
     -----
@@ -106,11 +105,11 @@ def _choose_colorlines(self,
                        withwhite: bool
                       ) -> list[str]:
     """
-    Chooses the colors for the lines. Depending on the number of colors
-    and the option 'oldcolor', the colors are:
+    Chooses the colors for the lines. Depending on the number of colors and the 
+    option 'oldcolor', the colors are:
 
     - black, red, blue, cyan, green, orange (oldcolor = True)
-    - a new list of colors (oldcolor = False)
+    - a new list of colors (oldcolor = False, default)
 
     Both color lists are suited for all types of color vision deficiencies.
 
@@ -198,15 +197,11 @@ def _create_figure(self,
     Parameters
     ----------
 
-    - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a 
-        warning if a parameter is not present among the set of available 
-        parameters.
     - close: bool, default True
         If True, the existing figure with the same window number is closed.
     - fig: Figure | None, default None
-        The the figure instance. If not None, the figure is used (only 
-        if we need to associate an Image to an existing figure).
+        The the figure instance. If not None, the figure is used (only if we 
+        need to associate an Image to an existing figure).
     - figsize: list[float], default [8,5]
         The figure size.
     - fontsize: int, default 17

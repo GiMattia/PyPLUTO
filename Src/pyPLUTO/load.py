@@ -127,7 +127,8 @@ class Load:
                  text: bool = True, 
                  alone: bool | None = None,
                  multiple: bool = False, 
-                 endian: str | None = None 
+                 endian: str | None = None ,
+                 level: int = 0
                 ) -> None:
 
         # Check if the user wants to load the data
@@ -141,6 +142,7 @@ class Load:
         self._alone: bool | None = None # Bool for standalone files
         self._info: bool = True # Bool for info (linked to alone)
         self._d_vars: dict = {} # The dictionary of variables
+        self.level: int = level # The level for AMR files
 
         # Initialization or declaration of variables (used in other files)
         self.pathdir: Path   # Path to the simulation directory
@@ -297,9 +299,11 @@ class Load:
     from .readgridout import _read_grid_vtk, _read_grid_h5
     from .readfluid   import _compute_offset, _inspect_h5, _inspect_vtk
     from .readfluid   import _offset_bin, _read_tabfile
+    from .amr         import _inspect_hdf5, _DataScanHDF5
     from .write_files import _write_h5, write_file
     from .read_files  import _read_h5, read_file
     from .transform   import slices, mirror, cartesian_vector, reshape_cartesian
+    from .transform   import _congrid
     from .fourier     import fourier
     from .findlines   import find_contour, find_fieldlines
     from .findlines   import _check_var  

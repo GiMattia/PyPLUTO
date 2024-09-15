@@ -78,6 +78,8 @@ def _load_variables(self,
     # or compute the offset and shape
     if self._d_info['typefile'][i] == 'single_file':
         self._compute_offset(i, endian, exout, None)
+    if self.format == 'hdf5':
+        return None
 
     # Check if only specific variables should be loaded
     if vars is True:

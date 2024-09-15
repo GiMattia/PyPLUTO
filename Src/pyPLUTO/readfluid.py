@@ -316,7 +316,7 @@ def _inspect_h5(self,
     self._offset, self._shape = ({},{})
 
     # Open the file with the h5py library
-    h5file  = h5py.File(self._filepath,"r",)
+    h5file  = h5py.File(self._filepath,"r")
     
     # Selects the binformat
     self._d_info['binformat'][i] = 'd' if self.format == 'dbl.h5' else 'f'
@@ -419,6 +419,8 @@ def _compute_offset(self,
         self._inspect_vtk(i,endian)
     elif self.format in {'dbl.h5','flt.h5'}:
         self._inspect_h5(i, exout)
+    elif self.format == 'hdf5':
+        self._inspect_hdf5(i, exout)
     else:
         self._offset_bin(i, var)
 
@@ -465,7 +467,7 @@ def _offset_bin(self,
 
     # Read the grid file if not already read
     if self._info is True:
-        self._read_grid()
+        self._read_gridfile()
         self._info = False
 
     # Initialize the offset and shape dictionaries and the offset starting point

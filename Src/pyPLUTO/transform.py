@@ -343,12 +343,12 @@ def reshape_cartesian(self,
     # Convert grid
     ww, nn = _convert2cartgrid(xc, yc, x1, x2)   
 
-    xcong = congrid(xc,(nx1,nx2),method='linear')
-    ycong = congrid(yc,(nx1,nx2),method='linear')
+    xcong = self._congrid(xc,(nx1,nx2),method='linear')
+    ycong = self._congrid(yc,(nx1,nx2),method='linear')
 
     for i, var in enumerate(vars):
         newv.append(np.sum([ww[j]*var.flat[nn[j]] for j in range(4)], axis = 0))
-        newv[i] = congrid(newv[i],(nx1,nx2),method='linear').T
+        newv[i] = self._congrid(newv[i],(nx1,nx2),method='linear').T
 
     return xcong[0], ycong[:,0], *newv
 
@@ -436,7 +436,7 @@ def _convert2cartgrid(R, Z, new_r, new_t):
     return [w1, w2, w3, w4], [NN1, NN2, NN3, NN4]
 
 
-def congrid(a, newdims, method='linear', center=False, minusone=False):
+def _congrid(self, a, newdims, method='linear', center=False, minusone=False):
     """
     Arbitrary resampling of source array to new dimension sizes.
 

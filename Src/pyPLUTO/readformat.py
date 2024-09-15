@@ -138,7 +138,7 @@ def _find_format(self,
     if class_name == 'Load':
         # Divide the formats between standalone and not standalone
         type_out = ['dbl','flt','vtk','dbl.h5','flt.h5','tab']
-        type_lon = ['vtk','dbl.h5','flt.h5','tab']
+        type_lon = ['vtk','dbl.h5','flt.h5','tab','hdf5']
         # If datatype is dbl or flt the files are not standalone
         if datatype in {'dbl','flt'}:
             alone = False
@@ -190,6 +190,7 @@ def _find_format(self,
     # If the datatype is None, raise a general error, otherwise raise
     # an error for the specific datatype.
     scrh = f"No available type has been found in {self.pathdir}."
+   
     if datatype is not None:
         scrh = f"Type {datatype} not found."
     raise FileNotFoundError(scrh)

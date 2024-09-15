@@ -224,3 +224,4 @@ class Image:
     from .figure     import _create_figure, _assign_LaTeX, _choose_colorlines
     from .h_image    import _add_ax, _hide_text
     from .h_image    import _set_xrange, _set_yrange, _assign_ax
+    from .amr        import oplotbox

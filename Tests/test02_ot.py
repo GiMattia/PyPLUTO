@@ -1,5 +1,5 @@
 """
-Classical MHD Orszag-Tang test
+Classical MHD Orszag-Tang test (configuration 2).
 
 This test shows how to display a 2D quantity from a test problem in a single
 subplot.
@@ -26,7 +26,7 @@ plutodir = os.environ['PLUTO_DIR']
 wdir     = plutodir+'/Test_Problems/MHD/Orszag_Tang'
 
 # Loading the data into a pload object D.
-D = pp.Load(path = wdir, datatype = 'vtk')
+D = pp.Load(path = wdir)
 
 # Creating the Image class
 I = pp.Image(figsize = [7,6])

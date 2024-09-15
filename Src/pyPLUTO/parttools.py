@@ -20,6 +20,8 @@ def spectrum(self,
     Parameters
     ----------
 
+    - density: bool, default False
+        If True, the histogram is normalized.
     - nbins: int
         The number of bins wanted for the histogram.
     - scale: {'lin','log'}, default 'lin'
@@ -34,19 +36,24 @@ def spectrum(self,
     Notes
     -----
 
-    - CONTROLLARE SE CI SONO TUTTE LE KEYWORDS
+    - None
 
     ----
 
     Examples
     ========    
 
-    INSERIRE UN ESEMPIO
+    - Example #1: Compute the spectrum of the particles velocity
+
+        >>> import pyPLUTO as pp
+        >>> D = pp.LoadPart(0)
+        >>> v2 = D.vx1**2 + D.vx2**2 + D.vx3**2
+        >>> pp.spectrum(v2, scale = 'log')
     
     """
 
     # Check parameters
-    param = {'nbins','vmin','vmax'}
+    param = {'density','nbins','vmin','vmax'}
     if check is True:
         check_par(param, 'spectrum', **kwargs)
 
@@ -67,7 +74,9 @@ def spectrum(self,
     hist, bins = np.histogram(var,bins = bins, range = (vmin,vmax),
                                   density = kwargs.get('density',True))
 
+    # Compute the bin centers
     bins = 0.5*(bins[1:] + bins[:-1])
+    
     # Return the histogram
     return hist, bins
 
@@ -79,7 +88,9 @@ def select(self,
            ascending: bool = True
           ) -> np.ndarray:
     """
-    QUALCOSA
+    Selects or sorts the indices that satisfy a given condition for the 
+    particles.
+    The condition is given by a string or a callable function.
 
     Returns
     -------
@@ -89,22 +100,38 @@ def select(self,
     Parameters
     ----------
 
-    - ascending
-    - cond
-    - sort
-    - var
+    - ascending: bool, default True
+        If True, the indices are sorted in ascending order.
+    - cond (not optional): str | Callable
+        The condition to be satisfied.
+    - sort: bool, default False
+        If True, the indices are sorted in descending (or ascending) order.
+    - var (not optional): np.ndarray
+        The chosen variable for the selection.
 
     Notes
     -----
 
-    - SCRIVERE
+    - None
 
     ----
 
     Examples
     ========
 
-    AGGIUNGERE
+    - Example #1: Select the indices that satisfy a condition
+
+        >>> import pyPLUTO as pp
+        >>> D = pp.LoadPart(0)
+        >>> indx = pp.select(D.vx1, 'vx1 > 0.0')
+        >>> print(indx)
+
+    - Example #2: Sort the indices that satisfy a condition through a callable
+
+        >>> import pyPLUTO as pp
+        >>> D = pp.LoadPart(0)
+        >>> indx = pp.select(D.vx1, lambda v: v > 0 sort = True)
+        >>> print(indx)
 
     """
 
@@ -112,6 +139,7 @@ def select(self,
     if isinstance(cond, str):
         warn = ("The condition should be a callable function to "
                 "avoid security issues.")
+        warnings.warn(warn)
 
         condition = f"var {cond}"
         indx = np.where(eval(condition))[0]

@@ -16,9 +16,9 @@ def _add_ax(self,
     Parameters
     ----------
 
-    - ax: ax
+    - ax (not optional): ax
         The axis to be added.
-    - i: int
+    - i (not optional): int
         The index of the axis in the list.
 
     Notes
@@ -73,9 +73,9 @@ def _hide_text(self,
     Parameters
     ----------
 
-    - nax: int
+    - nax (not optional): int
         The number of the selected set of axes.
-    - txts: str
+    - txts (not optional): str | None
         The text of the selected set of axes.
 
     Notes
@@ -123,13 +123,13 @@ def _set_xrange(self,
     Parameters
     ----------
 
-    - ax: ax
+    - ax (not optional): ax
         The selected set of axes.
-    - case: int
+    - case (not optional): int
         The case in exam (if range is fixed or variable).
-    - nax: int
+    - nax (not optional): int
         The number of the selected set of axes.
-    - xlim: list[float]
+    - xlim (not optional): list[float]
         The limits of the x-axis.
 
     Notes
@@ -199,17 +199,17 @@ def _set_yrange(self,
     Parameters
     ----------
 
-    - ax: ax
+    - ax (not optional): ax
         The selected set of axes.
-    - case: int
+    - case (not optional): int
         The case in exam (if range is fixed or variable).
-    - nax: int
+    - nax (not optional): int
         The number of the selected set of axes.
     - x: np.ndarray
         The x-array (to limit the y-range automatically).
     - y: np.ndarray
         The y-array (to limit the y-range automatically).
-    - ylim: list[float]
+    - ylim (not optional): list[float]
         The limits of the y-axis.
 
     Notes
@@ -292,7 +292,7 @@ def _assign_ax(self,
     Returns
     -------
 
-    - ax: ax
+    - ax: ax | list[ax] | int | None
         The selected set of axes.
     - nax: int
         The number of the selected set of axes.
@@ -300,7 +300,7 @@ def _assign_ax(self,
     Parameters
     ----------
 
-    - ax: ax | int | list[ax] | None
+    - ax (not optional): ax | int | list[ax] | None
         The selected set of axes.
     - **kwargs: Any
         The keyword arguments to be passed to the create_axes function

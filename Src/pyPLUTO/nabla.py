@@ -14,7 +14,7 @@ def _is_number(value: Any
     Parameters
     ----------
 
-    - value: Any
+    - value (not optional): Any
         The value to check.
 
     Notes
@@ -63,9 +63,9 @@ def _islice_imin_imax(xvalue,
     Parameters
     ----------
 
-    - xvalue: float
+    - xvalue (not optional): float
         The value to check.
-    - xgrid: numpy.ndarray
+    - xgrid (not optional): numpy.ndarray
         The grid to check.
 
     Notes
@@ -78,7 +78,15 @@ def _islice_imin_imax(xvalue,
     Examples
     ========
 
-    INSERIRE UN ESEMPIO
+    - Example # 1: Compute the indices for the stencil of 5 cells
+
+        >>> _islice_imin_imax(0.5, np.linspace(0,1,11))
+        (5, 5, 10)
+
+    - Example # 2: Compute the indices for the stencil of 3 cells
+
+        >>> _islice_imin_imax(0.5, np.linspace(0,1,11))
+        (3, 3, 6)
     
     """
 
@@ -104,10 +112,57 @@ def _islice_imin_imax(xvalue,
 
 
 def _get_slice_indices(slice_val, grid, grid_size):
+    """
+    Function to get the slice indices from the slice value.
+
+    Returns
+    -------
+
+    - idx (not optional): int
+        The index of the slice.
+    - idx_min (not optional): int
+        The minimum index of the slice.
+    - idx_max (not optional): int
+        The maximum index of the slice.
+
+    Parameters
+    ----------
+
+    - slice_val: float
+        The value of the slice.
+    - grid: np.ndarray
+        The grid of the data.
+    - grid_size: int
+        The size of the grid.
+
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example # 1: Get the slice indices
+
+        >>> _get_slice_indices(0.5, np.linspace(0,1,11), 11)
+    
+    """
+
+    # If the slice value is a number return the index and the slice
     if _is_number(slice_val):
+        # Get the slice indices
         idx, idx_min, idx_max = _islice_imin_imax(slice_val, grid)
+
+        # Return the indices and the slice
         return idx, slice(idx_min, idx_max)
+    
+    # If the slice value is a list return the indices and the slice
     else:
+
+        # Return the indices and the slice
         return slice(0, grid_size), slice(0, grid_size)
 
 
@@ -150,37 +205,42 @@ def gradient(self,
 
     - edge_order: int | None, default 2
         The order of accuracy of derivatives at the domain boundaries.
-    - self: Load
-        pyPLUTO.Load instance containing the grid information.
-    - var: np.ndarray
+    - var (not optional): np.ndarray
         The field whose gradient is calculated (e.g., 'rho', 'vx1'). Must have 
         the same shape as self.rho.
-    - x1slice: float | None
+    - x1slice: float | None, default None
         If not None, specifies the constant value for the x1 axis.
-    - x2slice: float | None
+    - x2slice: float | None, default None
         If not None, specifies the constant value for the x2 axis.
-    - x3slice: float | None
+    - x3slice: float | None, default None
         If not None, specifies the constant value for the x3 axis. 
 
     Notes
     -----
 
-    - None
+    - A more efficient implementation based on the axes will be added in the
+      future.
 
     ----
 
     Examples
     ========
 
-    AGGIUNGERE QUALCHE ESEMPIO
+    - Example # 1: Compute the gradient of the density field
+
+        >>> import pyPLUTO as pp
+        >>> D = pp.Load(0)
+        >>> pp.Image().gradient(D.rho)
 
     """
 
+    # If the geometry is not defined raise an error
     if self.geom == 'UNKNOWN':
         raise ValueError('Unknown geometry nabla cannot be computed!')
 
     #if self.geom == 'CYLINDRICAL':
     #    _warning_cylindrical()
+
     # Unpack the slice values and grids into tuples
     slices = [(x1slice, self.x1, self.nx1),
               (x2slice, self.x2, self.nx2),
@@ -280,8 +340,6 @@ def divergence(self,
 
     - edge_order: int, default 2
         The order of accuracy of derivatives at the domain boundaries.
-    - self: Load
-        PyPLUTO.Load instance containing the grid information.
     - v1: np.ndarray | None
         Field corresponding to the x1 vector component. Must have the same shape
         as self.rho. Can only be None is a given direction is not used.
@@ -301,14 +359,19 @@ def divergence(self,
     Notes
     -----
 
-    - None
+    - A more efficient implementation based on the axes will be added in the
+      future.
 
     ----
 
     Examples
     ========
 
-    INSERIRE QUALCHE ESEMPIO
+    - Example #1: Calculate the divergence of a vector field
+
+        >>> import pyPLUTO as pp
+        >>> D = pp.Load()
+        >>> D.divergence(D.vx1, D.vx2, D.vx3)
 
     """
 
@@ -494,8 +557,6 @@ def curl(self,
 
     - edge_order: int, default 2
         The order of accuracy of derivatives at the domain boundaries.
-    - self: Load
-        PyPLUTO.Load instance containing the grid information.
     - v1: np.ndarray | None
         Field corresponding to the x1 vector component. Must have the same shape
         as self.rho.
@@ -515,14 +576,19 @@ def curl(self,
     Notes
     -----
 
-    - None
+    - A more efficient implementation based on the axes will be added in the
+      future.
 
     ----
 
     Examples
     ========
 
-    AGGIUNGERE QUALCHE ESEMPIO
+    - Example #1: Calculate the curl of a vector field
+
+        >>> import pyPLUTO as pp
+        >>> D = pp.Load()
+        >>> D.curl(D.vx1, D.vx2, D.vx3)
 
     """
 

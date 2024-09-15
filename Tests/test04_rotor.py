@@ -1,5 +1,5 @@
 """
-MHD Rotor test
+MHD Rotor test (configuration ).
 
 This test shows how to compute and plot contour lines of the vector potential
 from a test problem in non-cartesian coordinates.
@@ -17,6 +17,13 @@ Note thast in the left subplot the lines are all in red, although, by applying
 the cmap keyword to the method "find_contour", they can be associated to the
 different colors of a cmap. Conversely, the lines in the right plot have different
 colors based on their contour level.
+
+IMPORTANT: in order to produce the contour lines of the vector potential, the
+following lines should be added to the definitions.h file:
+
+#define  UPDATE_VECTOR_POTENTIAL        YES
+
+in the user-defined constants section.
 """
 
 import pyPLUTO as pp

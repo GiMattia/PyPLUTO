@@ -184,7 +184,7 @@ class LoadPart:
 
 
     def __str__(self):
-        return f"""
+        text =  f"""
         LoadPart class.
         It loads the particles.
         
@@ -193,9 +193,21 @@ class LoadPart:
         - Format loaded       (format)       {self.format}
 
         Simulation properties
+        - N. particles  (maxpart)  {self.maxpart}
+        - Output loaded (nout)     {self.nout}
+        - Time loaded   (ntime)    {self.ntime}
+        
+        Variables loaded: 
+        {self._d_vars.keys()}
 
-        ... to be completed ...
+        Public methods available: 
+        
+        - select
+        - spectrum
+
+        Please refrain from using "private" methods and attributes.
         """
+        return text
 
 
     def __getattr__(self, name):

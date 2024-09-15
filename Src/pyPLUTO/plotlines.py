@@ -2,6 +2,7 @@ from .libraries import *
 
 def contour(self, 
             var: NDArray, 
+            check: bool = True,
             **kwargs: Any
            ) -> LineCollection:
     """
@@ -19,6 +20,11 @@ def contour(self,
     
     - alpha: float, default 1.0
         Sets the transparency of the contour lines.
+    - aspect: {'auto', 'equal', float}, default 'auto'
+        Sets the aspect ratio of the plot. The 'auto' keyword is the default 
+        option (most likely the plot will be squared). The 'equal' keyword will
+        set the same scaling for x and y. A float will fix the ratio between the
+        y-scale and the x-scale (1.0 is the same as 'equal').
     - ax: {ax object, 'old', None}, default None
         The axis where to plot the lines. If None, a new axis is created.
         If 'old', the last considered axis will be used.
@@ -37,8 +43,38 @@ def contour(self,
         Enables the colorbar (if defined), default position on the right.
     - cscale: {'linear','log','symlog','twoslope'}, default 'linear'
         Sets the colorbar scale. Default is the linear ('norm') scale.
+    - extend: {'neither','both','min','max'}, default 'neither'
+        Sets the extension of the triangular colorbar extension.
+    - extendrect: bool, default False
+        If True, the colorbar extension will be rectangular.
+    - fontsize: float, default 17.0
+        Sets the fontsize for all the axis components (only for the current 
+        axis).
+    - grid: bool, default False
+        Enables/disables the grid on the plot.
+    - labelsize: float, default fontsize
+        Sets the labels fontsize (which is the same for both labels).
+        The default value corresponds to the value of the keyword 'fontsize'.
     - levels: np.ndarray
         The levels of the contour lines.
+    - minorticks: str, default None
+        If not None enables the minor ticks on the plot (for both grid axes).
+    - sharex: Matplotlib axis | False, default False
+        Shares the x-axis with another axis.
+    - sharey: Matplotlib axis | False, default False
+        Shares the y-axis with another axis.
+    - ticksdir: {'in', 'out'}, default 'in'
+        Sets the ticks direction. The default option is 'in'.
+    - tickssize: float | bool, default True
+        Sets the ticks fontsize (which is the same for both grid axes).
+        The default value corresponds to the value of the keyword 'fontsize'.
+    - title: str, default None
+        Places the title of the plot on top of it.
+    - titlepad: float, default 8.0
+        Sets the distance between the title and the top of the plot
+    - titlesize: float, default fontsize
+        Sets the title fontsize. The default value corresponds to the value
+        of the keyword 'fontsize'.
     - transpose: True/False, default False
         Transposes the variable matrix. Use is not recommended if not really 
         necessary (e.g. in case of highly customized variables and plots).
@@ -48,7 +84,7 @@ def contour(self,
         The default cases are the following:
         - twoslope colorscale: sets the limit between the two linear regimes.
         - symlog: sets the limit between the logaitrhmic and the linear regime.
-    - var: np.ndarray
+    - var (not optional): np.ndarray
         The variable to be plotted.
     - vmax: float
         The maximum value of the colormap.
@@ -58,6 +94,42 @@ def contour(self,
         The 'x' array.
     - x2: 1D array, default 'Default'
         The 'y' array.
+    - xrange: [float, float], default [0,1]
+        Sets the range in the x-direction. If not defined the code will
+        compute the range while plotting the data.
+    - xscale: {'linear','log'}, default 'linear'
+        If enabled (and different from True), sets automatically the scale
+        on the x-axis. Data in log scale should be used with the keyword 'log',
+        while data in linear scale should be used with the keyword 'linear'.
+    - xticks: {[float], None, True}, default True
+        If enabled (and different from True), sets manually ticks on
+        x-axis. In order to completely remove the ticks the keyword should
+        be used with None.
+    - xtickslabels: {[str], None, True}, default True
+        If enabled (and different from True), sets manually the ticks
+        labels on the x-axis. In order to completely remove the ticks the
+        keyword should be used with None. Note that fixed tickslabels should
+        always correspond to fixed ticks.
+    - xtitle: str, default None
+        Sets and places the label of the x-axis.
+    - yrange: [float, float], default [0,1]
+        Sets the range in the y-direction. If not defined the code will
+        compute the range while plotting the data.
+    - yscale: {'linear','log'}, default 'linear'
+        If enabled (and different from True), sets automatically the scale
+        on the y-axis. Data in log scale should be used with the keyword 'log',
+        while data in linear scale should be used with the keyword 'linear'.
+    - yticks: {[float], None, True}, default True
+        If enabled (and different from True), sets manually ticks on
+        y-axis. In order to completely remove the ticks the keyword should
+        be used with None.
+    - ytickslabels: {[str], None, True}, default True
+        If enabled (and different from True), sets manually the ticks
+        labels on the y-axis. In order to completely remove the ticks the
+        keyword should be used with None. Note that fixed tickslabels should
+        always correspond to fixed ticks.
+    - ytitle: str, default None
+        Sets and places the label of the y-axis.
 
     Notes
     -----
@@ -76,12 +148,26 @@ def contour(self,
     
     """
 
+    # Check parameters
+    param = {'alpha','aspect','ax','c','cmap','cpos','cscale','extend',
+             'extendrect','fontsize','grid','labelsize','levels','minorticks',
+             'sharex','sharey','ticksdir','tickssize','title','titlepad',
+             'titlesize','transpose','tresh','vmax','vmin','x1','x2','xrange',
+             'xscale','xticks','xtickslabels','xtitle','yrange','yscale',
+             'yticks','ytickslabels','ytitle'}
+
+    if check is True:
+        check_par(param, 'contour', **kwargs)
+
+
     # Set or create figure and axes
     ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
+
+    # Keyword x1 and x2
     x = np.asarray(kwargs.get('x1',np.arange(len(var[:,0]))))
     y = np.asarray(kwargs.get('x2',np.arange(len(var[0,:]))))
 
-    # Keyword x1 and x2
+    # Transpose if needed
     var = np.asarray(var.T)
     if kwargs.get('transpose', False) is True: var = var.T
 
@@ -147,10 +233,18 @@ def streamplot(self,
     Parameters
     ----------
 
+    - alpha: float, default 1.0
+        Sets the opacity of the plot, where 1.0 means total opaque and 0.0 means
+        total transparent.
     - arrowsize: float, default 1.0
         Sets the size of the arrows of the streamline.
     - arrowstyle: str, default '-|>'
         Sets the style of the arrows of the streamline.
+    - aspect: {'auto', 'equal', float}, default 'auto'
+        Sets the aspect ratio of the plot. The 'auto' keyword is the default 
+        option (most likely the plot will be squared). The 'equal' keyword will
+        set the same scaling for x and y. A float will fix the ratio between the
+        y-scale and the x-scale (1.0 is the same as 'equal').
     - ax: axis object
         The axis where to plot the streamlines. If not given, the last 
         considered axis will be used.
@@ -175,18 +269,44 @@ def streamplot(self,
         Sets the density and closeness of the streamlines. The domain is divided
         in a 30x30 grid. When set as default, each cells contains at most a 
         number of crossing streamplot line equal to this keyword. 
+    - extend: {'neither','both','min','max'}, default 'neither'
+        Sets the extension of the triangular colorbar extension.
+    - extendrect: bool, default False
+        If True, the colorbar extension will be rectangular.
+    - fontsize: float, default 17.0
+        Sets the fontsize for all the axis components (only for the current 
+        axis).
+    - grid: bool, default False
+        Enables/disables the grid on the plot.
     - integration_direction: {'forward', 'backward', 'both'}, default: 'both'
         Sets the streamlines integration in the forward direction, backward
         direction, or both.
+    - labelsize: float, default fontsize
+        Sets the labels fontsize (which is the same for both labels).
+        The default value corresponds to the value of the keyword 'fontsize'.
     - lw: float, default 1.0
         Sets the width of the streamlines.
     - maxlength: float, default 5.0
         Sets the maximum length of a streamline in coordinates units.
     - minlength: float, default 0.1
         Sets the minimum length of a streamline in coordinates units.
+    - minorticks: str, default None
+        If not None enables the minor ticks on the plot (for both grid axes).
     - start_points: np.ndarray, default None
         Sets the starting points of the streamlines, if a more controlled plot
         is wanted.
+    - ticksdir: {'in', 'out'}, default 'in'
+        Sets the ticks direction. The default option is 'in'.
+    - tickssize: float | bool, default True
+        Sets the ticks fontsize (which is the same for both grid axes).
+        The default value corresponds to the value of the keyword 'fontsize'.
+    - title: str, default None
+        Places the title of the plot on top of it.
+    - titlepad: float, default 8.0
+        Sets the distance between the title and the top of the plot
+    - titlesize: float, default fontsize
+        Sets the title fontsize. The default value corresponds to the value
+        of the keyword 'fontsize'.
     - transpose: True/False, default False
         Transposes the variable matrix. Use is not recommended if not really 
         necessary (e.g. in case of highly customized variables and plots)
@@ -196,9 +316,9 @@ def streamplot(self,
         The default cases are the following:
         - twoslope colorscale: sets the limit between the two linear regimes.
         - symlog: sets the limit between the logaitrhmic and the linear regime.
-    - var1: np.ndarray
+    - var1 (not optional): np.ndarray
         The x1-component of the vector field.
-    - var2: np.ndarray
+    - var2 (not optional): np.ndarray
         The x2-component of the vector field.
     - vmax: float
         The maximum value of the vector field norm.
@@ -208,6 +328,42 @@ def streamplot(self,
         The x-axis variable.
     - x2: np.ndarray
         The y-axis variable.
+    - xrange: [float, float], default [0,1]
+        Sets the range in the x-direction. If not defined the code will
+        compute the range while plotting the data.
+    - xscale: {'linear','log'}, default 'linear'
+        If enabled (and different from True), sets automatically the scale
+        on the x-axis. Data in log scale should be used with the keyword 'log',
+        while data in linear scale should be used with the keyword 'linear'.
+    - xticks: {[float], None, True}, default True
+        If enabled (and different from True), sets manually ticks on
+        x-axis. In order to completely remove the ticks the keyword should
+        be used with None.
+    - xtickslabels: {[str], None, True}, default True
+        If enabled (and different from True), sets manually the ticks
+        labels on the x-axis. In order to completely remove the ticks the
+        keyword should be used with None. Note that fixed tickslabels should
+        always correspond to fixed ticks.
+    - xtitle: str, default None
+        Sets and places the label of the x-axis.
+    - yrange: [float, float], default [0,1]
+        Sets the range in the y-direction. If not defined the code will
+        compute the range while plotting the data.
+    - yscale: {'linear','log'}, default 'linear'
+        If enabled (and different from True), sets automatically the scale
+        on the y-axis. Data in log scale should be used with the keyword 'log',
+        while data in linear scale should be used with the keyword 'linear'.
+    - yticks: {[float], None, True}, default True
+        If enabled (and different from True), sets manually ticks on
+        y-axis. In order to completely remove the ticks the keyword should
+        be used with None.
+    - ytickslabels: {[str], None, True}, default True
+        If enabled (and different from True), sets manually the ticks
+        labels on the y-axis. In order to completely remove the ticks the
+        keyword should be used with None. Note that fixed tickslabels should
+        always correspond to fixed ticks.
+    - ytitle: str, default None
+        Sets and places the label of the y-axis.
 
     Notes
     -----
@@ -219,17 +375,23 @@ def streamplot(self,
     Examples
     ========
 
-    AGGIUNGERE ESEMPI
+    - Example #1: Plot a streamplot of a vector field
+
+        >>> I.streamplot(D.Bx1, D.Bx2)
 
     """
 
     # Check parameters
-    param = {'arrowsize','arrowstyle','ax','brokenlines','c','cmap','cpos',
-             'cscale','density','integration_direction','lw','maxlength',
-             'minlength','start_points','transpose','tresh','vmax','vmin','x1',
-             'x2'}
+    param = {'alpha','arrowsize','arrowstyle','ax','brokenlines','c','cmap',
+             'cpos','cscale','density','extend','extendrect','ffontsize',
+             'grid','integration_direction','labelsize','lw','maxlength',
+             'minlength','minorticks','start_points','ticksdir','tickssize',
+             'title','titlepad','titlesize','transpose','tresh','vmax','vmin',
+             'x1','x2','xrange','xscale','xticks','xtickslabels','xtitle',
+             'yrange','yscale','yticks','ytickslabels','ytitle'}
+    
     if check is True:
-        check_par(param, 'scatter', **kwargs)
+        check_par(param, 'streamplot', **kwargs)
 
     if np.shape(var1) != np.shape(var2):
         raise ValueError("The shapes of the variables are different.")
@@ -240,7 +402,7 @@ def streamplot(self,
     y = np.asarray(kwargs.get('x2',np.arange(len(var1[0,:]))))
 
     # Keyword x1 and x2
-    varx, vary = np.asarray(var1.T).copy(), np.asarray(var2.T).copy()
+    varx, vary = np.asarray(var2.T).copy(), np.asarray(var1.T).copy()
     if kwargs.get('transpose', False) is True: varx, vary = varx.T, vary.T
 
     # 

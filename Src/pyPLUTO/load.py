@@ -270,7 +270,6 @@ class Load:
         Public methods available: 
         
         - slices
-        - mirror
         - cartesian_vector
         - reshape_cartesian
         - write_file
@@ -279,7 +278,6 @@ class Load:
         - find_contour
         - find_fieldlines
         - vector_field
-
 
         Please refrain from using "private" methods and attributes.
         """

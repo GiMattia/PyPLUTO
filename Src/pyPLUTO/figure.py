@@ -15,7 +15,7 @@ def _assign_LaTeX(self,
     Parameters
     ----------
 
-    - LaTeX: bool | str, default False
+    - LaTeX (not optional): bool | str
         The LaTeX option. Is True is selected, the default LaTeX font is used. 
         If 'pgf' is selected, the pgf backend is used to save pdf figures with 
         minimal file size. If XeLaTeX is not installed and the 'pgf' option is 
@@ -99,10 +99,10 @@ def _assign_LaTeX(self,
 
 
 def _choose_colorlines(self, 
-                       numcolor:  int,
-                       oldcolor:  bool,
-                       withblack: bool,
-                       withwhite: bool
+                       numcolor:  int = 10,
+                       oldcolor:  bool = False,
+                       withblack: bool = False,
+                       withwhite: bool = False
                       ) -> list[str]:
     """
     Chooses the colors for the lines. Depending on the number of colors and the 
@@ -122,13 +122,13 @@ def _choose_colorlines(self,
     Parameters
     ----------
 
-    - numcolor: int
+    - numcolor: int, default 10
         The number of colors.
-    - oldcolor: bool
+    - oldcolor : bool, default False
         If True, the old colors are used.
-    - withblack: bool
+    - withblack: bool, default False
         If True, the black color is used as first color.
-    - withwhite: bool
+    - withwhite: bool default False
         If True, the white color is used as first color.
 
     Notes
@@ -199,7 +199,7 @@ def _create_figure(self,
 
     - close: bool, default True
         If True, the existing figure with the same window number is closed.
-    - fig: Figure | None, default None
+    - fig (not optional): Figure | None, default None
         The the figure instance. If not None, the figure is used (only if we 
         need to associate an Image to an existing figure).
     - figsize: list[float], default [8,5]

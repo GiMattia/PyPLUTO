@@ -2,7 +2,7 @@ from .libraries import *
 
 def _check_var(self,
                var: str | NDArray,
-               transpose: bool
+               transpose: bool = False
              ) -> np.ndarray:
     """
     Function that checks returns a variable. If the variable is a numpy array,
@@ -19,9 +19,9 @@ def _check_var(self,
     Parameters
     ----------
 
-    - var: str | np.ndarray
+    - var (not optional): str | np.ndarray
         The variable to be checked.
-    - transpose: bool
+    - transpose: bool, default False
         If True, the variable is transposed.
 
     Notes
@@ -37,13 +37,14 @@ def _check_var(self,
     - Example #1: var is a numpy array
 
         >>> var = np.array([1,2,3])
-        >>> _check_var(var, False)
+        >>> D._check_var(var, False)
         array([1, 2, 3])
 
     - Example #2: var is a string
 
         >>> D = pp.Load()
-        >>> _check_var("Bx1", False)
+        >>> D._check_var("Bx1", False)
+        D.Bx1
     
     """
 
@@ -78,25 +79,23 @@ def _vector_field(t: float,
     Returns
     -------
 
-    - qx: np.ndarray
-        The x1 vector field component.
-    - qy: np.ndarray
-        The x2 vector field component.
+    - [qx, qy]: list[np.ndarray]
+        The x1 and x2 vector field components, within a list
 
     Parameters
     ----------
 
-    - t: float
+    - t (not optional): float
         The time variable (not used here).
-    - var1: np.ndarray
+    - var1 (not optional): np.ndarray
         The first variable to be interpolated.
-    - var2: np.ndarray
+    - var2 (not optional): np.ndarray
         The second variable to be interpolated.
-    - xc: np.ndarray
+    - xc (not optional): np.ndarray
         The x coordinates of the grid.
-    - y: np.ndarray
+    - y (not optional): np.ndarray
         The coordinates. The first and second dimension are x and y.
-    - yc: np.ndarray
+    - yc (not optional): np.ndarray
         The y coordinates of the grid.
 
     Notes
@@ -182,15 +181,15 @@ def find_fieldlines(self,
         'Radau', 'BDF', 'LSODA'.
     - rtol: float, default 1e-6
         The relative tolerance for the integration.
-    - step: float, default min((xend - xbeg)/self.nx1, (yend - ybeg)/self.nx2)
+    - step: float, default abs(min((xend-xbeg)/self.nx1, (yend-ybeg)/self.nx2))
         The initial step size for the integration.
     - text: bool, default False
         If True some additional information is printed.
     - transpose: bool, default False
         If True, the variables are transposed.
-    - var1: str | NDArray
+    - var1 (not optional): str | NDArray
         The first variable to be interpolated.
-    - var2: str | NDArray
+    - var2 (not optional): str | NDArray
         The second variable to be interpolated.
     - x0: list
         The x coordinates of the footpoints.
@@ -201,12 +200,10 @@ def find_fieldlines(self,
     - y0: list
         The y coordinates of the footpoints.
 
-    ... (to be continued)
-
     Notes
     -----
 
-    - IL TO BE CONTINUED QUA SOPRA
+    - None
 
     ----
 
@@ -243,9 +240,10 @@ def find_fieldlines(self,
     yc = kwargs.get('x2',self.x2)
 
     # Check if the grid is uniform
-    if not np.all(np.diff(xc) == np.diff(xc)[0]):
-        err = "The grid is not uniform. Only uniform grids are supported."
-        raise ValueError(err)
+
+    #if not np.all(np.diff(xc) == np.diff(xc)[0]):
+    #   err = "The grid is not uniform. Only uniform grids are supported."
+    #    raise ValueError(err)
 
     # Get the footpoints
     if x0 is None or y0 is None:
@@ -271,11 +269,11 @@ def find_fieldlines(self,
     dense = kwargs.get('dense',False)
 
     # Set the initial step size and maximum number of steps
-    step    = kwargs.get('step',min((xend - xbeg)/self.nx1,\
-                                    (yend - ybeg)/self.nx2))
+    step    = np.abs(kwargs.get('step',min((xend - xbeg)/self.nx1,\
+                                    (yend - ybeg)/self.nx2)))
     
     maxstep = kwargs.get('maxstep',100*step)
-    numstep = kwargs.get('numsteps', 16384)
+    numstep = int(kwargs.get('numsteps', 16384))
     tfin    = maxstep*numstep
 
     # Define the system of differential equations
@@ -372,6 +370,7 @@ def find_fieldlines(self,
 
         # Print the time of the integration
         if text is True:
+            print("Line with footpoint at x = ", xp, " and y = ", yp)
             print("Final integration time forward:  ", sol_forward.t[-1])
             print("Final integration time backward: ", sol_backward.t[-1])
             print("Final step number forward:       ", forw_steps)
@@ -408,7 +407,7 @@ def find_contour(self,
     Parameters
     ----------
 
-    - cmap: str, default None
+    - cmap: str, default 'k'
         The colormap to use to associate each level with a color.
         The colormap can also be a color, which is used for all the levels.
         If not provided, all the lines are associated with the color black.
@@ -420,7 +419,9 @@ def find_contour(self,
     - levelscale: str, default 'linear'
         The scale of the levels. Available options are 'linear' and 
         'logarithmic'.
-    - var: str | array_like
+    - transpose: bool, default False
+        If True, the variable is transposed.
+    - var (not optional): str | np.ndarray
         The variable to plot. If a string is provided, the variable is taken 
         from the dataset.
     - vmax: float, default np.max(var)
@@ -467,7 +468,7 @@ def find_contour(self,
     """
 
     # Check parameters
-    param = {'cmap','levels','levelscale','vmax','vmin','x1','x2'}
+    param = {'cmap','levels','levelscale','transpose','vmax','vmin','x1','x2'}
     if check is True:
         check_par(param, 'find_contour', **kwargs)
 

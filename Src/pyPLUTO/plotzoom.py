@@ -57,22 +57,26 @@ def zoom(self,
         colorbar.
     - ctickslabels: str, default None
         If enabled, sets manually ticks labels on the colorbar.
+    - extend: {'neither','both','min','max'}, default 'neither'
+        Sets the extension of the triangular colorbar extension.
+    - extendrect: bool, default False
+        If True, the colorbar extension will be rectangular.
     - fontsize: float, default 17.0
         Sets the fontsize for all the axis components (only for the current 
         axis).
+    - grid: bool, default False
+        Enables the grid.
     - height: float, default 0.15
         Height of the inset zoom. It is used to defind the top (if not
         previously defined).
+    - label: str, default None
+        Associates a label to each line. Such labels will be used for the
+        creation of the legend.
     - labelsize: float, default fontsize
         Sets the labels fontsize (which is the same for both labels).
         The default value corresponds to the value of the keyword 'fontsize'.
     - left: float, default 0.6
         Left position of the inset plot.
-    - lint: float, default max(abs(vmin),vmax)*0.01
-        Additional parameter in presence of a composite colormap. The specific 
-        cases are the following:
-        - twoslope colorscale: sets the limit between the two linear regimes.
-        - symlog: sets the limit between the logaitrhmic and the linear regime.  
     - minorticks: str, default None
         If not None enables the minor ticks on the plot (for both grid axes).
     - pos: [float,float,float,float], default None
@@ -103,6 +107,11 @@ def zoom(self,
     - transpose: True/False, default False
         Transposes the variable matrix. Use is not recommended if not really 
         necessary (e.g. in case of highly customized variables and plots)
+    - tresh: float, default max(abs(vmin),vmax)*0.01
+        Additional parameter in presence of a composite colormap. The specific 
+        cases are the following:
+        - twoslope colorscale: sets the limit between the two linear regimes.
+        - symlog: sets the limit between the logaitrhmic and the linear regime.  
     - var (not optional): 2D array
         The array to be plotted.
     - vmax: float, default max(z)
@@ -162,7 +171,7 @@ def zoom(self,
     Notes
     -----
 
-    - Link too long       
+    - Custom shading will be implemented in future releases.
 
     ----
 
@@ -195,13 +204,13 @@ def zoom(self,
     """
 
     # Check parameters
-    param = {'alpha', 'aspect', 'ax', 'bottom', 'clabel', 'cmap', 'cpad', 
-             'cpos', 'cscale', 'cticks', 'ctickslabels', 'fontsize', 'height', 
-             'labelsize', 'left', 'lint', 'minorticks', 'pos', 'shading', 
-             'ticksdir', 'tickssize', 'title', 'titlesize', 'top', 'transpose', 
-             'var', 'vmax', 'vmin', 'width', 'x1', 'x2', 'xrange', 'xscale', 
-             'xticks', 'xtickslabels', 'xtitle', 'yrange', 'yscale', 'yticks', 
-             'ytickslabels', 'ytitle', 'zoomlines'}
+    param = {'alpha','aspect','ax','bottom','clabel','cmap','cpad','cpos',
+             'cscale','cticks','ctickslabels','extend','extendrect','fontsize',
+             'grid','height','label','labelsize','left','minorticks','pos',
+             'shading','ticksdir','tickssize','title','titlesize','top',
+             'transpose','tresh','vmax','vmin','width','x1','x2','xrange',
+             'xscale','xticks','xtickslabels','xtitle','yrange','yscale',
+             'yticks','ytickslabels','ytitle','zoomlines'}
     if check is True:
         check_par(param, 'zoom', **kwargs)
 

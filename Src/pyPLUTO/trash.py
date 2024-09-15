@@ -17,3 +17,17 @@ def copy_docstring(source_func):
         return wrapper
     
     return decorator
+
+# NOT SURE IF NECESSARY
+"""
+def _delete_vars(self):
+    allowed_vars = self.gridlist1
+    method_names = ['_delete_vars', '_rec_format']
+
+    allowed_dict = {var: getattr(self, var) for var in allowed_vars}
+    self.__dict__ = allowed_dict
+
+    for method_name in method_names:
+        if method_name in self.__class__.__dict__:
+            delattr(self.__class__, method_name)
+"""

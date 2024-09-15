@@ -8,13 +8,13 @@ def makelist(el: Any
     Returns
     -------
 
-    - list
+    - list[Any]
         The list of chosen elements.
 
     Parameters
     ----------
 
-    - el: Any
+    - el (not optional): Any
         The element to be converted into a list.
 
     Notes
@@ -59,9 +59,9 @@ def check_par(par: set[str],
     Parameters
     ----------
 
-    - func: str
+    - func (not optional): str
         The name of the function.
-    - par: list[str]
+    - par (not optional): list[str]
         The function correct parameters.
     - **kwargs: dict
         The selected parameters.
@@ -117,22 +117,77 @@ def color_error(type, value, tb):
 
 # Define the session
 def find_session():
+    """
+    Find the session in which the code is running.
 
+    Returns
+    -------
+
+    - session: str
+        The name of the session.
+
+    Parameters
+    ----------
+
+    - None
+
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Standard Python interpreter
+
+        >>> find_session()
+        'Standard Python interpreter'
+
+    - Example #2: Jupyter notebook or qtconsole
+
+        >>> find_session()
+        'Jupyter notebook or qtconsole'
+
+    - Example #3: Terminal running IPython
+
+        >>> find_session()
+        'Terminal running IPython'
+
+    - Example #4: Unknown session
+
+        >>> find_session()
+        'Unknown session'
+
+    """
+
+    # Try to get IPython. If not available, it's not an IPython session.
     try:
         from IPython import get_ipython
     except ImportError:
         def get_ipython():
             return None
 
+    # Get the ipython method (from IPthon or from the ImportError)
     ipython = get_ipython()
+
+    # Find the session name
     shell = ipython.__class__.__name__   
+
+    # Standard Python interpreter
     if ipython is None:
         session = "Standard Python interpreter"
+    # Jupyter notebook or qtconsole
     elif shell == 'ZMQInteractiveShell':
         session = "Jupyter notebook or qtconsole"
+    # Terminal running IPython
     elif shell == 'TerminalInteractiveShell':
         session = "Terminal running IPython"
+    # Unknown session
     else:
         session = "Unknown session"    
     
+    # Return the session
     return session

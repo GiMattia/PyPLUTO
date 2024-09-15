@@ -81,7 +81,8 @@ def create_axes(self,
     - The subplot_mosaic method of matplotlib will be implemented in future
       releases.
     - This method may return None in the future releases
-    - Sharex and sharey are not implemented yet
+    - Sharex and sharey will follow a different implementation in future
+      releases
 
     ----
 
@@ -294,7 +295,7 @@ def set_axis(self,
         Shares the y-axis with another axis.
     - ticksdir: {'in', 'out'}, default 'in'
         Sets the ticks direction. The default option is 'in'.
-    - tickssize: float, default fontsize
+    - tickssize: float | bool, default True
         Sets the ticks fontsize (which is the same for both grid axes).
         The default value corresponds to the value of the keyword 'fontsize'.
     - title: str, default None
@@ -346,8 +347,6 @@ def set_axis(self,
 
     - A function which sets seprartely the maximum and the minimum value in
         both x- and y- directions is needed.
-    - All the 'Default' keywords are set to True in the code. The user should
-        use now True instead of 'Default' (which will be removed in future)
 
     ----
 
@@ -408,7 +407,7 @@ def set_axis(self,
     plt.rcParams.update({'font.size': self.fontsize})
 
     # Set aspect ratio
-    if kwargs.get('aspect',True) not in {True, 'Default'}:
+    if kwargs.get('aspect',True) is not True:
         ax.set_aspect(kwargs['aspect'])
 
     # Set xrange and yrange
@@ -436,7 +435,7 @@ def set_axis(self,
         ax.sharey(kwargs['sharey'])
 
     # Set ticks size
-    if kwargs.get('tickssize',True) not in {True, 'Default'}:
+    if kwargs.get('tickssize',True) is not True:
         ax.tick_params(axis='x', labelsize = kwargs['tickssize'])
         ax.tick_params(axis='y', labelsize = kwargs['tickssize'])
     else:
@@ -458,9 +457,9 @@ def set_axis(self,
     self.tickspar[nax] = 1
 
     # Scales and alpha
-    if kwargs.get('xscale',True) not in {True, 'Default'}:
+    if kwargs.get('xscale',True) is not True:
         ax.set_xscale(kwargs['xscale'])
-    if kwargs.get('yscale',True) not in {True, 'Default'}:
+    if kwargs.get('yscale',True) is not True:
         ax.set_yscale(kwargs['yscale'])
     if kwargs.get('alpha'):
         ax.set_alpha(kwargs['alpha'])
@@ -470,12 +469,8 @@ def set_axis(self,
     ytc = kwargs.get('yticks', True)
     xtl = kwargs.get('xtickslabels', True)
     ytl = kwargs.get('ytickslabels', True)
-    if (xtc != 'Default' and xtc is not True) or \
-       (xtl != 'Default' and xtl is not True):
-        _set_ticks(ax, xtc, xtl, 'x')
-    if (ytc != 'Default' and ytc is not True) or \
-       (ytl != 'Default' and ytl is not True):
-        _set_ticks(ax, ytc, ytl, 'y')
+    if xtc is not True or xtl is not True: _set_ticks(ax, xtc, xtl, 'x')
+    if ytc is not True or ytl is not True: _set_ticks(ax, ytc, ytl, 'y')
 
     # Sets grid on the axis
     if kwargs.get('grid',False) is True:
@@ -622,17 +617,16 @@ def _set_ticks(ax: Axes,
         set_label[typeaxis]([])
 
         # If tickslabels are not None raise a warning
-        if tl != 'Default' and tl is not True:
+        if tl is not True:
             warn = "Warning, tickslabels are defined with no" \
                    "ticks!! (function setax)"
             warnings.warn(warn, UserWarning)
     
     # Ticks are not None and tickslabels are custom
-    elif tl != 'Default' and tl is not True:
+    elif tl is not True:
 
         # Ticks are not None, then are set
-        if tc != 'Default' and tc is not True and  \
-           tl != 'Default' and tl is not True:
+        if tc is not True and tl is not True:
             set_ticks[typeaxis](tc)
         
         # Ticks are Default with custom tickslabels, a warning is raised
@@ -649,7 +643,7 @@ def _set_ticks(ax: Axes,
     
     # Ticks are custom, tickslabels are default
     else:
-        if tc != 'Default' and tc is not True:
+        if ytc is not True:
             set_ticks[typeaxis](tc)
 
     # End of the function

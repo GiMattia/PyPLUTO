@@ -1,6 +1,6 @@
 from .libraries import *
 
-def read_vtk(self):
+def read_vtk(self) -> None:
     """
     Read the data from a VTK file.
 
@@ -44,7 +44,10 @@ def read_vtk(self):
     # End of the function
     return None
 
-def _read_h5(self, filename: str):
+
+def _read_h5(self,
+             filename: str
+            ) -> None:
     """
     Read the data from a HDF5 file.
 
@@ -56,7 +59,8 @@ def _read_h5(self, filename: str):
     Parameters
     ----------
 
-    - None
+    - filename: str
+        The name of the file to be read.
 
     Notes
     -----
@@ -88,7 +92,8 @@ def _read_h5(self, filename: str):
     # End of the function
     return None
 
-def read_tab(self):
+
+def read_tab(self) -> None:
     """
     Read the data from a tab file.
 
@@ -129,7 +134,8 @@ def read_tab(self):
     # End of the function
     return None
 
-def read_bin(self):
+
+def read_bin(self) -> None:
     """
     Read the data from a binary file.
 
@@ -170,6 +176,7 @@ def read_bin(self):
     
     # End of the function
     return None
+
 
 def read_file(self):
     """

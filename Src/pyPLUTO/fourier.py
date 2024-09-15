@@ -16,7 +16,7 @@ def fourier(self,
 
     - f: np.ndarray
         The transformed array.
-    - freqs: np.ndarray
+    - freqs: np.ndarray | list[np.ndarray]
         The frequency array. It is a list of arrays if the input is in 2D or 3D.
 
     Parameters
@@ -28,7 +28,7 @@ def fourier(self,
         The grid spacing. If None, the grid spacing is set to 1.
     - dz: float | int | list | np.ndarray | None, default None
         The grid spacing. If None, the grid spacing is set to 1.
-    - f: np.ndarray
+    - f (not optional): np.ndarray
         The array to be transformed.
     - xdir: bool, default True
         If True, the x-direction is transformed. 
@@ -133,13 +133,13 @@ def _fourier_spacing(dx: float | int | list | np.ndarray
     Parameters
     ----------
 
-    - dx: float | int | list | np.ndarray
+    - dx (not optional): float | int | list | np.ndarray
         The grid spacing.
 
     Notes
     -----
 
-    - None
+    - Extension to non-uniform grids will be added in future releases.
 
     ----
 

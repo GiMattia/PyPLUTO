@@ -1,9 +1,8 @@
 from .libraries import *
 
 def interactive(self, 
-                varx, 
-                vary = None, 
-                fig = None, 
+                varx: np.ndarray, 
+                vary: np.ndarray | None = None, 
                 check: bool = True,
                 **kwargs
                ) -> None:
@@ -19,12 +18,10 @@ def interactive(self,
     Parameters
     ----------
 
-    - varx: array_like
+    - varx (not optional): array_like
         The x-axis variable.
     - vary: array_like, default None
         The y-axis variable.
-    - fig: Figure, default None
-        The figure instance.
     - ax: Axes, default None
         The axes instance.
     - vmin: float, default None
@@ -40,7 +37,7 @@ def interactive(self,
         very complex plots. Instead, it gives a very nice overview of the data
         as functions of time (like in other softwares such as visit or 
         paraview).
-    - CHIARIRE UTILIZZO DI FIG
+    - The checking of the parameters has not been enabled yet!
 
     ----
 
@@ -68,11 +65,11 @@ def interactive(self,
     """
 
     # Check parameters
-    param = {'ax','vmin','vmax'}
-    if check is True:
-        check_par(param, 'interactive', **kwargs)
+    #param = {'ax','vmin','vmax'}
+    #if check is True:
+    #    check_par(param, 'interactive', **kwargs)
 
-    # Store the variable x
+    # Store the variable x. If vary is None, it is set to varx
     if vary is None:
         vary = varx
         splt = np.ndim(varx[0])
@@ -82,7 +79,9 @@ def interactive(self,
 
     # Store the variable to animate
     self.anim_var = vary
-    nsld = len(vary) - 1
+    self.nsld     = len(vary)
+    nsld          = self.nsld - 1
+    
 
     # Check the number of dimensions
     splt = np.ndim(vary[0])
@@ -98,7 +97,7 @@ def interactive(self,
     sliderax   = self.fig.add_axes((pos_x0, 0.02, pos_x1, 0.04))
 
     # Create the slider
-    self.slider = Slider(sliderax, label = "out", valmin = 0, valmax = nsld, 
+    self.slider = Slider(sliderax, label = "num", valmin = 0, valmax = nsld, 
                                    valinit = 0, valstep = 1, valfmt = '%d')
     self.slider.on_changed(self._update_slider)
 
@@ -131,7 +130,7 @@ def _update_slider(self,
     Parameters
     ----------
 
-    - i: int
+    - i  (not optional): int
         The slider index.
 
     Notes
@@ -164,3 +163,95 @@ def _update_slider(self,
 
     # End of the function
     return None
+
+def _update_both(self, i):
+    """
+    Updates both the plot and the slider value during animation.
+
+    Returns
+    -------
+
+    - None
+
+        
+    Parameters
+    ----------
+    - i (not optional): int
+        The current frame index.
+
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Update the data in the interactive plot
+
+        >>> _update_slider(1)
+
+    """
+
+    # Update the plot with the current frame
+    self._update_slider(i)
+    
+    # Update the slider's position visually
+    self.slider.set_val(i)
+
+    # End of the function
+    return None
+
+
+def savegif(self, gifname, frames = None, interval = 500):
+    """
+    Saves the animation as a GIF.
+    The figure is then closed.
+
+    Returns
+    -------
+
+    - None
+
+    Parameters
+    ----------
+
+    - gifname (not optional): str
+        The name of the GIF file.
+    - frames: int, default None
+        The number of frames in the animation.
+    - interval: int, default 500 
+        The interval between frames in milliseconds.
+
+    Notes
+    -----
+
+    - None
+
+    Examples
+    ========
+
+    - Example #1: Save the animation as a GIF
+        
+            >>> savegif('animation.gif')
+
+    - Example #2: Save the animation as a GIF with a specific number of frames
+
+            >>> savegif('animation.gif', frames = [0,1,2])    
+    
+    """
+
+    # Choose the frames
+    frames = self.nsld if frames is None else frames
+
+    # Create the animation
+    ani = animation.FuncAnimation(self.fig, self._update_both, 
+                                  frames = frames, interval = interval)
+
+    # Save as GIF
+    ani.save(gifname)
+
+    # Close the figure (necessary)
+    plt.close(self.fig)

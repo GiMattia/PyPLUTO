@@ -3,19 +3,41 @@ from .libraries import *
 def savefig(filename: str | Path = 'img.png', 
             bbox: str | None = 'tight'
            ) -> None:
-    """
-    ...
-    """
-    warn = "pyPLUTO.savefig is deprecated.\n" \
-           "Please call savefig from the Image class instead"
-    warnings.warn(warn, DeprecationWarning)
-    plt.savefig(filename, bbox_inches = bbox)
-
-    return None
+   raise NotImplementedError("pyPLUTO.savefig is deprecated.\n" \
+           "Please call savefig from the Image class instead")
 
 
 def show(block: bool = True
         ) -> None:
+    """
+    Shows the figures created with the Image class.
+
+    Parameters
+    ----------
+
+    - block: bool, default True
+        If True, the function blocks until the figure is closed.
+
+    Returns
+    -------
+
+    - None
+
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Shows the image created with the Image class
+
+        >>> pp.show()
+    
+    """
     plt.show(block = block)
 
     return None

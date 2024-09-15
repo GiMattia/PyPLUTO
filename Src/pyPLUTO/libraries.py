@@ -1,13 +1,14 @@
-import matplotlib         as mpl
-import matplotlib.pyplot  as plt
-import matplotlib.colors  as mcol
-import matplotlib.lines   as mlines
-import matplotlib.widgets as mwdg
-import matplotlib.cm      as cm
-import numpy              as np
-import numpy.ma           as ma
-import contourpy          as cp 
-import pandas             as pd
+import matplotlib           as mpl
+import matplotlib.pyplot    as plt
+import matplotlib.colors    as mcol
+import matplotlib.lines     as mlines
+import matplotlib.widgets   as mwdg
+import matplotlib.cm        as cm
+import matplotlib.animation as animation
+import numpy                as np
+import numpy.ma             as ma
+import contourpy            as cp 
+import pandas               as pd
 
 import glob
 import os

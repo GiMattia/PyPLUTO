@@ -316,8 +316,8 @@ def reshape_cartesian(self,
         vars.append(self._check_var(i, kwargs.get('transpose', False)))
 
     # Get the grid information
-    x1 = kwargs.get('x1',self.x1)
-    x2 = kwargs.get('x2',self.x2)
+    x1 = kwargs.pop('x1',self.x1)
+    x2 = kwargs.pop('x2',self.x2)
 
     # Get the grid limits
     xx = x1[:, np.newaxis]*np.cos(x2)

@@ -36,7 +36,7 @@ class Image:
         the full list contains 30 colors (+ black or white).
     - nwin: int, default 1
         The window number.
-    - oldcolor: bool
+    - oldcolor: bool, default False
         if True, the old colors are used
     - style: str, default 'default'
         The style of the figure. Possible values are: 'seaborn', 'ggplot',
@@ -48,9 +48,9 @@ class Image:
         The figure title size.
     - tight: bool, default True
         If True, the tight layout is used.
-    - withblack: bool
+    - withblack: bool, default False
         If True, the black color is used as first color.
-    - withwhite: bool
+    - withwhite: bool, default False
         If True, the white color is used as first color.
 
     Notes
@@ -219,7 +219,7 @@ class Image:
     from .plot2d     import display, scatter, colorbar, _set_cscale
     from .plotzoom   import zoom
     from .imagetools import savefig, show, text
-    from .interact   import interactive, _update_slider
+    from .interact   import interactive, _update_slider, _update_both, savegif
     from .plotlines  import contour, streamplot
     from .figure     import _create_figure, _assign_LaTeX, _choose_colorlines
     from .h_image    import _add_ax, _hide_text

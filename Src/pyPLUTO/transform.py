@@ -322,6 +322,7 @@ def reshape_cartesian(self,
     # Get the grid limits
     xx = x1[:, np.newaxis]*np.cos(x2)
     yy = x1[:, np.newaxis]*np.sin(x2)
+
     xmin, xmax = xx.min(), xx.max()
     ymin, ymax = yy.min(), yy.max()
 
@@ -333,9 +334,15 @@ def reshape_cartesian(self,
    # nx2 = int(kwargs.get('nx2', nx1*(ymax-ymin)//(xmax-xmin)))
 
     # Get the cartesian grid
-    xc0 = np.linspace(xmin, xmax, nx1)
-    yc0 = np.linspace(ymin, ymax, nx2)
-    xc, yc = np.meshgrid(xc0, yc0)
+    
+    if self.geom == 'SPHERICAL':
+        xc0 = np.linspace(xmin, xmax, nx2)
+        yc0 = np.linspace(ymin, ymax, nx1)
+        xc, yc = np.meshgrid(xc0, yc0, indexing='xy')
+    else:
+        xc0 = np.linspace(xmin, xmax, nx1)
+        yc0 = np.linspace(ymin, ymax, nx2)
+        xc, yc = np.meshgrid(xc0, yc0, indexing='ij')
 
     # Create the new grid
     x1, x2, vars = reshape_uniform(x1, x2, *vars, **kwargs)
@@ -348,9 +355,12 @@ def reshape_cartesian(self,
 
     for i, var in enumerate(vars):
         newv.append(np.sum([ww[j]*var.flat[nn[j]] for j in range(4)], axis = 0))
-        newv[i] = self._congrid(newv[i],(nx1,nx2),method='linear').T
+        newv[i] = self._congrid(newv[i],(nx1,nx2),method='linear')
 
-    return xcong[0], ycong[:,0], *newv
+    if self.geom == 'SPHERICAL':
+        return ycong[:,0], xcong[0], *newv
+    else:
+        return xcong[:,0], ycong[0], *newv
 
 
 def reshape_uniform(x1, x2, *args, **kwargs):

@@ -1,13 +1,39 @@
 from .libraries import *
 
-def _read_grid_h5(self) -> None:
+def _read_grid_h5(self
+                 ) -> None:
     """
-    Variables that we already have: x1 x2 x3 x1r x2r x3r
-    Variables that we need: nx1 nx2 nx3 nshp nx1s nx2s nx3s dim
-                            nshp_st1 nshp_st2 nshp_st3 
-                            gridsize gridsize_st1 gridsize_st2 gridsize_st3
+    Read the grid from a .h5 file.
+
+    Returns
+    -------
+
+    - None
+
+    Parameters
+    ----------
+
+    - None
+
+    Notes
+    -----
+
+    - Variables that we already have: x1 x2 x3 x1r x2r x3r
+      Variables that we need: nx1 nx2 nx3 nshp nx1s nx2s nx3s dim
+                              nshp_st1 nshp_st2 nshp_st3 
+                              gridsize gridsize_st1 gridsize_st2 gridsize_st3
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Read the grid from a .h5 file
+
+        >>> _read_grid_h5()
 
     """
+
     self.nshp = np.shape(self.x1)
     self.dim = len(self.nshp)
     self.nx1, self.nx2, self.nx3 = (self.nshp + (1,1,1))[:3]
@@ -51,11 +77,40 @@ def _read_grid_h5(self) -> None:
 
     return None
 
-def _read_grid_vtk(self, gridvars) -> None:
+
+def _read_grid_vtk(self, 
+                   gridvars
+                  ) -> None:
     """
-    RECTILINEAR GRID
-    Variables that we already have: x1r x2r x3r nshp dim nx1 nx2 nx3
-    Variables that we need: x1 x2 x3 dx1 dx2 dx3  gridsize
+    Read the grid from a .vtk file.
+
+    Returns
+    -------
+
+    - None
+
+    Parameters
+    ----------
+
+    - gridvars (not optional): list[str]
+        The list of grid variables.
+
+    Notes
+    -----
+
+    - RECTILINEAR GRID
+        Variables that we already have: x1r x2r x3r nshp dim nx1 nx2 nx3
+        Variables that we need: x1 x2 x3 dx1 dx2 dx3  gridsize
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Read the grid from a vtk file
+
+        >>> _read_grid_vtk(['self.x1r', 'self.x2r', 'self.x3r'])
+
     """
 
     self.gridsize = self.nx1*self.nx2*self.nx3
@@ -110,24 +165,40 @@ def _read_grid_vtk(self, gridvars) -> None:
     return None
 
 
-def _read_gridfile(self) -> None:
+def _read_gridfile(self
+                  ) -> None:
     """
-    The file grid.out is read and all the grid information are stored
-    in the Load class.
-    Such information are the dimensions, the geometry, the center and edges
-    of each cell, the grid shape and size and, in case of non cartesian
-    coordinates, the transformed cartesian coordinates (only 2D for now).
-    The full non-cartesian 3D transformations have not been implemented yet.
+    The file grid.out is read and all the grid information are stored in the 
+    Load class. Such information are the dimensions, the geometry, the center 
+    and edges of each cell, the grid shape and size and, in case of non 
+    cartesian coordinates, the transformed cartesian coordinates (only 2D for 
+    now).bThe full non-cartesian 3D transformations have not been implemented 
+    yet.
 
     Returns
     -------
 
-        None
+    - None
 
     Parameters
     ----------
 
-        None
+    - None
+
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: read the grid file
+
+        >>> _read_gridfile()
+
     """
 
     # Initialize relevant lists
@@ -228,28 +299,46 @@ def _read_gridfile(self) -> None:
     return None
 
 
-
-def _read_outfile(self, nout, endian) -> None:
+def _read_outfile(self, 
+                  nout: int, 
+                  endian: str
+                 ) -> None:
     """
-    Reads the datatype.out file and stores the relevant information
-    within the class. Such information are the time array, the output
-    variables, the file type (single or multiples), the endianess, 
-    the simulation path and the bin format. All these information are
-    relevant in order to open the output files and access the data.
+    Reads the datatype.out file and stores the relevant information within the 
+    class. Such information are the time array, the output variables, the file 
+    type (single or multiples), the endianess, the simulation path and the bin 
+    format. All these information are relevant in order to open the output files
+    and access the data.
 
     Returns
     -------
 
-        None
+    - None
 
     Parameters
     ----------
 
-        - nout: int
-            the output file to be opened. If default ('last'), the
-            code assumes the last file should be opened. Other 
-            options available are 'last' (all the files should be 
-            opened) and -1 (same as 'last')
+    - endian (not optional): str
+        The endianess of the files.
+    - nout (not optional): int
+        The output file to be opened. If default ('last'), the code assumes the 
+        last file should be opened. Other options available are 'last' (all the 
+        files should be opened) and -1 (same as 'last').
+
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Read the 'filetype'.out file
+
+        >>> _read_outfile(0, 'big')
+
     """
 
     # Open and read the 'filetype'.out file 
@@ -293,7 +382,6 @@ def _read_outfile(self, nout, endian) -> None:
     return None
 
 
-
 def _split_gridfile(self, 
                     i: str, 
                     xL: list[float], 
@@ -301,19 +389,40 @@ def _split_gridfile(self,
                     nmax: list[int]
                    ) -> None:
     """
-    Splits the gridfile, storing the information in the variables
-    passed by the function. Dimensions and geometry are stored in 
-    the class
+    Splits the gridfile, storing the information in the variables passed by the 
+    function. Dimensions and geometry are stored in the class.
 
     Return
     ------
 
-        None
+    - None
 
     Parameters
     ----------
 
-        None
+    - i (not optional): str
+        The line of the gridfile.
+    - nmax (not optional): list[int]
+        The number of the cells in the grid.
+    - xL (not optional): list[float]
+        The list of the left cell boundaries values.
+    - xR (not optional): list[float]
+        The list of the right cell boundaries values.
+
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Split the gridfile
+
+        >>> _split_gridfile(i, xL, xR, nmax)
+
     """
 
     # If the splitted line has only one string, try to convert it

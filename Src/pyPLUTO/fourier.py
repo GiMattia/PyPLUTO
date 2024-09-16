@@ -14,10 +14,10 @@ def fourier(self,
     Returns
     -------
 
-    - freqs: np.ndarray
-        The frequency array. It is a list of arrays if the input is in 2D or 3D.
     - f: np.ndarray
         The transformed array.
+    - freqs: np.ndarray | list[np.ndarray]
+        The frequency array. It is a list of arrays if the input is in 2D or 3D.
 
     Parameters
     ----------
@@ -28,7 +28,7 @@ def fourier(self,
         The grid spacing. If None, the grid spacing is set to 1.
     - dz: float | int | list | np.ndarray | None, default None
         The grid spacing. If None, the grid spacing is set to 1.
-    - f: np.ndarray
+    - f (not optional): np.ndarray
         The array to be transformed.
     - xdir: bool, default True
         If True, the x-direction is transformed. 
@@ -74,7 +74,6 @@ def fourier(self,
     # Check the dimensions of the input array
     dim = f.ndim
     shp = f.shape
-    print(shp, dim)
 
     # Define the axes to include in the Fourier transform
     axes  = []
@@ -118,6 +117,7 @@ def fourier(self,
     freqs = freqs[0] if len(freqs) == 1 else freqs
     return freqs, np.abs(fk[slices])
 
+
 def _fourier_spacing(dx: float | int | list | np.ndarray
                     ) -> float:
     """
@@ -133,13 +133,13 @@ def _fourier_spacing(dx: float | int | list | np.ndarray
     Parameters
     ----------
 
-    - dx: float | int | list | np.ndarray
+    - dx (not optional): float | int | list | np.ndarray
         The grid spacing.
 
     Notes
     -----
 
-    - None
+    - Extension to non-uniform grids will be added in future releases.
 
     ----
 

@@ -1,5 +1,5 @@
 """
-HD shock-tube test
+HD shock-tube test (configuration 1).
 
 This test shows how to plot different 1D quantities from a test problem in the
 same plot.

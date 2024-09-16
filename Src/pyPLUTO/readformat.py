@@ -4,11 +4,10 @@ def _check_pathformat(self,
                       path: str | Path
                      ) -> None:
     """
-    Check if the path is consistent, i.e. if the path is given 
-    through a non-empty string. If the path is consistent, it is 
-    converted to a Path object. Then, a check is performed to see if
-    the path is a directory. The path is stored in the class as a 
-    Path object self.pathdir.
+    Check if the path is consistent, i.e. if the path is given through a 
+    non-empty string. If the path is consistent, it is converted to a Path 
+    object. Then, a check is performed to see if the path is a directory. The 
+    path is stored in the class as a Path object self.pathdir.
 
     Returns
     -------
@@ -18,8 +17,8 @@ def _check_pathformat(self,
     Parameters
     ----------
     
-    - path: str | Path
-        the path to the simulation directory
+    - path (not optional): str | Path
+        The path to the simulation directory.
 
     Notes
     -----
@@ -71,22 +70,19 @@ def _check_pathformat(self,
     return None
 
 
-
 def _find_format(self, 
                  datatype: str | None, 
                  alone: bool | None
                 ) -> None:
     """
-    Finds the format of the data files to load.
-    At first, the code checks the filetype to be loaded (if fluid or
-    particles). Then, depending on the filetype given, the code 
-    checks if the corresponding filetype is present Depending on the
-    properties of the filetype and of the type of the output (if
-    fluid or particles) different checks are performed. 
-    If no format is given or if the given format is not found, the
-    code checks the presence other filetypes in the directory. If no
-    file is found, an error is raised. CUrrent filetypes available 
-    are dbl, flt, vtk, dbl.h5 and flt.h5.
+    Finds the format of the data files to load. At first, the code checks the 
+    filetype to be loaded (if fluid or particles). Then, depending on the 
+    filetype given, the code checks if the corresponding filetype is present 
+    Depending on the properties of the filetype and of the type of the output 
+    (if fluid or particles) different checks are performed. 
+    If no format is given or if the given format is not found, the code checks 
+    the presence other filetypes in the directory. If no file is found, an error
+    is raised. CUrrent filetypes available are dbl, flt, vtk, dbl.h5 and flt.h5.
 
     Returns
     -------
@@ -96,15 +92,15 @@ def _find_format(self,
     Parameters
     ----------
 
-    - datatype: str, default None
-        the file format. If None the format is recovered between 
-        (in order) dbl, flt, vtk, dbl.h5 and flt.h5.
-        Formats hdf5 (AMR) and tab have not been implemented yet.
-    - alone: bool, default False
-        if the output files are standalone or they require a .out
+    - alone (not optional): bool | None, default False
+        If the output files are standalone or they require a .out
         file to be loaded. Only suggested for fluid files, .vtk
         format and standalone files, otherwise the code finds 
         the alone property by itself.
+    - datatype (not optional): str | None, default None
+        The file format. If None the format is recovered between 
+        (in order) dbl, flt, vtk, dbl.h5 and flt.h5.
+        Formats hdf5 (AMR) and tab have not been implemented yet.
 
     Notes
     -----
@@ -142,7 +138,7 @@ def _find_format(self,
     if class_name == 'Load':
         # Divide the formats between standalone and not standalone
         type_out = ['dbl','flt','vtk','dbl.h5','flt.h5','tab']
-        type_lon = ['vtk','dbl.h5','flt.h5','tab']
+        type_lon = ['vtk','dbl.h5','flt.h5','tab','hdf5']
         # If datatype is dbl or flt the files are not standalone
         if datatype in {'dbl','flt'}:
             alone = False
@@ -194,6 +190,7 @@ def _find_format(self,
     # If the datatype is None, raise a general error, otherwise raise
     # an error for the specific datatype.
     scrh = f"No available type has been found in {self.pathdir}."
+   
     if datatype is not None:
         scrh = f"Type {datatype} not found."
     raise FileNotFoundError(scrh)
@@ -206,10 +203,9 @@ def _check_typeout(self,
                    type_out: list[str]
                   ) -> None:
     """
-    Loops over possible formats in order to find, at first the 
-    grid.out file, then the datatype.out file. If the datatype.out
-    file is found, the file format is selected and the flag alone is
-    set to False.
+    Loops over possible formats in order to find, at first the grid.out file, 
+    then the datatype.out file. If the datatype.out file is found, the file 
+    format is selected and the flag alone is set to False.
 
     Returns
     -------
@@ -219,13 +215,8 @@ def _check_typeout(self,
     Parameters
     ----------
 
-    - datatype: str
-        the format selected by the user (if not then is None)
-    - type_out: [str]
-        the list of possible formats for the output file
-    - type_lon: [str]
-        the list of possible formats for the output file
-        (not used here but in _check_typelon)
+    - type_out (not optional): list[str]
+        The list of possible formats for the output file.
 
     Notes
     -----
@@ -266,14 +257,13 @@ def _check_typeout(self,
     return None
 
 
-
 def _check_typelon(self, 
                    type_lon: list[str]
                   ) -> None:
     """
-    Loops over posisble formats in order to find matching files
-    with the datatype. If the file is found, the file format is
-    selected and the flag alone is set to True.
+    Loops over posisble formats in order to find matching files with the 
+    datatype. If the file is found, the file format is selected and the flag 
+    alone is set to True.
 
     Returns
     -------
@@ -283,13 +273,8 @@ def _check_typelon(self,
     Parameters
     ----------
 
-    - datatype: str
-        the format selected by the user (if not then is None)
-    - type_out: [str]
-        the list of possible formats for the output file
-        (not used here but in _check_typeout)
-    - type_lon: [str]
-        the list of possible formats for the output file
+    - type_lon (not optional): list[str]
+        The list of possible formats for the output file.
 
     Notes
     -----
@@ -330,6 +315,3 @@ def _check_typelon(self,
 
     # End of the functionv 
     return None
-
-
-

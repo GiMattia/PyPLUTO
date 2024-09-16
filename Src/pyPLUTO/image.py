@@ -16,10 +16,6 @@ class Image:
     Parameters
     ----------
 
-    - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a
-        warning if a parameter is not present among the set of available
-        parameters.
     - close: bool, default True
         If True, the existing figure with the same window number is closed.
     - fig: Figure | None, default None
@@ -30,16 +26,17 @@ class Image:
     - fontsize: int, default 17
         The font size.
     - LaTeX: bool | str, default False
-        the LaTeX option. Is True is selected, the default LaTeX font
+        The LaTeX option. Is True is selected, the default LaTeX font
         is used. If 'pgf' is selected, the pgf backend is used to save pdf
         figures with minimal file size. If XeLaTeX is not installed and the
         'pgf' option is selected, the LaTeX option True is used as backup
         strategy.
-    - numcolor: int
-        the number of colors
+    - numcolor: int, default 10
+        The number of colors in the colorscheme. The default number is 10, but
+        the full list contains 30 colors (+ black or white).
     - nwin: int, default 1
         The window number.
-    - oldcolor: bool
+    - oldcolor: bool, default False
         if True, the old colors are used
     - style: str, default 'default'
         The style of the figure. Possible values are: 'seaborn', 'ggplot',
@@ -51,10 +48,10 @@ class Image:
         The figure title size.
     - tight: bool, default True
         If True, the tight layout is used.
-    - withblack: bool
-        if True, the black color is used as first color
-    - withwhite: bool
-        if True, the white color is used as first color
+    - withblack: bool, default False
+        If True, the black color is used as first color.
+    - withwhite: bool, default False
+        If True, the white color is used as first color.
 
     Notes
     -----
@@ -100,6 +97,13 @@ class Image:
                  fig: Figure | None = None,
                  **kwargs: Any
                 ) -> None:
+        
+        # Check parameters
+        param = {'close','figsize','fontsize','numcolor','nwin','oldcolor',
+                 'style','suptitle','suptitlesize','tight','withblack',
+                 'withwhite'}
+        if check is True:
+            check_par(param, '__init__', **kwargs)
 
         self.fontsize: int = 17 # fontsize
         self.tight: bool = True # tight layout
@@ -125,11 +129,6 @@ class Image:
         self.anim_ax: Axes # the axes of the animation
         self.slider: Slider # the slider
         self.anim_pcm: Any # the animation collection
-
-        # Check parameters
-        param = {'close','figsize','fontsize','nwin','suptitle',
-                 'suptitlesize','tight'}
-        check_par(param, '__init__', **kwargs)
 
         # Set the style of the figure
         plt.style.use(kwargs.get('style','default'))
@@ -170,46 +169,46 @@ class Image:
         Public methods available:
 
         - create_axes
-            Adds a set of [nrow,ncol] subplots to the figure
+            Adds a set of [nrow,ncol] subplots to the figure.
         - colorbar
-            Places a colorbar in a subplot or next to a subplot
+            Places a colorbar in a subplot or next to a subplot.
         - contour
-            Plots a contour plot in a subplot
+            Plots a contour plot in a subplot.
         - display
-            Plots a 2D quantity in a subplot
+            Plots a 2D quantity in a subplot.
         - interactive
-            Creates an interactive plot with a slider to change the data
+            Creates an interactive plot with a slider to change the data.
         - legend
-            Places one legend in a subplot
+            Places one legend in a subplot.
         - set_axis
-            Changes the parameter of a specific subplot
+            Changes the parameter of a specific subplot.
         - plot
-            Plots one line in a subplot
+            Plots one line in a subplot.
         - savefig
-            Saves the figure in a file
+            Saves the figure in a file.
         - scatter
-            Plots a scatter plot in a subplot
+            Plots a scatter plot in a subplot.
         - streamplot
-            Plots a stream plot in a subplot
+            Plots a stream plot in a subplot.
         - text
-            Places the text in the figure or in a subplot
+            Places the text in the figure or in a subplot.
         - zoom
-            Creates an inset zoom region of a subplot
+            Creates an inset zoom region of a subplot.
 
         Public attributes available:
 
         - ax:
-            The list of relevant axes in the figure
+            The list of relevant axes in the figure.
         - fig
-            The figure associated to the image
+            The figure associated to the image.
         - fontsize
-            The fontsize in the figure
+            The fontsize in the figure.
         - fontweight
-            The fontweight in the figure
+            The fontweight in the figure.
         - nwin
-            The window number
+            The window number.
         - tg
-            The tight layout of the figure
+            The tight layout of the figure.
 
         Please do not use 'private' methods and attributes if not absolutely
         necessary.
@@ -220,8 +219,9 @@ class Image:
     from .plot2d     import display, scatter, colorbar, _set_cscale
     from .plotzoom   import zoom
     from .imagetools import savefig, show, text
-    from .interact   import interactive, _update_slider
+    from .interact   import interactive, _update_slider, _update_both, savegif
     from .plotlines  import contour, streamplot
     from .figure     import _create_figure, _assign_LaTeX, _choose_colorlines
     from .h_image    import _add_ax, _hide_text
     from .h_image    import _set_xrange, _set_yrange, _assign_ax
+    from .amr        import oplotbox

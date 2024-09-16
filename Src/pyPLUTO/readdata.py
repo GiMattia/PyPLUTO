@@ -7,13 +7,12 @@ def _load_variables(self,
                     endian: str | None
                    ) -> None:
     """
-    Loads the variables in the class. The function checks if the
-    variables to be loaded are valid and then loads them. If the
-    variables are not valid, an error is raised. If the variables
-    are valid, the function loads them in the class through memory
-    mapping. The offset and shape of each variable is computed depenging
-    on the format and typefile characteristics. In case the files are
-    standalone, the relevand time and grid information is loaded.
+    Loads the variables in the class. The function checks if the variables to be
+    loaded are valid and then loads them. If the variables are not valid, an 
+    error is raised. If the variables are valid, the function loads them in the 
+    class through memory mapping. The offset and shape of each variable is 
+    computed depenging on the format and typefile characteristics. In case the 
+    files are standalone, the relevand time and grid information is loaded.
 
     Returns
     -------
@@ -23,21 +22,21 @@ def _load_variables(self,
     Parameters
     ----------
 
-    - vars: bool, default True
-        if True all the variables are loaded, otherwise just a selection
-        is loaded.
-    - i: int
-        the index of the file to be loaded.
-    - exout: int
-        the index of the output to be loaded.
-    - endian: bool
-        the endianess of the files. If True the endianess is big, 
-        otherwise it is little.
+    - endian (not optional): bool
+        The endianess of the files. If True the endianess is big, otherwise it 
+        is little.
+    - exout (not optional): int
+        The index of the output to be loaded.
+    - i (not optional): int
+        The index of the file to be loaded.
+    - vars (not optional): str | list[str] | bool | None, default True
+        If True all the variables are loaded, otherwise just a selection is 
+        loaded.
 
     Notes
     -----
 
-    - None
+    - Loading of no variable will be added in the future
 
     ----
 
@@ -79,16 +78,21 @@ def _load_variables(self,
     # or compute the offset and shape
     if self._d_info['typefile'][i] == 'single_file':
         self._compute_offset(i, endian, exout, None)
+    if self.format == 'hdf5':
+        return None
 
     # Check if only specific variables should be loaded
     if vars is True:
         # If all the variables are to be loaded, the load_vars
         # is set to the variables list
         self._load_vars = self._d_info['varslist'][i]
-    else:
+    elif vars is not None:
         # If only specific variables are to be loaded, the load_vars
         # becomes the list of the selected variables
         self._load_vars = makelist(vars)
+    else:
+        # If no variables are to be loaded, return None (WIP)
+        return None
 
     # If the format is tab, the data have been already loaded, so
     # the function returns None
@@ -117,32 +121,17 @@ def _load_variables(self,
     return None
 
 
-# NOT SURE IF NECESSARY
-"""
-def _delete_vars(self):
-    allowed_vars = self.gridlist1
-    method_names = ['_delete_vars', '_rec_format']
-
-    allowed_dict = {var: getattr(self, var) for var in allowed_vars}
-    self.__dict__ = allowed_dict
-
-    for method_name in method_names:
-        if method_name in self.__class__.__dict__:
-            delattr(self.__class__, method_name)
-"""
-
 def _check_nout(self, 
                 nout: int | str | list[int|str]
                ) -> None:
     """
-    Finds the number of datafile to be loaded. If nout is a list,
-    the function checks if the list contains the keyword 'last' or
-    -1. If so, the keyword is replaced with the last file number.
-    If nout is a string, the function checks if the string contains
-    the keyword 'last' or -1. If so, the keyword is replaced with
-    the last file number. If nout is an integer, the function
-    returns a list containing the integer. If nout is 'all', the
-    function returns a list containing all the file numbers.
+    Finds the number of datafile to be loaded. If nout is a list, the function 
+    checks if the list contains the keyword 'last' or -1. If so, the keyword is 
+    replaced with the last file number. If nout is a string, the function checks
+    if the string contains the keyword 'last' or -1. If so, the keyword is 
+    replaced with the last file number. If nout is an integer, the function
+    returns a list containing the integer. If nout is 'all', the function 
+    returns a list containing all the file numbers.
 
     Returns
     -------
@@ -152,8 +141,8 @@ def _check_nout(self,
     Parameters
     ----------
 
-    - nout: {int, str, list[str, int]}
-        the output file to be loaded
+    - nout (not optional): int | str | list[int|str]
+        The output file to be loaded.
 
     Notes
     -----
@@ -211,11 +200,10 @@ def _findfiles(self,
                nout: int | str | list[int|str]
               ) -> None:
     """
-    Finds the files to be loaded. If nout is a list, the function
-    loops over the list and finds the corresponding files. If nout
-    is an integer, the function finds the corresponding file. If
-    nout is 'last', the function finds the last file. If nout is
-    'all', the function finds all the files. Then, the function
+    Finds the files to be loaded. If nout is a list, the function loops over the
+    list and finds the corresponding files. If nout is an integer, the function 
+    finds the corresponding file. If nout is 'last', the function finds the last
+    file. If nout is 'all', the function finds all the files. Then, the function
     stores the relevant information in a dictionary _d_info.
 
     Returns
@@ -226,8 +214,8 @@ def _findfiles(self,
     Parameters
     ----------
 
-    - nout: {int, str, list[str, int]}
-        the output file to be loaded
+    - nout (not optional): int | str | list[int|str]
+        The output file to be loaded
 
     Notes
     -----
@@ -261,13 +249,6 @@ def _findfiles(self,
     class_name    = self.__class__.__name__ # The class name
     self.set_vars = set() 
     self.set_outs = set()
-    
-    # Create a dictionary of functions to be called
-    # (0 = fluid, 1 = particles, 2 = lagrangian particles)
-    #varsouts = {0: _varsouts_f, 1: _varsouts_p, 2: _varsouts_lp}
-    
-    # Set the condition for the dictionary
-    #condition = (class_name == 'LoadPart') + (self.nfile_lp is not None)
 
     # Loop over the matching files and call the functions
     for elem in self._matching_files:
@@ -337,14 +318,14 @@ def _findfiles(self,
     # End of the function
     return None
 
+
 def _init_vardict(self, 
                   var: str
                  ) -> None:
     """
-    If not initialized, a new dictionary is created to store the
-    variables. The dictionary is stored in the class.
-    The shape of the dictionary is computed depending on the
-    number of outputs and the shape of the variable.
+    If not initialized, a new dictionary is created to store the variables. The 
+    dictionary is stored in the class. The shape of the dictionary is computed 
+    depending on the number of outputs and the shape of the variable.
 
     Returns
     -------
@@ -354,8 +335,8 @@ def _init_vardict(self,
     Parameters
     ----------
 
-    - var: str
-        the variable to be loaded.
+    - var (not optional): str
+        The variable to be loaded.
 
     Notes
     -----
@@ -411,10 +392,9 @@ def _assign_var(self,
                 scrh: np.memmap
                ) -> None:
     """
-    Assigns the memmap object to the dictionary. If the number of
-    outputs is 1, the variable is stored directly in the dictionary,
-    otherwise the variable is stored in the dictionary at the
-    corresponding output.
+    Assigns the memmap object to the dictionary. If the number of outputs is 1, 
+    the variable is stored directly in the dictionary, otherwise the variable is
+    stored in the dictionary at the corresponding output.
 
     Returns
     -------
@@ -424,12 +404,12 @@ def _assign_var(self,
     Parameters
     ----------
 
-    - time: int
-        the output file to be loaded
-    - var: str
-        the variable to be loaded.
-    - scrh: np.memmap
-        the memmap object containing the data to be stored.
+    - scrh (not optional): np.memmap
+        The memmap object containing the data to be stored.
+    - time (not optional): int
+        The output file to be loaded
+    - var (not optional): str
+        The variable to be loaded.
 
     Notes
     -----
@@ -483,8 +463,10 @@ def _varsouts(self,
     Parameters
     ----------
 
-    - elem: str
-        the matching file
+    - class_name (not optional): str
+        The name of the class. Supported classes are 'Load' or 'LoadPart'.
+    - elem (not optional): str
+        The matching file.
 
     Notes
     -----
@@ -550,155 +532,4 @@ def _varsouts(self,
         self.set_outs.add(int(outs))
 
     # End of the function
-    return None
-
-
-
-def _varsouts_f(self, elem: str) -> None:
-    """
-    From the matching files finds the variables and the outputs
-    for the fluid files (variables are to be intended here as the 
-    first part of the output filename, they are the effective 
-    variables only in case of multiple files).
-
-    Returns
-    -------
-
-    - None
-
-    Parameters
-    ----------
-
-    - elem: str
-        the matching file
-
-    Notes
-    -----
-
-    - None
-
-    ----
-
-    Examples
-    ========
-
-    - Example #1: Find the variables and the outputs
-
-        >>> _varsouts_f('rho.0000.dbl')
-
-    """
-
-    # Splits the matching filename (variable/data and output number)
-    vars: str = elem.split('/')[-1].split('.')[0]
-    outs: int = int(elem.split('/')[-1].split('.')[1])
-
-    # Finds the variables and the outputs
-    if vars != 'particles':
-        # Files are not particles, add the variables and the outputs
-        self.set_vars.add(vars)
-        self.set_outs.add(outs)
-
-    # End of the function
-    return None
-
-
-
-def _varsouts_p(self, elem: str) -> None:
-    """
-    From the matching files finds the outputs
-    for the particle files (not LP).
-
-    Returns
-    -------
-
-    - None
-
-    Parameters
-    ----------
-
-    - elem: str
-        the matching file
-
-    Notes
-    -----
-
-    - None
-
-    ----
-
-    Examples
-    ========
-
-    - Example #1: Find the outputs
-
-        >>> _varsouts_p('particles.0000.dbl')
-
-    """
-
-    # Splits the matching filename
-    vars: str = elem.split('/')[-1].split('.')[0]
-    outs: int = int(elem.split('/')[-1].split('.')[1])
-
-    # Finds the outputs
-    if vars == 'particles':
-        # Files are particles, add the outputs
-        self.set_vars.add(vars)
-        self.set_outs.add(outs)
-
-    return None
-
-
-
-def _varsouts_lp(self, elem: str) -> None:
-    """
-    From the matching files finds the outputs
-    for the LP files.
-
-    Returns
-    -------
-
-        None
-
-    Parameters
-    ----------
-
-        - elem: str
-            the matching file
-
-    Notes
-    -------
-
-        - nfile_lp should be found automatically
-
-    ----
-
-    Examples
-    ========
-
-    - Example #1: Find the outputs
-
-        >>> _varsouts_lp('particles.0000_ch_00.dbl')
-
-    """
-
-    # Initialization or declaration of variables
-    outn: int # The output number
-    outc: int # The output ch number
-
-    # Splits the matching filename
-    vars: str = elem.split('/')[-1].split('.')[0]#.split('_')[0]
-    outs: str = elem.split('/')[-1].split('.')[1]
-    
-    # Finds the outputs
-    if vars == 'particles':
-        outn = int(outs.split('_')[0])
-        outc = int(outs.split('_')[1][2:])
-
-        # Checks the _ch_ number
-        if outc == self.nfile_lp:
-            self.set_vars.add(vars)
-            self.set_outs.add(outn)
-        else:
-            raise ValueError(f"Invalid number {self.nfile_lp}.")
-        
     return None

@@ -14,7 +14,7 @@ def display(self,
     Returns
     -------
 
-    None
+    - The 2D plot
 
     Parameters
     ----------
@@ -27,16 +27,16 @@ def display(self,
         be squared). The 'equal' keyword will set the same scaling for
         x and y. A float will fix the ratio between the y-scale and the x-scale
         (1.0 is the same as 'equal').
-    - ax: {ax object, 'old', None}, default None
+    - ax: ax | int | None, default None
         The axis where to plot the lines. If None, a new axis is created.
         If 'old', the last considered axis will be used.
     - clabel: str, default None
         Sets the label of the colorbar.
-    - cmap: str, default 'hot'
-       Selects the colormap. If not defined, the colormap 'hot' will be adopted.
-        Some useful colormaps are: plasma, magma, seismic. Please avoid using
-        colorbars like jjet or rainbow, which are not perceptively uniform and
-        not suited for people with vision deficiencies.
+    - cmap: str, default 'plasma'
+        Selects the colormap. If not defined, the colormap 'plasma' will be 
+        adopted. Some useful colormaps are: plasma, magma, seismic. Please avoid
+        using colorbars like jet or rainbow, which are not perceptively uniform
+        and not suited for people with vision deficiencies.
         All the colormap available are listed in the following link:
         https://matplotlib.org/stable/tutorials/colors/colormaps.html
     - cpad: float, default 0.07
@@ -51,6 +51,10 @@ def display(self,
         colorbar.
     - ctickslabels: str, default None
         If enabled, sets manually ticks labels on the colorbar.
+    - extend: {'neither','both','min','max'}, default 'neither'
+        Sets the extension of the triangular colorbar extension.
+    - extendrect: bool, default False
+        If True, the colorbar extension will be rectangular.
     - figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]
         Sets the figure size. The default value is computed from the number
         of rows and columns.
@@ -97,16 +101,16 @@ def display(self,
         - symlog: sets the limit between the logaitrhmic and the linear regime.
     - var (not optional): 2D array
         The array to be plotted.
-    - vmax: float, default max(z)
+    - vmax: float, default max(var)
         The maximum value of the colormap. If not defined, the maximum value
         of z will be taken.
-    - vmin: float, default min(z)
+    - vmin: float, default min(var)
         The minimum value of the colormap. If not defined, the minimum value
         of z will be taken.
-    - x1: 1D/2D array, default 'Default'
+    - x1: np.ndarray, default 'Default'
         the 'x' array. If not defined, a default array will be generated
         depending on the size of z.
-    - x2: 1D/2D array, default 'Default'
+    - x2: np.ndarray, default 'Default'
         the 'y' array. If not defined, a default array will be generated
         depending on the size of z.
     - xrange: [float, float], default 'Default'
@@ -117,11 +121,11 @@ def display(self,
         If enabled (and different from 'Default'), sets automatically the scale
         on the x-axis. Data in log scale should be used with the keyword 'log',
         while data in linear scale should be used with the keyword 'linear'.
-    - xticks: {[float], None, 'Default'}, default 'Default'
+    - xticks: [float] | None | bool, default True
         If enabled (and different from 'Default'), sets manually ticks on
         x-axis. In order to completely remove the ticks the keyword should
         be used with None.
-    - xtickslabels: {[str], None, 'Default'}, default 'Default'
+    - xtickslabels: [str] | None | bool, default True
         If enabled (and different from 'Default'), sets manually the ticks
         labels on the x-axis. In order to completely remove the ticks the
         keyword should be used with None. Note that fixed tickslabels should
@@ -136,11 +140,11 @@ def display(self,
         If enabled (and different from 'Default'), sets automatically the scale
         on the y-axis. Data in log scale should be used with the keyword 'log',
         while data in linear scale should be used with the keyword 'linear'.
-    - yticks: {[float], None, 'Default'}, default 'Default'
+    - yticks: [float] | None | bool, default True
         If enabled (and different from 'Default'), sets manually ticks on
         y-axis. In order to completely remove the ticks the keyword should
         be used with None.
-    - ytickslabels: {[str], None, 'Default'}, default 'Default'
+    - ytickslabels: [float] | None | bool, default True
         If enabled (and different from 'Default'), sets manually the ticks
         labels on the y-axis. In order to completely remove the ticks the
         keyword should be used with None. Note that fixed tickslabels should
@@ -151,10 +155,8 @@ def display(self,
     Notes
     -----
 
-    - If not x or y is given, no shading can be selected. This issue must be
+    - If not x or y is given, no shading can be selected. This issue will be
         fixed in future releases.
-    - Check if vmin and vmax remain the same after new figure is creates
-    - Minorticks should be customized also to single axis
 
     ----
 
@@ -163,46 +165,43 @@ def display(self,
 
     - Example #1: create a simple 2d plot with title and colorbar on the right
 
-       >>> import pyPLUTO as pp
-       >>> I = pp.Image()
-       >>> I.display(var, title = 'title', cpos = 'right')
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> I.display(var, title = 'title', cpos = 'right')
 
     - Example #2: create a 2d plot with title on the axes, bottom colorbar and 
-      custom shading
+        custom shading
 
-       >>> import pyPLUTO as pp
-       >>> I = pp.Image()
-       >>> I.display(x1, x2, var, xtitle = 'x', ytitle = 'y', cpos = 'bottom', 
-                             shading = 'gouraud', cpad = 0.3)
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> I.display(x1, x2, var, xtitle = 'x', ytitle = 'y', cpos = 'bottom', 
+                      shading = 'gouraud', cpad = 0.3)
 
     - Example #3: create a 2d plot con custom range on axes and logarithmic 
-      scale colorbar
+        scale colorbar
 
-       >>> import pyPLUTO as pp
-       >>> I = pp.Image()
-       >>> I.display(var, xrange = [2,3], yrange = [2,4], cbar = 'right', 
-                          cscale = 'log')
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> I.display(var, xrange = [2,3], yrange = [2,4], cbar = 'right', 
+                      cscale = 'log')
 
     - Example #4: create a 2d plot with a custom symmetric logarithmic colorbar 
-      with custom ticks.
+        with custom ticks.
 
-       >>> import pyPLUTO as pp
-       >>> I = pp.Image()
-       >>> I.display(var, cpos = 'right', cmap = 'RdBu_r', cscale = 'symlog', 
-                          tresh = 0.001, vmin = -1, vmax = 1)
+        >>> import pyPLUTO as pp
+        >>> I = pp.Image()
+        >>> I.display(var, cpos = 'right', cmap = 'RdBu_r', cscale = 'symlog', 
+                      tresh = 0.001, vmin = -1, vmax = 1)
 
     """
 
-
-   # Check parameters
-    param: set = {'aspect', 'ax', 'clabel', 'cmap', 'cpad', 'cpos', 'cscale', 
-                  'cticks', 'ctickslabels', 'figsize', 'fontsize', 'grid', 
-                  'labelsize', 'lint', 'minorticks', 'proj', 'shading', 
-                  'ticksdir', 'tickssize', 'title', 'titlesize', 'transpose', 
-                  'tresh', 'var', 'vmax', 'vmin', 'x1', 'x2', 'xrange', 
-                  'xscale', 'xticks', 'xtickslabels', 'xtitle', 'yrange', 
-                  'yscale', 'yticks', 'ytickslabels', 'ytitle'}
-    
+    # Check parameters
+    param = {'alpha','aspect','ax','clabel','cmap','cpad','cpos','cscale',
+             'cticks','ctickslabels','extend','extendrect','figsize','fontsize',
+             'grid','labelsize','minorticks','proj','shading','ticksdir',
+             'tickssize','title','titlesize','transpose','tresh','vmax','vmin',
+             'x1','x2','xrange','xscale','xticks','xtickslabels','xtitle',
+             'yrange','yscale','yticks','ytickslabels','ytitle'}
     if check is True:
         check_par(param, 'display', **kwargs)
 
@@ -257,7 +256,13 @@ def display(self,
 
     return pcm
 
-def scatter(self, x, y, **kwargs):
+
+def scatter(self,
+            x: NDArray | list[float],
+            y: NDArray | list[float],
+            check: bool = True,
+            **kwargs: Any
+           ) -> QuadMesh:
     """
     Scatter plot for a 2D function (or a 2D slice) using the matplotlib's
     scatter function. A simple figure and a single axis can also be created.
@@ -265,26 +270,141 @@ def scatter(self, x, y, **kwargs):
     Returns
     -------
 
-    - the scatter plot
+    - The scatter plot
 
     Parameters
     ----------
 
     - alpha: float, default 1.0
-        Sets the transparency of the plot
-    ...
+        Sets the transparency of the plot.
+    - aspect: {'auto', 'equal', float}, default 'auto'
+        Sets the aspect ratio of the plot. The 'auto' keyword is the default 
+        option (most likely the plot will be squared). The 'equal' keyword will
+        set the same scaling for x and y. A float will fix the ratio between the
+        y-scale and the x-scale (1.0 is the same as 'equal').
+    - ax: axis object
+       The axis where to plot the scatter. If not given, the last considered
+       axis will be used.
+    - c: str, default ['k','#12e3c0','#3f6600','#1815c5','#f67451','#d7263d']
+        Determines the scatter plot color. If not defined, the program will loop
+        over an array of 6 color which are different for the most common vision
+        deficiencies.
+    - cmap: str, default 'hot'
+        Selects the colormap. If not defined, the colormap 'hot' will be 
+        adopted. Some useful colormaps are: plasma, magma, seismic. Please avoid
+        using colorbars like jjet or rainbow, which are not perceptively uniform
+        and not suited for people with vision deficiencies.
+        All the colormap available are listed in the following link:
+        https://matplotlib.org/stable/tutorials/colors/colormaps.html
+    - cpos: {'top','bottom','left','right'}, default None
+        Enables the colorbar (if defined), default position on the right.
+    - cscale: {'linear','log','symlog','twoslope'}, default 'linear'
+        Sets the colorbar scale. Default is the linear ('norm') scale.
+    - edgecolors: str, default None
+        Enables a contouring color for the markers.
+    - fontsize: float, default 17.0
+        Sets the fontsize for all the axis components (only for the current 
+        axis).
+    - grid: bool, default False
+        Enables/disables the grid on the plot.
+    - label: str, default None
+        Associates a label to be used for the creation of the legend.
+    - labelsize: float, default fontsize
+        Sets the labels fontsize (which is the same for both labels).
+        The default value corresponds to the value of the keyword 'fontsize'.
+    - legpos: int/str, default None
+        If enabled, creates a legend. This keyword selects the legend location.
+        The possible locations for the legend are indicated in the following
+        link:
+        https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html
+    - marker: {'o', 'v', '^', '<', '>', 'X', ' ', etc.}, default ' '
+        Sets an optional symbol for every point. The default value is no marker 
+        (' ').
+    - minorticks: str, default None
+        If not None enables the minor ticks on the plot (for both grid axes).
+    - ms: float, default 3
+        Sets the marker size.
+    - ticksdir: {'in', 'out'}, default 'in'
+        Sets the ticks direction. The default option is 'in'.
+    - tickssize: float | bool, default True
+        Sets the ticks fontsize (which is the same for both grid axes).
+        The default value corresponds to the value of the keyword 'fontsize'.
+    - title: str, default None
+        Places the title of the plot on top of it.
+    - titlepad: float, default 8.0
+        Sets the distance between the title and the top of the plot
+    - titlesize: float, default fontsize
+        Sets the title fontsize. The default value corresponds to the value
+        of the keyword 'fontsize'.
+    - tresh: float, default max(abs(vmin),vmax)*0.01
+        Sets the threshold for the colormap. If not defined, the threshold will
+        be set to 1% of the maximum absolute value of the variable.
+        The default cases are the following:
+        - twoslope colorscale: sets the limit between the two linear regimes.
+        - symlog: sets the limit between the logaitrhmic and the linear regime.
+    - vmax: float
+        The maximum value of the colormap.
+    - vmin: float
+        The minimum value of the colormap.
+    - x (not optional): 1D array
+        The x-axis variable.
+    - xrange: [float, float], default 'Default'
+        Sets the range in the x-direction. If not defined or set to 'Default'
+        the code will compute the range while plotting the data by taking the
+        minimum and the maximum values of the x1-array.
+    - xscale: {'linear','log'}, default 'linear'
+        If enabled (and different from True), sets automatically the scale
+        on the x-axis. Data in log scale should be used with the keyword 'log',
+        while data in linear scale should be used with the keyword 'linear'.
+    - xticks: {[float], None, True}, default True
+        If enabled (and different from True), sets manually ticks on
+        x-axis. In order to completely remove the ticks the keyword should
+        be used with None.
+    - xtickslabels: {[str], None, True}, default True
+        If enabled (and different from True), sets manually the ticks
+        labels on the x-axis. In order to completely remove the ticks the
+        keyword should be used with None. Note that fixed tickslabels should
+        always correspond to fixed ticks.
+    - xtitle: str, default None
+        Sets and places the label of the x-axis.
+    - y (not optional): 1D array
+        The y-axis variable.
+    - yrange: [float, float], default [0,1]
+        Sets the range in the y-direction. If not defined the code will
+        compute the range while plotting the data.
+    - yscale: {'linear','log'}, default 'linear'
+        If enabled (and different from True), sets automatically the scale
+        on the y-axis. Data in log scale should be used with the keyword 'log',
+        while data in linear scale should be used with the keyword 'linear'.
+    - yticks: {[float], None, True}, default True
+        If enabled (and different from True), sets manually ticks on
+        y-axis. In order to completely remove the ticks the keyword should
+        be used with None.
+    - ytickslabels: {[str], None, True}, default True
+        If enabled (and different from True), sets manually the ticks
+        labels on the y-axis. In order to completely remove the ticks the
+        keyword should be used with None. Note that fixed tickslabels should
+        always correspond to fixed ticks.
+    - ytitle: str, default None
+        Sets and places the label of the y-axis.
 
     Notes
     -----
 
-    - None
+    - The scatter with legend is still preliminary
 
     ----
 
     Examples
     ========
 
-    ...
+    - Example #1: Plot a scatter plot of a variable
+
+        >>> I.scatter(x, y)
+
+    - Example #2: Plot a scatter plot of a variable with a colorbar
+
+        >>> I.scatter(x, y, cmap = 'hot', c = x**2 + y**2,cpos = 'right')
 
     """
 
@@ -293,14 +413,22 @@ def scatter(self, x, y, **kwargs):
     y = np.asarray(y)
 
     # Check parameters
+    param = {'alpha','aspect','ax','c','cmap','cpos','cscale','edgecolors',
+             'fontsize','grid','label','labelsize','legpos','marker','ms',
+             'minorticks','ticksdir','tickssize','title','titlepad','titlesize',
+             'tresh','vmax','vmin','xrange','xscale','xticks','xtickslabels',
+             'xtitle','yrange','yscale','yticks','ytickslabels','ytitle'}
+
+    if check is True:
+        check_par(param, 'scatter', **kwargs)
 
     # Set or create figure and axes
     ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
 
     # Keywords xrange and yrange
-    if not kwargs.get('xrange'):
+    if not kwargs.get('xrange') and not self.setax[nax] == 1:
         kwargs['xrange'] = [x.min(),x.max()]
-    if not kwargs.get('yrange'):
+    if not kwargs.get('yrange') and not self.setay[nax] == 1:
         kwargs['yrange'] = [y.min(),y.max()]
 
     # Set ax parameters
@@ -313,7 +441,7 @@ def scatter(self, x, y, **kwargs):
     vmin = kwargs.get('vmin',0.0) if c is None or isinstance (c, str) else \
            kwargs.get('vmin',np.asarray(c).min())
     vmax = kwargs.get('vmax',0.0) if c is None or isinstance (c, str) else \
-           kwargs.get('vmax',np.asarray(c).min())
+           kwargs.get('vmax',np.asarray(c).max())
 
     # Keyword for colorbar and colorscale
     cpos     = kwargs.get('cpos',None)
@@ -327,7 +455,7 @@ def scatter(self, x, y, **kwargs):
 
     # Start scatter plot procedure
     pcm = ax.scatter(x, y, cmap = kwargs.get('cmap',None), norm = norm,
-                     c = kwargs.get('c',None), s = kwargs.get('s',3),
+                     c = kwargs.get('c',None), s = kwargs.get('ms',3),
                      edgecolors = kwargs.get('edgecolors','none'),
                      alpha = kwargs.get('alpha',1.0), 
                      marker = kwargs.get('marker','o'))
@@ -350,6 +478,7 @@ def scatter(self, x, y, **kwargs):
 
     return pcm
 
+
 def colorbar(self, 
              pcm = None,
              axs = None, 
@@ -358,17 +487,18 @@ def colorbar(self,
              **kwargs
             ) -> None:
     """
-    method to display a colorbar in a selected position. If the keyword cax is
-    enabled the colorbar is locates in a specific axis, otherwise an axis will
+    Method to display a colorbar in a selected position. If the keyword cax is
+    enabled the colorbar is located in a specific axis, otherwise an axis will
     be shrunk in order to place the colorbar.
 
     Returns
     -------
 
-        None
+    - None
 
     Parameters
     ----------
+
     - axs: axis object, default None
         The axes where the display that will be used for the colorbar is 
         located. If None, the last considered axis will be used.
@@ -401,8 +531,8 @@ def colorbar(self,
     - If multiple subplots are present, multiple colorbars cannot be created
       from the display routine. This issue must be fixed in future releases.
     - Colorbar should not overlap the plot or other colormaps
-    - Exted the colormap to more positions (e.g., top, bottom) with 
-          correct spacing
+    - Exted the colormap to more positions (e.g., top, bottom) with correct 
+      spacing
           
     ----
 
@@ -425,7 +555,7 @@ def colorbar(self,
         >>> I.colorbar(axs = ax[0], cax = ax[1])
 
     - Example #3: create a set of 3 displays with a colorbar on the bottom.
-      Another colorbar is shown on the right of the topmost display
+        Another colorbar is shown on the right of the topmost display
 
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
@@ -439,23 +569,28 @@ def colorbar(self,
     """
 
     # Check parameters
-    param = {'axs', 'cax', 'clabel', 'cpad', 'cpos', 'cticks', 
-             'ctickslabels', 'extend', 'pcm'}
+    param = {'clabel','cpad','cpos','cticks','ctickslabels','extend',
+             'extendrect'}
     if check is True:
         check_par(param, 'colorbar', **kwargs)
 
+    # If pcm and a source axes are selected, raise a warning and use pcm
     if pcm is not None and axs is not None:
         warn = "Both pcm and axs are not None, pcm will be used"
         warnings.warn(warn, UserWarning)
 
+    # Select the source axis
     axs = pcm.axes if pcm is not None else axs if axs is not None \
                                       else self.fig.gca()
     axs, _ = self._assign_ax(axs, **kwargs)
+
+    # Select the keywords
     pcm    = axs.collections[0] if pcm is None else pcm
     cpad   = kwargs.get('cpad',0.07)
     cpos   = kwargs.get('cpos','right')
     ccor   = 'vertical' if cpos in ['left','right'] else 'horizontal'
 
+    # Assign the colorbar axis, if cax is None create a new one
     if cax == None:
         divider = make_axes_locatable(axs)
         cax = divider.append_axes(cpos, size="7%", pad=cpad) # 0.07 right
@@ -463,23 +598,32 @@ def colorbar(self,
         cax, naxc = self._assign_ax(cax, **kwargs)
         self._hide_text(naxc, cax.texts)
             
+    # Place the colorbar
     cbar = self.fig.colorbar(pcm, cax=cax,label=kwargs.get('clabel',''),
                 ticks = kwargs.get('cticks',None), orientation=ccor,
                 extend = kwargs.get('extend','neither'),
                 extendrect = kwargs.get('extendrect',False))
+    
+    # Set the tickslabels
     ctkc = kwargs.get('ctickslabels','Default')
     if ctkc != 'Default':
         cbar.ax.set_yticklabels(ctkc)
+
+    # Ensure, if needed, the tight layout
     if self.tight == True:
         self.fig.tight_layout()
+
+    # End of function
     return None
+
 
 def _set_cscale(self,
                 cscale: str, 
                 vmin: float, 
                 vmax: float, 
                 tresh: float, 
-                lint:  float | None = None):
+                lint:  float | None = None
+               ):
     """
     Sets the color scale of a pcolormesh given the scale, the minimum and the 
     maximum.
@@ -488,22 +632,23 @@ def _set_cscale(self,
     -------
 
     - norm: Normalize
-        the normalization of the colormap
+        The normalization of the colormap
 
     Parameters
     ----------
 
-    - cscale: str
-        the scale of the colormap
-    - vmin: float
-        the minimum of the colormap
-    - vmax: float
-        the maximum of the colormap
-    - tresh: float
-        the threshold between subscales (twoscale or symlog color scales)
-    - lint: float
-        the threshold between subscales (twoscale or symlog color scales), 
-        deprecated
+    - cscale (not optional): {'linear','log','symlog','twoslope'}, default 'linear'
+        Sets the colorbar scale. Default is the linear ('norm') scale.
+    - tresh (not optional): float
+        Sets the threshold for the colormap. If not defined, the threshold will
+        be set to 1% of the maximum absolute value of the variable.
+        The default cases are the following:
+        - twoslope colorscale: sets the limit between the two linear regimes.
+        - symlog: sets the limit between the logaitrhmic and the linear regime.
+    - vmax (not optional): float
+        The maximum value of the colormap.
+    - vmin (not optional): float
+        The minimum value of the colormap.
 
     Notes
     -----
@@ -532,7 +677,6 @@ def _set_cscale(self,
     if lint is not None:
         warnings.warn("'lint' keyword is deprecated, please use \
                        'tresh' instead", UserWarning)
-        tresh  = lint if tresh is None else tresh
 
     if cscale == 'log':
         norm = mcol.LogNorm(vmin = vmin, vmax = vmax)
@@ -542,4 +686,5 @@ def _set_cscale(self,
         norm = mcol.TwoSlopeNorm(vmin = vmin, vmax = vmax, vcenter = tresh)
     else:
         norm = mcol.Normalize(vmin = vmin, vmax = vmax)
+
     return norm

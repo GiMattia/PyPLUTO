@@ -5,7 +5,7 @@ def create_axes(self,
                 nrow: int = 1, 
                 check: bool = True, 
                 **kwargs: Any
-               ):
+               ) -> Axes:
     """
     Creation of a set of axes using add_subplot from the matplotlib library.
 
@@ -30,9 +30,6 @@ def create_axes(self,
 
     - bottom: float, default 0.1
         The space from the bottom border to the last row of plots.
-    - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a warning
-        if a parameter is not present among the set of available parameters.
     - figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]
         Sets the figure size. The default value is computed from the number
         of rows and columns.
@@ -84,7 +81,8 @@ def create_axes(self,
     - The subplot_mosaic method of matplotlib will be implemented in future
       releases.
     - This method may return None in the future releases
-    - Sharex and sharey are not implemented yet
+    - Sharex and sharey will follow a different implementation in future
+      releases
 
     ----
 
@@ -98,7 +96,7 @@ def create_axes(self,
         >>> ax = I.create_axes(ncol = 2, nrow = 2)
 
     - Example #2: create a grid of 2 columns with the first one having half the 
-                  width of the second one
+        width of the second one
 
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
@@ -120,9 +118,9 @@ def create_axes(self,
     """
     
     # Check parameters
-    param = {'bottom', 'figsize', 'fontsize', 'hratio', 'hspace', 'left', 
-             'ncol', 'nrow', 'proj', 'right', 'sharex', 'sharey', 'suptitle', 
-             'tight', 'top', 'wratio', 'wspace'}
+    param = {'bottom','figsize','fontsize','hratio','hspace','left','ncol',
+             'nrow','proj','right','sharex','sharey','suptitle','tight','top',
+             'wratio','wspace'}
     if check is True:
         check_par(param, 'create_axes', **kwargs)
 
@@ -257,7 +255,7 @@ def set_axis(self,
              ax: Axes | None = None, 
              check: bool = True, 
              **kwargs: Any
-            ):
+            ) -> None:
     """
     Customization of a single subplot axis.
     Properties such as the range, scale and aspect of each subplot
@@ -281,9 +279,6 @@ def set_axis(self,
         y-scale and the x-scale (1.0 is the same as 'equal').
     - ax: ax object, default None
         The axis to customize. If None the current axis will be selected.
-    - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a warning
-        if a parameter is not present among the set of available parameters.
     - fontsize: float, default 17.0
         Sets the fontsize for all the axis components (only for the current 
         axis).
@@ -300,7 +295,7 @@ def set_axis(self,
         Shares the y-axis with another axis.
     - ticksdir: {'in', 'out'}, default 'in'
         Sets the ticks direction. The default option is 'in'.
-    - tickssize: float, default fontsize
+    - tickssize: float | bool, default True
         Sets the ticks fontsize (which is the same for both grid axes).
         The default value corresponds to the value of the keyword 'fontsize'.
     - title: str, default None
@@ -352,8 +347,6 @@ def set_axis(self,
 
     - A function which sets seprartely the maximum and the minimum value in
         both x- and y- directions is needed.
-    - All the 'Default' keywords are set to True in the code. The user should
-        use now True instead of 'Default' (which will be removed in future)
 
     ----
 
@@ -369,7 +362,7 @@ def set_axis(self,
         ... ytitle = 'y-axis')
 
     - Example #2: create an axis, remove the ticks for the x-axis and
-      set manually the ticks for the y-axis
+        set manually the ticks for the y-axis
 
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
@@ -378,7 +371,7 @@ def set_axis(self,
         ... yticks = [-0.8,-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8])
 
     - Example #3: create two axes and invert the direction of the ticks in the 
-      first one
+        first one
 
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
@@ -395,15 +388,14 @@ def set_axis(self,
         ...     I.set_axis(ax = ax[i], xtitle = 'x-axis', ytitle = 'y-title', 
         ...     xticks = [0.25,0.5,0.75], yticks = [0.25,0.5,0.75], 
         ...     xtickslabels = ['1/4','1/2','3/4'])
-        ...
 
     """
 
     # Check parameters
     param = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 
              'sharex', 'sharey', 'ticksdir', 'tickssize', 'title', 'titlepad', 
-             'titlesize', 'range', 'xscale', 'xticks', 'xtickslabels', 'xtitle',
-              'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+             'titlesize', 'xrange', 'xscale', 'xticks', 'xtickslabels', 
+             'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
     if check is True:
         check_par(param, 'set_axis', **kwargs)
 
@@ -415,7 +407,7 @@ def set_axis(self,
     plt.rcParams.update({'font.size': self.fontsize})
 
     # Set aspect ratio
-    if kwargs.get('aspect',True) not in {True, 'Default'}:
+    if kwargs.get('aspect',True) is not True:
         ax.set_aspect(kwargs['aspect'])
 
     # Set xrange and yrange
@@ -443,7 +435,7 @@ def set_axis(self,
         ax.sharey(kwargs['sharey'])
 
     # Set ticks size
-    if kwargs.get('tickssize',True) not in {True, 'Default'}:
+    if kwargs.get('tickssize',True) is not True:
         ax.tick_params(axis='x', labelsize = kwargs['tickssize'])
         ax.tick_params(axis='y', labelsize = kwargs['tickssize'])
     else:
@@ -465,9 +457,9 @@ def set_axis(self,
     self.tickspar[nax] = 1
 
     # Scales and alpha
-    if kwargs.get('xscale',True) not in {True, 'Default'}:
+    if kwargs.get('xscale',True) is not True:
         ax.set_xscale(kwargs['xscale'])
-    if kwargs.get('yscale',True) not in {True, 'Default'}:
+    if kwargs.get('yscale',True) is not True:
         ax.set_yscale(kwargs['yscale'])
     if kwargs.get('alpha'):
         ax.set_alpha(kwargs['alpha'])
@@ -477,12 +469,8 @@ def set_axis(self,
     ytc = kwargs.get('yticks', True)
     xtl = kwargs.get('xtickslabels', True)
     ytl = kwargs.get('ytickslabels', True)
-    if (xtc != 'Default' and xtc is not True) or \
-       (xtl != 'Default' and xtl is not True):
-        _set_ticks(ax, xtc, xtl, 'x')
-    if (ytc != 'Default' and ytc is not True) or \
-       (ytl != 'Default' and ytl is not True):
-        _set_ticks(ax, ytc, ytl, 'y')
+    if xtc is not True or xtl is not True: _set_ticks(ax, xtc, xtl, 'x')
+    if ytc is not True or ytl is not True: _set_ticks(ax, ytc, ytl, 'y')
 
     # Sets grid on the axis
     if kwargs.get('grid',False) is True:
@@ -629,17 +617,16 @@ def _set_ticks(ax: Axes,
         set_label[typeaxis]([])
 
         # If tickslabels are not None raise a warning
-        if tl != 'Default' and tl is not True:
+        if tl is not True:
             warn = "Warning, tickslabels are defined with no" \
                    "ticks!! (function setax)"
             warnings.warn(warn, UserWarning)
     
     # Ticks are not None and tickslabels are custom
-    elif tl != 'Default' and tl is not True:
+    elif tl is not True:
 
         # Ticks are not None, then are set
-        if tc != 'Default' and tc is not True and  \
-           tl != 'Default' and tl is not True:
+        if tc is not True and tl is not True:
             set_ticks[typeaxis](tc)
         
         # Ticks are Default with custom tickslabels, a warning is raised
@@ -656,7 +643,7 @@ def _set_ticks(ax: Axes,
     
     # Ticks are custom, tickslabels are default
     else:
-        if tc != 'Default' and tc is not True:
+        if ytc is not True:
             set_ticks[typeaxis](tc)
 
     # End of the function

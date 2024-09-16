@@ -7,12 +7,14 @@ def _is_number(value: Any
 
     Returns
     -------
-    bool
+
+    - bool
         True if value is a number, False otherwise.
 
     Parameters
     ----------
-    value : Any
+
+    - value (not optional): Any
         The value to check.
 
     Notes
@@ -35,27 +37,35 @@ def _is_number(value: Any
         >>> _is_number('1')
         False
 
-
     """
+
     return isinstance(value, (int, float))
 
 
-def _islice_imin_imax(xvalue,xgrid):
+def _islice_imin_imax(xvalue,
+                      xgrid
+                     ) -> list[int]:
     """
     Returns i, imin, imax for xgrid such that xgrid[i] <= xvalue <= xgrid[i+1]
     with a stencil of 5 cells. If the grid is too small, imin and imax are
     set to 0 and N, respectively.
 
     Returns
+    -------
 
-    i, imin, imax
+    - i: int
+        The central index of the stencil, counting from the minimum.
+    - imin: int
+        The minimum index of the stencil.
+    - imax: int
+        The maximum index of the stencil.
 
     Parameters
     ----------
 
-    xvalue : float
+    - xvalue (not optional): float
         The value to check.
-    xgrid : numpy.ndarray
+    - xgrid (not optional): numpy.ndarray
         The grid to check.
 
     Notes
@@ -68,9 +78,16 @@ def _islice_imin_imax(xvalue,xgrid):
     Examples
     ========
 
-    ...
+    - Example # 1: Compute the indices for the stencil of 5 cells
 
+        >>> _islice_imin_imax(0.5, np.linspace(0,1,11))
+        (5, 5, 10)
 
+    - Example # 2: Compute the indices for the stencil of 3 cells
+
+        >>> _islice_imin_imax(0.5, np.linspace(0,1,11))
+        (3, 3, 6)
+    
     """
 
     # Compute the grid length and the index of the closest grid point
@@ -93,11 +110,59 @@ def _islice_imin_imax(xvalue,xgrid):
     # Return i, imin, imax
     return i-i_min, i_min, i_max
 
+
 def _get_slice_indices(slice_val, grid, grid_size):
+    """
+    Function to get the slice indices from the slice value.
+
+    Returns
+    -------
+
+    - idx (not optional): int
+        The index of the slice.
+    - idx_min (not optional): int
+        The minimum index of the slice.
+    - idx_max (not optional): int
+        The maximum index of the slice.
+
+    Parameters
+    ----------
+
+    - slice_val: float
+        The value of the slice.
+    - grid: np.ndarray
+        The grid of the data.
+    - grid_size: int
+        The size of the grid.
+
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example # 1: Get the slice indices
+
+        >>> _get_slice_indices(0.5, np.linspace(0,1,11), 11)
+    
+    """
+
+    # If the slice value is a number return the index and the slice
     if _is_number(slice_val):
+        # Get the slice indices
         idx, idx_min, idx_max = _islice_imin_imax(slice_val, grid)
+
+        # Return the indices and the slice
         return idx, slice(idx_min, idx_max)
+    
+    # If the slice value is a list return the indices and the slice
     else:
+
+        # Return the indices and the slice
         return slice(0, grid_size), slice(0, grid_size)
 
 
@@ -128,7 +193,7 @@ def gradient(self,
     Returns
     -------
 
-    numpy.ndarray
+    - np.ndarray
         Gradient of the input field 'var'. The shape of the array depends on the
         number of used spatial dimensions. E.g.:
         3D: (3, self.nx1, self.nx2, self.nx3)
@@ -138,27 +203,44 @@ def gradient(self,
     Parameters
     ----------
 
-    self : Load
-        pyPLUTO.Load instance containing the grid information.
-    var : numpy.ndarray
-        The field whose gradient is calculated (e.g., 'rho', 'vx1'). Must have the
-        same shape as self.rho.
-    x1slice : float | None
+    - edge_order: int | None, default 2
+        The order of accuracy of derivatives at the domain boundaries.
+    - var (not optional): np.ndarray
+        The field whose gradient is calculated (e.g., 'rho', 'vx1'). Must have 
+        the same shape as self.rho.
+    - x1slice: float | None, default None
         If not None, specifies the constant value for the x1 axis.
-    x2slice : float | None
+    - x2slice: float | None, default None
         If not None, specifies the constant value for the x2 axis.
-    x3slice : float | None
-        If not None, specifies the constant value for the x3 axis.
-    edge_order : int | None
-        The order of accuracy of derivatives at the domain boundaries. Defaults to 2.
+    - x3slice: float | None, default None
+        If not None, specifies the constant value for the x3 axis. 
+
+    Notes
+    -----
+
+    - A more efficient implementation based on the axes will be added in the
+      future.
+
+    ----
+
+    Examples
+    ========
+
+    - Example # 1: Compute the gradient of the density field
+
+        >>> import pyPLUTO as pp
+        >>> D = pp.Load(0)
+        >>> pp.Image().gradient(D.rho)
 
     """
 
+    # If the geometry is not defined raise an error
     if self.geom == 'UNKNOWN':
         raise ValueError('Unknown geometry nabla cannot be computed!')
 
     #if self.geom == 'CYLINDRICAL':
     #    _warning_cylindrical()
+
     # Unpack the slice values and grids into tuples
     slices = [(x1slice, self.x1, self.nx1),
               (x2slice, self.x2, self.nx2),
@@ -228,7 +310,6 @@ def gradient(self,
             return np.asarray(grad)[:,i,j,k]
 
 
-
 def divergence(self,
                v1: np.ndarray | None = None,
                v2: np.ndarray | None = None,
@@ -239,33 +320,59 @@ def divergence(self,
                edge_order: int = 2
               ) -> np.ndarray:
     """
-    Calculates the divergence of a vector field specified by its components v1, v2,
-    and v3 using second-order accurate central differences via the NumPy gradient()
-    function. If 'x1slice', 'x2slice', or 'x3slice' are specified, the divergence is
-    only computed at the corresponding x1, x2, or x3 values.
+    Calculates the divergence of a vector field specified by its components v1, 
+    v2, and v3 using second-order accurate central differences via the NumPy 
+    gradient() function. 
+    If 'x1slice', 'x2slice', or 'x3slice' are specified, the divergence is only 
+    computed at the corresponding x1, x2, or x3 values.
 
-    Parameters:
-    self : Load
-        pyPLUTO.Load instance containing the grid information.
-    v1, v2, v3 : numpy.ndarray or None, optional
-        Fields corresponding to the vector components. Each must have the same shape
-        as self.rho. Can only be None if a given direction is not used. E.g., in 2D, v1
-        and v2 must be specified. In 3D with INCLUDE_JDIR == NO, v1 and v3 must be
-        specified.
-    x1slice : float or None, optional
+    Returns
+    -------
+
+    - np.ndarray
+        Array corresponding to the divergence of the input vector field. In 3D, 
+        e.g., its shape is (self.nx1, self.nx2, self.nx3), while if 
+        INCLUDE_JDIR == NO (or if x2slice = constant), its shape is 
+        (self.nx1, self.nx3).
+
+    Parameters
+    ----------
+
+    - edge_order: int, default 2
+        The order of accuracy of derivatives at the domain boundaries.
+    - v1: np.ndarray | None
+        Field corresponding to the x1 vector component. Must have the same shape
+        as self.rho. Can only be None is a given direction is not used.
+    - v2: np.ndarray | None
+        Field corresponding to the x2 vector component. Must have the same shape
+        as self.rho. Can only be None is a given direction is not used.
+    - v3: np.ndarray | None
+        Field corresponding to the x3 vector component. Must have the same shape
+        as self.rho. Can only be None is a given direction is not used.
+    - x1slice: float | None
         If not None, specifies the constant value for the x1 axis.
-    x2slice : float or None, optional
+    - x2slice: float | None
         If not None, specifies the constant value for the x2 axis.
-    x3slice : float or None, optional
+    - x3slice: float | None
         If not None, specifies the constant value for the x3 axis.
-    edge_order : int, optional
-        The order of accuracy of derivatives at the domain boundaries. Defaults to 2.
 
-    Returns:
-    numpy.ndarray
-        array corresponding to the divergence of the input vector field. In 3D, e.g.,
-        its shape is (self.nx1, self.nx2, self.nx3), while if INCLUDE_JDIR == NO (or if
-        x2slice = constant), its shape is (self.nx1, self.nx3).
+    Notes
+    -----
+
+    - A more efficient implementation based on the axes will be added in the
+      future.
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Calculate the divergence of a vector field
+
+        >>> import pyPLUTO as pp
+        >>> D = pp.Load()
+        >>> D.divergence(D.vx1, D.vx2, D.vx3)
+
     """
 
     if self.geom == 'CYLINDRICAL':
@@ -426,35 +533,63 @@ def curl(self,
          x1slice: float | int |None = None,
          x2slice: float | int |None = None,
          x3slice: float | int |None = None,
-         edge_order: int = 2) -> np.ndarray:
+         edge_order: int = 2
+        ) -> np.ndarray:
     """
-    Calculates the curl of a specified vector field (v1, v2, v3) using second-order
-    accurate central differences via the NumPy gradient() function. Unlike in divergence(),
-    all three vector components must be specified. The resulting array has its first
-    index representing the 3 curl components, while the remaining indices correspond to
-    the grid location. If 'x1slice', 'x2slice', or 'x3slice' are specified, the curl is
-    only computed at the corresponding x1, x2, or x3 values.
+    Calculates the curl of a specified vector field (v1, v2, v3) using 
+    second-order accurate central differences via the NumPy gradient() function.
+    Unlike in divergence(), all three vector components must be specified. 
+    The resulting array has its first index representing the 3 curl components, 
+    while the remaining indices correspond to the grid location. If 'x1slice', 
+    'x2slice', or 'x3slice' are specified, the curl is only computed at the 
+    corresponding x1, x2, or x3 values.
 
-    Parameters:
-    self : Load
-        pyPLUTO.Load instance containing the grid information.
-    v1, v2, v3 : numpy.ndarray
-        Fields corresponding to the vector components. Each must have the same shape
+    Returns
+    -------
+
+    - np.ndarray
+        Curl of the specified vector field (v1, v2, v3). In 3D, e.g., its shape 
+        is (3, self.nx1, self.nx2, self.nx3), while if INCLUDE_JDIR == NO (or if
+        x2slice = constant), its shape is (3, self.nx1, self.nx3).
+
+    Parameters
+    ----------
+
+    - edge_order: int, default 2
+        The order of accuracy of derivatives at the domain boundaries.
+    - v1: np.ndarray | None
+        Field corresponding to the x1 vector component. Must have the same shape
         as self.rho.
-    x1slice : float or None, optional
+    - v2: np.ndarray | None
+        Field corresponding to the x2 vector component. Must have the same shape
+        as self.rho.
+    - v3: np.ndarray | None
+        Field corresponding to the x3 vector component. Must have the same shape
+        as self.rho.
+    - x1slice: float | None
         If not None, specifies the constant value for the x1 axis.
-    x2slice : float or None, optional
+    - x2slice: float | None
         If not None, specifies the constant value for the x2 axis.
-    x3slice : float or None, optional
+    - x3slice: float | None
         If not None, specifies the constant value for the x3 axis.
-    edge_order : int, optional
-        The order of accuracy of derivatives at the domain boundaries. Defaults to 2.
 
-    Returns:
-    numpy.ndarray
-        Curl of the specified vector field (v1, v2, v3). In 3D, e.g., its shape is
-        (3, self.nx1, self.nx2, self.nx3), while if INCLUDE_JDIR == NO (or if x2slice
-        = constant), its shape is (3, self.nx1, self.nx3).
+    Notes
+    -----
+
+    - A more efficient implementation based on the axes will be added in the
+      future.
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Calculate the curl of a vector field
+
+        >>> import pyPLUTO as pp
+        >>> D = pp.Load()
+        >>> D.curl(D.vx1, D.vx2, D.vx3)
+
     """
 
     if self.geom == 'CYLINDRICAL':
@@ -610,3 +745,4 @@ def curl(self,
                 curl3 /= rr
 
             return np.asarray([curl1[i,j,k],curl2[i,j,k],curl3[i,j,k]])
+        

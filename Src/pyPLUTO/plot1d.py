@@ -24,22 +24,21 @@ def plot(self,
     - alpha: float, default 1.0
         Sets the opacity of the plot, where 1.0 means total opaque and 0.0 means
         total transparent.
-    - aspect: {'auto', 'equal', float}, default 'auto'
+    - aspect: 'auto' | 'equal' | float, default 'auto'
         Sets the aspect ratio of the plot.
         The 'auto' keyword is the default option (most likely the plot will be 
         squared). The 'equal' keyword will set the same scaling for x and y. 
         A float will fix the ratio between the y-scale and the x-scale
         (1.0 is the same as 'equal').
-    - ax: {ax object, 'old', None}, default None
-        The axis where to plot the lines. If None, a new axis is created.
-        If 'old', the last considered axis will be used.
-    - c: str, default ['k','#12e3c0','#3f6600','#1815c5','#f67451','#d7263d']
+    - ax: ax | int | None, default None
+        The axis where to plot the lines. If None, a new axis is created or the 
+        last axis is selected.
+    - bottom: float, default 0.1
+        The space from the bottom border to the last row of plots.
+    - c: str, default self.color
         Determines the line color. If not defined, the program will loop over an
-        array of 6 color which are different for the most common vision
+        array of 10 color which are different for the most common vision
         deficiencies.
-    - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a warning
-        if a parameter is not present among the set of available parameters.
     - figsize: [float, float], default [8,5]
         Sets the figure size. The default value is computed from the number of 
         rows and columns.
@@ -59,12 +58,14 @@ def plot(self,
         The default value corresponds to the value of the keyword 'fontsize'.
     - legalpha: float, default 0.8
         Sets the opacity of the legend.
+    - left: float, default 0.125
+        The space from the left border to the leftmost column of plots.
     - legcols: int, default 1
         Sets the number of columns that the legend should have.
     - legpad: float, default 0.8
         Sets the space between the lines (or symbols) and the correspondibg text
         in the legend.
-    - legpos: int/str, default None
+    - legpos: int | str, default None
         If enabled, creates a legend. This keyword selects the legend location.
         The possible locations for the legend are indicated in the following 
         link: 
@@ -86,11 +87,15 @@ def plot(self,
         If not None enables the minor ticks on the plot (for both grid axes).
     - ms: float, default 3
         Sets the marker size.
+    - mscale: fload, default 1.0
+        Sets the marker size scale in the legend.
     - proj: str, default None
         Custom projection for the plot (e.g. 3D). Recommended only if needed.
         This keyword should be used only if the axis is created.
         WARNING: pyPLUTO does not support 3D plotting for now, only 3D axes.
         The 3D plot feature will be available in future releases.
+    - right: float, default 0.9
+        The space from the right border to the rightmost column of plots.
     - ticksdir: {'in', 'out'}, default 'in'
         Sets the ticks direction. The default option is 'in'.
     - tickssize: float, default fontsize
@@ -100,7 +105,9 @@ def plot(self,
         Places the title of the plot on top of it.
     - titlesize: float, default fontsize
         Sets the title fontsize. The default value corresponds to the value of 
-        the keyword 'fontsize'.    
+        the keyword 'fontsize'.  
+    - top: float, default 0.9
+        The space from the top border to the first row of plots.  
     - x (not optional): 1D array
         This is the x-axis variable. If y is not defined, then this becomes the 
         y-axis variable.
@@ -110,15 +117,15 @@ def plot(self,
         minimum and the maximum values of the x-array. In case of multiple 
         lines, the code will also adapt to the previous ranges.
     - xscale: {'linear','log'}, default 'linear'
-        If enabled (and different from 'Default'), sets automatically the scale
+        If enabled (and different from default), sets automatically the scale
         on the x-axis. Data in log scale should be used with the keyword 'log',
         while data in linear scale should be used with the keyword 'linear'.
-    - xticks: {[float], None, 'Default'}, default 'Default'
-        If enabled (and different from 'Default'), sets manually ticks on
+    - xticks: [float] | None | bool, default True
+        If enabled (and different from True), sets manually ticks on
         x-axis. In order to completely remove the ticks the keyword should be 
         used with None.
-    - xtickslabels: {[str], None, 'Default'}, default 'Default'
-        If enabled (and different from 'Default'), sets manually the ticks
+    - xtickslabels: [str] | None | bool, default True
+        If enabled (and different from True), sets manually the ticks
         labels on the x-axis. In order to completely remove the ticks the
         keyword should be used with None. Note that fixed tickslabels should
         always correspond to fixed ticks.
@@ -133,15 +140,15 @@ def plot(self,
         lines, the code will also adapt to the previous ranges. It also adds a 
         small offset.
     - yscale: {'linear','log'}, default 'linear'
-        If enabled (and different from 'Default'), sets automatically the scale
+        If enabled (and different from True), sets automatically the scale
         on the y-axis. Data in log scale should be used with the keyword 'log',
         while data in linear scale should be used with the keyword 'linear'.
-    - yticks: {[float], None, 'Default'}, default 'Default'
-        If enabled (and different from 'Default'), sets manually ticks on
+    - yticks: [float] | None | bool, default True
+        If enabled (and different from True), sets manually ticks on
         y-axis. In order to completely remove the ticks the keyword should be 
         used with None.
-    - ytickslabels: {[str], None, 'Default'}, default 'Default'
-        If enabled (and different from 'Default'), sets manually the ticks
+    - ytickslabels: [str] | None | bool, default True
+        If enabled (and different from True), sets manually the ticks
         labels on the y-axis. In order to completely remove the ticks the
         keyword should be used with None. Note that fixed tickslabels should
         always correspond to fixed ticks.
@@ -151,7 +158,7 @@ def plot(self,
     Notes
     -----
 
-    - Minorticks on single axis?
+    - Minorticks on single axis will be added in future releases.
              
     ----
 
@@ -165,7 +172,7 @@ def plot(self,
         >>> I.plot(x, y)
             
     - Example #2: create a plot of y as function of x with custom range of the 
-      axes and titles
+        axes and titles
          
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
@@ -208,13 +215,13 @@ def plot(self,
         y = np.asarray(y)
 
     # Check parameters
-    param = {'alpha', 'aspect', 'ax', 'c', 'figsize', 'fillstyle', 'fontsize', 
-             'grid',
-             'label', 'labelsize', 'legalpha', 'legcols', 'legpad', 'legpos', 
-             'legsize', 'legspace', 'ls', 'lw', 'marker', 'minorticks', 'ms', 
-             'proj', 'ticksdir', 'tickssize', 'title', 'titlesize', 'x', 
-             'xrange', 'xscale', 'xticks', 'xtickslabels', 'xtitle', 'y', 
-             'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+    param = {'alpha','aspect','ax','bottom','c','figsize','fillstyle',
+             'fontsize','grid','label','labelsize','left','legalpha','legcols',
+             'legpad','legpos','legsize','legspace','ls','lw','marker',
+             'minorticks','ms','mscale','proj','right','ticksdir','tickssize',
+             'title','titlesize','top','xrange','xscale','xticks',
+             'xtickslabels','xtitle','yrange','yscale','yticks','ytickslabels',
+             'ytitle'}
     if check is True:
         check_par(param, 'plot', **kwargs)
 
@@ -258,6 +265,7 @@ def plot(self,
     # End of the function
     return None
 
+
 def legend(self, 
            ax: Axes | None = None, 
            check: bool = True, 
@@ -277,16 +285,15 @@ def legend(self,
 
     Parameters
     ----------
-    - ax: axis object, default None
+    - ax: ax | int | None, default None
         The axis where to insert the legend. If None, the last considered axis 
         will be used.
-    - c: str, default ['k','#12e3c0','#3f6600','#1815c5','#f67451','#d7263d']
+    - c: str, default self.color
         Determines the line color. If not defined, the program will loop over an
         array of 6 color which are different for the most common vision
         deficiencies.
-    - check: bool, default True
-        If enabled perform a check on the method's parameters, raising a warning
-        if a parameter is not present among the set of available parameters.
+    - edgecolor: list[str], default [None]
+        Sets the edge color of the legend. The default value is black ('k').
     - fillstyle: {'full', 'left', 'right', 'bottom', 'top', 'none'}, 
                  default 'full'
         Sets the marker filling. The default value is the fully filled marker
@@ -301,7 +308,7 @@ def legend(self,
     - legpad: float, default 0.8
         Sets the space between the lines (or symbols) and the correspondibg text
         in the legend.
-    - legpos: int/str, default 0
+    - legpos: int | str, default 0
         Selects the legend location. If not specified the standard matplotlib
         legend function will find the most suitable location.
     - legsize: float, default fontsize
@@ -317,9 +324,11 @@ def legend(self,
     - marker: {'o', 'v', '^', '<', '>', 'X', ' ', etc.}, default ' '
         Sets an optional symbol for every point. The default value is no marker 
         (' ').
-    - ms: float, default 5 8f label) or 1 (if not label)
+    - ms: float, default 5 (if label) or 1 (if not label)
         Sets the marker size from the default value of 5.0 (if label is given)
         or the marker scale from the default value of 1.0 (if not label).
+    - mscale: float, default 1.0
+        Sets the marker scale. The default value is 1.0.
 
     Notes
     -----
@@ -362,8 +371,8 @@ def legend(self,
     """
 
     # Check parameters
-    param = {'ax', 'c', 'fillstyle', 'label', 'legalpha', 'legcols', 'legpad', 
-             'legpos', 'legsize', 'legspace', 'ls', 'lw', 'marker', 'ms'}
+    param = {'c','edgecolor','fillstyle','label','legalpha','legcols','legpad',
+             'legpos','legsize','legspace','ls','lw','marker','ms', 'mscale'}
     if check is True:
         check_par(param, 'legend', **kwargs)
 
@@ -388,19 +397,21 @@ def legend(self,
     if kwargs.get('label') is not None:
         lab = kwargs['label'] if isinstance(kwargs['label'], list) \
                               else [kwargs['label']]
-        col = makelist(kwargs.get('c',['k']))
-        ls  = makelist(kwargs.get('ls',['-']))
-        lw  = makelist(kwargs.get('lw',[1.5]))
-        mrk = makelist(kwargs.get('marker',['']))
-        ms  = makelist(kwargs.get('ms',[5.0]))
-        fls = makelist(kwargs.get('fillstyle',['full']))
+        col    = makelist(kwargs.get('c',['k']))
+        ls     = makelist(kwargs.get('ls',['-']))
+        lw     = makelist(kwargs.get('lw',[1.5]))
+        mrk    = makelist(kwargs.get('marker',['']))
+        ms     = makelist(kwargs.get('ms',[5.0]))
+        fls    = makelist(kwargs.get('fillstyle',['full']))
+        edgcol = makelist(kwargs.get('edgecolor',[None]))
         lines = []
         # Create the list of lines
         for i, val in enumerate(lab):
             lines.append(mlines.Line2D([], [], label = val, 
                          color = col[i%len(col)], ls = ls[i%len(ls)], 
                          lw = lw[i%len(lw)], marker = mrk[i%len(mrk)], 
-                         ms = ms[i%len(ms)], fillstyle = fls[i%len(fls)]))
+                         ms = ms[i%len(ms)], fillstyle = fls[i%len(fls)],
+                         markeredgecolor = edgcol[i%len(edgcol)]))
         # Create the legend
         legg = ax.legend(handles = lines, loc = self.legpos[nax],
                   fontsize = self.legpar[nax][0], 
@@ -410,14 +421,16 @@ def legend(self,
                   framealpha = self.legpar[nax][4])
     else:
         # Set the markerscale
-        ms = kwargs.get('ms',1.0)
+        mscale = kwargs.get('mscale',1.0)
         # Create the legend
-        legg = ax.legend(loc = self.legpos[nax], markerscale = ms,
+        legg = ax.legend(loc = self.legpos[nax], 
+
                   fontsize = self.legpar[nax][0],
                   ncol = self.legpar[nax][1], 
                   columnspacing = self.legpar[nax][2], 
                   handletextpad = self.legpar[nax][3],
-                  framealpha = self.legpar[nax][4])
+                  framealpha = self.legpar[nax][4],
+                  markerscale = mscale)
         
     # Add the legend to the axis
     ax.add_artist(legg)

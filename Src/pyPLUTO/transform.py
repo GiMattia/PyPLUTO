@@ -8,7 +8,7 @@ def slices(self,
            x2: int | list | None = None, 
            x3: int | list | None = None,           
            **kwargs: Any
-          ):
+          ) -> np.ndarray:
     """
     Function that slices the variable in the 3 directions.
     Also, it can slice the diagonal of the variable.
@@ -34,7 +34,7 @@ def slices(self,
     - offset: int | None, default None
         Offset of the diagonal from the main diagonal. Can be positive or 
         negative. Defaults to main diagonal (0).
-    - var: NDArray
+    - var: np.ndarray
         The variable to slice.
     - x1: int | list | None, default None
         The slice in the 1st direction.
@@ -96,12 +96,13 @@ def slices(self,
     # End of the function, return the sliced array
     return newvar
 
+
 def mirror(self, 
            var: NDArray, 
            dirs = 'l', 
            xax = None, 
            yax = None
-          ):
+          ) -> list[np.ndarray]:
     """
     Function that mirrors the variable in the specified directions.
     Multiple directions can be specified.
@@ -109,11 +110,11 @@ def mirror(self,
     Returns
     -------
 
-    - newvar: NDArray
+    - newvar: np.ndarray
         The mirrored variable.
-    - xax: NDArray
+    - xax: np.ndarray
         The mirrored x-axis.
-    - yax: NDArray
+    - yax: np.ndarray
         The mirrored y-axis.
 
     Parameters
@@ -122,11 +123,11 @@ def mirror(self,
     - dirs: str | list, default 'l'
         The directions to mirror the variable. Can be 'l', 'r', 't', 'b' or a
         list or combination of them.
-    - var: NDArray
+    - var: np.ndarray
         The variable to mirror.
-    - xax: NDArray | None, default None
+    - xax: np.ndarray | None, default None
         The x-axis to mirror.
-    - yax: NDArray | None, default None
+    - yax: np.ndarray | None, default None
         The y-axis to mirror.
 
     Notes
@@ -160,6 +161,7 @@ def mirror(self,
         >>> mirror(var, dirs = 'lll')
 
     """
+
     spp = [*dirs] if not isinstance(dirs, list) else dirs
     newvar, axx, axy = np.copy(var), np.copy(xax), np.copy(yax)
     dim = np.ndim(var) - 1
@@ -193,7 +195,7 @@ def repeat(self,
            dirs: str | list, 
            xax: NDArray | None = None, 
            yax: NDArray | None = None
-          ):
+          ) -> np.ndarray:
     """
     Function that repeats the variable in the specified directions.
     Multiple directions can be specified.
@@ -201,7 +203,8 @@ def repeat(self,
     Returns
     -------
 
-    - newvar: NDArray
+    - newvar: np.ndarray
+        The repeated variable.
 
     Parameters
     ----------
@@ -209,11 +212,11 @@ def repeat(self,
     - dirs: str | list
         The directions to repeat the variable. Can be 'l', 'r', 't', 'b' or a
         list or combination of them.
-    - var: NDArray
+    - var: np.ndarray
         The variable to repeat.
-    - xax: NDArray | None, default None
+    - xax: np.ndarray | None, default None
         The x-axis to repeat. 
-    - yax: NDArray | None, default None
+    - yax: np.ndarray | None, default None
         The y-axis to repeat.
 
     Notes
@@ -313,12 +316,13 @@ def reshape_cartesian(self,
         vars.append(self._check_var(i, kwargs.get('transpose', False)))
 
     # Get the grid information
-    x1 = kwargs.get('x1',self.x1)
-    x2 = kwargs.get('x2',self.x2)
+    x1 = kwargs.pop('x1',self.x1)
+    x2 = kwargs.pop('x2',self.x2)
 
     # Get the grid limits
     xx = x1[:, np.newaxis]*np.cos(x2)
     yy = x1[:, np.newaxis]*np.sin(x2)
+
     xmin, xmax = xx.min(), xx.max()
     ymin, ymax = yy.min(), yy.max()
 
@@ -326,12 +330,19 @@ def reshape_cartesian(self,
 
     # Get the number of grid points of the new grid
     nx1 = int(kwargs.get('nx1', len(x1)))
-    nx2 = int(kwargs.get('nx2', nx1*(ymax-ymin)//(xmax-xmin)))
+    nx2 = int(kwargs.get('nx2', nx1*(ymax-ymin)/(xmax-xmin)))
+   # nx2 = int(kwargs.get('nx2', nx1*(ymax-ymin)//(xmax-xmin)))
 
     # Get the cartesian grid
-    xc0 = np.linspace(xmin, xmax, nx1)
-    yc0 = np.linspace(ymin, ymax, nx2)
-    xc, yc = np.meshgrid(xc0, yc0)
+    
+    if self.geom == 'SPHERICAL':
+        xc0 = np.linspace(xmin, xmax, nx2)
+        yc0 = np.linspace(ymin, ymax, nx1)
+        xc, yc = np.meshgrid(xc0, yc0, indexing='xy')
+    else:
+        xc0 = np.linspace(xmin, xmax, nx1)
+        yc0 = np.linspace(ymin, ymax, nx2)
+        xc, yc = np.meshgrid(xc0, yc0, indexing='ij')
 
     # Create the new grid
     x1, x2, vars = reshape_uniform(x1, x2, *vars, **kwargs)
@@ -339,16 +350,17 @@ def reshape_cartesian(self,
     # Convert grid
     ww, nn = _convert2cartgrid(xc, yc, x1, x2)   
 
-    xcong = congrid(xc,(nx1,nx2),method='linear')
-    ycong = congrid(yc,(nx1,nx2),method='linear')
+    xcong = self._congrid(xc,(nx1,nx2),method='linear')
+    ycong = self._congrid(yc,(nx1,nx2),method='linear')
 
     for i, var in enumerate(vars):
         newv.append(np.sum([ww[j]*var.flat[nn[j]] for j in range(4)], axis = 0))
-        newv[i] = congrid(newv[i],(nx1,nx2),method='linear').T
+        newv[i] = self._congrid(newv[i],(nx1,nx2),method='linear')
 
-
-    return xcong, ycong, *newv
-
+    if self.geom == 'SPHERICAL':
+        return ycong[:,0], xcong[0], *newv
+    else:
+        return xcong[:,0], ycong[0], *newv
 
 
 def reshape_uniform(x1, x2, *args, **kwargs):
@@ -434,7 +446,7 @@ def _convert2cartgrid(R, Z, new_r, new_t):
     return [w1, w2, w3, w4], [NN1, NN2, NN3, NN4]
 
 
-def congrid(a, newdims, method='linear', center=False, minusone=False):
+def _congrid(self, a, newdims, method='linear', center=False, minusone=False):
     """
     Arbitrary resampling of source array to new dimension sizes.
 

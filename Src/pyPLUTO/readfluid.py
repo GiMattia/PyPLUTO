@@ -1,21 +1,23 @@
 from .libraries import *
 
-def _read_tabfile(self, i: int) -> None:
+def _read_tabfile(self, 
+                  i: int
+                 ) -> None:
     """
-    Reads the data.****.tab file and stores the relevant information
-    within the class. Such information are the grid variables, the
-    output variables and the output time.
+    Reads the data.****.tab file and stores the relevant information within the 
+    class. Such information are the grid variables, the output variables and the
+    output time.
 
     Returns
     -------
     
-        None
+    - None
 
     Parameters
     ----------
 
-    - i: int
-        the index of the file to be loaded.
+    - i (not optional): int
+        The index of the file to be loaded.
 
     Notes
     -----
@@ -81,35 +83,59 @@ def _read_tabfile(self, i: int) -> None:
 
     return None
 
-def _inspect_vtk(self, i: int, endian: str | None) -> None:
+
+def _inspect_vtk(self, 
+                 i: int, 
+                 endian: str | None
+                ) -> None:
     """
-    Routine to inspect the vtk file and find the variables, the offset
-    and the shape. The routine loops over the lines of the file and
-    finds the relevant information. The routine also finds the time
-    information if the file is standalone. The routine also finds the
-    coordinates if the file is standalone and cartesian.
+    Routine to inspect the vtk file and find the variables, the offset and the 
+    shape. The routine loops over the lines of the file and finds the relevant 
+    information. The routine also finds the time information if the file is 
+    standalone. The routine also finds the coordinates if the file is standalone
+    and cartesian.
 
     Returns
     -------
 
-        None
+    - None
 
     Parameters
     ----------
 
-    - i: int
-        the index of the file to be loaded.
-    - endian: str
-        the endianess of the files.
+    - endian (not optional): str | None
+        The endianess of the files.
+    - i (not optional): int
+        The index of the file to be loaded.
+
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Inspect the vtk file
+
+        >>> _inspect_vtk(0, 'big')
+
+    - Example #2: Inspect the vtk file
+
+        >>> _inspect_vtk(0, 'little')
 
     """
 
     dir_map: dict[str, str]= {}
     gridvars: list[str] = []
 
-    # Initialize the offset and shape arrays, the endianess and the coordinates dictionary
+    # Initialize the offset and shape arrays, the endianess and the coordinates 
+    # dictionary
     self._offset, self._shape = ({},{})
-    endl = self._d_info['endianess'][i] = '>' if endian is None else self._d_end[endian]
+    endl = self._d_info['endianess'][i] = '>' if endian is None else \
+                                          self._d_end[endian]
     if endl is None:
         raise ValueError("Error: Wrong endianess in vtk file.")
     if self._info is True:
@@ -129,13 +155,15 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
             continue
 
         # Find the coordinates and store them
-        if spl0 in [j + b"_COORDINATES" for j in [b"X", b"Y", b"Z"]] and self._info is True:
+        if spl0 in [j + b"_COORDINATES" for j in [b"X", b"Y", b"Z"]] and \
+           self._info is True:
             self.geom = 'CARTESIAN'
             var_sel = spl0.decode()[0]
             binf = endl+'d' if spl2.decode() == 'double' else endl+'f'
             offset = f.tell()
             shape = int(spl1)
-            scrh = np.memmap(self._filepath,dtype=binf,mode='r',offset=offset, shape = shape)
+            scrh = np.memmap(self._filepath,dtype=binf,mode='r', 
+                             offset=offset, shape = shape)
             exec(f"{dir_map[var_sel]} = scrh")
 
         elif spl0 == b'POINTS' and self._info is True:
@@ -172,7 +200,8 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
         # Find the dimensions and store them, computing the variables shape
         elif spl0 == b'DIMENSIONS' and self._info is True:
             nshp_grid = [int(i) for i in l.split()[1:4]]
-            self.nx1, self.nx2, self.nx3 = [max(int(i) - 1, 1) for i in l.split()[1:4]]
+            self.nx1, self.nx2, self.nx3 = \
+                      [max(int(i) - 1, 1) for i in l.split()[1:4]]
             if self.nx3 == 1 and self.nx2 == 1:
                 self.dim  = 1
                 self.nshp = self.nx1 
@@ -245,59 +274,77 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
     return None
 
 
-def _inspect_h5(self, i: int, exout: int) -> None:
+def _inspect_h5(self, 
+                i: int, 
+                exout: int
+               ) -> None:
     """
-    Inspects the h5 files (static grid) in order to find offset and shape
-    of the different variables. If the files are standalone, 
-    the routine also finds the coordinates.
+    Inspects the h5 files (static grid) in order to find offset and shape of the
+    different variables. If the files are standalone, the routine also finds the
+    coordinates.
 
     Returns
     -------
 
-        None
+    - None
     
     Parameters
     ----------
 
-        - i: int
-            the index of the file to be loaded.
-        - exout: int
-            the index of the output to be loaded.
+    - exout (not optional): int
+        The index of the output to be loaded.
+    - i (not optional): int
+        The index of the file to be loaded.
+
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Load all the variables
+
+        >>> _inspect_h5(0, 0)
+
     """
 
     # Initialize the offset and shape arrays
     self._offset, self._shape = ({},{})
 
     # Open the file with the h5py library
-    h5file  = h5py.File(self._filepath,"r",)
+    h5file  = h5py.File(self._filepath,"r")
     
     # Selects the binformat
     self._d_info['binformat'][i] = 'd' if self.format == 'dbl.h5' else 'f'
 
     try:
-        cellvars = h5file[f'Timestep_{exout}']['vars']
+        cellvs = h5file[f'Timestep_{exout}']['vars']
     except:
-        cellvars = {}
+        cellvs = {}
     try:
-        stagvars = h5file[f'Timestep_{exout}']['stag_vars']
+        stagvs = h5file[f'Timestep_{exout}']['stag_vars']
     except:
-        stagvars = {}
+        stagvs = {}
 
     # If standalone file, finds the variables to be loaded, else 
     # remove variables in the .out file that are not present in the actual file
     if self._alone is True:
-        self._d_info['varslist'][i] = set(cellvars.keys()) | set(stagvars.keys())
+        self._d_info['varslist'][i] = set(cellvs.keys()) | set(stagvs.keys())
     else:
         self._d_info['varslist'][i] = set(self.varsh5)
 
     # Loop over the variables and store the offset and shape
     for j in self._d_info['varslist'][i]:
-        if j in cellvars:
-            self._offset[j] = cellvars[j].id.get_offset()
-            self._shape[j]  = cellvars[j].shape
-        elif j in stagvars:
-            self._offset[j] = stagvars[j].id.get_offset()
-            self._shape[j]  = stagvars[j].shape
+        if j in cellvs:
+            self._offset[j] = cellvs[j].id.get_offset()
+            self._shape[j]  = cellvs[j].shape
+        elif j in stagvs:
+            self._offset[j] = stagvs[j].id.get_offset()
+            self._shape[j]  = stagvs[j].shape
         else:
             raise ValueError(f"Error: Variable {j} not found in the HDF5 file.")
 
@@ -318,7 +365,6 @@ def _inspect_h5(self, i: int, exout: int) -> None:
     return None
 
 
-
 def _compute_offset(self, 
                     i: int, 
                     endian: str | None, 
@@ -326,9 +372,8 @@ def _compute_offset(self,
                     var: str | None
                    ) -> None:
     """
-    Routine to compute the offset and shape of the variables to be
-    loaded. The routine calls different functions depending on the
-    file format.
+    Routine to compute the offset and shape of the variables to be loaded. The 
+    routine calls different functions depending on the file format.
 
     Returns
     -------
@@ -338,17 +383,31 @@ def _compute_offset(self,
     Parameters
     ----------
 
-    - i: int
-        the index of the file to be loaded.
-    - endian: str
-        the endianess of the files.
-    - exout: int
-        the index of the output to be loaded.
-    - var: str
-        the variable to be loaded.
+    - endian (not optional): str | None
+        The endianess of the files.
+    - exout (not optional): int
+        The index of the output to be loaded.
+    - i (not optional): int
+        The index of the file to be loaded.
+    - var (not optional): str | None
+        The variable to be loaded.
 
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Load all the variables
+
+        >>> _compute_offset(0, True, 0, True)
 
     """
+
     if self._alone is not True:
         # Read the grid file
         self._read_gridfile()
@@ -360,19 +419,22 @@ def _compute_offset(self,
         self._inspect_vtk(i,endian)
     elif self.format in {'dbl.h5','flt.h5'}:
         self._inspect_h5(i, exout)
+    elif self.format == 'hdf5':
+        self._inspect_hdf5(i, exout)
     else:
         self._offset_bin(i, var)
 
     return None
 
 
-
-def _offset_bin(self, i: int, var: str | None) -> None:
+def _offset_bin(self, 
+                i: int, 
+                var: str | None
+               ) -> None:
     """
-    Routine to compute the offset and shape of the variables to be
-    loaded. The routine, knowing the grid shape, computes the offset
-    and stores the shape dependng on wether the variable is staggered 
-    or not.
+    Routine to compute the offset and shape of the variables to be loaded. The 
+    routine, knowing the grid shape, computes the offset and stores the shape 
+    dependng on wether the variable is staggered or not.
 
     Returns
     -------
@@ -382,15 +444,30 @@ def _offset_bin(self, i: int, var: str | None) -> None:
     Parameters
     ----------
 
-    - i: int
-        the index of the file to be loaded.
-    - var: str
-        the variable to be loaded.
+    - i (not optional): int
+        The index of the file to be loaded.
+    - var (not optional): str
+        The variable to be loaded.
+    
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Load all the variables
+
+        >>> _offset_bin(0, True)
+
     """
 
     # Read the grid file if not already read
     if self._info is True:
-        self._read_grid()
+        self._read_gridfile()
         self._info = False
 
     # Initialize the offset and shape dictionaries and the offset starting point

@@ -18,7 +18,11 @@ def _write_h5(self,
     Parameters
     ----------
 
-    - filename: str
+    - data (not optional): NDArray | dict
+        the data to write to the HDF5 file
+    - dataname: str
+        the name of the data to write to the HDF5 file
+    - filename (not optional): str
         the name of the HDF5 file
     - grid: bool
         if True, write the grid to the HDF5 file
@@ -247,8 +251,16 @@ def write_file(self,
     Parameters
     ----------
 
-    - filename: str
+    - data (not optional): NDArray | dict
+        the data to write to the file
+    - datatype: str
+        the type of the file
+    - dataname: str
+        the name of the data to write to the file
+    - filename (not optional): str
         the name of the file
+    - grid: bool
+        if True, write the grid to the file
 
     Notes
     -----

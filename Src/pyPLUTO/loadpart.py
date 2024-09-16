@@ -12,45 +12,39 @@ class LoadPart:
     Returns
     -------
 
-    - None.
+    - None
 
     Parameters
     ----------
 
-    - nout: int | str | list | None, default 'last'
-        The output number to be loaded. If 'last' the last output is loaded.
-        If None, the data are not loaded.
-        
-    - path: str, default './'
-        The path to the simulation directory.
-
     - datatype: str, default None
         The format of the data files to be loaded. If None, the code
         finds the format between dbl, flt and vtk.
-
-    - vars: str | list | bool | None, default True
-        The variables to be loaded. If True, all the variables are loaded.
+    - endian: str | None, default None
+        The endianess of the data files. If None, the code finds the 
+        endianess.
+    - nfile_lp: int | None, default None
+        The file number for the lp methods. If None, the code finds the 
+        file number.
+    - nout: int | str | list | None, default 'last'
+        The output number to be loaded. If 'last' the last output is loaded.
         If None, the data are not loaded.
-
+    - path: str, default './'
+        The path to the simulation directory.
     - text: bool, default True
         If True, the folder and output are printed.
         In case the user needs a more detailed information of the structure 
         and attributes loaded from the class, the __str__ method provides a 
         easy display of all the important information.
-
-    - endian: str | None, default None
-        The endianess of the data files. If None, the code finds the 
-        endianess.
-
-    - nfile_lp: int | None, default None
-        The file number for the lp methods. If None, the code finds the 
-        file number.
-
+    - vars: str | list | bool | None, default True
+        The variables to be loaded. If True, all the variables are loaded.
+        If None, the data are not loaded.
+    
     Notes
     -----
 
     - In future releases, multiple output files will be accessible at the 
-        same time
+        same time.
 
     ----
 
@@ -64,31 +58,30 @@ class LoadPart:
     - Example #2: Load the last output from the simulation with a specific
         endianess
 
-    >>> LoadPart(endian = 'big')
+        >>> LoadPart(endian = 'big')
 
     - Example #3: Load the last output from the simulation with a specific
-          set of variables
+        set of variables
 
-            >>> LoadPart(vars = ['rho','vx','vy','vz'])
+        >>> LoadPart(vars = ['rho','vx','vy','vz'])
 
-        - Example #4: Load the last output from the simulation without printing
-          the folder and the specific output loaded
+    - Example #4: Load the last output from the simulation without printing
+        the folder and the specific output loaded
     
-            >>> LoadPart(0, text = False) 
+        >>> LoadPart(0, text = False) 
 
-        - Example #5: Load the last output from the simulation without loading
-          the data
+    - Example #5: Load the last output from the simulation without loading
+        the data
 
-            >>> LoadPart(nout = None)
+        >>> LoadPart(nout = None)
 
-        - Example #6: Load the last output from the simulation with a specific
-          file number for the lp methods
+    - Example #6: Load the last output from the simulation with a specific
+        file number for the lp methods
     
-            >>> LoadPart(nfile_lp = 1)
+        >>> LoadPart(nfile_lp = 1)
 
-        """
+    """
         
-
     def __init__(self, 
                  nout: int | str | None = 'last',   
                  path: str  = './' , 
@@ -173,7 +166,8 @@ class LoadPart:
         # NEEDED FOR MULTIPLE LOADINGS?
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", category=RuntimeWarning)
-            self.id = np.ma.masked_array(self.id.astype('int'), np.isnan(self.id))
+            self.id = np.ma.masked_array(self.id.astype('int'), 
+            np.isnan(self.id))
         """        
 
         # Change the id variable to int depending on the format loaded
@@ -187,9 +181,10 @@ class LoadPart:
             _nout_out = self.nout[0] if len(self.nout) == 1 else list(self.nout)
             print(f"LoadPart: folder {path},     output {_nout_out}")
         return
-          
+
+
     def __str__(self):
-        return f"""
+        text =  f"""
         LoadPart class.
         It loads the particles.
         
@@ -198,9 +193,22 @@ class LoadPart:
         - Format loaded       (format)       {self.format}
 
         Simulation properties
+        - N. particles  (maxpart)  {self.maxpart}
+        - Output loaded (nout)     {self.nout}
+        - Time loaded   (ntime)    {self.ntime}
+        
+        Variables loaded: 
+        {self._d_vars.keys()}
 
-        ... to be completed ...
+        Public methods available: 
+        
+        - select
+        - spectrum
+
+        Please refrain from using "private" methods and attributes.
         """
+        return text
+
 
     def __getattr__(self, name):
         try:

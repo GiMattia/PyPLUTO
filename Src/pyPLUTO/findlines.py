@@ -2,8 +2,8 @@ from .libraries import *
 
 def _check_var(self,
                var: str | NDArray,
-               transpose: bool
-             ):
+               transpose: bool = False
+             ) -> np.ndarray:
     """
     Function that checks returns a variable. If the variable is a numpy array,
     it is simply returned (and the transpose is taken into account). If the 
@@ -13,15 +13,15 @@ def _check_var(self,
     Returns
     -------
 
-    - var: NDArray
+    - var: np.ndarray
         The variable.
 
     Parameters
     ----------
 
-    - var: str | NDArray
+    - var (not optional): str | np.ndarray
         The variable to be checked.
-    - transpose: bool
+    - transpose: bool, default False
         If True, the variable is transposed.
 
     Notes
@@ -37,52 +37,65 @@ def _check_var(self,
     - Example #1: var is a numpy array
 
         >>> var = np.array([1,2,3])
-        >>> _check_var(var, False)
+        >>> D._check_var(var, False)
         array([1, 2, 3])
 
     - Example #2: var is a string
 
         >>> D = pp.Load()
-        >>> _check_var("Bx1", False)
+        >>> D._check_var("Bx1", False)
+        D.Bx1
     
     """
 
-    #ME LO METTI UN BEL COMMENTINO QUI?
+    # If var is a string the code tries to recover it from the class attributes,
+    # if failed it raises an error
     if isinstance(var, str):
         try:
             var = getattr(self,var)
         except:
             raise ValueError(f"Variable {var} not found in the dataset.")
+        
+    # If the transpose keyword is True, the variable is transposed.
     if transpose is True:
         var = var.T
+
+    # Return the variable
     return var
 
 
-def _vector_field(t, y, var1, var2, xc, yc):
+def _vector_field(t: float, 
+                  y: np.ndarray, 
+                  var1: np.ndarray, 
+                  var2: np.ndarray, 
+                  xc: np.ndarray,  
+                  yc: np.ndarray
+                 ) -> list[np.ndarray]:
     """
     Compute the vector field at the given time and coordinates by interpolating
-    the variables var1 and var2 at the given coordinates.
+    the variables var1 and var2 at the given coordinates. The interpolation is
+    made through the routine np.interpolate.
 
     Returns
     -------
 
-    - qx, qy: NDArray
-        The vector field components.
+    - [qx, qy]: list[np.ndarray]
+        The x1 and x2 vector field components, within a list
 
     Parameters
     ----------
 
-    - t: float
+    - t (not optional): float
         The time variable (not used here).
-    - y: NDArray
-        The coordinates. The first and second dimension are x and y.
-    - var1: NDArray
+    - var1 (not optional): np.ndarray
         The first variable to be interpolated.
-    - var2: NDArray
+    - var2 (not optional): np.ndarray
         The second variable to be interpolated.
-    - xc: NDArray
+    - xc (not optional): np.ndarray
         The x coordinates of the grid.
-    - yc: NDArray
+    - y (not optional): np.ndarray
+        The coordinates. The first and second dimension are x and y.
+    - yc (not optional): np.ndarray
         The y coordinates of the grid.
 
     Notes
@@ -121,12 +134,13 @@ def _vector_field(t, y, var1, var2, xc, yc):
     # Return the vector field
     return [qx, qy]
 
+
 def find_fieldlines(self,
-                    var1,
-                    var2, 
-                    x0 = None, 
-                    y0 = None, 
-                    text = False,
+                    var1: str | np.ndarray,
+                    var2: str | np.ndarray, 
+                    x0: list | float | None = None, 
+                    y0: list | float | None = None, 
+                    text: bool = False,
                     check: bool = True,
                     **kwargs: Any
                    ) -> list:
@@ -167,15 +181,15 @@ def find_fieldlines(self,
         'Radau', 'BDF', 'LSODA'.
     - rtol: float, default 1e-6
         The relative tolerance for the integration.
-    - step: float, default min((xend - xbeg)/self.nx1, (yend - ybeg)/self.nx2)
+    - step: float, default abs(min((xend-xbeg)/self.nx1, (yend-ybeg)/self.nx2))
         The initial step size for the integration.
     - text: bool, default False
         If True some additional information is printed.
     - transpose: bool, default False
         If True, the variables are transposed.
-    - var1: str | NDArray
+    - var1 (not optional): str | NDArray
         The first variable to be interpolated.
-    - var2: str | NDArray
+    - var2 (not optional): str | NDArray
         The second variable to be interpolated.
     - x0: list
         The x coordinates of the footpoints.
@@ -185,8 +199,6 @@ def find_fieldlines(self,
         The y coordinates of the grid.
     - y0: list
         The y coordinates of the footpoints.
-
-    ... (to be continued)
 
     Notes
     -----
@@ -214,7 +226,7 @@ def find_fieldlines(self,
 
     # Check parameters
     param = {'atol','close','ctol','dense','maxstep','minstep','numsteps',
-             'order','rtol','step','text','transpose','x1','x2'}
+             'order','rtol','step','transpose','x1','x2'}
     if check is True:
         check_par(param, 'find_fieldlines', **kwargs)
     
@@ -228,13 +240,14 @@ def find_fieldlines(self,
     yc = kwargs.get('x2',self.x2)
 
     # Check if the grid is uniform
-    if not np.all(np.diff(xc) == np.diff(xc)[0]):
-        err = "The grid is not uniform. Only uniform grids are supported."
-        raise ValueError(err)
+
+    #if not np.all(np.diff(xc) == np.diff(xc)[0]):
+    #   err = "The grid is not uniform. Only uniform grids are supported."
+    #    raise ValueError(err)
 
     # Get the footpoints
     if x0 is None or y0 is None:
-        raise ValueError("Footpoints not provided.")
+        raise ValueError("Footpoints not provided. Please provide footpoints!")
 
     # Make sure x0 and y0 are lists
     x0 = makelist(x0)
@@ -256,11 +269,11 @@ def find_fieldlines(self,
     dense = kwargs.get('dense',False)
 
     # Set the initial step size and maximum number of steps
-    step    = kwargs.get('step',min((xend - xbeg)/self.nx1,\
-                                    (yend - ybeg)/self.nx2))
+    step    = np.abs(kwargs.get('step',min((xend - xbeg)/self.nx1,\
+                                    (yend - ybeg)/self.nx2)))
     
     maxstep = kwargs.get('maxstep',100*step)
-    numstep = kwargs.get('maxsteps', 16384)
+    numstep = int(kwargs.get('numsteps', 16384))
     tfin    = maxstep*numstep
 
     # Define the system of differential equations
@@ -357,6 +370,7 @@ def find_fieldlines(self,
 
         # Print the time of the integration
         if text is True:
+            print("Line with footpoint at x = ", xp, " and y = ", yp)
             print("Final integration time forward:  ", sol_forward.t[-1])
             print("Final integration time backward: ", sol_backward.t[-1])
             print("Final step number forward:       ", forw_steps)
@@ -381,12 +395,11 @@ def find_contour(self,
                 ) -> list:
     """
     Generate contour lines for a given variable.
-    ...
 
     Returns
     -------
 
-    - lines_list : list
+    - lines_list: list
         List of contour lines. The strcuture of the list is 
         [[x1, y1], [x2, y2], ...] where x1, y1, x2, y2 are numpy arrays 
         representing the coordinates of the field lines.
@@ -394,29 +407,31 @@ def find_contour(self,
     Parameters
     ----------
 
-    - cmap : str, default None
+    - cmap: str, default 'k'
         The colormap to use to associate each level with a color.
         The colormap can also be a color, which is used for all the levels.
         If not provided, all the lines are associated with the color black.
-    - levels : int | array_like, default 10
+    - levels: int | np.ndarray, default 10
         The levels of number of levels or the list of levels for the contours. 
         If an integer is provided, the levels are generated using a linear or
         logarithmic scale. If an array is provided, the levels are taken from
         the array.
-    - levelscale : str, default 'linear'
+    - levelscale: str, default 'linear'
         The scale of the levels. Available options are 'linear' and 
         'logarithmic'.
-    - var : str | array_like
+    - transpose: bool, default False
+        If True, the variable is transposed.
+    - var (not optional): str | np.ndarray
         The variable to plot. If a string is provided, the variable is taken 
         from the dataset.
-    - vmax : float, default np.max(var)
+    - vmax: float, default np.max(var)
         The maximum value of the variable.
-    - vmin : float, default np.min(var)
+    - vmin: float, default np.min(var)
         The minimum value of the variable.
-    - x1 : array_like, default self.x1
+    - x1: np.ndarray, default self.x1
         The x1 coordinates. If the geometry is non-Cartesian, the x1 cartesian 
         coordinates are taken from the dataset.
-    - x2 : array_like, default self.x2
+    - x2: np.ndarray, default self.x2
         The x2 coordinates. If the geometry is non-Cartesian, the x2 cartesian
         coordinates are taken from the dataset.
     
@@ -439,13 +454,13 @@ def find_contour(self,
         >>> lines_list = find_contour(var, x1=x1, x2=x2)
 
     - Example #3: Generate contour lines for a given variable and coordinates
-      with a logarithmic scale.
+        with a logarithmic scale.
 
         >>> lines_list = find_contour(var, x1=x1, x2=x2, 
         >>> ... levelscale='logarithmic')
 
     - Example #4: Generate contour lines for a given variable and coordinates
-      with a logarithmic scale and a colormap.
+        with a logarithmic scale and a colormap.
 
         >>> lines_list = find_contour(var, x1=x1, x2=x2, 
         >>> ... levelscale='logarithmic', cmap='jet')
@@ -453,7 +468,7 @@ def find_contour(self,
     """
 
     # Check parameters
-    param = {'cmap','levels','levelscale','vmax','vmin','x1','x2'}
+    param = {'cmap','levels','levelscale','transpose','vmax','vmin','x1','x2'}
     if check is True:
         check_par(param, 'find_contour', **kwargs)
 

@@ -6,8 +6,7 @@ def _add_ax(self,
            ) -> None:
     """
     Adds the axes properties to the class info variables.
-    The corresponding axis is appended (TO CHANGE!!! or at least
-    to be checked) to the list of axes.
+    The corresponding axis is appended to the list of axes.
 
     Returns
     -------
@@ -15,11 +14,12 @@ def _add_ax(self,
     - None
 
     Parameters
+    ----------
 
-    - ax: ax
-        the axis to be added
-    - i: int
-        the index of the axis in the list
+    - ax (not optional): ax
+        The axis to be added.
+    - i (not optional): int
+        The index of the axis in the list.
 
     Notes
     -----
@@ -73,10 +73,10 @@ def _hide_text(self,
     Parameters
     ----------
 
-    - nax: int
-        the number of the selected set of axes
-    - txts: str
-        the text of the selected set of axes
+    - nax (not optional): int
+        The number of the selected set of axes.
+    - txts (not optional): str | None
+        The text of the selected set of axes.
 
     Notes
     -----
@@ -123,20 +123,20 @@ def _set_xrange(self,
     Parameters
     ----------
 
-    - ax: ax
-        the selected set of axes
-    - nax: int
-        the number of the selected set of axes
-    - xlim: list[float]
-        the limits of the x-axis
-    - case: int
-        the case in exam (if range is fixed or variable)
+    - ax (not optional): ax
+        The selected set of axes.
+    - case (not optional): int
+        The case in exam (if range is fixed or variable).
+    - nax (not optional): int
+        The number of the selected set of axes.
+    - xlim (not optional): list[float]
+        The limits of the x-axis.
 
     Notes
     -----
 
     - The chance to set only one limit dinamically will be implemented
-      in the future.
+      in future code releases
 
     ----
 
@@ -194,29 +194,29 @@ def _set_yrange(self,
     Returns
     -------
 
-        None
+    - None
 
     Parameters
     ----------
 
-    - ax: ax
-        the selected set of axes
-    - nax: int
-        the number of the selected set of axes
-    - ylim: list[float]
-        the limits of the y-axis
-    - case: int
-        the case in exam (if range is fixed or variable)
-    - x: list[float]
-        the x-array (to limit the y-range automatically)
-    - y: list[float]
-        the y-array (to limit the y-range automatically)
+    - ax (not optional): ax
+        The selected set of axes.
+    - case (not optional): int
+        The case in exam (if range is fixed or variable).
+    - nax (not optional): int
+        The number of the selected set of axes.
+    - x: np.ndarray
+        The x-array (to limit the y-range automatically).
+    - y: np.ndarray
+        The y-array (to limit the y-range automatically).
+    - ylim (not optional): list[float]
+        The limits of the y-axis.
 
     Notes
     -----
 
     - The chance to set only one limit dinamically will be implemented
-      in the future. 
+      in future code releases
 
     ----
 
@@ -292,19 +292,19 @@ def _assign_ax(self,
     Returns
     -------
 
-    - ax: ax
-        the selected set of axes
+    - ax: ax | list[ax] | int | None
+        The selected set of axes.
     - nax: int
-        the number of the selected set of axes
+        The number of the selected set of axes.
 
     Parameters
     ----------
 
-    - ax: ax | int | list[ax] | None
-        the selected set of axes
+    - ax (not optional): ax | int | list[ax] | None
+        The selected set of axes.
     - **kwargs: Any
-        the keyword arguments to be passed to the create_axes function
-        (not written here since is not public method)
+        The keyword arguments to be passed to the create_axes function
+        (not written here since is not public method).
 
     Notes
     -----

@@ -1,23 +1,23 @@
 """
-Classical MHD Rayleigh-Taylor instability test.
+Classical MHD Rayleigh-Taylor instability test (configuration 1).
 
-This test shows how to display a 2D quantity from a test problem at different 
+This test shows how to display a 2D quantity from a test problem at different
 times in different subplots.
 
-The package "os" is loaded to create the path to the directory 
+The package "os" is loaded to create the path to the directory
 $PLUTO_DIR/Test_problems/MHD/Rayleigh_Taylor, where the the test problem is
 located.
 
 In the script the spatial dependence of the density is displayed at three
-different times in three different subplots. Here the subplots are created 
+different times in three different subplots. Here the subplots are created
 through the create_axes method, which allows to create a grid of subplots with a
-given number of columns and a given width ratio between the subplots. The 
+given number of columns and a given width ratio between the subplots. The
 colorbar is placed in the last subplot through the colorbar method. The y labels
 and y ticks labels are customized in order to show the flexibility of PyPLUTO in
 terms of plot customization. The image is then saved and shown on screen.
 
 The title of the subplots is set to the time of the simulation, which is stored
-in the timelist attribute of the pload object D. In order to display a fixed 
+in the timelist attribute of the pload object D. In order to display a fixed
 number of decimal digits, the f-string formatting is used (see line 38).
 """
 

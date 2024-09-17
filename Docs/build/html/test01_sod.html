@@ -47,22 +47,22 @@ ideal gas are given at the left and at the right end of the dominion.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/test01_sod.png"><img alt="_images/test01_sod.png" class="align-center" src="_images/test01_sod.png" style="width: 600px;" /></a>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">HD shock-tube test</span>
+<span class="sd">HD shock tube test (configuration 1).</span>
 
 <span class="sd">This test shows how to plot different 1D quantities from a test problem in the</span>
 <span class="sd">same plot.</span>
 
 <span class="sd">The package &quot;os&quot; is loaded to create the path to the directory</span>
-<span class="sd">$PLUTO_DIR/Test_problems/HD/Sod, where the the Sod HD test problem is located</span>
+<span class="sd">$PLUTO_DIR/Test_Problems/HD/Sod, where the the Sod HD test problem is located</span>
 <span class="sd">(see section 0.2 of the userguide to run the shock-tube problem).</span>
 
 <span class="sd">In this script the quatities plotted are density, pressure and velocity</span>
 <span class="sd">(component x) in different colors. The relevant keywords to customize the plot</span>
 <span class="sd">(e.g. the labels or the legend position) are scattered through the different</span>
-<span class="sd">line plotting methods (lines 49-53) in order to show the flexibility of PyPLUTO</span>
-<span class="sd">in terms of plot cusotmization. A legend is placed (legpos 0 means that the</span>
-<span class="sd">location is chosen automatically) in order to differenciate the lines. The image</span>
-<span class="sd">is then saved and shown on screen.</span>
+<span class="sd">line plotting methods in order to show the flexibility of PyPLUTO in terms of</span>
+<span class="sd">plot cusotmization. A legend is placed (legpos 0 means that the location is</span>
+<span class="sd">chosen automatically) in order to differenciate the lines. The image is then</span>
+<span class="sd">saved and shown on screen.</span>
 
 <span class="sd">Note that the Image is saved through I.savefig (and not pp.savefig) since saving</span>
 <span class="sd">a file should be strictly related to a single Image class. Conversely, the</span>
@@ -77,16 +77,20 @@ ideal gas are given at the left and at the right end of the dominion.</p>
 <span class="n">plutodir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PLUTO_DIR&#39;</span><span class="p">]</span>
 <span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span> <span class="o">+</span> <span class="s1">&#39;/Test_Problems/HD/Sod&#39;</span>
 
-<span class="c1"># Loading the data into a pload object D.</span>
+<span class="c1"># Loading the data into a pload object D</span>
 <span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">wdir</span><span class="p">)</span>
 
-<span class="c1"># Creating the Image class</span>
+<span class="c1"># Creating the image</span>
 <span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
 
 <span class="c1"># Plotting the data</span>
-<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\rho$&#39;</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Sod shock tube test&#39;</span><span class="p">,</span>
-                    <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;$x$&#39;</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],</span>
-                    <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">1.05</span><span class="p">],</span> <span class="n">legpos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\rho$&#39;</span><span class="p">,</span>
+                    <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Test 01 - HD Sod shock tube&#39;</span><span class="p">,</span>
+                    <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;$x$&#39;</span><span class="p">,</span>
+                    <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],</span>
+                    <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">1.05</span><span class="p">],</span>
+                    <span class="n">legpos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+                    
 <span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">prs</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$p$&#39;</span><span class="p">)</span>
 <span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">vx1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$v_x$&#39;</span><span class="p">)</span>
 
@@ -115,7 +119,7 @@ ideal gas are given at the left and at the right end of the dominion.</p>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">HD Sod</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test02_ot.html">MHD OT</a></li>

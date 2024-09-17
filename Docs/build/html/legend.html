@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>legend function &#8212; pyPLUTO 1.0 documentation</title>
+    <title>&lt;no title&gt; &#8212; pyPLUTO 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
@@ -13,17 +13,17 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="colorbar function" href="colorbar.html" />
-    <link rel="prev" title="interactive function" href="interactive.html" /> 
+    <link rel="next" title="&lt;no title&gt;" href="colorbar.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="animate.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
           href="index.html">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="interactive.html" title="interactive function"
+          <a href="animate.html" title="&lt;no title&gt;"
              accesskey="P">previous</a> |
-          <a href="colorbar.html" title="colorbar function"
+          <a href="colorbar.html" title="&lt;no title&gt;"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -39,9 +39,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="legend-function">
-<span id="legend"></span><h1>legend function<a class="headerlink" href="#legend-function" title="Link to this heading">¶</a></h1>
-<dl class="py function">
+  <dl class="py function" id="legend">
 <dt class="sig sig-object py" id="pyPLUTO.Image.legend">
 <span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromplot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPLUTO.Image.legend" title="Link to this definition">¶</a></dt>
 <dd><p>Creation of a legend referring to the current figure.</p>
@@ -50,15 +48,14 @@ ordered by entry. If specific labels are given, it shows those ones.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>- ax: axis object, default None</strong></dt><dd><p>The axis where to insert the legend. If None, the last considered axis 
+<dt><strong>- ax: ax | int | None, default None</strong></dt><dd><p>The axis where to insert the legend. If None, the last considered axis 
 will be used.</p>
 </dd>
-<dt><strong>- c: str, default [‘k’,’#12e3c0’,’#3f6600’,’#1815c5’,’#f67451’,’#d7263d’]</strong></dt><dd><p>Determines the line color. If not defined, the program will loop over an
+<dt><strong>- c: str, default self.color</strong></dt><dd><p>Determines the line color. If not defined, the program will loop over an
 array of 6 color which are different for the most common vision
 deficiencies.</p>
 </dd>
-<dt><strong>- check: bool, default True</strong></dt><dd><p>If enabled perform a check on the method’s parameters, raising a warning
-if a parameter is not present among the set of available parameters.</p>
+<dt><strong>- edgecolor: list[str], default [None]</strong></dt><dd><p>Sets the edge color of the legend. The default value is black (‘k’).</p>
 </dd>
 <dt><strong>- fillstyle: {‘full’, ‘left’, ‘right’, ‘bottom’, ‘top’, ‘none’},</strong></dt><dd><blockquote>
 <div><p>default ‘full’</p>
@@ -76,7 +73,7 @@ the label which are already associated with the plot.</p>
 <dt><strong>- legpad: float, default 0.8</strong></dt><dd><p>Sets the space between the lines (or symbols) and the correspondibg text
 in the legend.</p>
 </dd>
-<dt><strong>- legpos: int/str, default 0</strong></dt><dd><p>Selects the legend location. If not specified the standard matplotlib
+<dt><strong>- legpos: int | str, default 0</strong></dt><dd><p>Selects the legend location. If not specified the standard matplotlib
 legend function will find the most suitable location.</p>
 </dd>
 <dt><strong>- legsize: float, default fontsize</strong></dt><dd><p>Sets the fontsize of the legend. The default value is the default 
@@ -92,8 +89,10 @@ matplotlib package. Here are reported the most common ones.</p>
 <dt><strong>- marker: {‘o’, ‘v’, ‘^’, ‘&lt;’, ‘&gt;’, ‘X’, ‘ ‘, etc.}, default ‘ ‘</strong></dt><dd><p>Sets an optional symbol for every point. The default value is no marker 
 (’ ‘).</p>
 </dd>
-<dt><strong>- ms: float, default 5 8f label) or 1 (if not label)</strong></dt><dd><p>Sets the marker size from the default value of 5.0 (if label is given)
+<dt><strong>- ms: float, default 5 (if label) or 1 (if not label)</strong></dt><dd><p>Sets the marker size from the default value of 5.0 (if label is given)
 or the marker scale from the default value of 1.0 (if not label).</p>
+</dd>
+<dt><strong>- mscale: float, default 1.0</strong></dt><dd><p>Sets the marker scale. The default value is 1.0.</p>
 </dd>
 </dl>
 </dd>
@@ -151,7 +150,6 @@ or the marker scale from the default value of 1.0 (if not label).</p>
 <div class="line"><br /></div>
 </div>
 <hr class="docutils" />
-</section>
 
 
             <div class="clearer"></div>
@@ -166,19 +164,18 @@ or the marker scale from the default value of 1.0 (if not label).</p>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="image.html#the-pypluto-image-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image()</span></code> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">legend function</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.legend"><code class="docutils literal notranslate"><span class="pre">legend()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="colorbar.html">colorbar function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="zoom.html">zoom function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="savefig.html">savefig function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="text.html">text function</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="imageclass.html">Plotting the data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="image.html"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#the-plotting-procedure">The plotting procedure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#field-and-contour-lines">Field and contour lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#interactive-plots">Interactive plots</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="imageclass.html#useful-plotting-tools">Useful plotting tools</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">legend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="colorbar.html"><code class="docutils literal notranslate"><span class="pre">colorbar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="zoom.html"><code class="docutils literal notranslate"><span class="pre">zoom()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="savefig.html"><code class="docutils literal notranslate"><span class="pre">savefig()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="text.html"><code class="docutils literal notranslate"><span class="pre">text()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -204,9 +201,9 @@ or the marker scale from the default value of 1.0 (if not label).</p>
       <div class="footer">
         <div class="left">
           <div role="navigation" aria-label="related navigaton">
-            <a href="interactive.html" title="interactive function"
+            <a href="animate.html" title="&lt;no title&gt;"
               >previous</a> |
-            <a href="colorbar.html" title="colorbar function"
+            <a href="colorbar.html" title="&lt;no title&gt;"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>

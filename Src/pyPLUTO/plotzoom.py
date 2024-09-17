@@ -112,7 +112,7 @@ def zoom(self,
         cases are the following:
         - twoslope colorscale: sets the limit between the two linear regimes.
         - symlog: sets the limit between the logaitrhmic and the linear regime.  
-    - var (not optional): 2D array
+    - var: 2D array
         The array to be plotted.
     - vmax: float, default max(z)
         The maximum value of the colormap. If not defined, the maximum value
@@ -208,7 +208,7 @@ def zoom(self,
              'cscale','cticks','ctickslabels','extend','extendrect','fontsize',
              'grid','height','label','labelsize','left','minorticks','pos',
              'shading','ticksdir','tickssize','title','titlesize','top',
-             'transpose','tresh','vmax','vmin','width','x1','x2','xrange',
+             'transpose','tresh','var','vmax','vmin','width','x1','x2','xrange',
              'xscale','xticks','xtickslabels','xtitle','yrange','yscale',
              'yticks','ytickslabels','ytitle','zoomlines'}
     if check is True:

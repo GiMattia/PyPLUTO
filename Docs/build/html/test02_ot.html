@@ -47,44 +47,47 @@ shocks and the shock-shock interactions in a 2D dominion.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/test02_ot.png"><img alt="_images/test02_ot.png" class="align-center" src="_images/test02_ot.png" style="width: 600px;" /></a>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Classical MHD Orszag-Tang test</span>
+<span class="sd">Classical MHD Orszag-Tang test (configuration 2).</span>
 
 <span class="sd">This test shows how to display a 2D quantity from a test problem in a single</span>
 <span class="sd">subplot.</span>
 
 <span class="sd">The package &quot;os&quot; is loaded to create the path to the directory</span>
-<span class="sd">$PLUTO_DIR/Test_problems/MHD/Orszag_Tang, where the the test problem is located</span>
+<span class="sd">$PLUTO_DIR/Test_Problems/MHD/Orszag_Tang, where the the test problem is located</span>
 <span class="sd">(see section 0.3 of the userguide to run the shock-tube problem).</span>
 
 <span class="sd">In the script the spatial dependence of the density is displayed, with a</span>
 <span class="sd">colorbar positioned dinamically on the right side of the figure.</span>
-<span class="sd">In order to properly display the grreek letter rho, the r character is used</span>
-<span class="sd">before the string and the LaTeX interpreter is activated by setting it to True</span>
-<span class="sd">(see line 31). All the keywords necessary to customize the plot are iwithin the</span>
-<span class="sd">display method. The image is then saved and shown on screen.</span>
+<span class="sd">In order to properly display the greek letter rho, the r character is used</span>
+<span class="sd">before the string and the LaTeX interpreter is activated by setting it to True.</span>
+<span class="sd">All the keywords necessary to customize the plot are iwithin the display method.</span>
+<span class="sd">The image is then saved and shown on screen.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># Loading the relevant packages</span>
 <span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">timeit</span>
 
 <span class="c1"># Creating the path for the data directory</span>
 <span class="n">plutodir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PLUTO_DIR&#39;</span><span class="p">]</span>
-<span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span><span class="o">+</span><span class="s1">&#39;/Test_Problems/MHD/Orszag_Tang&#39;</span>
+<span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span> <span class="o">+</span> <span class="s1">&#39;/Test_Problems/MHD/Orszag_Tang&#39;</span>
 
-<span class="c1"># Loading the data into a pload object D.</span>
-<span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">wdir</span><span class="p">,</span> <span class="n">datatype</span> <span class="o">=</span> <span class="s1">&#39;vtk&#39;</span><span class="p">)</span>
+<span class="c1"># Loading the data into a pload object D</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">wdir</span><span class="p">)</span>
 
-<span class="c1"># Creating the Image class</span>
+<span class="c1"># Creating the image</span>
 <span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
 
 <span class="c1"># Plotting the data</span>
-<span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1r</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2r</span><span class="p">,</span> <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span>
-                 <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;Density $\rho$ [Orszag Tang test]&#39;</span><span class="p">,</span>
-                 <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;RdBu_r&#39;</span><span class="p">,</span> <span class="n">clabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\rho$&#39;</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1r</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2r</span><span class="p">,</span>
+                             <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
+                             <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span>
+                             <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Test 02 - MHD Orszag-Tang vortex&#39;</span><span class="p">,</span>
+                             <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span>
+                             <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;RdBu_r&#39;</span><span class="p">,</span>
+                             <span class="n">clabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\rho$&#39;</span><span class="p">)</span>
 
-<span class="c1"># Saving the image</span>
+<span class="c1"># Saving the image and showing the plot</span>
 <span class="n">I</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test02_ot.png&#39;</span><span class="p">)</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -109,7 +112,7 @@ shocks and the shock-shock interactions in a 2D dominion.</p>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="test01_sod.html">HD Sod</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">MHD OT</a></li>

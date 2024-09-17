@@ -202,7 +202,7 @@ def plot(self,
         >>> I.plot(x, y, ax = I.ax[0])
         >>> I.plot(x, y*y, ax = I.ax[1])
         >>> I.plot(x, z, ax = I.ax[0])
-
+        
     """
 
     # If only one argument is given, it is the y-axis

@@ -42,13 +42,13 @@
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
 <p>The latest version of the <em>PyPLUTO</em> code is officially distributed with the
-latest version (5.0) of the <em>PLUTO</em> code. This can be downloaded from
-<a class="reference external" href="http://plutocode.ph.unito.it/download.html">PlutoDownload</a>.</p>
+<em>PLUTO</em> code. This can be downloaded from <a class="reference external" href="http://plutocode.ph.unito.it/download.html">PlutoDownload</a>.</p>
 <p>The current version of <em>PyPLUTO</em> has been updated to support Python version 3.10
 or newer.
-Additional packages that are required are numpy, matplotlib,
-scipy, pandas and h5py (although the latter is not mandatory).</p>
-<p>All the relevant files are stored in the PyPLUTO directory, whichcan be accessed by typing:</p>
+Additional packages that are required are numpy, matplotlib, scipy, pandas and
+h5py (although the latter is not mandatory).</p>
+<p>All the relevant files are stored in the PyPLUTO directory, whichcan be accessed
+by typing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$PLUTO_DIR</span>/Tools/pyPLUTO
 </pre></div>
 </div>
@@ -61,22 +61,21 @@ now until the end of the installation process.</p>
 <section id="installation-with-pip">
 <h2>Installation with pip<a class="headerlink" href="#installation-with-pip" title="Link to this heading">¶</a></h2>
 <p>The easiest and most efficient PyPLUTO installation is through pip, which can
-Tdone in two ways:</p>
-<p>1. The first method is to install PyPLUTO from the main
-directory through the command:</p>
+be done in two ways:</p>
+<p>1. The first method is to install PyPLUTO from the main directory through the
+command:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>./
 </pre></div>
 </div>
-<p>2. If this procedure does not work another installation is
-possible.
+<p>2. If this procedure does not work another installation is possible.
 This time the installation is done from the Src directory through the setup.py
 file:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>Src
-<span class="go">Src$ pip install ./</span>
+<span class="go">Src$ pip install  ./</span>
 </pre></div>
 </div>
-<p>Note that in this way, if you are working with conda, your installation will be always
-confined within your conda environment.</p>
+<p>Note that in this way, if you are working with conda, your installation will be
+always confined within your conda environment.</p>
 </section>
 <section id="installation-without-pip">
 <h2>Installation without pip<a class="headerlink" href="#installation-without-pip" title="Link to this heading">¶</a></h2>
@@ -89,7 +88,7 @@ can be done:</p>
 <p>However, a good pratice is to create your own PYTHONPATH
 and do a local install in the following way:</p>
 <p>1. Create a directory where to store this module.
-This directory does not need to be in the PyPLUTO folder, it can be in the HOME
+This directory does not need to be in the PyPLUTO folder, it can be in the $HOME
 directory or any of its subfolders. For the sake of simplicity we will assume
 that this directory will be created as a direct subfolder of the HOME directory:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span><span class="nb">cd</span>
@@ -151,7 +150,7 @@ different location you should install the code following:</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>

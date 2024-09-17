@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>create_axes function &#8212; pyPLUTO 1.0 documentation</title>
+    <title>&lt;no title&gt; &#8212; pyPLUTO 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
@@ -13,17 +13,17 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="setaxis function" href="set_axis.html" />
-    <link rel="prev" title="Plotting the data" href="image.html" /> 
+    <link rel="next" title="&lt;no title&gt;" href="set_axis.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="image.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
           href="index.html">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="image.html" title="Plotting the data"
+          <a href="image.html" title="&lt;no title&gt;"
              accesskey="P">previous</a> |
-          <a href="set_axis.html" title="setaxis function"
+          <a href="set_axis.html" title="&lt;no title&gt;"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -39,11 +39,9 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="create-axes-function">
-<span id="create-axes"></span><h1>create_axes function<a class="headerlink" href="#create-axes-function" title="Link to this heading">¶</a></h1>
-<dl class="py method">
+  <dl class="py function" id="create-axes">
 <dt class="sig sig-object py" id="pyPLUTO.Image.create_axes">
-<span class="sig-prename descclassname"><span class="pre">Image.</span></span><span class="sig-name descname"><span class="pre">create_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ncol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Image.create_axes" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">create_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Axes</span></span></span><a class="headerlink" href="#pyPLUTO.Image.create_axes" title="Link to this definition">¶</a></dt>
 <dd><p>Creation of a set of axes using add_subplot from the matplotlib library.</p>
 <p>If additional parameters (like the figure limits or the spacing)
 are given, the plots are located using set_position.
@@ -57,9 +55,6 @@ otherwise the single axis is returned.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>- bottom: float, default 0.1</strong></dt><dd><p>The space from the bottom border to the last row of plots.</p>
-</dd>
-<dt><strong>- check: bool, default True</strong></dt><dd><p>If enabled perform a check on the method’s parameters, raising a warning
-if a parameter is not present among the set of available parameters.</p>
 </dd>
 <dt><strong>- figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]</strong></dt><dd><p>Sets the figure size. The default value is computed from the number
 of rows and columns.</p>
@@ -122,7 +117,8 @@ fill the lacks with [0.1].</p>
 <li><p>The subplot_mosaic method of matplotlib will be implemented in future
 releases.</p></li>
 <li><p>This method may return None in the future releases</p></li>
-<li><p>Sharex and sharey are not implemented yet</p></li>
+<li><p>Sharex and sharey will follow a different implementation in future
+releases</p></li>
 </ul>
 <hr class="docutils" />
 <p class="rubric">Examples</p>
@@ -135,9 +131,7 @@ releases.</p></li>
 </div>
 </li>
 <li><dl>
-<dt>Example #2: create a grid of 2 columns with the first one having half the </dt><dd><blockquote>
-<div><p>width of the second one</p>
-</div></blockquote>
+<dt>Example #2: create a grid of 2 columns with the first one having half the </dt><dd><p>width of the second one</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wratio</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
@@ -168,7 +162,6 @@ releases.</p></li>
 <div class="line"><br /></div>
 </div>
 <hr class="docutils" />
-</section>
 
 
             <div class="clearer"></div>
@@ -183,18 +176,17 @@ releases.</p></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="image.html#the-pypluto-image-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image()</span></code> class</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">create_axes function</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.create_axes"><code class="docutils literal notranslate"><span class="pre">Image.create_axes()</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="imageclass.html">Plotting the data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="image.html"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="imageclass.html#subplots-creation-and-customization">Subplots creation and customization</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">create_axes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="set_axis.html"><code class="docutils literal notranslate"><span class="pre">set_axis()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="set_axis.html">setaxis function</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#the-plotting-procedure">The plotting procedure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#field-and-contour-lines">Field and contour lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#interactive-plots">Interactive plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#useful-plotting-tools">Useful plotting tools</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
@@ -218,9 +210,9 @@ releases.</p></li>
       <div class="footer">
         <div class="left">
           <div role="navigation" aria-label="related navigaton">
-            <a href="image.html" title="Plotting the data"
+            <a href="image.html" title="&lt;no title&gt;"
               >previous</a> |
-            <a href="set_axis.html" title="setaxis function"
+            <a href="set_axis.html" title="&lt;no title&gt;"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>

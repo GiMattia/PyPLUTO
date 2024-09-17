@@ -30,6 +30,8 @@ def display(self,
     - ax: ax | int | None, default None
         The axis where to plot the lines. If None, a new axis is created.
         If 'old', the last considered axis will be used.
+    - bottom: float, default 0.1
+        The space from the bottom border to the plot.
     - clabel: str, default None
         Sets the label of the colorbar.
     - cmap: str, default 'plasma'
@@ -65,6 +67,8 @@ def display(self,
     - labelsize: float, default fontsize
         Sets the labels fontsize (which is the same for both labels).
         The default value corresponds to the value of the keyword 'fontsize'.
+    - left: float, default 0.125
+        The space from the left border to the plot.
     - minorticks: str, default None
         If not None enables the minor ticks on the plot (for both grid axes). 
     - proj: str, default None
@@ -72,6 +76,8 @@ def display(self,
         This keyword should be used only if the axis is created.
         WARNING: pyPLUTO does not support 3D plotting for now, only 3D axes.
         The 3D plot feature will be available in future releases.
+    - right: float, default 0.9
+        The space from the right border to the plot.
     - shading: {'flat,'nearest','auto','gouraud'}, default 'auto'
         The shading between the grid points. If not defined, the shading will
         one between 'flat' and 'nearest' depending on the size of the x,y and
@@ -90,6 +96,8 @@ def display(self,
     - titlesize: float, default fontsize
         Sets the title fontsize. The default value corresponds to the value
         of the keyword 'fontsize'.
+    - top: float, default 0.9
+        The space from the top border to the plot.
     - transpose: True/False, default False
         Transposes the variable matrix. Use is not recommended if not really 
         necessary (e.g. in case of highly customized variables and plots)
@@ -196,12 +204,13 @@ def display(self,
     """
 
     # Check parameters
-    param = {'alpha','aspect','ax','clabel','cmap','cpad','cpos','cscale',
-             'cticks','ctickslabels','extend','extendrect','figsize','fontsize',
-             'grid','labelsize','minorticks','proj','shading','ticksdir',
-             'tickssize','title','titlesize','transpose','tresh','vmax','vmin',
-             'x1','x2','xrange','xscale','xticks','xtickslabels','xtitle',
-             'yrange','yscale','yticks','ytickslabels','ytitle'}
+    param = {'alpha','aspect','ax','bottom','clabel','cmap','cpad','cpos',
+             'cscale','cticks','ctickslabels','extend','extendrect','figsize',
+             'fontsize','grid','labelsize','left','minorticks','proj','right',
+             'shading','ticksdir','tickssize','title','titlesize','top',
+             'transpose','tresh','vmax','vmin','x1','x2','xrange','xscale',
+             'xticks','xtickslabels','xtitle','yrange','yscale','yticks',
+             'ytickslabels','ytitle'}
     if check is True:
         check_par(param, 'display', **kwargs)
 
@@ -289,6 +298,8 @@ def scatter(self,
         Determines the scatter plot color. If not defined, the program will loop
         over an array of 6 color which are different for the most common vision
         deficiencies.
+    - clabel: str, default None
+        Sets the colorbar label.
     - cmap: str, default 'hot'
         Selects the colormap. If not defined, the colormap 'hot' will be 
         adopted. Some useful colormaps are: plasma, magma, seismic. Please avoid
@@ -413,11 +424,12 @@ def scatter(self,
     y = np.asarray(y)
 
     # Check parameters
-    param = {'alpha','aspect','ax','c','cmap','cpos','cscale','edgecolors',
-             'fontsize','grid','label','labelsize','legpos','marker','ms',
-             'minorticks','ticksdir','tickssize','title','titlepad','titlesize',
-             'tresh','vmax','vmin','xrange','xscale','xticks','xtickslabels',
-             'xtitle','yrange','yscale','yticks','ytickslabels','ytitle'}
+    param = {'alpha','aspect','ax','c','clabel','cmap','cpos','cscale',
+             'edgecolors','fontsize','grid','label','labelsize','legpos',
+             'marker','ms','minorticks','ticksdir','tickssize','title',
+             'titlepad','titlesize','tresh','vmax','vmin','xrange','xscale',
+             'xticks','xtickslabels','xtitle','yrange','yscale','yticks',
+             'ytickslabels','ytitle'}
 
     if check is True:
         check_par(param, 'scatter', **kwargs)

@@ -230,7 +230,7 @@ def gradient(self,
 
         >>> import pyPLUTO as pp
         >>> D = pp.Load(0)
-        >>> pp.Image().gradient(D.rho)
+        >>> D.gradient(D.rho)
 
     """
 

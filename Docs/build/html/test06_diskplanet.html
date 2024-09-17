@@ -48,24 +48,24 @@ zooms of the planet region in density scale and angular velocity scale.</p>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/test06_diskplanet.png"><img alt="_images/test06_diskplanet.png" class="align-center" src="_images/test06_diskplanet.png" style="width: 600px;" /></a>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">HD disk-planet test</span>
+<span class="sd">HD disk-planet test (configuration 6)</span>
 
 <span class="sd">This test shows how to plot different 2D quantities from a test problem in the</span>
-<span class="sd">same plot with two zooms. </span>
+<span class="sd">same plot with two zooms.</span>
 
 <span class="sd">The package &quot;os&quot; is loaded to create the path to the</span>
-<span class="sd">directory $PLUTO_DIR/Test_problems/HD/Disk_Planet, where the the HD disk-planet</span>
+<span class="sd">directory $PLUTO_DIR/Test_Problems/HD/Disk_Planet, where the HD disk-planet</span>
 <span class="sd">test problem is located.</span>
 
 <span class="sd">The data is loaded into a pload object D and the Image class is created. The</span>
 <span class="sd">create_axes method is used here to make easier to associate the zooms with the</span>
-<span class="sd">main plot. The display method is used to plot the density in the main plot, </span>
+<span class="sd">main plot. The display method is used to plot the density in the main plot,</span>
 <span class="sd">while the zoom method is used to create the two zooms. The image is then saved</span>
 <span class="sd">and shown on screen.</span>
 
 <span class="sd">Note that the second zoom requires the keyword ax to be passed to the zoom</span>
 <span class="sd">method, in order to associate the zoom with main plot. The zoom method is called</span>
-<span class="sd">twice, once for each zoom region. If no keyword ax was passed, the second zoom </span>
+<span class="sd">twice, once for each zoom region. If no keyword ax was passed, the second zoom</span>
 <span class="sd">would be associated as a zoom of the first zoom. The second zoom is also plotted</span>
 <span class="sd">with a different variable with respect to the main plot, to show the flexibility</span>
 <span class="sd">of the zoom method in plotting different quantities in the same region.</span>
@@ -74,29 +74,49 @@ zooms of the planet region in density scale and angular velocity scale.</p>
 <span class="c1"># Loading the relevant packages</span>
 <span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="c1"># Creating the path for the data directory</span>
 <span class="n">plutodir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PLUTO_DIR&#39;</span><span class="p">]</span>
-<span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span><span class="o">+</span><span class="s1">&#39;/Test_Problems/HD/Disk_Planet&#39;</span>
+<span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span> <span class="o">+</span> <span class="s1">&#39;/Test_Problems/HD/Disk_Planet&#39;</span>
 
-<span class="c1"># Loading the data into a pload object D.</span>
+<span class="c1"># Loading the data into a pload object D</span>
 <span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">wdir</span><span class="p">)</span>
 
-<span class="c1"># Creating the Image and the subplot axes (to have two zoom simultaneously)</span>
+<span class="c1"># Creating the image and the subplot axes (to have two zoom simultaneously)</span>
 <span class="n">I</span>  <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">()</span>
 
+<span class="c1"># Compute the disk keplerian rotation speed</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span>
+
 <span class="c1"># Plotting the data</span>
-<span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1rc</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2rc</span><span class="p">,</span> <span class="n">cscale</span> <span class="o">=</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> 
-                 <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Density&#39;</span><span class="p">,</span> <span class="n">vmin</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1rc</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2rc</span><span class="p">,</span>
+                              <span class="n">cscale</span> <span class="o">=</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
+                              <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span>
+                              <span class="n">clabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\rho$&#39;</span><span class="p">,</span>
+                              <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Test 06 - HD Disk planet test&#39;</span><span class="p">,</span>
+                              <span class="n">vmin</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+                              <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
+                              <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span>
+                              <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">2.6</span><span class="p">,</span><span class="mf">2.6</span><span class="p">],</span>
+                              <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">2.6</span><span class="p">,</span><span class="mf">2.6</span><span class="p">])</span>
 
-<span class="c1">#Zooming the planet region</span>
+<span class="c1"># Zooming the planet region</span>
 <span class="n">I</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">1.1</span><span class="p">],</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span> <span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.74</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.9</span><span class="p">])</span>
-<span class="n">I</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">var</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">vx2</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">1.1</span><span class="p">],</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span> 
-       <span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.07</span><span class="p">,</span><span class="mf">0.27</span><span class="p">,</span><span class="mf">0.67</span><span class="p">,</span><span class="mf">0.9</span><span class="p">],</span> <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;magma&#39;</span><span class="p">,</span> 
-       <span class="n">cscale</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">vmin</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$v_\phi$&#39;</span><span class="p">)</span>
 
-<span class="c1"># Saving the image</span>
+<span class="n">I</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">var</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">vx2</span> <span class="o">-</span> <span class="n">omega</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">1.1</span><span class="p">],</span>
+                                           <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span>
+                                           <span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.07</span><span class="p">,</span><span class="mf">0.27</span><span class="p">,</span><span class="mf">0.67</span><span class="p">,</span><span class="mf">0.9</span><span class="p">],</span>
+                                           <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;bottom&#39;</span><span class="p">,</span>
+                                           <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;RdBu&#39;</span><span class="p">,</span>
+                                           <span class="n">cscale</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+                                           <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span>
+                                           <span class="n">vmax</span> <span class="o">=</span>  <span class="mf">1.2</span><span class="p">,</span>
+                                           <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span>
+                                           <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$v_\phi - \Omega R$&#39;</span><span class="p">)</span>
+
+<span class="c1"># Saving the image and showing the plots</span>
 <span class="n">I</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test06_diskplanet.png&#39;</span><span class="p">)</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -121,7 +141,7 @@ zooms of the planet region in density scale and angular velocity scale.</p>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="test01_sod.html">HD Sod</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test02_ot.html">MHD OT</a></li>

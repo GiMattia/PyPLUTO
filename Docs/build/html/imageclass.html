@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Plotting the data &#8212; pyPLUTO 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="image.html" />
+    <link rel="prev" title="Manipulating the data" href="tools.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">pyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="tools.html" title="Manipulating the data"
+             accesskey="P">previous</a> |
+          <a href="image.html" title="&lt;no title&gt;"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="plotting-the-data">
+<span id="imageclass"></span><h1>Plotting the data<a class="headerlink" href="#plotting-the-data" title="Link to this heading">¶</a></h1>
+<p>The loaded data should be visualized in a complete yet efficient way.
+The <a class="reference internal" href="image.html#image"><span class="std std-ref">Image</span></a> class is a quick tool in order to obtain simple plots
+suitable for scientific articles.</p>
+<p>For the sake of simplicity, every Image class corresponds to one single figure.
+The reason behind such choice is that an Image including multiple figures would
+not be efficient in order to effectively remember where all the potential
+subplots are located.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+<div class="toctree-wrapper compound">
+</div>
+<section id="subplots-creation-and-customization">
+<h2>Subplots creation and customization<a class="headerlink" href="#subplots-creation-and-customization" title="Link to this heading">¶</a></h2>
+<p>The first step of the plotting procedure is to create a list of axes
+(where each element of the axes list corresponds to a subplot).
+Two functions are built in order to give a good compromise between simplicity
+and customization:</p>
+<div class="toctree-wrapper compound">
+</div>
+<p>The <a class="reference internal" href="create_axes.html#create-axes"><span class="std std-ref">create_axes</span></a> method creates a simple figure and set of
+axes, given a specific number of rows and columns. The subplots are
+automatically spaced evenly and the ratio between the different subplots sizes
+is 1. The aspect of the single subplots is automatically determined from the
+image size.</p>
+<p>The <a class="reference internal" href="create_axes.html#create-axes"><span class="std std-ref">create_axes</span></a> method allows for a better customization,
+since both the size ratios of the plots and the horizontal and vertical spacing
+are customizable. Moreover, this function is designed to be called multiple
+times for the same figure (e.g. in case of plots which span over a different
+number of columns).</p>
+<p>Once the figure and the axes are created, they are customizable through the
+<a class="reference internal" href="set_axis.html#set-axis"><span class="std std-ref">set_axis</span></a> method.</p>
+<p>Parameters as the axes range or scale should be defined here. However, in case
+of simple plots all the parameters in this function can be defined in the
+specific plotting functions.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="the-plotting-procedure">
+<h2>The plotting procedure<a class="headerlink" href="#the-plotting-procedure" title="Link to this heading">¶</a></h2>
+<p>At the moment only 1D and 2D plots are available, for both fluid and particles.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Full 3D plotting is under active development.</p>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<p>The standard 1D and 2D fluid plots can be produced through the functions
+<a class="reference internal" href="plot.html#plot"><span class="std std-ref">plot</span></a> and <a class="reference internal" href="display.html#display"><span class="std std-ref">display</span></a>.
+Both functions are highly customizable and call the <a class="reference internal" href="set_axis.html#set-axis"><span class="std std-ref">set_axis</span></a>
+method.
+The particles can be plotted through the <a class="reference internal" href="scatter.html#scatter"><span class="std std-ref">scatter</span></a> method, which
+is also very customizable due to the call to the <a class="reference internal" href="set_axis.html#set-axis"><span class="std std-ref">set_axis</span></a>
+method.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="field-and-contour-lines">
+<h2>Field and contour lines<a class="headerlink" href="#field-and-contour-lines" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<p>The <a class="reference internal" href="image.html#image"><span class="std std-ref">Image</span></a> class contains a <a class="reference internal" href="contour.html#contour"><span class="std std-ref">contour</span></a> and a
+<a class="reference internal" href="streamplot.html#streamplot"><span class="std std-ref">streamplot</span></a> methods, which can be used for a quick
+visualization of contour and field lines. Such methods are based on the contour
+and streamplot maptlotlib methods. Note that field and contour lines can be also
+produced in the Load class for a more accurate computation. Nonetheless, these
+methods require a limited computational time, favoring a quick visualization in
+absence of complex structures.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="interactive-plots">
+<h2>Interactive plots<a class="headerlink" href="#interactive-plots" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<p>A quick interactive visualization is possible due to the
+<a class="reference internal" href="interactive.html#interactive"><span class="std std-ref">interactive</span></a> methods, which is available for both 1D and 2D
+fluid output files.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the future a better customization will be possible (e.g. displays with
+fieldlines through callable functions).</p>
+</div>
+<p>Figures plotted interactively can be visualized through the entire temporal
+evolution, with a high parameters customization provided by the
+<a class="reference internal" href="plot.html#plot"><span class="std std-ref">plot</span></a> and <a class="reference internal" href="display.html#display"><span class="std std-ref">display</span></a> methods (called be the
+<a class="reference internal" href="interactive.html#interactive"><span class="std std-ref">interactive</span></a> method).
+Interactive plots can be saved through the <a class="reference internal" href="animate.html#animate"><span class="std std-ref">animate</span></a> method,
+which can create or save a video, showing the output with a selected temporal
+interval. If no file name is provided, the <a class="reference internal" href="animate.html#animate"><span class="std std-ref">animate</span></a> will
+show a video.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="useful-plotting-tools">
+<h2>Useful plotting tools<a class="headerlink" href="#useful-plotting-tools" title="Link to this heading">¶</a></h2>
+<p>Although features such as the <a class="reference internal" href="legend.html#legend"><span class="std std-ref">legend</span></a> or
+<a class="reference internal" href="colorbar.html#colorbar"><span class="std std-ref">colorbar</span></a> can be easily included during the plotting procedure,
+sometimes the best choice (especially for non-trivial figures) is to add them
+during a later step. However, multiple legends and colorbars are possible
+within the same figure.</p>
+<div class="toctree-wrapper compound">
+</div>
+<p>The PyPLUTO module allows for easy inset zooms through the <a class="reference internal" href="zoom.html#zoom"><span class="std std-ref">zoom</span></a></p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Plotting the data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="image.html"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subplots-creation-and-customization">Subplots creation and customization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="create_axes.html"><code class="docutils literal notranslate"><span class="pre">create_axes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="set_axis.html"><code class="docutils literal notranslate"><span class="pre">set_axis()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-plotting-procedure">The plotting procedure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plot.html"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="display.html"><code class="docutils literal notranslate"><span class="pre">display()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="scatter.html">scatter function</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#field-and-contour-lines">Field and contour lines</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contour.html"><code class="docutils literal notranslate"><span class="pre">contour()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamplot.html"><code class="docutils literal notranslate"><span class="pre">streamplot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#interactive-plots">Interactive plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="interactive.html"><code class="docutils literal notranslate"><span class="pre">interactive()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="animate.html"><code class="docutils literal notranslate"><span class="pre">animate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#useful-plotting-tools">Useful plotting tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="legend.html"><code class="docutils literal notranslate"><span class="pre">legend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="colorbar.html"><code class="docutils literal notranslate"><span class="pre">colorbar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="zoom.html"><code class="docutils literal notranslate"><span class="pre">zoom()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="savefig.html"><code class="docutils literal notranslate"><span class="pre">savefig()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="text.html"><code class="docutils literal notranslate"><span class="pre">text()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="tools.html" title="Manipulating the data"
+              >previous</a> |
+            <a href="image.html" title="&lt;no title&gt;"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>plot function &#8212; pyPLUTO 1.0 documentation</title>
+    <title>&lt;no title&gt; &#8212; pyPLUTO 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
@@ -13,17 +13,17 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="display function" href="display.html" />
-    <link rel="prev" title="setaxis function" href="set_axis.html" /> 
+    <link rel="next" title="&lt;no title&gt;" href="display.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="set_axis.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
           href="index.html">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="set_axis.html" title="setaxis function"
+          <a href="set_axis.html" title="&lt;no title&gt;"
              accesskey="P">previous</a> |
-          <a href="display.html" title="display function"
+          <a href="display.html" title="&lt;no title&gt;"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -39,9 +39,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="plot-function">
-<span id="plot"></span><h1>plot function<a class="headerlink" href="#plot-function" title="Link to this heading">¶</a></h1>
-<dl class="py function">
+  <dl class="py function" id="plot">
 <dt class="sig sig-object py" id="pyPLUTO.Image.plot">
 <span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[None]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPLUTO.Image.plot" title="Link to this definition">¶</a></dt>
 <dd><p>Creation of a 1D function plot (or a 1D slice plot).
@@ -55,21 +53,20 @@ provided, it plots the second as a function of the first one.</p>
 <dt><strong>- alpha: float, default 1.0</strong></dt><dd><p>Sets the opacity of the plot, where 1.0 means total opaque and 0.0 means
 total transparent.</p>
 </dd>
-<dt><strong>- aspect: {‘auto’, ‘equal’, float}, default ‘auto’</strong></dt><dd><p>Sets the aspect ratio of the plot.
+<dt><strong>- aspect: ‘auto’ | ‘equal’ | float, default ‘auto’</strong></dt><dd><p>Sets the aspect ratio of the plot.
 The ‘auto’ keyword is the default option (most likely the plot will be 
 squared). The ‘equal’ keyword will set the same scaling for x and y. 
 A float will fix the ratio between the y-scale and the x-scale
 (1.0 is the same as ‘equal’).</p>
 </dd>
-<dt><strong>- ax: {ax object, ‘old’, None}, default None</strong></dt><dd><p>The axis where to plot the lines. If None, a new axis is created.
-If ‘old’, the last considered axis will be used.</p>
+<dt><strong>- ax: ax | int | None, default None</strong></dt><dd><p>The axis where to plot the lines. If None, a new axis is created or the 
+last axis is selected.</p>
 </dd>
-<dt><strong>- c: str, default [‘k’,’#12e3c0’,’#3f6600’,’#1815c5’,’#f67451’,’#d7263d’]</strong></dt><dd><p>Determines the line color. If not defined, the program will loop over an
-array of 6 color which are different for the most common vision
+<dt><strong>- bottom: float, default 0.1</strong></dt><dd><p>The space from the bottom border to the last row of plots.</p>
+</dd>
+<dt><strong>- c: str, default self.color</strong></dt><dd><p>Determines the line color. If not defined, the program will loop over an
+array of 10 color which are different for the most common vision
 deficiencies.</p>
-</dd>
-<dt><strong>- check: bool, default True</strong></dt><dd><p>If enabled perform a check on the method’s parameters, raising a warning
-if a parameter is not present among the set of available parameters.</p>
 </dd>
 <dt><strong>- figsize: [float, float], default [8,5]</strong></dt><dd><p>Sets the figure size. The default value is computed from the number of 
 rows and columns.</p>
@@ -92,12 +89,14 @@ The default value corresponds to the value of the keyword ‘fontsize’.</p>
 </dd>
 <dt><strong>- legalpha: float, default 0.8</strong></dt><dd><p>Sets the opacity of the legend.</p>
 </dd>
+<dt><strong>- left: float, default 0.125</strong></dt><dd><p>The space from the left border to the leftmost column of plots.</p>
+</dd>
 <dt><strong>- legcols: int, default 1</strong></dt><dd><p>Sets the number of columns that the legend should have.</p>
 </dd>
 <dt><strong>- legpad: float, default 0.8</strong></dt><dd><p>Sets the space between the lines (or symbols) and the correspondibg text
 in the legend.</p>
 </dd>
-<dt><strong>- legpos: int/str, default None</strong></dt><dd><p>If enabled, creates a legend. This keyword selects the legend location.
+<dt><strong>- legpos: int | str, default None</strong></dt><dd><p>If enabled, creates a legend. This keyword selects the legend location.
 The possible locations for the legend are indicated in the following 
 link: 
 <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html</a></p>
@@ -119,10 +118,14 @@ matplotlib package. Here are reported the most common ones.</p>
 </dd>
 <dt><strong>- ms: float, default 3</strong></dt><dd><p>Sets the marker size.</p>
 </dd>
+<dt><strong>- mscale: fload, default 1.0</strong></dt><dd><p>Sets the marker size scale in the legend.</p>
+</dd>
 <dt><strong>- proj: str, default None</strong></dt><dd><p>Custom projection for the plot (e.g. 3D). Recommended only if needed.
 This keyword should be used only if the axis is created.
 WARNING: pyPLUTO does not support 3D plotting for now, only 3D axes.
 The 3D plot feature will be available in future releases.</p>
+</dd>
+<dt><strong>- right: float, default 0.9</strong></dt><dd><p>The space from the right border to the rightmost column of plots.</p>
 </dd>
 <dt><strong>- ticksdir: {‘in’, ‘out’}, default ‘in’</strong></dt><dd><p>Sets the ticks direction. The default option is ‘in’.</p>
 </dd>
@@ -134,6 +137,8 @@ The default value corresponds to the value of the keyword ‘fontsize’.</p>
 <dt><strong>- titlesize: float, default fontsize</strong></dt><dd><p>Sets the title fontsize. The default value corresponds to the value of 
 the keyword ‘fontsize’.</p>
 </dd>
+<dt><strong>- top: float, default 0.9</strong></dt><dd><p>The space from the top border to the first row of plots.</p>
+</dd>
 <dt><strong>- x (not optional): 1D array</strong></dt><dd><p>This is the x-axis variable. If y is not defined, then this becomes the 
 y-axis variable.</p>
 </dd>
@@ -142,15 +147,15 @@ the code will compute the range while plotting the data by taking the
 minimum and the maximum values of the x-array. In case of multiple 
 lines, the code will also adapt to the previous ranges.</p>
 </dd>
-<dt><strong>- xscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets automatically the scale
+<dt><strong>- xscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from default), sets automatically the scale
 on the x-axis. Data in log scale should be used with the keyword ‘log’,
 while data in linear scale should be used with the keyword ‘linear’.</p>
 </dd>
-<dt><strong>- xticks: {[float], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually ticks on
+<dt><strong>- xticks: [float] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on
 x-axis. In order to completely remove the ticks the keyword should be 
 used with None.</p>
 </dd>
-<dt><strong>- xtickslabels: {[str], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually the ticks
+<dt><strong>- xtickslabels: [str] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
 labels on the x-axis. In order to completely remove the ticks the
 keyword should be used with None. Note that fixed tickslabels should
 always correspond to fixed ticks.</p>
@@ -165,15 +170,15 @@ minimum and the maximum values of the y-array. In case of multiple
 lines, the code will also adapt to the previous ranges. It also adds a 
 small offset.</p>
 </dd>
-<dt><strong>- yscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets automatically the scale
+<dt><strong>- yscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from True), sets automatically the scale
 on the y-axis. Data in log scale should be used with the keyword ‘log’,
 while data in linear scale should be used with the keyword ‘linear’.</p>
 </dd>
-<dt><strong>- yticks: {[float], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually ticks on
+<dt><strong>- yticks: [float] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on
 y-axis. In order to completely remove the ticks the keyword should be 
 used with None.</p>
 </dd>
-<dt><strong>- ytickslabels: {[str], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually the ticks
+<dt><strong>- ytickslabels: [str] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
 labels on the y-axis. In order to completely remove the ticks the
 keyword should be used with None. Note that fixed tickslabels should
 always correspond to fixed ticks.</p>
@@ -193,7 +198,7 @@ always correspond to fixed ticks.</p>
 </dl>
 <p class="rubric">Notes</p>
 <ul class="simple">
-<li><p>Minorticks on single axis?</p></li>
+<li><p>Minorticks on single axis will be added in future releases.</p></li>
 </ul>
 <hr class="docutils" />
 <p class="rubric">Examples</p>
@@ -205,8 +210,8 @@ always correspond to fixed ticks.</p>
 </pre></div>
 </div>
 </li>
-<li><p>Example #2: create a plot of y as function of x with custom range of the 
-axes and titles</p>
+<li><dl>
+<dt>Example #2: create a plot of y as function of x with custom range of the </dt><dd><p>axes and titles</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],</span> 
@@ -214,6 +219,8 @@ axes and titles</p>
 <span class="gp">...</span>
 </pre></div>
 </div>
+</dd>
+</dl>
 </li>
 <li><p>Example #3: create a plot with logarithmic scale on y-axis</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
@@ -248,7 +255,6 @@ axes and titles</p>
 <div class="line"><br /></div>
 </div>
 <hr class="docutils" />
-</section>
 
 
             <div class="clearer"></div>
@@ -263,22 +269,18 @@ axes and titles</p>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="image.html#the-pypluto-image-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image()</span></code> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">plot function</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="display.html">display function</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="imageclass.html">Plotting the data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="image.html"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="imageclass.html#the-plotting-procedure">The plotting procedure</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="display.html"><code class="docutils literal notranslate"><span class="pre">display()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="scatter.html">scatter function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="contour.html">contour function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="streamplot.html">streamplot function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="interactive.html">interactive function</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#field-and-contour-lines">Field and contour lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#interactive-plots">Interactive plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#useful-plotting-tools">Useful plotting tools</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
@@ -302,9 +304,9 @@ axes and titles</p>
       <div class="footer">
         <div class="left">
           <div role="navigation" aria-label="related navigaton">
-            <a href="set_axis.html" title="setaxis function"
+            <a href="set_axis.html" title="&lt;no title&gt;"
               >previous</a> |
-            <a href="display.html" title="display function"
+            <a href="display.html" title="&lt;no title&gt;"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>

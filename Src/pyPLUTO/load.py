@@ -30,6 +30,9 @@ class Load:
         Endianess of the datafiles. Should be used only if specific 
         architectures are used, since the code computes it by itself. Valid 
         values are 'big' and 'little' (or '<' and '>').
+    - level: int, default 0
+        The refinement level of the grid. Should be used only if the grid is
+        refined through AMR.
     - multiple: bool, default False
         If the files are multiple. If False, the code will look for the single 
         files, otherwise for the multiple files each corresponding to the loaded
@@ -228,6 +231,10 @@ class Load:
         except:
             pass
 
+        # Convert ntime if only one number of a list
+        if isinstance(self.ntime, np.ndarray) and len(self.ntime) == 1:
+            self.ntime = self.ntime[0]
+
         # Print loaded folder and output
         if text: 
             _nout_out = self.nout[0] if len(self.nout) == 1 else list(self.nout)
@@ -301,7 +308,7 @@ class Load:
     from .readfluid   import _offset_bin, _read_tabfile
     from .amr         import _inspect_hdf5, _DataScanHDF5
     from .write_files import _write_h5, write_file
-    from .read_files  import _read_h5, read_file
+    from .read_files  import _read_h5, _read_dat, read_file
     from .transform   import slices, mirror, cartesian_vector, reshape_cartesian
     from .transform   import _congrid
     from .fourier     import fourier

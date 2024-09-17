@@ -219,7 +219,8 @@ class Image:
     from .plot2d     import display, scatter, colorbar, _set_cscale
     from .plotzoom   import zoom
     from .imagetools import savefig, show, text
-    from .interact   import interactive, _update_slider, _update_both, savegif
+    from .interact   import interactive, _update_slider, _update_both
+    from .interact   import animate
     from .plotlines  import contour, streamplot
     from .figure     import _create_figure, _assign_LaTeX, _choose_colorlines
     from .h_image    import _add_ax, _hide_text

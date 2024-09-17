@@ -310,7 +310,7 @@ class Load:
     from .write_files import _write_h5, write_file
     from .read_files  import _read_h5, _read_dat, read_file
     from .transform   import slices, mirror, cartesian_vector, reshape_cartesian
-    from .transform   import _congrid
+    from .transform   import _congrid, reshape_uniform
     from .fourier     import fourier
     from .findlines   import find_contour, find_fieldlines
     from .findlines   import _check_var  

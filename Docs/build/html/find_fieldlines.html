@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; pyPLUTO 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="find_contour.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="slices.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">pyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="slices.html" title="&lt;no title&gt;"
+             accesskey="P">previous</a> |
+          <a href="find_contour.html" title="&lt;no title&gt;"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <dl class="py function" id="find-fieldlines">
+<dt class="sig sig-object py" id="pyPLUTO.Load.find_fieldlines">
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Load.</span></span><span class="sig-name descname"><span class="pre">find_fieldlines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#pyPLUTO.Load.find_fieldlines" title="Link to this definition">¶</a></dt>
+<dd><p>Find field lines using the vector field. The field lines are computed by
+interpolating the variables var1 and var2 at the footpoints x0 and y0.
+Different integration algorithms are available, based on the method
+solve_ivp of the scipy package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- atol: float, default 1e-6</strong></dt><dd><p>The absolute tolerance for the integration.</p>
+</dd>
+<dt><strong>- close: bool, default True</strong></dt><dd><p>If True, it checks if the line is closed on itself.</p>
+</dd>
+<dt><strong>- ctol: float, default 1e-6</strong></dt><dd><p>The absolute tolerance for line closing on itself.</p>
+</dd>
+<dt><strong>- dense: bool, default False</strong></dt><dd><p>If True, the grid is dense (dense=True) or sparse (dense=False).</p>
+</dd>
+<dt><strong>- maxstep: float, default 100*step</strong></dt><dd><p>The maximum step size for the integration.</p>
+</dd>
+<dt><strong>- minstep: float, default 0.05*step</strong></dt><dd><p>The minimum step size for the integration (only used if order is LSODA).</p>
+</dd>
+<dt><strong>- numsteps: int, default 16384</strong></dt><dd><p>The maximum number of steps for the integration.</p>
+</dd>
+<dt><strong>- order: str, default ‘RK45’</strong></dt><dd><p>The integration method. Available options are: ‘RK45’, ‘RK23’, ‘DOP853’,
+‘Radau’, ‘BDF’, ‘LSODA’.</p>
+</dd>
+<dt><strong>- rtol: float, default 1e-6</strong></dt><dd><p>The relative tolerance for the integration.</p>
+</dd>
+<dt><strong>- step: float, default abs(min((xend-xbeg)/self.nx1, (yend-ybeg)/self.nx2))</strong></dt><dd><p>The initial step size for the integration.</p>
+</dd>
+<dt><strong>- text: bool, default False</strong></dt><dd><p>If True some additional information is printed.</p>
+</dd>
+<dt><strong>- transpose: bool, default False</strong></dt><dd><p>If True, the variables are transposed.</p>
+</dd>
+<dt><strong>- var1 (not optional): str | NDArray</strong></dt><dd><p>The first variable to be interpolated.</p>
+</dd>
+<dt><strong>- var2 (not optional): str | NDArray</strong></dt><dd><p>The second variable to be interpolated.</p>
+</dd>
+<dt><strong>- x0: list</strong></dt><dd><p>The x coordinates of the footpoints.</p>
+</dd>
+<dt><strong>- x1: NDArray | list | None, default self.x1</strong></dt><dd><p>The x coordinates of the grid.</p>
+</dd>
+<dt><strong>- x2: NDArray | list | None, default self.x2</strong></dt><dd><p>The y coordinates of the grid.</p>
+</dd>
+<dt><strong>- y0: list</strong></dt><dd><p>The y coordinates of the footpoints.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>linelist: list</dt><dd><p>A list of lists containing the coordinates of the field lines.
+The strcuture of the list is [[x1, y1], [x2, y2], …] where
+x1, y1, x2, y2 are numpy arrays representing the coordinates of
+the field lines.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>None</p></li>
+</ul>
+<hr class="docutils" />
+<p class="rubric">Examples</p>
+<ul>
+<li><p>Example #1: Find field lines using the vector field</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">find_fieldlines</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #2: Find field lines using two strings ‘Bx1’ and ‘Bx2’</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">find_fieldlines</span><span class="p">(</span><span class="s1">&#39;Bx1&#39;</span><span class="p">,</span> <span class="s1">&#39;Bx2&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #3: Find field lines using two variables and two footpoints</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">find_fieldlines</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">],</span> <span class="p">[</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tools.html">Manipulating the data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tools.html#variables-and-grid-conversion">Variables and grid conversion</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tools.html#field-and-contour-lines-tool">Field and contour lines tool</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">find_fieldlines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="find_contour.html"><code class="docutils literal notranslate"><span class="pre">find_contour()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html#fourier-transform">Fourier Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html#derivatives">Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html#spectrum-and-select-particles">Spectrum and select particles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="slices.html" title="&lt;no title&gt;"
+              >previous</a> |
+            <a href="find_contour.html" title="&lt;no title&gt;"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

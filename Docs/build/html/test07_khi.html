@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Test 07 - RMHD Kelvin-Helmholtz instability test &#8212; pyPLUTO 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Test 08 - MHD Torus test" href="test08_torus.html" />
+    <link rel="prev" title="Test 06 - HD Disk planet test" href="test06_diskplanet.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">pyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="test06_diskplanet.html" title="Test 06 - HD Disk planet test"
+             accesskey="P">previous</a> |
+          <a href="test08_torus.html" title="Test 08 - MHD Torus test"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="test-07-rmhd-kelvin-helmholtz-instability-test">
+<span id="test07-khi"></span><h1>Test 07 - RMHD Kelvin-Helmholtz instability test<a class="headerlink" href="#test-07-rmhd-kelvin-helmholtz-instability-test" title="Link to this heading">¶</a></h1>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/test07_khi.png"><img alt="_images/test07_khi.png" class="align-center" src="_images/test07_khi.png" style="width: 600px;" /></a>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">RMHD Kelvin-Helmholtz instability test (configuration 1)</span>
+
+<span class="sd">This test shows how to plot a more complex figure with a customized number of</span>
+<span class="sd">subplots and the insert of text inside the plots.</span>
+
+<span class="sd">The package &quot;os&quot; is loaded to create the path to the</span>
+<span class="sd">directory $PLUTO_DIR/Test_Problems/RMHD/KH, where the the Kelvin-Helmholtz</span>
+<span class="sd">instability test problem is located.</span>
+
+<span class="sd">The data is loaded into a pload object D and the Image class is created. The</span>
+<span class="sd">create_axes method is used to form a collage of plots both elegant and useful.</span>
+<span class="sd">The display method is used to plot the density in the main plot, while the plot</span>
+<span class="sd">method, together with the text method, is used to show secondary plots of the</span>
+<span class="sd">trasversal velocity as function of time. The image is then saved and shown on</span>
+<span class="sd">screen.</span>
+
+<span class="sd">IMPORTANT: For the correct representation of the secondary plots, the analysis</span>
+<span class="sd">parameter in the pluto.ini should be changed to 0.05.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Loading the relevant packages</span>
+<span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span>   <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Creating the path for the data directory</span>
+<span class="n">plutodir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PLUTO_DIR&#39;</span><span class="p">]</span>
+<span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span> <span class="o">+</span> <span class="s1">&#39;/Test_Problems/RMHD/KH&#39;</span>
+
+<span class="c1"># Loading the data into a pload object D</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">wdir</span><span class="p">)</span>
+
+<span class="c1"># Creating the image and the subplot axes (to have two secondary plots)</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span>
+             <span class="n">suptitle</span> <span class="o">=</span> <span class="s1">&#39;Test 07 - RMHD Kelvin-Helmholtz instability test&#39;</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wratio</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span> <span class="n">wspace</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.003</span><span class="p">],</span> <span class="n">right</span> <span class="o">=</span> <span class="mf">0.55</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">nrow</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">hspace</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.003</span><span class="p">],</span> <span class="n">left</span> <span class="o">=</span> <span class="mf">0.67</span><span class="p">)</span>
+
+<span class="c1"># Plotting the data</span>
+<span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span>
+                            <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Density&#39;</span><span class="p">,</span>
+                            <span class="n">ax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                            <span class="n">shading</span> <span class="o">=</span> <span class="s1">&#39;gouraud&#39;</span><span class="p">,</span>
+                            <span class="n">xtitle</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$x$&#39;</span><span class="p">,</span>
+                            <span class="n">ytitle</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$y$&#39;</span><span class="p">)</span>
+
+<span class="n">I</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">axs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cax</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Find and plot the field lines</span>
+<span class="n">lines</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">find_fieldlines</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">Bx1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">Bx2</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span>
+                                                   <span class="n">y0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="o">-</span><span class="mf">0.2</span><span class="p">],</span>
+                                                   <span class="n">x0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],</span>
+                                                   <span class="n">order</span> <span class="o">=</span> <span class="s1">&#39;RK45&#39;</span><span class="p">,</span>
+                                                   <span class="n">maxstep</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+                                                   <span class="n">numsteps</span> <span class="o">=</span> <span class="mi">25000</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+    <span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+
+<span class="c1"># Open the kh.dat file and store the variables</span>
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">wdir</span><span class="o">+</span><span class="s1">&#39;/kh.dat&#39;</span><span class="p">)</span>
+
+<span class="c1"># Add text in the axes</span>
+<span class="n">I</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\langle v_y^2\rangle$&quot;</span><span class="p">,</span>  <span class="n">ax</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$v_{y, MAX}^2$&quot;</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">)</span>
+
+<span class="c1"># Plot the velocity from the kh.dat file.</span>
+<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;vy2&#39;</span><span class="p">],</span> <span class="n">ax</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">yscale</span> <span class="o">=</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
+       <span class="n">xtickslabels</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;maxvy&#39;</span><span class="p">],</span> <span class="n">ax</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">yscale</span> <span class="o">=</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
+       <span class="n">xtitle</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$t$&#39;</span><span class="p">)</span>
+
+<span class="c1"># Saving the image and showing the plots</span>
+<span class="n">I</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test07_khi.png&#39;</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="test01_sod.html">Test 01 - HD Sod shock tube</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test02_ot.html">Test 02 - MHD Orszag-Tang vortex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test03_rti.html">Test 03 - MHD Rayleigh-Taylor instability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test04_rotor.html">Test 04 - MHD Rotor test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test05_fieldloop.html">Test 05 - MHD Field loop test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test06_diskplanet.html">Test 06 - HD Disk planet test</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Test 07 - RMHD Kelvin-Helmholtz instability test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test08_torus.html">Test 08 - MHD Torus test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test09_blast.html">Test 09 - MHD Blast test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test10_riemann2d.html">Test 10 - HD Riemann 2D test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test11_crxpoint.html">Test 11 - Particles CR Xpoint test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test12_riemannlp.html">Test 12 - LP Riemann 2D test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test13_flowpastcyl.html">Test 13 - AMR Flow past cylinder test</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="test06_diskplanet.html" title="Test 06 - HD Disk planet test"
+              >previous</a> |
+            <a href="test08_torus.html" title="Test 08 - MHD Torus test"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

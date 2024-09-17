@@ -47,7 +47,7 @@ def _islice_imin_imax(xvalue,
                      ) -> list[int]:
     """
     Returns i, imin, imax for xgrid such that xgrid[i] <= xvalue <= xgrid[i+1]
-    with a stencil of 5 cells. If the grid is too small, imin and imax are
+    with a stencil of 3 cells. If the grid is too small, imin and imax are
     set to 0 and N, respectively.
 
     Returns
@@ -78,15 +78,9 @@ def _islice_imin_imax(xvalue,
     Examples
     ========
 
-    - Example # 1: Compute the indices for the stencil of 5 cells
+    - Example # 1: Compute the indices for the stencil of 3 cells
 
         >>> _islice_imin_imax(0.5, np.linspace(0,1,11))
-        (5, 5, 10)
-
-    - Example # 2: Compute the indices for the stencil of 3 cells
-
-        >>> _islice_imin_imax(0.5, np.linspace(0,1,11))
-        (3, 3, 6)
     
     """
 
@@ -95,17 +89,17 @@ def _islice_imin_imax(xvalue,
     i     = np.argmin(abs(xgrid-xvalue))
 
     # Compute the limits of the stencil
-    i_min = max(0, i - 2)
-    i_max = min(N, i + 3)
+    i_min = max(0, i - 1)
+    i_max = min(N, i + 2)
 
     # If the grid is too small, set imin and imax to 0 and N
-    if N < 5:
+    if N < 3:
         i_min, i_max = 0, N
 
     # If imin or imax are outside the grid, set them to 0 and/or N
     else:
-        i_min = N-5 if i_max == N else i_min
-        i_max =   5 if i_min == 0 else i_max
+        i_min = N - 3 if i_max == N else i_min
+        i_max =     3 if i_min == 0 else i_max
 
     # Return i, imin, imax
     return i-i_min, i_min, i_max

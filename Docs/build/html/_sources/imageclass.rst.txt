@@ -156,6 +156,19 @@ within the same figure.
    text
 
 The PyPLUTO module allows for easy inset zooms through the :ref:`zoom <zoom>`
+for both 1D and 2D plots with the same level of customization of the functions
+:ref:`plot <plot>` and :ref:`display <display>`.
+Note that, for the zoom of 2D variables, an additional customization level is
+possible; in fact, the zoom of a different quantities can be easily plotted
+in order to see two variables of a selected region at the same time with minimum
+effort.
+
+Image figures can be saved through the :ref:`savefig <savefig>` method, which is
+a simple wrapper of the matplotlib savefig method.
+
+Text can be written within a figure through the :ref:`text <text>` method.
+Depending on the user's choice, the text can be placed in different font size,
+color and position (relative to the figure, axes points or fraction).
 
 |
 

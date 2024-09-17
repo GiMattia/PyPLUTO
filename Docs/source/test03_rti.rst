@@ -1,13 +1,7 @@
 .. _test03_rti:
 
-MHD RTI
-=======
-
-The Rayleigh-Taylor Instability test provides the description of the evolution 
-of the interface between two fluids with different densities, in which a more 
-dense fluid falls through a less dense one by the effect of gravity.
-
-The figure displays at different times the instability of the interface.
+Test 03 - MHD Rayleigh-Taylor instability
+=========================================
 
 
   .. image:: ../../Tests/test03_rti.png

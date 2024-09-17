@@ -14,14 +14,14 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="image.html" />
-    <link rel="prev" title="Manipulating the data" href="tools.html" /> 
+    <link rel="prev" title="&lt;no title&gt;" href="select.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
           href="index.html">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="tools.html" title="Manipulating the data"
+          <a href="select.html" title="&lt;no title&gt;"
              accesskey="P">previous</a> |
           <a href="image.html" title="&lt;no title&gt;"
              accesskey="N">next</a> |
@@ -153,7 +153,18 @@ during a later step. However, multiple legends and colorbars are possible
 within the same figure.</p>
 <div class="toctree-wrapper compound">
 </div>
-<p>The PyPLUTO module allows for easy inset zooms through the <a class="reference internal" href="zoom.html#zoom"><span class="std std-ref">zoom</span></a></p>
+<p>The PyPLUTO module allows for easy inset zooms through the <a class="reference internal" href="zoom.html#zoom"><span class="std std-ref">zoom</span></a>
+for both 1D and 2D plots with the same level of customization of the functions
+<a class="reference internal" href="plot.html#plot"><span class="std std-ref">plot</span></a> and <a class="reference internal" href="display.html#display"><span class="std std-ref">display</span></a>.
+Note that, for the zoom of 2D variables, an additional customization level is
+possible; in fact, the zoom of a different quantities can be easily plotted
+in order to see two variables of a selected region at the same time with minimum
+effort.</p>
+<p>Image figures can be saved through the <a class="reference internal" href="savefig.html#savefig"><span class="std std-ref">savefig</span></a> method, which is
+a simple wrapper of the matplotlib savefig method.</p>
+<p>Text can be written within a figure through the <a class="reference internal" href="text.html#text"><span class="std std-ref">text</span></a> method.
+Depending on the user’s choice, the text can be placed in different font size,
+color and position (relative to the figure, axes points or fraction).</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -184,7 +195,7 @@ within the same figure.</p>
 <li class="toctree-l2"><a class="reference internal" href="#the-plotting-procedure">The plotting procedure</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="plot.html"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="display.html"><code class="docutils literal notranslate"><span class="pre">display()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scatter.html">scatter function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scatter.html"><code class="docutils literal notranslate"><span class="pre">scatter()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#field-and-contour-lines">Field and contour lines</a><ul>
@@ -228,7 +239,7 @@ within the same figure.</p>
       <div class="footer">
         <div class="left">
           <div role="navigation" aria-label="related navigaton">
-            <a href="tools.html" title="Manipulating the data"
+            <a href="select.html" title="&lt;no title&gt;"
               >previous</a> |
             <a href="image.html" title="&lt;no title&gt;"
               >next</a> |

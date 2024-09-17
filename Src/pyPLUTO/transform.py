@@ -456,7 +456,7 @@ def reshape_cartesian(self,
         xc, yc = np.meshgrid(xc0, yc0, indexing='ij')
 
     # Create the new grid
-    x1, x2, vars = reshape_uniform(x1, x2, *vars, **kwargs)
+    x1, x2, vars = self.reshape_uniform(x1, x2, *vars, **kwargs)
 
     # Convert grid
     ww, nn = _convert2cartgrid(xc, yc, x1, x2)   
@@ -474,11 +474,11 @@ def reshape_cartesian(self,
         return xcong[:,0], ycong[0], *newv
 
 
-def reshape_uniform(x1, x2, *args, **kwargs):
+def reshape_uniform(self, x1, x2, *args, **kwargs):
     """
     Reshapes a non-uniform (cartesian) grid into a uniform grid.
 
-    Returns:
+    Returns
     -------
 
     tuple: A tuple containing the reshaped x1, x2, varx, and vary.

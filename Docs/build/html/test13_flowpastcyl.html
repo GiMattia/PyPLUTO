@@ -52,13 +52,18 @@
 <span class="n">plutodir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PLUTO_DIR&#39;</span><span class="p">]</span>
 <span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span> <span class="o">+</span> <span class="s1">&#39;/Test_Problems/HD/Viscosity/Flow_Past_Cylinder&#39;</span>
 
+<span class="c1"># Load the data (4 levels of AMR)</span>
 <span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">wdir</span><span class="p">,</span> <span class="n">level</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span>
 
+<span class="c1"># Convert the grid to cartesian</span>
 <span class="n">rr</span><span class="p">,</span> <span class="n">pphh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1r</span><span class="p">,</span><span class="n">D</span><span class="o">.</span><span class="n">x2r</span><span class="p">,</span><span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)</span>
 <span class="n">xx</span> <span class="o">=</span> <span class="n">rr</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">pphh</span><span class="p">)</span>
 <span class="n">yy</span> <span class="o">=</span> <span class="n">rr</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">pphh</span><span class="p">)</span>
 
+<span class="c1"># Initialize the Image class (with black color)</span>
 <span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">withblack</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Show the 2D density</span>
 <span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">xx</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">yy</span><span class="p">,</span> 
                  <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> 
                  <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">],</span> 
@@ -69,8 +74,11 @@
                  <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
                  <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span>
                  <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Test 13 - AMR Flow past cylinder test&#39;</span><span class="p">)</span>
+                 
+<span class="c1"># Plot the AMR levels (up to 2)</span>
 <span class="n">I</span><span class="o">.</span><span class="n">oplotbox</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">AMRLevel</span><span class="p">,</span><span class="n">lrange</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="n">geom</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">geom</span><span class="p">)</span>
 
+<span class="c1"># Save and show the figure</span>
 <span class="n">I</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test13_flowpastcylinder.png&#39;</span><span class="p">)</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>

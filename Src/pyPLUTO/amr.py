@@ -15,20 +15,25 @@ def _inspect_hdf5(self,
     Parameters
     ----------
 
+	- exout (not optional): int
+        The index of the output to be loaded.
     - i (not optional): int
         The index of the file to be loaded.
-    - exout (not optional): int
-        The index of the output to be loaded.
 
     Notes
     -----
 
-    - None
+    - This routines will be optimize in the future, alongside a novel
+	    implementation of the AMR in the PLUTO code.
 
     ----
 
     Examples
     ========
+
+	- Example #1: Inspect the hdf5 file
+
+		>>> _inspect_hdf5(0, 0)
 
     """
 
@@ -61,17 +66,50 @@ def _inspect_hdf5(self,
 
     return None
 
-def _DataScanHDF5(self, fp, myvars, ilev):
-		""" Scans the Chombo HDF5 data files for AMR in PLUTO.
-		**Inputs**:
-			fp     -- Data file pointer\n
-			myvars -- Names of the variables to read\n
-			ilev   -- required AMR level
-		**Output**:
-			Dictionary consisting of variable names as keys and its values.
-		**Note**:
-			Due to the particularity of AMR, the grid arrays loaded in ReadGridFile are overwritten here.
+
+def _DataScanHDF5(self, 
+				  fp, 
+				  myvars, 
+				  ilev
+				 ) -> dict:
+		""" 
+		Scans the Chombo HDF5 data files for AMR in PLUTO.
+
+		Returns
+		-------
+
+		- OutDict: dictionary
+		    The dictionary consisting of variable names as keys and its values.
+
+		Parameters
+		----------
+
+		- fp: pointer
+		    The data file pointer.
+		- ilev: float
+		    The AMR level.
+		- myvars: str
+		    The names of the variables to be read. 
+		
+		Notes
+		-----
+
+		- Due to the particularity of AMR, the grid arrays loaded in ReadGridFile
+		  are overwritten here.
+		- This routines will be optimize in the future, alongside a novel
+		  implementation of the AMR in the PLUTO code.
+		
+		----
+
+		Examples
+		========
+
+		- Example #1:
+
+			>>> _DataScanHDF5(fp, myvars, ilev)
+
 		"""
+
 		# Read the grid information
 		dim = fp['Chombo_global'].attrs.get('SpaceDim')
 		nlev = fp.attrs.get('num_levels')
@@ -256,28 +294,74 @@ def _DataScanHDF5(self, fp, myvars, ilev):
 		OutDict = dict(NewGridDict)
 		OutDict.update(AMRdict)
 		OutDict.update(h5vardict)
+
 		return OutDict
 
-def oplotbox(self, AMRLevel, lrange=[0,0], cval=['b','r','g','m','w','k'],\
-										islice=-1, jslice=-1, kslice=-1,
-                                        geom='CARTESIAN', ax = None, **kwargs):
+
+def oplotbox(self, 
+						 AMRLevel, 
+						 lrange = [0,0], 
+						 cval = None,
+						 islice = -1, 
+						 jslice = -1, 
+						 kslice = -1,
+             			 geom = 'CARTESIAN', 
+						 ax = None, 
+						 **kwargs
+						) -> None:
 		"""
 		This method overplots the AMR boxes up to the specified level.
-		**Input:**
-			AMRLevel -- AMR object loaded during the reading and stored in the pload object
-		*Optional Keywords:*
-			lrange     -- [level_min,level_max] to be overplotted. By default it shows all the loaded levels\n
-			cval       -- list of colors for the levels to be overplotted.\n
-			[ijk]slice -- Index of the 2D slice to look for so that the adequate box limits are plotted.
-										By default oplotbox considers you are plotting a 2D slice of the z=min(x3) plane.\n
-			geom       -- Specified the geometry. Currently, CARTESIAN (default) and POLAR geometries are handled.
+
+		Returns
+		-------
+
+		- None
+
+		Parameters
+		----------
+
+		- AMRLevel: AMR object
+	      AMR object loaded during the reading and stored in the pload object.
+		- ax: axis object
+		    The axis object where to plot the AMR boxes.
+		- cval: str | None
+		    List of colors for the levels to be overplotted.
+		- geom: str, default 'CARTESIAN'
+		    The specified geometry. At the moment 'CARTESIAN' and 'POLAR' are the
+				handled geometries.
+		- islice: int
+		    The index of the 2D slice along x-axis direction.
+		- jslice: int
+		    The index of the 2D slice along y-axis direction.
+		- kslice: int, default min(x3)
+		    The index of the 2D slice along z-axis direction.
+		- kwargs: Any
+		    The kwargs of the plot method.
+		- lrange: [level_min, level_max]
+		    The range to be overplotted.
+		
+		Notes
+		-----
+
+		- This routines will be optimize in the future, alongside a novel
+		  implementation of the AMR in the PLUTO code.
+
+		----
+
+		Examples
+		========
+
+		- Example #1: Overplot the AMR boxes up to the specified level
+
+			>>> oplotbox(AMRLevel, lrange = [0,2])
+		
 		"""
-        
+
 		nlev = len(AMRLevel)
 		lrange[1] = min(lrange[1],nlev-1)
 		npl  = lrange[1]-lrange[0]+1
 		lpls = [lrange[0]+v for v in range(npl)]
-		cols = cval[0:nlev]
+		cols = cval[0:nlev] if cval is not None else self.color[0:nlev]
 		# Get the offset and the type of slice
 		Slice = 0 ; inds = 'k'
 		xx = 'x' ; yy ='y'
@@ -300,7 +384,7 @@ def oplotbox(self, AMRLevel, lrange=[0,0], cval=['b','r','g','m','w','k'],\
 					if (geom == 'CARTESIAN'):
 						x0 = box[xx+'0'] ; x1 = box[xx+'1']
 						y0 = box[yy+'0'] ; y1 = box[yy+'1']
-						plot([x0,x1,x1,x0,x0],[y0,y0,y1,y1,y0],color=cols[il])
+						self.plot([x0,x1,x1,x0,x0],[y0,y0,y1,y1,y0],color=cols[il], ax = ax, **kwargs)
 					elif (geom == 'POLAR') or (geom == 'SPHERICAL'):
 						dn = np.pi/50.
 						x0 = box[xx+'0'] ; x1 = box[xx+'1']

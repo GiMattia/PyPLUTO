@@ -247,6 +247,8 @@ def repeat(self,
 
     """
 
+    raise NotImplementedError("Function repeat not implemented yet")
+
     spp = [*dirs] if not isinstance(dirs, list) else dirs
     newvar, axx, axy = np.copy(var), np.copy(xax), np.copy(yax)
 
@@ -278,13 +280,56 @@ def cartesian_vector(self,
                      **kwargs: Any
                     )-> tuple[NDArray]:
     """
-    Function that reshapes a variable into a cartesian vector.    
+    Function that converts a vector from spherical or polar components to
+    cartesian components.
+
+    Returns
+    -------
+
+    - newvar: tuple(np.ndarray)
+        The converted vector components.
+
+    Parameters
+    ----------
+
+    - transpose: bool, default False
+        If True, the variable is transposed.
+    - var: np.ndarray
+        The variable to convert.
+    - var1: np.ndarray
+        The first variable to convert if var is not used.
+    - var2: np.ndarray
+        The second variable to convert if var is not used.
+    - var3: np.ndarray
+        The third variable to convert if var is not used.
+    - x1: int
+        The first index of the variable.
+    - x2: int
+        The second index of the variable.
+
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Convert the vector from spherical to cartesian components
+
+        >>> Bx, By, Bz = cartesian_vector(var = 'B')
+
+    - Example #2: Convert the vector from polar to cartesian components
+
+        >>> Bx, By = cartesian_vector(var1 = D.Bx1, var2 = D.Bx2)
 
     """
 
-    vars = {'B' : ['Bx', 'By', 'Bz'], 
-            'E' : ['Ex', 'Ey', 'Ez'], 
-            'v' : ['vx', 'vy', 'vz']}
+    vars = {'B' : ['Bx1', 'Bx2', 'Bx3'], 
+            'E' : ['Ex1', 'Ex2', 'Ex3'], 
+            'v' : ['vx1', 'vx2', 'vx3']}
     
     if var is not None:
         var_0 = [self.check_var(v, kwargs.get('transpose', False)) \
@@ -292,10 +337,34 @@ def cartesian_vector(self,
     elif 'var1' in kwargs and 'var2' in kwargs:
         var_0 = [self.check_var(kwargs['var1'], kwargs.get('transpose', False)),
                  self.check_var(kwargs['var2'], kwargs.get('transpose', False))]
+    else:
+        raise ValueError("Either var or var1 and var2 must be specified.")
+    
     if 'var3' in kwargs:
         var_0.append(self.check_var(kwargs['var3'], 
                                     kwargs.get('transpose', False)))
-    raise NotImplementedError("Function not implemented yet.")
+        
+    x1 = kwargs.get('x1', self.x1)
+    x2 = kwargs.get('x2', self.x2)
+    x3 = kwargs.get('x3', self.x3)
+
+    if self.geom == 'SPHERICAL':
+        varr = var_0[0]*np.sin(x2) + var_0[1]*np.cos(x2)
+        varz = var_0[0]*np.cos(x2) - var_0[1]*np.sin(x2)
+        if self.dim == 3:
+           varx = varr*np.cos(x3) - var_0[2]*np.sin(x3)
+           vary = varr*np.sin(x3) + var_0[2]*np.cos(x3)
+           if kwargs.get("fullout", False):
+               return varx, vary, varz, varr
+           else:
+               return varx, vary, varz
+        else:
+            return varr, varz
+
+    elif self.geom == 'POLAR':
+        varx = var_0[0]*np.cos(x2) - var_0[1]*np.sin(x2)
+        vary = var_0[0]*np.sin(x2) + var_0[1]*np.cos(x2)
+        return varx, vary
 
 
 def reshape_cartesian(self,
@@ -303,8 +372,50 @@ def reshape_cartesian(self,
                       **kwargs: Any
                      )-> tuple[NDArray]:
     """
-    Function that reshapes a variable into a cartesian grid.
+    Function that reshapes a variable from a cylindrical or spherical grid into 
+    a cartesian grid. Zones not covered by the original domain (e.g. the very
+    inner radial regions) are also interpolated.
 
+    Returns
+    -------
+
+    - newvar: tuple(np.ndarray)
+        The converted variable.
+
+    Parameters
+    ----------
+
+    - nx1: int, default len(x1)
+        The number of grid points in the first direction.
+    - nx2: int, default len(x2)
+        The number of grid points in the second direction.
+    - transpose: bool, default False
+        If True, the variable is transposed.
+    - var: np.ndarray
+        The variable to convert.
+    - x1: int
+        The first index of the variable.
+    - x2: int
+        The second index of the variable.
+
+    Notes
+    -----
+
+    - For now only some methods are available
+    - The transformation is only in 2D for now
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Convert the vector from spherical to cartesian components
+
+        >>> Bx, By, Bz = cartesian_vector(var = 'B')
+
+    - Example #2: Convert the vector from polar to cartesian components
+
+        >>> Bx, By = cartesian_vector(var1 = D.Bx1, var2 = D.Bx2)
 
     """
         
@@ -345,7 +456,7 @@ def reshape_cartesian(self,
         xc, yc = np.meshgrid(xc0, yc0, indexing='ij')
 
     # Create the new grid
-    x1, x2, vars = reshape_uniform(x1, x2, *vars, **kwargs)
+    x1, x2, vars = self.reshape_uniform(x1, x2, *vars, **kwargs)
 
     # Convert grid
     ww, nn = _convert2cartgrid(xc, yc, x1, x2)   
@@ -363,18 +474,46 @@ def reshape_cartesian(self,
         return xcong[:,0], ycong[0], *newv
 
 
-def reshape_uniform(x1, x2, *args, **kwargs):
+def reshape_uniform(self, x1, x2, *args, **kwargs):
     """
-    Reshapes a non-uniform grid into a uniform grid.
+    Reshapes a non-uniform (cartesian) grid into a uniform grid.
 
-    Parameters:
-    var1 (numpy.ndarray): The first variable to be reshaped.
-    var2 (numpy.ndarray): The second variable to be reshaped.
-    x1 (numpy.ndarray): The first coordinate of the grid.
-    x2 (numpy.ndarray): The second coordinate of the grid.
+    Returns
+    -------
 
-    Returns:
     tuple: A tuple containing the reshaped x1, x2, varx, and vary.
+
+    Parameters
+    ----------
+
+    - nx1: int, default len(x1)
+        The number of grid points in the first direction.
+    - nx2: int, default len(x2)
+        The number of grid points in the second direction.
+    - transpose: bool, default False
+        If True, the variable is transposed.
+    - var: np.ndarray
+        The variable to convert.
+    - x1: int
+        The first index of the variable.
+    - x2: int
+        The second index of the variable.
+
+    Notes
+    -----
+
+    - For now only some methods are available
+    - The transformation is only in 2D for now
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Reshape the grid into a uniform grid
+
+        >>> x1new, x2new, varx = reshape_uniform(x1, x2, var)
+
     """
     uniform_x = all(np.diff(x1)==np.diff(x1)[0])
     uniform_y = all(np.diff(x2)==np.diff(x2)[0])
@@ -407,6 +546,43 @@ def reshape_uniform(x1, x2, *args, **kwargs):
 
 
 def _convert2cartgrid(R, Z, new_r, new_t):
+    """
+    Function that converts a grid from spherical to cartesian coordinates.
+
+    Returns
+    -------
+
+    - newvar: tuple(np.ndarray)
+        The new grid.
+
+    Parameters
+    ----------
+
+    - R: np.ndarray
+        The radial grid.
+    - Z: np.ndarray
+        The vertical grid.
+    - new_r: np.ndarray
+        The new radial grid.
+    - new_t: np.ndarray
+        The new vertical grid.
+
+    Notes
+    -----
+
+    - For now only some methods are available
+    - The transformation is only in 2D for now
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Convert the grid from spherical to cartesian coordinates
+
+        >>> new_r, new_t, newvar = _convert2cartgrid(R, Z, new_r, new_t)
+    
+    """
 
     # Convert Cartesian coordinates (R, Z) to polar (Rs, Th)
     Rs = np.sqrt(R**2 + Z**2)
@@ -450,16 +626,43 @@ def _congrid(self, a, newdims, method='linear', center=False, minusone=False):
     """
     Arbitrary resampling of source array to new dimension sizes.
 
-    Inputs:
-    - a: The array to be resampled.
-    - newdims: A tuple representing the shape of the resampled data.
-    - method: Interpolation method ('nearest', 'linear', 'spline').
-    - center: If True, interpolation points are at the centers of the bins.
-    - minusone: Adjusts interpolation calculation to avoid extrapolating beyond input bounds.
+    Returns
+    -------
 
-    Output:
-    - Resampled array with shape corresponding to newdims.
+    - The resampled array.
+
+    Parameters
+    ----------
+
+    - a: np.ndarray
+        The array to be resampled.
+    - newdims: tuple
+        The new dimension sizes.
+    - method: str, default 'linear'
+        The interpolation method to be used.
+    - center: bool, default False
+        If True, centers the resampled array at the new dimensions.
+    - minusone: bool, default False
+        If True, the new dimensions should be larger by 1 in each dimension.
+
+    Notes
+    -----
+
+    - For now only some methods are available
+    - The transformation is only in 2D for now
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Resample the grid
+
+        >>> newvar = _congrid(newvar, (10, 10))
+    
     """
+
+    # Based on IDL's congrid routine
     # Ensure input is a floating-point array for interpolation
     a = a.astype(float, copy=False)
 
@@ -467,7 +670,8 @@ def _congrid(self, a, newdims, method='linear', center=False, minusone=False):
     newdims = np.asarray(newdims, dtype=int)
 
     if olddims.size != newdims.size:
-        raise ValueError("Dimension mismatch: newdims must have the same number of dimensions as the input array.")
+        raise ValueError("Dimension mismatch: newdims must have the same number \
+                          of dimensions as the input array.")
 
     m1 = int(minusone)
     ofs = 0.5 if center else 0.0

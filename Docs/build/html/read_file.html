@@ -41,18 +41,23 @@
             
   <dl class="py function" id="read-file">
 <dt class="sig sig-object py" id="pyPLUTO.Load.read_file">
-<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Load.</span></span><span class="sig-name descname"><span class="pre">read_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyPLUTO.Load.read_file" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Load.</span></span><span class="sig-name descname"><span class="pre">read_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datatype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#pyPLUTO.Load.read_file" title="Link to this definition">¶</a></dt>
 <dd><p>Read the data from the output files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>- None</strong></dt><dd></dd>
+<dt><strong>- filename (not optional): str</strong></dt><dd><p>The name of the file to be read.</p>
+</dd>
+<dt><strong>- datatype: str</strong></dt><dd><p>The type of the file.</p>
+</dd>
+<dt><strong>- **kwargs: Any</strong></dt><dd><p>Any additional arguments.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><dl class="simple">
-<dt>None</dt><dd></dd>
+<dt>the data as a dicionary</dt><dd></dd>
 </dl>
 </li>
 </ul>
@@ -100,7 +105,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>

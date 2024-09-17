@@ -46,7 +46,8 @@ def read_vtk(self) -> None:
 
 
 def _read_h5(self,
-             filename: str
+             filename: str,
+             **kwargs: Any
             ) -> None:
     """
     Read the data from a HDF5 file.
@@ -54,13 +55,15 @@ def _read_h5(self,
     Returns
     -------
 
-    - None
+    - the data in a dictionary
 
     Parameters
     ----------
 
     - filename: str
         The name of the file to be read.
+    - kwargs: Any
+        Any additional arguments.
 
     Notes
     -----
@@ -74,7 +77,7 @@ def _read_h5(self,
 
     - Example #1: Read the data from a HDF5 file
 
-        >>> read_h5()
+        >>> read_h5('filename.h5')
 
     """
     
@@ -85,12 +88,13 @@ def _read_h5(self,
         self._pathh5 = filename
     
     # Open the HDF5 file
+    data_dict = {}
     with h5py.File(self._pathh5, 'r') as f:
+
         for key in f.keys():
-            setattr(self,key,f[key][()])#self.key = f[key]
-    
-    # End of the function
-    return None
+            data_dict[key] = f[key][()]  # Store data in the dictionary
+
+    return data_dict  # Return the dictionary
 
 
 def read_tab(self) -> None:
@@ -178,19 +182,90 @@ def read_bin(self) -> None:
     return None
 
 
-def read_file(self):
+def _read_dat(self,   
+             filename: str,
+             **kwargs: Any
+            ) -> None:
+    """
+
+    Read the data from a dat file.
+
+    Returns
+    -------
+
+    - The file columns as a dicionary
+
+    Parameters
+    ----------
+
+    - filename (not optional): str
+        The name of the file to be read.
+    - kwargs: Any
+        Any additional arguments.
+    - names: bool, default True
+        If True, checks for column names in the file.
+    - skip: int, default 0
+        The number of rows to skip.
+
+    Notes
+    -----
+
+    - None
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Read the data from a dat file
+
+        >>> read_dat('filename.dat')
+
+    """
+
+    # Create the path to the HDF5 file
+    try:
+        self._pathh5 = self.pathdir / filename
+    except:
+        self._pathh5 = filename
+
+    names = kwargs.get('names', True)
+    skip = kwargs.get('skip', 0)
+
+    # Open the dat file with np.genfromtext
+    data = np.genfromtxt(self._pathh5, names = names, skip_header = skip)
+    if names:
+        loop = data.dtype.names
+        analysis = {name: data[name] for name in loop}
+    else:
+        loop = range(data.shape[1])  
+        analysis = {f'col_{i}': data[:, i] for i in loop}
+
+    return analysis
+
+
+def read_file(self,
+              filename: str,
+              datatype: str = None,
+              **kwargs: Any
+             ) -> Any:
     """
     Read the data from the output files.
 
     Returns
     -------
 
-    - None
+    - the data as a dicionary
 
     Parameters
     ----------
 
-    - None
+    - filename (not optional): str
+        The name of the file to be read.
+    - datatype: str
+        The type of the file.
+    - **kwargs: Any
+        Any additional arguments.
 
     Notes
     -----
@@ -207,22 +282,25 @@ def read_file(self):
         >>> read_files()
 
     """
-    
-    # Check if the format is VTK
-    if self.format == 'vtk':
-        read_vtk(self)
-    
-    # Check if the format is HDF5
-    elif self.format in ['dbl.h5', 'flt.h5']:
-        _read_h5(self)
-    
-    # Check if the format is tab
-    elif self.format == 'tab':
-        read_tab(self)
-    
-    # Check if the format is binary
-    elif self.format in ['dbl', 'flt']:
-        read_bin(self)
+
+    # Check the datatype of the input data
+    if datatype is None: datatype = filename.split('.')[-1]
+    poss_types = {'dbl', 'flt', 'vtk', 'h5', 'tab', 'dat'}
+    if datatype not in poss_types:
+        warn = f"Invalid datatype: {datatype}. Resetting to 'h5'"
+        warnings.warn(warn)
+        datatype = 'h5'
+        
+    # Check the format of the output files
+    if datatype == 'h5':
+        res = _read_h5(self, filename, **kwargs)
+    elif datatype == 'dat':
+        res = _read_dat(self, filename, **kwargs)
+    else:
+        warn = f"Invalid datatype: {datatype}, not implemented yet! " \
+                "Resetting to 'h5'"
+        warnings.warn(warn)
+        pass
     
     # End of the function
-    return None
+    return res

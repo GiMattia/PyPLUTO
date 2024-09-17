@@ -542,7 +542,7 @@ def _check_rowcol(ratio: list[float],
     # Check if space is a list
     #IF FLOAT MAKE IT LIST WITH THE VALUE!!!
     newspace = makelist(space)
-    space    = space if isinstance(space, list) else newspace*length
+    space    = space if isinstance(space, list) else newspace*(length - 1)
 
     # Fill the lists with the default values
     ratio = ratio + [1.0]*(length - len(ratio))
@@ -643,7 +643,7 @@ def _set_ticks(ax: Axes,
     
     # Ticks are custom, tickslabels are default
     else:
-        if ytc is not True:
+        if tc is not True:
             set_ticks[typeaxis](tc)
 
     # End of the function

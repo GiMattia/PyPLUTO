@@ -1,9 +1,14 @@
 .. _test04_rotor:
 
-MHD Rotor
-=========
+Test 04 - MHD Rotor test
+========================
 
-To be added
+.. image:: ../../Tests/test04_rotor.png
+   :align: center
+   :width: 600px
+
+.. literalinclude :: ../../Tests/test04_rotor.py
+   :language: python
 
 |
 

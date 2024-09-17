@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>contour function &#8212; pyPLUTO 1.0 documentation</title>
+    <title>&lt;no title&gt; &#8212; pyPLUTO 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
@@ -13,17 +13,17 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="streamplot function" href="streamplot.html" />
-    <link rel="prev" title="scatter function" href="scatter.html" /> 
+    <link rel="next" title="&lt;no title&gt;" href="streamplot.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="scatter.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
           href="index.html">pyPLUTO 1.0 documentation</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="scatter.html" title="scatter function"
+          <a href="scatter.html" title="&lt;no title&gt;"
              accesskey="P">previous</a> |
-          <a href="streamplot.html" title="streamplot function"
+          <a href="streamplot.html" title="&lt;no title&gt;"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -39,26 +39,133 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="contour-function">
-<span id="contour"></span><h1>contour function<a class="headerlink" href="#contour-function" title="Link to this heading">¶</a></h1>
-<dl class="py function">
+  <dl class="py function" id="contour">
 <dt class="sig sig-object py" id="pyPLUTO.Image.contour">
-<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LineCollection</span></span></span><a class="headerlink" href="#pyPLUTO.Image.contour" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LineCollection</span></span></span><a class="headerlink" href="#pyPLUTO.Image.contour" title="Link to this definition">¶</a></dt>
 <dd><p>Plots a contour plot of a given variable. The function uses the 
 matplotlib.pyplot.contour function. The function returns None.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>- var: NDArray</strong></dt><dd><p>The variable to be plotted.</p>
+<dt><strong>- alpha: float, default 1.0</strong></dt><dd><p>Sets the transparency of the contour lines.</p>
 </dd>
-<dt><strong>- **kwargs: Any</strong></dt><dd><p>The keyword arguments of the matplotlib.pyplot.contour function.</p>
+<dt><strong>- aspect: {‘auto’, ‘equal’, float}, default ‘auto’</strong></dt><dd><p>Sets the aspect ratio of the plot. The ‘auto’ keyword is the default 
+option (most likely the plot will be squared). The ‘equal’ keyword will
+set the same scaling for x and y. A float will fix the ratio between the
+y-scale and the x-scale (1.0 is the same as ‘equal’).</p>
+</dd>
+<dt><strong>- ax: {ax object, ‘old’, None}, default None</strong></dt><dd><p>The axis where to plot the lines. If None, a new axis is created.
+If ‘old’, the last considered axis will be used.</p>
+</dd>
+<dt><strong>- c: str, default [‘k’,’#12e3c0’,’#3f6600’,’#1815c5’,’#f67451’,’#d7263d’]</strong></dt><dd><p>Determines the contour lines plot. If not defined, the program will loop
+over an array of 6 color which are different for the most common vision
+deficiencies.</p>
+</dd>
+<dt><strong>- cmap: str, default ‘hot’</strong></dt><dd><p>Selects the colormap. If not defined, the colormap ‘hot’ will be 
+adopted. Some useful colormaps are: plasma, magma, seismic. Please avoid
+using colorbars like jjet or rainbow, which are not perceptively uniform
+and not suited for people with vision deficiencies.
+All the colormap available are listed in the following link:
+<a class="reference external" href="https://matplotlib.org/stable/tutorials/colors/colormaps.html">https://matplotlib.org/stable/tutorials/colors/colormaps.html</a></p>
+</dd>
+<dt><strong>- cpos: {‘top’,’bottom’,’left’,’right’}, default None</strong></dt><dd><p>Enables the colorbar (if defined), default position on the right.</p>
+</dd>
+<dt><strong>- cscale: {‘linear’,’log’,’symlog’,’twoslope’}, default ‘linear’</strong></dt><dd><p>Sets the colorbar scale. Default is the linear (‘norm’) scale.</p>
+</dd>
+<dt><strong>- extend: {‘neither’,’both’,’min’,’max’}, default ‘neither’</strong></dt><dd><p>Sets the extension of the triangular colorbar extension.</p>
+</dd>
+<dt><strong>- extendrect: bool, default False</strong></dt><dd><p>If True, the colorbar extension will be rectangular.</p>
+</dd>
+<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components (only for the current 
+axis).</p>
+</dd>
+<dt><strong>- grid: bool, default False</strong></dt><dd><p>Enables/disables the grid on the plot.</p>
+</dd>
+<dt><strong>- labelsize: float, default fontsize</strong></dt><dd><p>Sets the labels fontsize (which is the same for both labels).
+The default value corresponds to the value of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- levels: np.ndarray</strong></dt><dd><p>The levels of the contour lines.</p>
+</dd>
+<dt><strong>- minorticks: str, default None</strong></dt><dd><p>If not None enables the minor ticks on the plot (for both grid axes).</p>
+</dd>
+<dt><strong>- sharex: Matplotlib axis | False, default False</strong></dt><dd><p>Shares the x-axis with another axis.</p>
+</dd>
+<dt><strong>- sharey: Matplotlib axis | False, default False</strong></dt><dd><p>Shares the y-axis with another axis.</p>
+</dd>
+<dt><strong>- ticksdir: {‘in’, ‘out’}, default ‘in’</strong></dt><dd><p>Sets the ticks direction. The default option is ‘in’.</p>
+</dd>
+<dt><strong>- tickssize: float | bool, default True</strong></dt><dd><p>Sets the ticks fontsize (which is the same for both grid axes).
+The default value corresponds to the value of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- title: str, default None</strong></dt><dd><p>Places the title of the plot on top of it.</p>
+</dd>
+<dt><strong>- titlepad: float, default 8.0</strong></dt><dd><p>Sets the distance between the title and the top of the plot</p>
+</dd>
+<dt><strong>- titlesize: float, default fontsize</strong></dt><dd><p>Sets the title fontsize. The default value corresponds to the value
+of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- transpose: True/False, default False</strong></dt><dd><p>Transposes the variable matrix. Use is not recommended if not really 
+necessary (e.g. in case of highly customized variables and plots).</p>
+</dd>
+<dt><strong>- tresh: float, default max(abs(vmin),vmax)*0.01</strong></dt><dd><p>Sets the threshold for the colormap. If not defined, the threshold will
+be set to 1% of the maximum absolute value of the variable.
+The default cases are the following:
+- twoslope colorscale: sets the limit between the two linear regimes.
+- symlog: sets the limit between the logaitrhmic and the linear regime.</p>
+</dd>
+<dt><strong>- var (not optional): np.ndarray</strong></dt><dd><p>The variable to be plotted.</p>
+</dd>
+<dt><strong>- vmax: float</strong></dt><dd><p>The maximum value of the colormap.</p>
+</dd>
+<dt><strong>- vmin: float</strong></dt><dd><p>The minimum value of the colormap.</p>
+</dd>
+<dt><strong>- x1: 1D array, default ‘Default’</strong></dt><dd><p>The ‘x’ array.</p>
+</dd>
+<dt><strong>- x2: 1D array, default ‘Default’</strong></dt><dd><p>The ‘y’ array.</p>
+</dd>
+<dt><strong>- xrange: [float, float], default [0,1]</strong></dt><dd><p>Sets the range in the x-direction. If not defined the code will
+compute the range while plotting the data.</p>
+</dd>
+<dt><strong>- xscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from True), sets automatically the scale
+on the x-axis. Data in log scale should be used with the keyword ‘log’,
+while data in linear scale should be used with the keyword ‘linear’.</p>
+</dd>
+<dt><strong>- xticks: {[float], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on
+x-axis. In order to completely remove the ticks the keyword should
+be used with None.</p>
+</dd>
+<dt><strong>- xtickslabels: {[str], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
+labels on the x-axis. In order to completely remove the ticks the
+keyword should be used with None. Note that fixed tickslabels should
+always correspond to fixed ticks.</p>
+</dd>
+<dt><strong>- xtitle: str, default None</strong></dt><dd><p>Sets and places the label of the x-axis.</p>
+</dd>
+<dt><strong>- yrange: [float, float], default [0,1]</strong></dt><dd><p>Sets the range in the y-direction. If not defined the code will
+compute the range while plotting the data.</p>
+</dd>
+<dt><strong>- yscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from True), sets automatically the scale
+on the y-axis. Data in log scale should be used with the keyword ‘log’,
+while data in linear scale should be used with the keyword ‘linear’.</p>
+</dd>
+<dt><strong>- yticks: {[float], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on
+y-axis. In order to completely remove the ticks the keyword should
+be used with None.</p>
+</dd>
+<dt><strong>- ytickslabels: {[str], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
+labels on the y-axis. In order to completely remove the ticks the
+keyword should be used with None. Note that fixed tickslabels should
+always correspond to fixed ticks.</p>
+</dd>
+<dt><strong>- ytitle: str, default None</strong></dt><dd><p>Sets and places the label of the y-axis.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><dl class="simple">
-<dt>None</dt><dd></dd>
+<dt>cnt: LineCollection</dt><dd><p>The set of contour lines of the given variable.</p>
+</dd>
 </dl>
 </li>
 </ul>
@@ -84,7 +191,6 @@ full colormap.</p></li>
 <div class="line"><br /></div>
 </div>
 <hr class="docutils" />
-</section>
 
 
             <div class="clearer"></div>
@@ -99,22 +205,17 @@ full colormap.</p></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="image.html">Plotting the data</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="image.html#the-pypluto-image-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image()</span></code> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="image.html#the-plotting-procedure">The plotting procedure</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="plot.html">plot function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="display.html">display function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="scatter.html">scatter function</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">contour function</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#pyPLUTO.Image.contour"><code class="docutils literal notranslate"><span class="pre">contour()</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="imageclass.html">Plotting the data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="image.html"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#the-plotting-procedure">The plotting procedure</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="imageclass.html#field-and-contour-lines">Field and contour lines</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">contour()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamplot.html"><code class="docutils literal notranslate"><span class="pre">streamplot()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="streamplot.html">streamplot function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="interactive.html">interactive function</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="image.html#useful-plotting-tools">Useful plotting tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#interactive-plots">Interactive plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#useful-plotting-tools">Useful plotting tools</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
@@ -138,9 +239,9 @@ full colormap.</p></li>
       <div class="footer">
         <div class="left">
           <div role="navigation" aria-label="related navigaton">
-            <a href="scatter.html" title="scatter function"
+            <a href="scatter.html" title="&lt;no title&gt;"
               >previous</a> |
-            <a href="streamplot.html" title="streamplot function"
+            <a href="streamplot.html" title="&lt;no title&gt;"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>

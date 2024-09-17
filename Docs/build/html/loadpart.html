@@ -51,21 +51,8 @@ the data. At the moment, only one output can be loaded at a time.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>- nout: int | str | list | None, default ‘last’</strong></dt><dd><p>The output number to be loaded. If ‘last’ the last output is loaded.
-If None, the data are not loaded.</p>
-</dd>
-<dt><strong>- path: str, default ‘./’</strong></dt><dd><p>The path to the simulation directory.</p>
-</dd>
 <dt><strong>- datatype: str, default None</strong></dt><dd><p>The format of the data files to be loaded. If None, the code
 finds the format between dbl, flt and vtk.</p>
-</dd>
-<dt><strong>- vars: str | list | bool | None, default True</strong></dt><dd><p>The variables to be loaded. If True, all the variables are loaded.
-If None, the data are not loaded.</p>
-</dd>
-<dt><strong>- text: bool, default True</strong></dt><dd><p>If True, the folder and output are printed.
-In case the user needs a more detailed information of the structure 
-and attributes loaded from the class, the __str__ method provides a 
-easy display of all the important information.</p>
 </dd>
 <dt><strong>- endian: str | None, default None</strong></dt><dd><p>The endianess of the data files. If None, the code finds the 
 endianess.</p>
@@ -73,12 +60,25 @@ endianess.</p>
 <dt><strong>- nfile_lp: int | None, default None</strong></dt><dd><p>The file number for the lp methods. If None, the code finds the 
 file number.</p>
 </dd>
+<dt><strong>- nout: int | str | list | None, default ‘last’</strong></dt><dd><p>The output number to be loaded. If ‘last’ the last output is loaded.
+If None, the data are not loaded.</p>
+</dd>
+<dt><strong>- path: str, default ‘./’</strong></dt><dd><p>The path to the simulation directory.</p>
+</dd>
+<dt><strong>- text: bool, default True</strong></dt><dd><p>If True, the folder and output are printed.
+In case the user needs a more detailed information of the structure 
+and attributes loaded from the class, the __str__ method provides a 
+easy display of all the important information.</p>
+</dd>
+<dt><strong>- vars: str | list | bool | None, default True</strong></dt><dd><p>The variables to be loaded. If True, all the variables are loaded.
+If None, the data are not loaded.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><dl class="simple">
-<dt>None.</dt><dd></dd>
+<dt>None</dt><dd></dd>
 </dl>
 </li>
 </ul>
@@ -87,7 +87,7 @@ file number.</p>
 <p class="rubric">Notes</p>
 <ul class="simple">
 <li><dl class="simple">
-<dt>In future releases, multiple output files will be accessible at the </dt><dd><p>same time</p>
+<dt>In future releases, multiple output files will be accessible at the </dt><dd><p>same time.</p>
 </dd>
 </dl>
 </li>
@@ -100,43 +100,43 @@ file number.</p>
 </pre></div>
 </div>
 </li>
-<li><dl class="simple">
+<li><dl>
 <dt>Example #2: Load the last output from the simulation with a specific</dt><dd><p>endianess</p>
-</dd>
-</dl>
-</li>
-</ul>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="n">endian</span> <span class="o">=</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<ul>
+</dd>
+</dl>
+</li>
 <li><dl>
-<dt>Example #3: Load the last output from the simulation with a specific</dt><dd><blockquote>
-<div><p>set of variables</p>
+<dt>Example #3: Load the last output from the simulation with a specific</dt><dd><p>set of variables</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rho&#39;</span><span class="p">,</span><span class="s1">&#39;vx&#39;</span><span class="p">,</span><span class="s1">&#39;vy&#39;</span><span class="p">,</span><span class="s1">&#39;vz&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
-</div></blockquote>
-<ul>
-<li><p>Example #4: Load the last output from the simulation without printing
-the folder and the specific output loaded</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Example #4: Load the last output from the simulation without printing</dt><dd><p>the folder and the specific output loaded</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> 
 </pre></div>
 </div>
+</dd>
+</dl>
 </li>
-<li><p>Example #5: Load the last output from the simulation without loading
-the data</p>
+<li><dl>
+<dt>Example #5: Load the last output from the simulation without loading</dt><dd><p>the data</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
+</dd>
+</dl>
 </li>
-<li><p>Example #6: Load the last output from the simulation with a specific
-file number for the lp methods</p>
+<li><dl>
+<dt>Example #6: Load the last output from the simulation with a specific</dt><dd><p>file number for the lp methods</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="n">nfile_lp</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
-</li>
-</ul>
 </dd>
 </dl>
 </li>
@@ -168,7 +168,7 @@ file number for the lp methods</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>

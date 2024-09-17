@@ -39,7 +39,7 @@ def _read_tabfile(self,
     Dict_tab = {}
     
     # Open and read the data.****.tab file, computing the empty lines
-    vfp = pd.read_csv(str(self._filepath), delim_whitespace = True, 
+    vfp = pd.read_csv(str(self._filepath), sep=r'\s+', 
                                   header = None, skip_blank_lines=False)
     
     # Find the empty lines
@@ -62,18 +62,21 @@ def _read_tabfile(self,
             self.nx2 = len(lines_in_block)
             
     # Store the grid variables
-    self.x1 = np.array(vfp.iloc[:,0]).reshape(self.nx2, self.nx1)
-    self.x2 = np.array(vfp.iloc[:,1]).reshape(self.nx2, self.nx1)
+    self.x1 = np.array(vfp.iloc[:,1]).reshape(self.nx2, self.nx1)
+    self.x2 = np.array(vfp.iloc[:,0]).reshape(self.nx2, self.nx1)
     num_cols = len(vfp.columns)
+
+    if self.nx2 == 1:
+        self.x1 = self.x2[0]
 
     # Create the variable names if not present
     if len(self._d_info['varslist'][i]) == 0:
         self._d_info['varslist'][i] = [f'var{i}' for i in range(num_cols - 2)]
-    if len(self._load_vars) == 0:
-        self._load_vars = self._d_info['varslist'][i]
+    self._load_vars = self._d_info['varslist'][i]
         
     # Store the variables
-    for j in range(2, num_cols-1):
+    num_cols = num_cols - 1 if self.nx2 > 1 else num_cols
+    for j in range(2, num_cols):
         var: str = self._d_info['varslist'][i][j-2]
         Dict_tab[var] = np.array(vfp.iloc[:,j])
         if empty_lines > 0:

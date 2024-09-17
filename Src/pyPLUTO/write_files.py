@@ -238,7 +238,8 @@ def write_file(self,
              filename: str,
              datatype: str | None = None,
              dataname: str | None = None, 
-             grid: bool = False
+             grid: bool = False,
+             **kwargs: Any
             ) -> None:
     """
     Write the data to a file.
@@ -261,6 +262,8 @@ def write_file(self,
         the name of the file
     - grid: bool
         if True, write the grid to the file
+    - **kwargs: Any
+        additional keyword arguments
 
     Notes
     -----
@@ -288,7 +291,7 @@ def write_file(self,
         
     # Check the format of the output files
     if datatype == 'h5':
-        _write_h5(self, data, filename, dataname, grid)
+        _write_h5(self, data, filename, dataname, grid, **kwargs)
     else:
         warn = f"Invalid datatype: {datatype}, not implemented yet! " \
                 "Resetting to 'h5'"

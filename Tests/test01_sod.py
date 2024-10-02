@@ -38,7 +38,7 @@ I = pp.Image(figsize = [7,5])
 # Plotting the data
 I.plot(D.x1, D.rho, label = r'$\rho$',
                     title = 'Test 01 - HD Sod shock tube',
-                    xtitle = '$x$',
+                    xtitle = 'x',
                     xrange = [0.0,1.0],
                     yrange = [-0.05,1.05],
                     legpos = 0)

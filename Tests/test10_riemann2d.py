@@ -44,4 +44,4 @@ I.interactive(D.rho, x1 = D.x1, x2 = D.x2,
                                 ytitle = 'y')
 
 # Saving the gif of the animation
-I.animate('test10_riemann2d.gif')
+I.animate('test10.mp4')

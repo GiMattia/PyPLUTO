@@ -64,14 +64,14 @@ now until the end of the installation process.</p>
 be done in two ways:</p>
 <p>1. The first method is to install PyPLUTO from the main directory through the
 command:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>./
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>./
 </pre></div>
 </div>
 <p>2. If this procedure does not work another installation is possible.
 This time the installation is done from the Src directory through the setup.py
 file:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>Src
-<span class="go">Src$ pip install  ./</span>
+<span class="go">Src$ pip install -e ./</span>
 </pre></div>
 </div>
 <p>Note that in this way, if you are working with conda, your installation will be

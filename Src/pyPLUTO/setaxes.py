@@ -340,8 +340,9 @@ def set_axis(self,
         keyword should be used with None. Note that fixed tickslabels should
         always correspond to fixed ticks.
     - ytitle: str, default None
-        Sets and places the label of the y-axis.
-
+        Sets and places the label of the y-axis. 
+    
+    
     Notes
     -----
 
@@ -617,7 +618,7 @@ def _set_ticks(ax: Axes,
         set_label[typeaxis]([])
 
         # If tickslabels are not None raise a warning
-        if tl is not True:
+        if tl is not None and tl is not True:
             warn = "Warning, tickslabels are defined with no" \
                    "ticks!! (function setax)"
             warnings.warn(warn, UserWarning)

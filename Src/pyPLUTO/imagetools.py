@@ -2,7 +2,8 @@ from .libraries import *
 
 def savefig(self, 
             filename: str = 'img.png', 
-            bbox: str | None = 'tight'
+            bbox: str | None = 'tight',
+            dpi: int = 300
            ) -> None:
     """
     Creation of a .png image file of the figure created with the Image class.
@@ -39,7 +40,7 @@ def savefig(self,
     
     """
 
-    self.fig.savefig(filename, bbox_inches = bbox)
+    self.fig.savefig(filename, bbox_inches = bbox, dpi = dpi)
 
     return None
 

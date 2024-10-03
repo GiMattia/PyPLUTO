@@ -290,14 +290,21 @@ def _zoomdisplay(self,
     xc  = kwargs.pop('x1', ccd[:, :, 0])
     yc  = kwargs.pop('x2', ccd[:, :, 1])
     psh = kwargs.pop('shading',pcm._shading)
-    if psh == 'flat':
-        lxc = len(xc) - 1
-        lyc = len(xc[0]) - 1
-    else:
-        lxc = len(xc)
-        lyc = len(xc[0])
+    leny = len(xc[0]) if np.ndim(yc) > 1 else len(yc)
+    lxc = len(xc) - 1 if psh == 'flat' else len(xc)
+    lyc = leny - 1 if psh == 'flat' else leny
+    #if psh == 'flat':
+    #    lxc = len(xc) - 1
+    #    lyc = len(xc[0]) - 1
+    #else:
+    #    lxc = len(xc)
+    #    lyc = len(xc[0])
     pcm = pcm.get_array()
-    pcm0 = kwargs.pop('var', pcm.reshape((lxc, lyc)).T)
+    if 'var' in kwargs:
+        pcm0 = kwargs.pop('var',None)
+    else:
+        pcm0 = pcm.reshape((lxc, lyc)).T
+   # pcm0 = kwargs.pop('var', pcm.reshape((lxc, lyc)).T)
     kwargs['vmin']  = kwargs.pop('vmin', self.vlims[nax][0])
     kwargs['vmax']  = kwargs.pop('vmax', self.vlims[nax][1])
     kwargs['tresh'] = kwargs.pop('tresh', self.vlims[nax][2])

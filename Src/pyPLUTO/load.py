@@ -30,6 +30,11 @@ class Load:
         Endianess of the datafiles. Should be used only if specific 
         architectures are used, since the code computes it by itself. Valid 
         values are 'big' and 'little' (or '<' and '>').
+    - full3d: bool, default True
+        If disabled, the 3D meshgrids for the grid in non-cartesian coordinates 
+        are not used. Instead, a combination of an external loop and2D meshgrid
+        is employed. The aim is to allow for cartesian meshes from non-cartesian
+        geometries without saturating the computer memory (suited for laptops).
     - level: int, default 0
         The refinement level of the grid. Should be used only if the grid is
         refined through AMR.
@@ -131,8 +136,25 @@ class Load:
                  alone: bool | None = None,
                  multiple: bool = False, 
                  endian: str | None = None ,
-                 level: int = 0
+                 level: int = 0,
+                 full3d: bool = True,
+                 code : str = None
                 ) -> None:
+        
+        # Custom code for handling 'echo'
+        if code is not None:
+            codedict = {'echo': self.echo_load}
+            init = f"Creating instance with alternate method using code: {code}"
+            if text is True:  
+                print(init)
+            codedict[code](nout, path, vars)
+            if text is True:
+                print(f"Load: folder {path},     output {self.nout}")
+            return
+        
+        # Custom code for unknown code: error!
+        elif code is not None:
+            raise NotImplementedError(f"{code} loading is not implemented yet.")    
 
         # Check if the user wants to load the data
         if nout is None:
@@ -188,6 +210,7 @@ class Load:
         self._gridsize_st1: int; self._nshp_st1: NDArray
         self._gridsize_st2: int; self._nshp_st2: NDArray
         self._gridsize_st3: int; self._nshp_st3: NDArray
+        self._full3d = full3d
     
         _nout_out: int | list[int]       # Output to be printed
 
@@ -245,7 +268,6 @@ class Load:
  
     def __str__(self):
 
-        txtshp = self.nshp if isinstance(self.nshp, int) else self.nshp[::-1]
         text3 = f"        - Projections {['x1c','x2c','x1rc','x2rc']}\n"
         text3 = text3 if self.geom != 'CARTESIAN' else ""
 
@@ -261,7 +283,7 @@ class Load:
         - Dimensions    (dim)      {self.dim}
         - Geometry      (geom)     {self.geom}
         - Grid size     (gridsize) {self.gridsize}
-        - Grid shape    (nshp)     {txtshp}
+        - Grid shape    (nshp)     {self.nshp}
         - Output loaded (nout)     {self.nout}
         - Time loaded   (ntime)    {self.ntime}
 
@@ -315,4 +337,5 @@ class Load:
     from .findlines   import find_contour, find_fieldlines
     from .findlines   import _check_var  
     from .nabla       import gradient, curl, divergence
+    from .echo_load   import echo_load
     

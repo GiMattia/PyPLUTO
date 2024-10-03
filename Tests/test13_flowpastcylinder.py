@@ -1,7 +1,7 @@
+# Loading the relevant packages
 import pyPLUTO as pp
 import os
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Creating the path for the data directory
 plutodir = os.environ['PLUTO_DIR']
@@ -36,3 +36,6 @@ I.oplotbox(D.AMRLevel,lrange=[0,2],geom=D.geom)
 # Save and show the figure
 I.savefig('test13_flowpastcylinder.png')
 pp.show()
+
+
+

@@ -271,22 +271,26 @@ def _read_gridfile(self
         self.gridlist3 = ['x1p','x2p','x1rp','x2rp']
         del x1_2D, x2_2D, x1r_2D, x2r_2D
 
-        """
-        # TOO MUCH MEMORY REQUIRED TO DO THE MESHGRID!!!
-        x1_3D, x2_3D, x3_3D   = np.meshgrid(self.x1, self.x2, 
-                                            self.x3, indexing='ij')
-        x1r_3D, x2r_3D, x3r_3D = np.meshgrid(self.x1r, self.x2r, 
-                                             self.x3r, indexing='ij')        
-        
-        self.x1c  = (np.sin(x2_3D)*np.cos(x3_3D)*x1_3D).T
-        self.x2c  = (np.sin(x2_3D)*np.sin(x3_3D)*x1_3D).T
-        self.x3c  = (np.cos(x2_3D)*x1_3D).T
-        self.x1rc = (np.sin(x2r_3D)*np.cos(x3r_3D)*x1r_3D).T
-        self.x2rc = (np.sin(x2r_3D)*np.sin(x3r_3D)*x1r_3D).T
-        self.x3rc = (np.cos(x2r_3D)*x1r_3D).T
+        if self.dim == 3 and self._full3d is True:
 
-        del x1_3D, x2_3D, x3_3D, x1r_3D, x2r_3D, x3r_3D
-        """
+            x1_3D, x2_3D, x3_3D   = np.meshgrid(self.x1, self.x2, 
+                                                self.x3, indexing='ij')
+            x1r_3D, x2r_3D, x3r_3D = np.meshgrid(self.x1r, self.x2r, 
+                                                 self.x3r, indexing='ij')        
+        
+            self.x1c  = (np.sin(x2_3D)*np.cos(x3_3D)*x1_3D).T
+            self.x2c  = (np.sin(x2_3D)*np.sin(x3_3D)*x1_3D).T
+            self.x3c  = (np.cos(x2_3D)*x1_3D).T
+            self.x1rc = (np.sin(x2r_3D)*np.cos(x3r_3D)*x1r_3D).T
+            self.x2rc = (np.sin(x2r_3D)*np.sin(x3r_3D)*x1r_3D).T
+            self.x3rc = (np.cos(x2r_3D)*x1r_3D).T
+
+            del x1_3D, x2_3D, x3_3D, x1r_3D, x2r_3D, x3r_3D
+        else:
+            self.x1c = np.zeros((self.nx1,self.nx2,self.nx3))
+            print(np.shape(self.x1c))
+            self.pippo = np.meshgrid(self.x2, self.x3, indexing='xy')
+            print(np.shape(self.pippo))
 
     # Compute the gridsize both centered and staggered
     self.gridsize      = self.nx1*self.nx2*self.nx3

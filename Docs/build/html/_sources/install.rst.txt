@@ -36,7 +36,7 @@ command:
 
 .. code-block:: console
 
-   (.venv) $ pip install ./
+   (.venv) $ pip install -e ./
 
 2. If this procedure does not work another installation is possible.
 This time the installation is done from the Src directory through the setup.py
@@ -45,7 +45,7 @@ file:
 .. code-block:: console
 
    (.venv) $ cd Src
-   Src$ pip install  ./
+   Src$ pip install -e ./
 
 Note that in this way, if you are working with conda, your installation will be
 always confined within your conda environment.

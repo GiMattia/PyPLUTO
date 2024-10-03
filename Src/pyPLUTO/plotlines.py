@@ -150,7 +150,7 @@ def contour(self,
 
     # Check parameters
     param = {'alpha','aspect','ax','c','cmap','cpos','cscale','extend',
-             'extendrect','fontsize','grid','labelsize','levels','minorticks',
+             'extendrect','fontsize','grid','labelsize','levels','lw','minorticks',
              'sharex','sharey','ticksdir','tickssize','title','titlepad',
              'titlesize','transpose','tresh','vmax','vmin','x1','x2','xrange',
              'xscale','xticks','xtickslabels','xtitle','yrange','yscale',
@@ -189,6 +189,7 @@ def contour(self,
     cscale   = kwargs.get('cscale','norm')
     tresh    = kwargs.get('tresh', max(np.abs(vmin),vmax)*0.01)
     lint     = kwargs.get('lint',None)
+    lw       = kwargs.get('lw', 1.0)
 
     if 'colors' in 'kwargs' and 'cmap' in 'kwargs':
         warn = "Both colors and cmap are defined. Using c."
@@ -202,7 +203,7 @@ def contour(self,
     
     # Plot the contour plot
     cnt = ax.contour(x, y, var, levels = levels, norm = norm, cmap = cmap,
-                                colors = colors, alpha = alpha)
+                                colors = colors, alpha = alpha, linewidths = lw)
     
     if cpos != None:
         self.colorbar(cnt, check = False, **kwargs)

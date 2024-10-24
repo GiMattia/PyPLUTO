@@ -33,7 +33,7 @@ class Image:
         strategy.
     - numcolor: int, default 10
         The number of colors in the colorscheme. The default number is 10, but
-        the full list contains 30 colors (+ black or white).
+        the full list contains 24 colors (+ black or white).
     - nwin: int, default 1
         The window number.
     - oldcolor: bool, default False

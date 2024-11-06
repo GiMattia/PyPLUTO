@@ -611,7 +611,7 @@ def colorbar(self,
         self._hide_text(naxc, cax.texts)
             
     # Place the colorbar
-    cbar = self.fig.colorbar(pcm, cax=cax,label=kwargs.get('clabel',''),
+    cbar = self.fig.colorbar(pcm, cax=cax, label=kwargs.get('clabel',''),
                 ticks = kwargs.get('cticks',None), orientation=ccor,
                 extend = kwargs.get('extend','neither'),
                 extendrect = kwargs.get('extendrect',False))

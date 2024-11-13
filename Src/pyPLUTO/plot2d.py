@@ -694,8 +694,12 @@ def _set_cscale(self,
         norm = mcol.LogNorm(vmin = vmin, vmax = vmax)
     elif cscale == 'symlog':
         norm = mcol.SymLogNorm(vmin = vmin, vmax = vmax, linthresh = tresh)
-    elif cscale == 'twoslope':
+    elif cscale == 'twoslope' or cscale == '2slope':
         norm = mcol.TwoSlopeNorm(vmin = vmin, vmax = vmax, vcenter = tresh)
+    elif cscale == 'power':
+        norm = mcol.PowerNorm(gamma = tresh, vmin = vmin, vmax = vmax)
+    elif cscale == 'asinh':
+        norm = mcol.AsinhNorm(vmin = vmin, vmax = vmax, linear_width = tresh)
     else:
         norm = mcol.Normalize(vmin = vmin, vmax = vmax)
 

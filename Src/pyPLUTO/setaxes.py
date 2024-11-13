@@ -457,11 +457,23 @@ def set_axis(self,
     # Set parameter that fixes the minorticks and ticksdir
     self.tickspar[nax] = 1
 
+    spar = {'asinh': 'linear_width', 'logit': 'one_half', 'symlog': 'linthresh'}
+
     # Scales and alpha
-    if kwargs.get('xscale',True) is not True:
-        ax.set_xscale(kwargs['xscale'])
-    if kwargs.get('yscale',True) is not True:
-        ax.set_yscale(kwargs['yscale'])
+    if kwargs.get('xscale', True) is not True:
+        xscale        = kwargs['xscale']
+        xscale_param  = spar.get(xscale)
+        xscale_kwargs = {xscale_param: kwargs.get('xtresh')} \
+                        if 'xtresh' in kwargs else {}
+        ax.set_xscale(xscale, **xscale_kwargs)
+
+    if kwargs.get('yscale', True) is not True:
+        yscale        = kwargs['yscale']
+        yscale_param  = spar.get(yscale)
+        yscale_kwargs = {yscale_param: kwargs.get('ytresh')} \
+                        if 'ytresh' in kwargs else {}
+        ax.set_yscale(yscale, **yscale_kwargs)
+
     if kwargs.get('alpha'):
         ax.set_alpha(kwargs['alpha'])
 

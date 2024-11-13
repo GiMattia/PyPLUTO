@@ -1,36 +1,48 @@
-
+from PyQt6.QtWidgets import QFileDialog
 import os
 import pyPLUTO as pp
-from PyQt6.QtWidgets import QFileDialog
-import matplotlib.scale as mscale
 
-scales = list(mscale.get_scale_names())
-scales = [scales[3]] + [scales[0]] + scales[4:]
+def load_data(self):
+    try:
 
-cmaps = [('Perceptually Uniform Sequential', [
-            'viridis', 'plasma', 'inferno', 'magma', 'cividis']),
-         ('Sequential', [
-            'Greys', 'Purples', 'Blues', 'Greens', 'Oranges', 'Reds',
-            'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd', 'RdPu', 'BuPu',
-            'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn']),
-         ('Sequential (2)', [
-            'binary', 'gist_yarg', 'gist_gray', 'gray', 'bone', 'pink',
-            'spring', 'summer', 'autumn', 'winter', 'cool', 'Wistia',
-            'hot', 'afmhot', 'gist_heat', 'copper']),
-         ('Diverging', [
-            'PiYG', 'PRGn', 'BrBG', 'PuOr', 'RdGy', 'RdBu',
-            'RdYlBu', 'RdYlGn', 'Spectral', 'coolwarm', 'bwr', 'seismic']),
-         ('Cyclic', ['twilight', 'twilight_shifted', 'hsv']),
-         ('Qualitative', [
-            'Pastel1', 'Pastel2', 'Paired', 'Accent',
-            'Dark2', 'Set1', 'Set2', 'Set3',
-            'tab10', 'tab20', 'tab20b', 'tab20c']),
-         ('Miscellaneous', [
-            'flag', 'prism', 'ocean', 'gist_earth', 'terrain', 'gist_stern',
-            'gnuplot', 'gnuplot2', 'CMRmap', 'cubehelix', 'brg',
-            'gist_rainbow', 'rainbow', 'jet', 'turbo', 'nipy_spectral',
-            'gist_ncar'])]
-
+        if self.varstext.text():
+            vars = self.varstext.text().replace(' ', '')
+            vars = vars.replace('-', ',').split(',')
+        else:
+            vars = True
+        self.D = pp.Load(self.nout, path     = self.folder_path,
+                                    datatype = self.datatype,
+                                    vars     = vars,
+                                    full3d   = None)
+        self.data_loaded = True
+    
+        self.var_selector.clear()
+        self.xaxis_selector.clear()
+        self.yaxis_selector.clear()
+        self.var_selector.addItems(self.D._load_vars)
+        xaxis_labels = ["x1", "x2", "x3"]
+        yaxis_labels = ["x2", "x3", "x1"]
+        if self.D.geom == 'POLAR':
+            xaxis_labels.extend(["x1c", "x2c"])
+            yaxis_labels.extend(["x1c", "x2c"])
+        if self.D.geom == 'SPHERICAL':
+            xaxis_labels.extend(["x1p", "x2p"])
+            yaxis_labels.extend(["x1p", "x2p"])
+        
+        self.xaxis_selector.addItems(xaxis_labels)
+        self.yaxis_selector.addItems(yaxis_labels)
+            
+        self.info_label.setText(str(self.D))
+        self.info_label.setText(
+            f"Loaded folder: {self.folder_path}\n"
+            f"Format file: {self.D.format}\n"
+            f"Geometry: {self.D.geom}\n"
+            f"Domain:\nnx1 x nx2 x nx3 = {self.D.nx1} x {self.D.nx2} x {self.D.nx3}\n"
+            f"Loaded step = {self.D.nout[0]}\nPresent Time = {self.D.ntime}\n"
+            f"Variables: {', '.join(self.D._load_vars)}")
+    except Exception as e:
+        print(f"Error loading data: {e}")
+        self.data_loaded = False
 
 def select_folder(self):
     format_name = self.format_selector.currentText()
@@ -58,43 +70,8 @@ def reload_data(self):
     self.folder_path = "./" if self.folder_path is None else self.folder_path
     self.load_data()
 
-def load_data(self):
-    try:
-
-        if self.varstext.text():
-            vars = self.varstext.text().replace(' ', '')
-            vars = vars.replace('-', ',').split(',')
-        else:
-            vars = True
-        self.amrlev = int(self.amr_selector.text()) if self.amr_selector.text() else 0
-        self.full3D = True if self.threed_checkbox.isChecked() else False
-        self.D = pp.Load(self.nout, path=self.folder_path,
-                                    datatype = self.datatype,
-                                    vars = vars,
-                                    full3d = self.full3D,
-                                    level = self.amrlev)
-        self.data_loaded = True
-        self.var_selector.clear()
-        self.var_selector.addItems(self.D._load_vars)
-        self.xaxis_selector.addItems(["x1", "x2", "x3"])
-        self.yaxis_selector.addItems(["x2", "x3", "x1"])
-        if self.D.geom == 'POLAR':
-            self.xaxis_selector.addItems(["x1c", "x2c"])
-            self.yaxis_selector.addItems(["x1c", "x2c"])
-        #self.info_label.setText(str(self.D))
-        #self.info_label.setText(
-        #    f"Loaded folder: {self.folder_path}\n"
-        #    f"Format file: {self.D.format}\n"
-        #    f"Domain:\nnx1 x nx2 x nx3 = {self.D.nx1} x {self.D.nx2} x {self.D.nx3}\n"
-        #    f"Loaded step = {self.D.nout[0]}\nPresent Time = {self.D.ntime}\n"
-        #    f"Variables: {', '.join(self.D._load_vars)}")
-    except Exception as e:
-        print(f"Error loading data: {e}")
-        self.data_loaded = False
-
 def clearload(self):
     self.folder_path = './'
+    self.format_selector.setCurrentIndex(0)
     self.outtext.clear()
     self.varstext.clear()
-    self.amr_selector.clear()
-    self.nlp_selector.clear()

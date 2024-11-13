@@ -1,75 +1,65 @@
-import os
-import numpy as np
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar
 import pyPLUTO as pp
-from PyQt6.QtWidgets import QFileDialog
+import numpy as np
+from globals import cmaps
 import matplotlib.pyplot as plt
-import matplotlib.scale as mscale
 
-scales = list(mscale.get_scale_names())
-scales = [scales[3]] + [scales[0]] + scales[4:]
+def update_cmap_selector(self):
+    selected_type = self.typecmap_selector.currentText()
+    self.cmap_selector.clear()
+    self.cmap_selector.addItems(cmaps.get(selected_type, []))
 
-cmaps = [('Perceptually Uniform Sequential', [
-            'viridis', 'plasma', 'inferno', 'magma', 'cividis']),
-         ('Sequential', [
-            'Greys', 'Purples', 'Blues', 'Greens', 'Oranges', 'Reds',
-            'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd', 'RdPu', 'BuPu',
-            'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn']),
-         ('Sequential (2)', [
-            'binary', 'gist_yarg', 'gist_gray', 'gray', 'bone', 'pink',
-            'spring', 'summer', 'autumn', 'winter', 'cool', 'Wistia',
-            'hot', 'afmhot', 'gist_heat', 'copper']),
-         ('Diverging', [
-            'PiYG', 'PRGn', 'BrBG', 'PuOr', 'RdGy', 'RdBu',
-            'RdYlBu', 'RdYlGn', 'Spectral', 'coolwarm', 'bwr', 'seismic']),
-         ('Cyclic', ['twilight', 'twilight_shifted', 'hsv']),
-         ('Qualitative', [
-            'Pastel1', 'Pastel2', 'Paired', 'Accent',
-            'Dark2', 'Set1', 'Set2', 'Set3',
-            'tab10', 'tab20', 'tab20b', 'tab20c']),
-         ('Miscellaneous', [
-            'flag', 'prism', 'ocean', 'gist_earth', 'terrain', 'gist_stern',
-            'gnuplot', 'gnuplot2', 'CMRmap', 'cubehelix', 'brg',
-            'gist_rainbow', 'rainbow', 'jet', 'turbo', 'nipy_spectral',
-            'gist_ncar'])]
+def clear_labels(self):
+    self.var_selector.setCurrentIndex(0)
+    self.transpose_checkbox.setChecked(False)
+    self.xaxis_selector.setCurrentIndex(0)
+    self.yaxis_selector.setCurrentIndex(0)
+    self.xslicetext.clear()
+    self.yslicetext.clear()
+    self.zslicetext.clear()
+    self.plot_title.clear()
+    self.xrange_min.clear()
+    self.xrange_max.clear()
+    self.yrange_min.clear()
+    self.yrange_max.clear()
+    self.vrange_min.clear()
+    self.vrange_max.clear()
+    self.xscale_selector.setCurrentIndex(0)
+    self.yscale_selector.setCurrentIndex(0)
+    self.vscale_selector.setCurrentIndex(0)
+    self.xscale_tresh.clear()
+    self.yscale_tresh.clear()
+    self.vscale_tresh.clear()
+    self.typecmap_selector.setCurrentIndex(0)
+    self.cmap_selector.setCurrentIndex(0)
+    self.reverse_checkbox.setChecked(False)
+    self.overplot_checkbox.setChecked(False)
 
+def update_axes(self):
+    self.check_axisparam()
+    cmap   = self.datadict.pop('cmap')
+    cscale = self.datadict.pop('cscale')
+    vmin   = self.datadict.pop('vmin',self.var.min()) 
+    vmax   = self.datadict.pop('vmax',self.var.max()) 
+    ctresh = self.datadict.pop('tresh',max(np.abs(vmin),vmax)*0.01)
+    norm        = self.I._set_cscale(cscale, vmin, vmax, ctresh)
+    for artist in self.I.ax[0].get_children():
+        if isinstance(artist, (plt.matplotlib.image.AxesImage,
+                               plt.matplotlib.collections.QuadMesh)):
+            artist.set_cmap(cmap)
+            artist.set_norm(norm)
 
-def check_axisparam(self):
-    # Create datadict with yrange and optionally xrange
-    self.datadict = {}
-    if self.xrange_min.text() or self.xrange_max.text():
-        self.datadict['xrange'] = [
-            float(self.xrange_min.text()) if self.xrange_min.text() else self.D.x1.min(),
-            float(self.xrange_max.text()) if self.xrange_max.text() else self.D.x1.max()
-        ]
-    if self.yrange_min.text() or self.yrange_max.text():
-        self.datadict['yrange'] = [
-            float(self.yrange_min.text()) if self.yrange_min.text() else self.D.x2.min(),
-            float(self.yrange_max.text()) if self.yrange_max.text() else self.D.x2.max()
-        ]
-    if self.vrange_min.text():
-        self.datadict['vmin'] = float(self.vrange_min.text())
-    if self.vrange_max.text():
-        self.datadict['vmax'] = float(self.vrange_max.text())
+    self.set_range(xlim = None, ylim = None)
+    
+    self.I.set_axis(self.I.ax[0],**self.datadict)
+    self.datadict['cmap']   = cmap
+    self.datadict['cscale'] = cscale
+    self.datadict['tresh']  = ctresh
+    self.canvas.figure = self.I.fig
+    self.canvas.draw() 
 
-    self.datadict['clabel'] = self.clabel_label.text() if self.clabel_label.text() else " "
-    self.datadict['title'] = self.title_label.text() if self.title_label.text() else ""
-    self.datadict['xtitle'] = self.xlabel_label.text() if self.xlabel_label.text() else ""
-    self.datadict['ytitle'] = self.ylabel_label.text() if self.ylabel_label.text() else ""
-    self.datadict['cmap'] = self.cmap_selector.currentText()
-    self.datadict['xscale'] = self.xscale_selector.currentText()
-    self.datadict['yscale'] = self.yscale_selector.currentText()
-    self.datadict['cscale'] = self.varscale_selector.currentText()
-    if self.cmapreverse_checkbox.isChecked():
-        if self.datadict['cmap'][-2:] == '_r':
-            self.datadict['cmap'] = self.datadict['cmap'][:-2]
-        else:
-            self.datadict['cmap'] += '_r'
-    if self.transpose_checkbox.isChecked():
-        self.datadict['transpose'] = True
-
-
-    # Modify the plot_selected_variable function
-def plot_selected_variable(self):
+def plot_data(self):
+    
     if not self.data_loaded:
         print("ERROR: No data loaded.")
         return
@@ -78,75 +68,139 @@ def plot_selected_variable(self):
     if not var_name:
         print("ERROR: No variable selected.")
         return
-
-    axis_convert = {"x1": "x1r", "x2": "x2r", "x3": "x3r", "x1p": "x1rp", "x2p": "x2rp", "x3p": "x3rp",
-                    "x1c": "x1rc", "x2c": "x2rc", "x3c": "x3rc"}
+    
     self.var    = getattr(self.D, var_name)
+    
+    self.var = self.var.T if self.transpose_checkbox.isChecked() else self.var
+    if self.zslicetext.text() and len(np.shape(self.var)) == 3:
+        self.var = self.var[:,:,int(self.zslicetext.text())]
+    if self.yslicetext.text() and len(np.shape(self.var)) > 1:
+        self.var = self.var[:,int(self.yslicetext.text())]
+    if self.xslicetext.text():
+        self.var = self.var[int(self.xslicetext.text())]
+
     self.vardim = len(np.shape(self.var))
-    if not self.overplot_checkbox.isChecked(): self.plot_window.canvas.figure.clear()
-    self.I = pp.Image(figsize=[7.5, 6.3]) if not self.overplot_checkbox.isChecked() else self.I
-    self.datadict = {}
     self.check_axisparam()
-    x1 = getattr(self.D, axis_convert[self.xaxis_selector.currentText()])
-    x2 = getattr(self.D, axis_convert[self.yaxis_selector.currentText()])
+
     if self.vardim == 1:
-        temp_clabel = self.datadict.pop('clabel')
-        temp_cmap   = self.datadict.pop('cmap')
-        temp_cscale = self.datadict.pop('cscale')
-        self.I.plot(x1, self.var, **self.datadict)
-        self.datadict['clabel'] = temp_clabel
-        self.datadict['cmap']   = temp_cmap
-        self.datadict['cscale'] = temp_cscale
+        axis_convert = {"x1":  "x1",  "x2":  "x2",  "x3":  "x3", 
+                        "x1p": "x1p", "x2p": "x2p", "x3p": "x3p",
+                        "x1c": "x1c", "x2c": "x2c", "x3c": "x3c"}
     elif self.vardim == 2:
-        self.I.display(self.var, x1 = x1, x2 = x2, cpos='right', **self.datadict)
+        axis_convert = {"x1":  "x1r",  "x2":  "x2r",  "x3":  "x3r", 
+                        "x1p": "x1rp", "x2p": "x2rp", "x3p": "x3rp",
+                        "x1c": "x1rc", "x2c": "x2rc", "x3c": "x3rc"}
     else:
         print("ERROR: Variable shape not recognized.")
 
-    self.plot_window.canvas.figure = self.I.fig
-    self.plot_window.canvas.draw()
+    if self.overplot_checkbox.isChecked() and self.vardim == 1: 
+        pass
+    else:
+        self.reload_canvas()
 
-def update_axes(self):
-    self.check_axisparam()
-    temp_clabel = self.datadict.pop('clabel')
-    temp_cmap   = self.datadict.pop('cmap')
-    temp_cscale = self.datadict.pop('cscale')
-    self.I.set_axis(self.I.ax[0],**self.datadict)
-    if len(self.I.fig.axes) > 1:
-        self.I.fig.axes[-1].set_ylabel(temp_clabel)
-        for artist in self.I.ax[0].get_children():
-            if isinstance(artist, (plt.matplotlib.image.AxesImage,
-                                   plt.matplotlib.collections.QuadMesh)):
-                artist.set_cmap(temp_cmap)
-    self.datadict['clabel'] = temp_clabel
-    self.datadict['cmap']   = temp_cmap
-    self.datadict['cscale'] = temp_cscale
-    self.plot_window.canvas.figure = self.I.fig
-    self.plot_window.canvas.draw()
+    x1 = getattr(self.D, axis_convert[self.xaxis_selector.currentText()])
+    x2 = getattr(self.D, axis_convert[self.yaxis_selector.currentText()])
 
-def clear_labels(self):
-    self.xrange_min.clear()
-    self.xrange_max.clear()
-    self.yrange_min.clear()
-    self.yrange_max.clear()
-    self.vrange_min.clear()
-    self.vrange_max.clear()
-    self.xlabel_label.clear()
-    self.ylabel_label.clear()
-    self.title_label.clear()
-    self.clabel_label.clear()
-    self.var_selector.clear()
-    self.var_selector.addItems(self.D._load_vars)
-    self.cmap_selector.clear()
-    self.cmap_selector.addItems(self.cmaps_avail)
-    self.xscale_selector.clear()
-    self.xscale_selector.addItems(scales)
-    self.yscale_selector.clear()
-    self.yscale_selector.addItems(scales)
-    self.cmapreverse_checkbox.setChecked(False)
-    self.transpose_checkbox.setChecked(False) # fix
+    xlim = [x1.min(), x1.max()]
+    ylim = [x2.min(), x2.max()] if self.vardim == 2 else [self.var.min(), self.var.max()]
 
-def save_figure(self):
-    file_path, _ = QFileDialog.getSaveFileName(self, "Save Plot", os.getcwd(), "PNG Files (*.png);;All Files (*)")
-    if file_path:
-        self.I.savefig(file_path)
-        print(f"Figure saved to {file_path}")
+    self.set_range(xlim, ylim)
+
+    if self.vardim == 1:
+        cmap_temp   = self.datadict.pop('cmap')
+        cscale_temp = self.datadict.pop('cscale')
+        ctresh_temp = self.datadict.pop('tresh', None)
+        self.I.plot(x1, self.var, ytitle = ' ', **self.datadict)
+        self.datadict['cmap']   = cmap_temp
+        self.datadict['cscale'] = cscale_temp
+        if ctresh_temp is not None: self.datadict['tresh'] = ctresh_temp
+    elif self.vardim == 2:
+        self.I.display(self.var, x1 = x1, x2 = x2, cpos='right', 
+                                 aspect = "equal", **self.datadict)
+
+    if self.firstplot is True:
+        self.original_xlim = self.I.ax[0].get_xlim()
+        self.original_ylim = self.I.ax[0].get_ylim()
+        self.firstplot = False
+    self.canvas.draw()
+
+
+def create_new_figure(self):
+    self.I = pp.Image(figsize=[10, 6])
+    self.firstplot = True
+    self.figure = self.I.fig
+
+    self.canvas = FigureCanvas(self.figure)
+    self.toolbar = NavigationToolbar(self.canvas, self)
+    self.canvas.setFixedWidth(800)   
+
+    # Add new toolbar and canvas to layout
+    self.canvas_layout.addWidget(self.toolbar)
+    self.canvas_layout.addWidget(self.canvas)
+
+def reload_canvas(self):
+    # Remove old toolbar and canvas
+    self.canvas_layout.removeWidget(self.toolbar)
+    self.toolbar.deleteLater()
+    self.canvas_layout.removeWidget(self.canvas)
+    self.canvas.deleteLater()
+    self.create_new_figure()
+
+def check_axisparam(self):
+
+    self.datadict = {}
+    if self.vrange_min.text():
+        self.datadict['vmin'] = float(self.vrange_min.text())
+    if self.vrange_max.text():
+        self.datadict['vmax'] = float(self.vrange_max.text())
+
+    self.datadict['cmap']   = self.cmap_selector.currentText()
+    if self.reverse_checkbox.isChecked():
+        if self.datadict['cmap'][-2:] == '_r':
+            self.datadict['cmap'] = self.datadict['cmap'][:-2]
+        else:
+            self.datadict['cmap'] += '_r'
+
+    self.datadict['title']  = self.plot_title.text()  if self.plot_title.text()  else "" 
+
+    self.datadict['xscale'] = self.xscale_selector.currentText()
+    if self.xscale_tresh.text():
+        self.datadict['xtresh'] = float(self.xscale_tresh.text())
+
+    self.datadict['yscale'] = self.yscale_selector.currentText()
+    if self.yscale_tresh.text():
+        self.datadict['ytresh'] = float(self.yscale_tresh.text())
+
+    self.datadict['cscale'] = self.vscale_selector.currentText()
+    if self.vscale_tresh.text():
+        self.datadict['tresh'] = float(self.vscale_tresh.text())
+
+def set_range(self, xlim, ylim):
+
+    axtdict = {1: 0.02, 2: 0}
+
+    if xlim is None:
+        xlim = [self.xmin, self.xmax]
+    if ylim is None:
+        ylim = [self.ymin, self.ymax]
+
+    if self.firstplot is True:
+        self.xmin = xlim[0]
+        self.xmax = xlim[1]
+        self.ymin = ylim[0]*(1.0 - axtdict[self.vardim])
+        self.ymax = ylim[1]*(1.0 + axtdict[self.vardim])
+    else:
+        self.xmin = np.minimum(xlim[0], self.xmin)
+        self.xmax = np.maximum(xlim[1], self.xmax)
+        self.ymin = np.minimum(ylim[0]*(1.0 - axtdict[self.vardim]), self.ymin)
+        self.ymax = np.maximum(ylim[1]*(1.0 + axtdict[self.vardim]), self.ymax)
+
+    self.datadict['xrange'] = [
+        float(self.xrange_min.text()) if self.xrange_min.text() else self.xmin,
+        float(self.xrange_max.text()) if self.xrange_max.text() else self.xmax
+    ]
+
+    self.datadict['yrange'] = [
+        float(self.yrange_min.text()) if self.yrange_min.text() else self.ymin,
+        float(self.yrange_max.text()) if self.yrange_max.text() else self.ymax
+    ]

@@ -290,6 +290,7 @@ def _DataScanHDF5(self,
 		for iv in range(nvar):
 			myvars[iv] = myvars[iv].decode()
 			h5vardict[myvars[iv]] = vars[:,:,:,iv].squeeze().T
+		self._load_vars = myvars
 		AMRdict = dict([('AMRBoxes',AMRBoxes),('AMRLevel',AMRLevel)])
 		OutDict = dict(NewGridDict)
 		OutDict.update(AMRdict)

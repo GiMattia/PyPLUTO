@@ -164,6 +164,8 @@ def zoom(self,
         always correspond to fixed ticks.
     - ytitle: str, default None
         Sets and places the label of the y-axis.
+    - zoomcolor: str, default 'k'
+        Sets the color of the inset zoom lines
     - zoomlines: bool, default True
         Keyword in order to add/remove the inset zoom lines. The default
         option is True.
@@ -210,7 +212,7 @@ def zoom(self,
              'shading','ticksdir','tickssize','title','titlesize','top',
              'transpose','tresh','var','vmax','vmin','width','x1','x2','xrange',
              'xscale','xticks','xtickslabels','xtitle','yrange','yscale',
-             'yticks','ytickslabels','ytitle','zoomlines'}
+             'yticks','ytickslabels','ytitle','zoomcolor','zoomlines'}
     if check is True:
         check_par(param, 'zoom', **kwargs)
 
@@ -225,7 +227,7 @@ def zoom(self,
         axins = _place_inset_pos(ax, kwargs['pos'])
     else:
         axins = _place_inset_loc(ax, **kwargs)
-    kwargs['fontsize']  = kwargs.get('fontsize', self.fontsize - 3)
+    kwargs['fontsize']  = kwargs.get('fontsize', self.fontsize)
     kwargs['titlesize'] = kwargs.get('titlesize',self.fontsize)
 
     # Adds the inset axis
@@ -246,8 +248,14 @@ def zoom(self,
         _zoomplot(self,ax,nax,axins,**kwargs)
 
     # Indicates the inset zoom
+    zoomc = kwargs.get('zoomcolor','k')
     if kwargs.get('zoomlines',True) is True:
-        ax.indicate_inset_zoom(axins, edgecolor="black")
+        ax.indicate_inset_zoom(axins, edgecolor = zoomc)
+    
+    axins.spines['left'].set_color(zoomc)
+    axins.spines['bottom'].set_color(zoomc)
+    axins.spines['right'].set_color(zoomc)
+    axins.spines['top'].set_color(zoomc)
 
     return axins
 

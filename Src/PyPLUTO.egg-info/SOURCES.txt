@@ -10,6 +10,7 @@ Src/PyPLUTO.egg-info/top_level.txt
 Src/pyPLUTO/3dplot.py
 Src/pyPLUTO/__init__.py
 Src/pyPLUTO/amr.py
+Src/pyPLUTO/echo_load.py
 Src/pyPLUTO/figure.py
 Src/pyPLUTO/findlines.py
 Src/pyPLUTO/fourier.py

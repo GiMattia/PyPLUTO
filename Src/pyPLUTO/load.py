@@ -137,7 +137,7 @@ class Load:
                  multiple: bool = False, 
                  endian: str | None = None ,
                  level: int = 0,
-                 full3d: bool = True,
+                 full3d: bool = None,
                  code : str = None
                 ) -> None:
         
@@ -149,7 +149,7 @@ class Load:
                 print(init)
             codedict[code](nout, path, vars)
             if text is True:
-                print(f"Load: folder {path},     output {self.nout}")
+                print(f"Load: folder {path},     output {self.nout:=self.nout.astype(int)}")
             return
         
         # Custom code for unknown code: error!
@@ -260,7 +260,7 @@ class Load:
 
         # Print loaded folder and output
         if text: 
-            _nout_out = self.nout[0] if len(self.nout) == 1 else list(self.nout)
+            _nout_out = self.nout[0] if len(self.nout) == 1 else [int(x) for x in self.nout]
             print(f"Load: folder {path},     output {_nout_out}")
 
         return   

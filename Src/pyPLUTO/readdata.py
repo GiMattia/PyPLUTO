@@ -356,7 +356,9 @@ def _init_vardict(self,
 
     # If the variable is not initialized, create a new dictionary
     if var not in self._d_vars.keys():
+        self._d_vars[var] = {}
 
+        """
         if isinstance(self._shape[var], tuple):
             # If the shape is a tuple, the shape is reversed
             sh_type = self._shape[var][::-1] 
@@ -381,6 +383,7 @@ def _init_vardict(self,
                                           dtype=np.float32, \
                                           shape = shape)
             self._d_vars[var][:] = np.nan
+        """
 
     # End of the function
     return None

@@ -80,19 +80,15 @@ def plot_data(self):
         self.var = self.var[int(self.xslicetext.text())]
 
     self.vardim = len(np.shape(self.var))
+    if self.vardim < 1 or self.vardim > 2:
+        raise ValueError("ERROR: Variable shape not recognized.")
     self.check_axisparam()
 
-    if self.vardim == 1:
-        axis_convert = {"x1":  "x1",  "x2":  "x2",  "x3":  "x3", 
-                        "x1p": "x1p", "x2p": "x2p", "x3p": "x3p",
-                        "x1c": "x1c", "x2c": "x2c", "x3c": "x3c"}
-    elif self.vardim == 2:
-        axis_convert = {"x1":  "x1r",  "x2":  "x2r",  "x3":  "x3r", 
-                        "x1p": "x1rp", "x2p": "x2rp", "x3p": "x3rp",
-                        "x1c": "x1rc", "x2c": "x2rc", "x3c": "x3rc"}
-    else:
-        print("ERROR: Variable shape not recognized.")
-
+    axis_convert = {key: (key if self.vardim == 1 else key[:2] + "r" + key[2:]) 
+                for key in ["x1",  "x2",  "x3", 
+                            "x1p", "x2p", "x3p", 
+                            "x1c", "x2c", "x3c"]}
+    
     if self.overplot_checkbox.isChecked() and self.vardim == 1: 
         pass
     else:

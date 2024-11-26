@@ -1,19 +1,17 @@
 # PyPLUTO: A Python Package for Loading and Plotting Data from the PLUTO Code
 ## Summary
+
 In recent years, a plethora of numerical simulations have been performed to tackle some of the most relevant questions in astrophysics.
 The so-called MagnetoHydroDynamics (MHD) framework \cite{Alfven_1942} represents a key tool for investigating the dynamical evolution of astrophysical plasmas.
 The MHD formulation is described by a set of partial differential equations \cite{Chiuderi_Velli_2015}, enforcing the conservation of mass, momentum, and energy, coupled with Maxwell's equation for the evolution of the electromagnetic fields.
 Due to the high nonlinearity of the MHD equations (regardless of their specifications, e.g. classical/relativistic or ideal/resistive), it is not always possible to find an analytical solution.
 
 Several codes (e.g., HARM \cite{Gammie_etal_2003}, PLUTO \cite{PLUTO_2007}, ECHO \cite{DelZanna_etal_2007, DelZanna_etal_2024}, Athena \cite{Stone_etal_2008}, BHAC \cite{Porth_etal_2017}, H-AMR \cite{Liska_etal_2022}, {\RED BATS-R-U, GMUNU, PENCIL}) have been developed to describe the behavior of astrophysical plasma.
-Despite the many similarities that led to the rise of multicode and multipurpose packages\cite{Turk_etal_2011, ASTROPY2013} and software designed for data visualization \cite{ViSit}, selected tools that focus on a particular numerical code are still necessary to exploit all the code features efficiently.
-In this paper, we focus on the PLUTO\footnote{\RED https://plutocode.ph.unito.it/userguide.pdf} code \cite{PLUTO_2007, PLUTO_2012}, one of the most popular codes in the MHD community with thousands of downloads and citations.
-In the PLUTO code, the different plasma variables (such as the density, pressure, velocity, and electromagnetic fields) are stored in one- or multi-dimensional arrays and printed on output files.
-Once written on files, the data can be manipulated and plotted, depending on the data format and characteristics, by different software and scripts, e.g. {\RED gnuplot}, IDL \cite{IDL}, Visit \cite{ViSit}, Paraview \cite{ParaView}, and Python \cite{Dubois_etal_1996, Millman_Aivazis_2011}.
-As one of the most popular programming languages, Python represents an ideal choice due to the wide array of specialized packages  \cite{MATPLOTLIB_2007, ASTROPY2013, SCIPY_2020, NUMPY2020, PANDAS2020} that significantly enhance its applicability.
+Despite the many similarities that led to the rise of multicode and multipurpose packages\cite{Turk_etal_2011, ASTROPY2013} and software designed for data visualization \cite{ViSit, ParaView}, selected tools that focus on a particular numerical code are still necessary to exploit all the code features efficiently.
 
-Here we present PyPLUTO, a Python package designed to efficiently load, manipulate, and show the data produced with the PLUTO code.
-Thanks to an improved data loading that relies on memory mapping and general routines to manipulate and visualize the data, PyPLUTO aims to be a powerful yet user-friendly toolkit in the context of visualization of astrophysically relevant data generated with the PLUTO code.
+Here we present PyPLUTO, a Python package designed to efficiently load, manipulate, and show the data produced with the PLUTO\footnote{\RED https://plutocode.ph.unito.it/userguide.pdf} code \cite{PLUTO_2007, PLUTO_2012}.
+Thanks to an improved data loading that relies on memory mapping, general routines to manipulate and visualize the data, and a GUI able to simplify the production of ingle-axis figures, PyPLUTO aims to be a powerful yet user-friendly toolkit in the context of visualization of astrophysically relevant data generated with the PLUTO code.
+
 
 ## Statement of Need
 The PLUTO code is a widely used, open-source, computational fluid dynamics

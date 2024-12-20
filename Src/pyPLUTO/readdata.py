@@ -60,7 +60,6 @@ def _load_variables(self,
         >>> _load_variables(True, 0, 1, True)
 
     """
-
     # Find the class name and find the single_file filepath
     class_name: str = self.__class__.__name__
     if class_name == 'Load':
@@ -115,7 +114,7 @@ def _load_variables(self,
         # Load the variable through memory mapping and store them in the class
         scrh = np.memmap(self._filepath,self._d_info['binformat'][i],mode="r+",
                          offset=self._offset[j], shape = self._shape[j]).T
-        self._assign_var(i, j, scrh)
+        self._assign_var(exout, j, scrh)
 
     # End of function
     return None

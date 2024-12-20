@@ -80,19 +80,22 @@ def interactive(self,
     # Store the variable x. If vary is None, it is set to varx
     if vary is None:
         vary = varx
-        splt = np.ndim(varx[0])
+        scrh = np.asarray(list(vary.keys()))[0]
+        splt = np.ndim(varx[scrh])
+
         # Use range if the variable is 1D
         if splt == 1:
             varx = np.arange(len(vary))
 
     # Store the variable to animate
     self.anim_var = vary
-    self.nsld     = len(vary)
+    self.animkeys = np.sort(np.asarray(list(vary.keys())))
+    self.nsld     = len(self.animkeys)
     nsld          = self.nsld - 1
-    self.lenlab   = len(str(nsld))    
+    self.lenlab   = len(str(self.animkeys[-1]))    
 
     # Check the number of dimensions
-    splt = np.ndim(vary[0])
+    splt = np.ndim(vary[self.animkeys[0]])
 
     # Set or create figure and axes (to test)
     ax, nax = self._assign_ax(kwargs.pop('ax', None), **kwargs, tight = False)
@@ -119,7 +122,7 @@ def interactive(self,
         label = labslider[0]
     else:
         self.labslider = None
-        label = f"nout = {int(0):0{self.lenlab}d}"
+        label = f"nout = {self.animkeys[0]:0{self.lenlab}d}"
     self.slider = Slider(sliderax, label = label, valmin = 0, valmax = nsld, 
                                    valinit = 0, valstep = 1, valfmt = '%d')
     self.slider.on_changed(self._update_slider)
@@ -128,19 +131,18 @@ def interactive(self,
     if splt == 2:
 
         self.limfix = limfix
-        vmin = self.anim_var.min() if limfix is True else self.anim_var[0].min()
-        vmax = self.anim_var.max() if limfix is True else self.anim_var[0].max()
-
+        vmin = min(np.nanmin(array) for array in self.anim_var.values()) if limfix is True else np.nanmin(self.anim_var[self.animkeys[0]])
+        vmax = max(np.nanmax(array) for array in self.anim_var.values()) if limfix is True else np.nanmax(self.anim_var[self.animkeys[0]])
         vmin = kwargs.pop('vmin',vmin)
         vmax = kwargs.pop('vmax',vmax)
 
         # Display the data if it is 2D
-        self.display(self.anim_var[0], ax = ax,  
+        self.display(self.anim_var[self.animkeys[0]], ax = ax,  
                      vmin = vmin, vmax = vmax, **kwargs) 
         self.anim_pcm = ax.collections[0]
     else:
         # Plot the data if it is 1D
-        self.plot(varx,np.array(vary[0].tolist()), ax = ax, **kwargs)
+        self.plot(varx,np.array(vary[self.animkeys[0]].tolist()), ax = ax, **kwargs)
         self.anim_pcm = ax.get_lines()[0]
 
     return None
@@ -180,15 +182,15 @@ def _update_slider(self,
     """
 
     # Update the data
-    var = self.anim_var[int(i)]
+    var = self.anim_var[self.animkeys[i]]
     if np.ndim(var) == 2:
         # Update the data array if it is 2D
         self.anim_pcm.set_array(var.T.ravel())
 
         # Update vmin and vmax dynamically
         if self.limfix is False:
-            self.anim_pcm.set_clim(self.anim_var[int(i)].min(),
-                                   self.anim_var[int(i)].max())
+            self.anim_pcm.set_clim(self.anim_var[self.animkeys[i]].min(),
+                                   self.anim_var[self.animkeys[i]].max())
 
     elif np.ndim(var) == 1:
         # Update the data array if it is 1D
@@ -197,7 +199,7 @@ def _update_slider(self,
     if self.labslider is not None:
         self.slider.label.set_text(self.labslider[i])
     else:
-        self.slider.label.set_text(f"nout = {int(i):0{self.lenlab}d}")
+        self.slider.label.set_text(f"nout = {self.animkeys[i]:0{self.lenlab}d}")
 
     # Update the plot
     self.fig.canvas.draw()

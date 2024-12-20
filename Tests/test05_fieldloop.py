@@ -54,7 +54,7 @@ I.display(1000*D.Bx1, x1 = D.x1, x2 = D.x2,
                                  vmin = -1.5,
                                  vmax = 1.5,
                                  shading = 'gouraud',
-                                 title = r'$B_x$',
+                                 title = r'$B_x$ (+ streamplot)',
                                  xtitle = 'x',
                                  ytitle = 'y')
 
@@ -67,7 +67,7 @@ I.display(1000*D.Bx2, x1 = D.x1, x2 = D.x2,
                                  vmin = -1.5,
                                  vmax = 1.5,
                                  shading = 'gouraud',
-                                 title = r'$B_y$',
+                                 title = r'$B_y$ (+ find$\_$fieldlines)',
                                  xtitle = 'x')
 
 # Plot the field lines in two different ways

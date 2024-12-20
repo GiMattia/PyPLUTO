@@ -66,9 +66,12 @@ def select_folder(self):
         self.load_data()
 
 def reload_data(self):
+    var_name = self.var_selector.currentText()
     self.nout = int(self.outtext.text()) if self.outtext.text() else 'last'
     self.folder_path = "./" if self.folder_path is None else self.folder_path
     self.load_data()
+    if var_name in self.D._load_vars:
+        self.var_selector.setCurrentText(var_name)
 
 def clearload(self):
     self.folder_path = './'

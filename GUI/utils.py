@@ -50,7 +50,6 @@ def update_axes(self):
             artist.set_norm(norm)
 
     self.set_range(xlim = None, ylim = None)
-    
     self.I.set_axis(self.I.ax[0],**self.datadict)
     self.datadict['cmap']   = cmap
     self.datadict['cscale'] = cscale
@@ -69,7 +68,7 @@ def plot_data(self):
         print("ERROR: No variable selected.")
         return
     
-    self.var    = getattr(self.D, var_name)
+    self.var = getattr(self.D, var_name)
     
     self.var = self.var.T if self.transpose_checkbox.isChecked() else self.var
     if self.zslicetext.text() and len(np.shape(self.var)) == 3:
@@ -90,9 +89,10 @@ def plot_data(self):
                             "x1c", "x2c", "x3c"]}
     
     if self.overplot_checkbox.isChecked() and self.vardim == 1: 
-        pass
+        self.numlines = self.numlines + 1 if self.numlines > 0 else 1
     else:
         self.reload_canvas()
+        self.numlines = 1
 
     x1 = getattr(self.D, axis_convert[self.xaxis_selector.currentText()])
     x2 = getattr(self.D, axis_convert[self.yaxis_selector.currentText()])
@@ -101,6 +101,7 @@ def plot_data(self):
     ylim = [x2.min(), x2.max()] if self.vardim == 2 else [self.var.min(), self.var.max()]
 
     self.set_range(xlim, ylim)
+    print(self.numlines)
 
     if self.vardim == 1:
         cmap_temp   = self.datadict.pop('cmap')
@@ -114,10 +115,7 @@ def plot_data(self):
         self.I.display(self.var, x1 = x1, x2 = x2, cpos='right', 
                                  aspect = "equal", **self.datadict)
 
-    if self.firstplot is True:
-        self.original_xlim = self.I.ax[0].get_xlim()
-        self.original_ylim = self.I.ax[0].get_ylim()
-        self.firstplot = False
+    self.firstplot = False
     self.canvas.draw()
 
 
@@ -173,7 +171,9 @@ def check_axisparam(self):
 
 def set_range(self, xlim, ylim):
 
-    axtdict = {1: 0.02, 2: 0}
+    # FIX RANGE!
+
+    axtdict = {1: 0.001, 2: 0}
 
     if xlim is None:
         xlim = [self.xmin, self.xmax]

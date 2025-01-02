@@ -36,9 +36,9 @@ class PyPLUTOApp(QMainWindow):
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
-        self.add_pushbutton("Select Folder", layout, self.select_folder)
+        self.add_pushbutton("Select File", layout, self.select_folder)
         self.add_pushbutton("Clear", layout, self.clearload)
-        self.add_pushbutton("Reload Data", layout, self.reload_data)
+        self.add_pushbutton("Reload Folder", layout, self.reload_data)
         button_layout.addLayout(layout)
 
         self.add_line(button_layout)

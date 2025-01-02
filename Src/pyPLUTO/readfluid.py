@@ -89,7 +89,8 @@ def _read_tabfile(self,
 
 def _inspect_vtk(self, 
                  i: int, 
-                 endian: str | None
+                 endian: str | None,
+                 varmult: str | None
                 ) -> None:
     """
     Routine to inspect the vtk file and find the variables, the offset and the 
@@ -110,6 +111,10 @@ def _inspect_vtk(self,
         The endianess of the files.
     - i (not optional): int
         The index of the file to be loaded.
+    - varmult (not optional): str | None
+        If None the data are loaded as single files, otherwise the data are
+        loaded as multiple files. In single files, an adaptive strategy can be 
+        used to speed up the offset computation without reading the entire file.
 
     Notes
     -----
@@ -244,17 +249,19 @@ def _inspect_vtk(self,
                                                        line_end)
         offset = mmapped_file.find(b'\n', lookup_table_pos) + 1
 
-        if self._info is not True:
+        if self._info is not True and varmult is None:
             scrh = offset - scalars_pos + self.gridsize*4 + 1
             for var in self._d_info['varslist'][i]:
                 self._offset[var] = offset
                 self._shape[var]  = self.nshp
                 offset = offset + scrh + len(var) - \
-                                        len(self._d_info['varslist'][i][0])
+                                         len(self._d_info['varslist'][i][0])
             break
         else:
             self._offset[var] = offset
             self._shape[var]  = self.nshp
+            if varmult is not None:
+                break
 
         search_pos = line_end + 1  # Continue searching after the current line
 
@@ -419,7 +426,7 @@ def _compute_offset(self,
     if self.format == 'tab':
         self._read_tabfile(i)
     elif self.format == 'vtk':
-        self._inspect_vtk(i,endian)
+        self._inspect_vtk(i,endian, var)
     elif self.format in {'dbl.h5','flt.h5'}:
         self._inspect_h5(i, exout)
     elif self.format == 'hdf5':

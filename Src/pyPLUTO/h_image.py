@@ -45,6 +45,8 @@ def _add_ax(self,
     self.ntext.append(None)
     self.setax.append(0)
     self.setay.append(0)
+    self.xscale.append('linear')
+    self.yscale.append('linear')
     self.legpos.append(None)
     self.legpar.append([self.fontsize,1,2,0.8,0.8])
     self.vlims.append([])
@@ -238,9 +240,12 @@ def _set_yrange(self,
         yrange = np.where(np.logical_and(x >= x.min(), x <= x.max()))
         smally = y[yrange]
 
-        # Extend slightly the range (not perfect method)
-        ymin   = smally.min() - 0.1*np.abs(smally.min())
-        ymax   = smally.max() + 0.1*np.abs(smally.max())
+        # Extend slightly the range
+        ymin, ymax = self._range_offset(smally.min(), 
+                                        smally.max(), 
+                                        self.yscale[nax])   
+        #ymin   = smally.min() - 0.02*np.abs(smally.min())
+        #ymax   = smally.max() + 0.02*np.abs(smally.max())
         ax.set_ylim(ymin,ymax)
 
         # Switch to case 2 (previous limits are present now)
@@ -260,9 +265,12 @@ def _set_yrange(self,
         yrange = np.where(np.logical_and(x >= x.min(), x <= x.max()))
         smally = y[yrange]
 
-        # Extend slightly the range (not perfect method)        
-        ymin   = smally.min() - 0.1*np.abs(smally.min())
-        ymax   = smally.max() + 0.1*np.abs(smally.max())
+        # Extend slightly the range (not perfect method)     
+        ymin, ymax = self._range_offset(smally.min(), 
+                                        smally.max(), 
+                                        self.yscale[nax])   
+        #ymin   = smally.min() - 0.02*np.abs(smally.min())
+        #ymax   = smally.max() + 0.02*np.abs(smally.max())
 
         # Check if the limits should be changed
         ymin = np.minimum(ymin,ax.get_ylim()[0])
@@ -278,6 +286,72 @@ def _set_yrange(self,
 
     # End of the function
     return None
+
+def _range_offset(self,
+                  ymin: float, 
+                  ymax: float, 
+                  scale: str,
+                  margin : float = 0.1
+                 ) -> tuple[float, float]:
+    """
+    Returns the offsetted data range for the y-axis limits.
+
+    Returns
+    -------
+
+    - ymin: float
+        The lower limit of the y-axis.
+    - ymax: float
+        The upper limit of the y-axis.
+
+    Parameters
+    ----------
+
+    - ymin (not optional): float
+        The lower limit of the y-axis.
+    - ymax (not optional): float
+        The upper limit of the y-axis.
+    - scale (not optional): str
+        The scale of the y-axis.
+    - margin (optional): float
+        The margin of the data range.
+
+    Notes
+    -----
+
+    - The chance to set only one limit dinamically will be implemented
+      in future code releases
+
+    ----
+
+    Examples
+    ========
+
+    - Example #1: Set the y-axis limits of the selected set of axes
+
+        >>> ymin, ymax = _range_offset(ymin, ymax, scale)
+    """
+  
+    # Find the data range
+    data_range = ymax - ymin
+
+    # Find the padding (with non-inear scale adjustments)
+    padding = margin * data_range
+    if np.log10(np.abs(data_range)) > 10 and scale != "linear":
+        padding *= 2 * np.abs(np.log10(np.abs(data_range)))
+    
+    # Set the limits (additional check if the scale is logarithmic)
+    if scale in ['linear','symlog', 'asinh']:
+        return (ymin - padding, ymax + padding)
+    elif scale == 'log':
+        if ymin <= 0 or ymax <= 0:
+            ymin = min(np.abs(ymin), np.abs(ymax))
+            ymax = max(np.abs(ymin), np.abs(ymax))
+            warnings.warn("Negative range for logarithmic scale!", UserWarning)
+        return (max(ymin - padding, ymin * 0.25), ymax + padding)
+    else:
+        return (ymin, ymax)
+
 
 
 def _assign_ax(self, 

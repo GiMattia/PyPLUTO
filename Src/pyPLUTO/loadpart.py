@@ -160,21 +160,13 @@ class LoadPart:
         # Assign the variables to the class
         for key in self._d_vars:
             setattr(self, key, self._d_vars[key])
-        
-        # Mask (Not currently, to be done) the id array and convert to int
-        """
-        # NEEDED FOR MULTIPLE LOADINGS?
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", category=RuntimeWarning)
-            self.id = np.ma.masked_array(self.id.astype('int'), 
-            np.isnan(self.id))
-        """        
 
         # Change the id variable to int depending on the format loaded
         if self.format != 'vtk':
             self.id = self.id.astype('int')
         else:
             self.id = self.id.view('>i4')
+
 
         # Print loaded folder and output
         if text is not False: 

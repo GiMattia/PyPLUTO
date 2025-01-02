@@ -451,9 +451,9 @@ def scatter(self,
     c    = kwargs.get('c',None)
     # If c is a list convert to array
     vmin = kwargs.get('vmin',0.0) if c is None or isinstance (c, str) else \
-           kwargs.get('vmin',np.asarray(c).min())
+           kwargs.get('vmin',np.nanmin(np.asarray(c)))
     vmax = kwargs.get('vmax',0.0) if c is None or isinstance (c, str) else \
-           kwargs.get('vmax',np.asarray(c).max())
+           kwargs.get('vmax',np.nanmax(np.asarray(c)))
 
     # Keyword for colorbar and colorscale
     cpos     = kwargs.get('cpos',None)

@@ -20,14 +20,15 @@ def load_data(self):
         self.xaxis_selector.clear()
         self.yaxis_selector.clear()
         self.var_selector.addItems(self.D._load_vars)
-        xaxis_labels = ["x1", "x2", "x3"]
-        yaxis_labels = ["x2", "x3", "x1"]
         if self.D.geom == 'POLAR':
-            xaxis_labels.extend(["x1c", "x2c"])
-            yaxis_labels.extend(["x1c", "x2c"])
-        if self.D.geom == 'SPHERICAL':
-            xaxis_labels.extend(["x1p", "x2p"])
-            yaxis_labels.extend(["x1p", "x2p"])
+            xaxis_labels = ["R","phi","z","x","y"]
+            yaxis_labels = ["phi","z","R","x","y"]
+        elif self.D.geom == 'SPHERICAL':
+            xaxis_labels = ["r","theta","phi","R","z"]
+            yaxis_labels = ["theta","phi","r","R","z"]
+        else:
+            xaxis_labels = ["x","y","z"]
+            yaxis_labels = ["y","z","x"]
         
         self.xaxis_selector.addItems(xaxis_labels)
         self.yaxis_selector.addItems(yaxis_labels)
@@ -66,9 +67,12 @@ def select_folder(self):
         self.load_data()
 
 def reload_data(self):
+    var_name = self.var_selector.currentText()
     self.nout = int(self.outtext.text()) if self.outtext.text() else 'last'
     self.folder_path = "./" if self.folder_path is None else self.folder_path
     self.load_data()
+    if var_name in self.D._load_vars:
+        self.var_selector.setCurrentText(var_name)
 
 def clearload(self):
     self.folder_path = './'

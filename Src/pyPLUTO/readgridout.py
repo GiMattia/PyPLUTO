@@ -287,10 +287,11 @@ def _read_gridfile(self
 
             del x1_3D, x2_3D, x3_3D, x1r_3D, x2r_3D, x3r_3D
         else:
-            self.x1c = np.zeros((self.nx1,self.nx2,self.nx3))
-            print(np.shape(self.x1c))
-            self.pippo = np.meshgrid(self.x2, self.x3, indexing='xy')
-            print(np.shape(self.pippo))
+            pass
+            #self.x1c = np.zeros((self.nx1,self.nx2,self.nx3))
+            #print(np.shape(self.x1c))
+            #self.pippo = np.meshgrid(self.x2, self.x3, indexing='xy')
+            #print(np.shape(self.pippo))
 
     # Compute the gridsize both centered and staggered
     self.gridsize      = self.nx1*self.nx2*self.nx3
@@ -349,7 +350,7 @@ def _read_outfile(self,
     vfp = pd.read_csv(str(self._pathdata), sep=r'\s+', header = None)
     
     # Store the output and the time full list
-    self.outlist  = np.array(vfp.iloc[:,0])
+    self.outlist  = np.array(vfp.iloc[:,0], dtype = 'int')
     self.timelist = np.array(vfp.iloc[:,1])
 
     # Check the output lines

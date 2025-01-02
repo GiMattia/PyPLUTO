@@ -98,7 +98,6 @@ def _inspect_bin(self,
     for ind, j in enumerate(self._d_info['varskeys'][i]):
         self._shape[j] = self.nshp 
         self._dictdim [j] = self._vardim[ind]  
-        self._init_vardict(j)
 
     return None
 
@@ -330,12 +329,13 @@ def _store_bin_particles(self,
 
         # Compute the size of the variable and store the data
         szvar = self._vardim[j]
+        index = ncol if szvar == 1 else slice(ncol, ncol + szvar)
         if self._lennout != 1:
             # To be fixed for multiple loadings
             raise NotImplementedError('multiple loading not implemented yet')
-            #self._d_vars[var][i][:] = self._d_vars['tot'][i][ncol:ncol+szvar]
+            #self._d_vars[var][i] = self._d_vars['tot'][index]
         else:
-            self._d_vars[var][:] = self._d_vars['tot'][ncol:ncol+szvar]
+            self._d_vars[var] = self._d_vars['tot'][index]
 
         # Update the column counter
         ncol += szvar

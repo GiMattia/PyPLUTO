@@ -50,7 +50,6 @@ def update_axes(self):
             artist.set_norm(norm)
 
     self.set_range(xlim = None, ylim = None)
-    
     self.I.set_axis(self.I.ax[0],**self.datadict)
     self.datadict['cmap']   = cmap
     self.datadict['cscale'] = cscale
@@ -69,7 +68,7 @@ def plot_data(self):
         print("ERROR: No variable selected.")
         return
     
-    self.var    = getattr(self.D, var_name)
+    self.var = getattr(self.D, var_name)
     
     self.var = self.var.T if self.transpose_checkbox.isChecked() else self.var
     if self.zslicetext.text() and len(np.shape(self.var)) == 3:
@@ -80,23 +79,27 @@ def plot_data(self):
         self.var = self.var[int(self.xslicetext.text())]
 
     self.vardim = len(np.shape(self.var))
+    if self.vardim < 1 or self.vardim > 2:
+        raise ValueError("ERROR: Variable shape not recognized.")
     self.check_axisparam()
 
-    if self.vardim == 1:
-        axis_convert = {"x1":  "x1",  "x2":  "x2",  "x3":  "x3", 
-                        "x1p": "x1p", "x2p": "x2p", "x3p": "x3p",
-                        "x1c": "x1c", "x2c": "x2c", "x3c": "x3c"}
-    elif self.vardim == 2:
-        axis_convert = {"x1":  "x1r",  "x2":  "x2r",  "x3":  "x3r", 
-                        "x1p": "x1rp", "x2p": "x2rp", "x3p": "x3rp",
-                        "x1c": "x1rc", "x2c": "x2rc", "x3c": "x3rc"}
+    if self.D.geom == 'POLAR':
+        convert_axis = {"R": "x1", "phi": "x2", "z": "x3", 
+                        "x": "x1c", "y": "x2c"}
+    elif self.D.geom == 'SPHERICAL':
+        convert_axis = {"r": "x1", "theta": "x2", "phi": "x3", 
+                        "R": "x1p", "z": "x2p"}
     else:
-        print("ERROR: Variable shape not recognized.")
+        convert_axis = {"x": "x1", "y": "x2", "z": "x3"}
 
+    axis_convert = {key: (val if self.vardim == 1 else val[:2] + "r" + val[2:]) 
+                for key, val in convert_axis.items()}
+    
     if self.overplot_checkbox.isChecked() and self.vardim == 1: 
-        pass
+        self.numlines = self.numlines + 1 if self.numlines > 0 else 1
     else:
         self.reload_canvas()
+        self.numlines = 1
 
     x1 = getattr(self.D, axis_convert[self.xaxis_selector.currentText()])
     x2 = getattr(self.D, axis_convert[self.yaxis_selector.currentText()])
@@ -110,18 +113,17 @@ def plot_data(self):
         cmap_temp   = self.datadict.pop('cmap')
         cscale_temp = self.datadict.pop('cscale')
         ctresh_temp = self.datadict.pop('tresh', None)
-        self.I.plot(x1, self.var, ytitle = ' ', **self.datadict)
+        self.I.plot(x1, self.var, **self.datadict, 
+                    xtitle = " ", ytitle = " ")
         self.datadict['cmap']   = cmap_temp
         self.datadict['cscale'] = cscale_temp
         if ctresh_temp is not None: self.datadict['tresh'] = ctresh_temp
     elif self.vardim == 2:
         self.I.display(self.var, x1 = x1, x2 = x2, cpos='right', 
-                                 aspect = "equal", **self.datadict)
+                                 aspect = "equal", **self.datadict, 
+                                 xtitle = " ", ytitle = " ", clabel = " ")
 
-    if self.firstplot is True:
-        self.original_xlim = self.I.ax[0].get_xlim()
-        self.original_ylim = self.I.ax[0].get_ylim()
-        self.firstplot = False
+    self.firstplot = False
     self.canvas.draw()
 
 
@@ -177,23 +179,23 @@ def check_axisparam(self):
 
 def set_range(self, xlim, ylim):
 
-    axtdict = {1: 0.02, 2: 0}
-
     if xlim is None:
         xlim = [self.xmin, self.xmax]
     if ylim is None:
         ylim = [self.ymin, self.ymax]
 
     if self.firstplot is True:
-        self.xmin = xlim[0]
-        self.xmax = xlim[1]
-        self.ymin = ylim[0]*(1.0 - axtdict[self.vardim])
-        self.ymax = ylim[1]*(1.0 + axtdict[self.vardim])
+        self.xmin, self.xmax = xlim
+        self.ymin, self.ymax = ylim
     else:
         self.xmin = np.minimum(xlim[0], self.xmin)
         self.xmax = np.maximum(xlim[1], self.xmax)
-        self.ymin = np.minimum(ylim[0]*(1.0 - axtdict[self.vardim]), self.ymin)
-        self.ymax = np.maximum(ylim[1]*(1.0 + axtdict[self.vardim]), self.ymax)
+        self.ymin = np.minimum(ylim[0], self.ymin)
+        self.ymax = np.maximum(ylim[1], self.ymax)
+
+    ymin, ymax = self.I._range_offset(self.ymin, self.ymax, 
+                                      self.yscale_selector.currentText()) \
+                 if self.vardim == 1 else (self.ymin, self.ymax)
 
     self.datadict['xrange'] = [
         float(self.xrange_min.text()) if self.xrange_min.text() else self.xmin,
@@ -201,6 +203,6 @@ def set_range(self, xlim, ylim):
     ]
 
     self.datadict['yrange'] = [
-        float(self.yrange_min.text()) if self.yrange_min.text() else self.ymin,
-        float(self.yrange_max.text()) if self.yrange_max.text() else self.ymax
+        float(self.yrange_min.text()) if self.yrange_min.text() else ymin,
+        float(self.yrange_max.text()) if self.yrange_max.text() else ymax
     ]

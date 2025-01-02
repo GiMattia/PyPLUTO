@@ -12,49 +12,49 @@ authors:
     orcid: 0000-0003-1454-6226
     equal-contrib: true
     affiliation: 1, 2
-  - name: Giancarlo Mattia
+  - name: Daniele Crocco
+    orcid: ...
+    equal-contrib: true
+    affiliation: 3
+  - name: David Melon Fuksman
     orcid: 0000-0003-1454-6226
     equal-contrib: true
     affiliation: 1
-  - name: Giancarlo Mattia
+  - name: Matteo Bugli
     orcid: 0000-0003-1454-6226
     equal-contrib: true
-    affiliation: 1
-  - name: Giancarlo Mattia
+    affiliation: 3, 4, 5
+  - name: Vittoria Berta
     orcid: 0000-0003-1454-6226
     equal-contrib: true
-    affiliation: 1
-  - name: Giancarlo Mattia
+    affiliation: 3
+  - name: Eleonora Puzzoni
     orcid: 0000-0003-1454-6226
     equal-contrib: true
-    affiliation: 1
-  - name: Giancarlo Mattia
+    affiliation: 6
+  - name: Andrea Mignone
     orcid: 0000-0003-1454-6226
     equal-contrib: true
-    affiliation: 1
-  - name: Giancarlo Mattia
+    affiliation: 3, 5
+  - name: Bhargav Vaidya
     orcid: 0000-0003-1454-6226
     equal-contrib: true
-    affiliation: 1
-  - name: Giancarlo Mattia
-    orcid: 0000-0003-1454-6226
-    equal-contrib: true
-    affiliation: 1
+    affiliation: 7
 
 affiliations:
- - name: Max Planck ...
+ - name: Max Planck Institute für Astronomie, Königstuhl 17, Heidelberg, 69117, Germany
    index: 1
- - name: Max Planck ...
+ - name: INFN, Sezione di Firenze, Via G. Sansone 1, Sesto Fiorentino (FI), 50019, Italy
    index: 2
- - name: Max Planck ...
+ - name: Dipartimento di Fisica, Università di Torino, Via P. Giuria 1, Torino, 10125, Italy
    index: 3
- - name: Max Planck ...
+ - name: Université Paris-Saclay, Université Paris Cité,CEA, CNRS, AIM, Gif-sur-Yvette, 91191, France
    index: 4
- - name: Max Planck ...
+ - name: INFN, Sezione di Torino, Via P. Giuria 1, Torino, 10125, Italy
    index: 5
- - name: Max Planck ...
+ - name: Observatoire de la Côte d’Azur, Laboratoire Lagrange, Bd de l’Observatoire, CS 34229, 06304 Nice cedex 4, France
    index: 6
- - name: Max Planck ...
+ - name: Department of Astronomy, Astrophysics and Space Engineering, Indian Institute of Technology, Khandwa Road, Simrol, Indore, 453552, India
    index: 7
 
 date: 03 January 2025

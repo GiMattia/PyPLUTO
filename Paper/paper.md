@@ -9,13 +9,53 @@ tags:
 
 authors:
   - name: Giancarlo Mattia
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0003-1454-6226
+    equal-contrib: true
+    affiliation: 1, 2
+  - name: Giancarlo Mattia
+    orcid: 0000-0003-1454-6226
+    equal-contrib: true
+    affiliation: 1
+  - name: Giancarlo Mattia
+    orcid: 0000-0003-1454-6226
+    equal-contrib: true
+    affiliation: 1
+  - name: Giancarlo Mattia
+    orcid: 0000-0003-1454-6226
+    equal-contrib: true
+    affiliation: 1
+  - name: Giancarlo Mattia
+    orcid: 0000-0003-1454-6226
+    equal-contrib: true
+    affiliation: 1
+  - name: Giancarlo Mattia
+    orcid: 0000-0003-1454-6226
+    equal-contrib: true
+    affiliation: 1
+  - name: Giancarlo Mattia
+    orcid: 0000-0003-1454-6226
+    equal-contrib: true
+    affiliation: 1
+  - name: Giancarlo Mattia
+    orcid: 0000-0003-1454-6226
     equal-contrib: true
     affiliation: 1
 
 affiliations:
  - name: Max Planck ...
    index: 1
+ - name: Max Planck ...
+   index: 2
+ - name: Max Planck ...
+   index: 3
+ - name: Max Planck ...
+   index: 4
+ - name: Max Planck ...
+   index: 5
+ - name: Max Planck ...
+   index: 6
+ - name: Max Planck ...
+   index: 7
 
 date: 03 January 2025
 bibliography: paper.bib

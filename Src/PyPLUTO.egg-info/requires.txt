@@ -1,11 +1,13 @@
 numpy
 matplotlib>=3.5
 scipy
-sphinx
-sphinx-automodapi
-numpydoc
 pandas
 h5py
+
+[dev]
+black
+isort
+pre-commit
 
 [docs]
 sphinx

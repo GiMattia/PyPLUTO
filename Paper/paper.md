@@ -44,7 +44,7 @@ Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot
 
 [^3]: [https://peps.python.org/pep-0008/]
 
-## Loading the Data
+### Loading the Data
 
 The variety of data formats obtainable from the PLUTO code, combined with the high level of output customization, has strongly hindered the development of packages that can consistently load every possible simulation outcome. The PLUTO code provides a variety of output data formats, including raw-binary and h5 (in both double and single precision), VTK, and simple ASCII files (the last ones only for  single-processor 1D and 2D data) for the fluid variables. Some of these formats are also used for particle data files. Additionally, the code also generates descriptor files (*‘.out’*) which contain relevant information regarding the grid structure and fluid variables.
 

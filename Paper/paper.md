@@ -37,18 +37,28 @@ The PLUTO code [@PLUTO_2007] is a widely used, freely distributed computational 
 # Main Features
 
 PyPLUTO is a package written in Python (version ≥ 3.10) with the additions of NumPy [@NUMPY2020], Matplotlib [@MATPLOTLIB_2007], SciPy [@SCIPY_2020], pandas [@PANDAS2020], h5py [@H5PY_2013] and PyQT6 [PYQT] (although the last two are optional). The package, which can be installed through pip, is made of mainly 3 classes:
+
 • The `Load` class loads and manipulates the PLUTO output files containing fluid-related quantities.
+
 • The `LoadPart` class loads and manipulates the PLUTO output files containing particle-related quantities.
+
 • The `Image` class produces and handles the graphical windows and the plotting procedures.
+
 Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot 1D and 2D data in a single set of axes. PyPLUTO has been implemented to be supported by Windows, MacOS, and Linux, through both standard scripts and more interactive tools (e.g., IPython or Jupyter). The style guidelines follow the PEP8[^3] conventions for Python codes and focus on clarity and code readability.
 
 [^3]: [https://peps.python.org/pep-0008/]
 
 ### Loading the Data
-
 The variety of data formats obtainable from the PLUTO code, combined with the high level of output customization, has strongly hindered the development of packages that can consistently load every possible simulation outcome. The PLUTO code provides a variety of output data formats, including raw-binary and h5 (in both double and single precision), VTK, and simple ASCII files (the last ones only for  single-processor 1D and 2D data) for the fluid variables. Some of these formats are also used for particle data files. Additionally, the code also generates descriptor files (*‘.out’*) which contain relevant information regarding the grid structure and fluid variables.
 
-## Acknowledgments
+The PyPLUTO package supports the loading of all data formats produced by PLUTO for both fluid and particle variables. The main advantage of the loading strategy is the usage of the memory mapping technique, which allows for the efficient handling of large-size data that exceeds system RAM by enabling lazy loading of data. More specifically, through the memory-mapping loading, the data is directly mapped to memory instead of reading it entirely. This approach becomes convenient when only selected portions of the simulation domain need to be accessed, such as a slice or a zoomed region.
+
+The very first step of the loading procedure consists of ensuring that the data path has been properly defined. If present, the descriptor files are inspected to extract grid variables and other relevant details, such as the names of the fluid variables and how they are stored (e.g., whether all variables are combined in a single file or separated into individual files). Descriptor files are essential for simulations with raw-binary outputs, while they are optional but recommended for VTK and HDF5 outputs as they can enhance the efficiency of the loading process. If the descriptor files are not present, PyPLUTO automatically finds the appropriate files that should be loaded. Finally, the data files are read and the memory-mapped representations of the data are stored as attributes of the `Load` class.
+
+### Manipulating the data
+
+# Acknowledgments
+
 G. Mattia thanks L. Del Zanna for the valuable discussions on data visualization. The authors thank Simeon Doetsch for their insights on memory mapping techniques and Deniss Stepanovs and Antoine Strugarek for their contribution throughout the years to previous PyPLUTO versions. This project has received funding from the European Union’s Horizon Europe research and innovation programme under the Marie Skłodowska-Curie grant agreement No 101064953 (GR-PLUTO).
 
 # References

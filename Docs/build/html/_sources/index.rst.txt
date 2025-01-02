@@ -28,6 +28,7 @@ Contents
    loadclass
    tools
    imageclass
+   gui
    examples
    faq
 

@@ -5,11 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Test 05 - MHD Field loop test &#8212; pyPLUTO 1.0 documentation</title>
+    <title>Test 05 - MHD Field loop test &#8212; PyPLUTO 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=08520df9" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -19,8 +19,8 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyPLUTO 1.0 documentation</a></div>
-        <div class="rel" role="navigation" aria-label="related navigation">
+          href="index.html">PyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="Related">
           <a href="test04_rotor.html" title="Test 04 - MHD Rotor test"
              accesskey="P">previous</a> |
           <a href="test06_diskplanet.html" title="Test 06 - HD Disk planet test"
@@ -42,7 +42,8 @@
   <section id="test-05-mhd-field-loop-test">
 <span id="test05-fieldloop"></span><h1>Test 05 - MHD Field loop test<a class="headerlink" href="#test-05-mhd-field-loop-test" title="Link to this heading">¶</a></h1>
 <blockquote>
-<div><a class="reference internal image-reference" href="_images/test05_fieldloop.png"><img alt="_images/test05_fieldloop.png" class="align-center" src="_images/test05_fieldloop.png" style="width: 600px;" /></a>
+<div><a class="reference internal image-reference" href="_images/test05_fieldloop.png"><img alt="_images/test05_fieldloop.png" class="align-center" src="_images/test05_fieldloop.png" style="width: 600px;" />
+</a>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Classical MHD Field loop test (configuration 5).</span>
 
@@ -96,10 +97,10 @@
                                  <span class="n">aspect</span> <span class="o">=</span> <span class="s1">&#39;equal&#39;</span><span class="p">,</span>
                                  <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],</span>
                                  <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span>
-                                 <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                                 <span class="n">vmax</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                                 <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">,</span>
+                                 <span class="n">vmax</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
                                  <span class="n">shading</span> <span class="o">=</span> <span class="s1">&#39;gouraud&#39;</span><span class="p">,</span>
-                                 <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$B_x$&#39;</span><span class="p">,</span>
+                                 <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$B_x$ (+ streamplot)&#39;</span><span class="p">,</span>
                                  <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
                                  <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
 
@@ -109,21 +110,22 @@
                                  <span class="n">aspect</span> <span class="o">=</span> <span class="s1">&#39;equal&#39;</span><span class="p">,</span>
                                  <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],</span>
                                  <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span>
-                                 <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                                 <span class="n">vmax</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                                 <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">,</span>
+                                 <span class="n">vmax</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
                                  <span class="n">shading</span> <span class="o">=</span> <span class="s1">&#39;gouraud&#39;</span><span class="p">,</span>
-                                 <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$B_y$&#39;</span><span class="p">,</span>
+                                 <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$B_y$ (+ find$\_$fieldlines)&#39;</span><span class="p">,</span>
                                  <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
 
 <span class="c1"># Plot the field lines in two different ways</span>
 <span class="n">I</span><span class="o">.</span><span class="n">streamplot</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">Bx1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">Bx2</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span>
                                       <span class="n">ax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">lw</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
                                       <span class="n">vmin</span> <span class="o">=</span> <span class="mf">1.e-4</span><span class="p">,</span>
                                       <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
 
-<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">)</span>
 
 <span class="c1"># Saving the image and showing the plots</span>
 <span class="n">I</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test05_fieldloop.png&#39;</span><span class="p">)</span>
@@ -151,6 +153,7 @@
 <li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">The Graphics User Interface</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="test01_sod.html">Test 01 - HD Sod shock tube</a></li>
 <li class="toctree-l2"><a class="reference internal" href="test02_ot.html">Test 02 - MHD Orszag-Tang vortex</a></li>
@@ -170,13 +173,13 @@
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
-          <div role="search">
+          <search role="search">
             <h3 style="margin-top: 1.5em;">Search</h3>
             <form class="search" action="search.html" method="get">
                 <input type="text" name="q" />
                 <input type="submit" value="Go" />
             </form>
-          </div>
+          </search>
 
         </div>
         <div class="clearer"></div>
@@ -186,7 +189,7 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <div role="navigation" aria-label="related navigaton">
+          <div role="navigation" aria-label="Related">
             <a href="test04_rotor.html" title="Test 04 - MHD Rotor test"
               >previous</a> |
             <a href="test06_diskplanet.html" title="Test 06 - HD Disk planet test"
@@ -201,8 +204,8 @@
         <div class="right">
           
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     </div>
         </div>
         <div class="clearer"></div>

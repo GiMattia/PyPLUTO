@@ -240,13 +240,12 @@ def _set_yrange(self,
         yrange = np.where(np.logical_and(x >= x.min(), x <= x.max()))
         smally = y[yrange]
 
-        # Extend slightly the range (not perfect method)
-        print(smally.min(), smally.max(),self.yscale[nax])
+        # Extend slightly the range
         ymin, ymax = self._range_offset(smally.min(), 
                                         smally.max(), 
                                         self.yscale[nax])   
-        ymin   = smally.min() - 0.02*np.abs(smally.min())
-        ymax   = smally.max() + 0.02*np.abs(smally.max())
+        #ymin   = smally.min() - 0.02*np.abs(smally.min())
+        #ymax   = smally.max() + 0.02*np.abs(smally.max())
         ax.set_ylim(ymin,ymax)
 
         # Switch to case 2 (previous limits are present now)
@@ -267,11 +266,11 @@ def _set_yrange(self,
         smally = y[yrange]
 
         # Extend slightly the range (not perfect method)     
-        #ymin, ymax = self._range_offset(smally.min(), 
-        #                                smally.max(), 
-        #                                self.yscale[nax])   
-        ymin   = smally.min() - 0.02*np.abs(smally.min())
-        ymax   = smally.max() + 0.02*np.abs(smally.max())
+        ymin, ymax = self._range_offset(smally.min(), 
+                                        smally.max(), 
+                                        self.yscale[nax])   
+        #ymin   = smally.min() - 0.02*np.abs(smally.min())
+        #ymax   = smally.max() + 0.02*np.abs(smally.max())
 
         # Check if the limits should be changed
         ymin = np.minimum(ymin,ax.get_ylim()[0])
@@ -342,7 +341,7 @@ def _range_offset(self,
         padding *= 2 * np.abs(np.log10(np.abs(data_range)))
     
     # Set the limits (additional check if the scale is logarithmic)
-    if scale == ['linear','symlog', 'asinh']:
+    if scale in ['linear','symlog', 'asinh']:
         return (ymin - padding, ymax + padding)
     elif scale == 'log':
         if ymin <= 0 or ymax <= 0:

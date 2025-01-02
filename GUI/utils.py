@@ -114,7 +114,7 @@ def plot_data(self):
         cscale_temp = self.datadict.pop('cscale')
         ctresh_temp = self.datadict.pop('tresh', None)
         self.I.plot(x1, self.var, **self.datadict, 
-                    xtitle = " ", ytitle = "var")
+                    xtitle = " ", ytitle = " ")
         self.datadict['cmap']   = cmap_temp
         self.datadict['cscale'] = cscale_temp
         if ctresh_temp is not None: self.datadict['tresh'] = ctresh_temp
@@ -179,10 +179,6 @@ def check_axisparam(self):
 
 def set_range(self, xlim, ylim):
 
-    # FIX RANGE!
-
-    
-
     if xlim is None:
         xlim = [self.xmin, self.xmax]
     if ylim is None:
@@ -196,8 +192,10 @@ def set_range(self, xlim, ylim):
         self.xmax = np.maximum(xlim[1], self.xmax)
         self.ymin = np.minimum(ylim[0], self.ymin)
         self.ymax = np.maximum(ylim[1], self.ymax)
-    
-    axtmax = 0.01*(self.ymax - self.ymin) if self.vardim == 1 else 0
+
+    ymin, ymax = self.I._range_offset(self.ymin, self.ymax, 
+                                      self.yscale_selector.currentText()) \
+                 if self.vardim == 1 else (self.ymin, self.ymax)
 
     self.datadict['xrange'] = [
         float(self.xrange_min.text()) if self.xrange_min.text() else self.xmin,
@@ -205,6 +203,6 @@ def set_range(self, xlim, ylim):
     ]
 
     self.datadict['yrange'] = [
-        float(self.yrange_min.text()) if self.yrange_min.text() else self.ymin - axtmax,
-        float(self.yrange_max.text()) if self.yrange_max.text() else self.ymax + axtmax
+        float(self.yrange_min.text()) if self.yrange_min.text() else ymin,
+        float(self.yrange_max.text()) if self.yrange_max.text() else ymax
     ]

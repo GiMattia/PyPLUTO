@@ -80,13 +80,13 @@ The `Image` class has been implemented to efficiently visualize the data by enco
 
 • The `set_axis` method, which can be applied to every subplot, allows for single-subplot customization (in terms of, e.g., labels, range, scale, and ticks).
 
-• 1D and 2D plots are easily created through the `plot` and `display` methods, which rely, respectively, on the Matplotlib `plot` and `pcolormesh` methods. To avoid combinations of lines not suited for color vision deficiencies, the palette used for the 1D plots is tightly based on [@Tol_2021] with very few modifications[^5]. Particles can also be displayed (as in Section IV-B) through the `scatter` method, which relies on the homonymous Matplotlib method.
+• 1D and 2D plots are easily created through the `plot` and `display` methods, which rely, respectively, on the Matplotlib `plot` and `pcolormesh` methods. To avoid combinations of lines not suited for color vision deficiencies, the palette used for the 1D plots is tightly based on [@Tol_2021] with very few modifications[^5]. Particles can also be displayed (as in the [x-point](#xpoint) benchmark) through the `scatter` method, which relies on the homonymous Matplotlib method.
 
 • To ease the creation of customized legends, we have written an extensive `legend` method that can both take the labeled lines from a plot or create a custom legend based on the labels provided by the users.
 
 • A customizable color bar can be created, both attached to an existent 2D plot or placed on a separate axis, through the `colorbar` method.
 
-• A method designed to easily create inset zooms has been implemented for 1D and 2D plots. For 1D plots, the method zooms into a portion of the plot with the lines that lie within. For 2D plots, created through the Maptlotlib `pcolormesh` method, it also allows displaying a different variable in the inset zoom region (see Section IV-A). Thanks to the flexibility of the Matplotlib `pcolormesh` method, this zooming functionality can be applied in every coordinate system and geometry.
+• A method designed to easily create inset zooms has been implemented for 1D and 2D plots. For 1D plots, the method zooms into a portion of the plot with the lines that lie within. For 2D plots, created through the Maptlotlib `pcolormesh` method, it also allows displaying a different variable in the inset zoom region (see the [disk-planet](#diskplanet) benchmark). Thanks to the flexibility of the Matplotlib `pcolormesh` method, this zooming functionality can be applied in every coordinate system and geometry.
 
 • To easily display fields and contour lines, the Matplotlib `streamplot` and `contour` methods have been included in the `Image` class, with some additional options for the users (e.g., by allowing the definition of a maximum ad minimum field magnitude for computing field lines).
 
@@ -103,8 +103,8 @@ The PyPLUTO package includes a GUI (shown in Fig. \ref{fig1}) designed to simpli
 
 Particular efforts in PyPLUTO have been devoted to documentation and test problems. By leveraging the capabilities of the sphinx package [@SPHINX], PyPLUTO features extensive docstrings, serving the dual purpose of creating extensive and consistent documentation and providing a useful reference for future users and developers. The docstrings represent a significant fraction of the package itself, describing all of the features available in both public and private methods present in the package. In addition to documentation, PyPLUTO provides a set of benchmarks immediately accessible after installing the package. These consist of test problems that can be applied to relevant astrophysical applications and showcase the full range of PyPLUTO’s features. Here we report two key examples demonstrating the package’s capabilities.
 
-### Disk-planet Interaction
-This test simulates the interaction of a planet embedded in a disk [@Mignone_etal_2012] and represents an ideal scenario for understanding the formation and evolution of planetary systems. In particular, the formation of spiral density waves and disk gaps represent some key observational signatures of planet formation and planet-disk interaction [@MelonFuksman2021;@Muley2024a]. In the left panel of Fig. 2, we show an adaptation of Figure 10 of [@Mignone_etal_2012], featuring two separate zoom-ins around the planet’s location.
+### Disk-planet Interaction {#diskplanet}
+This test simulates the interaction of a planet embedded in a disk [@Mignone_etal_2012] and represents an ideal scenario for understanding the formation and evolution of planetary systems. In particular, the formation of spiral density waves and disk gaps represent some key observational signatures of planet formation and planet-disk interaction [@MelonFuksman2021;@Muley2024a]. In the left panel of Fig. \ref{fig2}, we show an adaptation of Figure 10 of [@Mignone_etal_2012], featuring two separate zoom-ins around the planet’s location.
 
 • The first zoom (top right axis corner) shows an enlarged view of the density distribution using the same color map and logarithmic scale as the global plot;
 
@@ -112,12 +112,16 @@ This test simulates the interaction of a planet embedded in a disk [@Mignone_eta
 
 These zoomed views offer deeper insights into the physical processes at play and demonstrate the utility of PyPLUTO for analyzing complex astrophysical systems.
 
-### Particles Accelerated near an X-point
+### Particles Accelerated near an X-point {#xpoint}
 This test problem examines particle acceleration near an X-type magnetic reconnection region [@Puzzoni2021]. In the last decades, magnetic reconnection [@Mattia_etal_2023;@Buglietal2024] has proven to be a key physical process to explain the population of non-thermal particles in solar flares, relativistic outflows, and neutron star magnetospheres. This sort of test provides valuable insights into particle acceleration mechanisms in high-energy astrophysical environments by enabling the investigation of particle trajectories and
 energy distribution near the X-point.
 
-In the right panel of Fig. 2 we show an adaptation of the top panel of Figure 13-14 from [@Mignone2018]. The main plot displays the distribution of test particles, color-coded by their velocity magnitudes, with magnetic field lines overlaid as solid and dashed lines. The inset panel shows the energy spectrum at the initial ($t = 0$, in blue) and final ($t = 100$, in red) time. In this scenario, the absence of a guide field ($\vec{E} \cdot \vec{B} = 0$), results in a symmetric distribution along the y-axis from the combined effects of the gradient, curvature, and $\vec{E} \times \vec{B}$ drifts in the vicinity of the X-point, where the electric field is the strongest.
+In the right panel of Fig. \ref{fig2} we show an adaptation of the top panel of Figure 13-14 from [@Mignone2018]. The main plot displays the distribution of test particles, color-coded by their velocity magnitudes, with magnetic field lines overlaid as solid and dashed lines. The inset panel shows the energy spectrum at the initial ($t = 0$, in blue) and final ($t = 100$, in red) time. In this scenario, the absence of a guide field ($\vec{E} \cdot \vec{B} = 0$), results in a symmetric distribution along the y-axis from the combined effects of the gradient, curvature, and $\vec{E} \times \vec{B}$ drifts in the vicinity of the X-point, where the electric field is the strongest.
 This plot provides a clear visual representation of particle motion and energy changes, demonstrating how PyPLUTO can be used to investigate complex systems such as particle acceleration in astrophysical sources.
+
+![Left panel: Example of inset zooms of the planet region of the disk-planet test problem. The main plot and the right zoom show the density on a logarithmic scale, while the left zoom highlights the toroidal velocity on a linear scale. Right panel: Example of an X-point region with magnetic field lines overlaid (as contour lines of the vector potential, solid lines). The main plot shows the test-particle distribution, color-coded by velocity magnitudes, while the inset plot displays the particle energy spectrum at the beginning (in blue) and end (in red) of the simulation. \label{fig2}](pyplutotests.png)
+
+
 
 # Conclusion and Future Perspectives
 

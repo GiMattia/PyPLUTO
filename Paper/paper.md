@@ -28,20 +28,11 @@ In recent years, numerical simulations have become indispensable for addressing 
 
 [^1]: [https://plutocode.ph.unito.it]
 
-## Statement of Need
-The PLUTO code is a widely used, open-source, computational fluid dynamics
-code developed at the Torino Astronomical Observatory (Tofani et al. 1998)
-and designed to solve the equations of hydrodynamics and magnetohydrodynamics
-in a arbitrary number of dimensions. The code is written in C and provides
-a great flexibility in terms of the numerical methods used to solve the
-equations and the physics implemented.
+# Statement of Need
 
-The post-processing of the data is a crucial step in the analysis of the
-results of any numerical simulation. The PLUTO code provides a Python
-interface to load the data (Mignone et al. 2007) but it does not provide
-any routine to plot the data. The aim of this package is to fill this gap
-by providing a simple way to load and plot the data from the PLUTO code
-simulations.
+The PLUTO code [@PLUTO_2007] is a widely used, freely distributed computational fluid dynamics code designed to solve the classical and (special) relativistic MHD equations in different geometries and spatial dimensions. The original code is written in C (while the upcoming GPU version provides a full C++ rewrite[^2]) and it contains several numerical methods adaptable to different contexts. Data post-processing is a crucial step in analyzing the results of any numerical simulation. PyPLUTO offers user-friendly methods to generate publication-quality plots with a high degree of customization. Despite its enhanced flexibility, PyPLUTO offers strong computational efficiency, enabling the rapid handling of large datasets typical of state-of-the-art numerical simulations. Through this balance between customization, performance, and ease of use, PyPLUTO represents a key tool to effectively communicate scientific results while minimizing the effort required for post-processing.
+
+[^2]: [https://plutocode.ph.unito.it/pluto-gpu.html]
 
 ## Description
 The package is written in Python and uses the `numpy` (Van der Walt et al.

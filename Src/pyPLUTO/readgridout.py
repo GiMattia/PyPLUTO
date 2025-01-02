@@ -349,11 +349,12 @@ def _read_outfile(self,
     vfp = pd.read_csv(str(self._pathdata), sep=r'\s+', header = None)
     
     # Store the output and the time full list
-    self.outlist  = np.array(vfp.iloc[:,0])
+    self.outlist  = np.array(vfp.iloc[:,0], dtype = 'int')
     self.timelist = np.array(vfp.iloc[:,1])
 
     # Check the output lines
     self._check_nout(nout)
+    print(self.nout)
     self.ntime = self.timelist[self.nout]
     self._lennout = len(self.nout)
 

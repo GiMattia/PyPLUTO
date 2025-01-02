@@ -114,6 +114,8 @@ class Image:
         self.ncol0: int = 0 # number of columns in the figure
         self.ax: list[Axes] = [] # list of axes in the figure
         self.vlims: list[list[float]] = [] # colorscale limits
+        self.xscale: list[str] = [] # x-axis scale
+        self.yscale: list[str] = [] # y-axis scale
         self.nline: list[int] = [] # number of lines in the axis
         self.ntext: list[Any | None] = [] # text in the axis
         self.setax: list[Any |int] = [] # keyword for the range in x-direction
@@ -224,5 +226,5 @@ class Image:
     from .plotlines  import contour, streamplot
     from .figure     import _create_figure, _assign_LaTeX, _choose_colorlines
     from .h_image    import _add_ax, _hide_text
-    from .h_image    import _set_xrange, _set_yrange, _assign_ax
+    from .h_image    import _set_xrange, _set_yrange, _assign_ax, _range_offset
     from .amr        import oplotbox

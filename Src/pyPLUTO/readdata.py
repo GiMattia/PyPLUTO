@@ -97,7 +97,9 @@ def _load_variables(self,
     # the function returns None
     if self.format  == 'tab':
         return None
-
+    
+    # ERROR: TOO MANY OPEN FILES!!!
+    """
     # Loop over the variables to be loaded
     for j in self._load_vars:
     
@@ -114,6 +116,50 @@ def _load_variables(self,
         # Load the variable through memory mapping and store them in the class
         scrh = np.memmap(self._filepath,self._d_info['binformat'][i],mode="r+",
                          offset=self._offset[j], shape = self._shape[j]).T
+        self._assign_var(exout, j, scrh)
+    """
+    
+    # Compute the byte range for all variables in the current loop
+    if self._d_info['typefile'][i] == 'single_file':
+        start_byte = min(self._offset[j] for j in self._load_vars)
+        end_byte = max(
+            self._offset[j] + np.prod(self._shape[j]) * np.dtype(self._d_info['binformat'][i]).itemsize
+            for j in self._load_vars
+        )
+
+        # Create a single memmap spanning the required byte range
+        file_memmap = np.memmap(
+            self._filepath,
+            dtype=self._d_info['binformat'][i],
+            mode="r+",
+            offset=start_byte,
+            shape=(end_byte - start_byte) // np.dtype(self._d_info['binformat'][i]).itemsize
+        )
+
+    # Loop over the variables to extract slices
+    for j in self._load_vars:
+        if self._d_info['typefile'][i] == 'multiple_files':
+            self._filepath = self.pathdir / (j + self._d_info['endpath'][i])
+            self._compute_offset(i, endian, exout, j)
+            start_byte = self._offset[j]
+            # Reload memmap for the new file
+            file_memmap = np.memmap(
+                self._filepath,
+                dtype=self._d_info['binformat'][i],
+                mode="r+"
+            )
+        
+        # Initialize the variables dictionary
+        self._init_vardict(j) if self._lennout != 1 else None
+
+        # Calculate the relative offset within the mapped range
+        rel_start = (self._offset[j] - start_byte) // file_memmap.itemsize
+        rel_end   = rel_start + np.prod(self._shape[j])
+
+        # Extract the relevant slice and reshape
+        scrh = file_memmap[rel_start:rel_end].reshape(self._shape[j]).T
+
+        # Assign the variable
         self._assign_var(exout, j, scrh)
 
     # End of function

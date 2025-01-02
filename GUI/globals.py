@@ -1,9 +1,8 @@
 from matplotlib import colormaps as cmaps
 import matplotlib.scale as mscale
-
-scales = list(mscale.get_scale_names())
-scales = [scales[3]] + [scales[0]] + scales[4:]
-
+ 
+scale   = list(mscale.get_scale_names())
+scales  = [scale[i] for i in [3, 4, 6, 0]]
 vscales = ['linear', 'log', 'symlog', '2slope', 'power', 'asinh']
 
 cmaps_avail = [list(cmaps)[2]] + list(cmaps)[0:2] + list(cmaps)[3:83]

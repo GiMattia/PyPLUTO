@@ -19,6 +19,7 @@ import struct
 import shutil
 import warnings
 import traceback
+import gc
 
 from mpl_toolkits.axes_grid1               import make_axes_locatable
 from matplotlib.collections                import PathCollection, QuadMesh

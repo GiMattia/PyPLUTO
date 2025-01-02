@@ -1,51 +1,43 @@
 ---
 title: 'PyPLUTO: A Python Package for Loading and Plotting Data from the PLUTO Code'
 tags:
+  - Data Analysis
   - Python
-  - MHD
-  - Numerical Simulations
-  - Astrophysical Plamas
-  - PLUTO Code
+  - MagnetoHydroDynamics
+  - Computational Astrophysics
+  - Data Visualization
 
 authors:
   - name: Giancarlo Mattia
     orcid: 0000-0003-1454-6226
-    equal-contrib: true
     affiliation: 1, 2
 
   - name: Daniele Crocco
     orcid: ...
-    equal-contrib: true
     affiliation: 3
 
   - name: David Melon Fuksman
-    orcid: 0000-0003-1454-6226
-    equal-contrib: true
+    orcid: 0000-0002-1697-6433
     affiliation: 1
 
   - name: Matteo Bugli
-    orcid: 0000-0003-1454-6226
-    equal-contrib: true
+    orcid: 0000-0002-7834-0422
     affiliation: 3, 4, 5
 
   - name: Vittoria Berta
-    orcid: 0000-0003-1454-6226
-    equal-contrib: true
+    orcid: 0000-0001-6305-6931
     affiliation: 3
 
   - name: Eleonora Puzzoni
-    orcid: 0000-0003-1454-6226
-    equal-contrib: true
+    orcid: 0009-0009-5314-348X
     affiliation: 6
 
   - name: Andrea Mignone
-    orcid: 0000-0003-1454-6226
-    equal-contrib: true
+    orcid: 0000-0002-8352-6635
     affiliation: 3, 5
 
   - name: Bhargav Vaidya
-    orcid: 0000-0003-1454-6226
-    equal-contrib: true
+    orcid: 0000-0001-5424-0059
     affiliation: 7
 
 affiliations:
@@ -66,7 +58,7 @@ affiliations:
 
  - name: Observatoire de la Côte d’Azur, Laboratoire Lagrange, Bd de l’Observatoire, CS 34229, 06304 Nice cedex 4, France
    index: 6
-   
+
  - name: Department of Astronomy, Astrophysics and Space Engineering, Indian Institute of Technology, Khandwa Road, Simrol, Indore, 453552, India
    index: 7
 
@@ -89,7 +81,7 @@ The PLUTO code [@PLUTO_2007] is a widely used, freely distributed computational 
 
 # Main Features
 
-PyPLUTO is a package written in Python (version ≥ 3.10) with the additions of NumPy [@NUMPY2020], Matplotlib [@MATPLOTLIB_2007], SciPy [@SCIPY_2020], pandas [@PANDAS2020], h5py [@H5PY_2013] and PyQT6 [PYQT] (although the last two are optional). The package, which can be installed through pip, is made of mainly 3 classes:
+PyPLUTO is a package written in Python (version $\geq$ 3.10) with the additions of NumPy [@NUMPY2020], Matplotlib [@MATPLOTLIB_2007], SciPy [@SCIPY_2020], pandas [@PANDAS2020], h5py [@H5PY_2013] and PyQT6 [PYQT] (although the last two are optional). The package, which can be installed through pip, is made of mainly 3 classes:
 
 • The `Load` class loads and manipulates the PLUTO output files containing fluid-related quantities.
 

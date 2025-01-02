@@ -34,56 +34,21 @@ The PLUTO code [@PLUTO_2007] is a widely used, freely distributed computational 
 
 [^2]: [https://plutocode.ph.unito.it/pluto-gpu.html]
 
-## Description
-The package is written in Python and uses the `numpy` (Van der Walt et al.
-2011) and `matplotlib` (Hunter 2007) libraries to load and plot the data.
-The package is designed to be easy to use and provides a simple interface
-to load the data and to plot the data in a variety of formats.
+# Main Features
 
-The package is composed of two main classes: `pluto.Plot` and `pluto.Load`.
-The `pluto.Load` class is used to load the data from the PLUTO code
-simulations and the `pluto.Plot` class is used to plot the data loaded
-with the `pluto.Load` class.
+PyPLUTO is a package written in Python (version ≥ 3.10) with the additions of NumPy [@NUMPY2020], Matplotlib [@MATPLOTLIB_2007], SciPy [@SCIPY_2020], pandas [@PANDAS2020], h5py [@H5PY_2013] and PyQT6 [PYQT] (although the last two are optional). The package, which can be installed through pip, is made of mainly 3 classes:
+• The `Load` class loads and manipulates the PLUTO output files containing fluid-related quantities.
+• The `LoadPart` class loads and manipulates the PLUTO output files containing particle-related quantities.
+• The `Image` class produces and handles the graphical windows and the plotting procedures.
+Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot 1D and 2D data in a single set of axes. PyPLUTO has been implemented to be supported by Windows, MacOS, and Linux, through both standard scripts and more interactive tools (e.g., IPython or Jupyter). The style guidelines follow the PEP8[^3] conventions for Python codes and focus on clarity and code readability.
 
-The `pluto.Load` class provides methods to load the data from the PLUTO
-code simulations in a variety of formats, including the binary format
-used by the PLUTO code. The class also provides methods to extract the
-physical quantities from the data loaded.
+[^3]: [https://peps.python.org/pep-0008/]
 
-The `pluto.Plot` class provides methods to plot the data loaded with the
-`pluto.Load` class. The class provides methods to plot the data in a
-variety of formats, including 1D, 2D and 3D plots.
+## Loading the Data
 
-## Features
-The package provides the following features:
-
-*   Load the data from the PLUTO code simulations in a variety of formats
-*   Extract the physical quantities from the data loaded
-*   Plot the data loaded in a variety of formats
-
-## Examples
-The package comes with a variety of examples that show how to use the
-package to load and plot the data from the PLUTO code simulations. The
-examples are provided in the `examples` directory of the package.
+The variety of data formats obtainable from the PLUTO code, combined with the high level of output customization, has strongly hindered the development of packages that can consistently load every possible simulation outcome. The PLUTO code provides a variety of output data formats, including raw-binary and h5 (in both double and single precision), VTK, and simple ASCII files (the last ones only for  single-processor 1D and 2D data) for the fluid variables. Some of these formats are also used for particle data files. Additionally, the code also generates descriptor files (*‘.out’*) which contain relevant information regarding the grid structure and fluid variables.
 
 ## Acknowledgments
-This project is supported by the European Research Council (ERC) under the
-European Union's Horizon 2020 research and innovation programme (grant
-agreement No 815559).
+G. Mattia thanks L. Del Zanna for the valuable discussions on data visualization. The authors thank Simeon Doetsch for their insights on memory mapping techniques and Deniss Stepanovs and Antoine Strugarek for their contribution throughout the years to previous PyPLUTO versions. This project has received funding from the European Union’s Horizon Europe research and innovation programme under the Marie Skłodowska-Curie grant agreement No 101064953 (GR-PLUTO).
 
-## References
-
-Hunter J. D. (2007). Matplotlib: A 2D graphics environment. Computing in
-Science & Engineering, 9(3), 90-95.
-
-Mignone A., Bodo G., Massaglia S., Matsakos T., Tesileanu O., Zanni C.,
-Ferrari A. (2007). PLUTO: A Code for Fl uid Dynamics in Astrophysical
-Environments. The Astrophysical Journal Supplement Series, 170(1), 228-242.
-
-Tofani G., Galeotti P., Bodo G., Massaglia S. (1998). PLUTO: A Code for
-Fl uid Dynamics in Astrophysical Environments. In Astronomical Data
-Analysis Software and Systems VII (Vol. 145, p. 282).
-
-Van der Walt S., Colbert S. C., Varoquaux G. (2011). The NumPy array: a
-structure for efficient numerical computation. Computing in Science &
-Engineering, 13(2), 22-30.
+# References

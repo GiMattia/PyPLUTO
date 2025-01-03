@@ -334,11 +334,14 @@ def _range_offset(self,
   
     # Find the data range
     data_range = ymax - ymin
+    if data_range == 0:
+        data_range = ymax*0.1
 
     # Find the padding (with non-inear scale adjustments)
-    padding = margin * data_range
+    padding = margin*data_range
     if np.log10(np.abs(data_range)) > 10 and scale != "linear":
-        padding *= 2 * np.abs(np.log10(np.abs(data_range)))
+        padding *= 2*np.abs(np.log10(np.abs(data_range)))
+        print(padding)
     
     # Set the limits (additional check if the scale is logarithmic)
     if scale in ['linear','symlog', 'asinh']:
@@ -348,7 +351,7 @@ def _range_offset(self,
             ymin = min(np.abs(ymin), np.abs(ymax))
             ymax = max(np.abs(ymin), np.abs(ymax))
             warnings.warn("Negative range for logarithmic scale!", UserWarning)
-        return (max(ymin - padding, ymin * 0.25), ymax + padding)
+        return (max(ymin - padding, ymin*0.5), ymax + padding)
     else:
         return (ymin, ymax)
 

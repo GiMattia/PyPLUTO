@@ -23,12 +23,6 @@ import pyPLUTO as pp
 import os
 import numpy as np
 
-# Transforming the magnetic field components from polar to cartesian coordinates
-def cart_vec(Bx1,Bx2,x1,x2):
-    Bx = Bx1*np.sin(x2) + Bx2*np.cos(x2)
-    Bz = Bx1*np.cos(x2) - Bx2*np.sin(x2)
-    return Bx, Bz
-
 # Creating the path for the data directory
 plutodir = os.environ['PLUTO_DIR']
 wdir     = plutodir + '/Test_Problems/MHD/Torus'
@@ -51,7 +45,7 @@ I.display(D.rho, x1 = D.x1p, x2 = D.x2p,
                              aspect = 'equal',
                              ax = 0,
                              cscale = 'log',
-                             title = 'Density',
+                             title = r'Density (+ streamplot)',
                              shading = 'gouraud',
                              xtitle = 'x',
                              ytitle = 'y',
@@ -63,7 +57,7 @@ I.display(D.prs, x1 = D.x1p, x2 = D.x2p,
                              aspect = 'equal',
                              ax = 1,
                              cscale = 'log',
-                             title = 'Pressure',
+                             title = r'Pressure (+ find$\_$fieldlines)',
                              shading = 'gouraud',
                              xtitle = 'x',
                              xrange = [0,14],
@@ -71,7 +65,7 @@ I.display(D.prs, x1 = D.x1p, x2 = D.x2p,
 
 # Convert the magnetic field into cartesian components and cartesian geid
 Bx, Bz = D.cartesian_vector('B')
-xc, yc, Bx, Bz =  D.reshape_cartesian(Bx, Bz, nx1 = 500)
+xc, yc, Bx, Bz = D.reshape_cartesian(Bx, Bz, nx1 = 500)
 
 # Plot the magnetic field lines in two different ways
 I.streamplot(Bx, Bz, x1 = xc, x2 = yc,

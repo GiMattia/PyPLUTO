@@ -66,7 +66,7 @@ for i in [0,1,2]:
                         xticks = [-0.4,-0.2,0,0.2,0.4])
 
 # Placing the colorbar
-I.colorbar(axs = I.ax[0], cax = I.ax[-1], clabel = r'$\rho$')
+I.colorbar(axs = 0, cax = -1, clabel = r'$\rho$')
 
 # Saving the image and showing the plots
 I.savefig('test03_rti.png')

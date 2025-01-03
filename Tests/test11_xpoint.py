@@ -29,7 +29,7 @@ wdir     = plutodir + '/Test_Problems/Particles/CR/Xpoint'
 
 # Loading the data and the particle data into two pload objects
 Df = pp.Load(path = wdir)
-Dp = pp.LoadPart(path = wdir)
+Dp = pp.LoadPart(path = wdir, datatype = "vtk")
 gl = (1 + Dp.vx1**2 + Dp.vx2**2 + Dp.vx3**2)**0.5
 indx = np.argsort(gl)
 
@@ -37,16 +37,18 @@ indx = np.argsort(gl)
 I = pp.Image(figsize = [7,7], fontsize = 20)
 
 # Plotting the data
-I.contour(Df.Ax3, x1 = Df.x1, x2 = Df.x2, levels = 20, aspect = 'equal', c = 'silver')
-I.scatter(Dp.x1[indx], Dp.x2[indx],
+I.contour(Df.Ax3, x1 = Df.x1/1000, x2 = Df.x2/1000, levels = 20, aspect = 'equal', c = 'silver')
+I.scatter(Dp.x1[indx]/1000, Dp.x2[indx]/1000,
                        cpos = 'right',
                        vmin = 0,
                        vmax = 40,
                        title = 'Test 11 - Particles CR Xpoint test',
-                       xrange = [-3500,3500],
-                       yrange = [-3500,3500],
-                       xtitle = 'x',
-                       ytitle = 'y',
+                       xrange = [-3.5,3.5],
+                       yrange = [-3.5,3.5],
+                       xticks = [-3,-2,-1,0,1,2,3],
+                       yticks = [-3,-2,-1,0,1,2,3],
+                       xtitle = r'$x\;(\times10^3)$',
+                       ytitle = r'$y\;(\times10^3)$',
                        cmap = plt.get_cmap('YlOrRd',8),
                        clabel = r"$\Gamma$",
                        c = gl[indx],
@@ -56,7 +58,7 @@ I.scatter(Dp.x1[indx], Dp.x2[indx],
 ax = I.create_axes(left = 0.35, right = 0.7, bottom = 0.23, top = 0.4)
 
 # Compute and plot the particle spectrum at the initial time
-Dp = pp.LoadPart(0, path = wdir)
+Dp = pp.LoadPart(0, path = wdir, datatype = "vtk")
 gl = (1 + Dp.vx1**2 + Dp.vx2**2 + Dp.vx3**2)**0.5
 hist, bins = Dp.spectrum(gl, density = False)
 I.plot(bins, hist,
@@ -69,7 +71,7 @@ I.plot(bins, hist,
              fontsize = 13)
 
 # Compute and plot the particle spectrum at the final time
-Dp = pp.LoadPart(100, path = wdir)
+Dp = pp.LoadPart(path = wdir, datatype = "vtk")
 gl = (1 + Dp.vx1**2 + Dp.vx2**2 + Dp.vx3**2)**0.5
 hist, bins = Dp.spectrum(gl, density = False)
 I.plot(bins, hist,

@@ -50,6 +50,8 @@ I.display(D.rho, x1 = D.x1rc, x2 = D.x2rc,
                               vmin = 0.1,
                               xtitle = 'x',
                               ytitle = 'y',
+                              xticks = [-2,-1,0,1,2],
+                              yticks = [-2,-1,0,1,2],
                               xrange = [-2.6,2.6],
                               yrange = [-2.6,2.6])
 

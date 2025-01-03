@@ -69,12 +69,6 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="c1"># Transforming the magnetic field components from polar to cartesian coordinates</span>
-<span class="k">def</span> <span class="nf">cart_vec</span><span class="p">(</span><span class="n">Bx1</span><span class="p">,</span><span class="n">Bx2</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">):</span>
-    <span class="n">Bx</span> <span class="o">=</span> <span class="n">Bx1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">+</span> <span class="n">Bx2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-    <span class="n">Bz</span> <span class="o">=</span> <span class="n">Bx1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">-</span> <span class="n">Bx2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">Bx</span><span class="p">,</span> <span class="n">Bz</span>
-
 <span class="c1"># Creating the path for the data directory</span>
 <span class="n">plutodir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PLUTO_DIR&#39;</span><span class="p">]</span>
 <span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span> <span class="o">+</span> <span class="s1">&#39;/Test_Problems/MHD/Torus&#39;</span>
@@ -97,7 +91,7 @@
                              <span class="n">aspect</span> <span class="o">=</span> <span class="s1">&#39;equal&#39;</span><span class="p">,</span>
                              <span class="n">ax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
                              <span class="n">cscale</span> <span class="o">=</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
-                             <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Density&#39;</span><span class="p">,</span>
+                             <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;Density (+ streamplot)&#39;</span><span class="p">,</span>
                              <span class="n">shading</span> <span class="o">=</span> <span class="s1">&#39;gouraud&#39;</span><span class="p">,</span>
                              <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
                              <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span>
@@ -109,7 +103,7 @@
                              <span class="n">aspect</span> <span class="o">=</span> <span class="s1">&#39;equal&#39;</span><span class="p">,</span>
                              <span class="n">ax</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
                              <span class="n">cscale</span> <span class="o">=</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
-                             <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Pressure&#39;</span><span class="p">,</span>
+                             <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;Pressure (+ find$\_$fieldlines)&#39;</span><span class="p">,</span>
                              <span class="n">shading</span> <span class="o">=</span> <span class="s1">&#39;gouraud&#39;</span><span class="p">,</span>
                              <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
                              <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">14</span><span class="p">],</span>
@@ -117,7 +111,7 @@
 
 <span class="c1"># Convert the magnetic field into cartesian components and cartesian geid</span>
 <span class="n">Bx</span><span class="p">,</span> <span class="n">Bz</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">cartesian_vector</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">)</span>
-<span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">Bx</span><span class="p">,</span> <span class="n">Bz</span> <span class="o">=</span>  <span class="n">D</span><span class="o">.</span><span class="n">reshape_cartesian</span><span class="p">(</span><span class="n">Bx</span><span class="p">,</span> <span class="n">Bz</span><span class="p">,</span> <span class="n">nx1</span> <span class="o">=</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">Bx</span><span class="p">,</span> <span class="n">Bz</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">reshape_cartesian</span><span class="p">(</span><span class="n">Bx</span><span class="p">,</span> <span class="n">Bz</span><span class="p">,</span> <span class="n">nx1</span> <span class="o">=</span> <span class="mi">500</span><span class="p">)</span>
 
 <span class="c1"># Plot the magnetic field lines in two different ways</span>
 <span class="n">I</span><span class="o">.</span><span class="n">streamplot</span><span class="p">(</span><span class="n">Bx</span><span class="p">,</span> <span class="n">Bz</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">xc</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">yc</span><span class="p">,</span>

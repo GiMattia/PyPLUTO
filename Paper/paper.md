@@ -1,7 +1,7 @@
 ---
 title: 'PyPLUTO: A Python Package for Loading and Plotting Data from the PLUTO Code'
 tags:
-  - Data Analysis
+  - Astronomy
   - Python
   - MagnetoHydroDynamics
   - Computational Astrophysics

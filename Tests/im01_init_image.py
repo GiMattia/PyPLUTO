@@ -2,7 +2,7 @@ import pyPLUTO    as pp
 import matplotlib as mpl
 import numpy      as np
 
-print("Testing the Image class initialization... ", end='')
+print(f"Testing the Image class initialization... ".ljust(50), end='')
 
 # Check the default values of the figure created in the __init__
 I = pp.Image()
@@ -41,4 +41,4 @@ pass
 # Test the colorlines
 pass
 
-print("PASSED!")
+print("\033[34mPASSED!\033[0m")

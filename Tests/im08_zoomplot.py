@@ -2,7 +2,7 @@ import pyPLUTO    as pp
 import matplotlib as mpl
 import numpy      as np
 
-print("Testing the zoom creation... ", end='')
+print(f"Testing the zoom creation... ".ljust(50), end='')
 
 x = np.linspace(0,1,101)
 y = np.linspace(1,10,101)
@@ -90,4 +90,4 @@ assert np.isclose(xlim[1],0.5)
 assert np.isclose(ylim[0],0.3)
 assert np.isclose(ylim[1],0.7)
 
-print("PASSED!")
+print("\033[34mPASSED!\033[0m")

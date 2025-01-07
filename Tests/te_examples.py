@@ -1,15 +1,21 @@
 import os
 import sys
+import re
 from pathlib import Path
 from unittest.mock import patch
 from PIL import Image, ImageChops
 import pyPLUTO as pp
 import matplotlib.pyplot as plt
-import re
 
 # Change temporarily the PLUTO_DIR environment
 os.environ['PLUTO_OLD'] = os.environ['PLUTO_DIR']
 os.environ['PLUTO_DIR'] = "."
+
+options = {
+    "File copy from PLUTO": "ENABLED" if "copy" in sys.argv else "DISABLED",
+    "Plotting the tests": "DISABLED" if "noplot" in sys.argv else "ENABLED",
+    "Plot comparison": "DISABLED" if "nocompare" in sys.argv else "ENABLED",
+    "Folder cleaning": "ENABLED" if "clean" in sys.argv else "DISABLED"}
 
 def extract_path_from_file(file_path):
     with open(file_path, 'r') as f:
@@ -26,13 +32,13 @@ def check_images(source):
         image_path = image_files[0]
         ref_image_path = ref_image_files[0]
         if compare_images(image_path, ref_image_path):
-            return True
+            return image_path
         print(f" ---> FAILED: Images do not match.")
     elif len(image_files) + len(ref_image_files) > 2:
         print(f" ---> FAILED: Multiple images found.")
     else:
         print(f" ---> FAILED: No image found.")
-    return AssertionError(f"{source} test failed!")
+    return AssertionError(f"\033[31m{source} test failed!\033[0m")
 
 # Find the image files for comparison within the folder
 def find_imagefiles(source):
@@ -73,26 +79,39 @@ def copy_files(file_path):
             shutil.copy(src_file, dest_file)
 
 # Main function to load and run the tests
-def single_test(ind, file_path):
+def single_example(ind, file_path, lenfiles):
     source = file_path.stem
-    print(f"Test {ind:02}/{len(files)}: {source.split('_')[1]:<11}", end="")
+    print(f"Test {ind:02}/{lenfiles}: {source.split('_')[1]:<11}", end="")
 
     if "copy" in sys.argv:
-        copy_files(file_path)
         print(f" ---> COPYING", end="")
+        copy_files(file_path)
+
 
     if "noplot" not in sys.argv:
+        print(f" ---> PLOTTING", end="")
         with open(os.devnull, 'w') as devnull, patch('sys.stdout', devnull), patch('matplotlib.pyplot.show', no_op):
             exec(file_path.read_text())
-        print(f" ---> PLOTTING", end="")
+    else:
+        pass
 
     if "nocompare" not in sys.argv:
         result = check_images(source)
-        print(f" ---> {"PASSED!" if result is True else result}", end="")
-        
+        print(f" ---> {"\033[34mPASSED!\033[0m" if isinstance(result,Path) else result}", end="")
+
+    if "clean" in sys.argv:
+        try:
+            os.remove(f"./{result}")
+            print(f" ---> CLEANED", end="")
+        except:
+            pass
+
     print("")
 
 if __name__ == "__main__":
-    files = sorted(f for f in Path(".").glob("*.py") if f.name != Path(sys.argv[0]).name)
+    print(f"Running tests with keywords: {', '.join(sys.argv[1:]) if len(sys.argv[1:])> 0 else "None"}")
+    for option, status in options.items():
+        print(f"{option:<21}: {status}")
+    files = sorted(f for f in Path("../Examples").glob("*.py") if f.name != Path(sys.argv[0]).name)
     for ind, file_path in enumerate(files, 1):
-        single_test(ind, file_path)
+        single_example(ind, file_path, len(files))

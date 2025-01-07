@@ -2,7 +2,7 @@ import pyPLUTO    as pp
 import matplotlib as mpl
 import numpy      as np
 
-print("Testing the axes creation... ", end='')
+print(f"Testing the axes creation... ".ljust(50), end='')
 
 # Check the default values of the figure created in the __init__
 I = pp.Image()
@@ -88,4 +88,4 @@ pos = ax[1].get_position().bounds
 assert np.isclose(pos[0],0.6)
 assert np.isclose(pos[2],0.25)
 
-print("PASSED!")
+print("\033[34mPASSED!\033[0m")

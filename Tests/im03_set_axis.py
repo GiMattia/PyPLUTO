@@ -2,7 +2,7 @@ import pyPLUTO    as pp
 import matplotlib as mpl
 import numpy      as np
 
-print("Testing the axes customization... ", end='')
+print(f"Testing the axes customization... ".ljust(50), end='')
 
 # Check the default values of the set_axes
 I = pp.Image()
@@ -87,4 +87,4 @@ assert ax.get_xscale() == 'log'
 assert ax.get_yscale() == 'log'
 assert np.isclose(ax.get_alpha(),0.5)
 
-print("PASSED!")
+print("\033[34mPASSED!\033[0m")

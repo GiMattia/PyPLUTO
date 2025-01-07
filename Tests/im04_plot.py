@@ -2,7 +2,7 @@ import pyPLUTO    as pp
 import matplotlib as mpl
 import numpy      as np
 
-print("Testing the 1D plotting method... ", end='')
+print(f"Testing the 1D plotting method... ".ljust(50), end='')
 
 x = np.linspace(0,1,101)
 y = np.linspace(1,10,101)
@@ -89,4 +89,4 @@ I.plot(x,y, label = 'rho', legpos = 0, legcols = 2)
 I.plot(x,z, label = 'rho')
 assert I.ax[0].get_legend()._ncols == 2
 
-print("PASSED!")
+print("\033[34mPASSED!\033[0m")

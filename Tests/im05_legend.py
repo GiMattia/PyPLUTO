@@ -2,7 +2,7 @@ import pyPLUTO    as pp
 import matplotlib as mpl
 import numpy      as np
 
-print("Testing the legend creation... ", end='')
+print(f"Testing the legend creation... ".ljust(50), end='')
 
 x = np.linspace(0,1,101)
 y = np.linspace(1,10,101)
@@ -36,4 +36,4 @@ assert lines[1].get_label() == '222'
 assert lines[0].get_color() == I.color[0]
 assert lines[1].get_color() == I.color[1]
 
-print("PASSED!")
+print("\033[34mPASSED!\033[0m")

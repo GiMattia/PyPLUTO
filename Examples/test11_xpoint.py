@@ -1,12 +1,11 @@
 """
-Particles CR Xpoint test (configuration 1)
+Particles CR Xpoint test
 
 This test shows how to plot data from the Load class and the LoadPart class
 simultaneously and how to produce a scatter plot.
 
-The package "os" is loaded to create the path to the directory
-$PLUTO_DIR/Test_Problems/Particles/CR/Xpoint, where the Particles CR Xpoint
-test problem is located.
+The data are the ones obtained from the PLUTO test problem
+$PLUTO_DIR/Test_Problems/Particles/CR/Xpoint (configuration 1).
 
 The data is loaded with the Load class and the LoadPart class into two pload
 objects and the Image class is created. The contour method is used to plot the
@@ -20,12 +19,10 @@ saved and shown on screen.
 # Loading the relevant packages
 import pyPLUTO as pp
 import numpy as np
-import os
 import matplotlib.pyplot as plt
 
 # Creating the path for the data directory
-plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir + '/Test_Problems/Particles/CR/Xpoint'
+wdir = '../Examples/Test_Problems/Particles/CR/Xpoint'
 
 # Loading the data and the particle data into two pload objects
 Df = pp.Load(path = wdir)

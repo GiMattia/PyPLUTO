@@ -90,4 +90,4 @@ assert np.isclose(xlim[1],0.5)
 assert np.isclose(ylim[0],0.3)
 assert np.isclose(ylim[1],0.7)
 
-print("\033[34mPASSED!\033[0m")
+print(" ---> \033[32mPASSED!\033[0m")

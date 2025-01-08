@@ -1,29 +1,26 @@
 """
-Particles LP Riemann 2D test (configuration 1)
+Particles LP Riemann 2D test
 
 This test shows how to plot data from the Load class and the LoadPart class
 simultaneously and how to produce a scatter plot on a omplex axes grid.
 
-The package "os" is loaded to create the path to the directory
-$PLUTO_DIR/Test_Problems/Particles/LP/Riemann_2D, where the Particles LP
-Riemann 2D test problem is located.
+The data are the ones obtained from the PLUTO test problem
+$PLUTO_DIR/Test_Problems/Particles/LP/Riemann_2D (configuration 1).
 
 The data is loaded with the Load class and the LoadPart class into two pload
 objects and the Image class is created. The display method is used to plot the
 density and the scatter method is used to plot the loaded particles at the final
 time of the simulation. Two color bars are then created in order to show the
-particles identity and the fluid velocity values.  The image is then saved and
+particles identity and the fluid velocity values. The image is then saved and
 shown on screen.
 """
 
 # Loading the relevant packages
 import pyPLUTO as pp
 import numpy as np
-import os
 
 # Creating the path for the data directory
-plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir + '/Test_Problems/Particles/LP/Riemann_2D'
+wdir = '../Examples/Test_Problems/Particles/LP/Riemann_2D'
 
 # Loading the data and the particle data into two pload objects
 Df = pp.Load(path = wdir)

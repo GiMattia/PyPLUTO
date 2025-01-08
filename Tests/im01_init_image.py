@@ -41,4 +41,4 @@ pass
 # Test the colorlines
 pass
 
-print("\033[34mPASSED!\033[0m")
+print(" ---> \033[32mPASSED!\033[0m")

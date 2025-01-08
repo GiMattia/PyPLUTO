@@ -89,4 +89,4 @@ I.plot(x,y, label = 'rho', legpos = 0, legcols = 2)
 I.plot(x,z, label = 'rho')
 assert I.ax[0].get_legend()._ncols == 2
 
-print("\033[34mPASSED!\033[0m")
+print(" ---> \033[32mPASSED!\033[0m")

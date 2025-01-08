@@ -36,4 +36,4 @@ assert lines[1].get_label() == '222'
 assert lines[0].get_color() == I.color[0]
 assert lines[1].get_color() == I.color[1]
 
-print("\033[34mPASSED!\033[0m")
+print(" ---> \033[32mPASSED!\033[0m")

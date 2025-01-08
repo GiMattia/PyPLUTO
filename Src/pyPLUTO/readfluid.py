@@ -273,8 +273,6 @@ def _inspect_vtk(self,
 
     # Compute the centered coordinates if the file is standalone and cartesian
     if self._info is True:
-        print(self.geom)
-
         self._read_grid_vtk(gridvars)
         self._info = False
 
@@ -368,6 +366,8 @@ def _inspect_h5(self,
         self.x3r  = h5file['node_coords']['Z'][:]
         self._read_grid_h5()
         self._info = False
+    
+    
 
     # Close the file
     h5file.close()

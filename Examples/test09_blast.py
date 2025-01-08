@@ -1,11 +1,11 @@
 """
-MHD Blast test (configuration 9)
+MHD Blast test
 
 This test shows how to plot different quantities with customized legends in two
 different subplots refering to initial and final time data.
 
-The package "os" is loaded to create the path to the directory
-$PLUTO_DIR/Test_Problems/MHD/Blast, where the MHD Blast test problem is located.
+The data are the ones obtained from the PLUTO test problem
+$PLUTO_DIR/Test_Problems/MHD/Blast (configuration 9).
 
 The data is loaded twice into a pload object D and the Image class is created.
 The slices method is used to obtain a slice of the desired quantity along the
@@ -16,18 +16,10 @@ legend labels. The image is then saved and shown on screen.
 
 # Loading the relevant packages
 import pyPLUTO as pp
-import os
 import numpy as np
 
-# Transforming the magnetic field components from polar to cartesian coordinates
-def cart_vec(Bx1,Bx2,x1,x2):
-    Bx = Bx1*np.sin(x2) + Bx2*np.cos(x2)
-    Bz = Bx1*np.cos(x2) - Bx2*np.sin(x2)
-    return Bx, Bz
-
 # Creating the path for the data directory
-plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir + '/Test_Problems/MHD/Blast'
+wdir = '../Examples/Test_Problems/MHD/Blast'
 
 # Creating the Image, the subplot axes and defining the colors of the lines
 I = pp.Image(suptitle = 'Test 09 - MHD Blast test')

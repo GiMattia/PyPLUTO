@@ -1,12 +1,11 @@
 """
-Classical MHD Rayleigh-Taylor instability test (configuration 1).
+Classical MHD Rayleigh-Taylor instability test
 
 This test shows how to display a 2D quantity from a test problem at different
 times in different subplots.
 
-The package "os" is loaded to create the path to the directory
-$PLUTO_DIR/Test_Problems/MHD/Rayleigh_Taylor, where the the test problem is
-located.
+The data are the ones obtained from the PLUTO test problem
+$PLUTO_DIR/Test_Problems/MHD/Rayleigh_Taylor (configuration 1).
 
 In the script the spatial dependence of the density is displayed at three
 different times in three different subplots. Here the subplots are created
@@ -30,11 +29,9 @@ in the static grid output section.
 
 # Loading the relevant packages
 import pyPLUTO as pp
-import os
 
 # Creating the path for the data directory
-plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir + '/Test_Problems/MHD/Rayleigh_Taylor'
+wdir = '../Examples/Test_Problems/MHD/Rayleigh_Taylor'
 
 # Loading the data into a pload object D
 D = pp.Load([0,1,2], path = wdir)

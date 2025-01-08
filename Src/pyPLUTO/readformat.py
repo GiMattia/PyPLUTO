@@ -53,8 +53,8 @@ def _check_pathformat(self,
 
     # Check if the path is a non-empty string.
     if not isinstance(path, str) and not isinstance(path, Path):
-        raise TypeError("Invalid data type. 'path' must be a "\
-                        "non-empty string.")
+        error = TypeError("Invalid data type. 'path' must be path or string")
+        raise TypeError(error)
     # Check if the path is not empty
     elif not path.strip():
         raise ValueError("'path' cannot be an empty string.") 

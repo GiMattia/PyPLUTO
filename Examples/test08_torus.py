@@ -1,12 +1,12 @@
 """
-MHD Torus test (configuration 4)
+MHD Torus test
 
 This test shows how to plot two quantities in two different subplots, together
 with the plotting of streamlines in one of them and the plotting of the field
 lines in the other one.
 
-The package "os" is loaded to create the path to the directory
-$PLUTO_DIR/Test_Problems/MHD/Torus, where the MHD torus test problem is located.
+The data are the ones obtained from the PLUTO test problem
+$PLUTO_DIR/Test_Problems/MHD/Torus (configuration 4).
 
 The data is loaded into a pload object D and the Image class is created. The
 create_axes method is used to create two plots for the two variables. The
@@ -20,12 +20,10 @@ mesh grid. The image is then saved and shown on screen.
 
 # Loading the relevant packages
 import pyPLUTO as pp
-import os
 import numpy as np
 
 # Creating the path for the data directory
-plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir + '/Test_Problems/MHD/Torus'
+wdir = '../Examples/Test_Problems/MHD/Torus'
 
 # Loading the data into a pload object D
 D = pp.Load(path = wdir)

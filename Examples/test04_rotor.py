@@ -1,11 +1,11 @@
 """
-MHD Rotor test (configuration 4).
+MHD Rotor test
 
 This test shows how to compute and plot contour lines of the vector potential
 from a test problem in non-cartesian coordinates.
 
-The package "os" is loaded to create the path to the directory
-$PLUTO_DIR/Test_Problems/MHD/Rotor, where the MHD rotor test problem is located.
+The data are the ones obtained from the PLUTO test problem
+$PLUTO_DIR/Test_Problems/MHD/Rotor (configuration 4).
 
 The data is loaded into a pload object D and the Image class is created. The
 display method is used to plot the density and the magnetic field magnitude. The
@@ -27,12 +27,10 @@ in the user-defined constants section.
 """
 
 import pyPLUTO as pp
-import os
 import numpy as np
 
 # Creating the path for the data directory
-plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir+'/Test_Problems/MHD/Rotor'
+wdir = '../Examples/Test_Problems/MHD/Rotor'
 
 # Loading the data into a pload object D
 D = pp.Load(path = wdir)

@@ -1,12 +1,11 @@
 """
-Classical MHD Orszag-Tang test (configuration 2).
+Classical MHD Orszag-Tang test
 
 This test shows how to display a 2D quantity from a test problem in a single
 subplot.
 
-The package "os" is loaded to create the path to the directory
-$PLUTO_DIR/Test_Problems/MHD/Orszag_Tang, where the the test problem is located
-(see section 0.3 of the userguide to run the shock-tube problem).
+The data are the ones obtained from the PLUTO test problem
+$PLUTO_DIR/Test_Problems/MHD/Orszag_Tang (configuration 2).
 
 In the script the spatial dependence of the density is displayed, with a
 colorbar positioned dinamically on the right side of the figure.
@@ -18,11 +17,9 @@ The image is then saved and shown on screen.
 
 # Loading the relevant packages
 import pyPLUTO as pp
-import os
 
 # Creating the path for the data directory
-plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir + '/Test_Problems/MHD/Orszag_Tang'
+wdir = '../Examples/Test_Problems/MHD/Orszag_Tang'
 
 # Loading the data into a pload object D
 D = pp.Load(path = wdir)

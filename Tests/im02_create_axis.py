@@ -88,4 +88,4 @@ pos = ax[1].get_position().bounds
 assert np.isclose(pos[0],0.6)
 assert np.isclose(pos[2],0.25)
 
-print("\033[34mPASSED!\033[0m")
+print(" ---> \033[32mPASSED!\033[0m")

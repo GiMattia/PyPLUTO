@@ -112,7 +112,6 @@ def _read_grid_vtk(self,
         >>> _read_grid_vtk(['self.x1r', 'self.x2r', 'self.x3r'])
 
     """
-
     self.gridsize = self.nx1*self.nx2*self.nx3
 
     if self.geom == 'UNKNOWN':

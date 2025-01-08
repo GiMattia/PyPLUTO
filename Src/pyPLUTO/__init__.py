@@ -15,7 +15,7 @@ __session__   = find_session()
 print(f"PyPLUTO version: {__version__}   session: {__session__}")
 
 # Set the color warning handler
-warnings.simplefilter('always', DeprecationWarning)
+warnings.simplefilter("always")
 if __colorwarn__ is True:
     warnings.formatwarning = color_warning
 

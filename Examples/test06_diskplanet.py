@@ -1,12 +1,11 @@
 """
-HD disk-planet test (configuration 6)
+HD disk-planet test
 
 This test shows how to plot different 2D quantities from a test problem in the
 same plot with two zooms.
 
-The package "os" is loaded to create the path to the
-directory $PLUTO_DIR/Test_Problems/HD/Disk_Planet, where the HD disk-planet
-test problem is located.
+The data are the ones obtained from the PLUTO test problem
+directory $PLUTO_DIR/Test_Problems/HD/Disk_Planet (configuration 6).
 
 The data is loaded into a pload object D and the Image class is created. The
 create_axes method is used here to make easier to associate the zooms with the
@@ -24,12 +23,10 @@ of the zoom method in plotting different quantities in the same region.
 
 # Loading the relevant packages
 import pyPLUTO as pp
-import os
 import numpy as np
 
 # Creating the path for the data directory
-plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir + '/Test_Problems/HD/Disk_Planet'
+wdir = '../Examples/Test_Problems/HD/Disk_Planet'
 
 # Loading the data into a pload object D
 D = pp.Load(path = wdir)

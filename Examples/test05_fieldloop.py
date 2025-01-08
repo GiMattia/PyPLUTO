@@ -1,12 +1,11 @@
 """
-Classical MHD Field loop test (configuration 5).
+Classical MHD Field loop test
 
 This test shows how to compute streamlines and field lines of the magnetic field
 in a display with two subplots.
 
-The package "os" is loaded to create the path to the directory
-$PLUTO_DIR/Test_Problems/MHD/Field_Loop, where the MHD rotor test problem is
-located.
+The data are the ones obtained from the PLUTO test problem
+$PLUTO_DIR/Test_Problems/MHD/Field_Loop (configuration 5).
 
 The data is loaded into a pload object D and the Image class is created. The
 display method is used to plot the x and y components of the magnetic field. The
@@ -18,12 +17,10 @@ previously computed. The image is then saved and shown on screen.
 
 # Loading the relevant packages
 import pyPLUTO as pp
-import os
 import numpy as np
 
 # Creating the path for the data directory
-plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir + '/Test_Problems/MHD/Field_Loop'
+wdir = '../Examples/Test_Problems/MHD/Field_Loop'
 
 # Loading the data into a pload object D
 D = pp.Load(path = wdir)

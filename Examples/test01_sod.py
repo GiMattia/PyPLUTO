@@ -1,12 +1,11 @@
 """
-HD shock tube test (configuration 1).
+HD shock tube test
 
 This test shows how to plot different 1D quantities from a test problem in the
 same plot.
 
-The package "os" is loaded to create the path to the directory
-$PLUTO_DIR/Test_Problems/HD/Sod, where the the Sod HD test problem is located
-(see section 0.2 of the userguide to run the shock-tube problem).
+The data are the ones obtained from the PLUTO test problem
+$PLUTO_DIR/Test_Problems/HD/Sod (configuration 1).
 
 In this script the quatities plotted are density, pressure and velocity
 (component x) in different colors. The relevant keywords to customize the plot
@@ -23,11 +22,9 @@ pp.show displays all the figures generated in the script (here only one).
 
 # Loading the relevant packages
 import pyPLUTO as pp
-import os
 
 # Creating the path for the data directory
-plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir + '/Test_Problems/HD/Sod'
+wdir = '../Examples/Test_Problems/HD/Sod'
 
 # Loading the data into a pload object D
 D = pp.Load(path = wdir)
@@ -42,7 +39,7 @@ I.plot(D.x1, D.rho, label = r'$\rho$',
                     xrange = [0.0,1.0],
                     yrange = [-0.05,1.05],
                     legpos = 0)
-                    
+
 I.plot(D.x1, D.prs, label = r'$p$')
 I.plot(D.x1, D.vx1, label = r'$v_x$')
 

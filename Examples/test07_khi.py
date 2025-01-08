@@ -1,12 +1,11 @@
 """
-RMHD Kelvin-Helmholtz instability test (configuration 1)
+RMHD Kelvin-Helmholtz instability test
 
 This test shows how to plot a more complex figure with a customized number of
 subplots and the insert of text inside the plots.
 
-The package "os" is loaded to create the path to the
-directory $PLUTO_DIR/Test_Problems/RMHD/KH, where the the Kelvin-Helmholtz
-instability test problem is located.
+The data are the ones obtained from the PLUTO test problem
+$PLUTO_DIR/Test_Problems/RMHD/KH (configuration 1).
 
 The data is loaded into a pload object D and the Image class is created. The
 create_axes method is used to form a collage of plots both elegant and useful.
@@ -21,12 +20,10 @@ parameter in the pluto.ini should be changed to 0.05.
 
 # Loading the relevant packages
 import pyPLUTO as pp
-import os
 import numpy   as np
 
 # Creating the path for the data directory
-plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir + '/Test_Problems/RMHD/KH'
+wdir = '../Examples/Test_Problems/RMHD/KH'
 
 # Loading the data into a pload object D
 D = pp.Load(path = wdir)

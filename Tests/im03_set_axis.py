@@ -87,4 +87,4 @@ assert ax.get_xscale() == 'log'
 assert ax.get_yscale() == 'log'
 assert np.isclose(ax.get_alpha(),0.5)
 
-print("\033[34mPASSED!\033[0m")
+print(" ---> \033[32mPASSED!\033[0m")

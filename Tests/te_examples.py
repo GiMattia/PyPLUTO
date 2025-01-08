@@ -1,21 +1,26 @@
 import os
 import sys
 import re
+import shutil
 from pathlib import Path
 from unittest.mock import patch
 from PIL import Image, ImageChops
 import pyPLUTO as pp
 import matplotlib.pyplot as plt
 
+
 # Change temporarily the PLUTO_DIR environment
-os.environ['PLUTO_OLD'] = os.environ['PLUTO_DIR']
-os.environ['PLUTO_DIR'] = "."
+#os.environ['PLUTO_OLD'] = os.environ['PLUTO_DIR']
+#os.environ['PLUTO_DIR'] = "."
+
+yes = "\033[32mENABLED\033[0m"
+no  = "\033[31mDISABLED\033[0m"
 
 options = {
-    "File copy from PLUTO": "ENABLED" if "copy" in sys.argv else "DISABLED",
-    "Plotting the tests": "DISABLED" if "noplot" in sys.argv else "ENABLED",
-    "Plot comparison": "DISABLED" if "nocompare" in sys.argv else "ENABLED",
-    "Folder cleaning": "ENABLED" if "clean" in sys.argv else "DISABLED"}
+    "File copy from PLUTO": yes if "copy"      in sys.argv else no,
+    "Plotting the tests":   no  if "noplot"    in sys.argv else yes,
+    "Plot comparison":      no  if "nocompare" in sys.argv else yes,
+    "Folder cleaning":      yes if "clean"     in sys.argv else no}
 
 def extract_path_from_file(file_path):
     with open(file_path, 'r') as f:
@@ -60,14 +65,10 @@ def compare_images(image1_path, image2_path):
 def no_op(*args, **kwargs):
     pass
 
-import os
-from pathlib import Path
-import shutil
-
 def copy_files(file_path):
     test_path = extract_path_from_file(file_path).lstrip("/")
-    src_dir = Path(os.environ.get('PLUTO_OLD')) / test_path
-    dest_dir = Path(os.environ.get('PLUTO_DIR')) / test_path
+    src_dir = Path(os.environ.get('PLUTO_DIR')) / test_path
+    dest_dir = Path("../Examples") / test_path
     if not src_dir.exists():
         print(f"Source directory does not exist: {src_dir}")
         return
@@ -97,19 +98,32 @@ def single_example(ind, file_path, lenfiles):
 
     if "nocompare" not in sys.argv:
         result = check_images(source)
-        print(f" ---> {"\033[34mPASSED!\033[0m" if isinstance(result,Path) else result}", end="")
+        if isinstance(result,Path):
+            print(" ---> \033[32mPASSED!\033[0m", end="")
+        else:
+            print(" ---> \033[31mFAILED!\033[0m")
+    else:
+        print(source)
+        result = None
 
     if "clean" in sys.argv:
-        try:
-            os.remove(f"./{result}")
-            print(f" ---> CLEANED", end="")
-        except:
-            pass
+        if isinstance(result,Path) or result is None:
+            results = list(Path(".").glob(f"{source}.*"))
+            results = [str(f) for f in results if f.suffix != '.py']
+            for result in results:
+                try:
+                    os.remove(f"./{result}")
+
+                except:
+                    pass
+        else:
+            return
+        print(f" ---> CLEANED", end="")
 
     print("")
 
 if __name__ == "__main__":
-    print(f"Running tests with keywords: {', '.join(sys.argv[1:]) if len(sys.argv[1:])> 0 else "None"}")
+    print(f"Running Examples")
     for option, status in options.items():
         print(f"{option:<21}: {status}")
     files = sorted(f for f in Path("../Examples").glob("*.py") if f.name != Path(sys.argv[0]).name)

@@ -4,9 +4,8 @@ AMR Flow past cylinder test
 This test shows how to plot data from the Load class when handling data obtained
 from a simulation with AMR.
 
-The package "os" is loaded to create the path to the directory
-$PLUTO_DIR/Test_Problems/Particles/HD/Viscosity/Flow_Past_Cylinder, where the
-test problem is located.
+The data are the ones obtained from the PLUTO test problem
+$PLUTO_DIR/Test_Problems/Particles/HD/Viscosity/Flow_Past_Cylinder .
 
 The data is loaded with the Load class into a pload object and the Image class
 is created. The display method is used to plot the density and the oplotbox
@@ -16,12 +15,10 @@ shown on screen.
 
 # Loading the relevant packages
 import pyPLUTO as pp
-import os
 import numpy as np
 
 # Creating the path for the data directory
-plutodir = os.environ['PLUTO_DIR']
-wdir     = plutodir + '/Test_Problems/HD/Viscosity/Flow_Past_Cylinder'
+wdir = '../Examples/Test_Problems/HD/Viscosity/Flow_Past_Cylinder'
 
 # Load the data (4 levels of AMR)
 D = pp.Load(path = wdir, level = 4)

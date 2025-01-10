@@ -36,6 +36,7 @@ def _read_grid_h5(self
 
     self.nshp = np.shape(self.x1)
     self.dim = len(self.nshp)
+    self.geom = 'UNKNOWN'
     self.nx1, self.nx2, self.nx3 = (self.nshp + (1,1,1))[:3]
     nx1s, nx2s, nx3s = self.nx1 + 1, self.nx2 + 1, self.nx3 + 1
 
@@ -50,6 +51,7 @@ def _read_grid_h5(self
     (self._nshp_st1, self._nshp_st2, self._nshp_st3) = \
         GRID_SHAPES[self.dim](self.nx1, self.nx2, self.nx3)
     
+    """
     self.dx1 = self.x1r[1:] - self.x1r[:-1]
     self.dx1 = 0.5*(self.dx1[:, 1:] + self.dx1[:, :-1]) if self.dim > 1 else self.dx1
     self.dx1 = 0.5*(self.dx1[:, :, 1:] + self.dx1[:, :, :-1]) if self.dim > 2 else self.dx1
@@ -61,7 +63,7 @@ def _read_grid_h5(self
     self.dx3 = self.x3r[1:] - self.x3r[:-1]
     self.dx3 = 0.5*(self.dx3[:, 1:] + self.dx3[:, :-1]) if self.dim > 1 else self.dx3
     self.dx3 = 0.5*(self.dx3[:, :, 1:] + self.dx3[:, :, :-1]) if self.dim > 2 else self.dx3
-    
+    """
     
     # Compute the gridsize both centered and staggered
     self.gridsize      = self.nx1*self.nx2*self.nx3
@@ -69,10 +71,9 @@ def _read_grid_h5(self
     self._gridsize_st2 = self.nx1*nx2s*self.nx3
     self._gridsize_st3 = self.nx1*self.nx2*nx3s
 
-    warn = ("The geometry is unknown, the grid is assumed to be cartesian. "
-            "\nThe grid interpolation may not be accurate and should be "
-            "used only for visualization purposes. \nFor a more accurate "
-            "interpolation, the loading with the .out file is recommended.\n")
+    warn = ("The geometry is unknown, therefore the grid spacing has not been "
+            "computed. \nFor a more accurate grid analysis, the loading with "
+            "the .out file is recommended.\n")
     warnings.warn(warn, UserWarning)
 
     return None
@@ -121,32 +122,32 @@ def _read_grid_vtk(self,
             self.x1 = 0.5*(self.x1[:, 1:] + self.x1[:, :-1]) if self.dim > 1 else self.x1
             self.x1 = 0.5*(self.x1[:, :, 1:] + self.x1[:, :, :-1]) if self.dim > 2 else self.x1
             
-            self.dx1 = self.x1r[1:] - self.x1r[:-1]
-            self.dx1 = 0.5*(self.dx1[:, 1:] + self.dx1[:, :-1]) if self.dim > 1 else self.dx1
-            self.dx1 = 0.5*(self.dx1[:, :, 1:] + self.dx1[:, :, :-1]) if self.dim > 2 else self.dx1
+            
+            #self.dx1 = self.x1r[1:] - self.x1r[:-1]
+            #self.dx1 = 0.5*(self.dx1[:, 1:] + self.dx1[:, :-1]) if self.dim > 1 else self.dx1
+            #self.dx1 = 0.5*(self.dx1[:, :, 1:] + self.dx1[:, :, :-1]) if self.dim > 2 else self.dx1
         
         if gridvars[1] == 'self.x2r':
             self.x2 = 0.5*(self.x2r[1:] + self.x2r[:-1])
             self.x2 = 0.5*(self.x2[:, 1:] + self.x2[:, :-1]) 
             self.x2 = 0.5*(self.x2[:, :, 1:] + self.x2[:, :, :-1]) if self.dim > 2 else self.x2
         
-            self.dx2 = self.x2r[1:] - self.x2r[:-1]
-            self.dx2 = 0.5*(self.dx2[:, 1:] + self.dx2[:, :-1])
-            self.dx2 = 0.5*(self.dx2[:, :, 1:] + self.dx2[:, :, :-1]) if self.dim > 2 else self.dx2
+            #self.dx2 = self.x2r[1:] - self.x2r[:-1]
+            #self.dx2 = 0.5*(self.dx2[:, 1:] + self.dx2[:, :-1])
+            #self.dx2 = 0.5*(self.dx2[:, :, 1:] + self.dx2[:, :, :-1]) if self.dim > 2 else self.dx2
 
         if gridvars[2] == 'self.x3r':
             self.x3 = 0.5*(self.x3r[1:] + self.x3r[:-1])
             self.x3 = 0.5*(self.x3[:, 1:] + self.x3[:, :-1])
             self.x3 = 0.5*(self.x3[:, :, 1:] + self.x3[:, :, :-1])
 
-            self.dx3 = self.x3r[1:] - self.x3r[:-1]
-            self.dx3 = 0.5*(self.dx3[:, 1:] + self.dx3[:, :-1])
-            self.dx3 = 0.5*(self.dx3[:, :, 1:] + self.dx3[:, :, :-1])
+            #self.dx3 = self.x3r[1:] - self.x3r[:-1]
+            #self.dx3 = 0.5*(self.dx3[:, 1:] + self.dx3[:, :-1])
+            #self.dx3 = 0.5*(self.dx3[:, :, 1:] + self.dx3[:, :, :-1])
 
-        warn = ("The geometry is unknown, the grid is assumed to be cartesian. "
-                "\nThe grid interpolation may not be accurate and should be "
-                "used only for visualization purposes. \nFor a more accurate "
-                "interpolation, the loading with the .out file is recommended.\n")
+        warn = ("The geometry is unknown, therefore the grid spacing has not been "
+                "computed. \nFor a more accurate grid analysis, the loading with "
+                "the .out file is recommended.\n")
         warnings.warn(warn, UserWarning)
 
         return None
@@ -240,7 +241,6 @@ def _read_gridfile(self
     self.dx3 = self.x3r[1:] - self.x3r[:-1]
 
     # Compute the cartesian grid coordinates (non-cartesian geometry)
-    # STILL VERY INCOMPLETE (3D spherical missing and needs testing)
 
     if self.geom == 'POLAR':
 

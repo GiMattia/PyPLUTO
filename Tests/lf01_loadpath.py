@@ -21,4 +21,9 @@ with pytest.raises(ValueError, match = "'path' cannot be an empty string."):
 with pytest.raises(NotADirectoryError):
     D = pp.Load(path = "wrong", text = False)
 
+# Check if raises an error with wrong attribute
+with pytest.raises(AttributeError):
+    D = pp.Load(path = "Test_load/single_file", text = False)
+    res = D.wrong
+
 print(" ---> \033[32mPASSED!\033[0m")

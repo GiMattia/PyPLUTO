@@ -2,7 +2,7 @@ import pyPLUTO    as pp
 import matplotlib as mpl
 import numpy      as np
 
-print(f"Testing the 1D plotting method... ".ljust(50), end='')
+print(f"Testing the Image 1D plotting method... ".ljust(50), end='')
 
 x = np.linspace(0,1,101)
 y = np.linspace(1,10,101)

@@ -21,10 +21,9 @@ D = pp.Load(path = "Test_load/single_file", text = False, datatype = 'vtk', alon
 assert D.format == 'vtk'
 
 # dbl.h5 and flt.h5 should raise a warning
-warn = ("The geometry is unknown, the grid is assumed to be cartesian. "
-            "\nThe grid interpolation may not be accurate and should be "
-            "used only for visualization purposes. \nFor a more accurate "
-            "interpolation, the loading with the .out file is recommended.\n")
+warn = ("The geometry is unknown, therefore the grid spacing has not been "
+        "computed. \nFor a more accurate grid analysis, the loading with "
+        "the .out file is recommended.\n")
 for format in ["dbl.h5","flt.h5"]:
     with pytest.warns(UserWarning, match=warn):
         D = pp.Load(path = "Test_load/single_file", text = False, datatype = format, alone = True)

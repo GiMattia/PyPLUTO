@@ -1,62 +1,84 @@
 import pyPLUTO    as pp
+import numpy      as np
+import numpy.testing as npt
 import pytest
 
-print(f"Testing the Load format finding ... ".ljust(50), end='')
+print(f"Testing the Load grid reading methods ... ".ljust(50), end='')
 
-# Format not given (single file), finding dbl
+# Theoretical grid values for the selected output
+xr  = np.linspace(-1,1,129)
+dx  = 2/128
+xc0 = xr[0] + 1/128
+xc  = np.linspace(xc0,-xc0,128)
+
+xr2D, yr2D = np.meshgrid(xr, xr)
+xc2D, yc2D = np.meshgrid(xc, xc)
+
+# Testing the grid from the grid.out file
 D = pp.Load(path = "Test_load/single_file", text = False)
-assert D.format == "dbl"
 
-# Format not given (single file), finding vtk
-D = pp.Load(path = "Test_load/single_file/vtk", text = False)
-assert D.format == "vtk"
+npt.assert_allclose(D.x1r, xr)
+npt.assert_allclose(D.x2r, xr)
 
-# Given format (single file), alone = False
-for format in ["dbl","flt","vtk","dbl.h5","flt.h5"]:
-    D = pp.Load(path = "Test_load/single_file", text = False, datatype = format)
-    assert D.format == format
+npt.assert_allclose(D.dx1, dx)
+npt.assert_allclose(D.dx2, dx)
 
-# Given format (single file), alone = True
-D = pp.Load(path = "Test_load/single_file", text = False, datatype = 'vtk', alone = True)
-assert D.format == 'vtk'
+npt.assert_allclose(D.x1, xc)
+npt.assert_allclose(D.x2, xc)
 
-# dbl.h5 and flt.h5 should raise a warning
-warn = ("The geometry is unknown, the grid is assumed to be cartesian. "
-            "\nThe grid interpolation may not be accurate and should be "
-            "used only for visualization purposes. \nFor a more accurate "
-            "interpolation, the loading with the .out file is recommended.\n")
-for format in ["dbl.h5","flt.h5"]:
-    with pytest.warns(UserWarning, match=warn):
-        D = pp.Load(path = "Test_load/single_file", text = False, datatype = format, alone = True)
-        assert D.format == format
+assert D.dim == 2
+assert (D.nx1,D.nx2,D.nx3) == (128,128,1)
+assert D.geom == "CARTESIAN"
+assert D.nshp == (128,128)
 
-# Format not given (multiple files), finding dbl
-D = pp.Load(path = "Test_load/multiple_files", text = False)
-assert D.format == "dbl"
+assert D._nshp_st1 == (128,129)
+assert D._nshp_st2 == (129,128)
 
-# Format not given (multiple files), finding vtk
-D = pp.Load(path = "Test_load/multiple_files/vtk", text = False)
-assert D.format == "vtk"
+assert D.gridsize == 128*128
+assert D._gridsize_st1 == 129*128
+assert D._gridsize_st2 == 128*129
 
-# Given format (multiple files), alone = False
-for format in ["dbl","flt","vtk"]:
-    D = pp.Load(path = "Test_load/multiple_files", text = False, datatype = format)
-    assert D.format == format
+# Testing the grid from a standalone vtk file
+D = pp.Load(path = "Test_load/single_file", text = False, datatype = "vtk", alone = True)
+npt.assert_allclose(D.x1r, xr)
+npt.assert_allclose(D.x2r, xr)
 
-# Given format (multiple files), alone = True
-D = pp.Load(path = "Test_load/multiple_files", text = False, datatype = 'vtk', alone = True)
-assert D.format == 'vtk'
+npt.assert_allclose(D.dx1, dx)
+npt.assert_allclose(D.dx2, dx)
 
-# Check if raises error if the format is wrong
-with pytest.raises(ValueError):
-    D = pp.Load(path = "Test_load/single_file", text = False, datatype = "wrong")
+npt.assert_allclose(D.x1, xc)
+npt.assert_allclose(D.x2, xc)
 
-# Check if raises an error if there is no good format
-with pytest.raises(FileNotFoundError):
-    D = pp.Load(text = False)
+assert D.dim == 2
+assert (D.nx1,D.nx2,D.nx3) == (128,128,1)
+assert D.geom == "CARTESIAN"
+assert D.nshp == (128,128)
 
-# Check if raises error if the selected format does not exist
-with pytest.raises(FileNotFoundError):
-    D = pp.Load(path = "Test_load/multiple_files", text = False, datatype = "dbl.h5")
+assert D.gridsize == 128*128
+
+# Testing the grid from a standalone h5 file
+warn = ("The geometry is unknown, therefore the grid spacing has not been "
+        "computed. \nFor a more accurate grid analysis, the loading with "
+        "the .out file is recommended.\n")
+
+with pytest.warns(UserWarning, match=warn):
+    D = pp.Load(path = "Test_load/single_file", text = False, datatype = "dbl.h5", alone = True)
+npt.assert_allclose(D.x1r, xr2D)
+npt.assert_allclose(D.x2r, yr2D)
+
+npt.assert_allclose(D.x1, xc2D)
+npt.assert_allclose(D.x2, yc2D)
+
+assert D.dim == 2
+assert (D.nx1,D.nx2,D.nx3) == (128,128,1)
+assert D.geom == "UNKNOWN"
+assert D.nshp == (128,128)
+
+assert D._nshp_st1 == (128,129)
+assert D._nshp_st2 == (129,128)
+
+assert D.gridsize == 128*128
+assert D._gridsize_st1 == 129*128
+assert D._gridsize_st2 == 128*129
 
 print(" ---> \033[32mPASSED!\033[0m")

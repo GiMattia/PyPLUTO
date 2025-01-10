@@ -2,7 +2,7 @@ import pyPLUTO    as pp
 import matplotlib as mpl
 import numpy      as np
 
-print(f"Testing the axes customization... ".ljust(50), end='')
+print(f"Testing the Image axes customization... ".ljust(50), end='')
 
 # Check the default values of the set_axes
 I = pp.Image()

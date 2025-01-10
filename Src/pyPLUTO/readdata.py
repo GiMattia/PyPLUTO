@@ -99,7 +99,6 @@ def _load_variables(self,
         return None
     
     # ERROR: TOO MANY OPEN FILES!!!
-    
     """
     # Loop over the variables to be loaded
     for j in self._load_vars:
@@ -118,8 +117,8 @@ def _load_variables(self,
         scrh = np.memmap(self._filepath,self._d_info['binformat'][i],mode="r+",
                          offset=self._offset[j], shape = self._shape[j]).T
         self._assign_var(exout, j, scrh)
-    
     """
+
     # Compute the byte range for all variables in the current loop
     if self._d_info['typefile'][i] == 'single_file' and class_name == 'Load':
         start_byte = min(self._offset[j] for j in self._load_vars)
@@ -145,11 +144,12 @@ def _load_variables(self,
             start_byte = self._offset[j]
             # Reload memmap for the new file
             file_memmap = np.memmap(self._filepath,self._d_info['binformat'][i],mode="r+",
-                         offset=self._offset[j], shape = self._shape[j]).T
+                         offset=self._offset[j], shape = self._shape[j])
         
         # Initialize the variables dictionary
         self._init_vardict(j) if self._lennout != 1 else None
 
+        
         # Extract the relevant slice and reshape
         if class_name == 'Load':
             # Calculate the relative offset within the mapped range
@@ -159,16 +159,13 @@ def _load_variables(self,
         elif class_name == 'LoadPart':
              scrh = np.memmap(self._filepath,self._d_info['binformat'][i],mode="r+",
                          offset=self._offset[j], shape = self._shape[j]).T
-
+        
 
         # Assign the variable
         self._assign_var(exout, j, scrh)
-
     
     # End of function
     return None
-
-
 
 
 def _check_nout(self, 

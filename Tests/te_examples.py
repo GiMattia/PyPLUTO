@@ -8,11 +8,6 @@ from PIL import Image, ImageChops
 import pyPLUTO as pp
 import matplotlib.pyplot as plt
 
-
-# Change temporarily the PLUTO_DIR environment
-#os.environ['PLUTO_OLD'] = os.environ['PLUTO_DIR']
-#os.environ['PLUTO_DIR'] = "."
-
 yes = "\033[32mENABLED\033[0m"
 no  = "\033[31mDISABLED\033[0m"
 

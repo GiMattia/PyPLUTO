@@ -266,9 +266,21 @@ def _read_gridfile(self
         self.x2p  = (np.cos(x2_2D)*x1_2D).T
         self.x1rp = (np.sin(x2r_2D)*x1r_2D).T
         self.x2rp = (np.cos(x2r_2D)*x1r_2D).T
+
+        x1_2D, x3_2D = np.meshgrid(self.x1, 
+                                   self.x3, indexing='ij')
+        x1r_2D, x3r_2D = np.meshgrid(self.x1r, 
+                                     self.x3r, indexing='ij')
+
+        self.x1t  = (np.cos(x3_3D)*x1_2D).T
+        self.x3t  = (np.sin(x3_3D)*x1_2D).T
+        self.x1rt = (np.cos(x3r_3D)*x1r_2D).T
+        self.x3rt = (np.sin(x3r_3D)*x1r_2D).T
+
+        self.gridlist3 = ['x1p','x2p','x1rp','x2rp',
+                          'x1t','x3t','x1rt','x3rt']
         
-        self.gridlist3 = ['x1p','x2p','x1rp','x2rp']
-        del x1_2D, x2_2D, x1r_2D, x2r_2D
+        del x1_2D, x2_2D, x1r_2D, x2r_2D, x3_2D, x3r_2D
 
         if self.dim == 3 and self._full3d is True:
 

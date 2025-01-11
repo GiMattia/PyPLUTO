@@ -1,11 +1,5 @@
-import os
 import sys
-import re
 from pathlib import Path
-from unittest.mock import patch
-from PIL import Image, ImageChops
-import pyPLUTO as pp
-import matplotlib.pyplot as plt
 from te_examples import *
 
 yes = "\033[32mENABLED\033[0m"

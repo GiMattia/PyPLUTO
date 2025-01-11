@@ -218,8 +218,8 @@ class Load:
         self._d_end = {'big':'>', 'little':'<', '>':'>', '<':'<', None:None} 
         
         if endian not in self._d_end.keys():
-            raise ValueError(f"Invalid endianess. \
-                             Valid values are {self._d_end.keys()}")
+            error = f"Invalid endianess. Valid values are {self._d_end.keys()}"
+            raise ValueError(error)
         
         # Check the input multiple
         if not isinstance (multiple, bool):

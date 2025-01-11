@@ -60,7 +60,13 @@ def _read_tabfile(self,
             # Store the gridsize
             self.nx1 = empty_lines
             self.nx2 = len(lines_in_block)
-            
+    
+    # If the file is empty the grid is 1D, ostore grid vars if not present
+    else:
+        if not hasattr(self,'dim'):
+            self.nx1 = vfp.shape[0]
+            self.nx2 = 1
+     
     # Store the grid variables
     self.x1 = np.array(vfp.iloc[:,1]).reshape(self.nx2, self.nx1)
     self.x2 = np.array(vfp.iloc[:,0]).reshape(self.nx2, self.nx1)
@@ -148,9 +154,10 @@ def _inspect_vtk(self,
         raise ValueError("Error: Wrong endianess in vtk file.")
     if self._info is True:
         self.nshp = 0
-        self._d_info['binformat'] = np.char.add(self._d_info['endianess'], 
-                                          'f' + str(self._charsize))
-    
+    if self._alone is True:
+        self._d_info['binformat'][i] = \
+                        f"{self._d_info['endianess'][i]}f{self._charsize}"
+
     # Open the file and read the lines
     f = open(self._filepath, 'rb')
 
@@ -249,7 +256,7 @@ def _inspect_vtk(self,
                                                        line_end)
         offset = mmapped_file.find(b'\n', lookup_table_pos) + 1
 
-        if self._info is not True and varmult is None:
+        if self._info is not True and varmult is None and self._alone is False:
             scrh = offset - scalars_pos + self.gridsize*4 + 1
             for var in self._d_info['varslist'][i]:
                 self._offset[var] = offset
@@ -273,8 +280,6 @@ def _inspect_vtk(self,
 
     # Compute the centered coordinates if the file is standalone and cartesian
     if self._info is True:
-        print(self.geom)
-
         self._read_grid_vtk(gridvars)
         self._info = False
 
@@ -368,6 +373,8 @@ def _inspect_h5(self,
         self.x3r  = h5file['node_coords']['Z'][:]
         self._read_grid_h5()
         self._info = False
+    
+    
 
     # Close the file
     h5file.close()

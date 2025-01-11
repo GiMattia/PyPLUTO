@@ -44,7 +44,23 @@
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/test13_flowpastcylinder.png"><img alt="_images/test13_flowpastcylinder.png" class="align-center" src="_images/test13_flowpastcylinder.png" style="width: 600px;" />
 </a>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Loading the relevant packages</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">AMR Flow past cylinder test</span>
+
+<span class="sd">This test shows how to plot data from the Load class when handling data obtained</span>
+<span class="sd">from a simulation with AMR.</span>
+
+<span class="sd">The package &quot;os&quot; is loaded to create the path to the directory</span>
+<span class="sd">$PLUTO_DIR/Test_Problems/Particles/HD/Viscosity/Flow_Past_Cylinder, where the</span>
+<span class="sd">test problem is located.</span>
+
+<span class="sd">The data is loaded with the Load class into a pload object and the Image class</span>
+<span class="sd">is created. The display method is used to plot the density and the oplotbox</span>
+<span class="sd">method is used to show the AMR levels. The image is then saved and</span>
+<span class="sd">shown on screen.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Loading the relevant packages</span>
 <span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -65,26 +81,23 @@
 <span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">withblack</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Show the 2D density</span>
-<span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">xx</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">yy</span><span class="p">,</span> 
-                 <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> 
-                 <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">],</span> 
-                 <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span> 
-                 <span class="n">aspect</span> <span class="o">=</span> <span class="s1">&#39;equal&#39;</span><span class="p">,</span> 
+<span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">xx</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">yy</span><span class="p">,</span>
+                 <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span>
+                 <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">],</span>
+                 <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span>
+                 <span class="n">aspect</span> <span class="o">=</span> <span class="s1">&#39;equal&#39;</span><span class="p">,</span>
                  <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;bone&#39;</span><span class="p">,</span>
                  <span class="n">clabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\rho$&quot;</span><span class="p">,</span>
                  <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
                  <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span>
                  <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Test 13 - AMR Flow past cylinder test&#39;</span><span class="p">)</span>
-                 
+
 <span class="c1"># Plot the AMR levels (up to 2)</span>
 <span class="n">I</span><span class="o">.</span><span class="n">oplotbox</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">AMRLevel</span><span class="p">,</span><span class="n">lrange</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="n">geom</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">geom</span><span class="p">)</span>
 
 <span class="c1"># Save and show the figure</span>
 <span class="n">I</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test13_flowpastcylinder.png&#39;</span><span class="p">)</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-
-
 </pre></div>
 </div>
 </div></blockquote>

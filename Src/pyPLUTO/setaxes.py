@@ -243,7 +243,7 @@ def create_axes(self,
 
     # Tight layout (depending on the subplot creation)
     self.tight = kwargs.get('tight', self.tight)
-    self.fig.set_tight_layout(None if not self.tight else 'tight')
+    self.fig.set_layout_engine(None if not self.tight else 'tight')
 
     # End of the function
     # Return the list of axes (if more than one) or the single axis (if only 

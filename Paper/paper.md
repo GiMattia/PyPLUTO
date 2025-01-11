@@ -1,7 +1,7 @@
 ---
 title: 'PyPLUTO: A Python Package for Loading and Plotting Data from the PLUTO Code'
 tags:
-  - Data Analysis
+  - Astronomy
   - Python
   - MagnetoHydroDynamics
   - Computational Astrophysics
@@ -13,7 +13,7 @@ authors:
     affiliation: 1, 2
 
   - name: Daniele Crocco
-    orcid: ...
+    orcid: 0009-0001-4284-9446
     affiliation: 3
 
   - name: David Melon Fuksman

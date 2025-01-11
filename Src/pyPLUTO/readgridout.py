@@ -272,10 +272,10 @@ def _read_gridfile(self
         x1r_2D, x3r_2D = np.meshgrid(self.x1r, 
                                      self.x3r, indexing='ij')
 
-        self.x1t  = (np.cos(x3_3D)*x1_2D).T
-        self.x3t  = (np.sin(x3_3D)*x1_2D).T
-        self.x1rt = (np.cos(x3r_3D)*x1r_2D).T
-        self.x3rt = (np.sin(x3r_3D)*x1r_2D).T
+        self.x1t  = (np.cos(x3_2D)*x1_2D).T
+        self.x3t  = (np.sin(x3_2D)*x1_2D).T
+        self.x1rt = (np.cos(x3r_2D)*x1r_2D).T
+        self.x3rt = (np.sin(x3r_2D)*x1r_2D).T
 
         self.gridlist3 = ['x1p','x2p','x1rp','x2rp',
                           'x1t','x3t','x1rt','x3rt']

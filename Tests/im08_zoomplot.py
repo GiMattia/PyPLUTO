@@ -1,6 +1,7 @@
 import pyPLUTO    as pp
 import matplotlib as mpl
 import numpy      as np
+import numpy.testing as npt
 
 print(f"Testing the Image zoom creation... ".ljust(50), end='')
 
@@ -27,10 +28,10 @@ assert np.isclose(pos1[0],posleft)
 assert np.isclose(pos1[1],posbot)
 assert np.isclose(pos1[2],width)
 assert np.isclose(pos1[3],height)
-assert (line1.get_xdata() == x).all()
-assert (line1.get_ydata() == y).all()
-assert (line2.get_xdata() == x).all()
-assert (line2.get_ydata() == z).all()
+npt.assert_array_equal(line1.get_xdata(), x)
+npt.assert_array_equal(line1.get_ydata(), y)
+npt.assert_array_equal(line2.get_xdata(), x)
+npt.assert_array_equal(line2.get_ydata(), z)
 
 # Check the custom position (loc) of the inset zoom
 I  = pp.Image()
@@ -76,7 +77,7 @@ assert I.ax[1].get_title()  == 'Inset zoom'
 assert I.ax[1].get_xlabel() == 'x'
 assert I.ax[1].get_ylabel() == 'y'
 assert len(x0) == 0
-assert (y0  == [0,0.2,1.0]).all()
+npt.assert_array_equal(y0, [0,0.2,1.0])
 
 # Check range properties
 I  = pp.Image()

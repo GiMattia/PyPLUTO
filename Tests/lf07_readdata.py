@@ -54,6 +54,12 @@ D = pp.Load(0,path = "Test_load/single_file", datatype = "dbl.h5", text = False)
 for num, var in enumerate(varslist):
     npt.assert_array_equal(getattr(D,var), exact_vars[var])
 
+# Test dbl.h5 output
+D = pp.Load(0,path = "Test_load/single_file", datatype = "flt.h5", text = False)
+for num, var in enumerate(varslist):
+    npt.assert_allclose(getattr(D,var), exact_vars[var])
+
+
 # Test single file, tab output
 D = pp.Load(0,path = "Test_load/single_file", datatype = "tab", text = False)
 for num, var in enumerate(varslist):
@@ -79,6 +85,12 @@ with pytest.warns(UserWarning, match=warn):
 for num, var in enumerate(varslist):
     npt.assert_array_equal(getattr(D,var), exact_vars[var])
 
+# Test flt.h5 output (standalone)
+with pytest.warns(UserWarning, match=warn):
+    D = pp.Load(path = "Test_load/single_file", text = False, datatype = "flt.h5", alone = True)
+for num, var in enumerate(varslist):
+    npt.assert_allclose(getattr(D,var), exact_vars[var])
+
 # Test single file, tab output (standalone)
 vars_conversion = {"rho": "var0",
                    "vx1": "var1",
@@ -91,12 +103,17 @@ for num, var in enumerate(varslist):
     npt.assert_allclose(getattr(D,vars_conversion[var]), exact_vars[var])
 
 # Test single file, tab output (1D)
-
 rho = np.array([1]*200 + [0.125]*200)
 prs = np.array([1]*200 + [0.1]*200)
 
 D = pp.Load(0,path = "Test_load/multiple_outputs", datatype = "tab", text = False)
 npt.assert_allclose(D.rho, rho)
 npt.assert_allclose(D.prs, prs)
+
+# Test muptiple outputs
+D = pp.Load([0,1],path = "Test_load/multiple_outputs", datatype = "dbl", text = False)
+assert(isinstance(D.rho, dict))
+assert(list(D.rho.keys()) == [0,1])
+npt.assert_allclose(D.rho[0], rho)
 
 print(" ---> \033[32mPASSED!\033[0m")

@@ -21,9 +21,9 @@ pcm = I.ax[0].collections[0]
 ccd = pcm.get_coordinates()
 xc, yc  = ccd[:, :, 0], ccd[:, :, 1]
 pcm = pcm.get_array()
-assert (pcm == var).all()
+npt.assert_array_equal(pcm, var)
 npt.assert_allclose(xc, x2dr, atol = 1.e-13)
-pp.show()
+#pp.show()
 
 """
 line = I.ax[0].get_lines()[0]

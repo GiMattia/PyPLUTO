@@ -270,7 +270,7 @@ def _inspect_vtk(self,
     mmapped_file.close()
 
     # Find the variables and store them
-    self._d_info['binformat'][i] = self._d_info['endianess'][i] + 'f'
+    self._d_info['binformat'][i] = self._d_info['endianess'][i] + 'f4'
     self._d_info['varslist'][i] = np.array(list(self._offset.keys()))
 
     f.close()

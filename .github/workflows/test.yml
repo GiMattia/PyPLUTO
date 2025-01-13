@@ -2,8 +2,6 @@ name: Run Tests on Multiple Python Versions and Platforms
 
 on:
   push:
-    branches:
-      - master
   pull_request:
 
 jobs:

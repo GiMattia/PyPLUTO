@@ -54,6 +54,41 @@ python setup.py install
 
 This method allows installation in a non-editable mode, and it is recommended to use a virtual environment to avoid conflicts with other packages.
 
-### Documentation
+## Quick Start
+
+```python
+import pyPLUTO as pp
+```
+
+Simulations can be loaded by just providing the path to the simulation directory. The last output (if not specific 
+file is selected) is automatically found, as well as the available PLUTO file in the selected folder.
+
+```python
+D = pp.Load()
+print(D)
+```
+
+Relevant simulations attributes (such as the computational grid, the geometry and the variables to load) are found automatically.
+The data can be plotted through the Image class, which acts as a simplified maptlotlib wrapper.
+An example of 1D plot of the density can be:
+
+```python
+D = pp.Load()
+pp.Image().plot(D.x1,D.rho)
+```
+
+while 2D plots can be created with
+
+```python
+D = pp.Load()
+pp.Image().display(D.rho, x1 = D.x1, x2 = D.x2)
+```
+
+## Documentation
 
 For more detailed instructions and additional installation options, please refer to the PyPLUTO documentation where you can find comprehensive guides and examples.
+
+## Contributing
+
+If you have any questions, suggestions or find a bug, feel free to open an issue or Pull Request.
+Any contribution will help the PLUTO code community to have better plots with less efforts.

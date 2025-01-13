@@ -29,6 +29,9 @@ jobs:
       - name: Install pyPLUTO
         run: |
           python -m pip install .
+      
+      - name: List files in the repository
+        run: ls -R
 
       - name: Run Tests
         run: pytest Tests/

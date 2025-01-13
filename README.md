@@ -27,9 +27,6 @@ The package is tested on Python 3.10 (and newer versions) and with the following
 
 The package is provided with a `LICENSE` file which contains the license terms.
 
-The package is provided with a `CODE_OF_CONDUCT.md` file which contains the code
-of conduct.
-
 The package is provided with an exstensive documentation in the `Docs` directory.
 
 ## Installation Instructions

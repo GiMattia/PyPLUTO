@@ -137,6 +137,10 @@ class LoadPart:
         if endian not in self._d_end.keys():
             raise ValueError(f"Invalid endianess. \
                              Valid values are {self._d_end.keys()}")
+    
+        if not isinstance(nfile_lp, int) and nfile_lp is not None:
+            raise ValueError(f"Invalid value for nfile_lp. \
+                             Valid values are int or None")
 
         # Check the path and verify that it is a folder
         self._check_pathformat(path)

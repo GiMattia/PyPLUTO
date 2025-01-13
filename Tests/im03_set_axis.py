@@ -1,6 +1,7 @@
 import pyPLUTO    as pp
 import matplotlib as mpl
 import numpy      as np
+import numpy.testing as npt
 
 print(f"Testing the Image axes customization... ".ljust(50), end='')
 
@@ -55,12 +56,12 @@ I = pp.Image()
 ax = I.create_axes()
 I.set_axis(xticks = [0,0.5,1], yticks = None)
 x, y   = ax.get_xticks(), ax.get_yticks()
-assert (x  == [0,0.5,1]).all()
+npt.assert_array_equal(x,[0,0.5,1])
 assert len(y) == 0
 I.set_axis(xticks = None, yticks = [0,0.2,1.0])
 x, y   = ax.get_xticks(), ax.get_yticks()
 assert len(x) == 0
-assert (y  == [0,0.2,1.0]).all()
+npt.assert_array_equal(y,[0,0.2,1.0])
 
 # tickslabels
 I = pp.Image()

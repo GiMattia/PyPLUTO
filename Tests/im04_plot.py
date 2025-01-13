@@ -1,6 +1,7 @@
 import pyPLUTO    as pp
 import matplotlib as mpl
 import numpy      as np
+import numpy.testing as npt
 
 print(f"Testing the Image 1D plotting method... ".ljust(50), end='')
 
@@ -12,8 +13,8 @@ z = np.logspace(0,1,101)
 I = pp.Image(withblack = True)
 I.plot(y)
 line = I.ax[0].get_lines()[0]
-assert (line.get_xdata() == np.linspace(0,len(y)-1,len(y))).all()
-assert (line.get_ydata() == y).all()
+npt.assert_array_equal(line.get_xdata(), np.linspace(0,len(y)-1,len(y)))
+npt.assert_array_equal(line.get_ydata(), y)
 assert line.get_color()  == '#000000'
 assert line.get_lw()     == 1.3
 assert line.get_ls()     == '-'
@@ -22,8 +23,8 @@ assert line.get_ls()     == '-'
 I = pp.Image()
 I.plot(x,y)
 line = I.ax[0].get_lines()[0]
-assert (line.get_xdata() == x).all()
-assert (line.get_ydata() == y).all()
+npt.assert_array_equal(line.get_xdata(), x)
+npt.assert_array_equal(line.get_ydata(), y)
 
 # Title and labels
 I = pp.Image()
@@ -54,8 +55,8 @@ I = pp.Image()
 ax = I.create_axes(ncol = 1, nrow = 3, hspace = [0.2,0.1], hratio = [1,2,1])
 I.plot(x,y, ax = ax[1])
 line = ax[1].get_lines()[0]
-assert (line.get_xdata() == x).all()
-assert (line.get_ydata() == y).all()
+npt.assert_array_equal(line.get_xdata(), x)
+npt.assert_array_equal(line.get_ydata(), y)
 
 # different line parameters
 I = pp.Image()
@@ -77,11 +78,11 @@ I = pp.Image()
 I.plot(x,y)
 I.plot(x,z)
 line = I.ax[0].get_lines()[0]
-assert (line.get_xdata() == x).all()
-assert (line.get_ydata() == y).all()
+npt.assert_array_equal(line.get_xdata(), x)
+npt.assert_array_equal(line.get_ydata(), y)
 line = I.ax[0].get_lines()[1]
-assert (line.get_xdata() == x).all()
-assert (line.get_ydata() == z).all()
+npt.assert_array_equal(line.get_xdata(), x)
+npt.assert_array_equal(line.get_ydata(), z)
 
 # legend
 I = pp.Image()

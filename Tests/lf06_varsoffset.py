@@ -21,6 +21,15 @@ for num, var in enumerate(varslist):
 D = pp.Load(path = "Test_load/multiple_files", text = False)
 assert D._offset["prs"] == 0
 
+# Test single file, flt output
+D = pp.Load(path = "Test_load/single_file", text = False, datatype = "flt")
+for num, var in enumerate(varslist):
+    assert D._offset[var] == size*num*4
+
+# Test multiple files, flt output
+D = pp.Load(path = "Test_load/multiple_files", text = False, datatype = "flt")
+assert D._offset["prs"] == 0
+
 # Test single file, vtk output (+ descriptor files)
 D = pp.Load(path = "Test_load/single_file", datatype = 'vtk', text = False)
 for num, var in enumerate(varslist):

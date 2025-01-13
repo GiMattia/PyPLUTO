@@ -153,8 +153,12 @@ def _find_format(self,
     
     # Check if the given datatype is valid, if not raise an error
     if datatype not in type_out + type_lon + [None]:
-        err = (f"Invalid datatype {datatype}.\n" \
-               f"Possible formats are: dbl, flt, vtk, dbl.h5, flt.h5, tab")
+        if class_name== 'Load':
+            err = (f"Invalid datatype {datatype}.\n" \
+                   f"Possible formats are: dbl, flt, vtk, dbl.h5, flt.h5, tab")
+        elif class_name == 'LoadPart':
+            err = (f"Invalid datatype {datatype}.\n" \
+                   f"Possible formats are: dbl, flt, vtk")
         raise ValueError(err)
     
     # Create the list of types to iterate over. If the datatype is None

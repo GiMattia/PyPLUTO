@@ -9,7 +9,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: 
+          - ubuntu-20.04   # Ubuntu 20.04
+          - ubuntu-22.04   # Ubuntu 22.04
+          - macos-11       # macOS 11 (Big Sur)
+          - macos-12       # macOS 12 (Monterey)
+          - windows-2019   # Windows Server 2019 (equivalent to Windows 10)
+          - windows-2022   # Windows Server 2022 (latest)
         python-version: ["3.10", "3.11", "3.12"]
 
     steps:
@@ -39,3 +45,11 @@ jobs:
       - name: Run Tests
         run: pytest
         working-directory: ./Tests
+
+      - name: Run Examples
+        run: |
+          echo "Running example scripts..."
+          for example in Examples/*.py; do
+            python "$example"
+          done
+        working-directory: ./Examples

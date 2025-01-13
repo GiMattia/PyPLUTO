@@ -50,6 +50,8 @@ jobs:
       - name: Run Examples
         run: |
           echo "Running example scripts..."
-          for example in Examples/*.py; do
+          cd Examples
+          for example in *.py; do
             python "$example"
           done
+        working-directory: .

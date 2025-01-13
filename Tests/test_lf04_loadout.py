@@ -2,6 +2,14 @@ import pyPLUTO as pp
 import numpy as np
 import numpy.testing as npt
 import pytest
+import os
+from pathlib import Path
+
+# Assuming the root of the repo is your current working directory
+repo_root = Path(os.getcwd())
+path = repo_root / "Test_load/multiple_outputs"
+print(path)
+
 def test_load_descriptor_reading_method():
     print(f"Testing the Load descriptor reading method ... ".ljust(50), end='')
 
@@ -9,7 +17,7 @@ def test_load_descriptor_reading_method():
     timelist = np.linspace(0,0.2, 5)
 
     # Test the dbl.out file when only last output is loaded
-    D = pp.Load(path = "Test_load/multiple_outputs", text = False)
+    D = pp.Load(path = path, text = False)
 
     typefile = ["single_file"]
     endianess = ["<"]
@@ -28,7 +36,7 @@ def test_load_descriptor_reading_method():
     npt.assert_array_equal(D._d_info["varslist"], [varslist])
 
     # Test the dbl.out file when two outputs are loaded
-    D = pp.Load([0, 'last'], path = "Test_load/multiple_outputs", text = False, endian = "little")
+    D = pp.Load([0, 'last'], path = path, text = False, endian = "little")
 
     endpath = [".0000.dbl",".0004.dbl"]
 
@@ -43,7 +51,7 @@ def test_load_descriptor_reading_method():
     npt.assert_array_equal(D._d_info["varslist"], [varslist,varslist])
 
     # Test the vtk.out file when only last output is loaded
-    D = pp.Load(path = "Test_load/multiple_outputs", text = False, datatype = "vtk")
+    D = pp.Load(path = path, text = False, datatype = "vtk")
 
     endianess = [">"]
     binformat = ['>f4']
@@ -60,7 +68,7 @@ def test_load_descriptor_reading_method():
     npt.assert_array_equal(D._d_info["varslist"], [varslist])
 
     # Test the vtk.out file when only last output is loaded
-    D = pp.Load(path = "Test_load/multiple_outputs", text = False, datatype = "tab")
+    D = pp.Load(path = path, text = False, datatype = "tab")
 
     endianess = ["<"]
     binformat = ['<f4']

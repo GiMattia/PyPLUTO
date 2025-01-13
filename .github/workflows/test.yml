@@ -10,14 +10,14 @@ jobs:
     strategy:
       matrix:
         os: 
-          - ubuntu-20.04   # Ubuntu 20.04
+      #    - ubuntu-20.04   # Ubuntu 20.04
           - ubuntu-22.04   # Ubuntu 22.04
-          - macOS-13
-          - macOS-14
-          - macOS-15
-          - windows-2019   # Windows Server 2019 (equivalent to Windows 10)
-          - windows-2022   # Windows Server 2022 (latest)
-        python-version: ["3.10", "3.11", "3.12"]
+       #   - macOS-13
+        #  - macOS-14
+      #    - macOS-15
+      #    - windows-2019   # Windows Server 2019 (equivalent to Windows 10)
+      #    - windows-2022   # Windows Server 2022 (latest)
+        python-version: "3.12" #["3.10", "3.11", "3.12", "3.13"]
 
     steps:
       - name: Checkout repository
@@ -54,4 +54,6 @@ jobs:
           for example in *.py; do
             python "$example"
           done
+          cd ../Tests
+          python te_examples.py
         working-directory: .

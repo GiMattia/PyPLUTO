@@ -6,6 +6,8 @@ on:
     paths:
       - Paper/**
       - .github/workflows/draft-pdf.yml
+  pull_request:
+  
 
 jobs:
   paper:

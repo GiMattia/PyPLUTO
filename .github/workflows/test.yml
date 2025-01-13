@@ -32,6 +32,8 @@ jobs:
       
       - name: List files in the repository
         run: ls -R
+
+      - name: Print working directory
         run: pwd
 
       - name: Run Tests

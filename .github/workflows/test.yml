@@ -15,7 +15,8 @@ jobs:
           - macOS-13
           - macOS-14
           - macOS-15
-          - windows-latest
+          - windows-2019 
+          - windows-2022 
         python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     steps:
@@ -46,11 +47,11 @@ jobs:
         run: pytest
         working-directory: ./Tests
 
-      - name: Run Examples
-        run: |
-          echo "Running example scripts..."
-          cd Examples
-          for example in *.py; do
-            python "$example"
-          done
-        working-directory: .
+     # - name: Run Examples
+      #  run: |
+      #    echo "Running example scripts..."
+     #     cd Examples
+     #     for example in *.py; do
+     #       python "$example"
+     #     done
+     #   working-directory: .

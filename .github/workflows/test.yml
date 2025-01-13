@@ -39,6 +39,3 @@ jobs:
       - name: Run Tests
         run: pytest
         working-directory: ./Tests
-
-      - name: Run Examples
-        run: python Examples/

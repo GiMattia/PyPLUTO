@@ -1,16 +1,10 @@
 name: Read the Docs
-on:
-  push:
-    paths:
-      - Docs/**
-      - .github/workflows/readthedocs.yaml
 
+version: 2
 build:
   os: ubuntu-latest
   tools:
     python: "3.12"
-    # You can also specify other tool versions:
-    # nodejs: "16"
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:

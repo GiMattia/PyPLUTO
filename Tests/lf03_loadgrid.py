@@ -5,6 +5,7 @@ import pytest
 
 print(f"Testing the Load grid reading methods ... ".ljust(50), end='')
 
+assert "pippo" == "pluto"
 # Theoretical grid values for the selected output
 xr  = np.linspace(-1,1,129)
 dx  = 2/128

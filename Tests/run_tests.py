@@ -28,7 +28,6 @@ if __name__ == "__main__":
         print(f"{option}: {status[0]}")
         if status[0] == yes: index.append(status[1])
     files = sorted(f for f in Path(".").glob("*.py") if f.name != Path(sys.argv[0]).name)
-    assert "pippo" == "pluto"
     for file_path in files:
         if str(file_path)[:2] in index:
             single_test(file_path)

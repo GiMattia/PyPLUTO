@@ -31,7 +31,7 @@ jobs:
           python -m pip install .
 
       - name: Run Tests
-        run: pytest Tests/
+        run: python Tests/
 
       - name: Run Examples
-        run: pytest Examples/
+        run: python Examples/

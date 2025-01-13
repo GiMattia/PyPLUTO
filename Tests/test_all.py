@@ -12,9 +12,6 @@ options = {
     f'{"Examples":<8} check': (no if "notests"    in sys.argv else yes, "te")}
 
 def single_test(file_path):
-    with open(file_path, 'r') as f:
-        exec(f.read())
-    """
     try:
         with open(file_path, 'r') as f:
             exec(f.read())
@@ -23,7 +20,6 @@ def single_test(file_path):
         if not str(file_path).startswith("te"):
             print(" ---> \033[31mFAILED!\033[0m")
         return False
-    """
 
 if __name__ == "__main__":
     print(f"Running tests with keywords: {', '.join(sys.argv[1:]) if len(sys.argv[1:])> 0 else 'None'}")

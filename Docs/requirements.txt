@@ -1,0 +1,19 @@
+# Core Sphinx
+sphinx>=5.0.0
+
+# Sphinx theme
+sphinx_rtd_theme
+
+# Sphinx extensions
+numpydoc
+myst-parser
+sphinx.ext.viewcode
+sphinx.ext.autodoc
+
+# Project dependencies
+numpy
+matplotlib
+pandas
+scipy
+h5py
+PyQt6

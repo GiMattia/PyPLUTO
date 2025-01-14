@@ -36,5 +36,5 @@ jobs:
           python -m pip install .
 
       - name: Run Tests
-        run: pytest 
+        run: pytest -v
         working-directory: ./Tests

@@ -38,7 +38,7 @@ jobs:
           python -m pip install .
 
       - name: Run Tests
-        run: pytest -v test_lf02_loadformat.py
+        run: pytest -v test_windowd.py
         working-directory: ./Tests
      # - name: Run Examples
       #  run: |

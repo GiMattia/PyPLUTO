@@ -1,4 +1,7 @@
 # PyPLUTO
+![GitHub release](https://img.shields.io/github/v/release/GiMattia/PyPLUTO?include_prereleases&label=Github%20Release)
+![PyPI](https://img.shields.io/pypi/v/PyPLUTO)
+[![Documentation](https://readthedocs.org/projects/PyPLUTO/badge/?version=latest)](https://PyPLUTO.readthedocs.io/en/latest/?badge=latest)
 [![License: MIT](https://img.shields.io/badge/license-GPLv3-blue)](https://opensource.org/license/gpl-3-0)
 
 [![Windows Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml)

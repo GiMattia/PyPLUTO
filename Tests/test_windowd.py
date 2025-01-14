@@ -21,3 +21,5 @@ def test_multiple_alone():
 
     D = pp.Load(path=file_path, text=False, datatype='vtk', alone=True)
     assert D.format == 'vtk'
+
+test_multiple_alone()

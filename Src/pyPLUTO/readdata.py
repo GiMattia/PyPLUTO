@@ -137,6 +137,7 @@ def _load_variables(self,
         )
 
     # Loop over the variables to extract slices
+    print(f"self._load_vars = {self._load_vars}")
     for j in self._load_vars:
         if self._d_info['typefile'][i] == 'multiple_files':
             self._filepath = self.pathdir / (j + self._d_info['endpath'][i])

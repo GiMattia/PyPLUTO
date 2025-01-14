@@ -1,0 +1,44 @@
+name: Test on Cygwin or WSL
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ["3.10", "3.11", "3.12", "3.13"]
+
+      - name: Detect Cygwin or WSL
+        id: env_check
+        run: |
+          if uname | grep -i "cygwin" > /dev/null 2>&1; then
+            echo "env=cygwin" >> $GITHUB_ENV
+          elif uname | grep -i "linux" > /dev/null 2>&1; then
+            echo "env=wsl" >> $GITHUB_ENV
+          else
+            echo "env=none" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Check environment and skip if not Cygwin or WSL
+        if: env.env == 'none'
+        run: |
+          echo "Not running in Cygwin or WSL. Skipping tests."
+          exit 0
+
+      - name: Install dependencies
+        if: env.env != 'none'
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r Docs/requirements.txt pytest
+
+      - name: Run Tests
+        if: env.env != 'none'
+        run: pytest Tests/

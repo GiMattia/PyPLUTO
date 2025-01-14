@@ -140,8 +140,10 @@ def _load_variables(self,
     for j in self._load_vars:
         if self._d_info['typefile'][i] == 'multiple_files':
             self._filepath = self.pathdir / (j + self._d_info['endpath'][i])
-            print(f"{self.pathdir=}")
-            print(f"{self._filepath=}")
+            print(f"self.pathdir = {self.pathdir}")
+            print(f"j = {j}")
+            print(f"self._d_info['endpath'][i] = {self._d_info['endpath'][i]}")
+            print(f"Constructed file path = {self._filepath}")
             self._compute_offset(i, endian, exout, j)
             start_byte = self._offset[j]
             # Reload memmap for the new file

@@ -5,7 +5,7 @@ from pathlib import Path
 
 # Assuming the root of the repo is your current working directory
 repo_root = Path(os.getcwd())
-path = Path("Test_load")
+path = repo_root / "Test_load"
 
 # Format not given (single file), finding dbl
 def test_single_finddbl():

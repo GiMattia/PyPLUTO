@@ -14,13 +14,7 @@ jobs:
         os:  
           - ubuntu-20.04
           - ubuntu-22.04
-          - ubuntu-18.04
-          - debian-10
-          - debian-11
-          - fedora-35
-          - fedora-36
-          - centos-7
-          - centos-8
+          - ubuntu-24.04
         python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     steps:

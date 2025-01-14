@@ -1,7 +1,9 @@
-name: Run Tests on Multiple Python Versions and Platforms
+name: Run Tests on Linux
 
 on:
   push:
+    branches:
+      - master
   pull_request:
 
 jobs:
@@ -12,11 +14,13 @@ jobs:
         os:  
           - ubuntu-20.04
           - ubuntu-22.04
-          - macOS-13
-          - macOS-14
-          - macOS-15
-          - windows-2019 
-          - windows-2022 
+          - ubuntu-18.04
+          - debian-10
+          - debian-11
+          - fedora-35
+          - fedora-36
+          - centos-7
+          - centos-8
         python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     steps:
@@ -40,11 +44,3 @@ jobs:
       - name: Run Tests
         run: pytest 
         working-directory: ./Tests
-     # - name: Run Examples
-      #  run: |
-      #    echo "Running example scripts..."
-     #     cd Examples
-     #     for example in *.py; do
-     #       python "$example"
-     #     done
-     #   working-directory: .

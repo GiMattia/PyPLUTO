@@ -1,4 +1,4 @@
-name: Run Tests on Windows
+name: Run Tests on Linux
 
 on:
   push:
@@ -12,8 +12,9 @@ jobs:
     strategy:
       matrix:
         os:  
-          - windows-2019 
-          - windows-2022 
+          - macOS-13
+          - macOS-14
+          - macOS-15
         python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     steps:

@@ -37,10 +37,9 @@ jobs:
         run: |
           python -m pip install .
 
-      - name: Run Tests/test_lf02_loadformat.py
-        run: pytest -v Tests/test_lf02_loadformat.py
+      - name: Run Tests
+        run: pytest -v test_lf02_loadformat.py
         working-directory: ./Tests
-
      # - name: Run Examples
       #  run: |
       #    echo "Running example scripts..."

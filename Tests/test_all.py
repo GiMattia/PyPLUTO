@@ -18,22 +18,22 @@ def run_pytest(file_path):
 
 if __name__ == "__main__":
     print(f"Running tests with keywords: {', '.join(sys.argv[1:]) if len(sys.argv[1:]) > 0 else 'None'}")
-    
+
     # Determine which test files to run based on the options
     index = []
     for option, status in options.items():
         print(f"{option}: {status[0]}")
-        if status[0] == yes: 
+        if status[0] == yes:
             index.append(status[1])
-    
+
     # Collect test files based on the index (i.e., those that match the options)
     files = sorted(f for f in Path(".").glob("*.py") if f.name != Path(sys.argv[0]).name)
-    
+
     # Run tests for each selected file
     for file_path in files:
         if str(file_path)[:2] in index:
+            print(file_path)
             if run_pytest(file_path):
                 print(f" ---> \033[32mPASSED!\033[0m")
             else:
                 print(f" ---> \033[31mFAILED!\033[0m")
-

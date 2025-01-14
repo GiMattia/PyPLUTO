@@ -7,23 +7,24 @@ from pathlib import Path
 
 # Assuming the root of the repo is your current working directory
 repo_root = Path(os.getcwd())
-path = repo_root / "Test_load/multiple_outputs"
-print(path)
+path = repo_root / "Test_load"
 
-def test_load_descriptor_reading_method():
-    print(f"Testing the Load descriptor reading method ... ".ljust(50), end='')
+outlist = np.linspace(0,4,5,dtype = 'int')
+timelist = np.linspace(0,0.2, 5)
 
-    outlist = np.linspace(0,4,5,dtype = 'int')
-    timelist = np.linspace(0,0.2, 5)
+typefile = ["single_file"]
+endianess = ["<"]
+binformat = ['<f8']
+varslist = ["rho","vx1","vx2","vx3","prs"]
 
-    # Test the dbl.out file when only last output is loaded
-    D = pp.Load(path = path, text = False)
 
-    typefile = ["single_file"]
-    endianess = ["<"]
-    binformat = ['<f8']
-    varslist = ["rho","vx1","vx2","vx3","prs"]
+# Test the dbl.out file when only last output is loaded
+def test_load_outfile_oneoutput():
+
     endpath = [".0004.dbl"]
+
+    D = pp.Load(path = path / "multiple_outputs", text = False)
+    print(D._d_info)
 
     npt.assert_array_equal(D.outlist, outlist)
     npt.assert_allclose(D.timelist, timelist, atol = 0.001) # Higher tolerance due to how the PLUTO ouput is generated
@@ -35,8 +36,10 @@ def test_load_descriptor_reading_method():
     assert D._d_info["endpath"] == endpath
     npt.assert_array_equal(D._d_info["varslist"], [varslist])
 
-    # Test the dbl.out file when two outputs are loaded
-    D = pp.Load([0, 'last'], path = path, text = False, endian = "little")
+# Test the dbl.out file when two outputs are loaded
+def test_load_outfile_moreoutputs():
+
+    D = pp.Load([0, 'last'], path = path / "multiple_outputs", text = False, endian = "little")
 
     endpath = [".0000.dbl",".0004.dbl"]
 
@@ -50,8 +53,9 @@ def test_load_descriptor_reading_method():
     npt.assert_array_equal(D._d_info["endpath"], endpath)
     npt.assert_array_equal(D._d_info["varslist"], [varslist,varslist])
 
-    # Test the vtk.out file when only last output is loaded
-    D = pp.Load(path = path, text = False, datatype = "vtk")
+# Test the vtk.out file when only last output is loaded
+def test_load_outfilevtk_oneoutput():
+    D = pp.Load(path = path / "multiple_outputs", text = False, datatype = "vtk")
 
     endianess = [">"]
     binformat = ['>f4']
@@ -67,8 +71,10 @@ def test_load_descriptor_reading_method():
     assert D._d_info["endpath"] == endpath
     npt.assert_array_equal(D._d_info["varslist"], [varslist])
 
-    # Test the vtk.out file when only last output is loaded
-    D = pp.Load(path = path, text = False, datatype = "tab")
+# Test the tab.out file when only last output is loaded
+def test_load_outfiletab_oneoutput():
+
+    D = pp.Load(path = path / "multiple_outputs", text = False, datatype = "tab")
 
     endianess = ["<"]
     binformat = ['<f4']
@@ -83,5 +89,3 @@ def test_load_descriptor_reading_method():
     assert D._d_info["binformat"] == binformat
     assert D._d_info["endpath"] == endpath
     npt.assert_array_equal(D._d_info["varslist"], [varslist])
-
-    print(" ---> \033[32mPASSED!\033[0m")

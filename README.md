@@ -1,5 +1,8 @@
 # PyPLUTO
 
+[![Windows Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml)
+
+
 PyPLUTO is a Python library which loads and plots the data obtain from the
 PLUTO code simulations.
 The aim of this package is to simplify some non-trivial python routines in order
@@ -24,6 +27,7 @@ The package is tested on Python 3.10 (and newer versions) and with the following
 - `scipy`
 - `pandas`
 - `h5py` (optional)
+- `PyQt6` (optional)
 
 The package is provided with a `LICENSE` file which contains the license terms.
 
@@ -90,5 +94,11 @@ For more detailed instructions and additional installation options, please refer
 
 ## Contributing
 
-If you have any questions, suggestions or find a bug, feel free to open an issue or Pull Request.
-Any contribution aimed at helping the PLUTO code community to have better plots with less efforts will be greatly appreciated.
+If you have any questions, suggestions or find a bug, feel free to open an issue or fork the repository and create a pull request.
+Any contribution aimed at helping the PLUTO code community to have better plots with less efforts will be greatly appreciated. 
+
+### Rules for Contributing
+
+- **We do not enforce any strict style convention for PyPLUTO contributions, as long as code maintains high readability and overall quality.**
+
+- If you are unsure on what style to use, please contact one of the administrators

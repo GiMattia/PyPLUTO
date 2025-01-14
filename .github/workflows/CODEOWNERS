@@ -5,4 +5,4 @@
 /tests/* @GiMattia
 
 # Code owners for the CODEOWNERS file itself
-/CODEOWNERS @GiMattia
+.github/workflows/CODEOWNERS @GiMattia

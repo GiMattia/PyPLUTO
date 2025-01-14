@@ -80,6 +80,7 @@ def _load_variables(self,
     if self.format == 'hdf5':
         return None
 
+    print(f"self._d_info[varslist][i] = {self._d_info['varslist'][i]}")
     # Check if only specific variables should be loaded
     if vars is True:
         # If all the variables are to be loaded, the load_vars
@@ -137,14 +138,9 @@ def _load_variables(self,
         )
 
     # Loop over the variables to extract slices
-    print(f"self._load_vars = {self._load_vars}")
     for j in self._load_vars:
         if self._d_info['typefile'][i] == 'multiple_files':
             self._filepath = self.pathdir / (j + self._d_info['endpath'][i])
-            print(f"self.pathdir = {self.pathdir}")
-            print(f"j = {j}")
-            print(f"self._d_info['endpath'][i] = {self._d_info['endpath'][i]}")
-            print(f"Constructed file path = {self._filepath}")
             self._compute_offset(i, endian, exout, j)
             start_byte = self._offset[j]
             # Reload memmap for the new file
@@ -307,6 +303,7 @@ def _findfiles(self,
         #varsouts[condition](self, elem)
         _varsouts(self, elem, class_name) 
 
+    print(f"Found {self.set_vars} files.")
     # Check if the files are present
     if len(self.set_vars) == 0:
         raise FileNotFoundError(f'No files found in {self.pathdir}!')      

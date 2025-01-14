@@ -159,7 +159,6 @@ def _inspect_vtk(self,
                         f"{self._d_info['endianess'][i]}f{self._charsize}"
 
     # Open the file and read the lines
-    print(f"{self._filepath = }")
     f = open(self._filepath, 'rb')
 
     for l in f:

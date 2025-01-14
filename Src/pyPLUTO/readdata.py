@@ -65,6 +65,8 @@ def _load_variables(self,
     if class_name == 'Load':
         # If the class name is Load (single file), the filepath is data
         self._filepath = self.pathdir / ('data' + self._d_info['endpath'][i])
+        print(f"{self.pathdir=}")
+        print(f"{self._filepath}")
     elif class_name == 'LoadPart':
         # If the class name is LoadPart, the filepath is particles
         self._filepath = self.pathdir / ('particles' + \

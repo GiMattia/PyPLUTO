@@ -80,7 +80,6 @@ def _load_variables(self,
     if self.format == 'hdf5':
         return None
 
-    print(f"self._d_info[varslist][i] = {self._d_info['varslist'][i]}")
     # Check if only specific variables should be loaded
     if vars is True:
         # If all the variables are to be loaded, the load_vars
@@ -303,7 +302,6 @@ def _findfiles(self,
         #varsouts[condition](self, elem)
         _varsouts(self, elem, class_name) 
 
-    print(f"Found {self.set_vars} files.")
     # Check if the files are present
     if len(self.set_vars) == 0:
         raise FileNotFoundError(f'No files found in {self.pathdir}!')      
@@ -546,6 +544,9 @@ def _varsouts(self,
     
     # Splits the matching filename (variable/data and output number)
     raw_str = elem.split('/')[-1].split('.')
+    print(raw_str)
+    raw_str = Path(elem).name.split('.')
+    print(raw_str)
     vars = raw_str[0]
     outs = raw_str[1]
 

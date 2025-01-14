@@ -543,10 +543,7 @@ def _varsouts(self,
     """
     
     # Splits the matching filename (variable/data and output number)
-    raw_str = elem.split('/')[-1].split('.')
-    print(raw_str)
     raw_str = Path(elem).name.split('.')
-    print(raw_str)
     vars = raw_str[0]
     outs = raw_str[1]
 

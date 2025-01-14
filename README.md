@@ -91,4 +91,4 @@ For more detailed instructions and additional installation options, please refer
 ## Contributing
 
 If you have any questions, suggestions or find a bug, feel free to open an issue or Pull Request.
-Any contribution will help the PLUTO code community to have better plots with less efforts.
+Any contribution aimed at helping the PLUTO code community to have better plots with less efforts will be greatly appreciated.

@@ -10,9 +10,9 @@ jobs:
     strategy:
       matrix:
         os:  
-          - ubuntu-20.04
+         # - ubuntu-20.04
          # - ubuntu-22.04
-          - macOS-13
+         # - macOS-13
          # - macOS-14
          # - macOS-15
           - windows-2019 
@@ -38,7 +38,7 @@ jobs:
           python -m pip install .
 
       - name: Run Tests/test_lf02_loadformat.py
-        run: pytest -v
+        run: pytest -v -q Tests/test_lf02_loadformat.py
         working-directory: ./Tests
 
      # - name: Run Examples

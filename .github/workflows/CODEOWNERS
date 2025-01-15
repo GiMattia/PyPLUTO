@@ -1,8 +1,8 @@
 # Code owners for workflow files
-/.github/workflows/* @GiMattia
+.github/workflows/* @GiMattia
 
 # Code owners for test files
-/Tests/* @GiMattia
+Tests/* @GiMattia
 
 # Code owners for the CODEOWNERS file itself
 .github/workflows/CODEOWNERS @GiMattia

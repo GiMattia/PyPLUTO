@@ -125,5 +125,5 @@ or by enforcing the guide styles manually through the command
 pre-commit run --all-files
 ```
 
-An automatic check will verify if the code ocmplies with the "black" style at every pull request.
+An automatic check will verify if the code complies with the "black" style at every pull request.
 For any question or enquiry, please contact one of the administrators.

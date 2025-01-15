@@ -104,9 +104,14 @@ For more detailed instructions and additional installation options, please refer
 
 If you have any questions, suggestions or find a bug, feel free to open an issue or fork the repository and create a pull request.
 Any contribution aimed at helping the PLUTO code community to have better plots with less efforts will be greatly appreciated.
+If you want to contribute to PyPLUTO please be sure to installe it in the developer mode, through the command:
+
+```bash
+pip install -r requirements_dev.txt
+```
 
 ### Rules for Contributing
 
-- **We do not enforce any strict style convention for PyPLUTO contributions, as long as code maintains high readability and overall quality.**
+We use pre-commit to ensure that the code is consistent with the style "Black".
 
-- If you are unsure on what style to use, please contact one of the administrators
+If you are unsure on what style to use, please contact one of the administrators

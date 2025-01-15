@@ -10,7 +10,7 @@ repo_root = Path(os.getcwd())
 path = repo_root / "Test_load/particles_cr"
 
 
-# Test with particles CR
+# Test with particles CR find files
 def test_CRfindfiles():
     D = pp.LoadPart(path=path, datatype="vtk", text=False)
 

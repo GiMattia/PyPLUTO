@@ -5,7 +5,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 [![License: GPL-3.0-only](https://img.shields.io/badge/license-GPLv3-blue)](https://opensource.org/license/gpl-3-0)
-[//]: #[![Arxiv](https://img.shields.io/badge/)](https://doi.org/)
+[comment]: # [![Arxiv](https://img.shields.io/badge/)](https://doi.org/)
 
 [![Windows Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml)
 [![MacOS Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml)

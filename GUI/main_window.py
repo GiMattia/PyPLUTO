@@ -1,18 +1,27 @@
-from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QLabel, QHBoxLayout
+from PyQt6.QtWidgets import (
+    QMainWindow,
+    QWidget,
+    QVBoxLayout,
+    QLabel,
+    QHBoxLayout,
+)
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
+from matplotlib.backends.backend_qtagg import (
+    NavigationToolbar2QT as NavigationToolbar,
+)
 from globals import cmaps, scales, vscales, format_avail, cmaps_avail
+
 
 class PyPLUTOApp(QMainWindow):
     def __init__(self, code):
-        super().__init__()     
+        super().__init__()
         codestr = f" ({self.code := code})" if code != "PLUTO" else ""
         self.setWindowTitle(f"PyPLUTO GUI{codestr}")
         if code != "PLUTO":
             raise NotImplementedError(f"Code {code} not yet implemented")
 
         self.folder_path = None
-        self.datatype    = None
+        self.datatype = None
         self.data_loaded = False
 
         main_widget = QWidget()
@@ -104,7 +113,7 @@ class PyPLUTOApp(QMainWindow):
         self.add_combobox("typecmap_selector", layout, cmaps.keys())
         self.add_combobox("cmap_selector", layout, cmaps_avail)
         self.add_checkbox("reverse", layout, "reverse_checkbox")
-        button_layout.addLayout(layout) 
+        button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
         self.add_pushbutton("Plot", layout, self.plot_data)
@@ -120,23 +129,38 @@ class PyPLUTOApp(QMainWindow):
         self.add_line(button_layout)
 
         self.add_label("Information:", button_layout, "info_label", 250, 170)
-        self.info_label.setWordWrap(True) 
+        self.info_label.setWordWrap(True)
 
-        self.add_line(button_layout)    
+        self.add_line(button_layout)
 
         main_layout.addLayout(button_layout)
 
-        self.typecmap_selector.currentIndexChanged.connect(self.update_cmap_selector)
+        self.typecmap_selector.currentIndexChanged.connect(
+            self.update_cmap_selector
+        )
 
         self.canvas_layout = QVBoxLayout()
         self.create_new_figure()
         main_layout.addLayout(self.canvas_layout)
 
-    from panels import add_line, add_combobox, add_label, add_lineedit, \
-                       add_checkbox, add_pushbutton
-    
+    from panels import (
+        add_line,
+        add_combobox,
+        add_label,
+        add_lineedit,
+        add_checkbox,
+        add_pushbutton,
+    )
+
     from config import select_folder, reload_data, load_data, clearload
 
-    from utils import check_axisparam, create_new_figure, reload_canvas, \
-                      plot_data, update_axes, clear_labels, \
-                      update_cmap_selector, set_range
+    from utils import (
+        check_axisparam,
+        create_new_figure,
+        reload_canvas,
+        plot_data,
+        update_axes,
+        clear_labels,
+        update_cmap_selector,
+        set_range,
+    )

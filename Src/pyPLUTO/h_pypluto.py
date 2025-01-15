@@ -1,7 +1,7 @@
 from .libraries import *
 
-def makelist(el: Any
-            ) -> list[Any]:
+
+def makelist(el: Any) -> list[Any]:
     """
     If the element is not a list, it converts it into a list.
 
@@ -36,19 +36,16 @@ def makelist(el: Any
 
         >>> makelist(1)
         [1]
-        
+
     """
 
     # Return the element as a list
-    return el if isinstance(el,list) else [el]
+    return el if isinstance(el, list) else [el]
 
 
-def check_par(par: set[str], 
-              func: str, 
-              **kwargs: Any
-             ) -> None:
+def check_par(par: set[str], func: str, **kwargs: Any) -> None:
     """
-    Checks if a parameter is in the corresponding list depending on the 
+    Checks if a parameter is in the corresponding list depending on the
     function. If the parameter does not belong to the list it raises a warning.
 
     Returns
@@ -80,9 +77,9 @@ def check_par(par: set[str],
 
         **kwargs = {'a': 1, 'b': 2, 'c': 3}
         >>> check_par({'a','b','c'}, 'func', **kwargs)
-    
+
     - Example #2: check if the parameters are in the list (raises warning)
-    
+
         **kwargs = {'a': 1, 'd': 2, 'c': 3}
         >>> check_par({'a','b','c'}, 'func', **kwargs)
 
@@ -93,8 +90,10 @@ def check_par(par: set[str],
 
     # If the parameters are not in the list, raise a warning
     if len(notfound) > 0:
-        warn = f"WARNING: elements {str(notfound)} not found!" \
-               f"Please check your spelling! (function {func})"
+        warn = (
+            f"WARNING: elements {str(notfound)} not found!"
+            f"Please check your spelling! (function {func})"
+        )
         warnings.warn(warn, UserWarning)
 
     # End of the function
@@ -103,8 +102,10 @@ def check_par(par: set[str],
 
 # Set color warning formatter
 def color_warning(message, category, filename, lineno, file=None, line=None):
-    message = (f"\33[33m{category.__name__}: {message}"
-               f"[{filename}:{lineno}]\33[0m\n")  
+    message = (
+        f"\33[33m{category.__name__}: {message}"
+        f"[{filename}:{lineno}]\33[0m\n"
+    )
     return message
 
 
@@ -167,6 +168,7 @@ def find_session():
     try:
         from IPython import get_ipython
     except ImportError:
+
         def get_ipython():
             return None
 
@@ -174,20 +176,20 @@ def find_session():
     ipython = get_ipython()
 
     # Find the session name
-    shell = ipython.__class__.__name__   
+    shell = ipython.__class__.__name__
 
     # Standard Python interpreter
     if ipython is None:
         session = "Standard Python interpreter"
     # Jupyter notebook or qtconsole
-    elif shell == 'ZMQInteractiveShell':
+    elif shell == "ZMQInteractiveShell":
         session = "Jupyter notebook or qtconsole"
     # Terminal running IPython
-    elif shell == 'TerminalInteractiveShell':
+    elif shell == "TerminalInteractiveShell":
         session = "Terminal running IPython"
     # Unknown session
     else:
-        session = "Unknown session"    
-    
+        session = "Unknown session"
+
     # Return the session
     return session

@@ -1,4 +1,12 @@
-from PyQt6.QtWidgets import QPushButton, QLineEdit, QFrame, QLabel, QComboBox, QCheckBox
+from PyQt6.QtWidgets import (
+    QPushButton,
+    QLineEdit,
+    QFrame,
+    QLabel,
+    QComboBox,
+    QCheckBox,
+)
+
 
 def add_line(self, control_layout):
 
@@ -7,7 +15,8 @@ def add_line(self, control_layout):
     line.setFrameShadow(QFrame.Shadow.Sunken)
     control_layout.addWidget(line)
 
-def add_combobox(self, label, control_layout, data, width = None, height = None):
+
+def add_combobox(self, label, control_layout, data, width=None, height=None):
 
     combo_box = QComboBox()
     setattr(self, label, combo_box)
@@ -16,7 +25,8 @@ def add_combobox(self, label, control_layout, data, width = None, height = None)
         combo_box.setFixedWidth(width)
     control_layout.addWidget(combo_box)
 
-def add_label(self, label, control_layout, data = None, width = None, height = None):
+
+def add_label(self, label, control_layout, data=None, width=None, height=None):
 
     labelgui = QLabel(label)
     if isinstance(width, int):
@@ -27,7 +37,10 @@ def add_label(self, label, control_layout, data = None, width = None, height = N
         setattr(self, data, labelgui)
     control_layout.addWidget(labelgui)
 
-def add_lineedit(self, label, control_layout, data = None, width = None, height = None):
+
+def add_lineedit(
+    self, label, control_layout, data=None, width=None, height=None
+):
 
     lineedit = QLineEdit()
     setattr(self, label, lineedit)
@@ -36,14 +49,18 @@ def add_lineedit(self, label, control_layout, data = None, width = None, height 
         lineedit.setFixedWidth(width)
     control_layout.addWidget(lineedit)
 
-def add_checkbox(self, label, control_layout, data = None, width = None, height = None):
+
+def add_checkbox(
+    self, label, control_layout, data=None, width=None, height=None
+):
 
     checkbox = QCheckBox(label)
     if data is not None:
         setattr(self, data, checkbox)
     control_layout.addWidget(checkbox)
 
-def add_pushbutton(self, label, control_layout, data = None, width = None):
+
+def add_pushbutton(self, label, control_layout, data=None, width=None):
 
     pushbutton = QPushButton(label)
     setattr(self, label, pushbutton)

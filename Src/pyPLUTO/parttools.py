@@ -1,11 +1,9 @@
 from .libraries import *
 
-def spectrum(self, 
-             var = None, 
-             scale = 'lin', 
-             check: bool = True,
-             **kwargs
-            ) -> list[np.ndarray]:
+
+def spectrum(
+    self, var=None, scale="lin", check: bool = True, **kwargs
+) -> list[np.ndarray]:
     """
     Compute the spectrum of a given particle variable.
 
@@ -41,7 +39,7 @@ def spectrum(self,
     ----
 
     Examples
-    ========    
+    ========
 
     - Example #1: Compute the spectrum of the particles velocity
 
@@ -49,46 +47,51 @@ def spectrum(self,
         >>> D = pp.LoadPart(0)
         >>> v2 = D.vx1**2 + D.vx2**2 + D.vx3**2
         >>> pp.spectrum(v2, scale = 'log')
-    
+
     """
 
     # Check parameters
-    param = {'density','nbins','vmin','vmax'}
+    param = {"density", "nbins", "vmin", "vmax"}
     if check is True:
-        check_par(param, 'spectrum', **kwargs)
+        check_par(param, "spectrum", **kwargs)
 
     # Set limits
-    vmin = kwargs.get('vmin',np.nanmin(var))
-    vmax = kwargs.get('vmax',np.nanmax(var))
+    vmin = kwargs.get("vmin", np.nanmin(var))
+    vmax = kwargs.get("vmax", np.nanmax(var))
 
     # Set the number of bins
-    nbins = kwargs.get('nbins',100)
+    nbins = kwargs.get("nbins", 100)
 
     # Set the bins
-    bins = np.linspace(vmin,vmax,nbins) if scale == 'lin' else \
-           np.logspace(np.log10(vmin),np.log10(vmax),nbins)
-    
-    bins = kwargs.get('bins') if bin in kwargs else bins
+    bins = (
+        np.linspace(vmin, vmax, nbins)
+        if scale == "lin"
+        else np.logspace(np.log10(vmin), np.log10(vmax), nbins)
+    )
+
+    bins = kwargs.get("bins") if bin in kwargs else bins
 
     # Compute the histogram
-    hist, bins = np.histogram(var,bins = bins, range = (vmin,vmax),
-                                  density = kwargs.get('density',True))
+    hist, bins = np.histogram(
+        var, bins=bins, range=(vmin, vmax), density=kwargs.get("density", True)
+    )
 
     # Compute the bin centers
-    bins = 0.5*(bins[1:] + bins[:-1])
-    
+    bins = 0.5 * (bins[1:] + bins[:-1])
+
     # Return the histogram
     return hist, bins
 
 
-def select(self,
-           var: np.ndarray, 
-           cond: str | Callable, 
-           sort: bool = False, 
-           ascending: bool = True
-          ) -> np.ndarray:
+def select(
+    self,
+    var: np.ndarray,
+    cond: str | Callable,
+    sort: bool = False,
+    ascending: bool = True,
+) -> np.ndarray:
     """
-    Selects or sorts the indices that satisfy a given condition for the 
+    Selects or sorts the indices that satisfy a given condition for the
     particles.
     The condition is given by a string or a callable function.
 
@@ -137,8 +140,10 @@ def select(self,
 
     # Determine the indices that satisfy the condition
     if isinstance(cond, str):
-        warn = ("The condition should be a callable function to "
-                "avoid security issues.")
+        warn = (
+            "The condition should be a callable function to "
+            "avoid security issues."
+        )
         warnings.warn(warn)
 
         condition = f"var {cond}"
@@ -147,14 +152,16 @@ def select(self,
     elif callable(cond):
         indx = np.where(cond(var))[0]
     else:
-        err = ("Condition must be either a string or a callable "
-               "(e.g., a lambda function)")
+        err = (
+            "Condition must be either a string or a callable "
+            "(e.g., a lambda function)"
+        )
         raise ValueError(err)
-    
+
     # Sort the indices if requested
     if sort:
         sort_order = np.argsort(var[indx])
         sort_order = sort_order[::-1] if not ascending else sort_order
         indx = indx[sort_order]
-    
+
     return indx

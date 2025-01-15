@@ -1,13 +1,10 @@
 from .libraries import *
 
-def zoom(self, 
-         ax = None, 
-         check: bool = True, 
-         **kwargs
-        ) -> Axes:
+
+def zoom(self, ax=None, check: bool = True, **kwargs) -> Axes:
     """
     Creation of an inset zoom of an already existent plot or display.
-    
+
     It creates a set of axes within the same figure as the original plot or
     display, and can be placed anywhere in the figure.
     The zoom thus created is to all intents and purposes a self-sufficient plot
@@ -33,12 +30,12 @@ def zoom(self,
     - ax: ax object, default None
         The axis to customize. If None the current axis will be selected.
     - bottom: float, default 0.6 + height
-        Bottom position of the inset plot. If not defined the program will give 
-        a standard value.   
+        Bottom position of the inset plot. If not defined the program will give
+        a standard value.
     - clabel: str, default None
         Sets the label of the colorbar.
     - cmap: str, default 'hot'
-        Selects the colormap. If not defined, the colormap 'hot' will be 
+        Selects the colormap. If not defined, the colormap 'hot' will be
         adopted.
         Some useful colormaps are: plasma, magma, seismic. Please avoid using
         colorbars like jjet or rainbow, which are not perceptively uniform and
@@ -53,7 +50,7 @@ def zoom(self,
     - cscale: {'linear','log','symlog','twoslope'}, default 'linear'
         Sets the colorbar scale. Default is the linear ('norm') scale.
     - cticks: {[float], None}, default None
-        If enabled (and different from None), sets manually ticks on the 
+        If enabled (and different from None), sets manually ticks on the
         colorbar.
     - ctickslabels: str, default None
         If enabled, sets manually ticks labels on the colorbar.
@@ -62,7 +59,7 @@ def zoom(self,
     - extendrect: bool, default False
         If True, the colorbar extension will be rectangular.
     - fontsize: float, default 17.0
-        Sets the fontsize for all the axis components (only for the current 
+        Sets the fontsize for all the axis components (only for the current
         axis).
     - grid: bool, default False
         Enables the grid.
@@ -105,13 +102,13 @@ def zoom(self,
         Top position of the inset plot. If both top and bottom keywords are
         present the priority will go to the top keyword.
     - transpose: True/False, default False
-        Transposes the variable matrix. Use is not recommended if not really 
+        Transposes the variable matrix. Use is not recommended if not really
         necessary (e.g. in case of highly customized variables and plots)
     - tresh: float, default max(abs(vmin),vmax)*0.01
-        Additional parameter in presence of a composite colormap. The specific 
+        Additional parameter in presence of a composite colormap. The specific
         cases are the following:
         - twoslope colorscale: sets the limit between the two linear regimes.
-        - symlog: sets the limit between the logaitrhmic and the linear regime.  
+        - symlog: sets the limit between the logaitrhmic and the linear regime.
     - var: 2D array
         The array to be plotted.
     - vmax: float, default max(z)
@@ -192,12 +189,12 @@ def zoom(self,
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
         >>> I.display(var, x1 = x1, x2 = x2)
-        >>> I.zoom(left = 0.8, bottom = 0.9, height = 0.2, width = 0.2, 
+        >>> I.zoom(left = 0.8, bottom = 0.9, height = 0.2, width = 0.2,
         ... xrange = [1,10], yrange = [10,20])
         ...
 
     - Example #3: create a zoom of a different quantity over a 2d plot
-          
+
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
         >>> I.display(var, x1 = x1, x2 = x2)
@@ -206,126 +203,165 @@ def zoom(self,
     """
 
     # Check parameters
-    param = {'alpha','aspect','ax','bottom','clabel','cmap','cpad','cpos',
-             'cscale','cticks','ctickslabels','extend','extendrect','fontsize',
-             'grid','height','label','labelsize','left','minorticks','pos',
-             'shading','ticksdir','tickssize','title','titlesize','top',
-             'transpose','tresh','var','vmax','vmin','width','x1','x2','xrange',
-             'xscale','xticks','xtickslabels','xtitle','yrange','yscale',
-             'yticks','ytickslabels','ytitle','zoomcolor','zoomlines'}
+    param = {
+        "alpha",
+        "aspect",
+        "ax",
+        "bottom",
+        "clabel",
+        "cmap",
+        "cpad",
+        "cpos",
+        "cscale",
+        "cticks",
+        "ctickslabels",
+        "extend",
+        "extendrect",
+        "fontsize",
+        "grid",
+        "height",
+        "label",
+        "labelsize",
+        "left",
+        "minorticks",
+        "pos",
+        "shading",
+        "ticksdir",
+        "tickssize",
+        "title",
+        "titlesize",
+        "top",
+        "transpose",
+        "tresh",
+        "var",
+        "vmax",
+        "vmin",
+        "width",
+        "x1",
+        "x2",
+        "xrange",
+        "xscale",
+        "xticks",
+        "xtickslabels",
+        "xtitle",
+        "yrange",
+        "yscale",
+        "yticks",
+        "ytickslabels",
+        "ytitle",
+        "zoomcolor",
+        "zoomlines",
+    }
     if check is True:
-        check_par(param, 'zoom', **kwargs)
+        check_par(param, "zoom", **kwargs)
 
     self.tight = False
 
     # Find figure and number of the axis
-    ax      = self.ax[-1] if ax is None else ax
+    ax = self.ax[-1] if ax is None else ax
     ax, nax = self._assign_ax(ax, **kwargs)
 
     # Sets position of the zoom
-    if kwargs.get('pos'):
-        axins = _place_inset_pos(ax, kwargs['pos'])
+    if kwargs.get("pos"):
+        axins = _place_inset_pos(ax, kwargs["pos"])
     else:
         axins = _place_inset_loc(ax, **kwargs)
-    kwargs['fontsize']  = kwargs.get('fontsize', self.fontsize)
-    kwargs['titlesize'] = kwargs.get('titlesize',self.fontsize)
+    kwargs["fontsize"] = kwargs.get("fontsize", self.fontsize)
+    kwargs["titlesize"] = kwargs.get("titlesize", self.fontsize)
 
     # Adds the inset axis
     self._add_ax(axins, len(self.ax))
 
     # Set ticks (None is the default value)
-    if 'xticks' not in kwargs: kwargs['xticks'] = None
-    if 'yticks' not in kwargs: kwargs['yticks'] = None
+    if "xticks" not in kwargs:
+        kwargs["xticks"] = None
+    if "yticks" not in kwargs:
+        kwargs["yticks"] = None
 
     # Sets axes parameters
-    self.set_axis(ax = axins, check = False, **kwargs)
+    self.set_axis(ax=axins, check=False, **kwargs)
 
     # Plots the lines
     pcm = ax.collections
     if len(pcm) > 0:
-        _zoomdisplay(self,ax,nax,axins,**kwargs)
+        _zoomdisplay(self, ax, nax, axins, **kwargs)
     else:
-        _zoomplot(self,ax,nax,axins,**kwargs)
+        _zoomplot(self, ax, nax, axins, **kwargs)
 
     # Indicates the inset zoom
-    zoomc = kwargs.get('zoomcolor','k')
-    if kwargs.get('zoomlines',True) is True:
-        ax.indicate_inset_zoom(axins, edgecolor = zoomc)
-    
-    axins.spines['left'].set_color(zoomc)
-    axins.spines['bottom'].set_color(zoomc)
-    axins.spines['right'].set_color(zoomc)
-    axins.spines['top'].set_color(zoomc)
+    zoomc = kwargs.get("zoomcolor", "k")
+    if kwargs.get("zoomlines", True) is True:
+        ax.indicate_inset_zoom(axins, edgecolor=zoomc)
+
+    axins.spines["left"].set_color(zoomc)
+    axins.spines["bottom"].set_color(zoomc)
+    axins.spines["right"].set_color(zoomc)
+    axins.spines["top"].set_color(zoomc)
 
     return axins
 
 
-def _zoomplot(self,
-              ax: Axes,
-              nax: int,
-              axins: Axes,
-              **kwargs: Any
-             ) -> None:
-    """
-    
-    """
+def _zoomplot(self, ax: Axes, nax: int, axins: Axes, **kwargs: Any) -> None:
+    """ """
     lines = ax.get_lines()
     for i in lines:
-        self.plot(i.get_xdata(), i.get_ydata(), c=i.get_color(),
-                  ls=i.get_ls(), lw=i.get_lw(),
-                  marker=i.get_marker(), ms=i.get_ms(),
-                  ax=axins)
-    
+        self.plot(
+            i.get_xdata(),
+            i.get_ydata(),
+            c=i.get_color(),
+            ls=i.get_ls(),
+            lw=i.get_lw(),
+            marker=i.get_marker(),
+            ms=i.get_ms(),
+            ax=axins,
+        )
+
     return None
 
 
-def _zoomdisplay(self,
-                 ax: Axes,
-                 nax: int,
-                 axins: Axes,
-                 **kwargs: Any
-                ) -> None:
-    """
-    
-    """
+def _zoomdisplay(self, ax: Axes, nax: int, axins: Axes, **kwargs: Any) -> None:
+    """ """
     pcm = ax.collections[0]
     pnr = str(pcm.norm).split()[0].split(".")[2]
-    dict_norm = {'Normalize': 'norm', 'LogNorm': 'log',
-                 'SymLogNorm':'symlog','TwoSlopeNorm':'twoslope'}
-    kwargs['cmap']   = kwargs.pop('cmap', pcm.cmap)
-    kwargs['cscale'] = kwargs.pop('cscale', dict_norm[pnr])
+    dict_norm = {
+        "Normalize": "norm",
+        "LogNorm": "log",
+        "SymLogNorm": "symlog",
+        "TwoSlopeNorm": "twoslope",
+    }
+    kwargs["cmap"] = kwargs.pop("cmap", pcm.cmap)
+    kwargs["cscale"] = kwargs.pop("cscale", dict_norm[pnr])
     ccd = pcm.get_coordinates()
-    xc  = kwargs.pop('x1', ccd[:, :, 0])
-    yc  = kwargs.pop('x2', ccd[:, :, 1])
-    psh = kwargs.pop('shading',pcm._shading)
+    xc = kwargs.pop("x1", ccd[:, :, 0])
+    yc = kwargs.pop("x2", ccd[:, :, 1])
+    psh = kwargs.pop("shading", pcm._shading)
     leny = len(xc[0]) if np.ndim(yc) > 1 else len(yc)
-    lxc = len(xc) - 1 if psh == 'flat' else len(xc)
-    lyc = leny - 1 if psh == 'flat' else leny
-    #if psh == 'flat':
+    lxc = len(xc) - 1 if psh == "flat" else len(xc)
+    lyc = leny - 1 if psh == "flat" else leny
+    # if psh == 'flat':
     #    lxc = len(xc) - 1
     #    lyc = len(xc[0]) - 1
-    #else:
+    # else:
     #    lxc = len(xc)
     #    lyc = len(xc[0])
     pcm = pcm.get_array()
-    if 'var' in kwargs:
-        pcm0 = kwargs.pop('var',None)
+    if "var" in kwargs:
+        pcm0 = kwargs.pop("var", None)
     else:
         pcm0 = pcm.reshape((lxc, lyc)).T
-   # pcm0 = kwargs.pop('var', pcm.reshape((lxc, lyc)).T)
-    kwargs['vmin']  = kwargs.pop('vmin', self.vlims[nax][0])
-    kwargs['vmax']  = kwargs.pop('vmax', self.vlims[nax][1])
-    kwargs['tresh'] = kwargs.pop('tresh', self.vlims[nax][2])
+    # pcm0 = kwargs.pop('var', pcm.reshape((lxc, lyc)).T)
+    kwargs["vmin"] = kwargs.pop("vmin", self.vlims[nax][0])
+    kwargs["vmax"] = kwargs.pop("vmax", self.vlims[nax][1])
+    kwargs["tresh"] = kwargs.pop("tresh", self.vlims[nax][2])
 
-    self.display(pcm0, x1 = xc, x2 = yc, ax = axins, check = False, 
-                    shading = psh, **kwargs)
-    
+    self.display(
+        pcm0, x1=xc, x2=yc, ax=axins, check=False, shading=psh, **kwargs
+    )
+
     return None
 
 
-def _place_inset_pos(ax: Axes, 
-                     pos: list[float]
-                    ) -> Axes:
+def _place_inset_pos(ax: Axes, pos: list[float]) -> Axes:
     """
     Places an inset axes given the position (left, top, bottom, right).
 
@@ -350,19 +386,17 @@ def _place_inset_pos(ax: Axes,
     """
 
     # Compute the position of the inset axis and return it
-    left   = pos[0]
+    left = pos[0]
     bottom = pos[2]
-    width  = pos[1] - pos[0]
+    width = pos[1] - pos[0]
     height = pos[3] - pos[2]
     return ax.inset_axes((left, bottom, width, height))
 
 
-def _place_inset_loc(ax: Axes, 
-                     **kwargs: Any
-                    ) -> Axes:
+def _place_inset_loc(ax: Axes, **kwargs: Any) -> Axes:
     """
     Places an inset axes given different keywords.
-    In case both top and bottom are given, the top is given priority and a 
+    In case both top and bottom are given, the top is given priority and a
     warning is raised.
 
     Returns
@@ -394,15 +428,15 @@ def _place_inset_loc(ax: Axes,
     """
 
     # Check if both "top" and "bottom" keywords are given
-    if kwargs.get('top') and kwargs.get('bottom'):
-         warn = "Both top and bottom keys are given, priority goes to the top"
-         warnings.warn(warn, UserWarning)
-    
+    if kwargs.get("top") and kwargs.get("bottom"):
+        warn = "Both top and bottom keys are given, priority goes to the top"
+        warnings.warn(warn, UserWarning)
+
     # Compute the position of the inset axis and return it
-    left   = kwargs.get('left', 0.6)
-    width  = kwargs.get('width', 0.2)
-    height = kwargs.get('height', 0.15)
-    bottom = kwargs.get('top', 0.75) - height
-    bottom = kwargs.get('bottom', 0.6)
+    left = kwargs.get("left", 0.6)
+    width = kwargs.get("width", 0.2)
+    height = kwargs.get("height", 0.15)
+    bottom = kwargs.get("top", 0.75) - height
+    bottom = kwargs.get("bottom", 0.6)
 
     return ax.inset_axes((left, bottom, width, height))

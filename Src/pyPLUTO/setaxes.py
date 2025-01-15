@@ -1,11 +1,9 @@
 from .libraries import *
 
-def create_axes(self, 
-                ncol: int = 1, 
-                nrow: int = 1, 
-                check: bool = True, 
-                **kwargs: Any
-               ) -> Axes:
+
+def create_axes(
+    self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs: Any
+) -> Axes:
     """
     Creation of a set of axes using add_subplot from the matplotlib library.
 
@@ -15,7 +13,7 @@ def create_axes(self,
     In case only few custom options are given, the code computes the rest
     (but gives a small warning); in case no custom option is given, the axes
     are located through the standard methods of matplotlib.
-        
+
     If more axes are created in the figure, the list of all axes is returned,
     otherwise the single axis is returned.
 
@@ -63,7 +61,7 @@ def create_axes(self,
     - tight: bool, default True
         Enables/disables tight layout options for the figure. In case of a
         highly customized plot (e.g. ratios or space between rows and columns)
-        the option is set by default to False since that option would not be 
+        the option is set by default to False since that option would not be
         available for standard matplotlib functions.
     - top: float, default 0.9
         The space from the top border to the first row of plots.
@@ -95,7 +93,7 @@ def create_axes(self,
         >>> I = pp.Image()
         >>> ax = I.create_axes(ncol = 2, nrow = 2)
 
-    - Example #2: create a grid of 2 columns with the first one having half the 
+    - Example #2: create a grid of 2 columns with the first one having half the
         width of the second one
 
         >>> import pyPLUTO as pp
@@ -116,71 +114,95 @@ def create_axes(self,
         >>> ax = I.create_axes(left = 0.75)
 
     """
-    
+
     # Check parameters
-    param = {'bottom','figsize','fontsize','hratio','hspace','left','ncol',
-             'nrow','proj','right','sharex','sharey','suptitle','tight','top',
-             'wratio','wspace'}
+    param = {
+        "bottom",
+        "figsize",
+        "fontsize",
+        "hratio",
+        "hspace",
+        "left",
+        "ncol",
+        "nrow",
+        "proj",
+        "right",
+        "sharex",
+        "sharey",
+        "suptitle",
+        "tight",
+        "top",
+        "wratio",
+        "wspace",
+    }
     if check is True:
-        check_par(param, 'create_axes', **kwargs)
+        check_par(param, "create_axes", **kwargs)
 
     # Change fontsize if requested
-    if 'fontsize' in kwargs:
-        plt.rcParams.update({'font.size': kwargs['fontsize']})
+    if "fontsize" in kwargs:
+        plt.rcParams.update({"font.size": kwargs["fontsize"]})
 
     # Set of custom plot keywords
     custom_plot = False
-    custom_axes = {'left', 'right', 'top', 'bottom', 
-                   'hspace', 'hratio', 'wspace', 'wratio'}
+    custom_axes = {
+        "left",
+        "right",
+        "top",
+        "bottom",
+        "hspace",
+        "hratio",
+        "wspace",
+        "wratio",
+    }
 
     # Check if custom axes are given
     if any(arg in kwargs for arg in custom_axes):
 
         # Set the custom axes keywords
-        custom_plot     = True
-        kwargs['tight'] = False
+        custom_plot = True
+        kwargs["tight"] = False
 
         # Get margins and subplots features
-        left   = kwargs.get('left',0.125)
-        right  = kwargs.get('right',0.9)
-        top    = kwargs.get('top',0.9)
-        bottom = kwargs.get('bottom',0.1)
-        hspace = kwargs.get('hspace',[])
-        wspace = kwargs.get('wspace',[])
-        wratio = kwargs.get('wratio',[1.0])
-        hratio = kwargs.get('hratio', [1.0])
+        left = kwargs.get("left", 0.125)
+        right = kwargs.get("right", 0.9)
+        top = kwargs.get("top", 0.9)
+        bottom = kwargs.get("bottom", 0.1)
+        hspace = kwargs.get("hspace", [])
+        wspace = kwargs.get("wspace", [])
+        wratio = kwargs.get("wratio", [1.0])
+        hratio = kwargs.get("hratio", [1.0])
 
         # Check if the number of rows and columns is correct
-        hspace, hratio  = _check_rowcol(hratio, hspace, nrow, 'rows')
-        wspace, wratio  = _check_rowcol(wratio, wspace, ncol, 'cols')
-        
+        hspace, hratio = _check_rowcol(hratio, hspace, nrow, "rows")
+        wspace, wratio = _check_rowcol(wratio, wspace, ncol, "cols")
+
         # Computes the height and width of every subplot
-        hsize = top   - bottom - sum(hspace)
-        wsize = right - left   - sum(wspace)
-        htot  = sum(hratio)
-        wtot  = sum(wratio)
-        ll    = left
-        tt    = top
+        hsize = top - bottom - sum(hspace)
+        wsize = right - left - sum(wspace)
+        htot = sum(hratio)
+        wtot = sum(wratio)
+        ll = left
+        tt = top
         hplot = []
         wplot = []
 
         # Computes left, right of every ax
         for i in islice(range(ncol), ncol - 1):
-            rr = wsize*wratio[i]/wtot
+            rr = wsize * wratio[i] / wtot
             wplot.append([ll, rr])
             ll += rr + wspace[i]
 
         # Computes top, bottom of every ax
         for i in islice(range(nrow), nrow - 1):
-            bb = tt - hsize*hratio[i]/htot
+            bb = tt - hsize * hratio[i] / htot
             hplot.append([bb, tt - bb])
             tt = bb - hspace[i]
 
         # Append the last items without extra space
-        rr = wsize*wratio[ncol - 1]/wtot
+        rr = wsize * wratio[ncol - 1] / wtot
         wplot.append([ll, rr])
 
-        bb = tt - hsize*hratio[nrow - 1]/htot
+        bb = tt - hsize * hratio[nrow - 1] / htot
         hplot.append([bb, tt - bb])
     else:
 
@@ -189,45 +211,54 @@ def create_axes(self,
         hplot = None
 
     # Change the figure size if requested
-    if 'figsize' in kwargs:
-        self.fig.set_figwidth(kwargs['figsize'][0])
-        self.fig.set_figheight(kwargs['figsize'][1])
-        self.figsize = kwargs['figsize']
+    if "figsize" in kwargs:
+        self.fig.set_figwidth(kwargs["figsize"][0])
+        self.fig.set_figheight(kwargs["figsize"][1])
+        self.figsize = kwargs["figsize"]
     # Set the figure size if not custom plot
     elif not custom_plot is True and self._set_size is False:
-        self.fig.set_figwidth(6*np.sqrt(ncol))
-        self.fig.set_figheight(5*np.sqrt(nrow))
+        self.fig.set_figwidth(6 * np.sqrt(ncol))
+        self.fig.set_figheight(5 * np.sqrt(nrow))
 
     # Set the projection if requested
-    proj = kwargs.get('proj', None)
+    proj = kwargs.get("proj", None)
 
     # Set sharex and sharey
-    sharex = kwargs.get('sharex', False)
-    sharey = kwargs.get('sharey', False)
+    sharex = kwargs.get("sharex", False)
+    sharey = kwargs.get("sharey", False)
 
     # Add axes and set position (if custom axes)
-    for i in range(ncol*nrow):
-        self._add_ax(self.fig.add_subplot(nrow + self.nrow0, 
-                                          ncol + self.ncol0, i + 1, 
-                                          projection = proj), len(self.ax)) 
+    for i in range(ncol * nrow):
+        self._add_ax(
+            self.fig.add_subplot(
+                nrow + self.nrow0, ncol + self.ncol0, i + 1, projection=proj
+            ),
+            len(self.ax),
+        )
 
         # Compute row and column
-        row = int(i/ncol)
-        col = int(i%ncol)    
+        row = int(i / ncol)
+        col = int(i % ncol)
 
         # Set position if custom axes
         if wplot is not None and hplot is not None:
-            self.ax[-1].set_position(pos=(wplot[col][0], hplot[row][0],
-                                          wplot[col][1], hplot[row][1]))
-            
+            self.ax[-1].set_position(
+                pos=(
+                    wplot[col][0],
+                    hplot[row][0],
+                    wplot[col][1],
+                    hplot[row][1],
+                )
+            )
+
         # Share axes if requested
         if sharex is True and i > 0:
             self.ax[-1].sharex(self.ax[0])
-        elif isinstance (sharex, Axes):
+        elif isinstance(sharex, Axes):
             self.ax[-1].sharex(sharex)
         if sharey is True and i > 0:
             self.ax[-1].sharey(self.ax[0])
-        elif isinstance (sharey, Axes):
+        elif isinstance(sharey, Axes):
             self.ax[-1].sharey(sharey)
 
     # Updates rows and columns
@@ -238,24 +269,22 @@ def create_axes(self,
     ret_ax = self.ax[0] if len(self.ax) == 1 else self.ax
 
     # Set figure title if requested
-    if 'suptitle' in kwargs:
-        self.fig.suptitle(kwargs['suptitle'])
+    if "suptitle" in kwargs:
+        self.fig.suptitle(kwargs["suptitle"])
 
     # Tight layout (depending on the subplot creation)
-    self.tight = kwargs.get('tight', self.tight)
-    self.fig.set_layout_engine(None if not self.tight else 'tight')
+    self.tight = kwargs.get("tight", self.tight)
+    self.fig.set_layout_engine(None if not self.tight else "tight")
 
     # End of the function
-    # Return the list of axes (if more than one) or the single axis (if only 
+    # Return the list of axes (if more than one) or the single axis (if only
     # one). WARNING: this return may be changed to None in future releases.
     return ret_ax
 
 
-def set_axis(self, 
-             ax: Axes | None = None, 
-             check: bool = True, 
-             **kwargs: Any
-            ) -> None:
+def set_axis(
+    self, ax: Axes | None = None, check: bool = True, **kwargs: Any
+) -> None:
     """
     Customization of a single subplot axis.
     Properties such as the range, scale and aspect of each subplot
@@ -263,7 +292,7 @@ def set_axis(self,
 
     Returns
     -------
-    
+
     - None
 
     Parameters
@@ -273,14 +302,14 @@ def set_axis(self,
         Sets the opacity of the plot, where 1.0 means total opaque and 0.0 means
         total transparent.
     - aspect: {'auto', 'equal', float}, default 'auto'
-        Sets the aspect ratio of the plot. The 'auto' keyword is the default 
+        Sets the aspect ratio of the plot. The 'auto' keyword is the default
         option (most likely the plot will be squared). The 'equal' keyword will
         set the same scaling for x and y. A float will fix the ratio between the
         y-scale and the x-scale (1.0 is the same as 'equal').
     - ax: ax object, default None
         The axis to customize. If None the current axis will be selected.
     - fontsize: float, default 17.0
-        Sets the fontsize for all the axis components (only for the current 
+        Sets the fontsize for all the axis components (only for the current
         axis).
     - grid: bool, default False
         Enables/disables the grid on the plot.
@@ -340,9 +369,9 @@ def set_axis(self,
         keyword should be used with None. Note that fixed tickslabels should
         always correspond to fixed ticks.
     - ytitle: str, default None
-        Sets and places the label of the y-axis. 
-    
-    
+        Sets and places the label of the y-axis.
+
+
     Notes
     -----
 
@@ -359,7 +388,7 @@ def set_axis(self,
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
         >>> ax = I.create_axes()
-        >>> I.set_axis(title = 'Title', titlesize = 30.0, xtitle = 'x-axis', 
+        >>> I.set_axis(title = 'Title', titlesize = 30.0, xtitle = 'x-axis',
         ... ytitle = 'y-axis')
 
     - Example #2: create an axis, remove the ticks for the x-axis and
@@ -368,10 +397,10 @@ def set_axis(self,
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
         >>> ax = I.create_axes()
-        >>> I.set_axis(ax, xticks = None, yrange = [-1.0,1.0], 
+        >>> I.set_axis(ax, xticks = None, yrange = [-1.0,1.0],
         ... yticks = [-0.8,-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8])
 
-    - Example #3: create two axes and invert the direction of the ticks in the 
+    - Example #3: create two axes and invert the direction of the ticks in the
         first one
 
         >>> import pyPLUTO as pp
@@ -386,109 +415,139 @@ def set_axis(self,
         >>> I = pp.Image()
         >>> ax = I.create_axes(ncol = 2, nrow = 2)
         >>> for i in [0,1,2,3]:
-        ...     I.set_axis(ax = ax[i], xtitle = 'x-axis', ytitle = 'y-title', 
-        ...     xticks = [0.25,0.5,0.75], yticks = [0.25,0.5,0.75], 
+        ...     I.set_axis(ax = ax[i], xtitle = 'x-axis', ytitle = 'y-title',
+        ...     xticks = [0.25,0.5,0.75], yticks = [0.25,0.5,0.75],
         ...     xtickslabels = ['1/4','1/2','3/4'])
 
     """
 
     # Check parameters
-    param = {'alpha', 'aspect', 'ax', 'fontsize', 'labelsize', 'minorticks', 
-             'sharex', 'sharey', 'ticksdir', 'tickssize', 'title', 'titlepad', 
-             'titlesize', 'xrange', 'xscale', 'xticks', 'xtickslabels', 
-             'xtitle', 'yrange', 'yscale', 'yticks', 'ytickslabels', 'ytitle'}
+    param = {
+        "alpha",
+        "aspect",
+        "ax",
+        "fontsize",
+        "labelsize",
+        "minorticks",
+        "sharex",
+        "sharey",
+        "ticksdir",
+        "tickssize",
+        "title",
+        "titlepad",
+        "titlesize",
+        "xrange",
+        "xscale",
+        "xticks",
+        "xtickslabels",
+        "xtitle",
+        "yrange",
+        "yscale",
+        "yticks",
+        "ytickslabels",
+        "ytitle",
+    }
     if check is True:
-        check_par(param, 'set_axis', **kwargs)
+        check_par(param, "set_axis", **kwargs)
 
     # Take last axis if not specified
-    ax, nax = self._assign_ax(ax,**kwargs)
+    ax, nax = self._assign_ax(ax, **kwargs)
 
     # Set fontsize
-    self.fontsize = kwargs.get('fontsize',self.fontsize)
-    plt.rcParams.update({'font.size': self.fontsize})
+    self.fontsize = kwargs.get("fontsize", self.fontsize)
+    plt.rcParams.update({"font.size": self.fontsize})
 
     # Set aspect ratio
-    if kwargs.get('aspect',True) is not True:
-        ax.set_aspect(kwargs['aspect'])
+    if kwargs.get("aspect", True) is not True:
+        ax.set_aspect(kwargs["aspect"])
 
     # Set xrange and yrange
-    if kwargs.get('xrange', None) is not None:
-        self._set_xrange(ax, nax, kwargs['xrange'], 3)
-    if kwargs.get('yrange', None) is not None:
-        self._set_yrange(ax, nax, kwargs['yrange'], 3)
+    if kwargs.get("xrange", None) is not None:
+        self._set_xrange(ax, nax, kwargs["xrange"], 3)
+    if kwargs.get("yrange", None) is not None:
+        self._set_yrange(ax, nax, kwargs["yrange"], 3)
 
     # Set title and axes labels
-    if kwargs.get('title', None) is not None:
-        ax.set_title(kwargs['title'], fontsize = kwargs.get('titlesize',
-                                                            self.fontsize), 
-                                      pad      = kwargs.get('titlepad', 8.0))
-    if kwargs.get('xtitle', None) is not None:
-        ax.set_xlabel(kwargs['xtitle'], fontsize = kwargs.get('labelsize',
-                                                              self.fontsize))
-    if kwargs.get('ytitle', None) is not None:
-        ax.set_ylabel(kwargs['ytitle'], fontsize = kwargs.get('labelsize',
-                                                              self.fontsize))
-        
+    if kwargs.get("title", None) is not None:
+        ax.set_title(
+            kwargs["title"],
+            fontsize=kwargs.get("titlesize", self.fontsize),
+            pad=kwargs.get("titlepad", 8.0),
+        )
+    if kwargs.get("xtitle", None) is not None:
+        ax.set_xlabel(
+            kwargs["xtitle"], fontsize=kwargs.get("labelsize", self.fontsize)
+        )
+    if kwargs.get("ytitle", None) is not None:
+        ax.set_ylabel(
+            kwargs["ytitle"], fontsize=kwargs.get("labelsize", self.fontsize)
+        )
+
     # Set sharex and sharey
-    if kwargs.get('sharex', False) is not False:
-        ax.sharex(kwargs['sharex'])
-    if kwargs.get('sharey', False) is not False:
-        ax.sharey(kwargs['sharey'])
+    if kwargs.get("sharex", False) is not False:
+        ax.sharex(kwargs["sharex"])
+    if kwargs.get("sharey", False) is not False:
+        ax.sharey(kwargs["sharey"])
 
     # Set ticks size
-    if kwargs.get('tickssize',True) is not True:
-        ax.tick_params(axis='x', labelsize = kwargs['tickssize'])
-        ax.tick_params(axis='y', labelsize = kwargs['tickssize'])
+    if kwargs.get("tickssize", True) is not True:
+        ax.tick_params(axis="x", labelsize=kwargs["tickssize"])
+        ax.tick_params(axis="y", labelsize=kwargs["tickssize"])
     else:
-        ax.tick_params(axis='both', labelsize = self.fontsize)
+        ax.tick_params(axis="both", labelsize=self.fontsize)
 
     # Set ticks direction
-    if kwargs.get('ticksdir') or self.tickspar[nax] == 0:
-        tckd = kwargs.get('ticksdir', 'in')
-        ax.tick_params(axis='both', which='major', direction=tckd, 
-                       right='off', top='off')
-        ax.tick_params(which='minor', direction=tckd, right='off', top='off')
+    if kwargs.get("ticksdir") or self.tickspar[nax] == 0:
+        tckd = kwargs.get("ticksdir", "in")
+        ax.tick_params(
+            axis="both", which="major", direction=tckd, right="off", top="off"
+        )
+        ax.tick_params(which="minor", direction=tckd, right="off", top="off")
 
     # Set minor ticks
-    if kwargs.get('minorticks') or self.tickspar[nax] == 0:
-        mintks = kwargs.get('minorticks', 'on')
-        ax.minorticks_on() if mintks != 'off' else ax.minorticks_off()
+    if kwargs.get("minorticks") or self.tickspar[nax] == 0:
+        mintks = kwargs.get("minorticks", "on")
+        ax.minorticks_on() if mintks != "off" else ax.minorticks_off()
 
     # Set parameter that fixes the minorticks and ticksdir
     self.tickspar[nax] = 1
 
-    spar = {'asinh': 'linear_width', 'symlog': 'linthresh'}
+    spar = {"asinh": "linear_width", "symlog": "linthresh"}
 
     # Scales and alpha
-    if kwargs.get('xscale', True) is not True:
-        xscale        = kwargs['xscale']
-        xscale_param  = spar.get(xscale)
-        xscale_kwargs = {xscale_param: kwargs.get('xtresh')} \
-                        if 'xtresh' in kwargs else {}
+    if kwargs.get("xscale", True) is not True:
+        xscale = kwargs["xscale"]
+        xscale_param = spar.get(xscale)
+        xscale_kwargs = (
+            {xscale_param: kwargs.get("xtresh")} if "xtresh" in kwargs else {}
+        )
         ax.set_xscale(xscale, **xscale_kwargs)
         self.xscale[nax] = xscale
 
-    if kwargs.get('yscale', True) is not True:
-        yscale        = kwargs['yscale']
-        yscale_param  = spar.get(yscale)
-        yscale_kwargs = {yscale_param: kwargs.get('ytresh')} \
-                        if 'ytresh' in kwargs else {}
+    if kwargs.get("yscale", True) is not True:
+        yscale = kwargs["yscale"]
+        yscale_param = spar.get(yscale)
+        yscale_kwargs = (
+            {yscale_param: kwargs.get("ytresh")} if "ytresh" in kwargs else {}
+        )
         ax.set_yscale(yscale, **yscale_kwargs)
         self.yscale[nax] = yscale
 
-    if kwargs.get('alpha'):
-        ax.set_alpha(kwargs['alpha'])
+    if kwargs.get("alpha"):
+        ax.set_alpha(kwargs["alpha"])
 
     # Set ticks and tickslabels
-    xtc = kwargs.get('xticks', True)
-    ytc = kwargs.get('yticks', True)
-    xtl = kwargs.get('xtickslabels', True)
-    ytl = kwargs.get('ytickslabels', True)
-    if xtc is not True or xtl is not True: _set_ticks(ax, xtc, xtl, 'x')
-    if ytc is not True or ytl is not True: _set_ticks(ax, ytc, ytl, 'y')
+    xtc = kwargs.get("xticks", True)
+    ytc = kwargs.get("yticks", True)
+    xtl = kwargs.get("xtickslabels", True)
+    ytl = kwargs.get("ytickslabels", True)
+    if xtc is not True or xtl is not True:
+        _set_ticks(ax, xtc, xtl, "x")
+    if ytc is not True or ytl is not True:
+        _set_ticks(ax, ytc, ytl, "y")
 
     # Sets grid on the axis
-    if kwargs.get('grid',False) is True:
+    if kwargs.get("grid", False) is True:
         ax.grid(True)
 
     # Reinforces the tight_layout if needed
@@ -499,14 +558,12 @@ def set_axis(self,
     return None
 
 
-def _check_rowcol(ratio: list[float], 
-                  space: float | list[float], 
-                  length: int,
-                  func: str
-                 ) -> tuple[list[float], list[float]]:
+def _check_rowcol(
+    ratio: list[float], space: float | list[float], length: int, func: str
+) -> tuple[list[float], list[float]]:
     """
     Checks the width and spacing of the plots on a single row or column.
-    
+
     Returns
     -------
 
@@ -526,7 +583,7 @@ def _check_rowcol(ratio: list[float],
         the number of rows or columns in the single row or column
     - func: str
         the function to check (rows or cols)
-    
+
     Notes
     -----
 
@@ -540,7 +597,7 @@ def _check_rowcol(ratio: list[float],
     - Example #1: ratio and space are given correctly (rows)
 
         >>> _check_rowcol([1,2,3], [0.1,0.2], 3, 'rows')
-    
+
     - Example #2: ratio and space are given incorrectly (rows) (raises warning)
 
         >>> _check_rowcol([], 0.1, 3, 'rows')
@@ -550,18 +607,18 @@ def _check_rowcol(ratio: list[float],
         >>> _check_rowcol([1,2,3], [0.1,0.2], 3, 'cols')
 
     """
-    
-    rat = {'rows': 'hratio', 'cols': 'wratio'}
-    spc = {'rows': 'hspace', 'cols': 'wspace'}
-    
+
+    rat = {"rows": "hratio", "cols": "wratio"}
+    spc = {"rows": "hspace", "cols": "wspace"}
+
     # Check if space is a list
-    #IF FLOAT MAKE IT LIST WITH THE VALUE!!!
+    # IF FLOAT MAKE IT LIST WITH THE VALUE!!!
     newspace = makelist(space)
-    space    = space if isinstance(space, list) else newspace*(length - 1)
+    space = space if isinstance(space, list) else newspace * (length - 1)
 
     # Fill the lists with the default values
-    ratio = ratio + [1.0]*(length - len(ratio))
-    space = space + [0.1]*(length - len(space) - 1)
+    ratio = ratio + [1.0] * (length - len(ratio))
+    space = space + [0.1] * (length - len(space) - 1)
 
     # Check if the lists have the correct length
     if len(ratio) != length:
@@ -570,14 +627,15 @@ def _check_rowcol(ratio: list[float],
         warnings.warn(f"WARNING! {spc[func]} has wrong length!", UserWarning)
 
     # End of the function. Return the lists
-    return space[:length - 1], ratio[:length]
+    return space[: length - 1], ratio[:length]
 
 
-def _set_ticks(ax: Axes, 
-               tc: str | list[float] | None, 
-               tl: str | list[str] | None,
-               typeaxis: str
-              ) -> None:
+def _set_ticks(
+    ax: Axes,
+    tc: str | list[float] | None,
+    tl: str | list[str] | None,
+    typeaxis: str,
+) -> None:
     """
     Sets the ticks and ticks labels on the x- or y-axis of a selected axis.
 
@@ -622,8 +680,8 @@ def _set_ticks(ax: Axes,
 
     """
 
-    set_ticks = {'x': ax.set_xticks,      'y': ax.set_yticks}
-    set_label = {'x': ax.set_xticklabels, 'y': ax.set_yticklabels}
+    set_ticks = {"x": ax.set_xticks, "y": ax.set_yticks}
+    set_label = {"x": ax.set_xticklabels, "y": ax.set_yticklabels}
 
     # Ticks are None
     if tc is None:
@@ -633,21 +691,25 @@ def _set_ticks(ax: Axes,
 
         # If tickslabels are not None raise a warning
         if tl is not None and tl is not True:
-            warn = "Warning, tickslabels are defined with no" \
-                   "ticks!! (function setax)"
+            warn = (
+                "Warning, tickslabels are defined with no"
+                "ticks!! (function setax)"
+            )
             warnings.warn(warn, UserWarning)
-    
+
     # Ticks are not None and tickslabels are custom
     elif tl is not True:
 
         # Ticks are not None, then are set
         if tc is not True and tl is not True:
             set_ticks[typeaxis](tc)
-        
+
         # Ticks are Default with custom tickslabels, a warning is raised
         elif tl is not None:
-            warn = "Warning, tickslabels should be fixed only" \
-                   "when ticks are fixed (function setax)"
+            warn = (
+                "Warning, tickslabels should be fixed only"
+                "when ticks are fixed (function setax)"
+            )
             warnings.warn(warn, UserWarning)
 
         # Ticks are set custom, then tickslabels are set
@@ -655,7 +717,7 @@ def _set_ticks(ax: Axes,
             set_label[typeaxis]([])
         else:
             set_label[typeaxis](tl)
-    
+
     # Ticks are custom, tickslabels are default
     else:
         if tc is not True:

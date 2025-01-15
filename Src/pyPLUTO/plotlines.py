@@ -1,27 +1,26 @@
 from .libraries import *
 
-def contour(self, 
-            var: NDArray, 
-            check: bool = True,
-            **kwargs: Any
-           ) -> LineCollection:
+
+def contour(
+    self, var: NDArray, check: bool = True, **kwargs: Any
+) -> LineCollection:
     """
-    Plots a contour plot of a given variable. The function uses the 
+    Plots a contour plot of a given variable. The function uses the
     matplotlib.pyplot.contour function. The function returns None.
-    
+
     Returns
     -------
-    
+
     - cnt: LineCollection
         The set of contour lines of the given variable.
-    
+
     Parameters
     ----------
-    
+
     - alpha: float, default 1.0
         Sets the transparency of the contour lines.
     - aspect: {'auto', 'equal', float}, default 'auto'
-        Sets the aspect ratio of the plot. The 'auto' keyword is the default 
+        Sets the aspect ratio of the plot. The 'auto' keyword is the default
         option (most likely the plot will be squared). The 'equal' keyword will
         set the same scaling for x and y. A float will fix the ratio between the
         y-scale and the x-scale (1.0 is the same as 'equal').
@@ -33,7 +32,7 @@ def contour(self,
         over an array of 6 color which are different for the most common vision
         deficiencies.
     - cmap: str, default 'hot'
-        Selects the colormap. If not defined, the colormap 'hot' will be 
+        Selects the colormap. If not defined, the colormap 'hot' will be
         adopted. Some useful colormaps are: plasma, magma, seismic. Please avoid
         using colorbars like jjet or rainbow, which are not perceptively uniform
         and not suited for people with vision deficiencies.
@@ -48,7 +47,7 @@ def contour(self,
     - extendrect: bool, default False
         If True, the colorbar extension will be rectangular.
     - fontsize: float, default 17.0
-        Sets the fontsize for all the axis components (only for the current 
+        Sets the fontsize for all the axis components (only for the current
         axis).
     - grid: bool, default False
         Enables/disables the grid on the plot.
@@ -76,7 +75,7 @@ def contour(self,
         Sets the title fontsize. The default value corresponds to the value
         of the keyword 'fontsize'.
     - transpose: True/False, default False
-        Transposes the variable matrix. Use is not recommended if not really 
+        Transposes the variable matrix. Use is not recommended if not really
         necessary (e.g. in case of highly customized variables and plots).
     - tresh: float, default max(abs(vmin),vmax)*0.01
         Sets the threshold for the colormap. If not defined, the threshold will
@@ -133,65 +132,99 @@ def contour(self,
 
     Notes
     -----
-    
-    - Need to improve the colorbar, now only lines are plotted and not the 
+
+    - Need to improve the colorbar, now only lines are plotted and not the
       full colormap.
-    
+
     ----
 
     Examples
     ========
-    
+
     - Example #1: Plot a contour plot of a variable
-        
+
         >>> I.contour(D.rho, levels = 10)
-    
+
     """
 
     # Check parameters
-    param = {'alpha','aspect','ax','c','cmap','cpos','cscale','extend',
-             'extendrect','fontsize','grid','labelsize','levels','lw','minorticks',
-             'sharex','sharey','ticksdir','tickssize','title','titlepad',
-             'titlesize','transpose','tresh','vmax','vmin','x1','x2','xrange',
-             'xscale','xticks','xtickslabels','xtitle','yrange','yscale',
-             'yticks','ytickslabels','ytitle'}
+    param = {
+        "alpha",
+        "aspect",
+        "ax",
+        "c",
+        "cmap",
+        "cpos",
+        "cscale",
+        "extend",
+        "extendrect",
+        "fontsize",
+        "grid",
+        "labelsize",
+        "levels",
+        "lw",
+        "minorticks",
+        "sharex",
+        "sharey",
+        "ticksdir",
+        "tickssize",
+        "title",
+        "titlepad",
+        "titlesize",
+        "transpose",
+        "tresh",
+        "vmax",
+        "vmin",
+        "x1",
+        "x2",
+        "xrange",
+        "xscale",
+        "xticks",
+        "xtickslabels",
+        "xtitle",
+        "yrange",
+        "yscale",
+        "yticks",
+        "ytickslabels",
+        "ytitle",
+    }
 
     if check is True:
-        check_par(param, 'contour', **kwargs)
-
+        check_par(param, "contour", **kwargs)
 
     # Set or create figure and axes
-    ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
+    ax, nax = self._assign_ax(kwargs.pop("ax", None), **kwargs)
 
     # Keyword x1 and x2
-    x = np.asarray(kwargs.get('x1',np.arange(len(var[:,0]))))
-    y = np.asarray(kwargs.get('x2',np.arange(len(var[0,:]))))
+    x = np.asarray(kwargs.get("x1", np.arange(len(var[:, 0]))))
+    y = np.asarray(kwargs.get("x2", np.arange(len(var[0, :]))))
 
     # Transpose if needed
     var = np.asarray(var.T)
-    if kwargs.get('transpose', False) is True: var = var.T
+    if kwargs.get("transpose", False) is True:
+        var = var.T
 
     # Set ax parameters
-    self.set_axis(ax = ax, check = False, **kwargs)
+    self.set_axis(ax=ax, check=False, **kwargs)
     self._hide_text(nax, ax.texts)
 
     # Keywords vmin and vmax
-    vmin = kwargs.get('vmin',np.nanmin(var))
-    vmax = kwargs.get('vmax',np.nanmax(var))
+    vmin = kwargs.get("vmin", np.nanmin(var))
+    vmax = kwargs.get("vmax", np.nanmax(var))
 
     # Sets levels for the contour plot
-    levels = kwargs.get('levels',np.linspace(vmin,vmax,10))
+    levels = kwargs.get("levels", np.linspace(vmin, vmax, 10))
 
     # Keyword for colorbar and colorscale
-    colors   = kwargs.get('c',None)
-    cmap     = kwargs.get('cmap',None)
-    cpos     = kwargs.get('cpos',None)
-    cscale   = kwargs.get('cscale','norm')
-    tresh    = kwargs.get('tresh', max(np.abs(vmin),vmax)*0.01)
-    lint     = kwargs.get('lint',None)
-    lw       = kwargs.get('lw', 1.0)
+    colors = kwargs.get("c", None)
+    cmap = kwargs.get("cmap", None)
+    cpos = kwargs.get("cpos", None)
+    cscale = kwargs.get("cscale", "norm")
+    tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
+    lint = kwargs.get("lint", None)
+    lw = kwargs.get("lw", 1.0)
 
-    if 'colors' in 'kwargs' and 'cmap' in 'kwargs':
+    if "colors" in "kwargs" and "cmap" in "kwargs":
         warn = "Both colors and cmap are defined. Using c."
         warnings.warn(warn)
 
@@ -199,14 +232,23 @@ def contour(self,
     norm = self._set_cscale(cscale, vmin, vmax, tresh, lint)
 
     # Select shading
-    alpha = kwargs.get('alpha',1.0)
-    
+    alpha = kwargs.get("alpha", 1.0)
+
     # Plot the contour plot
-    cnt = ax.contour(x, y, var, levels = levels, norm = norm, cmap = cmap,
-                                colors = colors, alpha = alpha, linewidths = lw)
-    
+    cnt = ax.contour(
+        x,
+        y,
+        var,
+        levels=levels,
+        norm=norm,
+        cmap=cmap,
+        colors=colors,
+        alpha=alpha,
+        linewidths=lw,
+    )
+
     if cpos != None:
-        self.colorbar(cnt, check = False, **kwargs)
+        self.colorbar(cnt, check=False, **kwargs)
 
     # If tight_layout is enabled, is re-inforced
     if self.tight != False:
@@ -215,12 +257,9 @@ def contour(self,
     return cnt
 
 
-def streamplot(self, 
-               var1, 
-               var2,
-               check: bool = True,
-               **kwargs: Any
-              ) -> LineCollection:
+def streamplot(
+    self, var1, var2, check: bool = True, **kwargs: Any
+) -> LineCollection:
     """
     Plots a streamplot of a vector field. The function uses the streamplot
     function from matplotlib.pyplot.
@@ -242,12 +281,12 @@ def streamplot(self,
     - arrowstyle: str, default '-|>'
         Sets the style of the arrows of the streamline.
     - aspect: {'auto', 'equal', float}, default 'auto'
-        Sets the aspect ratio of the plot. The 'auto' keyword is the default 
+        Sets the aspect ratio of the plot. The 'auto' keyword is the default
         option (most likely the plot will be squared). The 'equal' keyword will
         set the same scaling for x and y. A float will fix the ratio between the
         y-scale and the x-scale (1.0 is the same as 'equal').
     - ax: axis object
-        The axis where to plot the streamlines. If not given, the last 
+        The axis where to plot the streamlines. If not given, the last
         considered axis will be used.
     - brokenlines: bool, default True
         Splits the streamlines in shorter segments.
@@ -256,7 +295,7 @@ def streamplot(self,
         over an array of 6 color which are different for the most common vision
         deficiencies.
     - cmap: str, default 'hot'
-        Selects the colormap. If not defined, the colormap 'hot' will be 
+        Selects the colormap. If not defined, the colormap 'hot' will be
         adopted. Some useful colormaps are: plasma, magma, seismic. Please avoid
         using colorbars like jjet or rainbow, which are not perceptively uniform
         and not suited for people with vision deficiencies.
@@ -268,14 +307,14 @@ def streamplot(self,
         Sets the colorbar scale. Default is the linear ('norm') scale.
     - density: float, default 1.0
         Sets the density and closeness of the streamlines. The domain is divided
-        in a 30x30 grid. When set as default, each cells contains at most a 
-        number of crossing streamplot line equal to this keyword. 
+        in a 30x30 grid. When set as default, each cells contains at most a
+        number of crossing streamplot line equal to this keyword.
     - extend: {'neither','both','min','max'}, default 'neither'
         Sets the extension of the triangular colorbar extension.
     - extendrect: bool, default False
         If True, the colorbar extension will be rectangular.
     - fontsize: float, default 17.0
-        Sets the fontsize for all the axis components (only for the current 
+        Sets the fontsize for all the axis components (only for the current
         axis).
     - grid: bool, default False
         Enables/disables the grid on the plot.
@@ -309,7 +348,7 @@ def streamplot(self,
         Sets the title fontsize. The default value corresponds to the value
         of the keyword 'fontsize'.
     - transpose: True/False, default False
-        Transposes the variable matrix. Use is not recommended if not really 
+        Transposes the variable matrix. Use is not recommended if not really
         necessary (e.g. in case of highly customized variables and plots)
     - tresh: float, default max(abs(vmin),vmax)*0.01
         Sets the threshold for the colormap. If not defined, the threshold will
@@ -383,80 +422,127 @@ def streamplot(self,
     """
 
     # Check parameters
-    param = {'alpha','arrowsize','arrowstyle','ax','brokenlines','c','cmap',
-             'cpos','cscale','density','extend','extendrect','ffontsize',
-             'grid','integration_direction','labelsize','lw','maxlength',
-             'minlength','minorticks','start_points','ticksdir','tickssize',
-             'title','titlepad','titlesize','transpose','tresh','vmax','vmin',
-             'x1','x2','xrange','xscale','xticks','xtickslabels','xtitle',
-             'yrange','yscale','yticks','ytickslabels','ytitle'}
-    
+    param = {
+        "alpha",
+        "arrowsize",
+        "arrowstyle",
+        "ax",
+        "brokenlines",
+        "c",
+        "cmap",
+        "cpos",
+        "cscale",
+        "density",
+        "extend",
+        "extendrect",
+        "ffontsize",
+        "grid",
+        "integration_direction",
+        "labelsize",
+        "lw",
+        "maxlength",
+        "minlength",
+        "minorticks",
+        "start_points",
+        "ticksdir",
+        "tickssize",
+        "title",
+        "titlepad",
+        "titlesize",
+        "transpose",
+        "tresh",
+        "vmax",
+        "vmin",
+        "x1",
+        "x2",
+        "xrange",
+        "xscale",
+        "xticks",
+        "xtickslabels",
+        "xtitle",
+        "yrange",
+        "yscale",
+        "yticks",
+        "ytickslabels",
+        "ytitle",
+    }
+
     if check is True:
-        check_par(param, 'streamplot', **kwargs)
+        check_par(param, "streamplot", **kwargs)
 
     if np.shape(var1) != np.shape(var2):
         raise ValueError("The shapes of the variables are different.")
-    
+
     # Set or create figure and axes
-    ax, nax = self._assign_ax(kwargs.pop('ax',None),**kwargs)
-    x = np.asarray(kwargs.get('x1',np.arange(len(var1[:,0]))))
-    y = np.asarray(kwargs.get('x2',np.arange(len(var1[0,:]))))
+    ax, nax = self._assign_ax(kwargs.pop("ax", None), **kwargs)
+    x = np.asarray(kwargs.get("x1", np.arange(len(var1[:, 0]))))
+    y = np.asarray(kwargs.get("x2", np.arange(len(var1[0, :]))))
 
     # Keyword x1 and x2
     varx, vary = np.asarray(var2.T).copy(), np.asarray(var1.T).copy()
-    if kwargs.get('transpose', False) is True: varx, vary = varx.T, vary.T
+    if kwargs.get("transpose", False) is True:
+        varx, vary = varx.T, vary.T
 
-    # 
+    #
     fieldmod = np.sqrt(varx**2 + vary**2)
-    vmax     = kwargs.get('vmax', np.nanmax(fieldmod))
-    vmin     = kwargs.get('vmin', np.nanmin(fieldmod))
+    vmax = kwargs.get("vmax", np.nanmax(fieldmod))
+    vmin = kwargs.get("vmin", np.nanmin(fieldmod))
 
     # Apply the masks to set the corresponding elements in varx and vary to NaN
     mask = np.logical_or(fieldmod > vmax, fieldmod < vmin)
     varx[mask] = vary[mask] = np.nan
 
     # Set ax parameters
-    self.set_axis(ax = ax, check = False, **kwargs)
-    self._hide_text(nax, ax.texts)  
+    self.set_axis(ax=ax, check=False, **kwargs)
+    self._hide_text(nax, ax.texts)
 
     # Keyword for colorbar and colorscale
-    color = kwargs.get('c',None)  
-    cmap  = kwargs.get('cmap',None)
-    cpos  = kwargs.get('cpos',None)
-    cscale = kwargs.get('cscale','norm')
-    tresh = kwargs.get('tresh', max(np.abs(vmin),vmax)*0.01)
+    color = kwargs.get("c", None)
+    cmap = kwargs.get("cmap", None)
+    cpos = kwargs.get("cpos", None)
+    cscale = kwargs.get("cscale", "norm")
+    tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
 
-    if 'colors' in 'kwargs' and 'cmap' in 'kwargs':
+    if "colors" in "kwargs" and "cmap" in "kwargs":
         warn = "Both colors and cmap are defined. Using c."
         warnings.warn(warn)
 
     # Set the lines properties
-    linewidth             = kwargs.get('lw',1)
-    density               = kwargs.get('density',1)
-    arrowstyle            = kwargs.get('arrowstyle','-|>')
-    arrowsize             = kwargs.get('arrowsize',1)
-    minlength             = kwargs.get('minlength',0.1)
-    integration_direction = kwargs.get('integration_direction','both')
-    start_points          = kwargs.get('start_points',None)
-    maxlength             = kwargs.get('maxlength',5)
-    broken_streamlines    = kwargs.get('brokenlines',True)
+    linewidth = kwargs.get("lw", 1)
+    density = kwargs.get("density", 1)
+    arrowstyle = kwargs.get("arrowstyle", "-|>")
+    arrowsize = kwargs.get("arrowsize", 1)
+    minlength = kwargs.get("minlength", 0.1)
+    integration_direction = kwargs.get("integration_direction", "both")
+    start_points = kwargs.get("start_points", None)
+    maxlength = kwargs.get("maxlength", 5)
+    broken_streamlines = kwargs.get("brokenlines", True)
 
     # Set the colorbar scale
     norm = self._set_cscale(cscale, vmin, vmax, tresh)
 
     # Plot the streamplot
-    strm = ax.streamplot(x, y, vary, varx, norm = norm, cmap = cmap, 
-                               color = color, linewidth = linewidth, 
-                               density = density,
-                               arrowsize = arrowsize, minlength = minlength,
-                               maxlength = maxlength, 
-                               start_points = start_points,
-                               arrowstyle = arrowstyle,
-                               integration_direction = integration_direction,
-                               broken_streamlines = broken_streamlines)
-    
+    strm = ax.streamplot(
+        x,
+        y,
+        vary,
+        varx,
+        norm=norm,
+        cmap=cmap,
+        color=color,
+        linewidth=linewidth,
+        density=density,
+        arrowsize=arrowsize,
+        minlength=minlength,
+        maxlength=maxlength,
+        start_points=start_points,
+        arrowstyle=arrowstyle,
+        integration_direction=integration_direction,
+        broken_streamlines=broken_streamlines,
+    )
+
     if cpos != None:
-        self.colorbar(strm, check = False, **kwargs)
+        self.colorbar(strm, check=False, **kwargs)
 
     # If tight_layout is enabled, is re-inforced
     if self.tight != False:

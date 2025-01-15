@@ -1,9 +1,7 @@
 from .libraries import *
 
-def _add_ax(self,
-            ax: Axes,
-            i: int
-           ) -> None:
+
+def _add_ax(self, ax: Axes, i: int) -> None:
     """
     Adds the axes properties to the class info variables.
     The corresponding axis is appended to the list of axes.
@@ -45,25 +43,22 @@ def _add_ax(self,
     self.ntext.append(None)
     self.setax.append(0)
     self.setay.append(0)
-    self.xscale.append('linear')
-    self.yscale.append('linear')
+    self.xscale.append("linear")
+    self.yscale.append("linear")
     self.legpos.append(None)
-    self.legpar.append([self.fontsize,1,2,0.8,0.8])
+    self.legpar.append([self.fontsize, 1, 2, 0.8, 0.8])
     self.vlims.append([])
     self.tickspar.append(0)
-    self.shade.append('auto')
+    self.shade.append("auto")
 
     # Position the axis index in the middle of the axis
-    self.ax[i].annotate(str(i),(0.47,0.47),xycoords='axes fraction')
+    self.ax[i].annotate(str(i), (0.47, 0.47), xycoords="axes fraction")
 
     # End of the function
     return None
 
 
-def _hide_text(self, 
-               nax: int, 
-               txts: str | None
-              ) -> None:
+def _hide_text(self, nax: int, txts: str | None) -> None:
     """
     Hides the text placed when an axis is created (the axis index).
 
@@ -107,12 +102,9 @@ def _hide_text(self,
     return None
 
 
-def _set_xrange(self, 
-                ax: Axes, 
-                nax: int, 
-                xlim: list[float], 
-                case: int
-               ) -> None:
+def _set_xrange(
+    self, ax: Axes, nax: int, xlim: list[float], case: int
+) -> None:
     """
     Sets the lower and upper limits of the x-axis of a set of axes (if
     not stated otherwise later).
@@ -153,24 +145,24 @@ def _set_xrange(self,
 
     # Case 0: the x-axis limits are set automatically (no previous limit)
     if case == 0:
-        ax.set_xlim(xlim[0],xlim[1])
+        ax.set_xlim(xlim[0], xlim[1])
 
         # Case switched to 2 (previous limits are present now)
         self.setax[nax] = 2
 
-    # Case 1: limits are already set and they should not be changed 
+    # Case 1: limits are already set and they should not be changed
     #         (aka do nothing)
 
-    # Case 2: the x-axis limit are changed automatically 
+    # Case 2: the x-axis limit are changed automatically
     #         (previous limit present)
     if case == 2:
-        xmin = min(xlim[0],ax.get_xlim()[0])
-        xmax = max(xlim[1],ax.get_xlim()[1])
-        ax.set_xlim(xmin,xmax)
+        xmin = min(xlim[0], ax.get_xlim()[0])
+        xmax = max(xlim[1], ax.get_xlim()[1])
+        ax.set_xlim(xmin, xmax)
 
     # Case 3: x-axis limits are set manually
     if case == 3:
-        ax.set_xlim(xlim[0],xlim[1])
+        ax.set_xlim(xlim[0], xlim[1])
 
         # Case switched to 1 (no change unless stated explicitly otherwise)
         self.setax[nax] = 1
@@ -179,14 +171,15 @@ def _set_xrange(self,
     return None
 
 
-def _set_yrange(self, 
-                ax: Axes, 
-                nax: int, 
-                ylim: list[float], 
-                case: int, 
-                x: NDArray | None = None, 
-                y: NDArray | None = None
-                ) -> None:
+def _set_yrange(
+    self,
+    ax: Axes,
+    nax: int,
+    ylim: list[float],
+    case: int,
+    x: NDArray | None = None,
+    y: NDArray | None = None,
+) -> None:
     """
     Sets the lower and upper limits of the y-axis of a set of axes (if
     not stated otherwise later).
@@ -227,8 +220,8 @@ def _set_yrange(self,
 
     - Example #1: Set the y-axis limits of the selected set of axes
 
-        >>> _set_yrange(ax, nax, ylim, case)  
-            
+        >>> _set_yrange(ax, nax, ylim, case)
+
     """
 
     # Case 0: the y-axis limits are set automatically (no previous limit)
@@ -241,21 +234,21 @@ def _set_yrange(self,
         smally = y[yrange]
 
         # Extend slightly the range
-        ymin, ymax = self._range_offset(smally.min(), 
-                                        smally.max(), 
-                                        self.yscale[nax])   
-        #ymin   = smally.min() - 0.02*np.abs(smally.min())
-        #ymax   = smally.max() + 0.02*np.abs(smally.max())
-        ax.set_ylim(ymin,ymax)
+        ymin, ymax = self._range_offset(
+            smally.min(), smally.max(), self.yscale[nax]
+        )
+        # ymin   = smally.min() - 0.02*np.abs(smally.min())
+        # ymax   = smally.max() + 0.02*np.abs(smally.max())
+        ax.set_ylim(ymin, ymax)
 
         # Switch to case 2 (previous limits are present now)
         self.setay[nax] = 2
 
-    # Case 1: limits are already set and they should not be changed 
+    # Case 1: limits are already set and they should not be changed
     # (aka do nothing)
 
-    # Case 2: the y-axis limit are changed automatically 
-    #(previous limit present)
+    # Case 2: the y-axis limit are changed automatically
+    # (previous limit present)
     if case == 2:
 
         if x is None or y is None:
@@ -265,21 +258,21 @@ def _set_yrange(self,
         yrange = np.where(np.logical_and(x >= x.min(), x <= x.max()))
         smally = y[yrange]
 
-        # Extend slightly the range (not perfect method)     
-        ymin, ymax = self._range_offset(smally.min(), 
-                                        smally.max(), 
-                                        self.yscale[nax])   
-        #ymin   = smally.min() - 0.02*np.abs(smally.min())
-        #ymax   = smally.max() + 0.02*np.abs(smally.max())
+        # Extend slightly the range (not perfect method)
+        ymin, ymax = self._range_offset(
+            smally.min(), smally.max(), self.yscale[nax]
+        )
+        # ymin   = smally.min() - 0.02*np.abs(smally.min())
+        # ymax   = smally.max() + 0.02*np.abs(smally.max())
 
         # Check if the limits should be changed
-        ymin = np.minimum(ymin,ax.get_ylim()[0])
-        ymax = np.maximum(ymax,ax.get_ylim()[1])
-        ax.set_ylim(ymin,ymax)
+        ymin = np.minimum(ymin, ax.get_ylim()[0])
+        ymax = np.maximum(ymax, ax.get_ylim()[1])
+        ax.set_ylim(ymin, ymax)
 
     # Case 3: y-axis limits must be set manually
     if case == 3:
-        ax.set_ylim(ylim[0],ylim[1])
+        ax.set_ylim(ylim[0], ylim[1])
 
         # Case switched to 1 (no change unless stated explicitly otherwise)
         self.setay[nax] = 1
@@ -287,12 +280,10 @@ def _set_yrange(self,
     # End of the function
     return None
 
-def _range_offset(self,
-                  ymin: float, 
-                  ymax: float, 
-                  scale: str,
-                  margin : float = 0.1
-                 ) -> tuple[float, float]:
+
+def _range_offset(
+    self, ymin: float, ymax: float, scale: str, margin: float = 0.1
+) -> tuple[float, float]:
     """
     Returns the offsetted data range for the y-axis limits.
 
@@ -331,36 +322,34 @@ def _range_offset(self,
 
         >>> ymin, ymax = _range_offset(ymin, ymax, scale)
     """
-  
+
     # Find the data range
     data_range = ymax - ymin
     if data_range == 0:
-        data_range = ymax*0.1
+        data_range = ymax * 0.1
 
     # Find the padding (with non-inear scale adjustments)
-    padding = margin*data_range
+    padding = margin * data_range
     if np.log10(np.abs(data_range)) > 10 and scale != "linear":
-        padding *= 2*np.abs(np.log10(np.abs(data_range)))
+        padding *= 2 * np.abs(np.log10(np.abs(data_range)))
         print(padding)
-    
+
     # Set the limits (additional check if the scale is logarithmic)
-    if scale in ['linear','symlog', 'asinh']:
+    if scale in ["linear", "symlog", "asinh"]:
         return (ymin - padding, ymax + padding)
-    elif scale == 'log':
+    elif scale == "log":
         if ymin <= 0 or ymax <= 0:
             ymin = min(np.abs(ymin), np.abs(ymax))
             ymax = max(np.abs(ymin), np.abs(ymax))
             warnings.warn("Negative range for logarithmic scale!", UserWarning)
-        return (max(ymin - padding, ymin*0.5), ymax + padding)
+        return (max(ymin - padding, ymin * 0.5), ymax + padding)
     else:
         return (ymin, ymax)
 
 
-
-def _assign_ax(self, 
-               ax: Axes | list[Axes] | None, 
-               **kwargs: Any
-              ) -> tuple[Axes, int]:
+def _assign_ax(
+    self, ax: Axes | list[Axes] | None, **kwargs: Any
+) -> tuple[Axes, int]:
     """
     Sets the axes of the figure where the plot/feature should go.
     If no axis is present, an axis is created. If the axis is present
@@ -409,19 +398,19 @@ def _assign_ax(self,
 
     # Check if the axis is None and no axis is present (and create one)
     if ax is None and len(self.ax) == 0:
-        ax = self.create_axes(ncol = 1, nrow = 1, check = False, **kwargs)
+        ax = self.create_axes(ncol=1, nrow=1, check=False, **kwargs)
 
     # Check if the axis is None and an axis is present (and select the last one,
     # the current axis if it belongs to the one saved in the figure or the last
-    # one saved 
+    # one saved
     elif ax is None and len(self.ax) > 0:
-        ax  = self.fig.gca() if self.fig.gca() in self.ax else self.ax[-1]
+        ax = self.fig.gca() if self.fig.gca() in self.ax else self.ax[-1]
 
     # Check if the axis is a list and select the first element
     elif isinstance(ax, list):
         ax = ax[0]
-    
-    # Check if the axis is an int, and select the corresponding axis from 
+
+    # Check if the axis is an int, and select the corresponding axis from
     # the list of axes
     elif isinstance(ax, int):
         ax = self.ax[ax]
@@ -437,7 +426,7 @@ def _assign_ax(self,
     if fig != self.fig:
         text = "The provided axis does not belong to the expected figure."
         raise ValueError(text)
-    
+
     # Find the number of the axes and return it
     nax = self.ax.index(ax)
 

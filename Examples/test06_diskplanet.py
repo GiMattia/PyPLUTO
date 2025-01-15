@@ -23,6 +23,7 @@ of the zoom method in plotting different quantities in the same region.
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO as pp
 
 # Loading the data into a pload object D

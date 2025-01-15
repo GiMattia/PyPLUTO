@@ -82,16 +82,12 @@ def _inspect_bin(self, i: int, endian: str | None) -> None:
 
         # Find the variable names
         elif spl1 == b"field_names":
-            self._d_info["varskeys"][i] = [
-                elem.decode() for elem in l.split()[2:]
-            ]
+            self._d_info["varskeys"][i] = [elem.decode() for elem in l.split()[2:]]
             self._d_info["varslist"][i] = ["tot"]
 
         # Find the variable dimensions
         elif spl1 == b"field_dim":
-            self._vardim = np.array(
-                [int(elem.decode()) for elem in l.split()[2:]]
-            )
+            self._vardim = np.array([int(elem.decode()) for elem in l.split()[2:]])
             self._offset["tot"] = f.tell()
             self._shape["tot"] = (self.nshp, np.sum(self._vardim))
             # To be fixed (multiple loading)
@@ -151,9 +147,7 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
     # Initialize the offset and shape arrays, the endianess and the coordinates dictionary
     self._offset, self._shape = ({}, {})
 
-    endl = self._d_info["endianess"][i] = (
-        ">" if endian is None else self._d_end[endian]
-    )
+    endl = self._d_info["endianess"][i] = ">" if endian is None else self._d_end[endian]
     if endl is None:
         raise ValueError("Error: Wrong endianess in vtk file.")
 
@@ -180,12 +174,12 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
         #    f.readline()
         #    self._offset['id'] = f.tell()
         #    self._shape['id'] = self.dim
-        
+
         #elif spl1 == b'tinj':
         #    f.readline()
         #    self._offset['tinj'] = f.tell()
         #    self._shape['tinj'] = self.dim
-        
+
         elif spl0 == b'SCALARS':
             var = spl1.decode()
             f.readline()

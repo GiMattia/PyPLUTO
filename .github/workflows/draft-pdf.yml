@@ -7,7 +7,7 @@ on:
       - Paper/**
       - .github/workflows/draft-pdf.yml
   pull_request:
-  
+
 
 jobs:
   paper:

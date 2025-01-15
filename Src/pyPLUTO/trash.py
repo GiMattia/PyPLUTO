@@ -1,8 +1,8 @@
+from functools import wraps
+
 from .libraries import *
 
 # Here go all the methods that are not used in the main code
-
-from functools import wraps
 
 
 def copy_docstring(source_func):

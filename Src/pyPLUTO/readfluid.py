@@ -93,9 +93,7 @@ def _read_tabfile(self, i: int) -> None:
     return None
 
 
-def _inspect_vtk(
-    self, i: int, endian: str | None, varmult: str | None
-) -> None:
+def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
     """
     Routine to inspect the vtk file and find the variables, the offset and the
     shape. The routine loops over the lines of the file and finds the relevant
@@ -146,9 +144,7 @@ def _inspect_vtk(
     # Initialize the offset and shape arrays, the endianess and the coordinates
     # dictionary
     self._offset, self._shape = ({}, {})
-    endl = self._d_info["endianess"][i] = (
-        ">" if endian is None else self._d_end[endian]
-    )
+    endl = self._d_info["endianess"][i] = ">" if endian is None else self._d_end[endian]
     if endl is None:
         raise ValueError("Error: Wrong endianess in vtk file.")
     if self._info is True:
@@ -225,9 +221,7 @@ def _inspect_vtk(
         # Find the dimensions and store them, computing the variables shape
         elif spl0 == b"DIMENSIONS" and self._info is True:
             nshp_grid = [int(i) for i in l.split()[1:4]]
-            self.nx1, self.nx2, self.nx3 = [
-                max(int(i) - 1, 1) for i in l.split()[1:4]
-            ]
+            self.nx1, self.nx2, self.nx3 = [max(int(i) - 1, 1) for i in l.split()[1:4]]
             if self.nx3 == 1 and self.nx2 == 1:
                 self.dim = 1
                 self.nshp = self.nx1
@@ -268,12 +262,7 @@ def _inspect_vtk(
             for var in self._d_info["varslist"][i]:
                 self._offset[var] = offset
                 self._shape[var] = self.nshp
-                offset = (
-                    offset
-                    + scrh
-                    + len(var)
-                    - len(self._d_info["varslist"][i][0])
-                )
+                offset = offset + scrh + len(var) - len(self._d_info["varslist"][i][0])
             break
         else:
             self._offset[var] = offset
@@ -369,9 +358,7 @@ def _inspect_h5(self, i: int, exout: int) -> None:
             self._offset[j] = stagvs[j].id.get_offset()
             self._shape[j] = stagvs[j].shape
         else:
-            raise ValueError(
-                f"Error: Variable {j} not found in the HDF5 file."
-            )
+            raise ValueError(f"Error: Variable {j} not found in the HDF5 file.")
 
     # If standalone file, finds the coordinates
     if self._info is True:

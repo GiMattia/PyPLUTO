@@ -290,8 +290,7 @@ def read_file(self, filename: str, datatype: str = None, **kwargs: Any) -> Any:
         res = _read_dat(self, filename, **kwargs)
     else:
         warn = (
-            f"Invalid datatype: {datatype}, not implemented yet! "
-            "Resetting to 'h5'"
+            f"Invalid datatype: {datatype}, not implemented yet! " "Resetting to 'h5'"
         )
         warnings.warn(warn)
         pass

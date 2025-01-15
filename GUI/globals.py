@@ -1,5 +1,5 @@
-from matplotlib import colormaps as cmaps
 import matplotlib.scale as mscale
+from matplotlib import colormaps as cmaps
 
 scale = list(mscale.get_scale_names())
 scales = [scale[i] for i in [3, 4, 6, 0]]

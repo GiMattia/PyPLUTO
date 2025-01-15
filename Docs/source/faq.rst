@@ -4,7 +4,7 @@
 Frequently Asked Questions
 ==========================
 
-This section contains all the Frequently Asked Questions regarding the 
+This section contains all the Frequently Asked Questions regarding the
 installation of the PyPLUTO package and its use.
 
 |
@@ -14,7 +14,7 @@ installation of the PyPLUTO package and its use.
 How do I install PyPLUTO?
 -------------------------
 
-To install PyPLUTO, you can use the procedure explained in the 
+To install PyPLUTO, you can use the procedure explained in the
 :ref:`installation` section.
 
 |

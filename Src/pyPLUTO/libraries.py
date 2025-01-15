@@ -1,50 +1,46 @@
+import gc
+import glob
+import mmap
+import os
+import shutil
+import struct
+import sys
+import tempfile
+import traceback
+import warnings
+from collections.abc import Callable, Mapping
+from itertools import islice
+from pathlib import Path
+from typing import Any
+
+import contourpy as cp
 import matplotlib as mpl
-import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import matplotlib.cm as cm
 import matplotlib.colors as mcol
 import matplotlib.lines as mlines
+import matplotlib.pyplot as plt
 import matplotlib.widgets as mwdg
-import matplotlib.cm as cm
-import matplotlib.animation as animation
 import numpy as np
 import numpy.ma as ma
-import contourpy as cp
 import pandas as pd
-
-import glob
-import os
-import sys
-import mmap
-import tempfile
-import struct
-import shutil
-import warnings
-import traceback
-import gc
-
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-from matplotlib.collections import PathCollection, QuadMesh
-from matplotlib.widgets import Slider
 from matplotlib import rc
-from scipy.integrate import solve_ivp
-from scipy.interpolate import RectBivariateSpline
-from scipy.interpolate import RegularGridInterpolator
-from scipy.ndimage import map_coordinates
-from pathlib import Path
-from numpy.typing import NDArray
-from matplotlib.figure import Figure, SubFigure
 from matplotlib.axes import Axes
-from matplotlib.collections import LineCollection
-from collections.abc import Callable, Mapping
-from typing import Any
-from itertools import islice
+from matplotlib.collections import LineCollection, PathCollection, QuadMesh
+from matplotlib.figure import Figure, SubFigure
+from matplotlib.widgets import Slider
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from numpy.typing import NDArray
+from scipy.integrate import solve_ivp
+from scipy.interpolate import RectBivariateSpline, RegularGridInterpolator
+from scipy.ndimage import map_coordinates
 
 try:
     import h5py as h5py
 except ImportError:
     pass
 
-from .h_pypluto import makelist, check_par, color_warning, color_error
-from .h_pypluto import find_session
+from .h_pypluto import check_par, color_error, color_warning, find_session, makelist
 
 # Append created methods to __all__
 # __all__ = [name for name in globals()]

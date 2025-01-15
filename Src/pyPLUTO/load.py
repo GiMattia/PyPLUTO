@@ -146,9 +146,7 @@ class Load:
         # Custom code for handling 'echo'
         if code is not None:
             codedict = {"echo": self.echo_load}
-            init = (
-                f"Creating instance with alternate method using code: {code}"
-            )
+            init = f"Creating instance with alternate method using code: {code}"
             if text is True:
                 print(init)
             codedict[code](nout, path, vars)
@@ -160,9 +158,7 @@ class Load:
 
         # Custom code for unknown code: error!
         elif code is not None:
-            raise NotImplementedError(
-                f"{code} loading is not implemented yet."
-            )
+            raise NotImplementedError(f"{code} loading is not implemented yet.")
 
         # Check if the user wants to load the data
         if nout is None:
@@ -195,9 +191,7 @@ class Load:
         self._d_info: dict[str, Any]  # Info dictionary
         self._matching_files: list[str]  # The list of files to be loaded
         self._pathgrid: Path  # Path to the grid file
-        self._pathdata: Path | None = (
-            None  # Path to the data files to be loaded
-        )
+        self._pathdata: Path | None = None  # Path to the data files to be loaded
         self._filepath: Path  # The filepath to be loaded
         self._load_vars: list[str]  # The list of variables to be loaded
         self._offset: dict[str, int]  # The offset of the variables
@@ -292,9 +286,7 @@ class Load:
         # Print loaded folder and output
         if text:
             _nout_out = (
-                self.nout[0]
-                if len(self.nout) == 1
-                else [int(x) for x in self.nout]
+                self.nout[0] if len(self.nout) == 1 else [int(x) for x in self.nout]
             )
             print(f"Load: folder {path},     output {_nout_out}")
 
@@ -310,7 +302,7 @@ class Load:
         It loads the data.
 
         File properties:
-        - Current path loaded (pathdir)      {self.pathdir} 
+        - Current path loaded (pathdir)      {self.pathdir}
         - Format loaded       (format)       {self.format}
 
         Simulation properties
@@ -326,14 +318,14 @@ class Load:
         - Grid values (cell center)         {['x1','x2','x3']}
         - Grid values (face center)         {['x1r','x2r','x3r']}
         - Cells size                        {['dx1','dx2','dx3']}
-        - Time attributes                   {['outlist','timelist']}\n{text3}        
+        - Time attributes                   {['outlist','timelist']}\n{text3}
         Variables available:
         {self._d_info['varslist'][0]}
-        Variables loaded: 
+        Variables loaded:
         {self._load_vars}
 
-        Public methods available: 
-        
+        Public methods available:
+
         - slices
         - cartesian_vector
         - reshape_cartesian
@@ -354,20 +346,40 @@ class Load:
         except:
             raise AttributeError(f"'Load' object has no attribute '{name}'")
 
-    from .readformat import _check_pathformat, _find_format
-    from .readdata import _load_variables, _check_nout, _findfiles
-    from .readdata import _init_vardict, _assign_var
-    from .readgridout import _read_gridfile, _read_outfile, _split_gridfile
-    from .readgridout import _read_grid_vtk, _read_grid_h5
-    from .readfluid import _compute_offset, _inspect_h5, _inspect_vtk
-    from .readfluid import _offset_bin, _read_tabfile
-    from .amr import _inspect_hdf5, _DataScanHDF5
-    from .write_files import _write_h5, write_file
-    from .read_files import _read_h5, _read_dat, read_file
-    from .transform import slices, mirror, cartesian_vector, reshape_cartesian
-    from .transform import _congrid, reshape_uniform
-    from .fourier import fourier
-    from .findlines import find_contour, find_fieldlines
-    from .findlines import _check_var
-    from .nabla import gradient, curl, divergence
+    from .amr import _DataScanHDF5, _inspect_hdf5
     from .echo_load import echo_load
+    from .findlines import _check_var, find_contour, find_fieldlines
+    from .fourier import fourier
+    from .nabla import curl, divergence, gradient
+    from .read_files import _read_dat, _read_h5, read_file
+    from .readdata import (
+        _assign_var,
+        _check_nout,
+        _findfiles,
+        _init_vardict,
+        _load_variables,
+    )
+    from .readfluid import (
+        _compute_offset,
+        _inspect_h5,
+        _inspect_vtk,
+        _offset_bin,
+        _read_tabfile,
+    )
+    from .readformat import _check_pathformat, _find_format
+    from .readgridout import (
+        _read_grid_h5,
+        _read_grid_vtk,
+        _read_gridfile,
+        _read_outfile,
+        _split_gridfile,
+    )
+    from .transform import (
+        _congrid,
+        cartesian_vector,
+        mirror,
+        reshape_cartesian,
+        reshape_uniform,
+        slices,
+    )
+    from .write_files import _write_h5, write_file

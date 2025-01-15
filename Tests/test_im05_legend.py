@@ -1,6 +1,7 @@
-import pyPLUTO as pp
 import matplotlib as mpl
 import numpy as np
+
+import pyPLUTO as pp
 
 x = np.linspace(0, 1, 101)
 y = np.linspace(1, 10, 101)

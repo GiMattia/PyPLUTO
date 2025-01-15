@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="display.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="set_axis.html" /> 
+    <link rel="prev" title="&lt;no title&gt;" href="set_axis.html" />
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
@@ -34,11 +34,11 @@
     <div class="content-wrapper">
       <div class="content">
         <div class="document">
-            
+
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-            
+
   <dl class="py function" id="plot">
 <dt class="sig sig-object py" id="pyPLUTO.Image.plot">
 <span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[None]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPLUTO.Image.plot" title="Link to this definition">¶</a></dt>
@@ -54,12 +54,12 @@ provided, it plots the second as a function of the first one.</p>
 total transparent.</p>
 </dd>
 <dt><strong>- aspect: ‘auto’ | ‘equal’ | float, default ‘auto’</strong></dt><dd><p>Sets the aspect ratio of the plot.
-The ‘auto’ keyword is the default option (most likely the plot will be 
-squared). The ‘equal’ keyword will set the same scaling for x and y. 
+The ‘auto’ keyword is the default option (most likely the plot will be
+squared). The ‘equal’ keyword will set the same scaling for x and y.
 A float will fix the ratio between the y-scale and the x-scale
 (1.0 is the same as ‘equal’).</p>
 </dd>
-<dt><strong>- ax: ax | int | None, default None</strong></dt><dd><p>The axis where to plot the lines. If None, a new axis is created or the 
+<dt><strong>- ax: ax | int | None, default None</strong></dt><dd><p>The axis where to plot the lines. If None, a new axis is created or the
 last axis is selected.</p>
 </dd>
 <dt><strong>- bottom: float, default 0.1</strong></dt><dd><p>The space from the bottom border to the last row of plots.</p>
@@ -68,7 +68,7 @@ last axis is selected.</p>
 array of 10 color which are different for the most common vision
 deficiencies.</p>
 </dd>
-<dt><strong>- figsize: [float, float], default [8,5]</strong></dt><dd><p>Sets the figure size. The default value is computed from the number of 
+<dt><strong>- figsize: [float, float], default [8,5]</strong></dt><dd><p>Sets the figure size. The default value is computed from the number of
 rows and columns.</p>
 </dd>
 <dt><strong>- fillstyle: {‘full’, ‘left’, ‘right’, ‘bottom’, ‘top’, ‘none’},</strong></dt><dd><blockquote>
@@ -97,21 +97,21 @@ The default value corresponds to the value of the keyword ‘fontsize’.</p>
 in the legend.</p>
 </dd>
 <dt><strong>- legpos: int | str, default None</strong></dt><dd><p>If enabled, creates a legend. This keyword selects the legend location.
-The possible locations for the legend are indicated in the following 
-link: 
+The possible locations for the legend are indicated in the following
+link:
 <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html</a></p>
 </dd>
-<dt><strong>- legsize: float, default fontsize</strong></dt><dd><p>Sets the fontsize of the legend. The default value is the default 
+<dt><strong>- legsize: float, default fontsize</strong></dt><dd><p>Sets the fontsize of the legend. The default value is the default
 fontsize value.</p>
 </dd>
 <dt><strong>- legspace: float, default 2</strong></dt><dd><p>Sets the space between the legend columns, in font-size units.</p>
 </dd>
-<dt><strong>- ls: {‘-’, ‘–’, ‘-.’, ‘:’, ‘ ‘, ect.}, default ‘-’</strong></dt><dd><p>Sets the linestyle. The choices available are the ones defined in the 
+<dt><strong>- ls: {‘-’, ‘–’, ‘-.’, ‘:’, ‘ ‘, ect.}, default ‘-’</strong></dt><dd><p>Sets the linestyle. The choices available are the ones defined in the
 matplotlib package. Here are reported the most common ones.</p>
 </dd>
 <dt><strong>- lw: float, default 1.3</strong></dt><dd><p>Sets the linewidth of each line.</p>
 </dd>
-<dt><strong>- marker: {‘o’, ‘v’, ‘^’, ‘&lt;’, ‘&gt;’, ‘X’, ‘ ‘, etc.}, default ‘ ‘</strong></dt><dd><p>Sets an optional symbol for every point. The default value is no marker 
+<dt><strong>- marker: {‘o’, ‘v’, ‘^’, ‘&lt;’, ‘&gt;’, ‘X’, ‘ ‘, etc.}, default ‘ ‘</strong></dt><dd><p>Sets an optional symbol for every point. The default value is no marker
 (’ ‘).</p>
 </dd>
 <dt><strong>- minorticks: str, default None</strong></dt><dd><p>If not None enables the minor ticks on the plot (for both grid axes).</p>
@@ -134,17 +134,17 @@ The default value corresponds to the value of the keyword ‘fontsize’.</p>
 </dd>
 <dt><strong>- title: str, default None</strong></dt><dd><p>Places the title of the plot on top of it.</p>
 </dd>
-<dt><strong>- titlesize: float, default fontsize</strong></dt><dd><p>Sets the title fontsize. The default value corresponds to the value of 
+<dt><strong>- titlesize: float, default fontsize</strong></dt><dd><p>Sets the title fontsize. The default value corresponds to the value of
 the keyword ‘fontsize’.</p>
 </dd>
 <dt><strong>- top: float, default 0.9</strong></dt><dd><p>The space from the top border to the first row of plots.</p>
 </dd>
-<dt><strong>- x (not optional): 1D array</strong></dt><dd><p>This is the x-axis variable. If y is not defined, then this becomes the 
+<dt><strong>- x (not optional): 1D array</strong></dt><dd><p>This is the x-axis variable. If y is not defined, then this becomes the
 y-axis variable.</p>
 </dd>
 <dt><strong>- xrange: [float, float], default ‘Default’</strong></dt><dd><p>Sets the range in the x-direction. If not defined or set to ‘Default’
 the code will compute the range while plotting the data by taking the
-minimum and the maximum values of the x-array. In case of multiple 
+minimum and the maximum values of the x-array. In case of multiple
 lines, the code will also adapt to the previous ranges.</p>
 </dd>
 <dt><strong>- xscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from default), sets automatically the scale
@@ -152,7 +152,7 @@ on the x-axis. Data in log scale should be used with the keyword ‘log’,
 while data in linear scale should be used with the keyword ‘linear’.</p>
 </dd>
 <dt><strong>- xticks: [float] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on
-x-axis. In order to completely remove the ticks the keyword should be 
+x-axis. In order to completely remove the ticks the keyword should be
 used with None.</p>
 </dd>
 <dt><strong>- xtickslabels: [str] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
@@ -166,8 +166,8 @@ always correspond to fixed ticks.</p>
 </dd>
 <dt><strong>- yrange: [float, float], default ‘Default’</strong></dt><dd><p>Sets the range in the y-direction. If not defined or set to ‘Default’
 the code will compute the range while plotting the data by taking the
-minimum and the maximum values of the y-array. In case of multiple 
-lines, the code will also adapt to the previous ranges. It also adds a 
+minimum and the maximum values of the y-array. In case of multiple
+lines, the code will also adapt to the previous ranges. It also adds a
 small offset.</p>
 </dd>
 <dt><strong>- yscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from True), sets automatically the scale
@@ -175,7 +175,7 @@ on the y-axis. Data in log scale should be used with the keyword ‘log’,
 while data in linear scale should be used with the keyword ‘linear’.</p>
 </dd>
 <dt><strong>- yticks: [float] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on
-y-axis. In order to completely remove the ticks the keyword should be 
+y-axis. In order to completely remove the ticks the keyword should be
 used with None.</p>
 </dd>
 <dt><strong>- ytickslabels: [str] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
@@ -214,7 +214,7 @@ always correspond to fixed ticks.</p>
 <dt>Example #2: create a plot of y as function of x with custom range of the </dt><dd><p>axes and titles</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],</span>
 <span class="gp">... </span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;y in function of x&#39;</span><span class="p">,</span> <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
 <span class="gp">...</span>
 </pre></div>
@@ -232,7 +232,7 @@ always correspond to fixed ticks.</p>
 <li><p>Example #4: create a plot with a legend and custom ticks on x-axis</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">legpos</span> <span class="o">=</span> <span class="s1">&#39;lower right&#39;</span><span class="p">,</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">legpos</span> <span class="o">=</span> <span class="s1">&#39;lower right&#39;</span><span class="p">,</span>
 <span class="gp">... </span><span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">0.8</span><span class="p">])</span>
 <span class="gp">... </span>
 </pre></div>
@@ -263,7 +263,7 @@ always correspond to fixed ticks.</p>
       </div>
         </div>
         <div class="sidebar">
-          
+
           <h3>Table of Contents</h3>
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
@@ -317,7 +317,7 @@ always correspond to fixed ticks.</p>
         </div>
 
         <div class="right">
-          
+
     <div class="footer" role="contentinfo">
     &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.

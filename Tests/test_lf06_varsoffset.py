@@ -1,9 +1,11 @@
-import pyPLUTO as pp
+import os
+from pathlib import Path
+
 import numpy as np
 import numpy.testing as npt
 import pytest
-import os
-from pathlib import Path
+
+import pyPLUTO as pp
 
 # Assuming the root of the repo is your current working directory
 repo_root = Path(os.getcwd())
@@ -52,9 +54,7 @@ def test_singlevtkout():
 
 # Test single file, vtk output (standalone)
 def test_singlevtkalone():
-    D = pp.Load(
-        path=path / "single_file", datatype="vtk", text=False, alone=True
-    )
+    D = pp.Load(path=path / "single_file", datatype="vtk", text=False, alone=True)
     for num, var in enumerate(varslist):
         assert D._offset[var] == size_vtk0 + num * (size_vtkh + size * 4)
 
@@ -67,9 +67,7 @@ def test_multiplevtkout():
 
 # Test multiple files, vtk output (standalone)
 def test_multiplevtkalone():
-    D = pp.Load(
-        path=path / "multiple_files", datatype="vtk", text=False, alone=True
-    )
+    D = pp.Load(path=path / "multiple_files", datatype="vtk", text=False, alone=True)
     var = list(D._offset.keys())[0]
     assert D._offset[var] == size_vtkm
 

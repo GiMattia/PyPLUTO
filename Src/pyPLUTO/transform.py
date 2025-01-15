@@ -99,9 +99,7 @@ def slices(
     return newvar
 
 
-def mirror(
-    self, var: NDArray, dirs="l", xax=None, yax=None
-) -> list[np.ndarray]:
+def mirror(self, var: NDArray, dirs="l", xax=None, yax=None) -> list[np.ndarray]:
     """
     Function that mirrors the variable in the specified directions.
     Multiple directions can be specified.
@@ -279,9 +277,7 @@ def repeat(
         return newvar
 
 
-def cartesian_vector(
-    self, var: str | None = None, **kwargs: Any
-) -> tuple[NDArray]:
+def cartesian_vector(self, var: str | None = None, **kwargs: Any) -> tuple[NDArray]:
     """
     Function that converts a vector from spherical or polar components to
     cartesian components.
@@ -337,10 +333,7 @@ def cartesian_vector(
     }
 
     if var is not None:
-        var_0 = [
-            self.check_var(v, kwargs.get("transpose", False))
-            for v in vars[var]
-        ]
+        var_0 = [self.check_var(v, kwargs.get("transpose", False)) for v in vars[var]]
     elif "var1" in kwargs and "var2" in kwargs:
         var_0 = [
             self.check_var(kwargs["var1"], kwargs.get("transpose", False)),
@@ -350,9 +343,7 @@ def cartesian_vector(
         raise ValueError("Either var or var1 and var2 must be specified.")
 
     if "var3" in kwargs:
-        var_0.append(
-            self.check_var(kwargs["var3"], kwargs.get("transpose", False))
-        )
+        var_0.append(self.check_var(kwargs["var3"], kwargs.get("transpose", False)))
 
     x1 = kwargs.get("x1", self.x1)
     x2 = kwargs.get("x2", self.x2)
@@ -472,9 +463,7 @@ def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray]:
     ycong = self._congrid(yc, (nx1, nx2), method="linear")
 
     for i, var in enumerate(vars):
-        newv.append(
-            np.sum([ww[j] * var.flat[nn[j]] for j in range(4)], axis=0)
-        )
+        newv.append(np.sum([ww[j] * var.flat[nn[j]] for j in range(4)], axis=0))
         newv[i] = self._congrid(newv[i], (nx1, nx2), method="linear")
 
     if self.geom == "SPHERICAL":
@@ -537,12 +526,8 @@ def reshape_uniform(self, x1, x2, *args, **kwargs):
 
     if not uniform_x or not uniform_y:
 
-        x1new = (
-            np.linspace(x1.min(), x1.max(), nx1new) if not uniform_x else x1
-        )
-        x2new = (
-            np.linspace(x2.min(), x2.max(), nx2new) if not uniform_y else x2
-        )
+        x1new = np.linspace(x1.min(), x1.max(), nx1new) if not uniform_x else x1
+        x2new = np.linspace(x2.min(), x2.max(), nx2new) if not uniform_y else x2
 
         for i in args:
             interp = RectBivariateSpline(x2, x1, i.T)

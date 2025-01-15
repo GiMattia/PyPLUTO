@@ -72,7 +72,7 @@ This method allows installation in a non-editable mode, and it is recommended to
 import pyPLUTO as pp
 ```
 
-Simulations can be loaded by just providing the path to the simulation directory. The last output (if not specific 
+Simulations can be loaded by just providing the path to the simulation directory. The last output (if not specific
 file is selected) is automatically found, as well as the available PLUTO file in the selected folder.
 
 ```python
@@ -103,7 +103,7 @@ For more detailed instructions and additional installation options, please refer
 ## Contributing
 
 If you have any questions, suggestions or find a bug, feel free to open an issue or fork the repository and create a pull request.
-Any contribution aimed at helping the PLUTO code community to have better plots with less efforts will be greatly appreciated. 
+Any contribution aimed at helping the PLUTO code community to have better plots with less efforts will be greatly appreciated.
 
 ### Rules for Contributing
 

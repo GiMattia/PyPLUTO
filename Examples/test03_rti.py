@@ -41,9 +41,7 @@ I = pp.Image(
 )
 
 # Creating the subplots (3 for the temporal evolution and 1 for the colorbar)
-I.create_axes(
-    ncol=4, wratio=[1, 1, 1, 0.2], wspace=[0.005, 0.005, 0.005], top=0.88
-)
+I.create_axes(ncol=4, wratio=[1, 1, 1, 0.2], wspace=[0.005, 0.005, 0.005], top=0.88)
 
 # Customizing y labels and y ticks labels
 ylab = ["y", None, None]

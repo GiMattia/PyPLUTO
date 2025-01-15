@@ -282,9 +282,7 @@ def create_axes(
     return ret_ax
 
 
-def set_axis(
-    self, ax: Axes | None = None, check: bool = True, **kwargs: Any
-) -> None:
+def set_axis(self, ax: Axes | None = None, check: bool = True, **kwargs: Any) -> None:
     """
     Customization of a single subplot axis.
     Properties such as the range, scale and aspect of each subplot
@@ -475,13 +473,9 @@ def set_axis(
             pad=kwargs.get("titlepad", 8.0),
         )
     if kwargs.get("xtitle", None) is not None:
-        ax.set_xlabel(
-            kwargs["xtitle"], fontsize=kwargs.get("labelsize", self.fontsize)
-        )
+        ax.set_xlabel(kwargs["xtitle"], fontsize=kwargs.get("labelsize", self.fontsize))
     if kwargs.get("ytitle", None) is not None:
-        ax.set_ylabel(
-            kwargs["ytitle"], fontsize=kwargs.get("labelsize", self.fontsize)
-        )
+        ax.set_ylabel(kwargs["ytitle"], fontsize=kwargs.get("labelsize", self.fontsize))
 
     # Set sharex and sharey
     if kwargs.get("sharex", False) is not False:
@@ -691,10 +685,7 @@ def _set_ticks(
 
         # If tickslabels are not None raise a warning
         if tl is not None and tl is not True:
-            warn = (
-                "Warning, tickslabels are defined with no"
-                "ticks!! (function setax)"
-            )
+            warn = "Warning, tickslabels are defined with no" "ticks!! (function setax)"
             warnings.warn(warn, UserWarning)
 
     # Ticks are not None and tickslabels are custom

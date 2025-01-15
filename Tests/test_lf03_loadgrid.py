@@ -1,9 +1,11 @@
-import pyPLUTO as pp
+import os
+from pathlib import Path
+
 import numpy as np
 import numpy.testing as npt
 import pytest
-import os
-from pathlib import Path
+
+import pyPLUTO as pp
 
 # Assuming the root of the repo is your current working directory
 repo_root = Path(os.getcwd())
@@ -47,9 +49,7 @@ def test_gridfile():
 
 # Testing the grid from a standalone vtk file
 def test_standalone_vtk():
-    D = pp.Load(
-        path=path / "single_file", text=False, datatype="vtk", alone=True
-    )
+    D = pp.Load(path=path / "single_file", text=False, datatype="vtk", alone=True)
     npt.assert_allclose(D.x1r, xr)
     npt.assert_allclose(D.x2r, xr)
 

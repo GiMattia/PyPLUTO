@@ -274,9 +274,7 @@ def plot(
     # self._set_xrange(ax, nax, [x.min(),x.max()], self.setax[nax])
     # self._set_yrange(ax, nax, [y.min(),y.max()], self.setay[nax], x = x, y = y)
     self._set_xrange(ax, nax, [np.nanmin(x), np.nanmax(x)], self.setax[nax])
-    self._set_yrange(
-        ax, nax, [np.nanmin(y), np.nanmax(y)], self.setay[nax], x=x, y=y
-    )
+    self._set_yrange(ax, nax, [np.nanmin(y), np.nanmax(y)], self.setay[nax], x=x, y=y)
 
     # Set color line and increase the number of lines (if default color)
     col_line = kwargs.get("c", self.color[self.nline[nax] % len(self.color)])
@@ -459,9 +457,7 @@ def legend(
     # Check is custom labels are on and plot the legend
     if kwargs.get("label") is not None:
         lab = (
-            kwargs["label"]
-            if isinstance(kwargs["label"], list)
-            else [kwargs["label"]]
+            kwargs["label"] if isinstance(kwargs["label"], list) else [kwargs["label"]]
         )
         col = makelist(kwargs.get("c", ["k"]))
         ls = makelist(kwargs.get("ls", ["-"]))

@@ -1,7 +1,8 @@
-import pyPLUTO as pp
 import matplotlib as mpl
 import numpy as np
 import numpy.testing as npt
+
+import pyPLUTO as pp
 
 x = np.linspace(0, 1, 101)
 y = np.linspace(1, 10, 101)
@@ -13,9 +14,7 @@ def test_plot_noxvalues():
     I = pp.Image(withblack=True)
     I.plot(y)
     line = I.ax[0].get_lines()[0]
-    npt.assert_array_equal(
-        line.get_xdata(), np.linspace(0, len(y) - 1, len(y))
-    )
+    npt.assert_array_equal(line.get_xdata(), np.linspace(0, len(y) - 1, len(y)))
     npt.assert_array_equal(line.get_ydata(), y)
     assert line.get_color() == "#000000"
     assert line.get_lw() == 1.3

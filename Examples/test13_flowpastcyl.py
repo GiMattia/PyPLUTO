@@ -15,6 +15,7 @@ shown on screen.
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO as pp
 
 # Load the data (4 levels of AMR)

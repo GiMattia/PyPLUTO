@@ -1,9 +1,11 @@
-import pyPLUTO as pp
+import os
+from pathlib import Path
+
 import numpy as np
 import numpy.testing as npt
 import pytest
-import os
-from pathlib import Path
+
+import pyPLUTO as pp
 
 # Assuming the root of the repo is your current working directory
 repo_root = Path(os.getcwd())
@@ -17,9 +19,7 @@ varslist = ["rho", "vx1", "vx2", "vx3", "prs"]
 
 # Test when only last output is loaded
 def test_lastoutput():
-    D = pp.Load(
-        path=path / "multiple_outputs", datatype="vtk", alone=True, text=False
-    )
+    D = pp.Load(path=path / "multiple_outputs", datatype="vtk", alone=True, text=False)
 
     outlist = np.linspace(0, 4, 5, dtype="int")
     typefile = ["single_file"]
@@ -59,9 +59,7 @@ def test_twooutputs():
 
 # Test when only last output is loaded (tab)
 def test_lasttab():
-    D = pp.Load(
-        path=path / "multiple_outputs", datatype="tab", alone=True, text=False
-    )
+    D = pp.Load(path=path / "multiple_outputs", datatype="tab", alone=True, text=False)
 
     outlist = np.linspace(0, 4, 5, dtype="int")
     typefile = ["single_file"]

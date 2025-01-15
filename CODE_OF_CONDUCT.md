@@ -1,4 +1,4 @@
-All Max Planck Institute for Astronomy (MPIA) researchers are bound to adhere to the [Max Plack Society Code of Conduct](https://www.mpg.de/14172230/code-of-conduct.pdf). 
+All Max Planck Institute for Astronomy (MPIA) researchers are bound to adhere to the [Max Plack Society Code of Conduct](https://www.mpg.de/14172230/code-of-conduct.pdf).
 
 Interactions on GitHub are not limited to those between MPIA employees. The community of participants in open source astronomy projects is made up of members from around the globe with a diverse set of skills, personalities, and experiences. It is through these differences that our community experiences success and
 continued growth. As members of this global community:
@@ -8,8 +8,8 @@ continued growth. As members of this global community:
 3. We conduct our research and support the research of others with integrity and according to the highest scientific standards.
 4. We discuss problems and implement solutions openly and respectfully; we communicate the principles and processes that underlie our actions and decisions.
 5. We recognize the achievements of others, give credit where it is due and offer constructive feedback when necessary.
-6. We support each other in achieving our goals by nurturing trust and cooperation, and by respecting individual capabilities and needs. 
-7. We honor our responsibilities towards our colleagues, employees, the public, and the environment by acting supportively and sustainably. 
+6. We support each other in achieving our goals by nurturing trust and cooperation, and by respecting individual capabilities and needs.
+7. We honor our responsibilities towards our colleagues, employees, the public, and the environment by acting supportively and sustainably.
 8. We communicate openly and transparently with each other and with the public.
 
 **This code of conduct applies to all community situations online and offline, including mailing lists, forums, social media, conferences, meetings, associated social events, and one-to-one interactions.**

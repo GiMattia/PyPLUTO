@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="find_fieldlines.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="reshape_uniform.html" /> 
+    <link rel="prev" title="&lt;no title&gt;" href="reshape_uniform.html" />
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
@@ -34,11 +34,11 @@
     <div class="content-wrapper">
       <div class="content">
         <div class="document">
-            
+
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-            
+
   <dl class="py function" id="slices">
 <dt class="sig sig-object py" id="pyPLUTO.Load.slices">
 <span class="sig-prename descclassname"><span class="pre">pyPLUTO.Load.</span></span><span class="sig-name descname"><span class="pre">slices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pyPLUTO.Load.slices" title="Link to this definition">¶</a></dt>
@@ -47,7 +47,7 @@ Also, it can slice the diagonal of the variable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>- axis1: int | None, default None</strong></dt><dd><p>Axis to be used as the first axis of the 2-D sub-arrays from which the 
+<dt><strong>- axis1: int | None, default None</strong></dt><dd><p>Axis to be used as the first axis of the 2-D sub-arrays from which the
 diagonals should be taken. Defaults to first axis (0).</p>
 </dd>
 <dt><strong>- axis2: int | None, default None</strong></dt><dd><p>Axis to be used as the second axis of the 2-D sub-arrays from which the
@@ -56,7 +56,7 @@ diagonals should be taken. Defaults to second axis (1).</p>
 <dt><strong>- diag: bool | None, default None</strong></dt><dd><p>If not None (or ‘min’), slice the main diagonal of the variable.
 If ‘min’, slice the opposite diagonal.</p>
 </dd>
-<dt><strong>- offset: int | None, default None</strong></dt><dd><p>Offset of the diagonal from the main diagonal. Can be positive or 
+<dt><strong>- offset: int | None, default None</strong></dt><dd><p>Offset of the diagonal from the main diagonal. Can be positive or
 negative. Defaults to main diagonal (0).</p>
 </dd>
 <dt><strong>- var: np.ndarray</strong></dt><dd><p>The variable to slice.</p>
@@ -97,7 +97,7 @@ negative. Defaults to main diagonal (0).</p>
 </div>
 </li>
 <li><p>Example #3: Slice the variable in the opposite diagonal</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">slices</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">diag</span> <span class="o">=</span> <span class="s1">&#39;min&#39;</span><span class="p">)</span>  
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">slices</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">diag</span> <span class="o">=</span> <span class="s1">&#39;min&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
@@ -116,7 +116,7 @@ negative. Defaults to main diagonal (0).</p>
       </div>
         </div>
         <div class="sidebar">
-          
+
           <h3>Table of Contents</h3>
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
@@ -170,7 +170,7 @@ negative. Defaults to main diagonal (0).</p>
         </div>
 
         <div class="right">
-          
+
     <div class="footer" role="contentinfo">
     &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.

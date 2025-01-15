@@ -16,9 +16,11 @@ particles at the beginning and at the end of the simulation. The image is then
 saved and shown on screen.
 """
 
+import matplotlib.pyplot as plt
+
 # Loading the relevant packages
 import numpy as np
-import matplotlib.pyplot as plt
+
 import pyPLUTO as pp
 
 # Loading the data and the particle data into two pload objects

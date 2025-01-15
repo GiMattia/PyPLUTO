@@ -119,9 +119,7 @@ class LoadPart:
         self.set_outs: set[int]  # The set of outputs to be loaded
         self._matching_files: list[str]  # The list of files to be loaded
         self._pathgrid: Path  # Path to the grid file
-        self._pathdata: Path | None = (
-            None  # Path to the data files to be loaded
-        )
+        self._pathdata: Path | None = None  # Path to the data files to be loaded
         self._filepath: Path  # The filepath to be loaded
         self._load_vars: list[str]  # The list of variables to be loaded
         self._offset: dict[str, int]  # The offset of the variables
@@ -186,9 +184,7 @@ class LoadPart:
 
         # Print loaded folder and output
         if text is not False:
-            _nout_out = (
-                self.nout[0] if len(self.nout) == 1 else list(self.nout)
-            )
+            _nout_out = self.nout[0] if len(self.nout) == 1 else list(self.nout)
             print(f"LoadPart: folder {path},     output {_nout_out}")
         return
 
@@ -196,21 +192,21 @@ class LoadPart:
         text = f"""
         LoadPart class.
         It loads the particles.
-        
+
         File properties:
-        - Current path loaded (pathdir)      {self.pathdir} 
+        - Current path loaded (pathdir)      {self.pathdir}
         - Format loaded       (format)       {self.format}
 
         Simulation properties
         - N. particles  (maxpart)  {self.maxpart}
         - Output loaded (nout)     {self.nout}
         - Time loaded   (ntime)    {self.ntime}
-        
-        Variables loaded: 
+
+        Variables loaded:
         {self._d_vars.keys()}
 
-        Public methods available: 
-        
+        Public methods available:
+
         - select
         - spectrum
 
@@ -222,13 +218,21 @@ class LoadPart:
         try:
             return getattr(self, f"_{name}")
         except:
-            raise AttributeError(
-                f"'LoadPart' object has no attribute '{name}'"
-            )
+            raise AttributeError(f"'LoadPart' object has no attribute '{name}'")
 
-    from .parttools import spectrum, select
+    from .parttools import select, spectrum
+    from .readdata import (
+        _assign_var,
+        _check_nout,
+        _findfiles,
+        _init_vardict,
+        _load_variables,
+    )
     from .readformat import _check_pathformat, _find_format
-    from .readdata import _load_variables, _check_nout, _findfiles
-    from .readdata import _init_vardict, _assign_var
-    from .readpart import _store_bin_particles, _store_vtk_particles
-    from .readpart import _inspect_bin, _inspect_vtk, _compute_offset
+    from .readpart import (
+        _compute_offset,
+        _inspect_bin,
+        _inspect_vtk,
+        _store_bin_particles,
+        _store_vtk_particles,
+    )

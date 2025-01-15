@@ -1,15 +1,7 @@
-from PyQt6.QtWidgets import (
-    QMainWindow,
-    QWidget,
-    QVBoxLayout,
-    QLabel,
-    QHBoxLayout,
-)
+from globals import cmaps, cmaps_avail, format_avail, scales, vscales
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qtagg import (
-    NavigationToolbar2QT as NavigationToolbar,
-)
-from globals import cmaps, scales, vscales, format_avail, cmaps_avail
+from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
+from PyQt6.QtWidgets import QHBoxLayout, QLabel, QMainWindow, QVBoxLayout, QWidget
 
 
 class PyPLUTOApp(QMainWindow):
@@ -135,32 +127,28 @@ class PyPLUTOApp(QMainWindow):
 
         main_layout.addLayout(button_layout)
 
-        self.typecmap_selector.currentIndexChanged.connect(
-            self.update_cmap_selector
-        )
+        self.typecmap_selector.currentIndexChanged.connect(self.update_cmap_selector)
 
         self.canvas_layout = QVBoxLayout()
         self.create_new_figure()
         main_layout.addLayout(self.canvas_layout)
 
+    from config import clearload, load_data, reload_data, select_folder
     from panels import (
-        add_line,
+        add_checkbox,
         add_combobox,
         add_label,
+        add_line,
         add_lineedit,
-        add_checkbox,
         add_pushbutton,
     )
-
-    from config import select_folder, reload_data, load_data, clearload
-
     from utils import (
         check_axisparam,
-        create_new_figure,
-        reload_canvas,
-        plot_data,
-        update_axes,
         clear_labels,
-        update_cmap_selector,
+        create_new_figure,
+        plot_data,
+        reload_canvas,
         set_range,
+        update_axes,
+        update_cmap_selector,
     )

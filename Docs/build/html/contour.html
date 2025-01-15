@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="streamplot.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="scatter.html" /> 
+    <link rel="prev" title="&lt;no title&gt;" href="scatter.html" />
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
@@ -34,22 +34,22 @@
     <div class="content-wrapper">
       <div class="content">
         <div class="document">
-            
+
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-            
+
   <dl class="py function" id="contour">
 <dt class="sig sig-object py" id="pyPLUTO.Image.contour">
 <span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LineCollection</span></span></span><a class="headerlink" href="#pyPLUTO.Image.contour" title="Link to this definition">¶</a></dt>
-<dd><p>Plots a contour plot of a given variable. The function uses the 
+<dd><p>Plots a contour plot of a given variable. The function uses the
 matplotlib.pyplot.contour function. The function returns None.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>- alpha: float, default 1.0</strong></dt><dd><p>Sets the transparency of the contour lines.</p>
 </dd>
-<dt><strong>- aspect: {‘auto’, ‘equal’, float}, default ‘auto’</strong></dt><dd><p>Sets the aspect ratio of the plot. The ‘auto’ keyword is the default 
+<dt><strong>- aspect: {‘auto’, ‘equal’, float}, default ‘auto’</strong></dt><dd><p>Sets the aspect ratio of the plot. The ‘auto’ keyword is the default
 option (most likely the plot will be squared). The ‘equal’ keyword will
 set the same scaling for x and y. A float will fix the ratio between the
 y-scale and the x-scale (1.0 is the same as ‘equal’).</p>
@@ -61,7 +61,7 @@ If ‘old’, the last considered axis will be used.</p>
 over an array of 6 color which are different for the most common vision
 deficiencies.</p>
 </dd>
-<dt><strong>- cmap: str, default ‘hot’</strong></dt><dd><p>Selects the colormap. If not defined, the colormap ‘hot’ will be 
+<dt><strong>- cmap: str, default ‘hot’</strong></dt><dd><p>Selects the colormap. If not defined, the colormap ‘hot’ will be
 adopted. Some useful colormaps are: plasma, magma, seismic. Please avoid
 using colorbars like jjet or rainbow, which are not perceptively uniform
 and not suited for people with vision deficiencies.
@@ -76,7 +76,7 @@ All the colormap available are listed in the following link:
 </dd>
 <dt><strong>- extendrect: bool, default False</strong></dt><dd><p>If True, the colorbar extension will be rectangular.</p>
 </dd>
-<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components (only for the current 
+<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components (only for the current
 axis).</p>
 </dd>
 <dt><strong>- grid: bool, default False</strong></dt><dd><p>Enables/disables the grid on the plot.</p>
@@ -104,7 +104,7 @@ The default value corresponds to the value of the keyword ‘fontsize’.</p>
 <dt><strong>- titlesize: float, default fontsize</strong></dt><dd><p>Sets the title fontsize. The default value corresponds to the value
 of the keyword ‘fontsize’.</p>
 </dd>
-<dt><strong>- transpose: True/False, default False</strong></dt><dd><p>Transposes the variable matrix. Use is not recommended if not really 
+<dt><strong>- transpose: True/False, default False</strong></dt><dd><p>Transposes the variable matrix. Use is not recommended if not really
 necessary (e.g. in case of highly customized variables and plots).</p>
 </dd>
 <dt><strong>- tresh: float, default max(abs(vmin),vmax)*0.01</strong></dt><dd><p>Sets the threshold for the colormap. If not defined, the threshold will
@@ -173,7 +173,7 @@ always correspond to fixed ticks.</p>
 </dl>
 <p class="rubric">Notes</p>
 <ul class="simple">
-<li><p>Need to improve the colorbar, now only lines are plotted and not the 
+<li><p>Need to improve the colorbar, now only lines are plotted and not the
 full colormap.</p></li>
 </ul>
 <hr class="docutils" />
@@ -199,7 +199,7 @@ full colormap.</p></li>
       </div>
         </div>
         <div class="sidebar">
-          
+
           <h3>Table of Contents</h3>
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
@@ -252,7 +252,7 @@ full colormap.</p></li>
         </div>
 
         <div class="right">
-          
+
     <div class="footer" role="contentinfo">
     &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.

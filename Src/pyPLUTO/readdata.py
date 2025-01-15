@@ -69,9 +69,7 @@ def _load_variables(
         self._filepath = self.pathdir / ("data" + self._d_info["endpath"][i])
     elif class_name == "LoadPart":
         # If the class name is LoadPart, the filepath is particles
-        self._filepath = self.pathdir / (
-            "particles" + self._d_info["endpath"][i]
-        )
+        self._filepath = self.pathdir / ("particles" + self._d_info["endpath"][i])
     else:
         # If the class name is not recognized, raise an error
         raise NameError("Invalid class name.")
@@ -105,7 +103,7 @@ def _load_variables(
     """
     # Loop over the variables to be loaded
     for j in self._load_vars:
-    
+
         # Change filepath, offset and shape in case of multiple_files
         if self._d_info['typefile'][i] == 'multiple_files':
             # If the files are multiple, the filepath is changed for each
@@ -127,8 +125,7 @@ def _load_variables(
         start_byte = min(self._offset[j] for j in self._load_vars)
         end_byte = max(
             self._offset[j]
-            + np.prod(self._shape[j])
-            * np.dtype(self._d_info["binformat"][i]).itemsize
+            + np.prod(self._shape[j]) * np.dtype(self._d_info["binformat"][i]).itemsize
             for j in self._load_vars
         )
 
@@ -420,8 +417,8 @@ def _init_vardict(self, var: str) -> None:
         """
         if isinstance(self._shape[var], tuple):
             # If the shape is a tuple, the shape is reversed
-            sh_type = self._shape[var][::-1] 
-        else: 
+            sh_type = self._shape[var][::-1]
+        else:
             # If the shape is not a tuple, the shape is converted to a tuple
             sh_type = (self._shape[var],)
 
@@ -434,8 +431,8 @@ def _init_vardict(self, var: str) -> None:
             shape = (self._lennout,) + sh_type if self._lennout != 1 \
                 else sh_type
 
-        # Create a temporary file to store the data          
-        with tempfile.NamedTemporaryFile() as temp_file: 
+        # Create a temporary file to store the data
+        with tempfile.NamedTemporaryFile() as temp_file:
             # Create the dictionary key and fill the values with nan
             self._d_vars[var] = np.memmap(temp_file, \
                                           mode='w+', \

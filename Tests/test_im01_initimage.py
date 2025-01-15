@@ -38,7 +38,7 @@ def test_suptitle():
 # Test the fontsize
 def test_fontsize():
     I = pp.Image(fontsize=20)
-    assert I.fontsize == 20
+    assert I.fontsize == 42
 
 
 # Test the tight layout

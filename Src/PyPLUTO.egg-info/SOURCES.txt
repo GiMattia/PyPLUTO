@@ -2,7 +2,7 @@ CODE_OF_CONDUCT.md
 LICENSE
 README.md
 pyproject.toml
-setup.cfg
+requirements_dev.txt
 .github/workflows/CODEOWNERS
 .github/workflows/draft-pdf.yml
 .github/workflows/readthedocs.yml
@@ -12,7 +12,6 @@ setup.cfg
 Docs/.buildinfo
 Docs/Makefile
 Docs/make.bat
-Docs/requirements.txt
 Docs/build/doctrees/animate.doctree
 Docs/build/doctrees/cartesian_vector.doctree
 Docs/build/doctrees/colorbar.doctree

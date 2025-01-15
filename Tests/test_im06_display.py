@@ -3,25 +3,27 @@ import numpy as np
 import numpy.testing as npt
 import pytest
 
-x = np.linspace(-1,1,101)
-y = np.linspace(-1,1,101)
-xr = np.linspace(-1.01,1.01,102)
-yr = np.linspace(-1.01,1.01,102)
+x = np.linspace(-1, 1, 101)
+y = np.linspace(-1, 1, 101)
+xr = np.linspace(-1.01, 1.01, 102)
+yr = np.linspace(-1.01, 1.01, 102)
 
-x2d, y2d   = np.meshgrid(x, y, indexing = "ij")
+x2d, y2d = np.meshgrid(x, y, indexing="ij")
 x2dr, y2dr = np.meshgrid(xr, yr)
-var = 1/((x2d**2 + y2d**2)/2 + 1)
+var = 1 / ((x2d**2 + y2d**2) / 2 + 1)
+
 
 # Simple plot
 def test_simple_display():
-    I = pp.Image(withblack = True)
-    I.display(var, cpos = 'right', cmap = "magma", x1 = x, x2 = y)
+    I = pp.Image(withblack=True)
+    I.display(var, cpos="right", cmap="magma", x1=x, x2=y)
     pcm = I.ax[0].collections[0]
     ccd = pcm.get_coordinates()
-    xc, yc  = ccd[:, :, 0], ccd[:, :, 1]
+    xc, yc = ccd[:, :, 0], ccd[:, :, 1]
     pcm = pcm.get_array()
     npt.assert_array_equal(pcm, var)
-    npt.assert_allclose(xc, x2dr, atol = 1.e-13)
+    npt.assert_allclose(xc, x2dr, atol=1.0e-13)
+
 
 """
 line = I.ax[0].get_lines()[0]

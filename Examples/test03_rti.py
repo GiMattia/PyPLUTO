@@ -30,41 +30,45 @@ in the static grid output section.
 # Loading the relevant packages
 import pyPLUTO as pp
 
-# Creating the path for the data directory
-wdir = '../Examples/Test_Problems/MHD/Rayleigh_Taylor'
-
 # Loading the data into a pload object D
-D = pp.Load([0,1,2], path = wdir)
+D = pp.Load([0, 1, 2], path="Test_Problems/MHD/Rayleigh_Taylor")
 
 # Creating the image
-I = pp.Image(figsize = [13,7.6],
-             suptitle = 'Test 03 - MHD Rayleigh-Taylor instability',
-             suptitlesize = 22)
+I = pp.Image(
+    figsize=[13, 7.6],
+    suptitle="Test 03 - MHD Rayleigh-Taylor instability",
+    suptitlesize=22,
+)
 
 # Creating the subplots (3 for the temporal evolution and 1 for the colorbar)
-I.create_axes(ncol = 4, wratio = [1,1,1,0.2], wspace = [0.005,0.005,0.005],
-              top = 0.88)
+I.create_axes(
+    ncol=4, wratio=[1, 1, 1, 0.2], wspace=[0.005, 0.005, 0.005], top=0.88
+)
 
 # Customizing y labels and y ticks labels
-ylab = ['y',  None, None]
+ylab = ["y", None, None]
 ytcl = [True, None, None]
 
 # Loop over the different outputs
-for i in [0,1,2]:
+for i in [0, 1, 2]:
     # Plotting the data
-    I.display(D.rho[i], x1 = D.x1r, x2 = D.x2r,
-                        ax = i,
-                        cmap = 'inferno',
-                        title = rf'$\tau = ${D.timelist[i]:.1f}',
-                        xtitle = 'x',
-                        ytitle = ylab[i],
-                        aspect = 'equal',
-                        ytickslabels = ytcl[i],
-                        xticks = [-0.4,-0.2,0,0.2,0.4])
+    I.display(
+        D.rho[i],
+        x1=D.x1r,
+        x2=D.x2r,
+        ax=i,
+        cmap="inferno",
+        title=rf"$\tau = ${D.timelist[i]:.1f}",
+        xtitle="x",
+        ytitle=ylab[i],
+        aspect="equal",
+        ytickslabels=ytcl[i],
+        xticks=[-0.4, -0.2, 0, 0.2, 0.4],
+    )
 
 # Placing the colorbar
-I.colorbar(axs = 0, cax = -1, clabel = r'$\rho$')
+I.colorbar(axs=0, cax=-1, clabel=r"$\rho$")
 
 # Saving the image and showing the plots
-I.savefig('test03_rti.png')
+I.savefig("test03_rti.png")
 pp.show()

@@ -1,5 +1,6 @@
 from .libraries import *
 
+
 def echo_load(self, nout, path, vars):
     """
     Method to load the data from the output files of the ECHO code. The data
@@ -26,17 +27,29 @@ def echo_load(self, nout, path, vars):
     self._check_pathformat(path)
 
     # Geometry is set to CARTESIAN by default
-    self.geom = 'CARTESIAN'
+    self.geom = "CARTESIAN"
 
     # DIctionary to convert the keys from ECHO to PLUTO
-    conv_dict = {'x': 'x1',   'y': 'x2',   'z': 'x3',
-                 'rh': 'rho', 'pg': 'prs', 'se': 'ent',
-                 'vx': 'vx1', 'vy': 'vx2', 'vz': 'vx3',
-                 'bx': 'Bx1', 'by': 'Bx2', 'bz': 'Bx3',
-                 'ex': 'Ex1', 'ey': 'Ex2', 'ez': 'Ex3'}
+    conv_dict = {
+        "x": "x1",
+        "y": "x2",
+        "z": "x3",
+        "rh": "rho",
+        "pg": "prs",
+        "se": "ent",
+        "vx": "vx1",
+        "vy": "vx2",
+        "vz": "vx3",
+        "bx": "Bx1",
+        "by": "Bx2",
+        "bz": "Bx3",
+        "ex": "Ex1",
+        "ey": "Ex2",
+        "ez": "Ex3",
+    }
 
     # Opwn te grid file and load the grid data
-    grid = h5py.File(self.pathdir / 'grid.h5','r')
+    grid = h5py.File(self.pathdir / "grid.h5", "r")
     for key in grid.keys():
 
         # Check if the key is in the dictionary and convert it
@@ -48,40 +61,42 @@ def echo_load(self, nout, path, vars):
             setattr(self, key, grid[key][:])
 
     # Close the grid file
-    grid.close()   
+    grid.close()
 
     # Set the number of grid points in each direction (nx1, nx2, nx3)
-    for dim in ['x1', 'x2', 'x3']:
+    for dim in ["x1", "x2", "x3"]:
 
         # Check if the variable exists and store the number of grid points
         if hasattr(self, dim) is True:
-            setattr(self, f'n{dim}', len(getattr(self, dim)))
-        
+            setattr(self, f"n{dim}", len(getattr(self, dim)))
+
         # If the variable does not exist, set the number of grid points to 1
         else:
-            setattr(self, f'n{dim}', 1)
+            setattr(self, f"n{dim}", 1)
 
     # Compute the dimensios and the grid size
     self.dim = (self.nx1 > 1) + (self.nx2 > 1) + (self.nx3 > 1)
-    self.gridsize = self.nx1*self.nx2*self.nx3
+    self.gridsize = self.nx1 * self.nx2 * self.nx3
 
     # Set the number of grid points in each direction (nx1, nx2, nx3)
-    dim_dict = {1: self.nx1, 
-                2: (self.nx1,self.nx2), 
-                3: (self.nx1,self.nx2,self.nx3)}
-    
+    dim_dict = {
+        1: self.nx1,
+        2: (self.nx1, self.nx2),
+        3: (self.nx1, self.nx2, self.nx3),
+    }
+
     # Set the grid shape
     self.nshp = dim_dict[self.dim]
 
     # Find the output file number and compute the full path to the file
-    self.nout = nout if nout != 'last' else 0
+    self.nout = nout if nout != "last" else 0
     file = self.pathdir / f"out{self.nout:03d}.h5"
 
     # Open the output file
-    tmp   = h5py.File(file,'r')
+    tmp = h5py.File(file, "r")
 
     # Set the time (in PLUTO format)
-    self.ntime = tmp['time'][...][0]
+    self.ntime = tmp["time"][...][0]
 
     # Check if only selected vars should be loaded or the entire file
     vars = list(tmp.keys()) if vars is True else vars
@@ -90,9 +105,9 @@ def echo_load(self, nout, path, vars):
     for key in vars:
 
         # Skip the time variable
-        if key == 'time':
+        if key == "time":
             continue
-    
+
         # Check if the variable has been requested in ECHO or PLUTO format
         valkey = next((k for k, v in conv_dict.items() if v == key), None)
         valkey = key if valkey is None else valkey

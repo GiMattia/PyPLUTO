@@ -22,23 +22,24 @@ in the static grid output section.
 # Loading the relevant packages
 import pyPLUTO as pp
 
-# Creating the path for the data directory
-wdir = '../Examples/Test_Problems/HD/Riemann_2D'
-
 # Loading the data into a pload object D
-D = pp.Load('all', datatype = 'vtk', path = wdir)
+D = pp.Load("all", datatype="vtk", path="Test_Problems/HD/Riemann_2D")
 
 # Creating the image
-I = pp.Image(figsize = [7,7])
+I = pp.Image(figsize=[7, 7])
 
 # Creating the interactive plot
-I.interactive(D.rho, x1 = D.x1, x2 = D.x2,
-                                cpos = 'right',
-                                vmin = 0,
-                                vmax = 1.0,
-                                title = 'Test 10 - HD Riemann 2D test',
-                                xtitle = 'x',
-                                ytitle = 'y')
+I.interactive(
+    D.rho,
+    x1=D.x1,
+    x2=D.x2,
+    cpos="right",
+    vmin=0,
+    vmax=1.0,
+    title="Test 10 - HD Riemann 2D test",
+    xtitle="x",
+    ytitle="y",
+)
 
 # Saving the gif of the animation
-I.animate('test10_riemann2d.gif')
+I.animate("test10_riemann2d.gif")

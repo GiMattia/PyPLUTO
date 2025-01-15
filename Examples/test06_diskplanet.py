@@ -22,50 +22,54 @@ of the zoom method in plotting different quantities in the same region.
 """
 
 # Loading the relevant packages
-import pyPLUTO as pp
 import numpy as np
-
-# Creating the path for the data directory
-wdir = '../Examples/Test_Problems/HD/Disk_Planet'
+import pyPLUTO as pp
 
 # Loading the data into a pload object D
-D = pp.Load(path = wdir)
+D = pp.Load(path="Test_Problems/HD/Disk_Planet")
 
 # Creating the image and the subplot axes (to have two zoom simultaneously)
-I  = pp.Image()
+I = pp.Image()
 ax = I.create_axes()
 
 # Compute the disk keplerian rotation speed
-omega = 2.0*np.pi/np.sqrt(D.x1)
+omega = 2.0 * np.pi / np.sqrt(D.x1)
 
 # Plotting the data
-I.display(D.rho, x1 = D.x1rc, x2 = D.x2rc,
-                              cscale = 'log',
-                              cpos = 'right',
-                              clabel = r'$\rho$',
-                              title = 'Test 06 - HD Disk planet test',
-                              vmin = 0.1,
-                              xtitle = 'x',
-                              ytitle = 'y',
-                              xticks = [-2,-1,0,1,2],
-                              yticks = [-2,-1,0,1,2],
-                              xrange = [-2.6,2.6],
-                              yrange = [-2.6,2.6])
+I.display(
+    D.rho,
+    x1=D.x1rc,
+    x2=D.x2rc,
+    cscale="log",
+    cpos="right",
+    clabel=r"$\rho$",
+    title="Test 06 - HD Disk planet test",
+    vmin=0.1,
+    xtitle="x",
+    ytitle="y",
+    xticks=[-2, -1, 0, 1, 2],
+    yticks=[-2, -1, 0, 1, 2],
+    xrange=[-2.6, 2.6],
+    yrange=[-2.6, 2.6],
+)
 
 # Zooming the planet region
-I.zoom(xrange = [0.9,1.1], yrange = [-0.1,0.1], pos = [0.74,0.95,0.7,0.9])
+I.zoom(xrange=[0.9, 1.1], yrange=[-0.1, 0.1], pos=[0.74, 0.95, 0.7, 0.9])
 
-I.zoom(var = D.vx2 - omega[:, np.newaxis], xrange = [0.9,1.1],
-                                           yrange = [-0.1,0.1],
-                                           pos = [0.07,0.27,0.67,0.9],
-                                           cpos = 'bottom',
-                                           cmap = 'RdBu',
-                                           cscale = 'linear',
-                                           vmin = -1.2,
-                                           vmax =  1.2,
-                                           ax = ax,
-                                           title = r'$v_\phi - \Omega R$')
+I.zoom(
+    var=D.vx2 - omega[:, np.newaxis],
+    xrange=[0.9, 1.1],
+    yrange=[-0.1, 0.1],
+    pos=[0.07, 0.27, 0.67, 0.9],
+    cpos="bottom",
+    cmap="RdBu",
+    cscale="linear",
+    vmin=-1.2,
+    vmax=1.2,
+    ax=ax,
+    title=r"$v_\phi - \Omega R$",
+)
 
 # Saving the image and showing the plots
-I.savefig('test06_diskplanet.png')
+I.savefig("test06_diskplanet.png")
 pp.show()

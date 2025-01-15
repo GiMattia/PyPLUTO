@@ -1,15 +1,15 @@
 # Import the libraries, classes and functions
 from .libraries import *
-from .pytools   import savefig, show, ring
-from .image     import Image
-from .load      import Load
-from .loadpart  import LoadPart
+from .pytools import savefig, show, ring
+from .image import Image
+from .load import Load
+from .loadpart import LoadPart
 
 # Define the version and additional environment variables
-__version__   = "1.0"
-__colorerr__  = True
+__version__ = "1.0"
+__colorerr__ = True
 __colorwarn__ = True
-__session__   = find_session()
+__session__ = find_session()
 
 # Print the version and session
 print(f"PyPLUTO version: {__version__}   session: {__session__}")

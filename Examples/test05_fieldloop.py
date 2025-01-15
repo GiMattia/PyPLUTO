@@ -17,67 +17,70 @@ previously computed. The image is then saved and shown on screen.
 
 # Loading the relevant packages
 import pyPLUTO as pp
-import numpy as np
-
-# Creating the path for the data directory
-wdir = '../Examples/Test_Problems/MHD/Field_Loop'
 
 # Loading the data into a pload object D
-D = pp.Load(path = wdir)
+D = pp.Load(path="Test_Problems/MHD/Field_Loop")
 
 # Creating the image
-I  = pp.Image(figsize = [13,5], suptitle = 'Test 05 - MHD Field loop test')
+I = pp.Image(figsize=[13, 5], suptitle="Test 05 - MHD Field loop test")
 
 # Creating the subplots
-ax = I.create_axes(ncol = 2, top = 0.91)
+ax = I.create_axes(ncol=2, top=0.91)
 
 # Integrate the field line
-lines = D.find_fieldlines(D.Bx1, D.Bx2,
-                                 x1 = D.x1,
-                                 x2 = D.x2,
-                                 x0 = [0.1,0.2,0.3],
-                                 y0 = [0.0,0.0,0.0],
-                                 order = 'RK45',
-                                 maxstep = 0.1,
-                                 numsteps = 25000)
+lines = D.find_fieldlines(
+    D.Bx1,
+    D.Bx2,
+    x1=D.x1,
+    x2=D.x2,
+    x0=[0.1, 0.2, 0.3],
+    y0=[0.0, 0.0, 0.0],
+    order="RK45",
+    maxstep=0.1,
+    numsteps=25000,
+)
 
 # Plotting the data
-I.display(1000*D.Bx1, x1 = D.x1, x2 = D.x2,
-                                 ax = 0,
-                                 cmap = 'RdBu_r',
-                                 aspect = 'equal',
-                                 xrange = [-0.5,0.5],
-                                 cpos = 'right',
-                                 vmin = -1.5,
-                                 vmax = 1.5,
-                                 shading = 'gouraud',
-                                 title = r'$B_x$ (+ streamplot)',
-                                 xtitle = 'x',
-                                 ytitle = 'y')
+I.display(
+    1000 * D.Bx1,
+    x1=D.x1,
+    x2=D.x2,
+    ax=0,
+    cmap="RdBu_r",
+    aspect="equal",
+    xrange=[-0.5, 0.5],
+    cpos="right",
+    vmin=-1.5,
+    vmax=1.5,
+    shading="gouraud",
+    title=r"$B_x$ (+ streamplot)",
+    xtitle="x",
+    ytitle="y",
+)
 
-I.display(1000*D.Bx2, x1 = D.x1, x2 = D.x2,
-                                 ax = 1,
-                                 cmap = 'RdBu_r',
-                                 aspect = 'equal',
-                                 xrange = [-0.5,0.5],
-                                 cpos = 'right',
-                                 vmin = -1.5,
-                                 vmax = 1.5,
-                                 shading = 'gouraud',
-                                 title = r'$B_y$ (+ find$\_$fieldlines)',
-                                 xtitle = 'x')
+I.display(
+    1000 * D.Bx2,
+    x1=D.x1,
+    x2=D.x2,
+    ax=1,
+    cmap="RdBu_r",
+    aspect="equal",
+    xrange=[-0.5, 0.5],
+    cpos="right",
+    vmin=-1.5,
+    vmax=1.5,
+    shading="gouraud",
+    title=r"$B_y$ (+ find$\_$fieldlines)",
+    xtitle="x",
+)
 
 # Plot the field lines in two different ways
-I.streamplot(D.Bx1, D.Bx2, x1 = D.x1, x2 = D.x2,
-                                      ax = 0,
-                                      lw = 1.5,
-                                      vmin = 1.e-4,
-                                      c = 'k')
+I.streamplot(D.Bx1, D.Bx2, x1=D.x1, x2=D.x2, ax=0, lw=1.5, vmin=1.0e-4, c="k")
 
-I.plot(lines[0][0], lines[0][1], ax = 1, c = 'k', lw = 1.5)
-I.plot(lines[1][0], lines[1][1], ax = 1, c = 'k', lw = 1.5)
-I.plot(lines[2][0], lines[2][1], ax = 1, c = 'k', lw = 1.5)
+I.plot(lines[0][0], lines[0][1], ax=1, c="k", lw=1.5)
+I.plot(lines[1][0], lines[1][1], ax=1, c="k", lw=1.5)
+I.plot(lines[2][0], lines[2][1], ax=1, c="k", lw=1.5)
 
 # Saving the image and showing the plots
-I.savefig('test05_fieldloop.png')
+I.savefig("test05_fieldloop.png")
 pp.show()

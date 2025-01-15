@@ -9,16 +9,17 @@ from pathlib import Path
 repo_root = Path(os.getcwd())
 path = repo_root / "Test_load/particles_cr"
 
+
 # Test with particles CR
 def test_CRfindfiles():
-    D = pp.LoadPart(path = path, datatype = 'vtk', text = False)
+    D = pp.LoadPart(path=path, datatype="vtk", text=False)
 
     outlist = [0]
     typefile = ["single_file"]
     endianess = [">"]
-    binformat = ['>f4']
+    binformat = [">f4"]
     endpath = [".0000.vtk"]
-    varslist = ['points', 'Identity', 'tinj', 'Color', 'Four-Velocity']
+    varslist = ["points", "Identity", "tinj", "Color", "Four-Velocity"]
 
     npt.assert_array_equal(D.outlist, outlist)
     assert D.nout == 0

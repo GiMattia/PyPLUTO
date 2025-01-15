@@ -1,10 +1,9 @@
 from .libraries import *
 
-def savefig(self, 
-            filename: str = 'img.png', 
-            bbox: str | None = 'tight',
-            dpi: int = 300
-           ) -> None:
+
+def savefig(
+    self, filename: str = "img.png", bbox: str | None = "tight", dpi: int = 300
+) -> None:
     """
     Creation of a .png image file of the figure created with the Image class.
 
@@ -37,28 +36,32 @@ def savefig(self,
         >>> import pyPLUTO as pp
         >>> I = pp.Image()
         >>> I.savefig('namefile.png')
-    
+
     """
 
-    self.fig.savefig(filename, bbox_inches = bbox, dpi = dpi)
+    self.fig.savefig(filename, bbox_inches=bbox, dpi=dpi)
 
     return None
 
 
-def show(self, 
-        ) -> None:
-    raise NotImplementedError("Image show is deprecated, \
-                              please use pp.show instead")
+def show(
+    self,
+) -> None:
+    raise NotImplementedError(
+        "Image show is deprecated, \
+                              please use pp.show instead"
+    )
 
 
-def text(self, 
-         text: str, 
-         x: float = 0.85, 
-         y: float = 0.85, 
-         ax: Axes | None = None,
-         check: bool = True,
-         **kwargs: Any
-        ) -> None:
+def text(
+    self,
+    text: str,
+    x: float = 0.85,
+    y: float = 0.85,
+    ax: Axes | None = None,
+    check: bool = True,
+    **kwargs: Any,
+) -> None:
     """
     Insertion of a text box inside the figure created with Image class.
 
@@ -71,7 +74,7 @@ def text(self,
     ----------
 
     - ax: axis object, default None
-        The axis where to insert the text box. If None, the last considered axis 
+        The axis where to insert the text box. If None, the last considered axis
         will be used.
     - c: str, default 'k'
         Determines the text color.
@@ -83,13 +86,13 @@ def text(self,
         Sets the text fontsize. The default value corresponds to the value of
         the actual fontsize in the figure.
     - veralign: str, default 'baseline'
-        The vertical alignment. Possible values are 'baseline', 'bottom', 
+        The vertical alignment. Possible values are 'baseline', 'bottom',
         'center', 'center_baseline', 'top'.
     - x: float, default 0.85
         The horizontal starting position of the text box, in units of figure
         size.
     - xycoords: str, default 'fraction'
-        The coordinate system used. Possible values are 'figure fraction', 
+        The coordinate system used. Possible values are 'figure fraction',
         which sets the position as a fraction of the axis (inside the axis lie
         values between 0 and 1), 'points', which sets the position in units of
         the x/y coordinate system, and 'figure', which sets the position as a
@@ -131,36 +134,46 @@ def text(self,
     """
 
     # Check parameters
-    param = {'c','horalign','textsize','veralign','xycoords'}
+    param = {"c", "horalign", "textsize", "veralign", "xycoords"}
     if check is True:
-        check_par(param, 'text', **kwargs)
+        check_par(param, "text", **kwargs)
 
     # Find figure and number of the axis
     ax, nax = self._assign_ax(ax, **kwargs)
 
     # Dictionary with the possible 'xycoords' values
-    coordinates = {'fraction': ax.transAxes, 
-                   'points': ax.transData, 
-                   'figure': self.fig.transFigure}
+    coordinates = {
+        "fraction": ax.transAxes,
+        "points": ax.transData,
+        "figure": self.fig.transFigure,
+    }
 
     # Set the 'xycoords' keyword
-    xycoord = kwargs.get('xycoords', 'fraction')
+    xycoord = kwargs.get("xycoords", "fraction")
 
     # If the text is inside a specific axis, hide the text of the create_axes
     # function
-    if xycoord != 'figure': self._hide_text(nax, ax.texts)
+    if xycoord != "figure":
+        self._hide_text(nax, ax.texts)
 
     # Set the 'xycoords' value
     coord = coordinates[xycoord]
-    
+
     # Set the 'veralign' and 'horalign' values
-    hortx = kwargs.get('horalign','left')
-    vertx = kwargs.get('veralign','baseline')
+    hortx = kwargs.get("horalign", "left")
+    vertx = kwargs.get("veralign", "baseline")
 
     # Insert the text
-    ax.text(x, y, text, c = kwargs.get('c', 'k'), transform = coord, 
-                        fontsize = kwargs.get('textsize', self.fontsize),
-                        horizontalalignment = hortx, verticalalignment = vertx)
+    ax.text(
+        x,
+        y,
+        text,
+        c=kwargs.get("c", "k"),
+        transform=coord,
+        fontsize=kwargs.get("textsize", self.fontsize),
+        horizontalalignment=hortx,
+        verticalalignment=vertx,
+    )
 
     # End of the function
     return None

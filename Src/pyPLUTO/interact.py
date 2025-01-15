@@ -1,13 +1,15 @@
 from .libraries import *
 
-def interactive(self, 
-                varx: np.ndarray, 
-                vary: np.ndarray | None = None, 
-                check: bool = True,
-                limfix = True,
-                labslider = None,
-                **kwargs
-               ) -> None:
+
+def interactive(
+    self,
+    varx: np.ndarray,
+    vary: np.ndarray | None = None,
+    check: bool = True,
+    limfix=True,
+    labslider=None,
+    **kwargs,
+) -> None:
     """
     Creates an interactive plot with a slider to change the data.
     Warning: it works only with the fluid variables.
@@ -36,14 +38,14 @@ def interactive(self,
         The minimum value of the data.
     - vmax: float, default None
         The maximum value of the data.
-    
+
     Notes
     -----
 
     - Check vmin and vmax to set the colorbar limits.
     - Interact is a very primordial version and it should not be used tu perform
         very complex plots. Instead, it gives a very nice overview of the data
-        as functions of time (like in other softwares such as visit or 
+        as functions of time (like in other softwares such as visit or
         paraview).
     - The checking of the parameters has not been enabled yet!
 
@@ -57,9 +59,9 @@ def interactive(self,
         >>> import pyPLUTO as pp
         >>> D = pp.Load('all')
         >>> I = pp.Image()
-        >>> I.interactive(D.rho, x1 = D.x1, x2 = D.x2, 
+        >>> I.interactive(D.rho, x1 = D.x1, x2 = D.x2,
         ... cpos = 'right', vmin = 0, vmax = 1.0)
-        ... 
+        ...
         >>> pp.show()
 
     - Example #2: Create an interactive 1D plot with a composite variable
@@ -73,8 +75,8 @@ def interactive(self,
     """
 
     # Check parameters
-    #param = {'ax','vmin','vmax'}
-    #if check is True:
+    # param = {'ax','vmin','vmax'}
+    # if check is True:
     #    check_par(param, 'interactive', **kwargs)
 
     # Store the variable x. If vary is None, it is set to varx
@@ -90,31 +92,35 @@ def interactive(self,
     # Store the variable to animate
     self.anim_var = vary
     self.animkeys = np.sort(np.asarray(list(vary.keys())))
-    self.nsld     = len(self.animkeys)
-    nsld          = self.nsld - 1
-    self.lenlab   = len(str(self.animkeys[-1]))    
+    self.nsld = len(self.animkeys)
+    nsld = self.nsld - 1
+    self.lenlab = len(str(self.animkeys[-1]))
 
     # Check the number of dimensions
     splt = np.ndim(vary[self.animkeys[0]])
 
     # Set or create figure and axes (to test)
-    ax, nax = self._assign_ax(kwargs.pop('ax', None), **kwargs, tight = False)
-    self.anim_ax  = ax
+    ax, nax = self._assign_ax(kwargs.pop("ax", None), **kwargs, tight=False)
+    self.anim_ax = ax
 
     # Position the slider
     pos_slider = ax.get_position()
-    pos_x0     = pos_slider.x0*(1.5 + 0.2*(self.lenlab - 2))
-    pos_x1     = pos_slider.x1*0.95 - pos_x0
+    pos_x0 = pos_slider.x0 * (1.5 + 0.2 * (self.lenlab - 2))
+    pos_x1 = pos_slider.x1 * 0.95 - pos_x0
 
     # Adjust the lower part of the position by increasing the 'y0' value
-    if 'xtitle' in kwargs:
-        new_pos = [pos_slider.x0, pos_slider.y0 + 0.07, 
-                   pos_slider.width, pos_slider.height - 0.07]
+    if "xtitle" in kwargs:
+        new_pos = [
+            pos_slider.x0,
+            pos_slider.y0 + 0.07,
+            pos_slider.width,
+            pos_slider.height - 0.07,
+        ]
 
         # Apply the new position
         ax.set_position(new_pos)
 
-    sliderax   = self.fig.add_axes((pos_x0, 0.02, pos_x1, 0.04))
+    sliderax = self.fig.add_axes((pos_x0, 0.02, pos_x1, 0.04))
 
     # Create the slider
     if labslider is not None:
@@ -123,34 +129,54 @@ def interactive(self,
     else:
         self.labslider = None
         label = f"nout = {self.animkeys[0]:0{self.lenlab}d}"
-    self.slider = Slider(sliderax, label = label, valmin = 0, valmax = nsld, 
-                                   valinit = 0, valstep = 1, valfmt = '%d')
+    self.slider = Slider(
+        sliderax,
+        label=label,
+        valmin=0,
+        valmax=nsld,
+        valinit=0,
+        valstep=1,
+        valfmt="%d",
+    )
     self.slider.on_changed(self._update_slider)
 
     # Display the data
     if splt == 2:
 
         self.limfix = limfix
-        vmin = min(np.nanmin(array) for array in self.anim_var.values()) if limfix is True else np.nanmin(self.anim_var[self.animkeys[0]])
-        vmax = max(np.nanmax(array) for array in self.anim_var.values()) if limfix is True else np.nanmax(self.anim_var[self.animkeys[0]])
-        vmin = kwargs.pop('vmin',vmin)
-        vmax = kwargs.pop('vmax',vmax)
+        vmin = (
+            min(np.nanmin(array) for array in self.anim_var.values())
+            if limfix is True
+            else np.nanmin(self.anim_var[self.animkeys[0]])
+        )
+        vmax = (
+            max(np.nanmax(array) for array in self.anim_var.values())
+            if limfix is True
+            else np.nanmax(self.anim_var[self.animkeys[0]])
+        )
+        vmin = kwargs.pop("vmin", vmin)
+        vmax = kwargs.pop("vmax", vmax)
 
         # Display the data if it is 2D
-        self.display(self.anim_var[self.animkeys[0]], ax = ax,  
-                     vmin = vmin, vmax = vmax, **kwargs) 
+        self.display(
+            self.anim_var[self.animkeys[0]],
+            ax=ax,
+            vmin=vmin,
+            vmax=vmax,
+            **kwargs,
+        )
         self.anim_pcm = ax.collections[0]
     else:
         # Plot the data if it is 1D
-        self.plot(varx,np.array(vary[self.animkeys[0]].tolist()), ax = ax, **kwargs)
+        self.plot(
+            varx, np.array(vary[self.animkeys[0]].tolist()), ax=ax, **kwargs
+        )
         self.anim_pcm = ax.get_lines()[0]
 
     return None
 
 
-def _update_slider(self, 
-                   i: int
-                  ) -> None:
+def _update_slider(self, i: int) -> None:
     """
     Updates the data in the interactive plot.
 
@@ -189,8 +215,10 @@ def _update_slider(self,
 
         # Update vmin and vmax dynamically
         if self.limfix is False:
-            self.anim_pcm.set_clim(self.anim_var[self.animkeys[i]].min(),
-                                   self.anim_var[self.animkeys[i]].max())
+            self.anim_pcm.set_clim(
+                self.anim_var[self.animkeys[i]].min(),
+                self.anim_var[self.animkeys[i]].max(),
+            )
 
     elif np.ndim(var) == 1:
         # Update the data array if it is 1D
@@ -199,13 +227,16 @@ def _update_slider(self,
     if self.labslider is not None:
         self.slider.label.set_text(self.labslider[i])
     else:
-        self.slider.label.set_text(f"nout = {self.animkeys[i]:0{self.lenlab}d}")
+        self.slider.label.set_text(
+            f"nout = {self.animkeys[i]:0{self.lenlab}d}"
+        )
 
     # Update the plot
     self.fig.canvas.draw()
 
     # End of the function
     return None
+
 
 def _update_both(self, i):
     """
@@ -216,7 +247,7 @@ def _update_both(self, i):
 
     - None
 
-        
+
     Parameters
     ----------
     - i (not optional): int
@@ -240,7 +271,7 @@ def _update_both(self, i):
 
     # Update the plot with the current frame
     self._update_slider(i)
-    
+
     # Update the slider's position visually
     self.slider.set_val(i)
 
@@ -248,14 +279,10 @@ def _update_both(self, i):
     return None
 
 
-def animate(self, 
-            gifname = None, 
-            frames = None, 
-            interval=500, 
-            updateslider = True):
+def animate(self, gifname=None, frames=None, interval=500, updateslider=True):
     """
     Displays the animation interactively.
-    
+
     Returns
     -------
 
@@ -268,7 +295,7 @@ def animate(self,
         The number of frames in the animation.
     - gifname: str, default None
         The name of the GIF file.
-    - interval: int, default 500 
+    - interval: int, default 500
         The interval between frames in milliseconds.
     - updateslider: bool, default True
         If True, the slider is shown and updated with each frame.
@@ -297,8 +324,9 @@ def animate(self,
     update = self._update_both if updateslider else self._update_slider
 
     # Create the animation
-    ani = animation.FuncAnimation(self.fig, update, 
-                                  frames=frames, interval=interval)
+    ani = animation.FuncAnimation(
+        self.fig, update, frames=frames, interval=interval
+    )
 
     if gifname is not None:
         # Save as GIF

@@ -1,14 +1,16 @@
 from .libraries import *
 
-def slices(self, 
-           var: NDArray, 
-           check: bool = True,
-           diag: bool | None = None,
-           x1: int | list | None = None, 
-           x2: int | list | None = None, 
-           x3: int | list | None = None,           
-           **kwargs: Any
-          ) -> np.ndarray:
+
+def slices(
+    self,
+    var: NDArray,
+    check: bool = True,
+    diag: bool | None = None,
+    x1: int | list | None = None,
+    x2: int | list | None = None,
+    x3: int | list | None = None,
+    **kwargs: Any,
+) -> np.ndarray:
     """
     Function that slices the variable in the 3 directions.
     Also, it can slice the diagonal of the variable.
@@ -23,7 +25,7 @@ def slices(self,
     ----------
 
     - axis1: int | None, default None
-        Axis to be used as the first axis of the 2-D sub-arrays from which the 
+        Axis to be used as the first axis of the 2-D sub-arrays from which the
         diagonals should be taken. Defaults to first axis (0).
     - axis2: int | None, default None
         Axis to be used as the second axis of the 2-D sub-arrays from which the
@@ -32,7 +34,7 @@ def slices(self,
         If not None (or 'min'), slice the main diagonal of the variable.
         If 'min', slice the opposite diagonal.
     - offset: int | None, default None
-        Offset of the diagonal from the main diagonal. Can be positive or 
+        Offset of the diagonal from the main diagonal. Can be positive or
         negative. Defaults to main diagonal (0).
     - var: np.ndarray
         The variable to slice.
@@ -42,7 +44,7 @@ def slices(self,
         The slice in the 2nd direction.
     - x3: int | list | None, default None
         The slice in the 3rd direction.
-    
+
     Notes
     -----
 
@@ -54,7 +56,7 @@ def slices(self,
     ========
 
     - Example #1: Slice the variable in the 3 directions
-        
+
         >>> slices(var, x1 = 0, x2 = 0, x3 = 0)
 
     - Example #2: Slice the variable in the diagonal
@@ -63,31 +65,31 @@ def slices(self,
 
     - Example #3: Slice the variable in the opposite diagonal
 
-        >>> slices(var, diag = 'min')  
+        >>> slices(var, diag = 'min')
 
     """
     # Check the kwargs parameters
-    param = {'axis1','axis2','offset'}
+    param = {"axis1", "axis2", "offset"}
     if check is True:
-        check_par(param, 'slice', **kwargs)
+        check_par(param, "slice", **kwargs)
 
     # Make a copy to not modify the variable
     newvar = np.copy(var)
 
     # Slice the diagonal
     if diag is not None:
-        if diag == 'min':
-            newvar = np.diagonal(np.flipud(newvar),**kwargs)
+        if diag == "min":
+            newvar = np.diagonal(np.flipud(newvar), **kwargs)
         else:
-            newvar = np.diagonal(newvar,**kwargs)
+            newvar = np.diagonal(newvar, **kwargs)
 
     # Slice 3rd direction
     if x3 is not None:
-        newvar = newvar[:,:,x3]
+        newvar = newvar[:, :, x3]
 
     # Slice 2nd direction
     if x2 is not None:
-        newvar = newvar[:,x2]
+        newvar = newvar[:, x2]
 
     # Slice 1st direction
     if x1 is not None:
@@ -97,12 +99,9 @@ def slices(self,
     return newvar
 
 
-def mirror(self, 
-           var: NDArray, 
-           dirs = 'l', 
-           xax = None, 
-           yax = None
-          ) -> list[np.ndarray]:
+def mirror(
+    self, var: NDArray, dirs="l", xax=None, yax=None
+) -> list[np.ndarray]:
     """
     Function that mirrors the variable in the specified directions.
     Multiple directions can be specified.
@@ -141,9 +140,9 @@ def mirror(self,
     ========
 
     - Example #1: Mirror the variable in the left direction
-            
+
         >>> mirror(var, dirs = 'l')
-    
+
     - Example #2: Mirror the variable in the right direction with axis
 
         >>> mirror(var, dirs = 'r', xax = xax)
@@ -169,17 +168,19 @@ def mirror(self,
         raise ValueError("Mirror function does not works for 3D arrays")
     nax = []
     for dir in spp:
-        lvx = len(newvar[:,0]) if dim == 1 else len(var)
-        lvy = len(newvar[0,:]) if dim == 1 else len(var)
-        choices = {'l' :[(lvx,0),((lvx,0),(0,0))],
-                   'r' :[(0,lvx),((0,lvx),(0,0))],
-                   't' :[(0,lvy),((0,0),(0,lvy))],
-                   'b' :[(lvy,0),((0,0),(lvy,0))]}
-        newvar = np.pad(newvar,choices[dir][dim], 'symmetric')
-        if xax is not None and dir in {'l', 'r'}:
-            axx = np.pad(axx,choices[dir][0],'reflect',reflect_type='odd')
-        if yax is not None and dir in {'t', 'b'}:
-            axy = np.pad(axy,choices[dir][0],'reflect',reflect_type='odd')
+        lvx = len(newvar[:, 0]) if dim == 1 else len(var)
+        lvy = len(newvar[0, :]) if dim == 1 else len(var)
+        choices = {
+            "l": [(lvx, 0), ((lvx, 0), (0, 0))],
+            "r": [(0, lvx), ((0, lvx), (0, 0))],
+            "t": [(0, lvy), ((0, 0), (0, lvy))],
+            "b": [(lvy, 0), ((0, 0), (lvy, 0))],
+        }
+        newvar = np.pad(newvar, choices[dir][dim], "symmetric")
+        if xax is not None and dir in {"l", "r"}:
+            axx = np.pad(axx, choices[dir][0], "reflect", reflect_type="odd")
+        if yax is not None and dir in {"t", "b"}:
+            axy = np.pad(axy, choices[dir][0], "reflect", reflect_type="odd")
     xax is not None and nax.append(axx)
     yax is not None and nax.append(axy)
     if len(nax) > 1:
@@ -188,14 +189,15 @@ def mirror(self,
         return newvar, nax[0]
     else:
         return newvar
-    
 
-def repeat(self, 
-           var: NDArray, 
-           dirs: str | list, 
-           xax: NDArray | None = None, 
-           yax: NDArray | None = None
-          ) -> np.ndarray:
+
+def repeat(
+    self,
+    var: NDArray,
+    dirs: str | list,
+    xax: NDArray | None = None,
+    yax: NDArray | None = None,
+) -> np.ndarray:
     """
     Function that repeats the variable in the specified directions.
     Multiple directions can be specified.
@@ -215,7 +217,7 @@ def repeat(self,
     - var: np.ndarray
         The variable to repeat.
     - xax: np.ndarray | None, default None
-        The x-axis to repeat. 
+        The x-axis to repeat.
     - yax: np.ndarray | None, default None
         The y-axis to repeat.
 
@@ -232,7 +234,7 @@ def repeat(self,
     - Example #1: Repeat the variable in the left direction
 
         >>> repeat(var, dirs = 'l')
-    
+
     - Example #2: Repeat the variable in the right direction with axis
 
         >>> repeat(var, dirs = 'r', xax = xax)
@@ -253,17 +255,19 @@ def repeat(self,
     newvar, axx, axy = np.copy(var), np.copy(xax), np.copy(yax)
 
     for dir in spp:
-        lvx = len(newvar[:,0])
-        lvy = len(newvar[0,:])
-        choices = {'l' :[(lvx,0),((lvx,0),(0,0))],
-                   'r' :[(0,lvx),((0,lvx),(0,0))],
-                   't' :[(0,lvy),((0,0),(0,lvy))],
-                   'b' :[(lvy,0),((0,0),(lvy,0))]}
-        newvar = np.pad(newvar,choices[dir][1], 'wrap')
-        if xax is not None and dir in {'l', 'r'}:
-            axx = np.pad(axx,choices[dir][0],'wrap')
-        if yax is not None and dir in {'t', 'b'}:
-            axy = np.pad(axy,choices[dir][0],'wrap')
+        lvx = len(newvar[:, 0])
+        lvy = len(newvar[0, :])
+        choices = {
+            "l": [(lvx, 0), ((lvx, 0), (0, 0))],
+            "r": [(0, lvx), ((0, lvx), (0, 0))],
+            "t": [(0, lvy), ((0, 0), (0, lvy))],
+            "b": [(lvy, 0), ((0, 0), (lvy, 0))],
+        }
+        newvar = np.pad(newvar, choices[dir][1], "wrap")
+        if xax is not None and dir in {"l", "r"}:
+            axx = np.pad(axx, choices[dir][0], "wrap")
+        if yax is not None and dir in {"t", "b"}:
+            axy = np.pad(axy, choices[dir][0], "wrap")
 
     if xax is not None and yax is not None:
         return newvar, axx, axy
@@ -275,10 +279,9 @@ def repeat(self,
         return newvar
 
 
-def cartesian_vector(self,
-                     var: str | None = None,
-                     **kwargs: Any
-                    )-> tuple[NDArray]:
+def cartesian_vector(
+    self, var: str | None = None, **kwargs: Any
+) -> tuple[NDArray]:
     """
     Function that converts a vector from spherical or polar components to
     cartesian components.
@@ -327,52 +330,56 @@ def cartesian_vector(self,
 
     """
 
-    vars = {'B' : ['Bx1', 'Bx2', 'Bx3'], 
-            'E' : ['Ex1', 'Ex2', 'Ex3'], 
-            'v' : ['vx1', 'vx2', 'vx3']}
-    
+    vars = {
+        "B": ["Bx1", "Bx2", "Bx3"],
+        "E": ["Ex1", "Ex2", "Ex3"],
+        "v": ["vx1", "vx2", "vx3"],
+    }
+
     if var is not None:
-        var_0 = [self.check_var(v, kwargs.get('transpose', False)) \
-                               for v in vars[var]]
-    elif 'var1' in kwargs and 'var2' in kwargs:
-        var_0 = [self.check_var(kwargs['var1'], kwargs.get('transpose', False)),
-                 self.check_var(kwargs['var2'], kwargs.get('transpose', False))]
+        var_0 = [
+            self.check_var(v, kwargs.get("transpose", False))
+            for v in vars[var]
+        ]
+    elif "var1" in kwargs and "var2" in kwargs:
+        var_0 = [
+            self.check_var(kwargs["var1"], kwargs.get("transpose", False)),
+            self.check_var(kwargs["var2"], kwargs.get("transpose", False)),
+        ]
     else:
         raise ValueError("Either var or var1 and var2 must be specified.")
-    
-    if 'var3' in kwargs:
-        var_0.append(self.check_var(kwargs['var3'], 
-                                    kwargs.get('transpose', False)))
-        
-    x1 = kwargs.get('x1', self.x1)
-    x2 = kwargs.get('x2', self.x2)
-    x3 = kwargs.get('x3', self.x3)
 
-    if self.geom == 'SPHERICAL':
-        varr = var_0[0]*np.sin(x2) + var_0[1]*np.cos(x2)
-        varz = var_0[0]*np.cos(x2) - var_0[1]*np.sin(x2)
+    if "var3" in kwargs:
+        var_0.append(
+            self.check_var(kwargs["var3"], kwargs.get("transpose", False))
+        )
+
+    x1 = kwargs.get("x1", self.x1)
+    x2 = kwargs.get("x2", self.x2)
+    x3 = kwargs.get("x3", self.x3)
+
+    if self.geom == "SPHERICAL":
+        varr = var_0[0] * np.sin(x2) + var_0[1] * np.cos(x2)
+        varz = var_0[0] * np.cos(x2) - var_0[1] * np.sin(x2)
         if self.dim == 3:
-           varx = varr*np.cos(x3) - var_0[2]*np.sin(x3)
-           vary = varr*np.sin(x3) + var_0[2]*np.cos(x3)
-           if kwargs.get("fullout", False):
-               return varx, vary, varz, varr
-           else:
-               return varx, vary, varz
+            varx = varr * np.cos(x3) - var_0[2] * np.sin(x3)
+            vary = varr * np.sin(x3) + var_0[2] * np.cos(x3)
+            if kwargs.get("fullout", False):
+                return varx, vary, varz, varr
+            else:
+                return varx, vary, varz
         else:
             return varr, varz
 
-    elif self.geom == 'POLAR':
-        varx = var_0[0]*np.cos(x2) - var_0[1]*np.sin(x2)
-        vary = var_0[0]*np.sin(x2) + var_0[1]*np.cos(x2)
+    elif self.geom == "POLAR":
+        varx = var_0[0] * np.cos(x2) - var_0[1] * np.sin(x2)
+        vary = var_0[0] * np.sin(x2) + var_0[1] * np.cos(x2)
         return varx, vary
 
 
-def reshape_cartesian(self,
-                      *args: Any,
-                      **kwargs: Any
-                     )-> tuple[NDArray]:
+def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray]:
     """
-    Function that reshapes a variable from a cylindrical or spherical grid into 
+    Function that reshapes a variable from a cylindrical or spherical grid into
     a cartesian grid. Zones not covered by the original domain (e.g. the very
     inner radial regions) are also interpolated.
 
@@ -418,21 +425,21 @@ def reshape_cartesian(self,
         >>> Bx, By = cartesian_vector(var1 = D.Bx1, var2 = D.Bx2)
 
     """
-        
+
     # Get the variable, if it is a string, get the variable from the dataset.
     # The .T is used to transpose the variable to the correct shape.
     vars = []
     newv = []
     for i in args:
-        vars.append(self._check_var(i, kwargs.get('transpose', False)))
+        vars.append(self._check_var(i, kwargs.get("transpose", False)))
 
     # Get the grid information
-    x1 = kwargs.pop('x1',self.x1)
-    x2 = kwargs.pop('x2',self.x2)
+    x1 = kwargs.pop("x1", self.x1)
+    x2 = kwargs.pop("x2", self.x2)
 
     # Get the grid limits
-    xx = x1[:, np.newaxis]*np.cos(x2)
-    yy = x1[:, np.newaxis]*np.sin(x2)
+    xx = x1[:, np.newaxis] * np.cos(x2)
+    yy = x1[:, np.newaxis] * np.sin(x2)
 
     xmin, xmax = xx.min(), xx.max()
     ymin, ymax = yy.min(), yy.max()
@@ -440,38 +447,40 @@ def reshape_cartesian(self,
     del xx, yy
 
     # Get the number of grid points of the new grid
-    nx1 = int(kwargs.get('nx1', len(x1)))
-    nx2 = int(kwargs.get('nx2', nx1*(ymax-ymin)/(xmax-xmin)))
-   # nx2 = int(kwargs.get('nx2', nx1*(ymax-ymin)//(xmax-xmin)))
+    nx1 = int(kwargs.get("nx1", len(x1)))
+    nx2 = int(kwargs.get("nx2", nx1 * (ymax - ymin) / (xmax - xmin)))
+    # nx2 = int(kwargs.get('nx2', nx1*(ymax-ymin)//(xmax-xmin)))
 
     # Get the cartesian grid
-    
-    if self.geom == 'SPHERICAL':
+
+    if self.geom == "SPHERICAL":
         xc0 = np.linspace(xmin, xmax, nx2)
         yc0 = np.linspace(ymin, ymax, nx1)
-        xc, yc = np.meshgrid(xc0, yc0, indexing='xy')
+        xc, yc = np.meshgrid(xc0, yc0, indexing="xy")
     else:
         xc0 = np.linspace(xmin, xmax, nx1)
         yc0 = np.linspace(ymin, ymax, nx2)
-        xc, yc = np.meshgrid(xc0, yc0, indexing='ij')
+        xc, yc = np.meshgrid(xc0, yc0, indexing="ij")
 
     # Create the new grid
     x1, x2, vars = self.reshape_uniform(x1, x2, *vars, **kwargs)
 
     # Convert grid
-    ww, nn = _convert2cartgrid(xc, yc, x1, x2)   
+    ww, nn = _convert2cartgrid(xc, yc, x1, x2)
 
-    xcong = self._congrid(xc,(nx1,nx2),method='linear')
-    ycong = self._congrid(yc,(nx1,nx2),method='linear')
+    xcong = self._congrid(xc, (nx1, nx2), method="linear")
+    ycong = self._congrid(yc, (nx1, nx2), method="linear")
 
     for i, var in enumerate(vars):
-        newv.append(np.sum([ww[j]*var.flat[nn[j]] for j in range(4)], axis = 0))
-        newv[i] = self._congrid(newv[i],(nx1,nx2),method='linear')
+        newv.append(
+            np.sum([ww[j] * var.flat[nn[j]] for j in range(4)], axis=0)
+        )
+        newv[i] = self._congrid(newv[i], (nx1, nx2), method="linear")
 
-    if self.geom == 'SPHERICAL':
-        return ycong[:,0], xcong[0], *newv
+    if self.geom == "SPHERICAL":
+        return ycong[:, 0], xcong[0], *newv
     else:
-        return xcong[:,0], ycong[0], *newv
+        return xcong[:, 0], ycong[0], *newv
 
 
 def reshape_uniform(self, x1, x2, *args, **kwargs):
@@ -515,11 +524,11 @@ def reshape_uniform(self, x1, x2, *args, **kwargs):
         >>> x1new, x2new, varx = reshape_uniform(x1, x2, var)
 
     """
-    uniform_x = all(np.diff(x1)==np.diff(x1)[0])
-    uniform_y = all(np.diff(x2)==np.diff(x2)[0])
+    uniform_x = all(np.diff(x1) == np.diff(x1)[0])
+    uniform_y = all(np.diff(x2) == np.diff(x2)[0])
 
-    nx1new = kwargs.get('nx1', len(x1))
-    nx2new = kwargs.get('nx2', len(x2))
+    nx1new = kwargs.get("nx1", len(x1))
+    nx2new = kwargs.get("nx2", len(x2))
 
     uniform_x = False if nx1new != len(x1) else uniform_x
     uniform_y = False if nx2new != len(x2) else uniform_y
@@ -527,11 +536,13 @@ def reshape_uniform(self, x1, x2, *args, **kwargs):
     newvars = []
 
     if not uniform_x or not uniform_y:
-        
-        x1new = np.linspace(x1.min(), x1.max(), nx1new) if \
-                not uniform_x else x1
-        x2new = np.linspace(x2.min(), x2.max(), nx2new) if \
-                not uniform_y else x2
+
+        x1new = (
+            np.linspace(x1.min(), x1.max(), nx1new) if not uniform_x else x1
+        )
+        x2new = (
+            np.linspace(x2.min(), x2.max(), nx2new) if not uniform_y else x2
+        )
 
         for i in args:
             interp = RectBivariateSpline(x2, x1, i.T)
@@ -541,7 +552,7 @@ def reshape_uniform(self, x1, x2, *args, **kwargs):
         x1new = x1
         x2new = x2
         newvars = [arg for arg in args]
-        
+
     return x1new, x2new, newvars
 
 
@@ -581,21 +592,21 @@ def _convert2cartgrid(R, Z, new_r, new_t):
     - Example #1: Convert the grid from spherical to cartesian coordinates
 
         >>> new_r, new_t, newvar = _convert2cartgrid(R, Z, new_r, new_t)
-    
+
     """
 
     # Convert Cartesian coordinates (R, Z) to polar (Rs, Th)
     Rs = np.sqrt(R**2 + Z**2)
 
     Th = np.arctan2(Z, R)
-    Th = np.where(Th < 0, Th + 2*np.pi, Th)  # Ensure Th is in [0, 2pi]
+    Th = np.where(Th < 0, Th + 2 * np.pi, Th)  # Ensure Th is in [0, 2pi]
 
     # Clip Rs and Th to the range of the new grid
     Rs_clipped = np.clip(Rs, new_r[0], new_r[-1])
     Th_clipped = np.clip(Th, new_t[0], new_t[-1])
 
     # Normalize Rs and Th to the new grid indices
-    ra  = (len(new_r) - 1) * (Rs_clipped - new_r[0]) / (new_r[-1] - new_r[0])
+    ra = (len(new_r) - 1) * (Rs_clipped - new_r[0]) / (new_r[-1] - new_r[0])
     tha = (len(new_t) - 1) * (Th_clipped - new_t[0]) / (new_t[-1] - new_t[0])
 
     # Get the integer and fractional parts of the grid indices
@@ -622,7 +633,7 @@ def _convert2cartgrid(R, Z, new_r, new_t):
     return [w1, w2, w3, w4], [NN1, NN2, NN3, NN4]
 
 
-def _congrid(self, a, newdims, method='linear', center=False, minusone=False):
+def _congrid(self, a, newdims, method="linear", center=False, minusone=False):
     """
     Arbitrary resampling of source array to new dimension sizes.
 
@@ -659,7 +670,7 @@ def _congrid(self, a, newdims, method='linear', center=False, minusone=False):
     - Example #1: Resample the grid
 
         >>> newvar = _congrid(newvar, (10, 10))
-    
+
     """
 
     # Based on IDL's congrid routine
@@ -670,8 +681,10 @@ def _congrid(self, a, newdims, method='linear', center=False, minusone=False):
     newdims = np.asarray(newdims, dtype=int)
 
     if olddims.size != newdims.size:
-        raise ValueError("Dimension mismatch: newdims must have the same number \
-                          of dimensions as the input array.")
+        raise ValueError(
+            "Dimension mismatch: newdims must have the same number \
+                          of dimensions as the input array."
+        )
 
     m1 = int(minusone)
     ofs = 0.5 if center else 0.0
@@ -680,22 +693,26 @@ def _congrid(self, a, newdims, method='linear', center=False, minusone=False):
     old_grid = [np.arange(n) for n in olddims]
 
     # Generate the new grid, scaled to match the new dimensions
-    new_grid = np.meshgrid(*[
-        np.linspace(ofs, olddims[i] - 1 - ofs, num=newdims[i])
-        for i in range(len(olddims))
-    ], indexing='ij')
+    new_grid = np.meshgrid(
+        *[
+            np.linspace(ofs, olddims[i] - 1 - ofs, num=newdims[i])
+            for i in range(len(olddims))
+        ],
+        indexing="ij",
+    )
 
     # Stack the coordinates for RegularGridInterpolator
     new_coords = np.stack(new_grid, axis=-1)
 
-    if method == 'spline':
+    if method == "spline":
         # Use spline interpolation with map_coordinates
         scale = (olddims - m1) / (newdims - m1)
         coords = np.array(new_grid) * scale[:, None, None]
-        return map_coordinates(a, coords, order=3, mode='nearest')
+        return map_coordinates(a, coords, order=3, mode="nearest")
 
     else:
         # Use RegularGridInterpolator for 'linear' and 'nearest' methods
-        interpolator = RegularGridInterpolator(old_grid, a, method=method, 
-                                               bounds_error=False, fill_value=None)
+        interpolator = RegularGridInterpolator(
+            old_grid, a, method=method, bounds_error=False, fill_value=None
+        )
         return interpolator(new_coords)

@@ -22,11 +22,11 @@ ipython shell or Jupyter notebook and standard Python scripts.
 The package is structured as follow:
 
 - the Load class is used to load the data from the PLUTO simulation fluid files.
-- the Loadpart class is used to load the data from the PLUTO simulation particle files.
+- the LoadPart class is used to load the data from the PLUTO simulation particle files.
 - the Image class is used to visualize the loaded data.
 - additional functions (e.g., to save the images) are included in the package.
 
-The package includes a set of examples in the `Tests` directory.
+The package includes a set of examples in the `Examples` directory.
 
 The package is tested on Python 3.10 (and newer versions) and with the following dependencies:
 
@@ -104,9 +104,26 @@ For more detailed instructions and additional installation options, please refer
 
 If you have any questions, suggestions or find a bug, feel free to open an issue or fork the repository and create a pull request.
 Any contribution aimed at helping the PLUTO code community to have better plots with less efforts will be greatly appreciated.
+If you want to contribute to PyPLUTO please be sure to installe it in the developer mode, through the command:
+
+```bash
+pip install -r requirements_dev.txt
+```
 
 ### Rules for Contributing
 
-- **We do not enforce any strict style convention for PyPLUTO contributions, as long as code maintains high readability and overall quality.**
+We use pre-commit to ensure that the code is consistent with the style "Black".
+You can either link the pre-commit to the repository through the command
 
-- If you are unsure on what style to use, please contact one of the administrators
+```bash
+pre-commit install
+```
+
+or by enforcing the guide styles manually through the command
+
+```bash
+pre-commit run --all-files
+```
+
+An automatic check will verify if the code ocmplies with the "black" style at every pull request.
+For any question or enquiry, please contact one of the administrators.

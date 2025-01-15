@@ -18,24 +18,27 @@ The image is then saved and shown on screen.
 # Loading the relevant packages
 import pyPLUTO as pp
 
-# Creating the path for the data directory
-wdir = '../Examples/Test_Problems/MHD/Orszag_Tang'
-
 # Loading the data into a pload object D
-D = pp.Load(path = wdir)
+D = pp.Load(path="Test_Problems/MHD/Orszag_Tang")
 
 # Creating the image
-I = pp.Image(figsize = [7,6])
+I = pp.Image(figsize=[7, 6])
 
 # Plotting the data
-I.display(D.rho, x1 = D.x1r, x2 = D.x2r,
-                             xtitle = 'x',
-                             ytitle = 'y',
-                             title = 'Test 02 - MHD Orszag-Tang vortex',
-                             cpos = 'right',
-                             cmap = 'RdBu_r',
-                             clabel = r'$\rho$')
+I.display(
+    D.rho,
+    x1=D.x1r,
+    x2=D.x2r,
+    xtitle="x",
+    ytitle="y",
+    title="Test 02 - MHD Orszag-Tang vortex",
+    cpos="right",
+    cmap="RdBu_r",
+    clabel=r"$\rho$",
+)
+
+var2 = 5 * 6
 
 # Saving the image and showing the plot
-I.savefig('test02_ot.png')
+I.savefig("test02_ot.png")
 pp.show()

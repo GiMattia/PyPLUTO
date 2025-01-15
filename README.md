@@ -2,9 +2,10 @@
 ![GitHub release](https://img.shields.io/github/v/release/GiMattia/PyPLUTO?include_prereleases&label=Github%20Release)
 ![PyPI](https://img.shields.io/pypi/v/PyPLUTO)
 [![Documentation](https://readthedocs.org/projects/PyPLUTO/badge/?version=latest)](https://PyPLUTO.readthedocs.io/en/latest/?badge=latest)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-[![License: MIT](https://img.shields.io/badge/license-GPLv3-blue)](https://opensource.org/license/gpl-3-0)
-[![Arxiv](https://img.shields.io/badge/)](https://doi.org/)
+[![License: GPL-3.0-only](https://img.shields.io/badge/license-GPLv3-blue)](https://opensource.org/license/gpl-3-0)
+[//]: #[![Arxiv](https://img.shields.io/badge/)](https://doi.org/)
 
 [![Windows Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml)
 [![MacOS Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml)

@@ -1,3 +1,7 @@
+"""
+Setup.py file for installation without pip
+"""
+
 #!/usr/bin/env python
 
 from setuptools import setup, find_packages
@@ -16,4 +20,3 @@ setup(name='PyPLUTO',
     	],
       python_requires='>=3.10',
      )
-

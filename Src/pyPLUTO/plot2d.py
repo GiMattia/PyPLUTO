@@ -1,9 +1,9 @@
 from .libraries import *
     # Import methods from other files
 
-def display(self, 
-            var: NDArray, 
-            check: bool = True, 
+def display(self,
+            var: NDArray,
+            check: bool = True,
             **kwargs: Any
            ) -> QuadMesh:
     """
@@ -469,7 +469,7 @@ def scatter(self,
     pcm = ax.scatter(x, y, cmap = kwargs.get('cmap',None), norm = norm,
                      c = kwargs.get('c',None), s = kwargs.get('ms',3),
                      edgecolors = kwargs.get('edgecolors','none'),
-                     alpha = kwargs.get('alpha',1.0), 
+                     alpha = kwargs.get('alpha',1.0),
                      marker = kwargs.get('marker','o'))
 
     # Creation of the legend
@@ -486,16 +486,16 @@ def scatter(self,
 
     # If tight_layout is enabled, is re-inforced
     if self.tight != False:
-        self.fig.tight_layout()    
+        self.fig.tight_layout()
 
     return pcm
 
 
-def colorbar(self, 
+def colorbar(self,
              pcm = None,
-             axs = None, 
-             cax = None, 
-             check = True, 
+             axs = None,
+             cax = None,
+             check = True,
              **kwargs
             ) -> None:
     """
@@ -609,13 +609,13 @@ def colorbar(self,
     else:
         cax, naxc = self._assign_ax(cax, **kwargs)
         self._hide_text(naxc, cax.texts)
-            
+
     # Place the colorbar
     cbar = self.fig.colorbar(pcm, cax=cax, label=kwargs.get('clabel',''),
                 ticks = kwargs.get('cticks',None), orientation=ccor,
                 extend = kwargs.get('extend','neither'),
                 extendrect = kwargs.get('extendrect',False))
-    
+
     # Set the tickslabels
     ctkc = kwargs.get('ctickslabels','Default')
     if ctkc != 'Default':
@@ -630,10 +630,10 @@ def colorbar(self,
 
 
 def _set_cscale(self,
-                cscale: str, 
-                vmin: float, 
-                vmax: float, 
-                tresh: float, 
+                cscale: str,
+                vmin: float,
+                vmax: float,
+                tresh: float,
                 lint:  float | None = None
                ):
     """
@@ -685,7 +685,7 @@ def _set_cscale(self,
         >>> _set_cscale('twoslope', -1.0, 1.0, 0.1)
 
     """
-    
+
     if lint is not None:
         warnings.warn("'lint' keyword is deprecated, please use \
                        'tresh' instead", UserWarning)

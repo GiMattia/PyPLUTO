@@ -3,9 +3,13 @@ repos:
   rev: v5.0.0
   hooks:
   - id: check-added-large-files
+    files: \.py$
   - id: check-case-conflict
+    files: \.py$
   - id: check-merge-conflict
+    files: \.py$
   - id: debug-statements
+    files: \.py$
   - id: end-of-file-fixer
     files: \.py$
   - id: mixed-line-ending

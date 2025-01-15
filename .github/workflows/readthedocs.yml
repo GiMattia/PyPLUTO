@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r Docs/requirements.txt
+          pip install -r requirements_dev.txt
 
       - name: Build documentation
         run: |

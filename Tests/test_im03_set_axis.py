@@ -1,7 +1,8 @@
-import pyPLUTO as pp
 import matplotlib as mpl
 import numpy as np
 import numpy.testing as npt
+
+import pyPLUTO as pp
 
 
 # Check the default values of the set_axes

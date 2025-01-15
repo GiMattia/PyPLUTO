@@ -27,7 +27,7 @@ the user can quickly change the loaded variables or output time by using the
 Note that the variables can be specified also while selecting the file, while
 the output file number will be determine by the clicked file.
 The "preferred format" combo box allows the user to visualize only the selected
-formats while searching the file. 
+formats while searching the file.
 A "Clear" button will simply clear the loading panel.
 
 |
@@ -39,7 +39,7 @@ Selecting the variable with the GUI
 
 The setting section is used to select the variable to be plotted. The user can
 select the variable by choosing from the loaded variables. The user can also
-slice the variables by selecting the desired slice. 
+slice the variables by selecting the desired slice.
 The x- and the y-axes (in case of 2D plots) can also be selected here.
 
 |
@@ -50,7 +50,7 @@ Plotting the data with the GUI
 ------------------------------
 
 The plotting section is used to plot the data. The user can plot the data by
-clicking on the "Plot" button. The title, range and scales are highly 
+clicking on the "Plot" button. The title, range and scales are highly
 customizable, as well as the colormap (for 2D plots).
 All these features can be changed and updated without the need to reload the
 data by clicking on the "Update plot" button.

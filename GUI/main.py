@@ -1,6 +1,7 @@
-from PyQt6.QtWidgets import QApplication
 import sys
+
 from main_window import PyPLUTOApp
+from PyQt6.QtWidgets import QApplication
 
 
 def main():

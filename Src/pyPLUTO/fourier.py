@@ -108,9 +108,7 @@ def fourier(
         if kwargs.get(dir, True) is True and dim > numdir:
             axes.append(numdir)
             # Compute the frequencies
-            freqs.append(
-                2.0 * np.pi * np.fft.rfftfreq(shp[numdir], spacing[pars])
-            )
+            freqs.append(2.0 * np.pi * np.fft.rfftfreq(shp[numdir], spacing[pars]))
 
     # Compute the Fourier transform
     fk = np.fft.fftn(f, axes=axes)

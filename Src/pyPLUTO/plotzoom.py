@@ -354,9 +354,7 @@ def _zoomdisplay(self, ax: Axes, nax: int, axins: Axes, **kwargs: Any) -> None:
     kwargs["vmax"] = kwargs.pop("vmax", self.vlims[nax][1])
     kwargs["tresh"] = kwargs.pop("tresh", self.vlims[nax][2])
 
-    self.display(
-        pcm0, x1=xc, x2=yc, ax=axins, check=False, shading=psh, **kwargs
-    )
+    self.display(pcm0, x1=xc, x2=yc, ax=axins, check=False, shading=psh, **kwargs)
 
     return None
 

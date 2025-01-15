@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="colorbar.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="animate.html" /> 
+    <link rel="prev" title="&lt;no title&gt;" href="animate.html" />
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
@@ -34,11 +34,11 @@
     <div class="content-wrapper">
       <div class="content">
         <div class="document">
-            
+
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-            
+
   <dl class="py function" id="legend">
 <dt class="sig sig-object py" id="pyPLUTO.Image.legend">
 <span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fromplot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPLUTO.Image.legend" title="Link to this definition">¶</a></dt>
@@ -48,7 +48,7 @@ ordered by entry. If specific labels are given, it shows those ones.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>- ax: ax | int | None, default None</strong></dt><dd><p>The axis where to insert the legend. If None, the last considered axis 
+<dt><strong>- ax: ax | int | None, default None</strong></dt><dd><p>The axis where to insert the legend. If None, the last considered axis
 will be used.</p>
 </dd>
 <dt><strong>- c: str, default self.color</strong></dt><dd><p>Determines the line color. If not defined, the program will loop over an
@@ -76,17 +76,17 @@ in the legend.</p>
 <dt><strong>- legpos: int | str, default 0</strong></dt><dd><p>Selects the legend location. If not specified the standard matplotlib
 legend function will find the most suitable location.</p>
 </dd>
-<dt><strong>- legsize: float, default fontsize</strong></dt><dd><p>Sets the fontsize of the legend. The default value is the default 
+<dt><strong>- legsize: float, default fontsize</strong></dt><dd><p>Sets the fontsize of the legend. The default value is the default
 fontsize value.</p>
 </dd>
 <dt><strong>- legspace: float, default 2</strong></dt><dd><p>Sets the space between the legend columns, in font-size units.</p>
 </dd>
-<dt><strong>- ls: {‘-’, ‘–’, ‘-.’, ‘:’, ‘ ‘, ect.}, default ‘-’</strong></dt><dd><p>Sets the linestyle. The choices available are the ones defined in the 
+<dt><strong>- ls: {‘-’, ‘–’, ‘-.’, ‘:’, ‘ ‘, ect.}, default ‘-’</strong></dt><dd><p>Sets the linestyle. The choices available are the ones defined in the
 matplotlib package. Here are reported the most common ones.</p>
 </dd>
 <dt><strong>- lw: float, default 1.3</strong></dt><dd><p>Sets the linewidth of each line.</p>
 </dd>
-<dt><strong>- marker: {‘o’, ‘v’, ‘^’, ‘&lt;’, ‘&gt;’, ‘X’, ‘ ‘, etc.}, default ‘ ‘</strong></dt><dd><p>Sets an optional symbol for every point. The default value is no marker 
+<dt><strong>- marker: {‘o’, ‘v’, ‘^’, ‘&lt;’, ‘&gt;’, ‘X’, ‘ ‘, etc.}, default ‘ ‘</strong></dt><dd><p>Sets an optional symbol for every point. The default value is no marker
 (’ ‘).</p>
 </dd>
 <dt><strong>- ms: float, default 5 (if label) or 1 (if not label)</strong></dt><dd><p>Sets the marker size from the default value of 5.0 (if label is given)
@@ -136,9 +136,9 @@ or the marker scale from the default value of 1.0 (if not label).</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y4</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">legpos</span> <span class="o">=</span> <span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">],</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">legpos</span> <span class="o">=</span> <span class="s1">&#39;lower left&#39;</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">],</span>
 <span class="gp">... </span><span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;black lines&#39;</span><span class="p">,</span> <span class="s1">&#39;red lines&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">legpos</span> <span class="o">=</span> <span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-.&#39;</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">],</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">legpos</span> <span class="o">=</span> <span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-.&#39;</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">],</span>
 <span class="gp">... </span><span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;continue&#39;</span><span class="p">,</span> <span class="s1">&#39;dotted&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -158,7 +158,7 @@ or the marker scale from the default value of 1.0 (if not label).</p>
       </div>
         </div>
         <div class="sidebar">
-          
+
           <h3>Table of Contents</h3>
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
@@ -214,7 +214,7 @@ or the marker scale from the default value of 1.0 (if not label).</p>
         </div>
 
         <div class="right">
-          
+
     <div class="footer" role="contentinfo">
     &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.

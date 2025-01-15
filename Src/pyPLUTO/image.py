@@ -131,12 +131,8 @@ class Image:
         self.yscale: list[str] = []  # y-axis scale
         self.nline: list[int] = []  # number of lines in the axis
         self.ntext: list[Any | None] = []  # text in the axis
-        self.setax: list[Any | int] = (
-            []
-        )  # keyword for the range in x-direction
-        self.setay: list[Any | int] = (
-            []
-        )  # keyword for the range in y-direction
+        self.setax: list[Any | int] = []  # keyword for the range in x-direction
+        self.setay: list[Any | int] = []  # keyword for the range in y-direction
         self.legpos: list[int | str | None] = []  # legend position
         self.legpar: list[list[float]] = []  # legend parameters
         self.tickspar: list[Any | int] = []  # ticks parameters
@@ -233,15 +229,20 @@ class Image:
         necessary.
         """
 
-    from .setaxes import create_axes, set_axis
-    from .plot1d import plot, legend
-    from .plot2d import display, scatter, colorbar, _set_cscale
-    from .plotzoom import zoom
-    from .imagetools import savefig, show, text
-    from .interact import interactive, _update_slider, _update_both
-    from .interact import animate
-    from .plotlines import contour, streamplot
-    from .figure import _create_figure, _assign_LaTeX, _choose_colorlines
-    from .h_image import _add_ax, _hide_text
-    from .h_image import _set_xrange, _set_yrange, _assign_ax, _range_offset
     from .amr import oplotbox
+    from .figure import _assign_LaTeX, _choose_colorlines, _create_figure
+    from .h_image import (
+        _add_ax,
+        _assign_ax,
+        _hide_text,
+        _range_offset,
+        _set_xrange,
+        _set_yrange,
+    )
+    from .imagetools import savefig, show, text
+    from .interact import _update_both, _update_slider, animate, interactive
+    from .plot1d import legend, plot
+    from .plot2d import _set_cscale, colorbar, display, scatter
+    from .plotlines import contour, streamplot
+    from .plotzoom import zoom
+    from .setaxes import create_axes, set_axis

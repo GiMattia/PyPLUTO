@@ -20,6 +20,7 @@ mesh grid. The image is then saved and shown on screen.
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO as pp
 
 # Loading the data into a pload object D
@@ -72,9 +73,7 @@ xc, yc, *B = D.reshape_cartesian(Bx, Bz, nx1=500)
 Bx, Bz = B[0], B[1]
 
 # Plot the magnetic field lines in two different ways
-I.streamplot(
-    Bx, Bz, x1=xc, x2=yc, ax=0, c="gray", lw=0.7, vmin=1.0e-5, density=5
-)
+I.streamplot(Bx, Bz, x1=xc, x2=yc, ax=0, c="gray", lw=0.7, vmin=1.0e-5, density=5)
 
 lines = D.find_fieldlines(
     Bx, Bz, x1=xc, x2=yc, x0=[3.75, 4, 4.25], y0=[0, 0, 0], maxstep=0.07

@@ -141,8 +141,7 @@ def select(
     # Determine the indices that satisfy the condition
     if isinstance(cond, str):
         warn = (
-            "The condition should be a callable function to "
-            "avoid security issues."
+            "The condition should be a callable function to " "avoid security issues."
         )
         warnings.warn(warn)
 

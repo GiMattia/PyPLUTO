@@ -1,7 +1,9 @@
-import pyPLUTO as pp
-import pytest
 import os
 from pathlib import Path
+
+import pytest
+
+import pyPLUTO as pp
 
 # Assuming the root of the repo is your current working directory
 repo_root = Path(os.getcwd())
@@ -29,9 +31,7 @@ def test_find_singlegiven():
 
 # Given format (single file), alone = True
 def test_alone_vtk():
-    D = pp.Load(
-        path=path / "single_file", text=False, datatype="vtk", alone=True
-    )
+    D = pp.Load(path=path / "single_file", text=False, datatype="vtk", alone=True)
     assert D.format == "vtk"
 
 
@@ -74,9 +74,7 @@ def test_multiple_findformat():
 
 # Given format (multiple files), alone = True
 def test_multiple_alone():
-    D = pp.Load(
-        path="Test_load/multiple_files", text=False, datatype="vtk", alone=True
-    )
+    D = pp.Load(path="Test_load/multiple_files", text=False, datatype="vtk", alone=True)
     assert D.format == "vtk"
 
 
@@ -95,6 +93,4 @@ def test_noformat():
 # Check if raises error if the selected format does not exist
 def test_format_noexists():
     with pytest.raises(FileNotFoundError):
-        D = pp.Load(
-            path=path / "multiple_files", text=False, datatype="dbl.h5"
-        )
+        D = pp.Load(path=path / "multiple_files", text=False, datatype="dbl.h5")

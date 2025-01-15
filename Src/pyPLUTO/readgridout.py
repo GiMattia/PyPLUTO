@@ -59,7 +59,7 @@ def _read_grid_h5(self) -> None:
     self.dx1 = self.x1r[1:] - self.x1r[:-1]
     self.dx1 = 0.5*(self.dx1[:, 1:] + self.dx1[:, :-1]) if self.dim > 1 else self.dx1
     self.dx1 = 0.5*(self.dx1[:, :, 1:] + self.dx1[:, :, :-1]) if self.dim > 2 else self.dx1
-    
+
     self.dx2 = self.x2r[1:] - self.x2r[:-1]
     self.dx2 = 0.5*(self.dx2[:, 1:] + self.dx2[:, :-1]) if self.dim > 1 else self.dx2
     self.dx2 = 0.5*(self.dx2[:, :, 1:] + self.dx2[:, :, :-1]) if self.dim > 2 else self.dx2
@@ -124,9 +124,7 @@ def _read_grid_vtk(self, gridvars) -> None:
         if gridvars[0] == "self.x1r":
             self.x1 = 0.5 * (self.x1r[1:] + self.x1r[:-1])
             self.x1 = (
-                0.5 * (self.x1[:, 1:] + self.x1[:, :-1])
-                if self.dim > 1
-                else self.x1
+                0.5 * (self.x1[:, 1:] + self.x1[:, :-1]) if self.dim > 1 else self.x1
             )
             self.x1 = (
                 0.5 * (self.x1[:, :, 1:] + self.x1[:, :, :-1])
@@ -244,9 +242,9 @@ def _read_gridfile(self) -> None:
     }
 
     # Determine grid shape based on dimension
-    (self.nshp, self._nshp_st1, self._nshp_st2, self._nshp_st3) = GRID_SHAPES[
-        self.dim
-    ](self.nx1, self.nx2, self.nx3)
+    (self.nshp, self._nshp_st1, self._nshp_st2, self._nshp_st3) = GRID_SHAPES[self.dim](
+        self.nx1, self.nx2, self.nx3
+    )
 
     # Compute the centered and staggered grid values
     self.x1r = np.array(xL[0 : self.nx1] + [xR[self.nx1 - 1]])
@@ -307,9 +305,7 @@ def _read_gridfile(self) -> None:
 
         if self.dim == 3 and self._full3d is True:
 
-            x1_3D, x2_3D, x3_3D = np.meshgrid(
-                self.x1, self.x2, self.x3, indexing="ij"
-            )
+            x1_3D, x2_3D, x3_3D = np.meshgrid(self.x1, self.x2, self.x3, indexing="ij")
             x1r_3D, x2r_3D, x3r_3D = np.meshgrid(
                 self.x1r, self.x2r, self.x3r, indexing="ij"
             )
@@ -403,9 +399,7 @@ def _read_outfile(self, nout: int, endian: str) -> None:
         ">" if self.format == "vtk" else self._d_info["endianess"]
     )
     self._d_info["endianess"][:] = (
-        self._d_end[endian]
-        if endian is not None
-        else self._d_info["endianess"]
+        self._d_end[endian] if endian is not None else self._d_info["endianess"]
     )
 
     # Store the variables list

@@ -1,7 +1,8 @@
-import pyPLUTO as pp
 import numpy as np
 import numpy.testing as npt
 import pytest
+
+import pyPLUTO as pp
 
 x = np.linspace(-1, 1, 101)
 y = np.linspace(-1, 1, 101)

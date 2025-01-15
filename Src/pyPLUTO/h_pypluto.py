@@ -102,10 +102,7 @@ def check_par(par: set[str], func: str, **kwargs: Any) -> None:
 
 # Set color warning formatter
 def color_warning(message, category, filename, lineno, file=None, line=None):
-    message = (
-        f"\33[33m{category.__name__}: {message}"
-        f"[{filename}:{lineno}]\33[0m\n"
-    )
+    message = f"\33[33m{category.__name__}: {message}" f"[{filename}:{lineno}]\33[0m\n"
     return message
 
 

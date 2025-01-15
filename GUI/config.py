@@ -1,5 +1,7 @@
-from PyQt6.QtWidgets import QFileDialog
 import os
+
+from PyQt6.QtWidgets import QFileDialog
+
 import pyPLUTO as pp
 
 
@@ -78,9 +80,7 @@ def select_folder(self):
         datatype = datatype if datatype in formats_list.keys() else None
         datatry = file_path.split("/")[-1].split(".")[0]
         self.datatype = (
-            datatry
-            if datatry in formats_list.keys() and datatype is None
-            else datatype
+            datatry if datatry in formats_list.keys() and datatype is None else datatype
         )
         self.nout = "last"
         try:

@@ -1,9 +1,11 @@
-import pyPLUTO as pp
+import os
+from pathlib import Path
+
 import numpy as np
 import numpy.testing as npt
 import pytest
-import os
-from pathlib import Path
+
+import pyPLUTO as pp
 
 # Assuming the root of the repo is your current working directory
 repo_root = Path(os.getcwd())
@@ -88,18 +90,14 @@ def test_tab():
 
 # Test single file, vtk output (standalone)
 def test_singlevtkalone():
-    D = pp.Load(
-        0, path=path / "single_file", datatype="vtk", text=False, alone=True
-    )
+    D = pp.Load(0, path=path / "single_file", datatype="vtk", text=False, alone=True)
     for num, var in enumerate(varslist):
         npt.assert_allclose(getattr(D, var), exact_vars[var])
 
 
 # Test multiple files, vtk output (standalone)
 def test_multiplevtkalone():
-    D = pp.Load(
-        0, path=path / "multiple_files", datatype="vtk", text=False, alone=True
-    )
+    D = pp.Load(0, path=path / "multiple_files", datatype="vtk", text=False, alone=True)
     for num, var in enumerate(varslist):
         npt.assert_allclose(getattr(D, var), exact_vars[var])
 
@@ -147,9 +145,7 @@ def test_tabalone():
         "prs": "var4",
     }
 
-    D = pp.Load(
-        0, path=path / "single_file", datatype="tab", text=False, alone=True
-    )
+    D = pp.Load(0, path=path / "single_file", datatype="tab", text=False, alone=True)
     for num, var in enumerate(varslist):
         npt.assert_allclose(getattr(D, vars_conversion[var]), exact_vars[var])
 
@@ -167,9 +163,7 @@ def test_tab1D():
 
 # Test muptiple outputs
 def test_multipleout():
-    D = pp.Load(
-        [0, 1], path=path / "multiple_outputs", datatype="dbl", text=False
-    )
+    D = pp.Load([0, 1], path=path / "multiple_outputs", datatype="dbl", text=False)
     assert isinstance(D.rho, dict)
     assert list(D.rho.keys()) == [0, 1]
     npt.assert_allclose(D.rho[0], rho)

@@ -329,8 +329,7 @@ def write_file(
         _write_h5(self, data, filename, dataname, grid, **kwargs)
     else:
         warn = (
-            f"Invalid datatype: {datatype}, not implemented yet! "
-            "Resetting to 'h5'"
+            f"Invalid datatype: {datatype}, not implemented yet! " "Resetting to 'h5'"
         )
         warnings.warn(warn)
         pass

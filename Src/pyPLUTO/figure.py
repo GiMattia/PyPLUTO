@@ -317,9 +317,7 @@ def _create_figure(self, fig: Figure | None, **kwargs: Any) -> None:
         plt.close(self.nwin)
 
     # Create a new figure instance with the provided window number
-    self.fig = plt.figure(
-        self.nwin, figsize=(self.figsize[0], self.figsize[1])
-    )
+    self.fig = plt.figure(self.nwin, figsize=(self.figsize[0], self.figsize[1]))
     plt.rcParams.update({"font.size": self.fontsize})
 
     # Suptitle

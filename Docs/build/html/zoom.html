@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="savefig.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="colorbar.html" /> 
+    <link rel="prev" title="&lt;no title&gt;" href="colorbar.html" />
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
@@ -34,11 +34,11 @@
     <div class="content-wrapper">
       <div class="content">
         <div class="document">
-            
+
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-            
+
   <dl class="py function" id="zoom">
 <dt class="sig sig-object py" id="pyPLUTO.Image.zoom">
 <span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">zoom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Axes</span></span></span><a class="headerlink" href="#pyPLUTO.Image.zoom" title="Link to this definition">¶</a></dt>
@@ -61,12 +61,12 @@ x and y. A float will fix the ratio between the y-scale and the x-scale
 </dd>
 <dt><strong>- ax: ax object, default None</strong></dt><dd><p>The axis to customize. If None the current axis will be selected.</p>
 </dd>
-<dt><strong>- bottom: float, default 0.6 + height</strong></dt><dd><p>Bottom position of the inset plot. If not defined the program will give 
+<dt><strong>- bottom: float, default 0.6 + height</strong></dt><dd><p>Bottom position of the inset plot. If not defined the program will give
 a standard value.</p>
 </dd>
 <dt><strong>- clabel: str, default None</strong></dt><dd><p>Sets the label of the colorbar.</p>
 </dd>
-<dt><strong>- cmap: str, default ‘hot’</strong></dt><dd><p>Selects the colormap. If not defined, the colormap ‘hot’ will be 
+<dt><strong>- cmap: str, default ‘hot’</strong></dt><dd><p>Selects the colormap. If not defined, the colormap ‘hot’ will be
 adopted.
 Some useful colormaps are: plasma, magma, seismic. Please avoid using
 colorbars like jjet or rainbow, which are not perceptively uniform and
@@ -81,7 +81,7 @@ not defined).</p>
 </dd>
 <dt><strong>- cscale: {‘linear’,’log’,’symlog’,’twoslope’}, default ‘linear’</strong></dt><dd><p>Sets the colorbar scale. Default is the linear (‘norm’) scale.</p>
 </dd>
-<dt><strong>- cticks: {[float], None}, default None</strong></dt><dd><p>If enabled (and different from None), sets manually ticks on the 
+<dt><strong>- cticks: {[float], None}, default None</strong></dt><dd><p>If enabled (and different from None), sets manually ticks on the
 colorbar.</p>
 </dd>
 <dt><strong>- ctickslabels: str, default None</strong></dt><dd><p>If enabled, sets manually ticks labels on the colorbar.</p>
@@ -90,7 +90,7 @@ colorbar.</p>
 </dd>
 <dt><strong>- extendrect: bool, default False</strong></dt><dd><p>If True, the colorbar extension will be rectangular.</p>
 </dd>
-<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components (only for the current 
+<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components (only for the current
 axis).</p>
 </dd>
 <dt><strong>- grid: bool, default False</strong></dt><dd><p>Enables the grid.</p>
@@ -133,10 +133,10 @@ the keyword ‘fontsize’.</p>
 <dt><strong>- top: float, default bottom + height</strong></dt><dd><p>Top position of the inset plot. If both top and bottom keywords are
 present the priority will go to the top keyword.</p>
 </dd>
-<dt><strong>- transpose: True/False, default False</strong></dt><dd><p>Transposes the variable matrix. Use is not recommended if not really 
+<dt><strong>- transpose: True/False, default False</strong></dt><dd><p>Transposes the variable matrix. Use is not recommended if not really
 necessary (e.g. in case of highly customized variables and plots)</p>
 </dd>
-<dt><strong>- tresh: float, default max(abs(vmin),vmax)*0.01</strong></dt><dd><p>Additional parameter in presence of a composite colormap. The specific 
+<dt><strong>- tresh: float, default max(abs(vmin),vmax)*0.01</strong></dt><dd><p>Additional parameter in presence of a composite colormap. The specific
 cases are the following:
 - twoslope colorscale: sets the limit between the two linear regimes.
 - symlog: sets the limit between the logaitrhmic and the linear regime.</p>
@@ -228,7 +228,7 @@ option is True.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">left</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">bottom</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">left</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">bottom</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
 <span class="gp">... </span><span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span>
 <span class="gp">...</span>
 </pre></div>
@@ -257,7 +257,7 @@ option is True.</p>
       </div>
         </div>
         <div class="sidebar">
-          
+
           <h3>Table of Contents</h3>
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
@@ -313,7 +313,7 @@ option is True.</p>
         </div>
 
         <div class="right">
-          
+
     <div class="footer" role="contentinfo">
     &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.

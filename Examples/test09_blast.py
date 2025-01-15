@@ -16,6 +16,7 @@ legend labels. The image is then saved and shown on screen.
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO as pp
 
 # Creating the Image, the subplot axes and defining the colors of the lines

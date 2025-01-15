@@ -42,7 +42,7 @@ Image.plot(
 )
 
 Image.plot(Data.x1, Data.prs, label=r"$p$")
-Image.plot(D.x1, Data.vx1, label=r"$v_x$")
+Image.plot(Data.x1, Data.vx1, label=r"$v_x$")
 
 # Saving the image and showing the plot
 Image.savefig("test01_sod.png")

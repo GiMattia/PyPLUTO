@@ -4,11 +4,11 @@ Test 11 - Particles CR Xpoint test
 ==================================
 
 
-  .. image:: ../../Tests/test11_xpoint.png
+  .. image:: ../../Examples/test11_xpoint.png
      :align: center
      :width: 600px
 
-  .. literalinclude :: ../../Tests/test11_xpoint.py
+  .. literalinclude :: ../../Examples/test11_xpoint.py
      :language: python
 
 |

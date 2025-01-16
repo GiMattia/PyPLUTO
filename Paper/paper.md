@@ -1,5 +1,5 @@
 ---
-title: 'PyPLUTO: A Python Package for Loading and Plotting Data from the PLUTO Code'
+title: 'PyPLUTO: a data analysis Python package for the PLUTO code'
 tags:
   - Astronomy
   - Python
@@ -22,7 +22,7 @@ authors:
 
   - name: Matteo Bugli
     orcid: 0000-0002-7834-0422
-    affiliation: 3, 4, 5
+    affiliation: 3, 4, 5,6
 
   - name: Vittoria Berta
     orcid: 0000-0001-6305-6931
@@ -30,18 +30,18 @@ authors:
 
   - name: Eleonora Puzzoni
     orcid: 0009-0009-5314-348X
-    affiliation: 6
+    affiliation: 7
 
   - name: Andrea Mignone
     orcid: 0000-0002-8352-6635
-    affiliation: 3, 5
+    affiliation: 3, 6
 
   - name: Bhargav Vaidya
     orcid: 0000-0001-5424-0059
-    affiliation: 7
+    affiliation: 8
 
 affiliations:
- - name: Max Planck Institute für Astronomie, Königstuhl 17, Heidelberg, 69117, Germany
+ - name: Max Planck Institut für Astronomie, Königstuhl 17, Heidelberg, 69117, Germany
    index: 1
 
  - name: INFN, Sezione di Firenze, Via G. Sansone 1, Sesto Fiorentino (FI), 50019, Italy
@@ -50,19 +50,22 @@ affiliations:
  - name: Dipartimento di Fisica, Università di Torino, Via P. Giuria 1, Torino, 10125, Italy
    index: 3
 
- - name: Université Paris-Saclay, Université Paris Cité,CEA, CNRS, AIM, Gif-sur-Yvette, 91191, France
+ - name: Institut d’Astrophysique de Paris, UMR 7095, CNRS & Sorbonne Université, 98bis boulevard Arago, 75014 Paris, France
    index: 4
 
- - name: INFN, Sezione di Torino, Via P. Giuria 1, Torino, 10125, Italy
+ - name: Université Paris-Saclay, Université Paris Cité,CEA, CNRS, AIM, Gif-sur-Yvette, 91191, France
    index: 5
 
- - name: Observatoire de la Côte d’Azur, Laboratoire Lagrange, Bd de l’Observatoire, CS 34229, 06304 Nice cedex 4, France
+ - name: INFN, Sezione di Torino, Via P. Giuria 1, Torino, 10125, Italy
    index: 6
 
- - name: Department of Astronomy, Astrophysics and Space Engineering, Indian Institute of Technology, Khandwa Road, Simrol, Indore, 453552, India
+ - name: Observatoire de la Côte d’Azur, Laboratoire Lagrange, Bd de l’Observatoire, CS 34229, 06304 Nice cedex 4, France
    index: 7
 
-date: 03 January 2025
+ - name: Department of Astronomy, Astrophysics and Space Engineering, Indian Institute of Technology, Khandwa Road, Simrol, Indore, 453552, India
+   index: 8
+
+date: 16 January 2025
 bibliography: paper.bib
 
 ---

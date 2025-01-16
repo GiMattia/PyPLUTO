@@ -1,11 +1,13 @@
 # PyPLUTO
 ![GitHub release](https://img.shields.io/github/v/release/GiMattia/PyPLUTO?include_prereleases&label=Github%20Release)
 ![PyPI](https://img.shields.io/pypi/v/PyPLUTO)
-[![Documentation](https://readthedocs.org/projects/PyPLUTO/badge/?version=latest)](https://PyPLUTO.readthedocs.io/en/latest/?badge=latest)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![pre-commit](https://github.com/GiMattia/PyPLUTO/actions/workflows/pre-commit.yml/badge.svg)](https://github.com//GiMattia/PyPLUTO/actions/workflows/pre-commit.yml)
 
 [![License: GPL-3.0-only](https://img.shields.io/badge/license-GPLv3-blue)](https://opensource.org/license/gpl-3-0)
-<!-- [![Arxiv](https://img.shields.io/badge/)](https://doi.org/) -->
+<!-- [![DOI](https://joss.theoj.org/papers/.../status.svg)](https://doi.org/...) -->
+<!-- [![Arxiv](https://img.shields.io/badge/...)](https://doi.org/...) -->
+[![Documentation](https://readthedocs.org/projects/PyPLUTO/badge/?version=latest)](https://PyPLUTO.readthedocs.io/en/latest/?badge=latest)
 
 [![Windows Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml)
 [![MacOS Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml)
@@ -50,7 +52,7 @@ To install the PyPLUTO package, you can use the following methods:
 The easiest way to install PyPLUTO is through pip. Open your terminal and run the following command:
 
 ```bash
-pip install -e ./
+pip install ./
 ```
 
 Ensure that you are using Python 3.10 or newer, as the package is compatible from this version onwards.
@@ -104,7 +106,7 @@ For more detailed instructions and additional installation options, please refer
 
 If you have any questions, suggestions or find a bug, feel free to open an issue or fork the repository and create a pull request.
 Any contribution aimed at helping the PLUTO code community to have better plots with less efforts will be greatly appreciated.
-If you want to contribute to PyPLUTO please be sure to installe it in the developer mode, through the command:
+If you want to contribute to PyPLUTO please be sure to install it in the developer mode, through the command:
 
 ```bash
 pip install -r requirements_dev.txt
@@ -112,7 +114,7 @@ pip install -r requirements_dev.txt
 
 ### Rules for Contributing
 
-We use pre-commit to ensure that the code is consistent with the style "Black".
+We use pre-commit to ensure that the code is consistent with the style "black".
 You can either link the pre-commit to the repository through the command
 
 ```bash

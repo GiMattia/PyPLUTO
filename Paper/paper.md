@@ -93,7 +93,7 @@ PyPLUTO is a package written in Python (version $\geq$ 3.10) with the additions 
 
 • The `Image` class produces and handles the graphical windows and the plotting procedures.
 
-Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot 1D and 2D data in a single set of axes. PyPLUTO has been implemented to be supported by Windows, MacOS, and Linux, through both standard scripts and more interactive tools (e.g., IPython or Jupyter). The style guidelines follow the PEP8[^5] conventions for Python codes and focus on clarity and code readability.
+Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot 1D and 2D data in a single set of axes. PyPLUTO has been implemented to be supported by Windows, MacOS, and Linux, through both standard scripts and more interactive tools (e.g., IPython or Jupyter). The style guidelines follow the PEP8[^5] conventions for Python codes (enforced through the black package [@LANGA2020]) and focus on clarity and code readability.
 
 [^5]: [https://peps.python.org/pep-0008/]
 

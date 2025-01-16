@@ -75,9 +75,13 @@ In recent years, numerical simulations have become indispensable for addressing 
 
 # Statement of Need
 
-The PLUTO code [@PLUTO_2007] is a widely used, freely distributed computational fluid dynamics code designed to solve the classical and (special) relativistic MHD equations in different geometries and spatial dimensions. The original code is written in C (while the upcoming GPU version provides a full C++ rewrite[^2]) and it contains several numerical methods adaptable to different contexts. Data post-processing is a crucial step in analyzing the results of any numerical simulation. PyPLUTO offers user-friendly methods to generate publication-quality plots with a high degree of customization. Despite its enhanced flexibility, PyPLUTO offers strong computational efficiency, enabling the rapid handling of large datasets typical of state-of-the-art numerical simulations. Through this balance between customization, performance, and ease of use, PyPLUTO represents a key tool to effectively communicate scientific results while minimizing the effort required for post-processing.
+The PLUTO code [@PLUTO_2007] is a widely used, freely distributed computational fluid dynamics code designed to solve the classical and (special) relativistic MHD equations in different geometries and spatial dimensions. The original code is written in C (while the upcoming GPU version provides a full C++ rewrite[^2]) and it contains several numerical methods adaptable to different contexts. Data post-processing is a crucial step in analyzing the results of any numerical simulation. Other packages addressing related needs (e.g., [^3]), provide valuable functionality for working with PLUTO data, including loading and visualization. However, they may not support all data formats or offer integration for tasks like data manipulation and advanced plotting.
+In this work, we present PyPLUTO v1.0.0, a complete rewrite of the original version [^4]. 
+The package retains its core strengths while offering user-friendly methods for generating publication-quality plots with high customization. Despite its enhanced flexibility, PyPLUTO offers strong computational efficiency, enabling the rapid handling of large datasets typical of state-of-the-art numerical simulations. Through this balance between customization, performance, and ease of use, PyPLUTO represents a key tool to effectively communicate scientific results while minimizing the effort required for post-processing.
 
 [^2]: [https://plutocode.ph.unito.it/pluto-gpu.html]
+[^3]: [https://github.com/Simske/plutoplot]
+[^4]: [https://github.com/coolastro/pyPLUTO]
 
 # Main Features
 
@@ -89,9 +93,9 @@ PyPLUTO is a package written in Python (version $\geq$ 3.10) with the additions 
 
 • The `Image` class produces and handles the graphical windows and the plotting procedures.
 
-Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot 1D and 2D data in a single set of axes. PyPLUTO has been implemented to be supported by Windows, MacOS, and Linux, through both standard scripts and more interactive tools (e.g., IPython or Jupyter). The style guidelines follow the PEP8[^3] conventions for Python codes and focus on clarity and code readability.
+Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot 1D and 2D data in a single set of axes. PyPLUTO has been implemented to be supported by Windows, MacOS, and Linux, through both standard scripts and more interactive tools (e.g., IPython or Jupyter). The style guidelines follow the PEP8[^5] conventions for Python codes and focus on clarity and code readability.
 
-[^3]: [https://peps.python.org/pep-0008/]
+[^5]: [https://peps.python.org/pep-0008/]
 
 ### Loading the Data
 The variety of data formats obtainable from the PLUTO code, combined with the high level of output customization, has strongly hindered the development of packages that can consistently load every possible simulation outcome. The PLUTO code provides a variety of output data formats, including raw-binary and h5 (in both double and single precision), VTK, and simple ASCII files (the last ones only for  single-processor 1D and 2D data) for the fluid variables. Some of these formats are also used for particle data files. Additionally, the code also generates descriptor files (*‘.out’*) which contain relevant information regarding the grid structure and fluid variables.
@@ -112,11 +116,11 @@ Here we report some of the most relevant methods and tools present in PyPLUTO co
 
 • Methods for computing key differential operators such as gradients, divergences, and curls, are provided for all coordinate systems supported by PLUTO. Partial derivatives are computed using second-order accurate central differences via the NumPy `numpy.gradient` routine. Geometric factors are applied accordingly to the chosen coordinate system using the geometry information present in the current `Load` object. Users can operate on full datasets or selected slices along constant *x1*, *x2*, and *x3* directions, with outputs dynamically adjusting to the reduced dimensionality.
 
-• Specific routines for extracting field and contour lines are provided within the `Load` class. While these routines require Cartesian coordinates for proper functionality, the user can still apply them to non-Cartesian geometries by calling a routine `reshape_cartesian` that interpolates variables to uniform Cartesian meshes using bilinear interpolation and resampling. Contour lines are computed by taking advantage of the contourpy package[^4]; the contour levels can be specified as an integer (representing the number of levels) or as a list (whose elements are the exact values), with optional color coding. Field lines are computed by solving their corresponding set of ordinary differential equations through the SciPy’s `solve_ivp` method.
+• Specific routines for extracting field and contour lines are provided within the `Load` class. While these routines require Cartesian coordinates for proper functionality, the user can still apply them to non-Cartesian geometries by calling a routine `reshape_cartesian` that interpolates variables to uniform Cartesian meshes using bilinear interpolation and resampling. Contour lines are computed by taking advantage of the contourpy package[^6]; the contour levels can be specified as an integer (representing the number of levels) or as a list (whose elements are the exact values), with optional color coding. Field lines are computed by solving their corresponding set of ordinary differential equations through the SciPy’s `solve_ivp` method.
 
 • The `spectrum` method is designed to compute histograms of particle variables (e.g., the spectral energy), supporting linear and logarithmic spacing and customizable binning. In addition, the `select` method provides an efficient and flexible way to filter or sort particle indices based on user-defined conditions.
 
-[^4]: [https://github.com/contourpy/contourpy]
+[^6]: [https://github.com/contourpy/contourpy]
 
 ### Visualizing the Data
 The `Image` class has been implemented to efficiently visualize the data by encompassing some of the most relevant methods present in Matplotlib. Each `Image` class has a 1-1 correspondence with a Matplotlib `Figure` class, which is always a public class attribute. As for the `Load` class, we report some of the most relevant methods and tools present in the `Image` class (thus concerning the visualization of data).
@@ -125,7 +129,7 @@ The `Image` class has been implemented to efficiently visualize the data by enco
 
 • The `set_axis` method, which can be applied to every subplot, allows for single-subplot customization (in terms of, e.g., labels, range, scale, and ticks).
 
-• 1D and 2D plots are easily created through the `plot` and `display` methods, which rely, respectively, on the Matplotlib `plot` and `pcolormesh` methods. To avoid combinations of lines not suited for color vision deficiencies, the palette used for the 1D plots is tightly based on [@Tol_2021] with very few modifications[^5]. Particles can also be displayed (as in the [x-point](#xpoint) benchmark) through the `scatter` method, which relies on the homonymous Matplotlib method.
+• 1D and 2D plots are easily created through the `plot` and `display` methods, which rely, respectively, on the Matplotlib `plot` and `pcolormesh` methods. To avoid combinations of lines not suited for color vision deficiencies, the palette used for the 1D plots is tightly based on [@Tol_2021] with very few modifications[^7]. Particles can also be displayed (as in the [x-point](#xpoint) benchmark) through the `scatter` method, which relies on the homonymous Matplotlib method.
 
 • To ease the creation of customized legends, we have written an extensive `legend` method that can both take the labeled lines from a plot or create a custom legend based on the labels provided by the users.
 
@@ -137,7 +141,7 @@ The `Image` class has been implemented to efficiently visualize the data by enco
 
 • The analysis of simulation outputs often involves examining the complete time evolution of the obtained solutions. To simplify this process, the `Image` class includes the possibility to interactively visualize the full evolution of a 1D or 2D fluid variable. If multiple time snapshots are loaded via the `Load` class, users can navigate through these snapshots using a slider, eliminating the need to replot variables for each time step.
 
-[^5]: [The palette has been tested for all the color vision deficiencies accessible on https://www.color-blindness.com/coblis-color-blindness-simulator/]
+[^7]: [The palette has been tested for all the color vision deficiencies accessible on https://www.color-blindness.com/coblis-color-blindness-simulator/]
 
 ### GUI
 The PyPLUTO package includes a GUI (shown in Fig. \ref{fig1}) designed to simplify and enhance the visualization and analysis of simulation data. The GUI is built with PyQt6 and allows users to load and visualize 1D and 2D data (or slices) from PLUTO simulations. The GUI supports real-time updates of loaded data, enabling dynamic visualization as new information becomes available or as existing datasets are modified. Users can adjust axes properties such as range and scale, providing precise control over the visualization. Additionally, color map and color scale adjustments can be made interactively, allowing for immediate feedback and enhanced clarity in data interpretation. The GUI also includes options to clear the canvas and reset the interface, ensuring a clean workspace for subsequent analysis without the need to restart the application. The possibility of saving and further customizing the plots through the interactive Matplotlib toolbar makes the GUI a powerful and flexible tool for both preliminary data analysis and the creation of high-quality publication-ready figures.
@@ -178,10 +182,10 @@ The PyPLUTO package is designed as a powerful yet flexible tool to facilitate th
 
 • expanding the graphical interface to support particle data, including the possibility of visualizing particle distributions and trajectories dynamically;
 
-Alongside these improvements, the PyPLUTO development will focus on encompassing the latest features of the PLUTO code, such as new Adaptive Mesh Refinement strategies and extensions to more general metric tensors. PyPLUTO is a public package that can be downloaded alongside the CPU and GPU versions of the PLUTO code[^6]. Regular updates will be released with improvements and bug fixes. Additionally, a repository[^7] containing the PyPLUTO development versions will be available for users who wish to exploit the code’s latest features in advance.
+Alongside these improvements, the PyPLUTO development will focus on encompassing the latest features of the PLUTO code, such as new Adaptive Mesh Refinement strategies and extensions to more general metric tensors. PyPLUTO is a public package that can be downloaded alongside the CPU and GPU versions of the PLUTO code[^8]. Regular updates will be released with improvements and bug fixes. Additionally, a repository[^9] containing the PyPLUTO development versions will be available for users who wish to exploit the code’s latest features in advance.
 
-[^6]: [https://gitlab.com/PLUTO-code/gPLUTO]
-[^7]: [https://github.com/GiMattia/PyPLUTO]
+[^8]: [https://gitlab.com/PLUTO-code/gPLUTO]
+[^9]: [https://github.com/GiMattia/PyPLUTO]
 
 # Acknowledgments
 

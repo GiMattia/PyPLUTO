@@ -93,7 +93,7 @@ PyPLUTO is a package written in Python (version $\geq$ 3.10) with the additions 
 
 • The `Image` class produces and handles the graphical windows and the plotting procedures.
 
-Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot 1D and 2D data in a single set of axes. PyPLUTO has been implemented to be supported by Windows, MacOS, and Linux, through both standard scripts and more interactive tools (e.g., IPython or Jupyter). The style guidelines follow the PEP8[^5] conventions for Python codes (enforced through the black package [@LANGA2020]) and focus on clarity and code readability.
+Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot 1D and 2D data in a single set of axes. PyPLUTO has been implemented to be supported by Windows, MacOS, and Linux, through both standard scripts and more interactive tools (e.g., IPython or Jupyter). The style guidelines follow the PEP8[^5] conventions for Python codes (enforced through the Black package [@Langa2020]) and focus on clarity and code readability.
 
 [^5]: [https://peps.python.org/pep-0008/]
 
@@ -169,6 +169,8 @@ In the right panel of Fig. \ref{fig2} we show an adaptation of the top panel of 
 This plot provides a clear visual representation of particle motion and energy changes, demonstrating how PyPLUTO can be used to investigate complex systems such as particle acceleration in astrophysical sources.
 
 ![Left panel: Example of inset zooms of the planet region of the disk-planet test problem. The main plot and the right zoom show the density on a logarithmic scale, while the left zoom highlights the toroidal velocity on a linear scale. Right panel: Example of an X-point region with magnetic field lines overlaid (as contour lines of the vector potential, solid lines). The main plot shows the test-particle distribution, color-coded by velocity magnitudes, while the inset plot displays the particle energy spectrum at the beginning (in blue) and end (in red) of the simulation. \label{fig2}](pyplutotests.png)
+
+# Ongoing research using PyPLUTO
 
 
 

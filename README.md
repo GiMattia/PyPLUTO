@@ -4,7 +4,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![pre-commit](https://github.com/GiMattia/PyPLUTO/actions/workflows/pre-commit.yml/badge.svg)](https://github.com//GiMattia/PyPLUTO/actions/workflows/pre-commit.yml)
 
-[![License: GPL-3.0-only](https://img.shields.io/badge/license-GPLv3-blue)](https://opensource.org/license/gpl-3-0)
+[![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Documentation](https://readthedocs.org/projects/PyPLUTO/badge/?version=latest)](https://PyPLUTO.readthedocs.io/en/latest/?badge=latest)
 <!-- [![DOI](https://joss.theoj.org/papers/.../status.svg)](https://doi.org/...) -->
 <!-- [![Arxiv](https://img.shields.io/badge/...)](https://doi.org/...) -->
@@ -127,5 +127,5 @@ or by enforcing the guide styles manually through the command
 pre-commit run --all-files
 ```
 
-An automatic check will verify if the code complies with the "black" style at every pull request.
+An automatic check will verify if the code complies with the "Black" style at every pull request.
 For any question or enquiry, please contact one of the administrators.

@@ -1,5 +1,3 @@
-All Max Planck Institute for Astronomy (MPIA) researchers are bound to adhere to the [Max Plack Society Code of Conduct](https://www.mpg.de/14172230/code-of-conduct.pdf).
-
 Interactions on GitHub are not limited to those between MPIA employees. The community of participants in open source astronomy projects is made up of members from around the globe with a diverse set of skills, personalities, and experiences. It is through these differences that our community experiences success and
 continued growth. As members of this global community:
 

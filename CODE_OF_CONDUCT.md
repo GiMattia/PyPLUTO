@@ -1,7 +1,4 @@
-All Max Planck Institute for Astronomy (MPIA) researchers are bound to adhere to the [Max Plack Society Code of Conduct](https://www.mpg.de/14172230/code-of-conduct.pdf).
-
-Interactions on GitHub are not limited to those between MPIA employees. The community of participants in open source astronomy projects is made up of members from around the globe with a diverse set of skills, personalities, and experiences. It is through these differences that our community experiences success and
-continued growth. As members of this global community:
+The community of participants in open source astronomy projects is made up of members from around the globe with a diverse set of skills, personalities, and experiences. It is through these differences that our community experiences success and continued growth. As members of this global community:
 
 1. Our mission is to conduct cutting-edge, fundamental research for the benefit of all humankind, in keeping with our motto: „Insight must precede application“.
 2. We treat each other with respect and do not tolerate any forms of discrimination based on ethnicity, gender, disability, religion or belief, age or sexual orientation or identity.
@@ -14,8 +11,10 @@ continued growth. As members of this global community:
 
 **This code of conduct applies to all community situations online and offline, including mailing lists, forums, social media, conferences, meetings, associated social events, and one-to-one interactions.**
 
-Parts of this code of conduct have been adapted from the Astropy and NumFOCUS codes of conduct:
+Parts of this code of conduct have been adapted from the Astropy, MPG and NumFOCUS codes of conduct:
 
 https://www.astropy.org/code_of_conduct.html
+
+https://www.mpg.de/14172230/code-of-conduct.pdf
 
 https://www.numfocus.org/about/code-of-conduct/

@@ -114,7 +114,7 @@ pip install -r requirements_dev.txt
 
 ### Rules for Contributing
 
-We use pre-commit to ensure that the code is consistent with the style "black".
+We use pre-commit to ensure that the code is consistent with the style "Black".
 You can either link the pre-commit to the repository through the command
 
 ```bash

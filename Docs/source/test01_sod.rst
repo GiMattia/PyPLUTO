@@ -3,11 +3,11 @@
 Test 01 - HD Sod shock tube
 ===========================
 
-  .. image:: ../../Tests/test01_sod.png
+  .. image:: ../../Examples/test01_sod.png
      :align: center
      :width: 600px
 
-  .. literalinclude :: ../../Tests/test01_sod.py
+  .. literalinclude :: ../../Examples/test01_sod.py
      :language: python
 
 |

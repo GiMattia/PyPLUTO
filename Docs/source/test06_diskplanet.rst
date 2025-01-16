@@ -4,11 +4,11 @@ Test 06 - HD Disk planet test
 =============================
 
 
-  .. image:: ../../Tests/test06_diskplanet.png
+  .. image:: ../../Examples/test06_diskplanet.png
      :align: center
      :width: 600px
 
-  .. literalinclude :: ../../Tests/test06_diskplanet.py
+  .. literalinclude :: ../../Examples/test06_diskplanet.py
      :language: python
 
 |

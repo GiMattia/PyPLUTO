@@ -5,11 +5,11 @@ Test 05 - MHD Field loop test
 
 
 
-  .. image:: ../../Tests/test05_fieldloop.png
+  .. image:: ../../Examples/test05_fieldloop.png
      :align: center
      :width: 600px
 
-  .. literalinclude :: ../../Tests/test05_fieldloop.py
+  .. literalinclude :: ../../Examples/test05_fieldloop.py
      :language: python
 
 |

@@ -4,11 +4,11 @@ Test 08 - MHD Torus test
 ========================
 
 
-  .. image:: ../../Tests/test08_torus.png
+  .. image:: ../../Examples/test08_torus.png
      :align: center
      :width: 600px
 
-  .. literalinclude :: ../../Tests/test08_torus.py
+  .. literalinclude :: ../../Examples/test08_torus.py
      :language: python
 
 |

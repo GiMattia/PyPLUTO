@@ -104,6 +104,15 @@ pp.Image().display(D.rho, x1 = D.x1, x2 = D.x2)
 
 For more detailed instructions and additional installation options, please refer to the PyPLUTO documentation where you can find comprehensive guides and examples.
 
+## Cite This Repository
+
+If you use this repository in your research or projects, please consider citing the arxiv paper.
+We recommend to put one the following expressions in your manuscript:
+
+"The figures presented in this paper were generated using the PyPLUTO package (citation to the paper)"
+
+"This research has benefited from the PyPLUTO package for data visualization (citation to the paper)"
+
 ## Contributing
 
 If you have any questions, suggestions or find a bug, feel free to open an issue or fork the repository and create a pull request.

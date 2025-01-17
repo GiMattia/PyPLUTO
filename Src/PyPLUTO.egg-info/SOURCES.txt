@@ -3,7 +3,6 @@ LICENSE
 README.md
 pyproject.toml
 requirements_dev.txt
-.github/workflows/CODEOWNERS
 .github/workflows/draft-pdf.yml
 .github/workflows/readthedocs.yml
 .github/workflows/test_linux.yml

@@ -5,7 +5,7 @@
 [![pre-commit](https://github.com/GiMattia/PyPLUTO/actions/workflows/pre-commit.yml/badge.svg)](https://github.com//GiMattia/PyPLUTO/actions/workflows/pre-commit.yml)
 
 [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![Arxiv](https://img.shields.io/badge/10.48550/arXiv.2501.09748)](https://doi.org/10.48550/arXiv.2501.09748)
+[![Arxiv](https://img.shields.io/badge/arXiv-2501.09748-8F1515?style=flat&logo=arxiv&logoColor=red)](https://doi.org/10.48550/arXiv.2501.09748)
 [![Documentation](https://readthedocs.org/projects/pypluto/badge/?version=latest)](https://pypluto.readthedocs.io/en/latest/?badge=latest)
 <!-- [![DOI](https://joss.theoj.org/papers/.../status.svg)](https://doi.org/...) -->
 

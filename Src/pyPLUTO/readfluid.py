@@ -204,12 +204,11 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
         # Find the scalars and compute their offset
         elif spl0 == b"SCALARS":
             break
-            """
-            var = spl1.decode()
-            f.readline()
-            self._offset[var] = f.tell()
-            self._shape[var] = self.nshp
-            """
+
+            # var = spl1.decode()
+            # f.readline()
+            # self._offset[var] = f.tell()
+            # self._shape[var] = self.nshp
 
         # Compute the time information
         elif spl0 == b"TIME" and self._alone is True:
@@ -257,12 +256,22 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
         lookup_table_pos = mmapped_file.find(b"LOOKUP_TABLE default", line_end)
         offset = mmapped_file.find(b"\n", lookup_table_pos) + 1
 
-        if self._info is not True and varmult is None and self._alone is False:
+        if (
+            self._info is not True
+            and varmult is None
+            and self._alone is False
+            and self._fastvtk is not False
+        ):
             scrh = offset - scalars_pos + self.gridsize * 4 + 1
-            for var in self._d_info["varslist"][i]:
+            for ind, var in enumerate(self._d_info["varslist"][i]):
                 self._offset[var] = offset
                 self._shape[var] = self.nshp
-                offset = offset + scrh + len(var) - len(self._d_info["varslist"][i][0])
+                lenvar = (
+                    len(self._d_info["varslist"][i][0])
+                    if ind == len(self._d_info["varslist"][i]) - 1
+                    else len(self._d_info["varslist"][i][ind + 1])
+                )
+                offset = offset + scrh + lenvar - len(self._d_info["varslist"][i][0])
             break
         else:
             self._offset[var] = offset

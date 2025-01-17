@@ -118,6 +118,7 @@ def _load_variables(
         scrh = np.memmap(self._filepath,self._d_info['binformat'][i],mode="r+",
                          offset=self._offset[j], shape = self._shape[j]).T
         self._assign_var(exout, j, scrh)
+
     """
 
     # Compute the byte range for all variables in the current loop
@@ -130,13 +131,21 @@ def _load_variables(
         )
 
         # Create a single memmap spanning the required byte range
+
+        # file_memmap = np.memmap(
+        #    self._filepath,
+        #    dtype=self._d_info["binformat"][i],
+        #    mode="r+",
+        #    offset=start_byte,
+        #    shape=(end_byte - start_byte),
+        # )
+
         file_memmap = np.memmap(
             self._filepath,
-            dtype=self._d_info["binformat"][i],
+            dtype="uint8",  # Raw byte access for all data types
             mode="r+",
             offset=start_byte,
-            shape=(end_byte - start_byte)
-            // np.dtype(self._d_info["binformat"][i]).itemsize,
+            shape=(end_byte - start_byte),
         )
 
     # Loop over the variables to extract slices
@@ -159,10 +168,32 @@ def _load_variables(
 
         # Extract the relevant slice and reshape
         if class_name == "Load":
+
+            # Calculate the relative start and end for this variable
+            rel_start = (
+                self._offset[j] - start_byte
+            )  # Offset relative to the memory-mapped file
+            rel_end = (
+                rel_start
+                + np.prod(self._shape[j])
+                * np.dtype(self._d_info["binformat"][i]).itemsize
+            )
+
+            # Step 3: Extract the raw data slice from the memory map
+            raw_data = file_memmap[rel_start:rel_end]
+
+            # View the slice with the desired dtype and reshape
+            scrh = np.ndarray(
+                shape=self._shape[j],
+                dtype=self._d_info["binformat"][i],
+                buffer=raw_data,
+            ).T
+
             # Calculate the relative offset within the mapped range
-            rel_start = (self._offset[j] - start_byte) // file_memmap.itemsize
-            rel_end = rel_start + np.prod(self._shape[j])
-            scrh = file_memmap[rel_start:rel_end].reshape(self._shape[j]).T
+            # rel_start = (self._offset[j] - start_byte) // file_memmap.itemsize
+            # rel_end = rel_start + np.prod(self._shape[j])
+            # scrh = file_memmap[rel_start:rel_end].reshape(self._shape[j]).T
+
         elif class_name == "LoadPart":
             scrh = np.memmap(
                 self._filepath,

@@ -1,6 +1,6 @@
 The community of participants in open source astronomy projects is made up of members from around the globe with a diverse set of skills, personalities, and experiences. It is through these differences that our community experiences success and continued growth. As members of this global community:
 
-1. Our mission is to conduct cutting-edge, fundamental research for the benefit of all humankind, in keeping with our motto: „Insight must precede application“.
+1. Our mission is to conduct cutting-edge, fundamental research for the benefit of all humankind.
 2. We treat each other with respect and do not tolerate any forms of discrimination based on ethnicity, gender, disability, religion or belief, age or sexual orientation or identity.
 3. We conduct our research and support the research of others with integrity and according to the highest scientific standards.
 4. We discuss problems and implement solutions openly and respectfully; we communicate the principles and processes that underlie our actions and decisions.

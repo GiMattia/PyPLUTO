@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - name: Giancarlo Mattia
+    orcid: 0000-0003-1454-6226
+  - name: Daniele Crocco
+    orcid: 0009-0001-4284-9446
+  - name: David Melon Fuksman
+    orcid: 0000-0002-1697-6433
+  - name: Matteo Bugli
+    orcid: 0000-0002-7834-0422
+  - name: Vittoria Berta
+    orcid: 0000-0001-6305-6931
+  - name: Eleonora Puzzoni
+    orcid: 0009-0009-5314-348X
+  - name: Andrea Mignone
+    orcid: 0000-0002-8352-6635
+  - name: Bhargav Vaidya
+    orcid: 0000-0001-5424-0059
+
+title: 'PyPLUTO: a data analysis Python package for the PLUTO code'
+version: 1.0.0
+doi: 10.48550/arXiv.2501.09748
+date-released: 2025-12-17
+url: "https://github.com/GiMattia/PyPLUTO"

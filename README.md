@@ -1,8 +1,9 @@
 # PyPLUTO
 ![GitHub release](https://img.shields.io/github/v/release/GiMattia/PyPLUTO?include_prereleases&label=Github%20Release)
-![PyPI](https://img.shields.io/pypi/v/PyPLUTO)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![pre-commit](https://github.com/GiMattia/PyPLUTO/actions/workflows/pre-commit.yml/badge.svg)](https://github.com//GiMattia/PyPLUTO/actions/workflows/pre-commit.yml)
+<!-- [![Citation Badge](https://api.juleskreuer.eu/citation-badge.php?doi=YOURDOI)](https://juleskreuer.eu/citation-badge/) -->
+<!-- ![PyPI](https://img.shields.io/pypi/v/PyPLUTO) -->
 
 [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Arxiv](https://img.shields.io/badge/arXiv-2501.09748-8F1515?style=flat&logo=arxiv&logoColor=red)](https://doi.org/10.48550/arXiv.2501.09748)
@@ -102,6 +103,15 @@ pp.Image().display(D.rho, x1 = D.x1, x2 = D.x2)
 ## Documentation
 
 For more detailed instructions and additional installation options, please refer to the PyPLUTO documentation where you can find comprehensive guides and examples.
+
+## Cite This Repository
+
+If you use this repository in your research or projects, please consider citing the arxiv paper.
+We recommend to put one the following expressions in your manuscript:
+
+"The figures presented in this paper were generated using the PyPLUTO package (citation to the paper)"
+
+"This research has benefited from the PyPLUTO package for data visualization (citation to the paper)"
 
 ## Contributing
 

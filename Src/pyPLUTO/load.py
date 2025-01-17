@@ -140,6 +140,7 @@ class Load:
         endian: str | None = None,
         level: int = 0,
         full3d: bool = None,
+        fastvtk: bool = True,
         code: str = None,
     ) -> None:
 
@@ -198,6 +199,7 @@ class Load:
         self._shape: dict[str, tuple[int, ...]]  # The shape of the variables
         self._vardim: list[int]  # The dimension of the variables
         self._dictdim: dict  # The dictionary of dimensions
+        self._fastvtk: bool = fastvtk  # Bool for fast vtk loading
 
         # Declaration of the grid variables
         self.x1: NDArray

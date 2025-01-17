@@ -3,63 +3,23 @@ message: "If you use this software, please cite it as below."
 authors:
   - name: Giancarlo Mattia
     orcid: 0000-0003-1454-6226
-    affiliation: 1, 2
-
   - name: Daniele Crocco
     orcid: 0009-0001-4284-9446
-    affiliation: 3
-
   - name: David Melon Fuksman
     orcid: 0000-0002-1697-6433
-    affiliation: 1
-
   - name: Matteo Bugli
     orcid: 0000-0002-7834-0422
-    affiliation: 3, 4, 5,6
-
   - name: Vittoria Berta
     orcid: 0000-0001-6305-6931
-    affiliation: 3
-
   - name: Eleonora Puzzoni
     orcid: 0009-0009-5314-348X
-    affiliation: 7
-
   - name: Andrea Mignone
     orcid: 0000-0002-8352-6635
-    affiliation: 3, 6
-
   - name: Bhargav Vaidya
     orcid: 0000-0001-5424-0059
-    affiliation: 8
-
-affiliations:
- - name: Max Planck Institut für Astronomie, Königstuhl 17, Heidelberg, 69117, Germany
-   index: 1
-
- - name: INFN, Sezione di Firenze, Via G. Sansone 1, Sesto Fiorentino (FI), 50019, Italy
-   index: 2
-
- - name: Dipartimento di Fisica, Università di Torino, Via P. Giuria 1, Torino, 10125, Italy
-   index: 3
-
- - name: Institut d’Astrophysique de Paris, UMR 7095, CNRS & Sorbonne Université, 98bis boulevard Arago, 75014 Paris, France
-   index: 4
-
- - name: Université Paris-Saclay, Université Paris Cité,CEA, CNRS, AIM, Gif-sur-Yvette, 91191, France
-   index: 5
-
- - name: INFN, Sezione di Torino, Via P. Giuria 1, Torino, 10125, Italy
-   index: 6
-
- - name: Observatoire de la Côte d’Azur, Laboratoire Lagrange, Bd de l’Observatoire, CS 34229, 06304 Nice cedex 4, France
-   index: 7
-
- - name: Department of Astronomy, Astrophysics and Space Engineering, Indian Institute of Technology, Khandwa Road, Simrol, Indore, 453552, India
-   index: 8
 
 title: 'PyPLUTO: a data analysis Python package for the PLUTO code'
 version: 1.0.0
 doi: 10.48550/arXiv.2501.09748
-date-released: 2017-12-17
+date-released: 2025-12-17
 url: "https://github.com/GiMattia/PyPLUTO"

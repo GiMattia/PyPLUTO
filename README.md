@@ -107,6 +107,21 @@ For more detailed instructions and additional installation options, please refer
 ## Cite This Repository
 
 If you use this repository in your research or projects, please consider citing the arxiv paper.
+
+```
+@ARTICLE{PyPLUTO2025,
+       author = {{Mattia}, Giancarlo and {Crocco}, Daniele and {Melon Fuksman}, David and {Bugli}, Matteo and {Berta}, Vittoria and {Puzzoni}, Eleonora and {Mignone}, Andrea and {Vaidya}, Bhargav},
+        title = "{PyPLUTO: a data analysis Python package for the PLUTO code}",
+      journal = {arXiv e-prints},
+     keywords = {Astrophysics - Instrumentation and Methods for Astrophysics},
+         year = 2025,
+        month = jan,
+          eid = {arXiv:2501.09748},
+        pages = {arXiv:2501.09748},
+          doi = {10.48550/arXiv.2501.09748},
+}
+```
+
 We recommend to put one the following expressions in your manuscript:
 
 "The figures presented in this paper were generated using the PyPLUTO package (citation to the paper)"

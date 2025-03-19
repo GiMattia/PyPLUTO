@@ -425,6 +425,7 @@ def set_axis(self, ax: Axes | None = None, check: bool = True, **kwargs: Any) ->
         "aspect",
         "ax",
         "fontsize",
+        "grid",
         "labelsize",
         "minorticks",
         "sharex",

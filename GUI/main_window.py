@@ -71,6 +71,8 @@ class PyPLUTOApp(QMainWindow):
         layout = QHBoxLayout()
         self.add_label("Insert Title:", layout)
         self.add_lineedit("plot_title", layout, "title")
+        self.add_checkbox("Auto-ratio", layout, "ratio_checkbox")
+        self.ratio_checkbox.setChecked(True)
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()

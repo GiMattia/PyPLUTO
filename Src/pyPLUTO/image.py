@@ -94,9 +94,9 @@ class Image:
     def __init__(
         self,
         LaTeX: bool | str = True,
-        check: bool = True,
-        text: bool = False,
         fig: Figure | None = None,
+        text: bool = False,
+        check: bool = True,
         **kwargs: Any,
     ) -> None:
 

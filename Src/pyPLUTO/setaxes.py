@@ -309,8 +309,9 @@ def set_axis(self, ax: Axes | None = None, check: bool = True, **kwargs: Any) ->
     - fontsize: float, default 17.0
         Sets the fontsize for all the axis components (only for the current
         axis).
-    - grid: bool, default False
-        Enables/disables the grid on the plot.
+    - grid: bool | string, default False
+        Enables/disables the grid on the plot. If True it enables both axes
+        grids. If 'x' or 'y' it enables only the x or y axis grid.
     - labelsize: float, default fontsize
         Sets the labels fontsize (which is the same for both labels).
         The default value corresponds to the value of the keyword 'fontsize'.
@@ -544,6 +545,8 @@ def set_axis(self, ax: Axes | None = None, check: bool = True, **kwargs: Any) ->
     # Sets grid on the axis
     if kwargs.get("grid", False) is True:
         ax.grid(True)
+    elif isinstance(kwargs.get("grid", False), str):
+        ax.grid(True, axis=kwargs["grid"])
 
     # Reinforces the tight_layout if needed
     if self.tight is not False:

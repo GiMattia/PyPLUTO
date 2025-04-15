@@ -8,7 +8,7 @@ def _convert_value(value):
     if value_upper in {"NO", "FALSE"}:
         return False
     try:
-        return float(value) if "." in value else int(value)
+        return float(value) if "." in value or "e" in value else int(value)
     except ValueError:
         return value  # return original string if not convertible
 

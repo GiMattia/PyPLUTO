@@ -1,12 +1,14 @@
 # Import the libraries, classes and functions
 from .image import Image
-from .libraries import *
+import warnings
+import sys
+from .h_pypluto import find_session, color_warning, color_error
 from .load import Load
 from .loadpart import LoadPart
 from .pytools import ring, savefig, show
 
 # Define the version and additional environment variables
-__version__ = "1.0.0"
+__version__ = "1.0"
 __colorerr__ = True
 __colorwarn__ = True
 __session__ = find_session()

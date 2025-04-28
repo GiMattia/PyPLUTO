@@ -15,6 +15,7 @@ def update_cmap_selector(self):
 
 def clear_labels(self):
     self.var_selector.setCurrentIndex(0)
+    self.ratio_checkbox.setChecked(True)
     self.transpose_checkbox.setChecked(False)
     self.xaxis_selector.setCurrentIndex(0)
     self.yaxis_selector.setCurrentIndex(0)
@@ -68,6 +69,14 @@ def update_axes(self):
     self.canvas.draw()
 
 
+def get_slice(text, axis_length):
+
+    try:
+        return eval(f"np.s_[{text}]", {"np": np, "axis_length": axis_length})
+    except Exception:
+        return int(text) if text.isdigit() else None
+
+
 def plot_data(self):
 
     if not self.data_loaded:
@@ -82,12 +91,18 @@ def plot_data(self):
     self.var = getattr(self.D, var_name)
 
     self.var = self.var.T if self.transpose_checkbox.isChecked() else self.var
-    if self.zslicetext.text() and len(np.shape(self.var)) == 3:
-        self.var = self.var[:, :, int(self.zslicetext.text())]
-    if self.yslicetext.text() and len(np.shape(self.var)) > 1:
-        self.var = self.var[:, int(self.yslicetext.text())]
+    # Apply slicing if valid text is provided
+    if self.zslicetext.text() and np.ndim(self.var) == 3:
+        self.zslice = get_slice(self.zslicetext.text(), self.var.shape[2])
+        self.var = self.var[:, :, self.zslice]
+
+    if self.yslicetext.text() and np.ndim(self.var) > 1:
+        self.yslice = get_slice(self.yslicetext.text(), self.var.shape[1])
+        self.var = self.var[:, self.yslice]
+
     if self.xslicetext.text():
-        self.var = self.var[int(self.xslicetext.text())]
+        self.xslice = get_slice(self.xslicetext.text(), self.var.shape[0])
+        self.var = self.var[self.xslice]
 
     self.vardim = len(np.shape(self.var))
     if self.vardim < 1 or self.vardim > 2:
@@ -149,7 +164,6 @@ def plot_data(self):
             x1=x1,
             x2=x2,
             cpos="right",
-            aspect="equal",
             **self.datadict,
             xtitle=" ",
             ytitle=" ",
@@ -190,6 +204,11 @@ def check_axisparam(self):
         self.datadict["vmin"] = float(self.vrange_min.text())
     if self.vrange_max.text():
         self.datadict["vmax"] = float(self.vrange_max.text())
+
+    if not self.ratio_checkbox.isChecked():
+        self.datadict["aspect"] = "equal"
+    else:
+        self.datadict["aspect"] = "auto"
 
     self.datadict["cmap"] = self.cmap_selector.currentText()
     if self.reverse_checkbox.isChecked():

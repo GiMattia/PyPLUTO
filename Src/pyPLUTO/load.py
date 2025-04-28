@@ -135,31 +135,40 @@ class Load:
         datatype: str | None = None,
         vars: str | list[str] | bool | None = True,
         text: bool = True,
-        alone: bool | None = None,
-        multiple: bool = False,
-        endian: str | None = None,
-        level: int = 0,
-        full3d: bool = None,
-        fastvtk: bool = True,
-        code: str = None,
+        check: bool = True,
+        **kwargs: Any,
     ) -> None:
 
-        # Custom code for handling 'echo'
-        if code is not None:
-            codedict = {"echo": self.echo_load}
+        # Check parameters
+        param = {
+            "alone",
+            "read_defh",
+            "endian",
+            "full3d",
+            "level",
+            "multiple",
+            "fastvtk",
+        }
+        if check is True:
+            check_par(param, "__init__", **kwargs)
+
+        # Load PyPLUTO for different codes
+        code = kwargs.get("code")
+        codedict = {"echo": self.echo_load}
+        # If not code is provided (or the code is PLUTO/gPLUTO) just skip
+        if not code or code.lower() in {"pluto", "gpluto"}:
+            pass
+        elif code.lower() in codedict.keys():
             init = f"Creating instance with alternate method using code: {code}"
             if text is True:
                 print(init)
-            codedict[code](nout, path, vars)
+            codedict[code.lower()](nout, path, vars)
+            self.nout = self.nout.astype(int)
             if text is True:
-                print(
-                    f"Load: folder {path},     output {self.nout:=self.nout.astype(int)}"
-                )
+                print(f"Load: folder {path},     output {self.nout}")
             return
-
-        # Custom code for unknown code: error!
-        elif code is not None:
-            raise NotImplementedError(f"{code} loading is not implemented yet.")
+        else:
+            raise NotImplementedError(f"{code} loading is not implemented!")
 
         # Check if the user wants to load the data
         if nout is None:
@@ -172,7 +181,7 @@ class Load:
         self._alone: bool | None = None  # Bool for standalone files
         self._info: bool = True  # Bool for info (linked to alone)
         self._d_vars: dict = {}  # The dictionary of variables
-        self.level: int = level  # The level for AMR files
+        self.level: int = kwargs.get("level", 0)  # The level for AMR files
 
         # Initialization or declaration of variables (used in other files)
         self.pathdir: Path  # Path to the simulation directory
@@ -199,7 +208,7 @@ class Load:
         self._shape: dict[str, tuple[int, ...]]  # The shape of the variables
         self._vardim: list[int]  # The dimension of the variables
         self._dictdim: dict  # The dictionary of dimensions
-        self._fastvtk: bool = fastvtk  # Bool for fast vtk loading
+        self._fastvtk: bool = kwargs.get("fastvtk", True)  # Bool for fast vtk loading
 
         # Declaration of the grid variables
         self.x1: NDArray
@@ -231,7 +240,7 @@ class Load:
         self._nshp_st2: NDArray
         self._gridsize_st3: int
         self._nshp_st3: NDArray
-        self._full3d = full3d
+        self._full3d: bool = kwargs.get("full3d", None)
 
         _nout_out: int | list[int]  # Output to be printed
 
@@ -244,11 +253,12 @@ class Load:
             None: None,
         }
 
-        if endian not in self._d_end.keys():
+        if (endian := kwargs.get("endian", None)) not in self._d_end.keys():
             error = f"Invalid endianess. Valid values are {self._d_end.keys()}"
             raise ValueError(error)
 
         # Check the input multiple
+        multiple = kwargs.get("multiple", False)
         if not isinstance(multiple, bool):
             raise TypeError("Invalid data type. 'multiple' must be a boolean.")
         else:
@@ -258,7 +268,7 @@ class Load:
         self._check_pathformat(path)
 
         # Find the format of the data files
-        self._find_format(datatype, alone)
+        self._find_format(datatype, (alone := kwargs.get("alone", None)))
 
         # Find relevant informations without opening the files (e.g.
         # the number of files to be loaded) or opening the *.out files
@@ -291,6 +301,26 @@ class Load:
                 self.nout[0] if len(self.nout) == 1 else [int(x) for x in self.nout]
             )
             print(f"Load: folder {path},     output {_nout_out}")
+
+        # Try to read the file definitions.h
+        if defh := kwargs.get("defh", None) is not False:
+            pathdefh = self.pathdir / "definitions.h"
+            defhfile = "definitions.hpp"
+            if not pathdefh.exists():
+                pathdefh = self.pathdir / "definitions.hpp"
+                defhfile = "definitions.h"
+            try:
+                setattr(self, "defh", self._read_defh(pathdefh))
+            except:
+                print(f"No {defhfile} is read!") if defh is True else ...
+
+        # Try to read the file pluto.ini
+        if plini := kwargs.get("plini", None) is not False:
+            pathplini = self.pathdir / "pluto.ini"
+            try:
+                setattr(self, "plini", self._read_plini(pathplini))
+            except:
+                print(f"No pluto.ini is read!") if plini is True else ...
 
         return
 
@@ -349,6 +379,7 @@ class Load:
             raise AttributeError(f"'Load' object has no attribute '{name}'")
 
     from .amr import _DataScanHDF5, _inspect_hdf5
+    from .defpluto import _read_defh, _read_plini
     from .echo_load import echo_load
     from .findlines import _check_var, find_contour, find_fieldlines
     from .fourier import fourier

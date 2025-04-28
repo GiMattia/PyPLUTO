@@ -43,7 +43,7 @@ The package is tested on Python 3.10 (and newer versions) and with the following
 
 The package is provided with a `LICENSE` file which contains the license terms.
 
-The package is provided with an exstensive documentation in the `Docs` directory.
+The package is provided with an extensive documentation in the `Docs` directory.
 
 ## Installation Instructions
 

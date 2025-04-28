@@ -9,8 +9,8 @@ def _convert_value(value):
         return False
     try:
         return float(value) if "." in value or "e" in value else int(value)
-    except ValueError:
-        return value  # return original string if not convertible
+    except:
+        return value
 
 
 def _read_defh(self, filepath):

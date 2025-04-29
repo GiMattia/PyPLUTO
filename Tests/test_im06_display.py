@@ -1,7 +1,5 @@
 import numpy as np
 import numpy.testing as npt
-import pytest
-
 import pyPLUTO as pp
 
 x = np.linspace(-1, 1, 101)
@@ -16,11 +14,11 @@ var = 1 / ((x2d**2 + y2d**2) / 2 + 1)
 
 # Simple plot
 def test_simple_display():
-    I = pp.Image(withblack=True)
-    I.display(var, cpos="right", cmap="magma", x1=x, x2=y)
-    pcm = I.ax[0].collections[0]
+    Image = pp.Image(withblack=True)
+    Image.display(var, cpos="right", cmap="magma", x1=x, x2=y)
+    pcm = Image.ax[0].collections[0]
     ccd = pcm.get_coordinates()
-    xc, yc = ccd[:, :, 0], ccd[:, :, 1]
+    xc, _ = ccd[:, :, 0], ccd[:, :, 1]
     pcm = pcm.get_array()
     npt.assert_array_equal(pcm, var)
     npt.assert_allclose(xc, x2dr, atol=1.0e-13)

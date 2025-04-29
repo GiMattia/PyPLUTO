@@ -1,4 +1,6 @@
-from .libraries import *
+import numpy as np
+from typing import Any
+from .h_pypluto import check_par
 
 
 def fourier(
@@ -101,7 +103,7 @@ def fourier(
             spacing[pars] = _fourier_spacing(kwargs[pars])
         # If the grid spacing is not provided or not valid, use the default
         # grid spacing (and set it to 1 if it still not valid)
-        except:
+        except ValueError:
             spacing[pars] = _fourier_spacing(getattr(self, def_attr))
             spacing[pars] = 1.0 if spacing[pars] is None else spacing[pars]
         # Check if the Fourier transform should be computed in this direction
@@ -158,7 +160,7 @@ def _fourier_spacing(dx: float | int | list | np.ndarray) -> float:
 
     # Check if the grid spacing is positive, if not raise an error
     if scrh <= 0:
-        raise ValueError(f"the grid spacing must be positive!")
+        raise ValueError("the grid spacing must be positive!")
 
     # Return the grid spacing
     return scrh

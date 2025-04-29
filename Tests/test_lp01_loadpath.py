@@ -1,8 +1,6 @@
 import os
 from pathlib import Path
-
 import pytest
-
 import pyPLUTO as pp
 
 # Assuming the root of the repo is your current working directory
@@ -13,7 +11,7 @@ path = repo_root / "Test_load/particles_cr"
 # Check if raises erorr with wrong endianess
 def test_wrongendian():
     with pytest.raises(ValueError):
-        D = pp.LoadPart(path=path, text=False, endian="wrong")
+        pp.LoadPart(path=path, text=False, endian="wrong")
 
 
 # Check if raises error when the path is not a non-empty string
@@ -21,19 +19,19 @@ def test_emptystring():
     with pytest.raises(
         TypeError, match="Invalid data type. 'path' must be path or string"
     ):
-        D = pp.LoadPart(path=123, text=False)
+        pp.LoadPart(path=123, text=False)
     with pytest.raises(ValueError, match="'path' cannot be an empty string."):
-        D = pp.LoadPart(path="", text=False)
+        pp.LoadPart(path="", text=False)
 
 
 # Check if raises an error if the path is not a directory
 def test_wrongpath():
     with pytest.raises(NotADirectoryError):
-        D = pp.LoadPart(path="wrong", text=False)
+        pp.LoadPart(path="wrong", text=False)
 
 
 # Check if raises an error with wrong attribute
 def test_wrongattr():
     with pytest.raises(AttributeError):
-        D = pp.LoadPart(path=path, text=False)
-        res = D.wrong
+        Data = pp.LoadPart(path=path, text=False)
+        Data.wrong

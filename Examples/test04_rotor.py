@@ -13,7 +13,7 @@ contour_lines method is used to compute the contour lines of the vector
 potential. The plot method is used to plot the contour lines on the density and
 magnetic field magnitude plots. The image is then saved and shown on screen.
 
-Note thast in the left subplot the lines are all in red, although, by applying
+Note that in the left subplot the lines are all in red, although, by applying
 the cmap keyword to the method "find_contour", they can be associated to the
 different colors of a cmap. Conversely, the lines in the right plot have
 different colors based on their contour level.
@@ -27,14 +27,13 @@ in the user-defined constants section.
 """
 
 import numpy as np
-
-import pyPLUTO as pp
+import pyPLUTO
 
 # Loading the data into a pload object D
-D = pp.Load(path="Test_Problems/MHD/Rotor")
+Data = pyPLUTO.Load(path="Test_Problems/MHD/Rotor")
 
 # Creating the image
-I = pp.Image(
+Image = pyPLUTO.Image(
     nwin=2,
     suptitle="Test 04 - MHD Rotor test",
     figsize=[11, 5],
@@ -42,16 +41,16 @@ I = pp.Image(
 )
 
 # Creating the subplots (2 for the different variables)
-ax = I.create_axes(ncol=2)
+ax = Image.create_axes(ncol=2)
 
 # Compute the magnetic field magnitude
-B2 = np.sqrt(D.Bx1**2 + D.Bx2**2 + D.Bx3**2)
+B2 = np.sqrt(Data.Bx1**2 + Data.Bx2**2 + Data.Bx3**2)
 
 # Plotting the data (colorbars adaptively positioned)
-I.display(
-    D.rho,
-    x1=D.x1rc,
-    x2=D.x2rc,
+Image.display(
+    Data.rho,
+    x1=Data.x1rc,
+    x2=Data.x2rc,
     cpos="right",
     aspect="equal",
     ax=0,
@@ -61,10 +60,10 @@ I.display(
     ytitle="y",
 )
 
-I.display(
+Image.display(
     B2,
-    x1=D.x1rc,
-    x2=D.x2rc,
+    x1=Data.x1rc,
+    x2=Data.x2rc,
     cpos="right",
     aspect="equal",
     ax=1,
@@ -73,17 +72,17 @@ I.display(
 )
 
 # Compute the contour lines of the vector potential in two different ways
-lines = D.find_contour(D.Ax3, cmap="hot")
-contours = [I.plot(line[0], line[1], ax=I.ax[0], c="r") for line in lines]
+lines = Data.find_contour(Data.Ax3, cmap="hot")
+contours = [Image.plot(line[0], line[1], ax=Image.ax[0], c="r") for line in lines]
 
-I.contour(
-    D.Ax3,
+Image.contour(
+    Data.Ax3,
     levels=[-0.1, -0.05, -0.01, 0.01, 0.05, 0.1],
-    ax=I.ax[1],
-    x1=D.x1c,
-    x2=D.x2c,
+    ax=Image.ax[1],
+    x1=Data.x1c,
+    x2=Data.x2c,
 )
 
 # Saving the image and showing the plots
-I.savefig("test04_rotor.png")
-pp.show()
+Image.savefig("test04_rotor.png")
+pyPLUTO.show()

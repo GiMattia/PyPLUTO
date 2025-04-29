@@ -1,6 +1,11 @@
-from .libraries import *
-
-# Import methods from other files
+from numpy.typing import NDArray
+from typing import Any
+from matplotlib.collections import QuadMesh
+from .h_pypluto import check_par
+import numpy as np
+import matplotlib.colors as mcol
+import warnings
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
 def display(self, var: NDArray, check: bool = True, **kwargs: Any) -> QuadMesh:
@@ -301,11 +306,11 @@ def display(self, var: NDArray, check: bool = True, **kwargs: Any) -> QuadMesh:
         alpha=alpha,
     )
     # Place the colorbar (use colorbar function)
-    if cpos != None:
+    if cpos is not None:
         self.colorbar(pcm, check=False, **kwargs)
 
     # If tight_layout is enabled, is re-inforced
-    if self.tight != False:
+    if self.tight:
         self.fig.tight_layout()
 
     return pcm
@@ -542,7 +547,6 @@ def scatter(
     cpos = kwargs.get("cpos", None)
     cscale = kwargs.get("cscale", "norm")
     tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
-    lint = kwargs.get("lint", None)
     self.vlims[nax] = [vmin, vmax, tresh]
 
     # Set the colorbar scale
@@ -563,18 +567,18 @@ def scatter(
 
     # Creation of the legend
     self.legpos[nax] = kwargs.get("legpos", self.legpos[nax])
-    if self.legpos[nax] != None:
+    if self.legpos[nax] is not None:
         copy_label = kwargs.get("label", None)
         kwargs["label"] = None
         self.legend(ax, check="no", fromplot=True, **kwargs)
         kwargs["label"] = copy_label
 
     # Place the colorbar (use colorbar function)
-    if cpos != None:
+    if cpos is not None:
         self.colorbar(pcm, check=False, **kwargs)
 
     # If tight_layout is enabled, is re-inforced
-    if self.tight != False:
+    if self.tight:
         self.fig.tight_layout()
 
     return pcm
@@ -692,7 +696,7 @@ def colorbar(self, pcm=None, axs=None, cax=None, check=True, **kwargs) -> None:
     ccor = "vertical" if cpos in ["left", "right"] else "horizontal"
 
     # Assign the colorbar axis, if cax is None create a new one
-    if cax == None:
+    if cax is None:
         divider = make_axes_locatable(axs)
         cax = divider.append_axes(cpos, size="7%", pad=cpad)  # 0.07 right
     else:
@@ -716,7 +720,7 @@ def colorbar(self, pcm=None, axs=None, cax=None, check=True, **kwargs) -> None:
         cbar.ax.set_yticklabels(ctkc)
 
     # Ensure, if needed, the tight layout
-    if self.tight == True:
+    if self.tight:
         self.fig.tight_layout()
 
     # End of function

@@ -1,4 +1,6 @@
-from .libraries import *
+from numpy.typing import NDArray
+from pathlib import Path
+from typing import Any
 
 
 class LoadPart:
@@ -149,7 +151,7 @@ class LoadPart:
 
         if not isinstance(nfile_lp, int) and nfile_lp is not None:
             raise ValueError(
-                f"Invalid value for nfile_lp. \
+                "Invalid value for nfile_lp. \
                              Valid values are int or None"
             )
 
@@ -216,8 +218,8 @@ class LoadPart:
 
     def __getattr__(self, name):
         try:
-            return getattr(self, f"_{name}")
-        except:
+            return object.__getattribute__(self, f"_{name}")
+        except AttributeError:
             raise AttributeError(f"'LoadPart' object has no attribute '{name}'")
 
     from .parttools import select, spectrum

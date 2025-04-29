@@ -81,16 +81,16 @@ def test_multiple_alone():
 # Check if raises error if the format is wrong
 def test_wrong_format():
     with pytest.raises(ValueError):
-        D = pp.Load(path=path / "single_file", text=False, datatype="wrong")
+        pp.Load(path=path / "single_file", text=False, datatype="wrong")
 
 
 # Check if raises an error if there is no good format
 def test_noformat():
     with pytest.raises(FileNotFoundError):
-        D = pp.Load(text=False)
+        pp.Load(text=False)
 
 
 # Check if raises error if the selected format does not exist
 def test_format_noexists():
     with pytest.raises(FileNotFoundError):
-        D = pp.Load(path=path / "multiple_files", text=False, datatype="dbl.h5")
+        pp.Load(path=path / "multiple_files", text=False, datatype="dbl.h5")

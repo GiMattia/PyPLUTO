@@ -1,4 +1,3 @@
-import matplotlib as mpl
 import numpy as np
 import numpy.testing as npt
 
@@ -11,9 +10,9 @@ z = np.logspace(0, 1, 101)
 
 # Simple plot without x-values
 def test_plot_noxvalues():
-    I = pp.Image(withblack=True)
-    I.plot(y)
-    line = I.ax[0].get_lines()[0]
+    Image = pp.Image(withblack=True)
+    Image.plot(y)
+    line = Image.ax[0].get_lines()[0]
     npt.assert_array_equal(line.get_xdata(), np.linspace(0, len(y) - 1, len(y)))
     npt.assert_array_equal(line.get_ydata(), y)
     assert line.get_color() == "#000000"
@@ -23,52 +22,52 @@ def test_plot_noxvalues():
 
 # Simple plot with x-values
 def test_easyplot():
-    I = pp.Image()
-    I.plot(x, y)
-    line = I.ax[0].get_lines()[0]
+    Image = pp.Image()
+    Image.plot(x, y)
+    line = Image.ax[0].get_lines()[0]
     npt.assert_array_equal(line.get_xdata(), x)
     npt.assert_array_equal(line.get_ydata(), y)
 
 
 # Title and labels
 def test_title_labels():
-    I = pp.Image()
-    I.plot(x, y, title="this is a title", xtitle="x", ytitle="y")
-    assert I.ax[0].get_title() == "this is a title"
-    assert I.ax[0].get_xlabel() == "x"
-    assert I.ax[0].get_ylabel() == "y"
+    Image = pp.Image()
+    Image.plot(x, y, title="this is a title", xtitle="x", ytitle="y")
+    assert Image.ax[0].get_title() == "this is a title"
+    assert Image.ax[0].get_xlabel() == "x"
+    assert Image.ax[0].get_ylabel() == "y"
 
 
 # x range
 def test_xrange():
-    I = pp.Image()
-    I.plot(x, y, title="this is a title", xrange=[0.2, 0.4])
-    xlim = I.ax[0].get_xlim()
+    Image = pp.Image()
+    Image.plot(x, y, title="this is a title", xrange=[0.2, 0.4])
+    xlim = Image.ax[0].get_xlim()
     assert np.isclose(xlim[0], 0.2)
     assert np.isclose(xlim[1], 0.4)
 
 
 # x range and y range
 def test_ranges():
-    I = pp.Image()
-    I.plot(x, y, title="this is a title", xrange=[0.2, 0.4], yrange=[-1, 0])
-    xlim = I.ax[0].get_xlim()
+    Image = pp.Image()
+    Image.plot(x, y, title="this is a title", xrange=[0.2, 0.4], yrange=[-1, 0])
+    xlim = Image.ax[0].get_xlim()
     assert np.isclose(xlim[0], 0.2)
     assert np.isclose(xlim[1], 0.4)
-    ylim = I.ax[0].get_ylim()
+    ylim = Image.ax[0].get_ylim()
     assert np.isclose(ylim[0], -1)
     assert np.isclose(ylim[1], 0)
 
 
 # plot from create_axes
 def test_create_axes():
-    I = pp.Image()
-    ax = I.create_axes(ncol=1, nrow=3, hspace=[0.2, 0.1], hratio=[1, 2, 1])
-    I.plot(x, y, ax=ax[1])
+    Image = pp.Image()
+    ax = Image.create_axes(ncol=1, nrow=3, hspace=[0.2, 0.1], hratio=[1, 2, 1])
+    Image.plot(x, y, ax=ax[1])
     line = ax[1].get_lines()[0]
     npt.assert_array_equal(line.get_xdata(), x)
     npt.assert_array_equal(line.get_ydata(), y)
-    I.plot(x, 2 * y, ax=2)
+    Image.plot(x, 2 * y, ax=2)
     line = ax[2].get_lines()[0]
     npt.assert_array_equal(line.get_xdata(), x)
     npt.assert_array_equal(line.get_ydata(), 2 * y)
@@ -76,9 +75,9 @@ def test_create_axes():
 
 # different line parameters
 def test_line_parameters():
-    I = pp.Image()
-    I.plot(x, y, ls="--", lw=0.5, c="r")
-    line = I.ax[0].get_lines()[0]
+    Image = pp.Image()
+    Image.plot(x, y, ls="--", lw=0.5, c="r")
+    line = Image.ax[0].get_lines()[0]
     assert line.get_color() == "r"
     assert line.get_ls() == "--"
     assert line.get_lw() == 0.5
@@ -86,29 +85,29 @@ def test_line_parameters():
 
 # different marker parameters
 def test_markers():
-    I = pp.Image()
-    I.plot(x, y, marker="o", ms=5.0)
-    line = I.ax[0].get_lines()[0]
+    Image = pp.Image()
+    Image.plot(x, y, marker="o", ms=5.0)
+    line = Image.ax[0].get_lines()[0]
     assert line.get_marker() == "o"
     assert line.get_ms() == 5.0
 
 
 # multiple lines
 def test_multiple_lines():
-    I = pp.Image()
-    I.plot(x, y)
-    I.plot(x, z)
-    line = I.ax[0].get_lines()[0]
+    Image = pp.Image()
+    Image.plot(x, y)
+    Image.plot(x, z)
+    line = Image.ax[0].get_lines()[0]
     npt.assert_array_equal(line.get_xdata(), x)
     npt.assert_array_equal(line.get_ydata(), y)
-    line = I.ax[0].get_lines()[1]
+    line = Image.ax[0].get_lines()[1]
     npt.assert_array_equal(line.get_xdata(), x)
     npt.assert_array_equal(line.get_ydata(), z)
 
 
 # legend
 def test_legend():
-    I = pp.Image()
-    I.plot(x, y, label="rho", legpos=0, legcols=2)
-    I.plot(x, z, label="rho")
-    assert I.ax[0].get_legend()._ncols == 2
+    Image = pp.Image()
+    Image.plot(x, y, label="rho", legpos=0, legcols=2)
+    Image.plot(x, z, label="prs")
+    assert Image.ax[0].get_legend()._ncols == 2

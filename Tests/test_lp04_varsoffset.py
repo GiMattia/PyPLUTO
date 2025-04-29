@@ -1,10 +1,5 @@
 import os
 from pathlib import Path
-
-import numpy as np
-import numpy.testing as npt
-import pytest
-
 import pyPLUTO as pp
 
 # Assuming the root of the repo is your current working directory
@@ -23,18 +18,18 @@ offsets_vtk = {
 
 # Test CR particles, dbl output
 def test_offsetdbl():
-    D = pp.LoadPart(path=path, text=False)
-    assert D._offset["tot"] == 390
+    Data = pp.LoadPart(path=path, text=False)
+    assert Data._offset["tot"] == 390
 
 
 # Test CR particles, flt output
 def test_offsetflt():
-    D = pp.LoadPart(path=path, text=False, datatype="flt")
-    assert D._offset["tot"] == 379
+    Data = pp.LoadPart(path=path, text=False, datatype="flt")
+    assert Data._offset["tot"] == 379
 
 
 # Test CR particles, vtk output
 def test_offsetvtk():
-    D = pp.LoadPart(path=path, text=False, datatype="vtk")
+    Data = pp.LoadPart(path=path, text=False, datatype="vtk")
     for var in varslist:
-        assert D._offset[var] == offsets_vtk[var]
+        assert Data._offset[var] == offsets_vtk[var]

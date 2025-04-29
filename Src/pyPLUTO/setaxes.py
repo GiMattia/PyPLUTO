@@ -1,4 +1,10 @@
-from .libraries import *
+from typing import Any
+from matplotlib.axes import Axes
+import matplotlib.pyplot as plt
+from .h_pypluto import check_par, makelist
+from itertools import islice
+import numpy as np
+import warnings
 
 
 def create_axes(
@@ -216,7 +222,7 @@ def create_axes(
         self.fig.set_figheight(kwargs["figsize"][1])
         self.figsize = kwargs["figsize"]
     # Set the figure size if not custom plot
-    elif not custom_plot is True and self._set_size is False:
+    elif not custom_plot and not self._set_size:
         self.fig.set_figwidth(6 * np.sqrt(ncol))
         self.fig.set_figheight(5 * np.sqrt(nrow))
 

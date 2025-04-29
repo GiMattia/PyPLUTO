@@ -82,11 +82,10 @@ def select_folder(self):
         self.datatype = (
             datatry if datatry in formats_list.keys() and datatype is None else datatype
         )
-        self.nout = "last"
         try:
             self.nout = int(file_path.split("/")[-1].split(".")[1])
-        except:
-            pass
+        except NameError:
+            self.nout = "last"
         self.load_data()
 
 

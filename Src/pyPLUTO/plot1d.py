@@ -1,4 +1,9 @@
-from .libraries import *
+from numpy.typing import NDArray
+from typing import Any
+import numpy as np
+from .h_pypluto import check_par, makelist
+from matplotlib.axes import Axes
+import matplotlib.lines as mlines
 
 
 def plot(
@@ -296,14 +301,14 @@ def plot(
 
     # Creation of the legend
     self.legpos[nax] = kwargs.get("legpos", self.legpos[nax])
-    if self.legpos[nax] != None:
+    if self.legpos[nax] is not None:
         copy_label: str | None = kwargs.get("label", None)
         kwargs["label"] = None
         legend(self, ax, check=False, fromplot=True, **kwargs)
         kwargs["label"] = copy_label
 
     # If tight_layout is enabled, is re-inforced
-    if self.tight != False:
+    if self.tight:
         self.fig.tight_layout()
 
     # End of the function

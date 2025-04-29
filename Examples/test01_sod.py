@@ -9,7 +9,7 @@ $PLUTO_DIR/Test_Problems/HD/Sod (configuration 1).
 
 In this script the quatities plotted are density, pressure and velocity
 (component x) in different colors. The relevant keywords to customize the plot
-(e.g. the labels or the legend position) are scattered through the different
+(e.g., the labels or the legend position) are scattered through the different
 line plotting methods in order to show the flexibility of PyPLUTO in terms of
 plot cusotmization. A legend is placed (legpos 0 means that the location is
 chosen automatically) in order to differenciate the lines. The image is then
@@ -21,13 +21,13 @@ the pp.show displays all the figures generated in the script (here only one).
 """
 
 # Loading the relevant packages
-import pyPLUTO as pp
+import pyPLUTO
 
 # Loading the data into a pload object D
-Data = pp.Load(path="Test_Problems/HD/Sod")
+Data = pyPLUTO.Load(path="Test_Problems/HD/Sod")
 
 # Creating the image
-Image = pp.Image(figsize=[7, 5])
+Image = pyPLUTO.Image(figsize=[7, 5])
 
 # Plotting the data
 Image.plot(
@@ -46,4 +46,4 @@ Image.plot(Data.x1, Data.vx1, label=r"$v_x$")
 
 # Saving the image and showing the plot
 Image.savefig("test01_sod.png")
-pp.show()
+pyPLUTO.show()

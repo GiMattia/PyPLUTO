@@ -1,4 +1,9 @@
-from .libraries import *
+from numpy.typing import NDArray
+from typing import Any
+from matplotlib.collections import LineCollection
+from .h_pypluto import check_par
+import numpy as np
+import warnings
 
 
 def contour(self, var: NDArray, check: bool = True, **kwargs: Any) -> LineCollection:
@@ -245,11 +250,11 @@ def contour(self, var: NDArray, check: bool = True, **kwargs: Any) -> LineCollec
         linewidths=lw,
     )
 
-    if cpos != None:
+    if cpos is not None:
         self.colorbar(cnt, check=False, **kwargs)
 
     # If tight_layout is enabled, is re-inforced
-    if self.tight != False:
+    if self.tight:
         self.fig.tight_layout()
 
     return cnt
@@ -537,11 +542,11 @@ def streamplot(self, var1, var2, check: bool = True, **kwargs: Any) -> LineColle
         broken_streamlines=broken_streamlines,
     )
 
-    if cpos != None:
+    if cpos is not None:
         self.colorbar(strm, check=False, **kwargs)
 
     # If tight_layout is enabled, is re-inforced
-    if self.tight != False:
+    if self.tight:
         self.fig.tight_layout()
 
     del varx, vary

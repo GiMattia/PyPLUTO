@@ -1,4 +1,7 @@
-from .libraries import *
+import h5py
+from typing import Any
+import numpy as np
+import warnings
 
 
 def read_vtk(self) -> None:
@@ -32,18 +35,6 @@ def read_vtk(self) -> None:
     """
 
     raise NotImplementedError("read_vtk() is not yet implemented.")
-
-    # Create the path to the VTK file
-    self._pathvtk = self.pathdir / (self.format + ".vtk")
-
-    # Open the VTK file
-    with open(self._pathvtk, "r") as f:
-
-        # Read the data from the VTK file
-        data = f.readlines()
-
-    # End of the function
-    return None
 
 
 def _read_h5(self, filename: str, **kwargs: Any) -> None:
@@ -82,7 +73,7 @@ def _read_h5(self, filename: str, **kwargs: Any) -> None:
     # Create the path to the HDF5 file
     try:
         self._pathh5 = self.pathdir / filename
-    except:
+    except FileNotFoundError:
         self._pathh5 = filename
 
     # Open the HDF5 file
@@ -127,15 +118,6 @@ def read_tab(self) -> None:
 
     raise NotImplementedError("read_tab() is not yet implemented.")
 
-    # Create the path to the tab file
-    self._pathtab = self.pathdir / (self.format + ".out")
-
-    # Read the data from the tab file
-    data = np.loadtxt(self._pathtab)
-
-    # End of the function
-    return None
-
 
 def read_bin(self) -> None:
     """
@@ -168,16 +150,6 @@ def read_bin(self) -> None:
     """
 
     raise NotImplementedError("read_bin() is not yet implemented.")
-
-    # Create the path to the binary file
-    self._pathbin = self.pathdir / (self.format + ".out")
-
-    # Read the data from the binary file
-    with open(self._pathbin, "rb") as f:
-        data = np.fromfile(f, dtype=self.dtype)
-
-    # End of the function
-    return None
 
 
 def _read_dat(self, filename: str, **kwargs: Any) -> None:
@@ -221,7 +193,7 @@ def _read_dat(self, filename: str, **kwargs: Any) -> None:
     # Create the path to the HDF5 file
     try:
         self._pathh5 = self.pathdir / filename
-    except:
+    except FileNotFoundError:
         self._pathh5 = filename
 
     names = kwargs.get("names", True)

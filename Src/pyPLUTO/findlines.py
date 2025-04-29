@@ -1,4 +1,11 @@
-from .libraries import *
+from numpy.typing import NDArray
+import numpy as np
+from typing import Any
+from .h_pypluto import check_par, makelist
+from scipy.integrate import solve_ivp
+import contourpy as cp
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcol
 
 
 def _check_var(self, var: str | NDArray, transpose: bool = False) -> np.ndarray:
@@ -51,7 +58,7 @@ def _check_var(self, var: str | NDArray, transpose: bool = False) -> np.ndarray:
     if isinstance(var, str):
         try:
             var = getattr(self, var)
-        except:
+        except ValueError:
             raise ValueError(f"Variable {var} not found in the dataset.")
 
     # If the transpose keyword is True, the variable is transposed.
@@ -550,10 +557,11 @@ def find_contour(
     # Set colormap (try to get it from the colormap list, if not then use
     # the color provided), if not provided use black.
     if "cmap" in kwargs:
+        cmap_val = kwargs.get("cmap")
         try:
-            cmap = plt.get_cmap(kwargs.get("cmap"))
-        except:
-            cmap = mcol.ListedColormap(kwargs.get("cmap"))
+            cmap = plt.get_cmap(cmap_val)
+        except (ValueError, TypeError):
+            cmap = mcol.ListedColormap(cmap_val)
     else:
         cmap = mcol.ListedColormap(["k"])
 

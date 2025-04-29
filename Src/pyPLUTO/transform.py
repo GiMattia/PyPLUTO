@@ -1,4 +1,9 @@
-from .libraries import *
+from numpy.typing import NDArray
+from typing import Any
+import numpy as np
+from .h_pypluto import check_par
+from scipy.interpolate import RectBivariateSpline, RegularGridInterpolator
+from scipy.ndimage import map_coordinates
 
 
 def slices(
@@ -277,7 +282,9 @@ def repeat(
         return newvar
 
 
-def cartesian_vector(self, var: str | None = None, **kwargs: Any) -> tuple[NDArray]:
+def cartesian_vector(
+    self, var: str | None = None, **kwargs: Any
+) -> tuple[NDArray, ...]:
     """
     Function that converts a vector from spherical or polar components to
     cartesian components.
@@ -345,7 +352,7 @@ def cartesian_vector(self, var: str | None = None, **kwargs: Any) -> tuple[NDArr
     if "var3" in kwargs:
         var_0.append(self.check_var(kwargs["var3"], kwargs.get("transpose", False)))
 
-    x1 = kwargs.get("x1", self.x1)
+    # x1 = kwargs.get("x1", self.x1)
     x2 = kwargs.get("x2", self.x2)
     x3 = kwargs.get("x3", self.x3)
 
@@ -368,7 +375,7 @@ def cartesian_vector(self, var: str | None = None, **kwargs: Any) -> tuple[NDArr
         return varx, vary
 
 
-def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray]:
+def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray, ...]:
     """
     Function that reshapes a variable from a cylindrical or spherical grid into
     a cartesian grid. Zones not covered by the original domain (e.g. the very

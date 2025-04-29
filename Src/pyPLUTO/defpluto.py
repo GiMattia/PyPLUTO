@@ -1,4 +1,4 @@
-from .libraries import *
+import re
 
 
 def _convert_value(value):
@@ -9,7 +9,7 @@ def _convert_value(value):
         return False
     try:
         return float(value) if "." in value or "e" in value else int(value)
-    except:
+    except ValueError:
         return value
 
 

@@ -167,8 +167,7 @@ class Image:
 
         # Create the figure
         self._create_figure(fig, **kwargs)
-        if text is not False:
-            print(f"Creating Figure in window {self.nwin}")
+        print(f"Creating Figure in window {self.nwin}")
 
     def __getattr__(self, name):
         try:

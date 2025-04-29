@@ -64,12 +64,16 @@ def _read_tabfile(self, i: int) -> None:
             # Store the gridsize
             self.nx1 = empty_lines
             self.nx2 = len(lines_in_block)
+            self.dim = 2
+            self.nshp = (self.nx1, self.nx2)
 
     # If the file is empty the grid is 1D, ostore grid vars if not present
     else:
         if not hasattr(self, "dim"):
             self.nx1 = vfp.shape[0]
             self.nx2 = 1
+            self.dim = 1
+            self.nshp = self.nx1
 
     # Store the grid variables
     self.x1 = np.array(vfp.iloc[:, 1]).reshape(self.nx2, self.nx1)
@@ -350,11 +354,11 @@ def _inspect_h5(self, i: int, exout: int) -> None:
 
     try:
         cellvs = h5file[f"Timestep_{exout}"]["vars"]
-    except AttributeError:
+    except KeyError:
         cellvs = {}
     try:
         stagvs = h5file[f"Timestep_{exout}"]["stag_vars"]
-    except AttributeError:
+    except KeyError:
         stagvs = {}
 
     # If standalone file, finds the variables to be loaded, else

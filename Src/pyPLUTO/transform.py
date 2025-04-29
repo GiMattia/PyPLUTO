@@ -1,4 +1,9 @@
-from .libraries import *
+from numpy.typing import NDArray
+from typing import Any
+import numpy as np
+from .h_pypluto import check_par
+from scipy.interpolate import RectBivariateSpline, RegularGridInterpolator
+from scipy.ndimage import map_coordinates
 
 
 def slices(
@@ -347,7 +352,7 @@ def cartesian_vector(
     if "var3" in kwargs:
         var_0.append(self.check_var(kwargs["var3"], kwargs.get("transpose", False)))
 
-    x1 = kwargs.get("x1", self.x1)
+    # x1 = kwargs.get("x1", self.x1)
     x2 = kwargs.get("x2", self.x2)
     x3 = kwargs.get("x3", self.x3)
 

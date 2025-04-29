@@ -218,7 +218,7 @@ class LoadPart:
 
     def __getattr__(self, name):
         try:
-            return getattr(self, f"_{name}")
+            return object.__getattribute__(self, f"_{name}")
         except AttributeError:
             raise AttributeError(f"'LoadPart' object has no attribute '{name}'")
 

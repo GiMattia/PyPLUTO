@@ -41,6 +41,6 @@ if __name__ == "__main__":
         if str(file_path)[:2] in index:
             print(file_path)
             if run_pytest(file_path):
-                print(f" ---> \033[32mPASSED!\033[0m")
+                print(" ---> \033[32mPASSED!\033[0m")
             else:
-                print(f" ---> \033[31mFAILED!\033[0m")
+                print(" ---> \033[31mFAILED!\033[0m")

@@ -83,12 +83,12 @@ def _inspect_bin(self, i: int, endian: str | None) -> None:
 
         # Find the variable names
         elif spl1 == b"field_names":
-            self._d_info["varskeys"][i] = [elem.decode() for elem in l.split()[2:]]
+            self._d_info["varskeys"][i] = [elem.decode() for elem in line.split()[2:]]
             self._d_info["varslist"][i] = ["tot"]
 
         # Find the variable dimensions
         elif spl1 == b"field_dim":
-            self._vardim = np.array([int(elem.decode()) for elem in l.split()[2:]])
+            self._vardim = np.array([int(elem.decode()) for elem in line.split()[2:]])
             self._offset["tot"] = f.tell()
             self._shape["tot"] = (self.nshp, np.sum(self._vardim))
             # To be fixed (multiple loading)

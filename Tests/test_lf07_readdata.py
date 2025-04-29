@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-
 import numpy as np
 import numpy.testing as npt
 import pytest
@@ -41,65 +40,67 @@ varslist = ["rho", "vx1", "vx2", "vx3", "prs"]
 
 # Test single file, dbl output
 def test_2D_singledbl():
-    D = pp.Load(0, path=path / "single_file", text=False)
+    Data = pp.Load(0, path=path / "single_file", text=False)
     for num, var in enumerate(varslist):
-        npt.assert_array_equal(getattr(D, var), exact_vars[var])
+        npt.assert_array_equal(getattr(Data, var), exact_vars[var])
 
 
 # Test multiple files, dbl output
 def test_2D_multipledbl():
-    D = pp.Load(0, path=path / "multiple_files", text=False)
+    Data = pp.Load(0, path=path / "multiple_files", text=False)
     for num, var in enumerate(varslist):
-        npt.assert_array_equal(getattr(D, var), exact_vars[var])
+        npt.assert_array_equal(getattr(Data, var), exact_vars[var])
 
 
 # Test single file, vtk output
 def test_singlevtk():
-    D = pp.Load(0, path=path / "single_file", datatype="vtk", text=False)
+    Data = pp.Load(0, path=path / "single_file", datatype="vtk", text=False)
     for num, var in enumerate(varslist):
-        npt.assert_allclose(getattr(D, var), exact_vars[var])
+        npt.assert_allclose(getattr(Data, var), exact_vars[var])
 
 
 # Test multiple files, vtk output
 def test_multiplevtk():
-    D = pp.Load(0, path=path / "multiple_files", datatype="vtk", text=False)
+    Data = pp.Load(0, path=path / "multiple_files", datatype="vtk", text=False)
     for num, var in enumerate(varslist):
-        npt.assert_allclose(getattr(D, var), exact_vars[var])
+        npt.assert_allclose(getattr(Data, var), exact_vars[var])
 
 
 # Test dbl.h5 output
 def test_dblh5():
-    D = pp.Load(0, path=path / "single_file", datatype="dbl.h5", text=False)
+    Data = pp.Load(0, path=path / "single_file", datatype="dbl.h5", text=False)
     for num, var in enumerate(varslist):
-        npt.assert_array_equal(getattr(D, var), exact_vars[var])
+        npt.assert_array_equal(getattr(Data, var), exact_vars[var])
 
 
 # Test flt.h5 output
 def test_flth5():
-    D = pp.Load(0, path=path / "single_file", datatype="flt.h5", text=False)
+    Data = pp.Load(0, path=path / "single_file", datatype="flt.h5", text=False)
     for num, var in enumerate(varslist):
-        npt.assert_allclose(getattr(D, var), exact_vars[var])
+        npt.assert_allclose(getattr(Data, var), exact_vars[var])
 
 
 # Test single file, tab output
 def test_tab():
-    D = pp.Load(0, path=path / "single_file", datatype="tab", text=False)
+    Data = pp.Load(0, path=path / "single_file", datatype="tab", text=False)
     for num, var in enumerate(varslist):
-        npt.assert_allclose(getattr(D, var), exact_vars[var])
+        npt.assert_allclose(getattr(Data, var), exact_vars[var])
 
 
 # Test single file, vtk output (standalone)
 def test_singlevtkalone():
-    D = pp.Load(0, path=path / "single_file", datatype="vtk", text=False, alone=True)
+    Data = pp.Load(0, path=path / "single_file", datatype="vtk", text=False, alone=True)
     for num, var in enumerate(varslist):
-        npt.assert_allclose(getattr(D, var), exact_vars[var])
+        npt.assert_allclose(getattr(Data, var), exact_vars[var])
 
 
 # Test multiple files, vtk output (standalone)
 def test_multiplevtkalone():
-    D = pp.Load(0, path=path / "multiple_files", datatype="vtk", text=False, alone=True)
+    Data = pp.Load(
+        0, path=path / "multiple_files", datatype="vtk", text=False, alone=True
+    )
     for num, var in enumerate(varslist):
-        npt.assert_allclose(getattr(D, var), exact_vars[var])
+        npt.assert_allclose(getattr(Data, var), exact_vars[var])
 
 
 warn = (
@@ -112,27 +113,27 @@ warn = (
 # Test dbl.h5 output (standalone)
 def test_dblh5alone():
     with pytest.warns(UserWarning, match=warn):
-        D = pp.Load(
+        Data = pp.Load(
             path=path / "single_file",
             text=False,
             datatype="dbl.h5",
             alone=True,
         )
     for num, var in enumerate(varslist):
-        npt.assert_array_equal(getattr(D, var), exact_vars[var])
+        npt.assert_array_equal(getattr(Data, var), exact_vars[var])
 
 
 # Test flt.h5 output (standalone)
 def test_flth5alone():
     with pytest.warns(UserWarning, match=warn):
-        D = pp.Load(
+        Data = pp.Load(
             path=path / "single_file",
             text=False,
             datatype="flt.h5",
             alone=True,
         )
     for num, var in enumerate(varslist):
-        npt.assert_allclose(getattr(D, var), exact_vars[var])
+        npt.assert_allclose(getattr(Data, var), exact_vars[var])
 
 
 # Test single file, tab output (standalone)
@@ -145,9 +146,9 @@ def test_tabalone():
         "prs": "var4",
     }
 
-    D = pp.Load(0, path=path / "single_file", datatype="tab", text=False, alone=True)
+    Data = pp.Load(0, path=path / "single_file", datatype="tab", text=False, alone=True)
     for num, var in enumerate(varslist):
-        npt.assert_allclose(getattr(D, vars_conversion[var]), exact_vars[var])
+        npt.assert_allclose(getattr(Data, vars_conversion[var]), exact_vars[var])
 
 
 # Test single file, tab output (1D)
@@ -156,14 +157,14 @@ prs = np.array([1] * 200 + [0.1] * 200)
 
 
 def test_tab1D():
-    D = pp.Load(0, path=path / "multiple_outputs", datatype="tab", text=False)
-    npt.assert_allclose(D.rho, rho)
-    npt.assert_allclose(D.prs, prs)
+    Data = pp.Load(0, path=path / "multiple_outputs", datatype="tab", text=False)
+    npt.assert_allclose(Data.rho, rho)
+    npt.assert_allclose(Data.prs, prs)
 
 
 # Test muptiple outputs
 def test_multipleout():
-    D = pp.Load([0, 1], path=path / "multiple_outputs", datatype="dbl", text=False)
-    assert isinstance(D.rho, dict)
-    assert list(D.rho.keys()) == [0, 1]
-    npt.assert_allclose(D.rho[0], rho)
+    Data = pp.Load([0, 1], path=path / "multiple_outputs", datatype="dbl", text=False)
+    assert isinstance(Data.rho, dict)
+    assert list(Data.rho.keys()) == [0, 1]
+    npt.assert_allclose(Data.rho[0], rho)

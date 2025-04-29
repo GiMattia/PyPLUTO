@@ -1,4 +1,10 @@
-from .libraries import *
+from matplotlib.figure import Figure
+from matplotlib.axes import Axes
+from typing import Any
+from .h_pypluto import check_par
+from numpy.typing import NDArray
+from matplotlib.widgets import Slider
+import matplotlib.pyplot as plt
 
 
 class Image:
@@ -167,7 +173,7 @@ class Image:
     def __getattr__(self, name):
         try:
             return getattr(self, f"_{name}")
-        except:
+        except AttributeError:
             raise AttributeError(f"'Image' object has no attribute '{name}'")
 
     def __str__(self):

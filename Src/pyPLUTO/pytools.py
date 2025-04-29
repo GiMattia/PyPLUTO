@@ -1,4 +1,7 @@
-from .libraries import *
+from pathlib import Path
+import matplotlib.pyplot as plt
+import os
+import warnings
 
 
 def savefig(filename: str | Path = "img.png", bbox: str | None = "tight") -> None:
@@ -93,7 +96,7 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
         # Check if the 'play' command is available on Linux and MacOS
         try:
             os.system(f"play -nq -t alsa synth {length} sine {freq}")
-        except:
+        except UserWarning:
             # If the 'play' command is not available, raise a warning
             text = (
                 "pyPLUTO.ring requires the 'play' command from the"
@@ -107,7 +110,7 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
             import winsound
 
             winsound.Beep(freq, length)
-        except:
+        except UserWarning:
             # If the 'winsound' package is not available, raise a warning
             text = (
                 "pyPLUTO.ring requires the 'winsound' package.\n"

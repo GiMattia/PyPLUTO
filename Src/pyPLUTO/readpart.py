@@ -1,4 +1,5 @@
-from .libraries import *
+import numpy as np
+import mmap
 
 
 def _inspect_bin(self, i: int, endian: str | None) -> None:
@@ -42,12 +43,12 @@ def _inspect_bin(self, i: int, endian: str | None) -> None:
 
     # Open the file and read the lines
     f = open(self._filepath, "rb")
-    for l in f:
+    for line in f:
 
         # Split the lines (unsplit are binary data)
         try:
-            _, spl1, spl2 = l.split()[0:3]
-        except:
+            _, spl1, spl2 = line.split()[0:3]
+        except ValueError:
             break
 
         # Find the dimensions of the domain
@@ -69,12 +70,12 @@ def _inspect_bin(self, i: int, endian: str | None) -> None:
         # Find the number of particles in the datafile and the maximum
         # number of particles in the simulation
         elif spl1 == b"nparticles":
-            self.nshp = int(l.split()[2])
+            self.nshp = int(line.split()[2])
             # self.npart = self.nshp
 
         # To be fixed (multiple loading)
         elif spl1 == b"idCounter":
-            self.maxpart = np.max([int(l.split()[2]), self.maxpart])
+            self.maxpart = np.max([int(line.split()[2]), self.maxpart])
 
         # Find the time information
         elif spl1 == b"time":
@@ -140,9 +141,6 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
         >>> _inspect_vtk(0, 'big')
 
     """
-
-    dir_map: dict[str, str] = {}
-    gridvars: list[str] = []
 
     # Initialize the offset and shape arrays, the endianess and the coordinates dictionary
     self._offset, self._shape = ({}, {})

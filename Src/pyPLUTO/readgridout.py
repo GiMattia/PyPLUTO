@@ -1,4 +1,6 @@
-from .libraries import *
+import numpy as np
+import warnings
+import pandas as pd
 
 
 def _read_grid_h5(self) -> None:
@@ -464,7 +466,7 @@ def _split_gridfile(
     if len(i.split()) == 1:
         try:
             nmax.append(int(i.split()[0]))
-        except:
+        except ValueError:
             pass
 
     # Check if the splitted line has three strings
@@ -478,7 +480,7 @@ def _split_gridfile(
 
         # Check if the keyword is geometry or dimensions and
         # store the information in the class
-        except:
+        except ValueError:
             if i.split()[1] == "GEOMETRY:":
                 self.geom = i.split()[2]
             if i.split()[1] == "DIMENSIONS:":

@@ -1,4 +1,8 @@
-from .libraries import *
+import pandas as pd
+import numpy as np
+import struct
+import mmap
+import h5py
 
 
 def _read_tabfile(self, i: int) -> None:
@@ -157,12 +161,12 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
     # Open the file and read the lines
     f = open(self._filepath, "rb")
 
-    for l in f:
+    for line in f:
 
         # Split the lines (unsplit are binary data or useless lines)
         try:
-            spl0, spl1, spl2 = l.split()[0:3]
-        except:
+            spl0, spl1, spl2 = line.split()[0:3]
+        except ValueError:
             continue
 
         # Find the coordinates and store them
@@ -183,6 +187,29 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
                 shape=shape,
             )
             exec(f"{dir_map[var_sel]} = scrh")
+
+        # Find the dimensions and store them, computing the variables shape
+        elif spl0 == b"DIMENSIONS" and self._info is True:
+            nshp_grid = [int(i) for i in line.split()[1:4]]
+            self.nx1, self.nx2, self.nx3 = [
+                max(int(i) - 1, 1) for i in line.split()[1:4]
+            ]
+            if self.nx3 == 1 and self.nx2 == 1:
+                self.dim = 1
+                self.nshp = self.nx1
+                nshp_grid = self.nx1 + 1
+                gridvars = ["self.x1r", "self.x2", "self.x3"]
+            elif self.nx3 == 1:
+                self.dim = 2
+                self.nshp = (self.nx2, self.nx1)
+                nshp_grid = (self.nx2 + 1, self.nx1 + 1)
+                gridvars = ["self.x1r", "self.x2r", "self.x3"]
+            else:
+                self.dim = 3
+                self.nshp = (self.nx3, self.nx2, self.nx1)
+                nshp_grid = (self.nx3 + 1, self.nx2 + 1, self.nx1 + 1)
+                gridvars = ["self.x1r", "self.x2r", "self.x3r"]
+            dir_map = {"X": gridvars[0], "Y": gridvars[1], "Z": gridvars[2]}
 
         elif spl0 == b"POINTS" and self._info is True:
             binf = endl + "d" if spl2.decode() == "double" else endl + "f"
@@ -212,31 +239,10 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
 
         # Compute the time information
         elif spl0 == b"TIME" and self._alone is True:
-            binf = 8 if l.split()[3].decode() == "double" else 4
+            binf = 8 if line.split()[3].decode() == "double" else 4
             f.tell()
             data = f.read(binf)
             self.ntime[i] = struct.unpack(endl + "d", data)[0]
-
-        # Find the dimensions and store them, computing the variables shape
-        elif spl0 == b"DIMENSIONS" and self._info is True:
-            nshp_grid = [int(i) for i in l.split()[1:4]]
-            self.nx1, self.nx2, self.nx3 = [max(int(i) - 1, 1) for i in l.split()[1:4]]
-            if self.nx3 == 1 and self.nx2 == 1:
-                self.dim = 1
-                self.nshp = self.nx1
-                nshp_grid = self.nx1 + 1
-                gridvars = ["self.x1r", "self.x2", "self.x3"]
-            elif self.nx3 == 1:
-                self.dim = 2
-                self.nshp = (self.nx2, self.nx1)
-                nshp_grid = (self.nx2 + 1, self.nx1 + 1)
-                gridvars = ["self.x1r", "self.x2r", "self.x3"]
-            else:
-                self.dim = 3
-                self.nshp = (self.nx3, self.nx2, self.nx1)
-                nshp_grid = (self.nx3 + 1, self.nx2 + 1, self.nx1 + 1)
-                gridvars = ["self.x1r", "self.x2r", "self.x3r"]
-            dir_map = {"X": gridvars[0], "Y": gridvars[1], "Z": gridvars[2]}
 
     # New memmap strategy for vtk files
     mmapped_file = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
@@ -344,11 +350,11 @@ def _inspect_h5(self, i: int, exout: int) -> None:
 
     try:
         cellvs = h5file[f"Timestep_{exout}"]["vars"]
-    except:
+    except AttributeError:
         cellvs = {}
     try:
         stagvs = h5file[f"Timestep_{exout}"]["stag_vars"]
-    except:
+    except AttributeError:
         stagvs = {}
 
     # If standalone file, finds the variables to be loaded, else

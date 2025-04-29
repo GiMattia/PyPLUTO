@@ -12,6 +12,7 @@ __version__ = "1.0"
 __colorerr__ = True
 __colorwarn__ = True
 __session__ = find_session()
+__all__ = ["Image", "Load", "LoadPart", "ring", "savefig", "show"]
 
 # Print the version and session
 print(f"PyPLUTO version: {__version__}   session: {__session__}")

@@ -1,4 +1,5 @@
-from .libraries import *
+import h5py
+import numpy as np
 
 
 def _inspect_hdf5(self, i: int, exout: int) -> None:
@@ -37,7 +38,7 @@ def _inspect_hdf5(self, i: int, exout: int) -> None:
 
     try:
         self._read_gridfile()
-    except:
+    except FileNotFoundError:
         pass
 
     self.x1range = None
@@ -122,13 +123,13 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
             zstr = 1.0
             logr = 0
             try:
-                geom = fl.attrs.get("geometry")
+                self.geom = fl.attrs.get("geometry")
                 logr = fl.attrs.get("logr")
                 if dim >= 2:
                     ystr = fl.attrs.get("g_x2stretch")
                 if dim == 3:
                     zstr = fl.attrs.get("g_x3stretch")
-            except:
+            except PendingDeprecationWarning:
                 print("Old HDF5 file, not reading stretch and logr factors")
             freb[i] = 1
             x1b = fl.attrs.get("domBeg1")
@@ -174,7 +175,7 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
     dx0 = dx * freb[0]
 
     ## Allow to load only a portion of the domain
-    if self.x1range != None:
+    if self.x1range is not None:
         if logr == 0:
             self.x1range = self.x1range - x1b
         else:
@@ -187,14 +188,14 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
         ibeg = max([ibeg, int(ibeg0 * freb[0])])
         iend = min([iend, int(iend0 * freb[0] - 1)])
         nx = iend - ibeg + 1
-    if self.x2range != None:
+    if self.x2range is not None:
         self.x2range = (self.x2range - x2b) / ystr
         jbeg0 = min(self.x2range) / dx0
         jend0 = max(self.x2range) / dx0
         jbeg = max([jbeg, int(jbeg0 * freb[0])])
         jend = min([jend, int(jend0 * freb[0] - 1)])
         ny = jend - jbeg + 1
-    if self.x3range != None:
+    if self.x3range is not None:
         self.x3range = (self.x3range - x3b) / zstr
         kbeg0 = min(self.x3range) / dx0
         kend0 = max(self.x3range) / dx0

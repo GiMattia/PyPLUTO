@@ -129,7 +129,7 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
                     ystr = fl.attrs.get("g_x2stretch")
                 if dim == 3:
                     zstr = fl.attrs.get("g_x3stretch")
-            except PendingDeprecationWarning:
+            except DeprecationWarning:
                 print("Old HDF5 file, not reading stretch and logr factors")
             freb[i] = 1
             x1b = fl.attrs.get("domBeg1")

@@ -1,4 +1,9 @@
-from .libraries import *
+import shutil
+import warnings
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from typing import Any
 
 
 def _assign_LaTeX(self, LaTeX: bool | str) -> None:
@@ -78,7 +83,7 @@ def _assign_LaTeX(self, LaTeX: bool | str) -> None:
 
         # If errors occur, the LaTeX option True is used and a warning
         # message is displayed
-        except:
+        except ImportError:
             str1 = (
                 "XeLaTeX is required to use the pgf backend.\n"
                 "Please, install XeLaTeX and try again."
@@ -93,7 +98,7 @@ def _assign_LaTeX(self, LaTeX: bool | str) -> None:
         try:
             mpl.rcParams["mathtext.fontset"] = "stix"
             mpl.rcParams["font.family"] = "STIXGeneral"
-        except:
+        except ImportError:
             warn = "The LaTeX = True option is not available."
             warnings.warn(warn, UserWarning)
 

@@ -33,7 +33,7 @@ def test_suptitle():
     assert Image.fig._suptitle.get_text() == "This is a title"
 
 
-# Test the fontsize
+# Test the fontsize when not default
 def test_fontsize():
     Image = pp.Image(fontsize=20)
     assert Image.fontsize == 20

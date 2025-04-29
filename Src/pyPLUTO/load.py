@@ -1,4 +1,8 @@
-from .libraries import *
+from typing import Any
+from numpy.typing import NDArray
+from .h_pypluto import check_par
+from pathlib import Path
+import numpy as np
 
 
 class Load:
@@ -268,7 +272,7 @@ class Load:
         self._check_pathformat(path)
 
         # Find the format of the data files
-        self._find_format(datatype, (alone := kwargs.get("alone", None)))
+        self._find_format(datatype, kwargs.get("alone", None))
 
         # Find relevant information without opening the files (e.g.
         # the number of files to be loaded) or opening the *.out files
@@ -288,7 +292,7 @@ class Load:
         # Transpose nshp (to match with variables)
         try:
             self.nshp = self.nshp[::-1] if self.dim > 1 else self.nshp
-        except:
+        except ValueError:
             pass
 
         # Convert ntime if only one number of a list
@@ -312,7 +316,7 @@ class Load:
                 defhfile = "definitions.h"
             try:
                 setattr(self, "defh", self._read_defh(pathdefh))
-            except:
+            except FileNotFoundError:
                 print(f"No {defhfile} is read!") if defh is True else ...
 
         # Try to read the file pluto.ini
@@ -321,8 +325,8 @@ class Load:
             pathplini = self.pathdir / "pluto.ini"
             try:
                 setattr(self, "plini", self._read_plini(pathplini))
-            except:
-                print(f"No pluto.ini is read!") if plini is True else ...
+            except FileNotFoundError:
+                print("No pluto.ini is read!") if plini is True else ...
         return
 
     def __str__(self):
@@ -376,7 +380,7 @@ class Load:
     def __getattr__(self, name):
         try:
             return getattr(self, f"_{name}")
-        except:
+        except AttributeError:
             raise AttributeError(f"'Load' object has no attribute '{name}'")
 
     from .amr import _DataScanHDF5, _inspect_hdf5

@@ -20,19 +20,19 @@ in the static grid output section.
 """
 
 # Loading the relevant packages
-import pyPLUTO as pp
+import pyPLUTO
 
 # Loading the data into a pload object D
-D = pp.Load("all", datatype="vtk", path="Test_Problems/HD/Riemann_2D")
+Data = pyPLUTO.Load("all", datatype="vtk", path="Test_Problems/HD/Riemann_2D")
 
 # Creating the image
-I = pp.Image(figsize=[7, 7])
+Image = pyPLUTO.Image(figsize=[7, 7])
 
 # Creating the interactive plot
-I.interactive(
-    D.rho,
-    x1=D.x1,
-    x2=D.x2,
+Image.interactive(
+    Data.rho,
+    x1=Data.x1,
+    x2=Data.x2,
     cpos="right",
     vmin=0,
     vmax=1.0,
@@ -42,4 +42,4 @@ I.interactive(
 )
 
 # Saving the gif of the animation
-I.animate("test10_riemann2d.gif")
+Image.animate("test10_riemann2d.gif")

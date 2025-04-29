@@ -16,23 +16,23 @@ previously computed. The image is then saved and shown on screen.
 """
 
 # Loading the relevant packages
-import pyPLUTO as pp
+import pyPLUTO
 
 # Loading the data into a pload object D
-D = pp.Load(path="Test_Problems/MHD/Field_Loop")
+Data = pyPLUTO.Load(path="Test_Problems/MHD/Field_Loop")
 
 # Creating the image
-I = pp.Image(figsize=[13, 5], suptitle="Test 05 - MHD Field loop test")
+Image = pyPLUTO.Image(figsize=[13, 5], suptitle="Test 05 - MHD Field loop test")
 
 # Creating the subplots
-ax = I.create_axes(ncol=2, top=0.91)
+ax = Image.create_axes(ncol=2, top=0.91)
 
 # Integrate the field line
-lines = D.find_fieldlines(
-    D.Bx1,
-    D.Bx2,
-    x1=D.x1,
-    x2=D.x2,
+lines = Data.find_fieldlines(
+    Data.Bx1,
+    Data.Bx2,
+    x1=Data.x1,
+    x2=Data.x2,
     x0=[0.1, 0.2, 0.3],
     y0=[0.0, 0.0, 0.0],
     order="RK45",
@@ -41,10 +41,10 @@ lines = D.find_fieldlines(
 )
 
 # Plotting the data
-I.display(
-    1000 * D.Bx1,
-    x1=D.x1,
-    x2=D.x2,
+Image.display(
+    1000 * Data.Bx1,
+    x1=Data.x1,
+    x2=Data.x2,
     ax=0,
     cmap="RdBu_r",
     aspect="equal",
@@ -58,10 +58,10 @@ I.display(
     ytitle="y",
 )
 
-I.display(
-    1000 * D.Bx2,
-    x1=D.x1,
-    x2=D.x2,
+Image.display(
+    1000 * Data.Bx2,
+    x1=Data.x1,
+    x2=Data.x2,
     ax=1,
     cmap="RdBu_r",
     aspect="equal",
@@ -75,12 +75,14 @@ I.display(
 )
 
 # Plot the field lines in two different ways
-I.streamplot(D.Bx1, D.Bx2, x1=D.x1, x2=D.x2, ax=0, lw=1.5, vmin=1.0e-4, c="k")
+Image.streamplot(
+    Data.Bx1, Data.Bx2, x1=Data.x1, x2=Data.x2, ax=0, lw=1.5, vmin=1.0e-4, c="k"
+)
 
-I.plot(lines[0][0], lines[0][1], ax=1, c="k", lw=1.5)
-I.plot(lines[1][0], lines[1][1], ax=1, c="k", lw=1.5)
-I.plot(lines[2][0], lines[2][1], ax=1, c="k", lw=1.5)
+Image.plot(lines[0][0], lines[0][1], ax=1, c="k", lw=1.5)
+Image.plot(lines[1][0], lines[1][1], ax=1, c="k", lw=1.5)
+Image.plot(lines[2][0], lines[2][1], ax=1, c="k", lw=1.5)
 
 # Saving the image and showing the plots
-I.savefig("test05_fieldloop.png")
-pp.show()
+Image.savefig("test05_fieldloop.png")
+pyPLUTO.show()

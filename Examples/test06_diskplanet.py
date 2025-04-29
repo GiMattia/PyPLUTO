@@ -24,23 +24,23 @@ of the zoom method in plotting different quantities in the same region.
 # Loading the relevant packages
 import numpy as np
 
-import pyPLUTO as pp
+import pyPLUTO
 
 # Loading the data into a pload object D
-D = pp.Load(path="Test_Problems/HD/Disk_Planet")
+Data = pyPLUTO.Load(path="Test_Problems/HD/Disk_Planet")
 
 # Creating the image and the subplot axes (to have two zoom simultaneously)
-I = pp.Image()
-ax = I.create_axes()
+Image = pyPLUTO.Image()
+ax = Image.create_axes()
 
 # Compute the disk keplerian rotation speed
-omega = 2.0 * np.pi / np.sqrt(D.x1)
+omega = 2.0 * np.pi / np.sqrt(Data.x1)
 
 # Plotting the data
-I.display(
-    D.rho,
-    x1=D.x1rc,
-    x2=D.x2rc,
+Image.display(
+    Data.rho,
+    x1=Data.x1rc,
+    x2=Data.x2rc,
     cscale="log",
     cpos="right",
     clabel=r"$\rho$",
@@ -55,10 +55,10 @@ I.display(
 )
 
 # Zooming the planet region
-I.zoom(xrange=[0.9, 1.1], yrange=[-0.1, 0.1], pos=[0.74, 0.95, 0.7, 0.9])
+Image.zoom(xrange=[0.9, 1.1], yrange=[-0.1, 0.1], pos=[0.74, 0.95, 0.7, 0.9])
 
-I.zoom(
-    var=D.vx2 - omega[:, np.newaxis],
+Image.zoom(
+    var=Data.vx2 - omega[:, np.newaxis],
     xrange=[0.9, 1.1],
     yrange=[-0.1, 0.1],
     pos=[0.07, 0.27, 0.67, 0.9],
@@ -72,5 +72,5 @@ I.zoom(
 )
 
 # Saving the image and showing the plots
-I.savefig("test06_diskplanet.png")
-pp.show()
+Image.savefig("test06_diskplanet.png")
+pyPLUTO.show()

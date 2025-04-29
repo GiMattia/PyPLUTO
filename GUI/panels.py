@@ -55,5 +55,5 @@ def add_pushbutton(self, label, control_layout, data=None, width=None):
     setattr(self, label, pushbutton)
     if isinstance(width, int):
         pushbutton.setFixedWidth(width)
-    pushbutton.clicked.connect(data)
+    pushbutton.clicked.connect(data)  # type: ignore
     control_layout.addWidget(pushbutton)

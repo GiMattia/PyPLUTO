@@ -277,7 +277,9 @@ def repeat(
         return newvar
 
 
-def cartesian_vector(self, var: str | None = None, **kwargs: Any) -> tuple[NDArray]:
+def cartesian_vector(
+    self, var: str | None = None, **kwargs: Any
+) -> tuple[NDArray, ...]:
     """
     Function that converts a vector from spherical or polar components to
     cartesian components.
@@ -368,7 +370,7 @@ def cartesian_vector(self, var: str | None = None, **kwargs: Any) -> tuple[NDArr
         return varx, vary
 
 
-def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray]:
+def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray, ...]:
     """
     Function that reshapes a variable from a cylindrical or spherical grid into
     a cartesian grid. Zones not covered by the original domain (e.g. the very

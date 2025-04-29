@@ -91,7 +91,7 @@ def plot_data(self):
     self.var = getattr(self.D, var_name)
 
     self.var = self.var.T if self.transpose_checkbox.isChecked() else self.var
-    # Apply slicing if valid text is provided
+    # Apply slicing if a valid text is provided
     if self.zslicetext.text() and np.ndim(self.var) == 3:
         self.zslice = get_slice(self.zslicetext.text(), self.var.shape[2])
         self.var = self.var[:, :, self.zslice]
@@ -183,7 +183,7 @@ def create_new_figure(self):
     self.toolbar = NavigationToolbar(self.canvas, self)
     self.canvas.setFixedWidth(800)
 
-    # Add new toolbar and canvas to layout
+    # Add a new toolbar and canvas to the layout
     self.canvas_layout.addWidget(self.toolbar)
     self.canvas_layout.addWidget(self.canvas)
 

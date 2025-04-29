@@ -8,7 +8,7 @@ The data are the ones obtained from the PLUTO test problem
 $PLUTO_DIR/Test_Problems/Particles/CR/Xpoint (configuration 1).
 
 The data is loaded with the Load class and the LoadPart class into two pload
-objects and the Image class is created. The contour method is used to plot the
+ objects, and the Image class is created. The contour method is used to plot the
 contour lines of the electromagnetic vector potential. The scatter method is
 used to plot the single particles at the end of the simulation time. The
 spectrum and plot method are then used to show the velocity spectra of the
@@ -17,36 +17,46 @@ saved and shown on screen.
 """
 
 import matplotlib.pyplot as plt
-
-# Loading the relevant packages
 import numpy as np
+import pyPLUTO
 
-import pyPLUTO as pp
+# --- Load fluid and particle data ---
+Data = pyPLUTO.Load(path="Test_Problems/Particles/CR/Xpoint")
+Dp_f = pyPLUTO.LoadPart(path="Test_Problems/Particles/CR/Xpoint", datatype="vtk")
+Dp_i = pyPLUTO.LoadPart(0, path="Test_Problems/Particles/CR/Xpoint", datatype="vtk")
 
-# Loading the data and the particle data into two pload objects
-Df = pp.Load(path="Test_Problems/Particles/CR/Xpoint")
-Dp = pp.LoadPart(path="Test_Problems/Particles/CR/Xpoint", datatype="vtk")
-gl = (1 + Dp.vx1**2 + Dp.vx2**2 + Dp.vx3**2) ** 0.5
-indx = np.argsort(gl)
 
-# Creating the image
-I = pp.Image(figsize=[7, 7], fontsize=20)
+# --- Compute Lorentz factor and sort ---
+def compute_gamma(dp):
+    return np.sqrt(1 + dp.vx1**2 + dp.vx2**2 + dp.vx3**2)
 
-# Plotting the data
-I.contour(
-    Df.Ax3,
-    x1=Df.x1 / 1000,
-    x2=Df.x2 / 1000,
+
+gl_final = compute_gamma(Dp_f)
+indx_final = np.argsort(gl_final)
+
+# --- Create the figure ---
+Image = pyPLUTO.Image(figsize=[7, 7], fontsize=20)
+
+# --- Plot contour of Ax3 ---
+Image.contour(
+    Data.Ax3,
+    x1=Data.x1 / 1000,
+    x2=Data.x2 / 1000,
     levels=20,
     aspect="equal",
     c="silver",
 )
-I.scatter(
-    Dp.x1[indx] / 1000,
-    Dp.x2[indx] / 1000,
+
+# --- Plot particle positions ---
+Image.scatter(
+    Dp_f.x1[indx_final] / 1000,
+    Dp_f.x2[indx_final] / 1000,
     cpos="right",
     vmin=0,
     vmax=40,
+    c=gl_final[indx_final],
+    cmap=plt.get_cmap("YlOrRd", 8),
+    ms=10,
     title="Test 11 - Particles CR Xpoint test",
     xrange=[-3.5, 3.5],
     yrange=[-3.5, 3.5],
@@ -54,52 +64,33 @@ I.scatter(
     yticks=[-3, -2, -1, 0, 1, 2, 3],
     xtitle=r"$x\;(\times10^3)$",
     ytitle=r"$y\;(\times10^3)$",
-    cmap=plt.get_cmap("YlOrRd", 8),
     clabel=r"$\Gamma$",
-    c=gl[indx],
-    ms=10,
 )
 
-# Create the second axis
-ax = I.create_axes(left=0.35, right=0.7, bottom=0.23, top=0.4)
+# --- Create inset axes for spectra ---
+Image.create_axes(left=0.35, right=0.7, bottom=0.23, top=0.4)
 
-# Compute and plot the particle spectrum at the initial time
-Dp = pp.LoadPart(0, path="Test_Problems/Particles/CR/Xpoint", datatype="vtk")
-gl = (1 + Dp.vx1**2 + Dp.vx2**2 + Dp.vx3**2) ** 0.5
-hist, bins = Dp.spectrum(gl, density=False)
-I.plot(
-    bins,
-    hist,
-    ax=1,
-    xscale="log",
-    yscale="log",
-    xrange=[1, 50],
-    yrange=[1, 1.0e8],
-    label="t = 0",
-    fontsize=13,
-)
+# --- Plot particle spectra ---
+for Dp, label in [(Dp_i, "t = 0"), (Dp_f, "t = 100")]:
+    gl = compute_gamma(Dp)
+    hist, bins = Dp.spectrum(gl, density=False)
 
-# Compute and plot the particle spectrum at the final time
-Dp = pp.LoadPart(path="Test_Problems/Particles/CR/Xpoint", datatype="vtk")
-gl = (1 + Dp.vx1**2 + Dp.vx2**2 + Dp.vx3**2) ** 0.5
-hist, bins = Dp.spectrum(gl, density=False)
-I.plot(
-    bins,
-    hist,
-    ax=1,
-    xscale="log",
-    yscale="log",
-    xrange=[1, 50],
-    yrange=[1, 1.0e8],
-    label="t = 100",
-    legpos=0,
-    legsize=10,
-    legalpha=0.25,
-)
+    Image.plot(
+        bins,
+        hist,
+        ax=1,
+        xscale="log",
+        yscale="log",
+        xrange=[1, 50],
+        yrange=[1, 1.0e8],
+        label=label,
+        fontsize=13,
+    )
 
-# Set a different alpha for the spectrum plot
-I.ax[1].patch.set_alpha(0.75)
+# --- Customize the second plot ---
+Image.legend(ax=1, legpos=0, legsize=10, legalpha=0.25)
+Image.ax[1].patch.set_alpha(0.75)
 
-# Saving the image and showing the plots
-I.savefig("test11_xpoint.png")
-pp.show()
+# --- Save and show ---
+Image.savefig("test11_xpoint.png")
+pyPLUTO.show()

@@ -1,11 +1,9 @@
 from globals import cmaps, cmaps_avail, format_avail, scales, vscales
-from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
-from PyQt6.QtWidgets import QHBoxLayout, QLabel, QMainWindow, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import QHBoxLayout, QMainWindow, QVBoxLayout, QWidget
 
 
 class PyPLUTOApp(QMainWindow):
-    def __init__(self, code):
+    def __init__(self, code: str):
         super().__init__()
         codestr = f" ({self.code := code})" if code != "PLUTO" else ""
         self.setWindowTitle(f"PyPLUTO GUI{codestr}")
@@ -72,7 +70,7 @@ class PyPLUTOApp(QMainWindow):
         self.add_label("Insert Title:", layout)
         self.add_lineedit("plot_title", layout, "title")
         self.add_checkbox("Auto-ratio", layout, "ratio_checkbox")
-        self.ratio_checkbox.setChecked(True)
+        self.ratio_checkbox.setChecked(True)  # type: ignore
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
@@ -123,13 +121,13 @@ class PyPLUTOApp(QMainWindow):
         self.add_line(button_layout)
 
         self.add_label("Information:", button_layout, "info_label", 250, 170)
-        self.info_label.setWordWrap(True)
+        self.info_label.setWordWrap(True)  # type: ignore
 
         self.add_line(button_layout)
 
         main_layout.addLayout(button_layout)
 
-        self.typecmap_selector.currentIndexChanged.connect(self.update_cmap_selector)
+        self.typecmap_selector.currentIndexChanged.connect(self.update_cmap_selector)  # type: ignore
 
         self.canvas_layout = QVBoxLayout()
         self.create_new_figure()

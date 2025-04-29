@@ -39,6 +39,7 @@ def test_fontsize():
     assert Image.fontsize == 20
 
 
+
 # Test the tight layout
 def test_tight_layout():
     Image = pp.Image(tight=False)

@@ -9,11 +9,11 @@
 [![Linux Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml)
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-![Ruff](https://img.shields.io/badge/code_quality-ruff-black)
-![Isort](https://img.shields.io/badge/code_quality-isort-000000)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 <!-- ![Mypy](https://img.shields.io/badge/type_checking-mypy-brightgreen) -->
 
-![Python Versions](https://img.shields.io/badge/python-3.10%2C%203.11%2C%203.12%2C%203.13-blue)
+![Python Versions](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-3776AB.svg?style=flat&logo=python&logoColor=white)
 [![pre-commit](https://github.com/GiMattia/PyPLUTO/actions/workflows/pre-commit.yml/badge.svg)](https://github.com//GiMattia/PyPLUTO/actions/workflows/pre-commit.yml)
 <!-- ![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen) -->
 

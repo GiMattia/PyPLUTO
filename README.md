@@ -1,4 +1,5 @@
 # PyPLUTO
+[![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![GitHub release](https://img.shields.io/github/v/release/GiMattia/PyPLUTO?include_prereleases&label=Github%20Release)
 [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Documentation](https://readthedocs.org/projects/pypluto/badge/?version=latest)](https://pypluto.readthedocs.io/en/latest/?badge=latest)
@@ -8,7 +9,7 @@
 [![Linux Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml)
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-![Ruff](https://img.shields.io/badge/code_quality-ruff-brightgreen)
+![Ruff](https://img.shields.io/badge/code_quality-ruff-black)
 ![Isort](https://img.shields.io/badge/code_quality-isort-000000)
 <!-- ![Mypy](https://img.shields.io/badge/type_checking-mypy-brightgreen) -->
 

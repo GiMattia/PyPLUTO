@@ -69,4 +69,4 @@ def test_str():
     s = str(Image)
     assert "Image properties:" in s
     assert "Adds a set of [nrow,ncol] subplots to the figure." in s
-    assert "Plots one line in a subplot." in ss
+    assert "Plots one line in a subplot." in s

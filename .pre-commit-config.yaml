@@ -1,25 +1,40 @@
-repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v5.0.0
-  hooks:
-  - id: check-added-large-files
-    files: \.py$
-  - id: check-case-conflict
-    files: \.py$
-  - id: check-merge-conflict
-    files: \.py$
-  - id: debug-statements
-    files: \.py$
-  - id: end-of-file-fixer
-    files: \.py$
-  - id: mixed-line-ending
-    files: \.py$
-  - id: trailing-whitespace
-    files: \.py$
+# .pre-commit-config.yaml
 
-    args: ["--markdown-linebreak-ext=md"]
-- repo: https://github.com/psf/black
-  rev: 24.10.0
-  hooks:
-  - id: black
-    files: \.py$
+repos:
+  # 1. Basic safety and cleanup checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        files: \.py$
+      - id: check-case-conflict
+        files: \.py$
+      - id: check-merge-conflict
+        files: \.py$
+      - id: debug-statements
+        files: \.py$
+      - id: end-of-file-fixer
+        files: \.py$
+      - id: mixed-line-ending
+        files: \.py$
+      - id: trailing-whitespace
+        files: \.py$
+        args: ["--markdown-linebreak-ext=md"]
+
+  # 2. Format with Black on all files
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+        args: ["."]
+        pass_filenames: false  # Run on all files, not just staged ones
+        stages: [pre-commit]
+
+  # 3. Lint with Ruff on all files
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.3
+    hooks:
+      - id: ruff
+        args: ["."]
+        pass_filenames: false
+        stages: [pre-commit]

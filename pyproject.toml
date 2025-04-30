@@ -51,6 +51,3 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = ["Src"]
-
-[tool.isort]
-profile = "black"

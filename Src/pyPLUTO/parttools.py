@@ -1,7 +1,9 @@
-import numpy as np
-from .h_pypluto import check_par
-from collections.abc import Callable
 import warnings
+from collections.abc import Callable
+
+import numpy as np
+
+from .h_pypluto import check_par
 
 
 def spectrum(

@@ -20,6 +20,7 @@ mesh grid. The image is then saved and shown on screen.
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO
 
 # Loading the data into a pload object D

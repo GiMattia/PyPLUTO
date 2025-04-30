@@ -1,8 +1,9 @@
-from matplotlib.axes import Axes
-from numpy.typing import NDArray
-import numpy as np
 import warnings
 from typing import Any
+
+import numpy as np
+from matplotlib.axes import Axes
+from numpy.typing import NDArray
 
 
 def _add_ax(self, ax: Axes, i: int) -> None:

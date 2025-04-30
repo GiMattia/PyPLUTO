@@ -21,7 +21,7 @@ authors = [
 ]
 dependencies = [
     "numpy",
-    "matplotlib>=3.5",
+    "matplotlib",
     "scipy",
     "pandas",
     "h5py",
@@ -38,12 +38,15 @@ test = [
     "pytest-doctestplus",
     "flake8",
     "codecov",
-    "pytest-cov"
+    "pytest-cov",
+    "approvaltests"
 ]
 dev = [
     "black",
     "isort",
-    "pre-commit"
+    "pre-commit",
+    "ruff",
+    "mypy"
 ]
 
 [tool.setuptools.packages.find]

@@ -1,4 +1,6 @@
 import matplotlib as mpl
+import pytest
+
 import pyPLUTO as pp
 
 
@@ -53,3 +55,19 @@ def test_LaTeX():
 # Test the colorlines
 def test_colorlines():
     pass
+
+
+# Check if raises an error with wrong attribute
+def test_wrongattr():
+    with pytest.raises(AttributeError):
+        Image = pp.Image()
+        Image.wrong
+
+
+# Check if the __str__ method works
+def test_str():
+    Image = pp.Image()
+    s = str(Image)
+    assert "Image properties:" in s
+    assert "Adds a set of [nrow,ncol] subplots to the figure." in s
+    assert "Plots one line in a subplot." in s

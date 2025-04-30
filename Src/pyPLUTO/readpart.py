@@ -1,5 +1,6 @@
-import numpy as np
 import mmap
+
+import numpy as np
 
 
 def _inspect_bin(self, i: int, endian: str | None) -> None:

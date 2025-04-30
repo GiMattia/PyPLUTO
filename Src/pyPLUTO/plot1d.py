@@ -1,9 +1,11 @@
-from numpy.typing import NDArray
 from typing import Any
-import numpy as np
-from .h_pypluto import check_par, makelist
-from matplotlib.axes import Axes
+
 import matplotlib.lines as mlines
+import numpy as np
+from matplotlib.axes import Axes
+from numpy.typing import NDArray
+
+from .h_pypluto import check_par, makelist
 
 
 def plot(

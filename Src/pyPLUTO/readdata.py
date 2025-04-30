@@ -1,7 +1,9 @@
-from .h_pypluto import makelist
-import numpy as np
-from pathlib import Path
 import warnings
+from pathlib import Path
+
+import numpy as np
+
+from .h_pypluto import makelist
 
 
 def _load_variables(

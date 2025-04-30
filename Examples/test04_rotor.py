@@ -27,6 +27,7 @@ in the user-defined constants section.
 """
 
 import numpy as np
+
 import pyPLUTO
 
 # Loading the data into a pload object D

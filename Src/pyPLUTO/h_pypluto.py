@@ -1,7 +1,7 @@
-from typing import Any
-import warnings
-import traceback
 import sys
+import traceback
+import warnings
+from typing import Any
 
 
 def makelist(el: Any) -> list[Any]:

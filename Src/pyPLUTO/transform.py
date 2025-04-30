@@ -1,9 +1,11 @@
-from numpy.typing import NDArray
 from typing import Any
+
 import numpy as np
-from .h_pypluto import check_par
+from numpy.typing import NDArray
 from scipy.interpolate import RectBivariateSpline, RegularGridInterpolator
 from scipy.ndimage import map_coordinates
+
+from .h_pypluto import check_par
 
 
 def slices(

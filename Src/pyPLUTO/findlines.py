@@ -1,11 +1,13 @@
-from numpy.typing import NDArray
-import numpy as np
 from typing import Any
-from .h_pypluto import check_par, makelist
-from scipy.integrate import solve_ivp
+
 import contourpy as cp
-import matplotlib.pyplot as plt
 import matplotlib.colors as mcol
+import matplotlib.pyplot as plt
+import numpy as np
+from numpy.typing import NDArray
+from scipy.integrate import solve_ivp
+
+from .h_pypluto import check_par, makelist
 
 
 def _check_var(self, var: str | NDArray, transpose: bool = False) -> np.ndarray:

@@ -1,8 +1,10 @@
 # Import the libraries, classes and functions
-from .image import Image
-import warnings
 import sys
-from .h_pypluto import find_session, color_warning, color_error
+import warnings
+
+from .h_pypluto import color_error, color_warning, find_session
+from .image import Image
+from .image_new import Image_new
 from .load import Load
 from .loadpart import LoadPart
 from .pytools import ring, savefig, show
@@ -12,7 +14,7 @@ __version__ = "1.0"
 __colorerr__ = True
 __colorwarn__ = True
 __session__ = find_session()
-__all__ = ["Image", "Load", "LoadPart", "ring", "savefig", "show"]
+__all__ = ["Image", "Image_new", "Load", "LoadPart", "ring", "savefig", "show"]
 
 # Print the version and session
 print(f"PyPLUTO version: {__version__}   session: {__session__}")

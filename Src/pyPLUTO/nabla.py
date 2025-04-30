@@ -1,6 +1,7 @@
-from typing import Any
-import numpy as np
 import warnings
+from typing import Any
+
+import numpy as np
 
 
 def _is_number(value: Any) -> bool:

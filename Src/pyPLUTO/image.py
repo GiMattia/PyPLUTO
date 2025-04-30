@@ -1,10 +1,12 @@
-from matplotlib.figure import Figure
-from matplotlib.axes import Axes
 from typing import Any
-from .h_pypluto import check_par
-from numpy.typing import NDArray
-from matplotlib.widgets import Slider
+
 import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+from matplotlib.widgets import Slider
+from numpy.typing import NDArray
+
+from .h_pypluto import check_par
 
 
 class Image:

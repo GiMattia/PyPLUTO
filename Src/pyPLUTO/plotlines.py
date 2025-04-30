@@ -1,9 +1,11 @@
-from numpy.typing import NDArray
-from typing import Any
-from matplotlib.collections import LineCollection
-from .h_pypluto import check_par
-import numpy as np
 import warnings
+from typing import Any
+
+import numpy as np
+from matplotlib.collections import LineCollection
+from numpy.typing import NDArray
+
+from .h_pypluto import check_par
 
 
 def contour(self, var: NDArray, check: bool = True, **kwargs: Any) -> LineCollection:

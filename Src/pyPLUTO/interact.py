@@ -1,7 +1,7 @@
-import numpy as np
 import matplotlib.animation as animation
-from matplotlib.widgets import Slider
 import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.widgets import Slider
 
 
 def interactive(

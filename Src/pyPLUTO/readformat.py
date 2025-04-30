@@ -1,5 +1,5 @@
-from pathlib import Path
 import glob
+from pathlib import Path
 
 
 def _check_pathformat(self, path: str | Path) -> None:

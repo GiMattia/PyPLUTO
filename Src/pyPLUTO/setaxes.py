@@ -1,10 +1,12 @@
-from typing import Any
-from matplotlib.axes import Axes
-import matplotlib.pyplot as plt
-from .h_pypluto import check_par, makelist
-from itertools import islice
-import numpy as np
 import warnings
+from itertools import islice
+from typing import Any
+
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.axes import Axes
+
+from .h_pypluto import check_par, makelist
 
 
 def create_axes(

@@ -1,5 +1,7 @@
-from matplotlib.axes import Axes
 from typing import Any
+
+from matplotlib.axes import Axes
+
 from .h_pypluto import check_par
 
 

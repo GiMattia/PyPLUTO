@@ -21,20 +21,29 @@ repos:
         files: \.py$
         args: ["--markdown-linebreak-ext=md"]
 
-  # 2. Format with Black on all files
-  - repo: https://github.com/psf/black
-    rev: 24.10.0
+  # 2. isort (use the official mirror!)
+  - repo: https://github.com/pycqa/isort
+    rev: "6.0.1"
     hooks:
-      - id: black
-        args: ["."]
-        pass_filenames: false  # Run on all files, not just staged ones
+      - id: isort
+        args: ["--profile", "black"]
+        files: \.py$
         stages: [pre-commit]
 
-  # 3. Lint with Ruff on all files
+  # 3. Format with Black
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+        args: ["--fast"]
+        files: \.py$
+        stages: [pre-commit]
+
+  # 4. Lint with Ruff (no formatter)
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.3
+    rev: v0.11.7
     hooks:
       - id: ruff
-        args: ["."]
-        pass_filenames: false
+        args: ["--fix"]
+        files: \.py$
         stages: [pre-commit]

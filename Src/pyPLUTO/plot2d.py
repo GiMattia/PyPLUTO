@@ -1,11 +1,13 @@
-from numpy.typing import NDArray
-from typing import Any
-from matplotlib.collections import QuadMesh
-from .h_pypluto import check_par
-import numpy as np
-import matplotlib.colors as mcol
 import warnings
+from typing import Any
+
+import matplotlib.colors as mcol
+import numpy as np
+from matplotlib.collections import QuadMesh
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from numpy.typing import NDArray
+
+from .h_pypluto import check_par
 
 
 def display(self, var: NDArray, check: bool = True, **kwargs: Any) -> QuadMesh:

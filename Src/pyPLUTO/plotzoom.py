@@ -1,8 +1,10 @@
-from matplotlib.axes import Axes
-from .h_pypluto import check_par
-from typing import Any
-import numpy as np
 import warnings
+from typing import Any
+
+import numpy as np
+from matplotlib.axes import Axes
+
+from .h_pypluto import check_par
 
 
 def zoom(self, ax=None, check: bool = True, **kwargs) -> Axes:

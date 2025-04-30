@@ -1,9 +1,10 @@
 import shutil
 import warnings
+from typing import Any
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from typing import Any
 
 
 def _assign_LaTeX(self, LaTeX: bool | str) -> None:

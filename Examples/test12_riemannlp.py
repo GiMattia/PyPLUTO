@@ -17,6 +17,7 @@ shown on screen.
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO
 
 # Loading the data and the particle data into two pload objects

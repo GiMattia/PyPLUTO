@@ -1,7 +1,8 @@
-from numpy.typing import NDArray
-from typing import Any
-import h5py
 import warnings
+from typing import Any
+
+import h5py
+from numpy.typing import NDArray
 
 
 def _write_h5(

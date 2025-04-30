@@ -1,8 +1,9 @@
-import pandas as pd
-import numpy as np
-import struct
 import mmap
+import struct
+
 import h5py
+import numpy as np
+import pandas as pd
 
 
 def _read_tabfile(self, i: int) -> None:

@@ -1,6 +1,7 @@
-from numpy.typing import NDArray
 from pathlib import Path
 from typing import Any
+
+from numpy.typing import NDArray
 
 
 class LoadPart:

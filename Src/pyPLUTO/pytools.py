@@ -1,7 +1,8 @@
-from pathlib import Path
-import matplotlib.pyplot as plt
 import os
 import warnings
+from pathlib import Path
+
+import matplotlib.pyplot as plt
 
 
 def savefig(filename: str | Path = "img.png", bbox: str | None = "tight") -> None:

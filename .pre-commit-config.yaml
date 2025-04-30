@@ -21,7 +21,7 @@ repos:
         files: \.py$
         args: ["--markdown-linebreak-ext=md"]
 
-  # 2. isort (use the official mirror!)
+  # 2. isort import
   - repo: https://github.com/pycqa/isort
     rev: "6.0.1"
     hooks:

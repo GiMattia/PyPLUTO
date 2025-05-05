@@ -1,5 +1,4 @@
-"""
-HD disk-planet test
+"""HD disk-planet test
 
 This test shows how to plot different 2D quantities from a test problem in the
 same plot with two zooms.
@@ -23,7 +22,6 @@ of the zoom method in plotting different quantities in the same region.
 
 # Loading the relevant packages
 import numpy as np
-
 import pyPLUTO
 
 # Loading the data into a pload object D

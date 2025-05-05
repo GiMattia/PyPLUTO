@@ -13,30 +13,25 @@ def savefig(filename: str | Path = "img.png", bbox: str | None = "tight") -> Non
 
 
 def show(block: bool = True) -> None:
-    """
-    Shows the figures created with the Image class.
+    """Shows the figures created with the Image class.
 
     Parameters
     ----------
-
     - block: bool, default True
         If True, the function blocks until the figure is closed.
 
     Returns
     -------
-
     - None
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Shows the image created with the Image class
 
         >>> pp.show()
@@ -44,17 +39,13 @@ def show(block: bool = True) -> None:
     """
     plt.show(block=block)
 
-    return None
-
 
 def ring(length: float = 0.5, freq: int = 440) -> None:
-    """
-    Makes a sound for a given length and frequency.
+    """Makes a sound for a given length and frequency.
     It works on Linux, MacOS and Windows.
 
     Parameters
     ----------
-
     - length: float, default 0.5
         The length of the sound in seconds.
     - freq: int, default 440
@@ -62,19 +53,16 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
 
     Returns
     -------
-
     - None
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Make a sound with a frequency of 440 Hz and a length
       of 0.5 seconds
 
@@ -91,7 +79,6 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
         >>> ring(length = 0.2, freq = 220)
 
     """
-
     # Check the OS
     if os.name == "posix":
         # Check if the 'play' command is available on Linux and MacOS
@@ -125,4 +112,3 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
         warnings.warn(text, UserWarning)
 
     # End of the function
-    return None

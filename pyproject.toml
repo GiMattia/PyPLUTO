@@ -52,6 +52,12 @@ dev = [
 where = ["Src"]
 
 [tool.ruff]
+line-length = 88
+respect-gitignore = true
+fix = true
+fix-only = true
+
+[tool.ruff.lint]
 select = [
     "E",  # pycodestyle (errors)
     "F",  # pyflakes (logical errors)
@@ -67,11 +73,11 @@ select = [
     "RUF",# Ruff-specific rules
 ]
 
-# Respect Black formatting
-line-length = 88
-respect-gitignore = true
-fix = true
-fix-only = true
+ignore = [
+    "D203",  # Conflicts with D211 (one-blank-line-before-class)
+    "D213"   # Conflicts with D212 (summary on first vs second line)
+]
+
 
 [tool.mypy]
 check_untyped_defs = true

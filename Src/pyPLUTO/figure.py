@@ -8,18 +8,15 @@ from matplotlib.figure import Figure
 
 
 def _assign_LaTeX(self, LaTeX: bool | str) -> None:
-    """
-    Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX and should be
+    """Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX and should be
     used only to get vectorial figures with minimal file size.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - LaTeX (not optional): bool | str
         The LaTeX option. Is True is selected, the default LaTeX font is used.
         If 'pgf' is selected, the pgf backend is used to save pdf figures with
@@ -28,14 +25,12 @@ def _assign_LaTeX(self, LaTeX: bool | str) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: LaTeX option True
 
         >>> _assign_LaTeX(True)
@@ -45,7 +40,6 @@ def _assign_LaTeX(self, LaTeX: bool | str) -> None:
         >>> _assign_LaTeX('pgf')
 
     """
-
     # LaTeX option 'pgf' (requires XeLaTeX)
     if LaTeX == "pgf":
 
@@ -104,7 +98,6 @@ def _assign_LaTeX(self, LaTeX: bool | str) -> None:
             warnings.warn(warn, UserWarning)
 
     # End of the function
-    return None
 
 
 def _choose_colorlines(
@@ -114,8 +107,7 @@ def _choose_colorlines(
     withblack: bool = False,
     withwhite: bool = False,
 ) -> list[str]:
-    """
-    Chooses the colors for the lines. Depending on the number of colors and the
+    """Chooses the colors for the lines. Depending on the number of colors and the
     option 'oldcolor', the colors are:
 
     - black, red, blue, cyan, green, orange (oldcolor = True)
@@ -125,13 +117,11 @@ def _choose_colorlines(
 
     Returns
     -------
-
     - colors: list[str]
         The list of colors for the lines.
 
     Parameters
     ----------
-
     - numcolor: int, default 10
         The number of colors.
     - oldcolor : bool, default False
@@ -143,15 +133,13 @@ def _choose_colorlines(
 
     Notes
     -----
-
     - The withblack and withwhite options are only used if oldcolor = False
         and they cannot be used together (priority goes to black).
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: oldcolor = True
 
         >>> _choose_colorlines(6, True)
@@ -165,7 +153,6 @@ def _choose_colorlines(
         >>> _choose_colorlines(12, False, False, True)
 
     """
-
     # Old colors
     if oldcolor:  # black, red, blue, cyan, green, orange
         return ["k", "#d7263d", "#1815c5", "#12e3c0", "#3f6600", "#f67451"]
@@ -243,18 +230,15 @@ def _choose_colorlines(
 
 
 def _create_figure(self, fig: Figure | None, **kwargs: Any) -> None:
-    """
-    Function that creates the figure associated to an Image instance. It is
+    """Function that creates the figure associated to an Image instance. It is
     called by default when the Image class is instantiated.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - close: bool, default True
         If True, the existing figure with the same window number is closed.
     - fig (not optional): Figure | None, default None
@@ -275,14 +259,12 @@ def _create_figure(self, fig: Figure | None, **kwargs: Any) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Create a new figure
 
         >>> _create_figure()
@@ -300,7 +282,6 @@ def _create_figure(self, fig: Figure | None, **kwargs: Any) -> None:
         >>> _create_figure(nwin = 2)
 
     """
-
     # Changes keywords if figure has been already assigned
     if isinstance(fig, Figure):
         self.figsize = [fig.get_figwidth(), fig.get_figheight()]
@@ -337,4 +318,3 @@ def _create_figure(self, fig: Figure | None, **kwargs: Any) -> None:
         self.fig.tight_layout()
 
     # End of the function
-    return None

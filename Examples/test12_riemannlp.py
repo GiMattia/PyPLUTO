@@ -1,5 +1,4 @@
-"""
-Particle LP Riemann 2D test
+"""Particle LP Riemann 2D test
 
 This test shows how to plot data from the Load class and the LoadPart class
 simultaneously and how to produce a scatter plot on a omplex axes grid.
@@ -17,7 +16,6 @@ shown on screen.
 
 # Loading the relevant packages
 import numpy as np
-
 import pyPLUTO
 
 # Loading the data and the particle data into two pload objects

@@ -1,5 +1,4 @@
-"""
-MHD Blast test
+"""MHD Blast test
 
 This test shows how to plot different quantities with customized legends in two
 different subplots refering to initial and final time data.
@@ -16,7 +15,6 @@ legend labels. The image is then saved and shown on screen.
 
 # Loading the relevant packages
 import numpy as np
-
 import pyPLUTO
 
 # Initialization

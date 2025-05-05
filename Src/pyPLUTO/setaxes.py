@@ -12,8 +12,7 @@ from .h_pypluto import check_par, makelist
 def create_axes(
     self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs: Any
 ) -> Axes:
-    """
-    Creation of a set of axes using add_subplot from the matplotlib library.
+    """Creation of a set of axes using add_subplot from the matplotlib library.
 
     If additional parameters (like the figure limits or the spacing)
     are given, the plots are located using set_position.
@@ -27,13 +26,11 @@ def create_axes(
 
     Returns
     -------
-
     - The list of axes (if more axes are in the figure) or the axis
       (if only one axis is present)
 
     Parameters
     ----------
-
     - bottom: float, default 0.1
         The space from the bottom border to the last row of plots.
     - figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]
@@ -83,7 +80,6 @@ def create_axes(
 
     Notes
     -----
-
     - The subplot_mosaic method of matplotlib will be implemented in future
       releases.
     - This method may return None in the future releases
@@ -93,8 +89,7 @@ def create_axes(
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: create a simple grid of 2 columns and 2 rows on a new figure
 
         >>> import pyPLUTO as pp
@@ -122,7 +117,6 @@ def create_axes(
         >>> ax = I.create_axes(left = 0.75)
 
     """
-
     # Check parameters
     param = {
         "bottom",
@@ -229,7 +223,7 @@ def create_axes(
         self.fig.set_figheight(5 * np.sqrt(nrow))
 
     # Set the projection if requested
-    proj = kwargs.get("proj", None)
+    proj = kwargs.get("proj")
 
     # Set sharex and sharey
     sharex = kwargs.get("sharex", False)
@@ -291,19 +285,16 @@ def create_axes(
 
 
 def set_axis(self, ax: Axes | None = None, check: bool = True, **kwargs: Any) -> None:
-    """
-    Customization of a single subplot axis.
+    """Customization of a single subplot axis.
     Properties such as the range, scale and aspect of each subplot
     should be customized here.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - alpha: float, default 1.0
         Sets the opacity of the plot, where 1.0 means total opaque and 0.0 means
         total transparent.
@@ -381,15 +372,13 @@ def set_axis(self, ax: Axes | None = None, check: bool = True, **kwargs: Any) ->
 
     Notes
     -----
-
     - A function which sets seprartely the maximum and the minimum value in
         both x- and y- directions is needed.
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: create an axis and set title and labels on both axes
 
         >>> import pyPLUTO as pp
@@ -427,7 +416,6 @@ def set_axis(self, ax: Axes | None = None, check: bool = True, **kwargs: Any) ->
         ...     xtickslabels = ['1/4','1/2','3/4'])
 
     """
-
     # Check parameters
     param = {
         "alpha",
@@ -470,21 +458,21 @@ def set_axis(self, ax: Axes | None = None, check: bool = True, **kwargs: Any) ->
         ax.set_aspect(kwargs["aspect"])
 
     # Set xrange and yrange
-    if kwargs.get("xrange", None) is not None:
+    if kwargs.get("xrange") is not None:
         self._set_xrange(ax, nax, kwargs["xrange"], 3)
-    if kwargs.get("yrange", None) is not None:
+    if kwargs.get("yrange") is not None:
         self._set_yrange(ax, nax, kwargs["yrange"], 3)
 
     # Set title and axes labels
-    if kwargs.get("title", None) is not None:
+    if kwargs.get("title") is not None:
         ax.set_title(
             kwargs["title"],
             fontsize=kwargs.get("titlesize", self.fontsize),
             pad=kwargs.get("titlepad", 8.0),
         )
-    if kwargs.get("xtitle", None) is not None:
+    if kwargs.get("xtitle") is not None:
         ax.set_xlabel(kwargs["xtitle"], fontsize=kwargs.get("labelsize", self.fontsize))
-    if kwargs.get("ytitle", None) is not None:
+    if kwargs.get("ytitle") is not None:
         ax.set_ylabel(kwargs["ytitle"], fontsize=kwargs.get("labelsize", self.fontsize))
 
     # Set sharex and sharey
@@ -561,18 +549,15 @@ def set_axis(self, ax: Axes | None = None, check: bool = True, **kwargs: Any) ->
         self.fig.tight_layout()
 
     # End of the function
-    return None
 
 
 def _check_rowcol(
     ratio: list[float], space: float | list[float], length: int, func: str
 ) -> tuple[list[float], list[float]]:
-    """
-    Checks the width and spacing of the plots on a single row or column.
+    """Checks the width and spacing of the plots on a single row or column.
 
     Returns
     -------
-
     - space: list[float]
         the space between the rows or columns
     - ratio: list[float]
@@ -580,7 +565,6 @@ def _check_rowcol(
 
     Parameters
     ----------
-
     - ratio: list[float]
         the ratio of the rows or columns
     - space: list[float]
@@ -592,14 +576,12 @@ def _check_rowcol(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: ratio and space are given correctly (rows)
 
         >>> _check_rowcol([1,2,3], [0.1,0.2], 3, 'rows')
@@ -613,7 +595,6 @@ def _check_rowcol(
         >>> _check_rowcol([1,2,3], [0.1,0.2], 3, 'cols')
 
     """
-
     rat = {"rows": "hratio", "cols": "wratio"}
     spc = {"rows": "hspace", "cols": "wspace"}
 
@@ -642,17 +623,14 @@ def _set_ticks(
     tl: str | list[str] | None,
     typeaxis: str,
 ) -> None:
-    """
-    Sets the ticks and ticks labels on the x- or y-axis of a selected axis.
+    """Sets the ticks and ticks labels on the x- or y-axis of a selected axis.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - ax: ax
         the selected set of axes
     - tc: list[float]
@@ -664,14 +642,12 @@ def _set_ticks(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: set ticks and ticks labels on the x-axis
 
         >>> _set_ticks(ax, [0,1,2,3], ['0','1','2','3'], 'x')
@@ -685,7 +661,6 @@ def _set_ticks(
         >>> _set_ticks(ax, [0,1,2,3], None, 'x')
 
     """
-
     set_ticks = {"x": ax.set_xticks, "y": ax.set_yticks}
     set_label = {"x": ax.set_xticklabels, "y": ax.set_yticklabels}
 
@@ -722,9 +697,7 @@ def _set_ticks(
             set_label[typeaxis](tl)
 
     # Ticks are custom, tickslabels are default
-    else:
-        if tc is not True:
-            set_ticks[typeaxis](tc)
+    elif tc is not True:
+        set_ticks[typeaxis](tc)
 
     # End of the function
-    return None

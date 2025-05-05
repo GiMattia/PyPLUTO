@@ -1,5 +1,4 @@
-"""
-Classical MHD Rayleigh-Taylor instability test
+"""Classical MHD Rayleigh-Taylor instability test
 
 This test shows how to display a 2D quantity from a test problem at different
 times in different subplots.

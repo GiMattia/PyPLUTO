@@ -9,12 +9,10 @@ from .h_pypluto import check_par
 def spectrum(
     self, var=None, scale="lin", check: bool = True, **kwargs
 ) -> list[np.ndarray]:
-    """
-    Compute the spectrum of a given particle variable.
+    """Compute the spectrum of a given particle variable.
 
     Returns
     -------
-
     - bins: np.ndarray
         The x1 array of the histogram.
     - hist: np.ndarray
@@ -22,7 +20,6 @@ def spectrum(
 
     Parameters
     ----------
-
     - density: bool, default False
         If True, the histogram is normalized.
     - nbins: int
@@ -38,14 +35,12 @@ def spectrum(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Compute the spectrum of the particles velocity
 
         >>> import pyPLUTO as pp
@@ -54,7 +49,6 @@ def spectrum(
         >>> pp.spectrum(v2, scale = 'log')
 
     """
-
     # Check parameters
     param = {"density", "nbins", "vmin", "vmax"}
     if check is True:
@@ -95,19 +89,16 @@ def select(
     sort: bool = False,
     ascending: bool = True,
 ) -> np.ndarray:
-    """
-    Selects or sorts the indices that satisfy a given condition for the
+    """Selects or sorts the indices that satisfy a given condition for the
     particles.
     The condition is given by a string or a callable function.
 
     Returns
     -------
-
     - indx: np.ndarray
 
     Parameters
     ----------
-
     - ascending: bool, default True
         If True, the indices are sorted in ascending order.
     - cond (not optional): str | Callable
@@ -119,14 +110,12 @@ def select(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Select the indices that satisfy a condition
 
         >>> import pyPLUTO as pp
@@ -142,7 +131,6 @@ def select(
         >>> print(indx)
 
     """
-
     # Determine the indices that satisfy the condition
     if isinstance(cond, str):
         warn = (

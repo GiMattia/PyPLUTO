@@ -1,6 +1,5 @@
 import numpy as np
 import numpy.testing as npt
-
 import pyPLUTO as pp
 
 x = np.linspace(-1, 1, 101)

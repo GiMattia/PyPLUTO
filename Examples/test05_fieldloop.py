@@ -1,5 +1,4 @@
-"""
-Classical MHD Field loop test
+"""Classical MHD Field loop test
 
 This test shows how to compute streamlines and field lines of the magnetic field
 in a display with two subplots.

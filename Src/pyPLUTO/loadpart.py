@@ -5,8 +5,7 @@ from numpy.typing import NDArray
 
 
 class LoadPart:
-    """
-    Load the particles from the simulation. The class is used to load the
+    """Load the particles from the simulation. The class is used to load the
     particles from the simulation and store the data in the class attributes.
     The data are loaded in a memory mapped numpy multidimensional array. Such
     approach does not load the full data until needed. Basic operations (i.e.
@@ -15,12 +14,10 @@ class LoadPart:
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - datatype: str, default None
         The format of the data files to be loaded. If None, the code
         finds the format between dbl, flt and vtk.
@@ -46,15 +43,13 @@ class LoadPart:
 
     Notes
     -----
-
     - In future releases, multiple output files will be accessible at the
         same time.
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Load the last output from the simulation
 
         >>> LoadPart()

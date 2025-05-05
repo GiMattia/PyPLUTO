@@ -13,8 +13,7 @@ def _load_variables(
     exout: int,
     endian: str | None,
 ) -> None:
-    """
-    Loads the variables in the class. The function checks if the variables to be
+    """Loads the variables in the class. The function checks if the variables to be
     loaded are valid and then loads them. If the variables are not valid, an
     error is raised. If the variables are valid, the function loads them in the
     class through memory mapping. The offset and shape of each variable is
@@ -23,12 +22,10 @@ def _load_variables(
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - endian (not optional): bool
         The endianess of the files. If True the endianess is big, otherwise it
         is little.
@@ -42,14 +39,12 @@ def _load_variables(
 
     Notes
     -----
-
     - Loading of no variable will be added in the future
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Load all the variables
 
         >>> _load_variables(True, 0, 0, True)
@@ -216,8 +211,7 @@ def _load_variables(
 
 
 def _check_nout(self, nout: int | str | list[int | str]) -> None:
-    """
-    Finds the number of datafile to be loaded. If nout is a list, the function
+    """Finds the number of datafile to be loaded. If nout is a list, the function
     checks if the list contains the keyword 'last' or -1. If so, the keyword is
     replaced with the last file number. If nout is a string, the function checks
     if the string contains the keyword 'last' or -1. If so, the keyword is
@@ -227,25 +221,21 @@ def _check_nout(self, nout: int | str | list[int | str]) -> None:
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - nout (not optional): int | str | list[int|str]
         The output file to be loaded.
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Load the last file
 
         >>> _check_nout('last')
@@ -263,7 +253,6 @@ def _check_nout(self, nout: int | str | list[int | str]) -> None:
         >>> _check_nout([0,1,2,3])
 
     """
-
     # Assign the last possible output file
     last: int = self.outlist.tolist()[-1]
 
@@ -286,12 +275,10 @@ def _check_nout(self, nout: int | str | list[int | str]) -> None:
         )
 
     # End of the function
-    return None
 
 
 def _findfiles(self, nout: int | str | list[int | str]) -> None:
-    """
-    Finds the files to be loaded. If nout is a list, the function loops over the
+    """Finds the files to be loaded. If nout is a list, the function loops over the
     list and finds the corresponding files. If nout is an integer, the function
     finds the corresponding file. If nout is 'last', the function finds the last
     file. If nout is 'all', the function finds all the files. Then, the function
@@ -299,25 +286,21 @@ def _findfiles(self, nout: int | str | list[int | str]) -> None:
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - nout (not optional): int | str | list[int|str]
         The output file to be loaded
 
     Notes
     -----
-
     - nfile_lp should be found automatically
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Load the last file
 
         >>> _findfiles('last')
@@ -335,7 +318,6 @@ def _findfiles(self, nout: int | str | list[int | str]) -> None:
         >>> _findfiles([0,1,2,3])
 
     """
-
     # Initialization or declaration of variables
     class_name = self.__class__.__name__  # The class name
     self.set_vars = set()
@@ -410,42 +392,35 @@ def _findfiles(self, nout: int | str | list[int | str]) -> None:
     self._d_info["endpath"] = np.char.mod(format_string, self.nout)
 
     # End of the function
-    return None
 
 
 def _init_vardict(self, var: str) -> None:
-    """
-    If not initialized, a new dictionary is created to store the variables. The
+    """If not initialized, a new dictionary is created to store the variables. The
     dictionary is stored in the class. The shape of the dictionary is computed
     depending on the number of outputs and the shape of the variable.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - var (not optional): str
         The variable to be loaded.
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Initialize the dictionary of a non-initialized variable
 
         >>> _init_vardict('rho')
 
     """
-
     # If the variable is not initialized, create a new dictionary
     if var not in self._d_vars.keys():
         self._d_vars[var] = {}
@@ -478,23 +453,19 @@ def _init_vardict(self, var: str) -> None:
         """
 
     # End of the function
-    return None
 
 
 def _assign_var(self, time: int, var: str, scrh: np.memmap) -> None:
-    """
-    Assigns the memmap object to the dictionary. If the number of outputs is 1,
+    """Assigns the memmap object to the dictionary. If the number of outputs is 1,
     the variable is stored directly in the dictionary, otherwise the variable is
     stored in the dictionary at the corresponding output.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - scrh (not optional): np.memmap
         The memmap object containing the data to be stored.
     - time (not optional): int
@@ -504,14 +475,12 @@ def _assign_var(self, time: int, var: str, scrh: np.memmap) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Assign the variable to the dictionary (single output time)
 
         >>> _assign_var(3, 'rho', scrh)
@@ -521,7 +490,6 @@ def _assign_var(self, time: int, var: str, scrh: np.memmap) -> None:
         >>> _assign_var(1, 'rho', scrh)
 
     """
-
     # Assign the memmap object to the dictionary
     if self._lennout != 1:
         # If the number of outputs is not 1, the variable is stored at the
@@ -532,24 +500,20 @@ def _assign_var(self, time: int, var: str, scrh: np.memmap) -> None:
         self._d_vars[var] = scrh
 
     # End of the function
-    return None
 
 
 def _varsouts(self, elem: str, class_name: str) -> None:
-    """
-    From the matching files finds the variables and the outputs for the fluid
+    """From the matching files finds the variables and the outputs for the fluid
     and particles files (variables are to be intended here as the first part of
     the output filename, they are the effective variables only in case of
     multiple fluid files).
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - class_name (not optional): str
         The name of the class. Supported classes are 'Load' or 'LoadPart'.
     - elem (not optional): str
@@ -557,14 +521,12 @@ def _varsouts(self, elem: str, class_name: str) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Find the outputs (particles, non LP)
 
         >>> _varsouts_p('particles.0000.dbl')
@@ -578,7 +540,6 @@ def _varsouts(self, elem: str, class_name: str) -> None:
         >>> _varsouts_lp('particles.0000_ch_00.dbl')
 
     """
-
     # Splits the matching filename (variable/data and output number)
     raw_str = Path(elem).name.split(".")
     vars = raw_str[0]
@@ -619,4 +580,3 @@ def _varsouts(self, elem: str, class_name: str) -> None:
         self.set_outs.add(int(outs))
 
     # End of the function
-    return None

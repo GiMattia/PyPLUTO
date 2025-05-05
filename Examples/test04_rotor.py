@@ -1,5 +1,4 @@
-"""
-MHD Rotor test
+"""MHD Rotor test
 
 This test shows how to compute and plot contour lines of the vector potential
 from a test problem in non-cartesian coordinates.
@@ -27,7 +26,6 @@ in the user-defined constants section.
 """
 
 import numpy as np
-
 import pyPLUTO
 
 # Loading the data into a pload object D

@@ -8,8 +8,7 @@ from .h_pypluto import check_par
 
 
 def zoom(self, ax=None, check: bool = True, **kwargs) -> Axes:
-    """
-    Creation of an inset zoom of an already existent plot or display.
+    """Creation of an inset zoom of an already existent plot or display.
 
     It creates a set of axes within the same figure as the original plot or
     display, and can be placed anywhere in the figure.
@@ -18,12 +17,10 @@ def zoom(self, ax=None, check: bool = True, **kwargs) -> Axes:
 
     Returns
     -------
-
     - Axis object where the zoom plot is set
 
     Parameters
     ----------
-
     - alpha: float, default 1.0
         Sets the opacity of the plot, where 1.0 means total opaque and 0.0 means
         total transparent.
@@ -175,14 +172,12 @@ def zoom(self, ax=None, check: bool = True, **kwargs) -> Axes:
 
     Notes
     -----
-
     - Custom shading will be implemented in future releases.
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: create a simple zoom of a 1d plot
 
         >>> import pyPLUTO as pp
@@ -207,7 +202,6 @@ def zoom(self, ax=None, check: bool = True, **kwargs) -> Axes:
         >>> I.zoom(var = var2, xrange = [1,10], yrange = [10,20])
 
     """
-
     # Check parameters
     param = {
         "alpha",
@@ -322,8 +316,6 @@ def _zoomplot(self, ax: Axes, nax: int, axins: Axes, **kwargs: Any) -> None:
             ax=axins,
         )
 
-    return None
-
 
 def _zoomdisplay(self, ax: Axes, nax: int, axins: Axes, **kwargs: Any) -> None:
     """ """
@@ -362,21 +354,16 @@ def _zoomdisplay(self, ax: Axes, nax: int, axins: Axes, **kwargs: Any) -> None:
 
     self.display(pcm0, x1=xc, x2=yc, ax=axins, check=False, shading=psh, **kwargs)
 
-    return None
-
 
 def _place_inset_pos(ax: Axes, pos: list[float]) -> Axes:
-    """
-    Places an inset axes given the position (left, top, bottom, right).
+    """Places an inset axes given the position (left, top, bottom, right).
 
     Returns
     -------
-
     - The inset axes
 
     Parameters
     ----------
-
     - ax: ax object
         The axis where the inset axes is placed.
     - pos: list[float]
@@ -384,11 +371,9 @@ def _place_inset_pos(ax: Axes, pos: list[float]) -> Axes:
 
     Notes
     -----
-
     - None
 
     """
-
     # Compute the position of the inset axis and return it
     left = pos[0]
     bottom = pos[2]
@@ -398,19 +383,16 @@ def _place_inset_pos(ax: Axes, pos: list[float]) -> Axes:
 
 
 def _place_inset_loc(ax: Axes, **kwargs: Any) -> Axes:
-    """
-    Places an inset axes given different keywords.
+    """Places an inset axes given different keywords.
     In case both top and bottom are given, the top is given priority and a
     warning is raised.
 
     Returns
     -------
-
     - The inset axes
 
     Parameters
     ----------
-
     - ax: ax object
         The axis where the inset axes is placed.
     - left: float
@@ -426,11 +408,9 @@ def _place_inset_loc(ax: Axes, **kwargs: Any) -> Axes:
 
     Notes
     -----
-
     - None
 
     """
-
     # Check if both "top" and "bottom" keywords are given
     if kwargs.get("top") and kwargs.get("bottom"):
         warn = "Both top and bottom keys are given, priority goes to the top"

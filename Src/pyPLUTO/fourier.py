@@ -8,15 +8,13 @@ from .h_pypluto import check_par
 def fourier(
     self, f: np.ndarray, check: bool = True, **kwargs: Any
 ) -> tuple[list[np.ndarray], np.ndarray]:
-    """
-    Compute the Fourier transform of a given array. The function uses the
+    """Compute the Fourier transform of a given array. The function uses the
     numpy.fft.fftn function. The function returns a tuple containing the
     transformed array and the frequency array (which is a list of arrays if
     the input is in 2D or 3D).
 
     Returns
     -------
-
     - f: np.ndarray
         The transformed array.
     - freqs: np.ndarray | list[np.ndarray]
@@ -24,7 +22,6 @@ def fourier(
 
     Parameters
     ----------
-
     - dx: float | int | list | np.ndarray | None, default None
         The grid spacing. If None, the grid spacing is set to 1.
     - dy: float | int | list | np.ndarray | None, default None
@@ -42,14 +39,12 @@ def fourier(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Compute the Fourier transform of a given array
 
         >>> freqs, f = fourier(func)
@@ -65,7 +60,6 @@ def fourier(
         >>> freqs, f = fourier(func, xdir=False)
 
     """
-
     # Check parameters
     param = {"dx", "dy", "dz", "xdir", "ydir", "zdir"}
     if check is True:
@@ -124,38 +118,32 @@ def fourier(
 
 
 def _fourier_spacing(dx: float | int | list | np.ndarray) -> float:
-    """
-    Check the grid spacing and return the correct value. If the grid spacing
+    """Check the grid spacing and return the correct value. If the grid spacing
     is not valid (negative), raise an error.
 
     Returns
     -------
-
     - scrh: float
         The grid spacing.
 
     Parameters
     ----------
-
     - dx (not optional): float | int | list | np.ndarray
         The grid spacing.
 
     Notes
     -----
-
     - Extension to non-uniform grids will be added in future releases.
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Check the grid spacing and return the correct value
 
         >>> scrh = fourier_spacing(dx)
 
     """
-
     # Check if the grid spacing is a list or numpy array, then take the first
     # element
     scrh = dx[0] if not isinstance(dx, (float, int)) else dx

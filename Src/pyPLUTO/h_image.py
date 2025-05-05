@@ -7,18 +7,15 @@ from numpy.typing import NDArray
 
 
 def _add_ax(self, ax: Axes, i: int) -> None:
-    """
-    Adds the axes properties to the class info variables.
+    """Adds the axhes properties to the class info variables.
     The corresponding axis is appended to the list of axes.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - ax (not optional): ax
         The axis to be added.
     - i (not optional): int
@@ -26,20 +23,17 @@ def _add_ax(self, ax: Axes, i: int) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Add the axis to the class info variables
 
         >>> _add_ax(ax, i)
 
     """
-
     # Append the axis to the list of axes
     self.ax.append(ax)
 
@@ -60,21 +54,17 @@ def _add_ax(self, ax: Axes, i: int) -> None:
     self.ax[i].annotate(str(i), (0.47, 0.47), xycoords="axes fraction")
 
     # End of the function
-    return None
 
 
 def _hide_text(self, nax: int, txts: str | None) -> None:
-    """
-    Hides the text placed when an axis is created (the axis index).
+    """Hides the text placed when an axis is created (the axis index).
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - nax (not optional): int
         The number of the selected set of axes.
     - txts (not optional): str | None
@@ -82,20 +72,17 @@ def _hide_text(self, nax: int, txts: str | None) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Hide the text of the selected set of axes
 
         >>> _hide_text(nax, txts)
 
     """
-
     # Check if the text has already been removed
     if self.ntext[nax] is None:
         [txt.set_visible(False) for txt in txts]
@@ -104,22 +91,18 @@ def _hide_text(self, nax: int, txts: str | None) -> None:
         self.ntext[nax] = 1
 
     # End of the function
-    return None
 
 
 def _set_xrange(self, ax: Axes, nax: int, xlim: list[float], case: int) -> None:
-    """
-    Sets the lower and upper limits of the x-axis of a set of axes (if
+    """Sets the lower and upper limits of the x-axis of a set of axes (if
     not stated otherwise later).
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - ax (not optional): ax
         The selected set of axes.
     - case (not optional): int
@@ -131,21 +114,18 @@ def _set_xrange(self, ax: Axes, nax: int, xlim: list[float], case: int) -> None:
 
     Notes
     -----
-
     - The chance to set only one limit dinamically will be implemented
       in future code releases
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Set the x-axis limits of the selected set of axes
 
         >>> _set_xrange(ax, nax, xlim, case)
 
     """
-
     # Case 0: the x-axis limits are set automatically (no previous limit)
     if case == 0:
         ax.set_xlim(xlim[0], xlim[1])
@@ -171,7 +151,6 @@ def _set_xrange(self, ax: Axes, nax: int, xlim: list[float], case: int) -> None:
         self.setax[nax] = 1
 
     # End of the function
-    return None
 
 
 def _set_yrange(
@@ -183,20 +162,17 @@ def _set_yrange(
     x: NDArray | None = None,
     y: NDArray | None = None,
 ) -> None:
-    """
-    Sets the lower and upper limits of the y-axis of a set of axes (if
+    """Sets the lower and upper limits of the y-axis of a set of axes (if
     not stated otherwise later).
     Unlike the x-axis, the y-axis limits are recovered depending on both
     the x-data and the y-data.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - ax (not optional): ax
         The selected set of axes.
     - case (not optional): int
@@ -212,21 +188,18 @@ def _set_yrange(
 
     Notes
     -----
-
     - The chance to set only one limit dinamically will be implemented
       in future code releases
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Set the y-axis limits of the selected set of axes
 
         >>> _set_yrange(ax, nax, ylim, case)
 
     """
-
     # Case 0: the y-axis limits are set automatically (no previous limit)
     if case == 0:
         if x is None or y is None:
@@ -277,18 +250,15 @@ def _set_yrange(
         self.setay[nax] = 1
 
     # End of the function
-    return None
 
 
 def _range_offset(
     self, ymin: float, ymax: float, scale: str, margin: float = 0.1
 ) -> tuple[float, float]:
-    """
-    Returns the offsetted data range for the y-axis limits.
+    """Returns the offsetted data range for the y-axis limits.
 
     Returns
     -------
-
     - ymin: float
         The lower limit of the y-axis.
     - ymax: float
@@ -296,7 +266,6 @@ def _range_offset(
 
     Parameters
     ----------
-
     - ymin (not optional): float
         The lower limit of the y-axis.
     - ymax (not optional): float
@@ -308,20 +277,18 @@ def _range_offset(
 
     Notes
     -----
-
     - The chance to set only one limit dinamically will be implemented
       in future code releases
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Set the y-axis limits of the selected set of axes
 
         >>> ymin, ymax = _range_offset(ymin, ymax, scale)
-    """
 
+    """
     # Find the data range
     data_range = ymax - ymin
     if data_range == 0:
@@ -347,14 +314,12 @@ def _range_offset(
 
 
 def _assign_ax(self, ax: Axes | list[Axes] | None, **kwargs: Any) -> tuple[Axes, int]:
-    """
-    Sets the axes of the figure where the plot/feature should go.
+    """Sets the axes of the figure where the plot/feature should go.
     If no axis is present, an axis is created. If the axis is present
     but no axis is seletced, the last axis is selected.
 
     Returns
     -------
-
     - ax: ax | list[ax] | int | None
         The selected set of axes.
     - nax: int
@@ -362,7 +327,6 @@ def _assign_ax(self, ax: Axes | list[Axes] | None, **kwargs: Any) -> tuple[Axes,
 
     Parameters
     ----------
-
     - ax (not optional): ax | int | list[ax] | None
         The selected set of axes.
     - **kwargs: Any
@@ -371,14 +335,12 @@ def _assign_ax(self, ax: Axes | list[Axes] | None, **kwargs: Any) -> tuple[Axes,
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Set the axes of the figure
 
         >>> _assign_ax(ax, **kwargs)
@@ -392,7 +354,6 @@ def _assign_ax(self, ax: Axes | list[Axes] | None, **kwargs: Any) -> tuple[Axes,
         >>> _assign_ax([ax], **kwargs)
 
     """
-
     # Check if the axis is None and no axis is present (and create one)
     if ax is None and len(self.ax) == 0:
         ax = self.create_axes(ncol=1, nrow=1, check=False, **kwargs)

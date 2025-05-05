@@ -3,33 +3,28 @@ from pathlib import Path
 
 
 def _check_pathformat(self, path: str | Path) -> None:
-    """
-    Check if the path is consistent, i.e. if the path is given through a
+    """Check if the path is consistent, i.e. if the path is given through a
     non-empty string. If the path is consistent, it is converted to a Path
     object. Then, a check is performed to see if the path is a directory. The
     path is stored in the class as a Path object self.pathdir.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - path (not optional): str | Path
         The path to the simulation directory.
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: path is a string
 
         >>> _check_pathformat('path/to/simulation')
@@ -50,7 +45,6 @@ def _check_pathformat(self, path: str | Path) -> None:
         NotADirectoryError: Directory path/to/simulation not found.
 
     """
-
     # Check if the path is a non-empty string.
     if not isinstance(path, str) and not isinstance(path, Path):
         error = TypeError("Invalid data type. 'path' must be path or string")
@@ -67,12 +61,10 @@ def _check_pathformat(self, path: str | Path) -> None:
         raise NotADirectoryError(f"Directory {self.pathdir} not found.")
 
     # End of the function
-    return None
 
 
 def _find_format(self, datatype: str | None, alone: bool | None) -> None:
-    """
-    Finds the format of the data files to load. At first, the code checks the
+    """Finds the format of the data files to load. At first, the code checks the
     filetype to be loaded (if fluid or particles). Then, depending on the
     filetype given, the code checks if the corresponding filetype is present
     Depending on the properties of the filetype and of the type of the output
@@ -83,12 +75,10 @@ def _find_format(self, datatype: str | None, alone: bool | None) -> None:
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - alone (not optional): bool | None, default False
         If the output files are standalone or they require a .out
         file to be loaded. Only suggested for fluid files, .vtk
@@ -101,14 +91,12 @@ def _find_format(self, datatype: str | None, alone: bool | None) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Find the format of the fluid files
 
         >>> _find_format('dbl', False)
@@ -126,7 +114,6 @@ def _find_format(self, datatype: str | None, alone: bool | None) -> None:
         >>> _find_format('dbl', True)
 
     """
-
     # Initialization or declaration of variables
     class_name = self.__class__.__name__  # The class name
     dbl = {"dbl", "dbl.h5"}  # The set of double filetypes
@@ -201,32 +188,27 @@ def _find_format(self, datatype: str | None, alone: bool | None) -> None:
 
 
 def _check_typeout(self, type_out: list[str]) -> None:
-    """
-    Loops over possible formats in order to find, at first the grid.out file,
+    """Loops over possible formats in order to find, at first the grid.out file,
     then the datatype.out file. If the datatype.out file is found, the file
     format is selected and the flag alone is set to False.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - type_out (not optional): list[str]
         The list of possible formats for the output file.
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Check the format of the output files
 
         >>> _check_typeout(['dbl','flt','vtk','dbl.h5','flt.h5','tab'])
@@ -236,7 +218,6 @@ def _check_typeout(self, type_out: list[str]) -> None:
         >>> _check_typeout([])
 
     """
-
     # Loop over the possible formats
     for try_type in type_out:
 
@@ -253,36 +234,30 @@ def _check_typeout(self, type_out: list[str]) -> None:
             break
 
     # End of the function
-    return None
 
 
 def _check_typelon(self, type_lon: list[str]) -> None:
-    """
-    Loops over posisble formats in order to find matching files with the
+    """Loops over posisble formats in order to find matching files with the
     datatype. If the file is found, the file format is selected and the flag
     alone is set to True.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - type_lon (not optional): list[str]
         The list of possible formats for the output file.
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Check the format of the output files
 
         >>> _check_typelon(['dbl','flt','vtk'])
@@ -292,7 +267,6 @@ def _check_typelon(self, type_lon: list[str]) -> None:
         >>> _check_typelon([])
 
     """
-
     # Loop over the possible formats
     for try_type in type_lon:
 
@@ -311,4 +285,3 @@ def _check_typelon(self, type_lon: list[str]) -> None:
             break
 
     # End of the functionv
-    return None

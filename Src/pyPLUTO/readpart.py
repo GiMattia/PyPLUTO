@@ -4,20 +4,17 @@ import numpy as np
 
 
 def _inspect_bin(self, i: int, endian: str | None) -> None:
-    """
-    Routine to inspect the binary file and find the variables, the offset and
+    """Routine to inspect the binary file and find the variables, the offset and
     the shape. The routine loops over the lines of the file and finds the
     relevant information. The routine then creates a key 'tot' in the offset and
     shape dictionaries, which contains the offset and shape of the whole data.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - endian: str | None
         The endianess of the files.
     - i: int
@@ -25,20 +22,17 @@ def _inspect_bin(self, i: int, endian: str | None) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Inspect the binary file
 
         >>> _inspect_bin(0, 'big')
 
     """
-
     # Initialize the offset, shape arrays and dimensions dictionary
     self._offset, self._shape, self._dictdim = ({}, {}, {})
 
@@ -102,12 +96,9 @@ def _inspect_bin(self, i: int, endian: str | None) -> None:
         self._shape[j] = self.nshp
         self._dictdim[j] = self._vardim[ind]
 
-    return None
-
 
 def _inspect_vtk(self, i: int, endian: str | None) -> None:
-    """
-    Routine to inspect the vtk file and find the variables, the offset and the
+    """Routine to inspect the vtk file and find the variables, the offset and the
     shape. The routine loops over the lines of the file and finds the relevant
     information. The routine also finds the time information if the file is
     standalone. The routine also finds the coordinates if the file is standalone
@@ -115,12 +106,10 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - endian (not optional): str | None
         The endianess of the files.
     - i (not optional): int
@@ -128,21 +117,18 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
 
     Notes
     -----
-
     - A more efficient inspection based on the vtk structure will be implemented
       in future releases
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Inspect the vtk file
 
         >>> _inspect_vtk(0, 'big')
 
     """
-
     # Initialize the offset and shape arrays, the endianess and the coordinates dictionary
     self._offset, self._shape = ({}, {})
 
@@ -277,42 +263,34 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
         self._dictdim[j] = self._vardim[ind]
         self._init_vardict(j)
 
-    return None
-
 
 def _store_bin_particles(self, i: int) -> None:
-    """
-    Routine to store the particles data. The routine loops over the variables
+    """Routine to store the particles data. The routine loops over the variables
     and stores the data in the dictionary from the 'tot' key. Then the 'tot'
     keyword is removed from the dictionary for memory and clarity reasons.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - i (not optional): int
         The index of the file to be loaded.
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example 1: Store the data
 
         >>> _store_bin_particles(0)
 
     """
-
     # Mask the array (to be fixed for multiple loadings)
     # masked_array = np.ma.masked_array(self._d_vars['tot'][0].astype('int'),
     #                                          np.isnan(self._d_vars['tot'][0]))
@@ -337,42 +315,34 @@ def _store_bin_particles(self, i: int) -> None:
     # Remove the 'tot' key from the dictionary
     del self._d_vars["tot"]
 
-    return None
-
 
 def _store_vtk_particles(self, i: int) -> None:
-    """
-    Routine to store the particles data. Since positions and velocities are
+    """Routine to store the particles data. Since positions and velocities are
     stored in 2d arrays, the routine splits the data in the different components
     and stores them in the dictionary.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - i (not optional): int
         The index of the file to be loaded.
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example 1: Store the data
 
         >>> _store_vtk_particles(0)
 
     """
-
     vardict = {
         "points": ["x1", "x2", "x3"],
         "Velocity": ["vx1", "vx2", "vx3"],
@@ -380,7 +350,7 @@ def _store_vtk_particles(self, i: int) -> None:
     }
 
     # Store the position in the dictionary
-    for var in vardict.keys():
+    for var in vardict:
         if var in self._d_vars:
             for i, j in enumerate(vardict[var]):
                 self._d_vars[j] = self._d_vars[var][i]
@@ -414,24 +384,19 @@ def _store_vtk_particles(self, i: int) -> None:
     #    self._d_vars['vx3'] = self._d_vars['vel'][2]
     #    del self._d_vars['vel']
 
-    return None
-
 
 def _compute_offset(
     self, i: int, endian: str | None, exout: int, var: str | None
 ) -> None:
-    """
-    Routine to compute the offset and shape of the variables to be loaded. The
+    """Routine to compute the offset and shape of the variables to be loaded. The
     routine calls different functions depending on the file format.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - endian (not optional): str | None
         The endianess of the files.
     - exout (not optional): int
@@ -442,24 +407,20 @@ def _compute_offset(
         The variable to be loaded.
 
     Notes
-
+    -----
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Load all the variables
 
         >>> _compute_offset(0, None, 0, True)
 
     """
-
     # Depending on the file calls different routines
     if self.format == "vtk":
         self._inspect_vtk(i, endian)
     else:
         self._inspect_bin(i, endian)
-
-    return None

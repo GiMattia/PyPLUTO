@@ -11,21 +11,18 @@ from .h_pypluto import check_par, makelist
 
 
 def _check_var(self, var: str | NDArray, transpose: bool = False) -> np.ndarray:
-    """
-    Function that checks returns a variable. If the variable is a numpy array,
+    """Function that checks returns a variable. If the variable is a numpy array,
     it is simply returned (and the transpose is taken into account). If the
     variable is a string, the variable is retrieved from the dataset. If the
     variable is not found, an error is raised.
 
     Returns
     -------
-
     - var: np.ndarray
         The variable.
 
     Parameters
     ----------
-
     - var (not optional): str | np.ndarray
         The variable to be checked.
     - transpose: bool, default False
@@ -33,14 +30,12 @@ def _check_var(self, var: str | NDArray, transpose: bool = False) -> np.ndarray:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: var is a numpy array
 
         >>> var = np.array([1,2,3])
@@ -54,7 +49,6 @@ def _check_var(self, var: str | NDArray, transpose: bool = False) -> np.ndarray:
         D.Bx1
 
     """
-
     # If var is a string the code tries to recover it from the class attributes,
     # if failed it raises an error
     if isinstance(var, str):
@@ -79,20 +73,17 @@ def _vector_field(
     xc: np.ndarray,
     yc: np.ndarray,
 ) -> list[np.ndarray]:
-    """
-    Compute the vector field at the given time and coordinates by interpolating
+    """Compute the vector field at the given time and coordinates by interpolating
     the variables var1 and var2 at the given coordinates. The interpolation is
     made through the routine np.interpolate.
 
     Returns
     -------
-
     - [qx, qy]: list[np.ndarray]
         The x1 and x2 vector field components, within a list
 
     Parameters
     ----------
-
     - t (not optional): float
         The time variable (not used here).
     - var1 (not optional): np.ndarray
@@ -108,20 +99,17 @@ def _vector_field(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Compute the vector field at the given time and coordinates
 
         >>> vector_field(t, y, var1, var2, xc, yc)
 
     """
-
     # Get the coordinates
     x, y = y
 
@@ -153,15 +141,13 @@ def find_fieldlines(
     check: bool = True,
     **kwargs: Any,
 ) -> list:
-    """
-    Find field lines using the vector field. The field lines are computed by
+    """Find field lines using the vector field. The field lines are computed by
     interpolating the variables var1 and var2 at the footpoints x0 and y0.
     Different integration algorithms are available, based on the method
     solve_ivp of the scipy package.
 
     Returns
     -------
-
     - linelist: list
         A list of lists containing the coordinates of the field lines.
         The strcuture of the list is [[x1, y1], [x2, y2], ...] where
@@ -170,7 +156,6 @@ def find_fieldlines(
 
     Parameters
     ----------
-
     - atol: float, default 1e-6
         The absolute tolerance for the integration.
     - close: bool, default True
@@ -211,14 +196,12 @@ def find_fieldlines(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Find field lines using the vector field
 
         >>> find_fieldlines(var1, var2, x0, y0)
@@ -232,7 +215,6 @@ def find_fieldlines(
         >>> find_fieldlines(var1, var2, [x1, x2], [y1, y2])
 
     """
-
     # Check parameters
     param = {
         "atol",
@@ -425,12 +407,10 @@ def find_fieldlines(
 def find_contour(
     self, var: str | np.ndarray, check: bool = True, **kwargs: Any
 ) -> list:
-    """
-    Generate contour lines for a given variable.
+    """Generate contour lines for a given variable.
 
     Returns
     -------
-
     - lines_list: list
         List of contour lines. The strcuture of the list is
         [[x1, y1], [x2, y2], ...] where x1, y1, x2, y2 are numpy arrays
@@ -438,7 +418,6 @@ def find_contour(
 
     Parameters
     ----------
-
     - cmap: str, default 'k'
         The colormap to use to associate each level with a color.
         The colormap can also be a color, which is used for all the levels.
@@ -469,14 +448,12 @@ def find_contour(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Generate contour lines for a given variable.
 
         >>> lines_list = find_contour(var)
@@ -498,7 +475,6 @@ def find_contour(
         >>> ... levelscale='logarithmic', cmap='jet')
 
     """
-
     # Check parameters
     param = {
         "cmap",

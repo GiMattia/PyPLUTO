@@ -7,38 +7,32 @@ import pandas as pd
 
 
 def _read_tabfile(self, i: int) -> None:
-    """
-    Reads the data.****.tab file and stores the relevant information within the
+    """Reads the data.****.tab file and stores the relevant information within the
     class. Such information are the grid variables, the output variables and the
     output time.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - i (not optional): int
         The index of the file to be loaded.
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Read the data.0000.tab file
 
         >>> _read_tabfile(0)
 
     """
-
     # Initialize the dictionary
     Dict_tab = {}
 
@@ -69,12 +63,11 @@ def _read_tabfile(self, i: int) -> None:
             self.nshp = (self.nx1, self.nx2)
 
     # If the file is empty the grid is 1D, ostore grid vars if not present
-    else:
-        if not hasattr(self, "dim"):
-            self.nx1 = vfp.shape[0]
-            self.nx2 = 1
-            self.dim = 1
-            self.nshp = self.nx1
+    elif not hasattr(self, "dim"):
+        self.nx1 = vfp.shape[0]
+        self.nx2 = 1
+        self.dim = 1
+        self.nshp = self.nx1
 
     # Store the grid variables
     self.x1 = np.array(vfp.iloc[:, 1]).reshape(self.nx2, self.nx1)
@@ -99,12 +92,9 @@ def _read_tabfile(self, i: int) -> None:
         if var in self._load_vars:
             setattr(self, var, Dict_tab[var])
 
-    return None
-
 
 def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
-    """
-    Routine to inspect the vtk file and find the variables, the offset and the
+    """Routine to inspect the vtk file and find the variables, the offset and the
     shape. The routine loops over the lines of the file and finds the relevant
     information. The routine also finds the time information if the file is
     standalone. The routine also finds the coordinates if the file is standalone
@@ -112,12 +102,10 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - endian (not optional): str | None
         The endianess of the files.
     - i (not optional): int
@@ -129,14 +117,12 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Inspect the vtk file
 
         >>> _inspect_vtk(0, 'big')
@@ -146,7 +132,6 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
         >>> _inspect_vtk(0, 'little')
 
     """
-
     dir_map: dict[str, str] = {}
     gridvars: list[str] = []
 
@@ -306,23 +291,18 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
     # Close the file
     f.close()
 
-    return None
-
 
 def _inspect_h5(self, i: int, exout: int) -> None:
-    """
-    Inspects the h5 files (static grid) in order to find offset and shape of the
+    """Inspects the h5 files (static grid) in order to find offset and shape of the
     different variables. If the files are standalone, the routine also finds the
     coordinates.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - exout (not optional): int
         The index of the output to be loaded.
     - i (not optional): int
@@ -330,20 +310,17 @@ def _inspect_h5(self, i: int, exout: int) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Load all the variables
 
         >>> _inspect_h5(0, 0)
 
     """
-
     # Initialize the offset and shape arrays
     self._offset, self._shape = ({}, {})
 
@@ -394,24 +371,19 @@ def _inspect_h5(self, i: int, exout: int) -> None:
     # Close the file
     h5file.close()
 
-    return None
-
 
 def _compute_offset(
     self, i: int, endian: str | None, exout: int, var: str | None
 ) -> None:
-    """
-    Routine to compute the offset and shape of the variables to be loaded. The
+    """Routine to compute the offset and shape of the variables to be loaded. The
     routine calls different functions depending on the file format.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - endian (not optional): str | None
         The endianess of the files.
     - exout (not optional): int
@@ -423,20 +395,17 @@ def _compute_offset(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Load all the variables
 
         >>> _compute_offset(0, True, 0, True)
 
     """
-
     if self._alone is not True:
         # Read the grid file
         self._read_gridfile()
@@ -453,23 +422,18 @@ def _compute_offset(
     else:
         self._offset_bin(i, var)
 
-    return None
-
 
 def _offset_bin(self, i: int, var: str | None) -> None:
-    """
-    Routine to compute the offset and shape of the variables to be loaded. The
+    """Routine to compute the offset and shape of the variables to be loaded. The
     routine, knowing the grid shape, computes the offset and stores the shape
     dependng on wether the variable is staggered or not.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - i (not optional): int
         The index of the file to be loaded.
     - var (not optional): str
@@ -477,20 +441,17 @@ def _offset_bin(self, i: int, var: str | None) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Load all the variables
 
         >>> _offset_bin(0, True)
 
     """
-
     # Read the grid file if not already read
     if self._info is True:
         self._read_gridfile()
@@ -523,4 +484,3 @@ def _offset_bin(self, i: int, var: str | None) -> None:
         off_start += grid_size[1] * self._charsize
 
     # End of function
-    return None

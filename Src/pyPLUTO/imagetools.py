@@ -8,17 +8,14 @@ from .h_pypluto import check_par
 def savefig(
     self, filename: str = "img.png", bbox: str | None = "tight", dpi: int = 300
 ) -> None:
-    """
-    Creation of a .png image file of the figure created with the Image class.
+    """Creation of a .png image file of the figure created with the Image class.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - bbox: {'tight', None}, default 'tight'
         Crops the white borders of the Image to create a more balanced image
         file.
@@ -27,14 +24,12 @@ def savefig(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: save an empty image
 
         >>> import pyPLUTO as pp
@@ -42,10 +37,7 @@ def savefig(
         >>> I.savefig('namefile.png')
 
     """
-
     self.fig.savefig(filename, bbox_inches=bbox, dpi=dpi)
-
-    return None
 
 
 def show(
@@ -66,17 +58,14 @@ def text(
     check: bool = True,
     **kwargs: Any,
 ) -> None:
-    """
-    Insertion of a text box inside the figure created with Image class.
+    """Insertion of a text box inside the figure created with Image class.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - ax: axis object, default None
         The axis where to insert the text box. If None, the last considered axis
         will be used.
@@ -106,14 +95,12 @@ def text(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Insert text inside a specific axis
 
         >>> I.text('text', x = 0.5, y = 0.5, ax = ax)
@@ -136,7 +123,6 @@ def text(
         >>> I.text('text', x = 0.5, y = 0.5, xycoords = 'points')
 
     """
-
     # Check parameters
     param = {"c", "horalign", "textsize", "veralign", "xycoords"}
     if check is True:
@@ -180,4 +166,3 @@ def text(
     )
 
     # End of the function
-    return None

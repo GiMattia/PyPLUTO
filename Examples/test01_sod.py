@@ -1,5 +1,4 @@
-"""
-HD shock tube test
+"""HD shock tube test
 
 This test shows how to plot different 1D quantities from a test problem in the
 same plot.

@@ -5,22 +5,18 @@ import pandas as pd
 
 
 def _read_grid_h5(self) -> None:
-    """
-    Read the grid from a .h5 file.
+    """Read the grid from a .h5 file.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - None
 
     Notes
     -----
-
     - Variables that we already have: x1 x2 x3 x1r x2r x3r
       Variables that we need: nx1 nx2 nx3 nshp nx1s nx2s nx3s dim
                               nshp_st1 nshp_st2 nshp_st3
@@ -29,14 +25,12 @@ def _read_grid_h5(self) -> None:
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Read the grid from a .h5 file
 
         >>> _read_grid_h5()
 
     """
-
     self.nshp = np.shape(self.x1)
     self.dim = len(self.nshp)
     self.geom = "UNKNOWN"
@@ -85,27 +79,21 @@ def _read_grid_h5(self) -> None:
     )
     warnings.warn(warn, UserWarning)
 
-    return None
-
 
 def _read_grid_vtk(self, gridvars) -> None:
-    """
-    Read the grid from a .vtk file.
+    """Read the grid from a .vtk file.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - gridvars (not optional): list[str]
         The list of grid variables.
 
     Notes
     -----
-
     - RECTILINEAR GRID
         Variables that we already have: x1r x2r x3r nshp dim nx1 nx2 nx3
         Variables that we need: x1 x2 x3 dx1 dx2 dx3  gridsize
@@ -113,8 +101,7 @@ def _read_grid_vtk(self, gridvars) -> None:
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Read the grid from a vtk file
 
         >>> _read_grid_vtk(['self.x1r', 'self.x2r', 'self.x3r'])
@@ -184,8 +171,7 @@ def _read_grid_vtk(self, gridvars) -> None:
 
 
 def _read_gridfile(self) -> None:
-    """
-    The file grid.out is read and all the grid information are stored in the
+    """The file grid.out is read and all the grid information are stored in the
     Load class. Such information are the dimensions, the geometry, the center
     and edges of each cell, the grid shape and size and, in case of non
     cartesian coordinates, the transformed cartesian coordinates (only 2D for
@@ -194,35 +180,30 @@ def _read_gridfile(self) -> None:
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - None
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: read the grid file
 
         >>> _read_gridfile()
 
     """
-
     # Initialize relevant lists
     nmax, xL, xR = [], [], []
 
     # Open and read the gridfile
-    with open(self._pathgrid, "r") as gfp:
+    with open(self._pathgrid) as gfp:
         for i in gfp.readlines():
             self._split_gridfile(i, xL, xR, nmax)
 
@@ -336,12 +317,9 @@ def _read_gridfile(self) -> None:
 
     self._info = False
 
-    return None
-
 
 def _read_outfile(self, nout: int, endian: str) -> None:
-    """
-    Reads the datatype.out file and stores the relevant information within the
+    """Reads the datatype.out file and stores the relevant information within the
     class. Such information are the time array, the output variables, the file
     type (single or multiples), the endianess, the simulation path and the bin
     format. All these information are relevant in order to open the output files
@@ -349,12 +327,10 @@ def _read_outfile(self, nout: int, endian: str) -> None:
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - endian (not optional): str
         The endianess of the files.
     - nout (not optional): int
@@ -364,20 +340,17 @@ def _read_outfile(self, nout: int, endian: str) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Read the 'filetype'.out file
 
         >>> _read_outfile(0, 'big')
 
     """
-
     # Open and read the 'filetype'.out file
     vfp = pd.read_csv(str(self._pathdata), sep=r"\s+", header=None)
 
@@ -419,14 +392,11 @@ def _read_outfile(self, nout: int, endian: str) -> None:
     format_string = f".%04d.{self.format}"
     self._d_info["endpath"] = np.char.mod(format_string, self.nout)
 
-    return None
-
 
 def _split_gridfile(
     self, i: str, xL: list[float], xR: list[float], nmax: list[int]
 ) -> None:
-    """
-    Splits the gridfile, storing the information in the variables passed by the
+    """Splits the gridfile, storing the information in the variables passed by the
     function. Dimensions and geometry are stored in the class.
 
     Return
@@ -436,7 +406,6 @@ def _split_gridfile(
 
     Parameters
     ----------
-
     - i (not optional): str
         The line of the gridfile.
     - nmax (not optional): list[int]
@@ -448,20 +417,17 @@ def _split_gridfile(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Split the gridfile
 
         >>> _split_gridfile(i, xL, xR, nmax)
 
     """
-
     # If the splitted line has only one string, try to convert it
     # to an integer (number of cells in a dimension).
     if len(i.split()) == 1:
@@ -486,5 +452,3 @@ def _split_gridfile(
                 self.geom = i.split()[2]
             if i.split()[1] == "DIMENSIONS:":
                 self.dim = int(i.split()[2])
-
-    return None

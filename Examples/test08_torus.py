@@ -1,5 +1,4 @@
-"""
-MHD Torus test
+"""MHD Torus test
 
 This test shows how to plot two quantities in two different subplots, together
 with the plotting of streamlines in one of them and the plotting of the field
@@ -20,7 +19,6 @@ mesh grid. The image is then saved and shown on screen.
 
 # Loading the relevant packages
 import numpy as np
-
 import pyPLUTO
 
 # Loading the data into a pload object D

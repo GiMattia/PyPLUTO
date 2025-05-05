@@ -18,19 +18,16 @@ def slices(
     x3: int | list | None = None,
     **kwargs: Any,
 ) -> np.ndarray:
-    """
-    Function that slices the variable in the 3 directions.
+    """Function that slices the variable in the 3 directions.
     Also, it can slice the diagonal of the variable.
 
     Returns
     -------
-
     - newvar: NDArray
         The sliced variable.
 
     Parameters
     ----------
-
     - axis1: int | None, default None
         Axis to be used as the first axis of the 2-D sub-arrays from which the
         diagonals should be taken. Defaults to first axis (0).
@@ -54,14 +51,12 @@ def slices(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Slice the variable in the 3 directions
 
         >>> slices(var, x1 = 0, x2 = 0, x3 = 0)
@@ -107,13 +102,11 @@ def slices(
 
 
 def mirror(self, var: NDArray, dirs="l", xax=None, yax=None) -> list[np.ndarray]:
-    """
-    Function that mirrors the variable in the specified directions.
+    """Function that mirrors the variable in the specified directions.
     Multiple directions can be specified.
 
     Returns
     -------
-
     - newvar: np.ndarray
         The mirrored variable.
     - xax: np.ndarray
@@ -123,7 +116,6 @@ def mirror(self, var: NDArray, dirs="l", xax=None, yax=None) -> list[np.ndarray]
 
     Parameters
     ----------
-
     - dirs: str | list, default 'l'
         The directions to mirror the variable. Can be 'l', 'r', 't', 'b' or a
         list or combination of them.
@@ -136,14 +128,12 @@ def mirror(self, var: NDArray, dirs="l", xax=None, yax=None) -> list[np.ndarray]
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Mirror the variable in the left direction
 
         >>> mirror(var, dirs = 'l')
@@ -165,7 +155,6 @@ def mirror(self, var: NDArray, dirs="l", xax=None, yax=None) -> list[np.ndarray]
         >>> mirror(var, dirs = 'lll')
 
     """
-
     spp = [*dirs] if not isinstance(dirs, list) else dirs
     newvar, axx, axy = np.copy(var), np.copy(xax), np.copy(yax)
     dim = np.ndim(var) - 1
@@ -203,19 +192,16 @@ def repeat(
     xax: NDArray | None = None,
     yax: NDArray | None = None,
 ) -> np.ndarray:
-    """
-    Function that repeats the variable in the specified directions.
+    """Function that repeats the variable in the specified directions.
     Multiple directions can be specified.
 
     Returns
     -------
-
     - newvar: np.ndarray
         The repeated variable.
 
     Parameters
     ----------
-
     - dirs: str | list
         The directions to repeat the variable. Can be 'l', 'r', 't', 'b' or a
         list or combination of them.
@@ -228,14 +214,12 @@ def repeat(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Repeat the variable in the left direction
 
         >>> repeat(var, dirs = 'l')
@@ -253,7 +237,6 @@ def repeat(
         >>> repeat(var, dirs = 'tl')
 
     """
-
     raise NotImplementedError("Function repeat not implemented yet")
 
     spp = [*dirs] if not isinstance(dirs, list) else dirs
@@ -287,19 +270,16 @@ def repeat(
 def cartesian_vector(
     self, var: str | None = None, **kwargs: Any
 ) -> tuple[NDArray, ...]:
-    """
-    Function that converts a vector from spherical or polar components to
+    """Function that converts a vector from spherical or polar components to
     cartesian components.
 
     Returns
     -------
-
     - newvar: tuple(np.ndarray)
         The converted vector components.
 
     Parameters
     ----------
-
     - transpose: bool, default False
         If True, the variable is transposed.
     - var: np.ndarray
@@ -317,14 +297,12 @@ def cartesian_vector(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Convert the vector from spherical to cartesian components
 
         >>> Bx, By, Bz = cartesian_vector(var = 'B')
@@ -334,7 +312,6 @@ def cartesian_vector(
         >>> Bx, By = cartesian_vector(var1 = D.Bx1, var2 = D.Bx2)
 
     """
-
     vars = {
         "B": ["Bx1", "Bx2", "Bx3"],
         "E": ["Ex1", "Ex2", "Ex3"],
@@ -378,20 +355,17 @@ def cartesian_vector(
 
 
 def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray, ...]:
-    """
-    Function that reshapes a variable from a cylindrical or spherical grid into
+    """Function that reshapes a variable from a cylindrical or spherical grid into
     a cartesian grid. Zones not covered by the original domain (e.g. the very
     inner radial regions) are also interpolated.
 
     Returns
     -------
-
     - newvar: tuple(np.ndarray)
         The converted variable.
 
     Parameters
     ----------
-
     - nx1: int, default len(x1)
         The number of grid points in the first direction.
     - nx2: int, default len(x2)
@@ -407,15 +381,13 @@ def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray, ...]:
 
     Notes
     -----
-
     - For now only some methods are available
     - The transformation is only in 2D for now
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Convert the vector from spherical to cartesian components
 
         >>> Bx, By, Bz = cartesian_vector(var = 'B')
@@ -425,7 +397,6 @@ def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray, ...]:
         >>> Bx, By = cartesian_vector(var1 = D.Bx1, var2 = D.Bx2)
 
     """
-
     # Get the variable, if it is a string, get the variable from the dataset.
     # The .T is used to transpose the variable to the correct shape.
     vars = []
@@ -482,17 +453,14 @@ def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray, ...]:
 
 
 def reshape_uniform(self, x1, x2, *args, **kwargs):
-    """
-    Reshapes a non-uniform (cartesian) grid into a uniform grid.
+    """Reshapes a non-uniform (cartesian) grid into a uniform grid.
 
     Returns
     -------
-
     tuple: A tuple containing the reshaped x1, x2, varx, and vary.
 
     Parameters
     ----------
-
     - nx1: int, default len(x1)
         The number of grid points in the first direction.
     - nx2: int, default len(x2)
@@ -508,15 +476,13 @@ def reshape_uniform(self, x1, x2, *args, **kwargs):
 
     Notes
     -----
-
     - For now only some methods are available
     - The transformation is only in 2D for now
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Reshape the grid into a uniform grid
 
         >>> x1new, x2new, varx = reshape_uniform(x1, x2, var)
@@ -551,18 +517,15 @@ def reshape_uniform(self, x1, x2, *args, **kwargs):
 
 
 def _convert2cartgrid(R, Z, new_r, new_t):
-    """
-    Function that converts a grid from spherical to cartesian coordinates.
+    """Function that converts a grid from spherical to cartesian coordinates.
 
     Returns
     -------
-
     - newvar: tuple(np.ndarray)
         The new grid.
 
     Parameters
     ----------
-
     - R: np.ndarray
         The radial grid.
     - Z: np.ndarray
@@ -574,21 +537,18 @@ def _convert2cartgrid(R, Z, new_r, new_t):
 
     Notes
     -----
-
     - For now only some methods are available
     - The transformation is only in 2D for now
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Convert the grid from spherical to cartesian coordinates
 
         >>> new_r, new_t, newvar = _convert2cartgrid(R, Z, new_r, new_t)
 
     """
-
     # Convert Cartesian coordinates (R, Z) to polar (Rs, Th)
     Rs = np.sqrt(R**2 + Z**2)
 
@@ -628,17 +588,14 @@ def _convert2cartgrid(R, Z, new_r, new_t):
 
 
 def _congrid(self, a, newdims, method="linear", center=False, minusone=False):
-    """
-    Arbitrary resampling of source array to new dimension sizes.
+    """Arbitrary resampling of source array to new dimension sizes.
 
     Returns
     -------
-
     - The resampled array.
 
     Parameters
     ----------
-
     - a: np.ndarray
         The array to be resampled.
     - newdims: tuple
@@ -652,21 +609,18 @@ def _congrid(self, a, newdims, method="linear", center=False, minusone=False):
 
     Notes
     -----
-
     - For now only some methods are available
     - The transformation is only in 2D for now
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Resample the grid
 
         >>> newvar = _congrid(newvar, (10, 10))
 
     """
-
     # Based on IDL's congrid routine
     # Ensure input is a floating-point array for interpolation
     a = a.astype(float, copy=False)

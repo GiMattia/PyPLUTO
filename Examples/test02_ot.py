@@ -1,5 +1,4 @@
-"""
-Classical MHD Orszag-Tang test
+"""Classical MHD Orszag-Tang test
 
 This test shows how to display a 2D quantity from a test problem in a single
 subplot.

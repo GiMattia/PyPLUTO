@@ -1,5 +1,4 @@
-"""
-HD Riemann 2D test (configuration 3)
+"""HD Riemann 2D test (configuration 3)
 
 This test shows how to produce an interactive animation of a display.
 

@@ -11,19 +11,16 @@ from .h_pypluto import check_par
 
 
 def display(self, var: NDArray, check: bool = True, **kwargs: Any) -> QuadMesh:
-    """
-    Plot for a 2D function (or a 2D slice) using the
+    """Plot for a 2D function (or a 2D slice) using the
     matplotlib's pcolormesh function.
     A simple figure and a single axis can also be created.
 
     Returns
     -------
-
     - The 2D plot
 
     Parameters
     ----------
-
     - alpha: float, default 1.0
         Sets the transparency of the plot.
     - aspect: {'auto', 'equal', float}, default 'auto'
@@ -167,15 +164,13 @@ def display(self, var: NDArray, check: bool = True, **kwargs: Any) -> QuadMesh:
 
     Notes
     -----
-
     - If not x or y is given, no shading can be selected. This issue will be
         fixed in future releases.
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: create a simple 2d plot with title and colorbar on the right
 
         >>> import pyPLUTO as pp
@@ -207,7 +202,6 @@ def display(self, var: NDArray, check: bool = True, **kwargs: Any) -> QuadMesh:
                       tresh = 0.001, vmin = -1, vmax = 1)
 
     """
-
     # Check parameters
     param = {
         "alpha",
@@ -282,10 +276,10 @@ def display(self, var: NDArray, check: bool = True, **kwargs: Any) -> QuadMesh:
     vmax = kwargs.get("vmax", np.nanmax(var))
 
     # Keyword for colorbar and colorscale
-    cpos = kwargs.get("cpos", None)
+    cpos = kwargs.get("cpos")
     cscale = kwargs.get("cscale", "norm")
     tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
-    lint = kwargs.get("lint", None)
+    lint = kwargs.get("lint")
     self.vlims[nax] = [vmin, vmax, tresh]
 
     # Set the colorbar scale (put in function)
@@ -325,18 +319,15 @@ def scatter(
     check: bool = True,
     **kwargs: Any,
 ) -> QuadMesh:
-    """
-    Scatter plot for a 2D function (or a 2D slice) using the matplotlib's
+    """Scatter plot for a 2D function (or a 2D slice) using the matplotlib's
     scatter function. A simple figure and a single axis can also be created.
 
     Returns
     -------
-
     - The scatter plot
 
     Parameters
     ----------
-
     - alpha: float, default 1.0
         Sets the transparency of the plot.
     - aspect: {'auto', 'equal', float}, default 'auto'
@@ -454,14 +445,12 @@ def scatter(
 
     Notes
     -----
-
     - The scatter with legend is still preliminary
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Plot a scatter plot of a variable
 
         >>> I.scatter(x, y)
@@ -471,7 +460,6 @@ def scatter(
         >>> I.scatter(x, y, cmap = 'hot', c = x**2 + y**2,cpos = 'right')
 
     """
-
     # Convert x and y to numpy arrays (if necessary)
     x = np.asarray(x)
     y = np.asarray(y)
@@ -532,7 +520,7 @@ def scatter(
     self._hide_text(nax, ax.texts)
 
     # Keywords vmin and vmax
-    c = kwargs.get("c", None)
+    c = kwargs.get("c")
     # If c is a list convert to array
     vmin = (
         kwargs.get("vmin", 0.0)
@@ -546,7 +534,7 @@ def scatter(
     )
 
     # Keyword for colorbar and colorscale
-    cpos = kwargs.get("cpos", None)
+    cpos = kwargs.get("cpos")
     cscale = kwargs.get("cscale", "norm")
     tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
     self.vlims[nax] = [vmin, vmax, tresh]
@@ -558,9 +546,9 @@ def scatter(
     pcm = ax.scatter(
         x,
         y,
-        cmap=kwargs.get("cmap", None),
+        cmap=kwargs.get("cmap"),
         norm=norm,
-        c=kwargs.get("c", None),
+        c=kwargs.get("c"),
         s=kwargs.get("ms", 3),
         edgecolors=kwargs.get("edgecolors", "none"),
         alpha=kwargs.get("alpha", 1.0),
@@ -570,7 +558,7 @@ def scatter(
     # Creation of the legend
     self.legpos[nax] = kwargs.get("legpos", self.legpos[nax])
     if self.legpos[nax] is not None:
-        copy_label = kwargs.get("label", None)
+        copy_label = kwargs.get("label")
         kwargs["label"] = None
         self.legend(ax, check="no", fromplot=True, **kwargs)
         kwargs["label"] = copy_label
@@ -587,19 +575,16 @@ def scatter(
 
 
 def colorbar(self, pcm=None, axs=None, cax=None, check=True, **kwargs) -> None:
-    """
-    Method to display a colorbar in a selected position. If the keyword cax is
+    """Method to display a colorbar in a selected position. If the keyword cax is
     enabled the colorbar is located in a specific axis, otherwise an axis will
     be shrunk in order to place the colorbar.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - axs: axis object, default None
         The axes where the display that will be used for the colorbar is
         located. If None, the last considered axis will be used.
@@ -628,7 +613,6 @@ def colorbar(self, pcm=None, axs=None, cax=None, check=True, **kwargs) -> None:
 
     Notes
     -----
-
     - If multiple subplots are present, multiple colorbars cannot be created
       from the display routine. This issue must be fixed in future releases.
     - Colorbar should not overlap the plot or other colormaps
@@ -638,8 +622,7 @@ def colorbar(self, pcm=None, axs=None, cax=None, check=True, **kwargs) -> None:
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: create a standard colorbar on the right
 
         >>> import pyPLUTO as pp
@@ -668,7 +651,6 @@ def colorbar(self, pcm=None, axs=None, cax=None, check=True, **kwargs) -> None:
         >>> I.colorbar(axs = ax[2], cax = ax[3])
 
     """
-
     # Check parameters
     param = {
         "clabel",
@@ -710,7 +692,7 @@ def colorbar(self, pcm=None, axs=None, cax=None, check=True, **kwargs) -> None:
         pcm,
         cax=cax,
         label=kwargs.get("clabel", ""),
-        ticks=kwargs.get("cticks", None),
+        ticks=kwargs.get("cticks"),
         orientation=ccor,
         extend=kwargs.get("extend", "neither"),
         extendrect=kwargs.get("extendrect", False),
@@ -726,7 +708,6 @@ def colorbar(self, pcm=None, axs=None, cax=None, check=True, **kwargs) -> None:
         self.fig.tight_layout()
 
     # End of function
-    return None
 
 
 def _set_cscale(
@@ -737,19 +718,16 @@ def _set_cscale(
     tresh: float,
     lint: float | None = None,
 ):
-    """
-    Sets the color scale of a pcolormesh given the scale, the minimum and the
+    """Sets the color scale of a pcolormesh given the scale, the minimum and the
     maximum.
 
     Returns
     -------
-
     - norm: Normalize
         The normalization of the colormap
 
     Parameters
     ----------
-
     - cscale (not optional): {'linear','log','symlog','twoslope'}, default 'linear'
         Sets the colorbar scale. Default is the linear ('norm') scale.
     - tresh (not optional): float
@@ -765,14 +743,12 @@ def _set_cscale(
 
     Notes
     -----
-
     - The lint keyword is deprecated, please use tresh instead
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: set a linear colormap between 0 and 1
 
         >>> _set_cscale('linear', 0.0, 1.0)
@@ -786,7 +762,6 @@ def _set_cscale(
         >>> _set_cscale('twoslope', -1.0, 1.0, 0.1)
 
     """
-
     if lint is not None:
         warnings.warn(
             "'lint' keyword is deprecated, please use \

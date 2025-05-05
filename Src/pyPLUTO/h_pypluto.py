@@ -5,31 +5,26 @@ from typing import Any
 
 
 def makelist(el: Any) -> list[Any]:
-    """
-    If the element is not a list, it converts it into a list.
+    """If the element is not a list, it converts it into a list.
 
     Returns
     -------
-
     - list[Any]
         The list of chosen elements.
 
     Parameters
     ----------
-
     - el (not optional): Any
         The element to be converted into a list.
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: element is a list
 
         >>> makelist([1,2,3])
@@ -41,24 +36,20 @@ def makelist(el: Any) -> list[Any]:
         [1]
 
     """
-
     # Return the element as a list
     return el if isinstance(el, list) else [el]
 
 
 def check_par(par: set[str], func: str, **kwargs: Any) -> None:
-    """
-    Checks if a parameter is in the corresponding list depending on the
+    """Checks if a parameter is in the corresponding list depending on the
     function. If the parameter does not belong to the list it raises a warning.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - func (not optional): str
         The name of the function.
     - par (not optional): list[str]
@@ -68,14 +59,12 @@ def check_par(par: set[str], func: str, **kwargs: Any) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: check if the parameters are in the list (no warning)
 
         **kwargs = {'a': 1, 'b': 2, 'c': 3}
@@ -87,20 +76,18 @@ def check_par(par: set[str], func: str, **kwargs: Any) -> None:
         >>> check_par({'a','b','c'}, 'func', **kwargs)
 
     """
-
     # Check if the parameters are in the list
-    notfound: list[str] = [(i) for i in kwargs.keys() if i not in par]
+    notfound: list[str] = [(i) for i in kwargs if i not in par]
 
     # If the parameters are not in the list, raise a warning
     if len(notfound) > 0:
         warn = (
-            f"WARNING: elements {str(notfound)} not found!"
+            f"WARNING: elements {notfound!s} not found!"
             f"Please check your spelling! (function {func})"
         )
         warnings.warn(warn, UserWarning)
 
     # End of the function
-    return None
 
 
 # Set color warning formatter
@@ -118,30 +105,25 @@ def color_error(type, value, tb):
 
 # Define the session
 def find_session():
-    """
-    Find the session in which the code is running.
+    """Find the session in which the code is running.
 
     Returns
     -------
-
     - session: str
         The name of the session.
 
     Parameters
     ----------
-
     - None
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Standard Python interpreter
 
         >>> find_session()
@@ -163,7 +145,6 @@ def find_session():
         'Unknown session'
 
     """
-
     # Try to get IPython. If not available, it's not an IPython session.
     try:
         from IPython import get_ipython

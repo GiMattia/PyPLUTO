@@ -8,8 +8,7 @@ from .h_pypluto import check_par
 
 
 class Load:
-    """
-    The Load class loads the data (fluid) from the output files. The
+    """The Load class loads the data (fluid) from the output files. The
     initialization corresponds to the loading, if wanted, of one or more
     datafiles for the fluid. The data are loaded in a memory mapped numpy
     multidimensional array. Such approach does not load the full data until
@@ -18,12 +17,10 @@ class Load:
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - alone: bool | None, default False
         If the files are standalone. If False, the code will look for the
         grid file in the folder. If True, the code will look for the grid
@@ -69,14 +66,12 @@ class Load:
 
     Notes
     -----
-
     - Warning if the .out files are not found.
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Load the data from the default folder and output
 
         >>> D = pp.Load()
@@ -164,7 +159,7 @@ class Load:
         # If not code is provided (or the code is PLUTO/gPLUTO) just skip
         if not code or code.lower() in {"pluto", "gpluto"}:
             pass
-        elif code.lower() in codedict.keys():
+        elif code.lower() in codedict:
             init = f"Creating instance with alternate method using code: {code}"
             if text is True:
                 print(init)
@@ -246,7 +241,7 @@ class Load:
         self._nshp_st2: NDArray
         self._gridsize_st3: int
         self._nshp_st3: NDArray
-        self._full3d: bool = kwargs.get("full3d", None)
+        self._full3d: bool = kwargs.get("full3d")
 
         _nout_out: int | list[int]  # Output to be printed
 
@@ -259,7 +254,7 @@ class Load:
             None: None,
         }
 
-        if (endian := kwargs.get("endian", None)) not in self._d_end.keys():
+        if (endian := kwargs.get("endian")) not in self._d_end.keys():
             error = f"Invalid endianess. Valid values are {self._d_end.keys()}"
             raise ValueError(error)
 
@@ -274,7 +269,7 @@ class Load:
         self._check_pathformat(path)
 
         # Find the format of the data files
-        self._find_format(datatype, kwargs.get("alone", None))
+        self._find_format(datatype, kwargs.get("alone"))
 
         # Find relevant information without opening the files (e.g.
         # the number of files to be loaded) or opening the *.out files
@@ -309,7 +304,7 @@ class Load:
             print(f"Load: folder {path},     output {_nout_out}")
 
         # Try to read the file definitions.h
-        defh = kwargs.get("defh", None)
+        defh = kwargs.get("defh")
         if defh is not False:
             pathdefh = self.pathdir / "definitions.h"
             defhfile = "definitions.hpp"
@@ -317,16 +312,16 @@ class Load:
                 pathdefh = self.pathdir / "definitions.hpp"
                 defhfile = "definitions.h"
             try:
-                setattr(self, "defh", self._read_defh(pathdefh))
+                self.defh = self._read_defh(pathdefh)
             except FileNotFoundError:
                 print(f"No {defhfile} is read!") if defh is True else ...
 
         # Try to read the file pluto.ini
-        plini = kwargs.get("plini", None)
+        plini = kwargs.get("plini")
         if plini is not False:
             pathplini = self.pathdir / "pluto.ini"
             try:
-                setattr(self, "plini", self._read_plini(pathplini))
+                self.plini = self._read_plini(pathplini)
             except FileNotFoundError:
                 print("No pluto.ini is read!") if plini is True else ...
         return

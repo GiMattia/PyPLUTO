@@ -1,5 +1,4 @@
-"""
-AMR Flow past cylinder test
+"""AMR Flow past cylinder test
 
 This test shows how to plot data from the Load class when handling data obtained
 from a simulation with AMR.
@@ -15,7 +14,6 @@ shown on screen.
 
 # Loading the relevant packages
 import numpy as np
-
 import pyPLUTO
 
 # Load the data (4 levels of AMR)

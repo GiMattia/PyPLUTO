@@ -1,8 +1,7 @@
 import os
 
-from PyQt6.QtWidgets import QFileDialog
-
 import pyPLUTO as pp
+from PyQt6.QtWidgets import QFileDialog
 
 
 def load_data(self):
@@ -77,10 +76,10 @@ def select_folder(self):
     if file_path:
         self.folder_path = os.path.dirname(file_path)
         datatype = file_path.split("/")[-1].split(".")[-1]
-        datatype = datatype if datatype in formats_list.keys() else None
+        datatype = datatype if datatype in formats_list else None
         datatry = file_path.split("/")[-1].split(".")[0]
         self.datatype = (
-            datatry if datatry in formats_list.keys() and datatype is None else datatype
+            datatry if datatry in formats_list and datatype is None else datatype
         )
         try:
             self.nout = int(file_path.split("/")[-1].split(".")[1])

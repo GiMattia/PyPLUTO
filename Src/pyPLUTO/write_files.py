@@ -13,17 +13,14 @@ def _write_h5(
     grid: bool = False,
     **kwargs: Any,
 ) -> None:
-    """
-    Write the data to a HDF5 file.
+    """Write the data to a HDF5 file.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - data (not optional): NDArray | dict
         the data to write to the HDF5 file
     - dataname: str
@@ -35,20 +32,17 @@ def _write_h5(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Write the data to a HDF5 file
 
         >>> write_h5('data.h5')
 
     """
-
     # Create the path to the HDF5 file
     path_h5 = self.pathdir / filename
     if not filename.endswith(".h5"):
@@ -79,39 +73,32 @@ def _write_h5(
             f.create_dataset("dx3", data=kwargs.get("dx3", self.dx3))
 
     # End of the function
-    return None
 
 
 def write_vtk(self):
-    """
-    Write the data to a VTK file.
+    """Write the data to a VTK file.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - None
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Write the data to a VTK file
 
         >>> write_vtk()
 
     """
-
     raise NotImplementedError("write_vtk() is not yet implemented.")
     # Create the path to the VTK file
     self._pathvtk = self.pathdir / (self.format + ".vtk")
@@ -167,39 +154,32 @@ def write_vtk(self):
                         f.write(str(self.data[key][i, j, k]) + "\n")
 
     # End of the function
-    return None
 
 
 def write_tab(self):
-    """
-    Write the data to a tab-separated file.
+    """Write the data to a tab-separated file.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - None
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Write the data to a tab-separated file
 
         >>> write_tab()
 
     """
-
     raise NotImplementedError("write_tab() is not yet implemented.")
 
     # Create the path to the tab-separated file
@@ -221,39 +201,32 @@ def write_tab(self):
                     f.write("\n")
 
     # End of the function
-    return None
 
 
 def write_bin(self):
-    """
-    Write the data to a binary file.
+    """Write the data to a binary file.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - None
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Write the data to a binary file
 
         >>> write_bin()
 
     """
-
     raise NotImplementedError("write_bin() is not yet implemented.")
 
     # Create the path to the binary file
@@ -267,7 +240,6 @@ def write_bin(self):
             f.write(self.data[key].tobytes())
 
     # End of the function
-    return None
 
 
 def write_file(
@@ -279,17 +251,14 @@ def write_file(
     grid: bool = False,
     **kwargs: Any,
 ) -> None:
-    """
-    Write the data to a file.
+    """Write the data to a file.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - data (not optional): NDArray | dict
         the data to write to the file
     - datatype: str
@@ -305,20 +274,17 @@ def write_file(
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Write the data to a file
 
             >>> write_file('data.h5')
 
     """
-
     # Check the datatype of the input data
     if datatype is None:
         datatype = filename.split(".")[-1]
@@ -339,4 +305,3 @@ def write_file(
         pass
 
     # End of the function
-    return None

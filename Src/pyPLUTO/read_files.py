@@ -6,50 +6,41 @@ import numpy as np
 
 
 def read_vtk(self) -> None:
-    """
-    Read the data from a VTK file.
+    """Read the data from a VTK file.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - None
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Read the data from a VTK file
 
         >>> read_vtk()
 
     """
-
     raise NotImplementedError("read_vtk() is not yet implemented.")
 
 
 def _read_h5(self, filename: str, **kwargs: Any) -> None:
-    """
-    Read the data from a HDF5 file.
+    """Read the data from a HDF5 file.
 
     Returns
     -------
-
     - the data in a dictionary
 
     Parameters
     ----------
-
     - filename: str
         The name of the file to be read.
     - kwargs: Any
@@ -57,20 +48,17 @@ def _read_h5(self, filename: str, **kwargs: Any) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Read the data from a HDF5 file
 
         >>> read_h5('filename.h5')
 
     """
-
     # Create the path to the HDF5 file
     try:
         self._pathh5 = self.pathdir / filename
@@ -88,84 +76,68 @@ def _read_h5(self, filename: str, **kwargs: Any) -> None:
 
 
 def read_tab(self) -> None:
-    """
-    Read the data from a tab file.
+    """Read the data from a tab file.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - None
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Read the data from a tab file
 
         >>> read_tab()
 
     """
-
     raise NotImplementedError("read_tab() is not yet implemented.")
 
 
 def read_bin(self) -> None:
-    """
-    Read the data from a binary file.
+    """Read the data from a binary file.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - None
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Read the data from a binary file
 
         >>> read_bin()
 
     """
-
     raise NotImplementedError("read_bin() is not yet implemented.")
 
 
 def _read_dat(self, filename: str, **kwargs: Any) -> None:
-    """
-
-    Read the data from a dat file.
+    """Read the data from a dat file.
 
     Returns
     -------
-
     - The file columns as a dicionary
 
     Parameters
     ----------
-
     - filename (not optional): str
         The name of the file to be read.
     - kwargs: Any
@@ -177,20 +149,17 @@ def _read_dat(self, filename: str, **kwargs: Any) -> None:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Read the data from a dat file
 
         >>> read_dat('filename.dat')
 
     """
-
     # Create the path to the HDF5 file
     try:
         self._pathh5 = self.pathdir / filename
@@ -213,17 +182,14 @@ def _read_dat(self, filename: str, **kwargs: Any) -> None:
 
 
 def read_file(self, filename: str, datatype: str = None, **kwargs: Any) -> Any:
-    """
-    Read the data from the output files.
+    """Read the data from the output files.
 
     Returns
     -------
-
     - the data as a dicionary
 
     Parameters
     ----------
-
     - filename (not optional): str
         The name of the file to be read.
     - datatype: str
@@ -233,20 +199,17 @@ def read_file(self, filename: str, datatype: str = None, **kwargs: Any) -> Any:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Read the data from the output files
 
         >>> read_files()
 
     """
-
     # Check the datatype of the input data
     if datatype is None:
         datatype = filename.split(".")[-1]

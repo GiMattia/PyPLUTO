@@ -2,18 +2,15 @@ import h5py
 
 
 def echo_load(self, nout, path, vars):
-    """
-    Method to load the data from the output files of the ECHO code. The data
+    """Method to load the data from the output files of the ECHO code. The data
     are loaded only from h5 files and only a single output is possible.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - nout: int | str | list | None, default 0
         The output number to be loaded.
     - path: str, default './'
@@ -22,7 +19,6 @@ def echo_load(self, nout, path, vars):
         The variables to be loaded. If 'True', all the variables are loaded.
 
     """
-
     # Check the path and convert it to a Path object
     self._check_pathformat(path)
 
@@ -53,7 +49,7 @@ def echo_load(self, nout, path, vars):
     for key in grid.keys():
 
         # Check if the key is in the dictionary and convert it
-        if key in conv_dict.keys():
+        if key in conv_dict:
             setattr(self, conv_dict[key], grid[key][:])
 
         # If the key is not in the dictionary, simply store the data
@@ -117,7 +113,7 @@ def echo_load(self, nout, path, vars):
         [var := var[0] for dim in [self.nx3, self.nx2, self.nx1] if dim == 1]
 
         # Check if the variable is in the dictionary and convert it
-        if valkey in conv_dict.keys():
+        if valkey in conv_dict:
             setattr(self, conv_dict[valkey], var.T)
 
         # If the variable is not in the dictionary, simply store the data
@@ -131,4 +127,3 @@ def echo_load(self, nout, path, vars):
     tmp.close()
 
     # End of the function
-    return None

@@ -3,17 +3,14 @@ import numpy as np
 
 
 def _inspect_hdf5(self, i: int, exout: int) -> None:
-    """
-    Routine to inspect the hdf5 file from chombo.
+    """Routine to inspect the hdf5 file from chombo.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
         - exout (not optional): int
         The index of the output to be loaded.
     - i (not optional): int
@@ -21,21 +18,18 @@ def _inspect_hdf5(self, i: int, exout: int) -> None:
 
     Notes
     -----
-
     - This routines will be optimize in the future, alongside a novel
             implementation of the AMR in the PLUTO code.
 
     ----
 
     Examples
-    ========
-
+    --------
         - Example #1: Inspect the hdf5 file
 
                 >>> _inspect_hdf5(0, 0)
 
     """
-
     try:
         self._read_gridfile()
     except FileNotFoundError:
@@ -63,22 +57,17 @@ def _inspect_hdf5(self, i: int, exout: int) -> None:
 
     h5file.close()
 
-    return None
-
 
 def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
-    """
-    Scans the Chombo HDF5 data files for AMR in PLUTO.
+    """Scans the Chombo HDF5 data files for AMR in PLUTO.
 
     Returns
     -------
-
     - OutDict: dictionary
         The dictionary consisting of variable names as keys and its values.
 
     Parameters
     ----------
-
     - fp: pointer
         The data file pointer.
     - ilev: float
@@ -88,7 +77,6 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
 
     Notes
     -----
-
     - Due to the particularity of AMR, the grid arrays loaded in ReadGridFile
       are overwritten here.
     - This routines will be optimize in the future, alongside a novel
@@ -97,14 +85,12 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1:
 
             >>> _DataScanHDF5(fp, myvars, ilev)
 
     """
-
     # Read the grid information
     dim = fp["Chombo_global"].attrs.get("SpaceDim")
     nlev = fp.attrs.get("num_levels")
@@ -277,23 +263,23 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
         boxes = fl["boxes"]
         nbox = len(boxes["lo_i"])
         AMRLevel[i]["nbox"] = nbox
-        ncount = int(0)
+        ncount = 0
         AMRLevel[i]["box"] = []
         for j in range(nbox):  # loop on all boxes of a given level
             AMRLevel[i]["box"].append(
                 {
                     "x0": 0.0,
                     "x1": 0.0,
-                    "ib": int(0),
-                    "ie": int(0),
+                    "ib": 0,
+                    "ie": 0,
                     "y0": 0.0,
                     "y1": 0.0,
-                    "jb": int(0),
-                    "je": int(0),
+                    "jb": 0,
+                    "je": 0,
                     "z0": 0.0,
                     "z1": 0.0,
-                    "kb": int(0),
-                    "ke": int(0),
+                    "kb": 0,
+                    "ke": 0,
                 }
             )
             # Box indexes
@@ -432,17 +418,14 @@ def oplotbox(
     ax=None,
     **kwargs,
 ) -> None:
-    """
-      This method overplots the AMR boxes up to the specified level.
+    """This method overplots the AMR boxes up to the specified level.
 
-      Returns
-      -------
-
+    Returns
+    -------
       - None
 
-      Parameters
-      ----------
-
+    Parameters
+    ----------
       - AMRLevel: AMR object
     AMR object loaded during the reading and stored in the pload object.
       - ax: axis object
@@ -463,23 +446,20 @@ def oplotbox(
       - lrange: [level_min, level_max]
           The range to be overplotted.
 
-      Notes
-      -----
-
+    Notes
+    -----
       - This routines will be optimize in the future, alongside a novel
         implementation of the AMR in the PLUTO code.
 
       ----
 
-      Examples
-      ========
-
+    Examples
+    --------
       - Example #1: Overplot the AMR boxes up to the specified level
 
               >>> oplotbox(AMRLevel, lrange = [0,2])
 
     """
-
     nlev = len(AMRLevel)
     lrange[1] = min(lrange[1], nlev - 1)
     npl = lrange[1] - lrange[0] + 1

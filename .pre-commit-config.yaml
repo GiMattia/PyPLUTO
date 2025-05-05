@@ -1,7 +1,5 @@
-# .pre-commit-config.yaml
-
 repos:
-  # 1. Basic safety and cleanup checks
+  # 0. Pre-commit official hooks (cleanup, merge conflicts, etc.)
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -21,16 +19,18 @@ repos:
         files: \.py$
         args: ["--markdown-linebreak-ext=md"]
 
-  # 2. isort import
-  #- repo: https://github.com/pycqa/isort
- #   rev: "6.0.1"
+        
+  # 1. Code spelling
+  #- repo: https://github.com/codespell-project/codespell
+  #  rev: 'v2.4.1'
   #  hooks:
- #     - id: isort
-   #     args: ["--profile", "black"]
-   #     files: \.py$
-   #     stages: [pre-commit]
+  #    - id: codespell
+  #      name: codespell
+  #      #args: ["--ignore-words-list=nd"]  # Customize if needed
+  #      files: \.py$
+  #      stages: [pre-commit]
 
-  # 3. Format with Black
+  # 2. Black - code formatter (NOT Ruff)
   - repo: https://github.com/psf/black
     rev: 25.1.0
     hooks:
@@ -39,7 +39,18 @@ repos:
         files: \.py$
         stages: [pre-commit]
 
-  # 4. Lint with Ruff (no formatter)
+  # 3. Blackened-docs (formats code in docstrings)
+  - repo: https://github.com/adamchainz/blacken-docs
+    rev: "1.19.1"  # replace with latest tag on GitHub
+    hooks:
+    -   id: blacken-docs
+        #args: [--skip-errors]
+        stages: [pre-commit]
+        additional_dependencies:
+        - black==25.1.0
+
+
+  # 4. Ruff - linter, fixer (but NOT formatter)
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.11.7
     hooks:
@@ -47,3 +58,11 @@ repos:
         args: ["--fix"]
         files: \.py$
         stages: [pre-commit]
+
+  # 5. mypy - static typing
+  #- repo: https://github.com/pre-commit/mirrors-mypy
+  #  rev: v1.10.0
+  #  hooks:
+  #    - id: mypy
+  #      args: ["--install-types", "--non-interactive"]
+  #      name: mypy

@@ -10,8 +10,7 @@ from .h_pypluto import check_par
 
 
 class Image:
-    """
-    Class that creates a new figure and sets the LaTeX
+    """Class that creates a new figure and sets the LaTeX
     conditions, as well as the matplotlib style.
     Every Image is associated to a figure object and only one in order to
     avoid confusion between images and figures. If you want to create multiple
@@ -19,12 +18,10 @@ class Image:
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - close: bool, default True
         If True, the existing figure with the same window number is closed.
     - fig: Figure | None, default None
@@ -64,14 +61,12 @@ class Image:
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: create an empty image
 
         >>> import pyPLUTO as pp

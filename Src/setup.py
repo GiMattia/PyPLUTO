@@ -1,6 +1,4 @@
-"""
-Setup.py file for installation without pip
-"""
+"""Setup.py file for installation without pip"""
 
 #!/usr/bin/env python
 

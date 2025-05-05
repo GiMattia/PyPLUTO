@@ -9,19 +9,16 @@ from .h_pypluto import check_par
 
 
 def contour(self, var: NDArray, check: bool = True, **kwargs: Any) -> LineCollection:
-    """
-    Plots a contour plot of a given variable. The function uses the
+    """Plots a contour plot of a given variable. The function uses the
     matplotlib.pyplot.contour function. The function returns None.
 
     Returns
     -------
-
     - cnt: LineCollection
         The set of contour lines of the given variable.
 
     Parameters
     ----------
-
     - alpha: float, default 1.0
         Sets the transparency of the contour lines.
     - aspect: {'auto', 'equal', float}, default 'auto'
@@ -137,21 +134,18 @@ def contour(self, var: NDArray, check: bool = True, **kwargs: Any) -> LineCollec
 
     Notes
     -----
-
     - Need to improve the colorbar, now only lines are plotted and not the
       full colormap.
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Plot a contour plot of a variable
 
         >>> I.contour(D.rho, levels = 10)
 
     """
-
     # Check parameters
     param = {
         "alpha",
@@ -221,12 +215,12 @@ def contour(self, var: NDArray, check: bool = True, **kwargs: Any) -> LineCollec
     levels = kwargs.get("levels", np.linspace(vmin, vmax, 10))
 
     # Keyword for colorbar and colorscale
-    colors = kwargs.get("c", None)
-    cmap = kwargs.get("cmap", None)
-    cpos = kwargs.get("cpos", None)
+    colors = kwargs.get("c")
+    cmap = kwargs.get("cmap")
+    cpos = kwargs.get("cpos")
     cscale = kwargs.get("cscale", "norm")
     tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
-    lint = kwargs.get("lint", None)
+    lint = kwargs.get("lint")
     lw = kwargs.get("lw", 1.0)
 
     if "colors" in "kwargs" and "cmap" in "kwargs":
@@ -263,19 +257,16 @@ def contour(self, var: NDArray, check: bool = True, **kwargs: Any) -> LineCollec
 
 
 def streamplot(self, var1, var2, check: bool = True, **kwargs: Any) -> LineCollection:
-    """
-    Plots a streamplot of a vector field. The function uses the streamplot
+    """Plots a streamplot of a vector field. The function uses the streamplot
     function from matplotlib.pyplot.
 
     Returns
     -------
-
     - strm: LineCollection
         The streamplot of the given vector field.
 
     Parameters
     ----------
-
     - alpha: float, default 1.0
         Sets the opacity of the plot, where 1.0 means total opaque and 0.0 means
         total transparent.
@@ -410,20 +401,17 @@ def streamplot(self, var1, var2, check: bool = True, **kwargs: Any) -> LineColle
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Plot a streamplot of a vector field
 
         >>> I.streamplot(D.Bx1, D.Bx2)
 
     """
-
     # Check parameters
     param = {
         "alpha",
@@ -486,7 +474,6 @@ def streamplot(self, var1, var2, check: bool = True, **kwargs: Any) -> LineColle
     if kwargs.get("transpose", False) is True:
         varx, vary = varx.T, vary.T
 
-    #
     fieldmod = np.sqrt(varx**2 + vary**2)
     vmax = kwargs.get("vmax", np.nanmax(fieldmod))
     vmin = kwargs.get("vmin", np.nanmin(fieldmod))
@@ -500,9 +487,9 @@ def streamplot(self, var1, var2, check: bool = True, **kwargs: Any) -> LineColle
     self._hide_text(nax, ax.texts)
 
     # Keyword for colorbar and colorscale
-    color = kwargs.get("c", None)
-    cmap = kwargs.get("cmap", None)
-    cpos = kwargs.get("cpos", None)
+    color = kwargs.get("c")
+    cmap = kwargs.get("cmap")
+    cpos = kwargs.get("cpos")
     cscale = kwargs.get("cscale", "norm")
     tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
 
@@ -517,7 +504,7 @@ def streamplot(self, var1, var2, check: bool = True, **kwargs: Any) -> LineColle
     arrowsize = kwargs.get("arrowsize", 1)
     minlength = kwargs.get("minlength", 0.1)
     integration_direction = kwargs.get("integration_direction", "both")
-    start_points = kwargs.get("start_points", None)
+    start_points = kwargs.get("start_points")
     maxlength = kwargs.get("maxlength", 5)
     broken_streamlines = kwargs.get("brokenlines", True)
 

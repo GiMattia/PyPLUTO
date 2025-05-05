@@ -1,10 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import pyPLUTO as pp
 from globals import cmaps
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
-
-import pyPLUTO as pp
 
 
 def update_cmap_selector(self):

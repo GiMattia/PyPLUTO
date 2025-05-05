@@ -32,7 +32,7 @@ def _read_plini(self, path):
 
     current_sec = None
 
-    with open(path, "r") as f:
+    with open(path) as f:
         for line in f:
             line = line.strip()
             if not line or line.startswith("#"):

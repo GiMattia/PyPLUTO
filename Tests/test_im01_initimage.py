@@ -1,7 +1,6 @@
 import matplotlib as mpl
-import pytest
-
 import pyPLUTO as pp
+import pytest
 
 
 # Test the default values of the figure created in the __init__

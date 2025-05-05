@@ -1,9 +1,8 @@
 import os
 from pathlib import Path
 
-import pytest
-
 import pyPLUTO as pp
+import pytest
 
 # Assuming the root of the repo is your current working directory
 repo_root = Path(os.getcwd())

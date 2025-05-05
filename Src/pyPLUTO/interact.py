@@ -1,6 +1,6 @@
-import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib import animation
 from matplotlib.widgets import Slider
 
 
@@ -13,18 +13,15 @@ def interactive(
     labslider=None,
     **kwargs,
 ) -> None:
-    """
-    Creates an interactive plot with a slider to change the data.
+    """Creates an interactive plot with a slider to change the data.
     Warning: it works only with the fluid variables.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - varx (not optional): array_like
         The x-axis variable.
     - vary: array_like, default None
@@ -44,7 +41,6 @@ def interactive(
 
     Notes
     -----
-
     - Check vmin and vmax to set the colorbar limits.
     - Interact is a very primordial version and it should not be used tu perform
         very complex plots. Instead, it gives a very nice overview of the data
@@ -55,8 +51,7 @@ def interactive(
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Create an interactive 2D plot
 
         >>> import pyPLUTO as pp
@@ -76,7 +71,6 @@ def interactive(
         >>> pp.show()
 
     """
-
     # Check parameters
     # param = {'ax','vmin','vmax'}
     # if check is True:
@@ -174,40 +168,32 @@ def interactive(
         self.plot(varx, np.array(vary[self.animkeys[0]].tolist()), ax=ax, **kwargs)
         self.anim_pcm = ax.get_lines()[0]
 
-    return None
-
 
 def _update_slider(self, i: int) -> None:
-    """
-    Updates the data in the interactive plot.
+    """Updates the data in the interactive plot.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - i  (not optional): int
         The slider index.
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Update the data in the interactive plot
 
         >>> _update_slider(1)
 
     """
-
     # Update the data
     var = self.anim_var[self.animkeys[i]]
     if np.ndim(var) == 2:
@@ -234,16 +220,13 @@ def _update_slider(self, i: int) -> None:
     self.fig.canvas.draw()
 
     # End of the function
-    return None
 
 
 def _update_both(self, i):
-    """
-    Updates both the plot and the slider value during animation.
+    """Updates both the plot and the slider value during animation.
 
     Returns
     -------
-
     - None
 
 
@@ -254,20 +237,17 @@ def _update_both(self, i):
 
     Notes
     -----
-
     - None
 
     ----
 
     Examples
-    ========
-
+    --------
     - Example #1: Update the data in the interactive plot
 
         >>> _update_slider(1)
 
     """
-
     # Update the plot with the current frame
     self._update_slider(i)
 
@@ -275,21 +255,17 @@ def _update_both(self, i):
     self.slider.set_val(i)
 
     # End of the function
-    return None
 
 
 def animate(self, gifname=None, frames=None, interval=500, updateslider=True):
-    """
-    Displays the animation interactively.
+    """Displays the animation interactively.
 
     Returns
     -------
-
     - None
 
     Parameters
     ----------
-
     - frames: int, default None
         The number of frames in the animation.
     - gifname: str, default None
@@ -301,12 +277,10 @@ def animate(self, gifname=None, frames=None, interval=500, updateslider=True):
 
     Notes
     -----
-
     - This method creates and shows an interactive animation based on the stored data.
 
     Examples
-    ========
-
+    --------
     - Example #1: Display the animation
 
             >>> show_animation()
@@ -316,7 +290,6 @@ def animate(self, gifname=None, frames=None, interval=500, updateslider=True):
             >>> show_animation(frames=[0, 1, 2], interval=300)
 
     """
-
     # Choose the frames
     frames = self.nsld if frames is None else frames
 

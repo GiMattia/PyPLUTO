@@ -1,5 +1,4 @@
-"""
-Particles CR Xpoint test
+"""Particles CR Xpoint test
 
 This test shows how to plot data from the Load class and the LoadPart class
 simultaneously and how to produce a scatter plot.
@@ -18,7 +17,6 @@ saved and shown on screen.
 
 import matplotlib.pyplot as plt
 import numpy as np
-
 import pyPLUTO
 
 # --- Load fluid and particle data ---

@@ -36,18 +36,50 @@ docs = [
 test = [
     "pytest",
     "pytest-doctestplus",
-    "flake8",
     "codecov",
     "pytest-cov",
     "approvaltests"
 ]
 dev = [
     "black",
-    "isort",
     "pre-commit",
     "ruff",
-    "mypy"
+    "mypy",
+    "blacken-docs"
 ]
 
 [tool.setuptools.packages.find]
 where = ["Src"]
+
+[tool.ruff]
+line-length = 88
+respect-gitignore = true
+fix = true
+fix-only = true
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle (errors)
+    "F",  # pyflakes (logical errors)
+    "I",  # isort (import sorting)
+    "UP", # pyupgrade (e.g. f-strings for older format)
+    "D",  # pydocstyle (docstring conventions)
+    "PL", # pylint (careful coding style)
+    "B",  # flake8-bugbear (likely bugs and design flaws)
+    "A",  # flake8-builtins (avoid shadowing built-ins)
+    "C4", # flake8-comprehensions (inefficient comprehensions)
+    "SIM",# flake8-simplify (simplify complex logic)
+    "PT", # flake8-pytest-style (if you use pytest)
+    "RUF",# Ruff-specific rules
+]
+
+ignore = [
+    "D203",  # Conflicts with D211 (one-blank-line-before-class)
+    "D213"   # Conflicts with D212 (summary on first vs second line)
+]
+
+
+[tool.mypy]
+check_untyped_defs = true
+ignore_missing_imports = true
+strict_optional = true

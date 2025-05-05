@@ -17,7 +17,9 @@ import numpy as np
 import pyPLUTO
 
 # Load the data (4 levels of AMR)
-Data = pyPLUTO.Load(path="Test_Problems/HD/Viscosity/Flow_Past_Cylinder", level=4)
+Data = pyPLUTO.Load(
+    path="Test_Problems/HD/Viscosity/Flow_Past_Cylinder", level=4
+)
 
 # Convert the grid to cartesian
 rr, pphh = np.meshgrid(Data.x1r, Data.x2r, indexing="ij")

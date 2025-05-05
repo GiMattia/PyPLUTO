@@ -274,7 +274,9 @@ def find_fieldlines(
 
     # Set the initial step size and maximum number of steps
     step = np.abs(
-        kwargs.get("step", min((xend - xbeg) / self.nx1, (yend - ybeg) / self.nx2))
+        kwargs.get(
+            "step", min((xend - xbeg) / self.nx1, (yend - ybeg) / self.nx2)
+        )
     )
 
     maxstep = kwargs.get("maxstep", 100 * step)
@@ -309,7 +311,9 @@ def find_fieldlines(
         return 1  # Do not trigger event (still below maximum step number)
 
     # Set the events to be triggered
-    close_to_start.terminal = True if kwargs.get("close", True) is True else False
+    close_to_start.terminal = (
+        True if kwargs.get("close", True) is True else False
+    )
     close_to_start.direction = 0
 
     outside_domain.terminal = True

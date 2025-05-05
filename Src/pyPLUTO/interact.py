@@ -165,7 +165,9 @@ def interactive(
         self.anim_pcm = ax.collections[0]
     else:
         # Plot the data if it is 1D
-        self.plot(varx, np.array(vary[self.animkeys[0]].tolist()), ax=ax, **kwargs)
+        self.plot(
+            varx, np.array(vary[self.animkeys[0]].tolist()), ax=ax, **kwargs
+        )
         self.anim_pcm = ax.get_lines()[0]
 
 
@@ -296,7 +298,9 @@ def animate(self, gifname=None, frames=None, interval=500, updateslider=True):
     update = self._update_both if updateslider else self._update_slider
 
     # Create the animation
-    ani = animation.FuncAnimation(self.fig, update, frames=frames, interval=interval)
+    ani = animation.FuncAnimation(
+        self.fig, update, frames=frames, interval=interval
+    )
 
     if gifname is not None:
         # Save as GIF

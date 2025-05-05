@@ -72,7 +72,9 @@ Image.display(
 
 # Compute the contour lines of the vector potential in two different ways
 lines = Data.find_contour(Data.Ax3, cmap="hot")
-contours = [Image.plot(line[0], line[1], ax=Image.ax[0], c="r") for line in lines]
+contours = [
+    Image.plot(line[0], line[1], ax=Image.ax[0], c="r") for line in lines
+]
 
 Image.contour(
     Data.Ax3,

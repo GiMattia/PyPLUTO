@@ -257,7 +257,9 @@ def gradient(
             )
 
             if self.geom == "SPHERICAL":
-                rr, _ = np.meshgrid(self.x1[irange], self.x3[krange], indexing="ij")
+                rr, _ = np.meshgrid(
+                    self.x1[irange], self.x3[krange], indexing="ij"
+                )
                 grad[1] /= rr * np.sin(self.x2[0])
 
             return np.asarray(grad)[:, i, k]
@@ -393,7 +395,9 @@ def divergence(
         var2 = np.copy(v2[irange, jrange])
 
         if self.geom != "CARTESIAN":
-            rr, tt = np.meshgrid(self.x1[irange], self.x2[jrange], indexing="ij")
+            rr, tt = np.meshgrid(
+                self.x1[irange], self.x2[jrange], indexing="ij"
+            )
 
             if self.geom in ["POLAR", "CYLINDRICAL"]:
                 var1 *= rr
@@ -421,15 +425,21 @@ def divergence(
             var3 = np.copy(v3[irange, 0, krange])
 
             if self.geom != "CARTESIAN":
-                rr, _ = np.meshgrid(self.x1[irange], self.x3[krange], indexing="ij")
+                rr, _ = np.meshgrid(
+                    self.x1[irange], self.x3[krange], indexing="ij"
+                )
 
                 if self.geom == "POLAR":
                     var1 *= rr
                 elif self.geom == "SPHERICAL":
                     var1 *= rr**2
 
-            div1 = np.gradient(var1, self.x1[irange], axis=0, edge_order=edge_order)
-            div3 = np.gradient(var3, self.x3[krange], axis=1, edge_order=edge_order)
+            div1 = np.gradient(
+                var1, self.x1[irange], axis=0, edge_order=edge_order
+            )
+            div3 = np.gradient(
+                var3, self.x3[krange], axis=1, edge_order=edge_order
+            )
 
             if self.geom == "POLAR":
                 div1 /= rr
@@ -458,9 +468,15 @@ def divergence(
                     var1 *= rr**2
                     var2 *= np.sin(tt)
 
-            div1 = np.gradient(var1, self.x1[irange], axis=0, edge_order=edge_order)
-            div2 = np.gradient(var2, self.x2[jrange], axis=1, edge_order=edge_order)
-            div3 = np.gradient(var3, self.x3[krange], axis=2, edge_order=edge_order)
+            div1 = np.gradient(
+                var1, self.x1[irange], axis=0, edge_order=edge_order
+            )
+            div2 = np.gradient(
+                var2, self.x2[jrange], axis=1, edge_order=edge_order
+            )
+            div3 = np.gradient(
+                var3, self.x3[krange], axis=2, edge_order=edge_order
+            )
 
             if self.geom == "POLAR":
                 div1 /= rr
@@ -567,7 +583,9 @@ def curl(
         var3 = np.copy(v3[irange, jrange])
 
         if self.geom != "CARTESIAN":
-            rr, tt = np.meshgrid(self.x1[irange], self.x2[jrange], indexing="ij")
+            rr, tt = np.meshgrid(
+                self.x1[irange], self.x2[jrange], indexing="ij"
+            )
 
             if self.geom == "POLAR":
                 var2 *= rr
@@ -579,7 +597,9 @@ def curl(
 
         dv1_dx2 = np.gradient(var1, self.x2, axis=1, edge_order=edge_order)
         dv2_dx1 = np.gradient(var2, self.x1, axis=0, edge_order=edge_order)
-        dv3_dx1, dv3_dx2 = np.gradient(var3, self.x1, self.x2, edge_order=edge_order)
+        dv3_dx1, dv3_dx2 = np.gradient(
+            var3, self.x1, self.x2, edge_order=edge_order
+        )
 
         curl1 = dv3_dx2
         curl2 = -dv3_dx1
@@ -610,7 +630,9 @@ def curl(
             var3 = np.copy(v3[irange, 0, krange])
 
             if self.geom != "CARTESIAN":
-                rr, _ = np.meshgrid(self.x1[irange], self.x3[krange], indexing="ij")
+                rr, _ = np.meshgrid(
+                    self.x1[irange], self.x3[krange], indexing="ij"
+                )
 
                 if self.geom == "POLAR":
                     var2 *= rr

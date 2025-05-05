@@ -51,8 +51,11 @@ dev = [
 [tool.setuptools.packages.find]
 where = ["Src"]
 
+[tool.black]
+line-length = 80
+
 [tool.ruff]
-line-length = 88
+line-length = 80
 respect-gitignore = true
 fix = true
 fix-only = true
@@ -77,7 +80,6 @@ ignore = [
     "D203",  # Conflicts with D211 (one-blank-line-before-class)
     "D213"   # Conflicts with D212 (summary on first vs second line)
 ]
-
 
 [tool.mypy]
 check_untyped_defs = true

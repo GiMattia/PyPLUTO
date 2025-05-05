@@ -21,8 +21,12 @@ import pyPLUTO
 
 # --- Load fluid and particle data ---
 Data = pyPLUTO.Load(path="Test_Problems/Particles/CR/Xpoint")
-Dp_f = pyPLUTO.LoadPart(path="Test_Problems/Particles/CR/Xpoint", datatype="vtk")
-Dp_i = pyPLUTO.LoadPart(0, path="Test_Problems/Particles/CR/Xpoint", datatype="vtk")
+Dp_f = pyPLUTO.LoadPart(
+    path="Test_Problems/Particles/CR/Xpoint", datatype="vtk"
+)
+Dp_i = pyPLUTO.LoadPart(
+    0, path="Test_Problems/Particles/CR/Xpoint", datatype="vtk"
+)
 
 
 # --- Compute Lorentz factor and sort ---

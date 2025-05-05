@@ -69,7 +69,9 @@ def _load_variables(
         self._filepath = self.pathdir / ("data" + self._d_info["endpath"][i])
     elif class_name == "LoadPart":
         # If the class name is LoadPart, the filepath is particles
-        self._filepath = self.pathdir / ("particles" + self._d_info["endpath"][i])
+        self._filepath = self.pathdir / (
+            "particles" + self._d_info["endpath"][i]
+        )
     else:
         # If the class name is not recognized, raise an error
         raise NameError("Invalid class name.")
@@ -126,7 +128,8 @@ def _load_variables(
         start_byte = min(self._offset[j] for j in self._load_vars)
         end_byte = max(
             self._offset[j]
-            + np.prod(self._shape[j]) * np.dtype(self._d_info["binformat"][i]).itemsize
+            + np.prod(self._shape[j])
+            * np.dtype(self._d_info["binformat"][i]).itemsize
             for j in self._load_vars
         )
 

@@ -210,7 +210,9 @@ def _set_yrange(
         smally = y[yrange]
 
         # Extend slightly the range
-        ymin, ymax = self._range_offset(smally.min(), smally.max(), self.yscale[nax])
+        ymin, ymax = self._range_offset(
+            smally.min(), smally.max(), self.yscale[nax]
+        )
         # ymin   = smally.min() - 0.02*np.abs(smally.min())
         # ymax   = smally.max() + 0.02*np.abs(smally.max())
         ax.set_ylim(ymin, ymax)
@@ -233,7 +235,9 @@ def _set_yrange(
         smally = y[yrange]
 
         # Extend slightly the range (not perfect method)
-        ymin, ymax = self._range_offset(smally.min(), smally.max(), self.yscale[nax])
+        ymin, ymax = self._range_offset(
+            smally.min(), smally.max(), self.yscale[nax]
+        )
         # ymin   = smally.min() - 0.02*np.abs(smally.min())
         # ymax   = smally.max() + 0.02*np.abs(smally.max())
 
@@ -313,7 +317,9 @@ def _range_offset(
         return (ymin, ymax)
 
 
-def _assign_ax(self, ax: Axes | list[Axes] | None, **kwargs: Any) -> tuple[Axes, int]:
+def _assign_ax(
+    self, ax: Axes | list[Axes] | None, **kwargs: Any
+) -> tuple[Axes, int]:
     """Sets the axes of the figure where the plot/feature should go.
     If no axis is present, an axis is created. If the axis is present
     but no axis is seletced, the last axis is selected.

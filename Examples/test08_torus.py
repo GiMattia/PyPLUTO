@@ -25,7 +25,9 @@ import pyPLUTO
 Data = pyPLUTO.Load(path="Test_Problems/MHD/Torus")
 
 # Creating the image
-Image = pyPLUTO.Image(nwin=2, figsize=[11, 5], suptitle="Test 08 - MHD Torus test")
+Image = pyPLUTO.Image(
+    nwin=2, figsize=[11, 5], suptitle="Test 08 - MHD Torus test"
+)
 
 # Creating the subplots (2 for the different variables)
 ax = Image.create_axes(ncol=2, top=0.91)
@@ -71,7 +73,9 @@ xc, yc, B = Data.reshape_cartesian(var1=Bx, var2=Bz, nx1=500)
 Bx, Bz = B[0], B[1]
 
 # Plot the magnetic field lines in two different ways
-Image.streamplot(Bx, Bz, x1=xc, x2=yc, ax=0, c="gray", lw=0.7, vmin=1.0e-5, density=5)
+Image.streamplot(
+    Bx, Bz, x1=xc, x2=yc, ax=0, c="gray", lw=0.7, vmin=1.0e-5, density=5
+)
 
 lines = Data.find_fieldlines(
     Bx, Bz, x1=xc, x2=yc, x0=[3.75, 4, 4.25], y0=[0, 0, 0], maxstep=0.07

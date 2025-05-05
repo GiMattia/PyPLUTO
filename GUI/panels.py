@@ -1,4 +1,11 @@
-from PyQt6.QtWidgets import QCheckBox, QComboBox, QFrame, QLabel, QLineEdit, QPushButton
+from PyQt6.QtWidgets import (
+    QCheckBox,
+    QComboBox,
+    QFrame,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+)
 
 
 def add_line(self, control_layout):
@@ -31,7 +38,9 @@ def add_label(self, label, control_layout, data=None, width=None, height=None):
     control_layout.addWidget(labelgui)
 
 
-def add_lineedit(self, label, control_layout, data=None, width=None, height=None):
+def add_lineedit(
+    self, label, control_layout, data=None, width=None, height=None
+):
 
     lineedit = QLineEdit()
     setattr(self, label, lineedit)
@@ -41,7 +50,9 @@ def add_lineedit(self, label, control_layout, data=None, width=None, height=None
     control_layout.addWidget(lineedit)
 
 
-def add_checkbox(self, label, control_layout, data=None, width=None, height=None):
+def add_checkbox(
+    self, label, control_layout, data=None, width=None, height=None
+):
 
     checkbox = QCheckBox(label)
     if data is not None:

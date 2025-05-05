@@ -101,7 +101,9 @@ def slices(
     return newvar
 
 
-def mirror(self, var: NDArray, dirs="l", xax=None, yax=None) -> list[np.ndarray]:
+def mirror(
+    self, var: NDArray, dirs="l", xax=None, yax=None
+) -> list[np.ndarray]:
     """Function that mirrors the variable in the specified directions.
     Multiple directions can be specified.
 
@@ -319,7 +321,9 @@ def cartesian_vector(
     }
 
     if var is not None:
-        var_0 = [self.check_var(v, kwargs.get("transpose", False)) for v in vars[var]]
+        var_0 = [
+            self.check_var(v, kwargs.get("transpose", False)) for v in vars[var]
+        ]
     elif "var1" in kwargs and "var2" in kwargs:
         var_0 = [
             self.check_var(kwargs["var1"], kwargs.get("transpose", False)),
@@ -329,7 +333,9 @@ def cartesian_vector(
         raise ValueError("Either var or var1 and var2 must be specified.")
 
     if "var3" in kwargs:
-        var_0.append(self.check_var(kwargs["var3"], kwargs.get("transpose", False)))
+        var_0.append(
+            self.check_var(kwargs["var3"], kwargs.get("transpose", False))
+        )
 
     # x1 = kwargs.get("x1", self.x1)
     x2 = kwargs.get("x2", self.x2)

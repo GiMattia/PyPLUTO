@@ -144,20 +144,25 @@ def _find_format(self, datatype: str | None, alone: bool | None) -> None:
             )
         elif class_name == "LoadPart":
             err = (
-                f"Invalid datatype {datatype}.\n" f"Possible formats are: dbl, flt, vtk"
+                f"Invalid datatype {datatype}.\n"
+                f"Possible formats are: dbl, flt, vtk"
             )
         raise ValueError(err)
 
     # Create the list of types to iterate over. If the datatype is None
     # then the list is the full list of types, otherwise the list is the
     # datatype itself.
-    typeout0, typelon0 = ([], []) if datatype is not None else (type_out, type_lon)
+    typeout0, typelon0 = (
+        ([], []) if datatype is not None else (type_out, type_lon)
+    )
     type_out = [datatype] if datatype in type_out else typeout0
     type_lon = [datatype] if datatype in type_lon else typelon0
 
     # Create the list of functions to be called (.out or alone)
     funcf = [_check_typeout] if len(type_out) > 0 and alone is not True else []
-    funcf += [_check_typelon] if len(type_lon) > 0 and alone is not False else []
+    funcf += (
+        [_check_typelon] if len(type_lon) > 0 and alone is not False else []
+    )
 
     # Define the dictionary for the function argument
     dict_func = {"_check_typeout": type_out, "_check_typelon": type_lon}

@@ -5,7 +5,9 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 
 
-def savefig(filename: str | Path = "img.png", bbox: str | None = "tight") -> None:
+def savefig(
+    filename: str | Path = "img.png", bbox: str | None = "tight"
+) -> None:
     raise NotImplementedError(
         "pyPLUTO.savefig is deprecated.\n"
         "Please call savefig from the Image class instead"

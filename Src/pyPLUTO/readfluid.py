@@ -138,7 +138,9 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
     # Initialize the offset and shape arrays, the endianess and the coordinates
     # dictionary
     self._offset, self._shape = ({}, {})
-    endl = self._d_info["endianess"][i] = ">" if endian is None else self._d_end[endian]
+    endl = self._d_info["endianess"][i] = (
+        ">" if endian is None else self._d_end[endian]
+    )
     if endl is None:
         raise ValueError("Error: Wrong endianess in vtk file.")
     if self._info is True:
@@ -267,7 +269,9 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
                     if ind == len(self._d_info["varslist"][i]) - 1
                     else len(self._d_info["varslist"][i][ind + 1])
                 )
-                offset = offset + scrh + lenvar - len(self._d_info["varslist"][i][0])
+                offset = (
+                    offset + scrh + lenvar - len(self._d_info["varslist"][i][0])
+                )
             break
         else:
             self._offset[var] = offset

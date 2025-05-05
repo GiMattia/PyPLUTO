@@ -44,7 +44,7 @@ repos:
     rev: "1.19.1"  # replace with latest tag on GitHub
     hooks:
     -   id: blacken-docs
-        #args: [--skip-errors]
+        args: [--line-length, "80"]
         stages: [pre-commit]
         additional_dependencies:
         - black==25.1.0

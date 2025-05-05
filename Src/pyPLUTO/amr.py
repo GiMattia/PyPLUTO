@@ -361,7 +361,9 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
                 cje0 = (je0 - jb) // freb[i]
                 ckb0 = (kb0 - kb) // freb[i]
                 cke0 = (ke0 - kb) // freb[i]
-                q1 = np.zeros((cie0 - cib0 + 1, cje0 - cjb0 + 1, cke0 - ckb0 + 1, nvar))
+                q1 = np.zeros(
+                    (cie0 - cib0 + 1, cje0 - cjb0 + 1, cke0 - ckb0 + 1, nvar)
+                )
                 q1 = q[cib0 : cie0 + 1, cjb0 : cje0 + 1, ckb0 : cke0 + 1, :]
 
                 # Remap the extracted portion
@@ -519,20 +521,28 @@ def oplotbox(
                         [
                             [x0 * np.cos(y0), x1 * np.cos(y0)],
                             x1
-                            * np.cos(np.linspace(y0, y1, num=int(abs(y0 - y1) / dn))),
+                            * np.cos(
+                                np.linspace(y0, y1, num=int(abs(y0 - y1) / dn))
+                            ),
                             [x1 * np.cos(y1), x0 * np.cos(y1)],
                             x0
-                            * np.cos(np.linspace(y1, y0, num=int(abs(y0 - y1) / dn))),
+                            * np.cos(
+                                np.linspace(y1, y0, num=int(abs(y0 - y1) / dn))
+                            ),
                         ]
                     )
                     yb = np.concatenate(
                         [
                             [x0 * np.sin(y0), x1 * np.sin(y0)],
                             x1
-                            * np.sin(np.linspace(y0, y1, num=int(abs(y0 - y1) / dn))),
+                            * np.sin(
+                                np.linspace(y0, y1, num=int(abs(y0 - y1) / dn))
+                            ),
                             [x1 * np.sin(y1), x0 * np.sin(y1)],
                             x0
-                            * np.sin(np.linspace(y1, y0, num=int(abs(y0 - y1) / dn))),
+                            * np.sin(
+                                np.linspace(y1, y0, num=int(abs(y0 - y1) / dn))
+                            ),
                         ]
                     )
                     self.plot(xb, yb, c=cols[il], ax=ax, **kwargs)

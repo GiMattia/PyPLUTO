@@ -3,7 +3,9 @@ import numpy as np
 import pyPLUTO as pp
 from globals import cmaps
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
+from matplotlib.backends.backend_qtagg import (
+    NavigationToolbar2QT as NavigationToolbar,
+)
 
 
 def update_cmap_selector(self):
@@ -143,7 +145,9 @@ def plot_data(self):
 
     xlim = [x1.min(), x1.max()]
     ylim = (
-        [x2.min(), x2.max()] if self.vardim == 2 else [self.var.min(), self.var.max()]
+        [x2.min(), x2.max()]
+        if self.vardim == 2
+        else [self.var.min(), self.var.max()]
     )
 
     self.set_range(xlim, ylim)
@@ -216,7 +220,9 @@ def check_axisparam(self):
         else:
             self.datadict["cmap"] += "_r"
 
-    self.datadict["title"] = self.plot_title.text() if self.plot_title.text() else ""
+    self.datadict["title"] = (
+        self.plot_title.text() if self.plot_title.text() else ""
+    )
 
     self.datadict["xscale"] = self.xscale_selector.currentText()
     if self.xscale_tresh.text():
@@ -248,7 +254,9 @@ def set_range(self, xlim, ylim):
         self.ymax = np.maximum(ylim[1], self.ymax)
 
     ymin, ymax = (
-        self.I._range_offset(self.ymin, self.ymax, self.yscale_selector.currentText())
+        self.I._range_offset(
+            self.ymin, self.ymax, self.yscale_selector.currentText()
+        )
         if self.vardim == 1
         else (self.ymin, self.ymax)
     )

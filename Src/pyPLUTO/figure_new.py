@@ -13,5 +13,7 @@ class FigureManager(ImageStateComponent):
         try:
             plt.style.use(self.style)
         except OSError:
-            print(f"Warning: Style '{self.style}' not found. Switching to 'default'")
+            print(
+                f"Warning: Style '{self.style}' not found. Switching to 'default'"
+            )
             self.style = "default"

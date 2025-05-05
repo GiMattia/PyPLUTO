@@ -670,7 +670,11 @@ def colorbar(self, pcm=None, axs=None, cax=None, check=True, **kwargs) -> None:
         warnings.warn(warn, UserWarning)
 
     # Select the source axis
-    axs = pcm.axes if pcm is not None else axs if axs is not None else self.fig.gca()
+    axs = (
+        pcm.axes
+        if pcm is not None
+        else axs if axs is not None else self.fig.gca()
+    )
     axs, _ = self._assign_ax(axs, **kwargs)
 
     # Select the keywords

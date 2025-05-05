@@ -70,3 +70,17 @@ def test_str():
     assert "Image properties:" in s
     assert "Adds a set of [nrow,ncol] subplots to the figure." in s
     assert "Plots one line in a subplot." in s
+
+
+# Check if raises an error with wrong attribute
+def test_getattr_new():
+    with pytest.raises(AttributeError):
+        Image = pp.Image_new()
+        Image.wrong
+
+
+# First test refactored Image
+def test_setattr_new():
+    Image = pp.Image_new()
+    Image.wrong = "wrong"
+    assert Image.wrong is Image.state.wrong

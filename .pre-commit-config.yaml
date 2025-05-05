@@ -35,7 +35,6 @@ repos:
     rev: 25.1.0
     hooks:
       - id: black
-        args: ["--fast"]
         files: \.py$
         stages: [pre-commit]
 
@@ -47,7 +46,7 @@ repos:
         args: [--line-length, "80"]
         stages: [pre-commit]
         additional_dependencies:
-        - black==25.1.0
+        - black==22.1.0
 
 
   # 4. Ruff - linter, fixer (but NOT formatter)

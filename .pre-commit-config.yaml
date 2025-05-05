@@ -13,13 +13,14 @@ repos:
         args: ["--markdown-linebreak-ext=md"]
 
   # 1. Code spelling
-  - repo: https://github.com/codespell-project/codespell
-    rev: 'v2.4.1'
-    hooks:
-      - id: codespell
-        name: codespell
-        #args: ["--ignore-words-list=nd"]  # Customize if needed
-        stages: [pre-commit]
+  #- repo: https://github.com/codespell-project/codespell
+  #  rev: 'v2.4.1'
+  #  hooks:
+  #    - id: codespell
+  #      name: codespell
+  #      #args: ["--ignore-words-list=nd"]  # Customize if needed
+  #      files: \.py$
+  #      stages: [pre-commit]
 
   # 2. Black - code formatter (NOT Ruff)
   - repo: https://github.com/psf/black

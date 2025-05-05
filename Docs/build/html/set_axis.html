@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="plot.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="create_axes.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="create_axes.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
@@ -34,11 +34,11 @@
     <div class="content-wrapper">
       <div class="content">
         <div class="document">
-
+            
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-
+            
   <dl class="py function" id="set-axis">
 <dt class="sig sig-object py" id="pyPLUTO.Image.set_axis">
 <span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">set_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyPLUTO.Image.set_axis" title="Link to this definition">¶</a></dt>
@@ -61,7 +61,8 @@ y-scale and the x-scale (1.0 is the same as ‘equal’).</p>
 <dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components (only for the current
 axis).</p>
 </dd>
-<dt><strong>- grid: bool, default False</strong></dt><dd><p>Enables/disables the grid on the plot.</p>
+<dt><strong>- grid: bool | string, default False</strong></dt><dd><p>Enables/disables the grid on the plot. If True it enables both axes
+grids. If ‘x’ or ‘y’ it enables only the x or y axis grid.</p>
 </dd>
 <dt><strong>- labelsize: float, default fontsize</strong></dt><dd><p>Sets the labels fontsize (which is the same for both labels).
 The default value corresponds to the value of the keyword ‘fontsize’.</p>
@@ -164,7 +165,7 @@ always correspond to fixed ticks.</p>
 </dl>
 </li>
 <li><dl>
-<dt>Example #3: create two axes and invert the direction of the ticks in the </dt><dd><p>first one</p>
+<dt>Example #3: create two axes and invert the direction of the ticks in the</dt><dd><p>first one</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">right</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
@@ -201,7 +202,7 @@ always correspond to fixed ticks.</p>
       </div>
         </div>
         <div class="sidebar">
-
+          
           <h3>Table of Contents</h3>
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
@@ -254,7 +255,7 @@ always correspond to fixed ticks.</p>
         </div>
 
         <div class="right">
-
+          
     <div class="footer" role="contentinfo">
     &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.

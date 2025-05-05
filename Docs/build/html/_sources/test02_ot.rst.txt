@@ -4,11 +4,11 @@ Test 02 - MHD Orszag-Tang vortex
 ================================
 
 
-  .. image:: ../../Tests/test02_ot.png
+  .. image:: ../../Examples/test02_ot.png
      :align: center
      :width: 600px
 
-  .. literalinclude :: ../../Tests/test02_ot.py
+  .. literalinclude :: ../../Examples/test02_ot.py
      :language: python
 
 |

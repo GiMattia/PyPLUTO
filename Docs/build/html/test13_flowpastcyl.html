@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Frequently Asked Questions" href="faq.html" />
-    <link rel="prev" title="Test 12 - LP Riemann 2D test" href="test12_riemannlp.html" />
+    <link rel="prev" title="Test 12 - LP Riemann 2D test" href="test12_riemannlp.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
@@ -34,70 +34,67 @@
     <div class="content-wrapper">
       <div class="content">
         <div class="document">
-
+            
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-
+            
   <section id="test-13-amr-flow-past-cylinder-test">
 <span id="test13-flowpastcylinder"></span><h1>Test 13 - AMR Flow past cylinder test<a class="headerlink" href="#test-13-amr-flow-past-cylinder-test" title="Link to this heading">¶</a></h1>
 <blockquote>
-<div><a class="reference internal image-reference" href="_images/test13_flowpastcylinder.png"><img alt="_images/test13_flowpastcylinder.png" class="align-center" src="_images/test13_flowpastcylinder.png" style="width: 600px;" />
+<div><a class="reference internal image-reference" href="_images/test13_flowpastcyl.png"><img alt="_images/test13_flowpastcyl.png" class="align-center" src="_images/test13_flowpastcyl.png" style="width: 600px;" />
 </a>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">AMR Flow past cylinder test</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;AMR Flow past cylinder test</span>
 
 <span class="sd">This test shows how to plot data from the Load class when handling data obtained</span>
 <span class="sd">from a simulation with AMR.</span>
 
-<span class="sd">The package &quot;os&quot; is loaded to create the path to the directory</span>
-<span class="sd">$PLUTO_DIR/Test_Problems/Particles/HD/Viscosity/Flow_Past_Cylinder, where the</span>
-<span class="sd">test problem is located.</span>
+<span class="sd">The data are the ones obtained from the PLUTO test problem</span>
+<span class="sd">$PLUTO_DIR/Test_Problems/Particles/HD/Viscosity/Flow_Past_Cylinder.</span>
 
 <span class="sd">The data is loaded with the Load class into a pload object and the Image class</span>
-<span class="sd">is created. The display method is used to plot the density and the oplotbox</span>
+<span class="sd">is created. The display method is used to plot the density, and the oplotbox</span>
 <span class="sd">method is used to show the AMR levels. The image is then saved and</span>
 <span class="sd">shown on screen.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># Loading the relevant packages</span>
-<span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="c1"># Creating the path for the data directory</span>
-<span class="n">plutodir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PLUTO_DIR&#39;</span><span class="p">]</span>
-<span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span> <span class="o">+</span> <span class="s1">&#39;/Test_Problems/HD/Viscosity/Flow_Past_Cylinder&#39;</span>
+<span class="kn">import</span> <span class="nn">pyPLUTO</span>
 
 <span class="c1"># Load the data (4 levels of AMR)</span>
-<span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="n">wdir</span><span class="p">,</span> <span class="n">level</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">Data</span> <span class="o">=</span> <span class="n">pyPLUTO</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;Test_Problems/HD/Viscosity/Flow_Past_Cylinder&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
 <span class="c1"># Convert the grid to cartesian</span>
-<span class="n">rr</span><span class="p">,</span> <span class="n">pphh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1r</span><span class="p">,</span><span class="n">D</span><span class="o">.</span><span class="n">x2r</span><span class="p">,</span><span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)</span>
-<span class="n">xx</span> <span class="o">=</span> <span class="n">rr</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">pphh</span><span class="p">)</span>
-<span class="n">yy</span> <span class="o">=</span> <span class="n">rr</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">pphh</span><span class="p">)</span>
+<span class="n">rr</span><span class="p">,</span> <span class="n">pphh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">Data</span><span class="o">.</span><span class="n">x1r</span><span class="p">,</span> <span class="n">Data</span><span class="o">.</span><span class="n">x2r</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+<span class="n">xx</span> <span class="o">=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">pphh</span><span class="p">)</span>
+<span class="n">yy</span> <span class="o">=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">pphh</span><span class="p">)</span>
 
 <span class="c1"># Initialize the Image class (with black color)</span>
-<span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">withblack</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">Image</span> <span class="o">=</span> <span class="n">pyPLUTO</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">withblack</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Show the 2D density</span>
-<span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">xx</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">yy</span><span class="p">,</span>
-                 <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span>
-                 <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">],</span>
-                 <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span>
-                 <span class="n">aspect</span> <span class="o">=</span> <span class="s1">&#39;equal&#39;</span><span class="p">,</span>
-                 <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;bone&#39;</span><span class="p">,</span>
-                 <span class="n">clabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\rho$&quot;</span><span class="p">,</span>
-                 <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
-                 <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span>
-                 <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Test 13 - AMR Flow past cylinder test&#39;</span><span class="p">)</span>
+<span class="n">Image</span><span class="o">.</span><span class="n">display</span><span class="p">(</span>
+    <span class="n">Data</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span>
+    <span class="n">x1</span><span class="o">=</span><span class="n">xx</span><span class="p">,</span>
+    <span class="n">x2</span><span class="o">=</span><span class="n">yy</span><span class="p">,</span>
+    <span class="n">cpos</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span>
+    <span class="n">xrange</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span>
+    <span class="n">yrange</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+    <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;equal&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bone&quot;</span><span class="p">,</span>
+    <span class="n">clabel</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\rho$&quot;</span><span class="p">,</span>
+    <span class="n">xtitle</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span>
+    <span class="n">ytitle</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Test 13 - AMR Flow past cylinder test&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="c1"># Plot the AMR levels (up to 2)</span>
-<span class="n">I</span><span class="o">.</span><span class="n">oplotbox</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">AMRLevel</span><span class="p">,</span><span class="n">lrange</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="n">geom</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">geom</span><span class="p">)</span>
+<span class="n">Image</span><span class="o">.</span><span class="n">oplotbox</span><span class="p">(</span><span class="n">Data</span><span class="o">.</span><span class="n">AMRLevel</span><span class="p">,</span> <span class="n">lrange</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">geom</span><span class="o">=</span><span class="n">Data</span><span class="o">.</span><span class="n">geom</span><span class="p">)</span>
 
 <span class="c1"># Save and show the figure</span>
-<span class="n">I</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test13_flowpastcylinder.png&#39;</span><span class="p">)</span>
-<span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">Image</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;test13_flowpastcyl.png&quot;</span><span class="p">)</span>
+<span class="n">pyPLUTO</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -114,7 +111,7 @@
       </div>
         </div>
         <div class="sidebar">
-
+          
           <h3>Table of Contents</h3>
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
@@ -170,7 +167,7 @@
         </div>
 
         <div class="right">
-
+          
     <div class="footer" role="contentinfo">
     &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.

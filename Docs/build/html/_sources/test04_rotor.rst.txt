@@ -3,11 +3,11 @@
 Test 04 - MHD Rotor test
 ========================
 
-.. image:: ../../Tests/test04_rotor.png
+.. image:: ../../Examples/test04_rotor.png
    :align: center
    :width: 600px
 
-.. literalinclude :: ../../Tests/test04_rotor.py
+.. literalinclude :: ../../Examples/test04_rotor.py
    :language: python
 
 |

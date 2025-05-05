@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Test 04 - MHD Rotor test" href="test04_rotor.html" />
-    <link rel="prev" title="Test 02 - MHD Orszag-Tang vortex" href="test02_ot.html" />
+    <link rel="prev" title="Test 02 - MHD Orszag-Tang vortex" href="test02_ot.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
@@ -34,29 +34,27 @@
     <div class="content-wrapper">
       <div class="content">
         <div class="document">
-
+            
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-
+            
   <section id="test-03-mhd-rayleigh-taylor-instability">
 <span id="test03-rti"></span><h1>Test 03 - MHD Rayleigh-Taylor instability<a class="headerlink" href="#test-03-mhd-rayleigh-taylor-instability" title="Link to this heading">¶</a></h1>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/test03_rti.png"><img alt="_images/test03_rti.png" class="align-center" src="_images/test03_rti.png" style="width: 600px;" />
 </a>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Classical MHD Rayleigh-Taylor instability test (configuration 1).</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Classical MHD Rayleigh-Taylor instability test</span>
 
 <span class="sd">This test shows how to display a 2D quantity from a test problem at different</span>
 <span class="sd">times in different subplots.</span>
 
-<span class="sd">The package &quot;os&quot; is loaded to create the path to the directory</span>
-<span class="sd">$PLUTO_DIR/Test_Problems/MHD/Rayleigh_Taylor, where the the test problem is</span>
-<span class="sd">located.</span>
+<span class="sd">The data are the ones obtained from the PLUTO test problem</span>
+<span class="sd">$PLUTO_DIR/Test_Problems/MHD/Rayleigh_Taylor (configuration 1).</span>
 
 <span class="sd">In the script the spatial dependence of the density is displayed at three</span>
 <span class="sd">different times in three different subplots. Here the subplots are created</span>
-<span class="sd">through the create_axes method, which allows to create a grid of subplots with a</span>
+<span class="sd">through the create_axes method, which allows creating a grid of subplots with a</span>
 <span class="sd">given number of columns and a given width ratio between the subplots. The</span>
 <span class="sd">colorbar is placed in the last subplot through the colorbar method. The y labels</span>
 <span class="sd">and y ticks labels are customized in order to show the flexibility of PyPLUTO in</span>
@@ -66,7 +64,7 @@
 <span class="sd">in the timelist attribute of the pload object D. In order to display a fixed</span>
 <span class="sd">number of decimal digits, the f-string formatting is used.</span>
 
-<span class="sd">IMPORTANT: During the setup of the test, in the pluto.ini file the simulation</span>
+<span class="sd">IMPORTANT: During the setup of the test, in the pluto.ini file, the simulation</span>
 <span class="sd">time at which a .dbl output file is printed should be changed in</span>
 
 <span class="sd">dbl      7.5   -1   single_file</span>
@@ -75,48 +73,48 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># Loading the relevant packages</span>
-<span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
-<span class="kn">import</span> <span class="nn">os</span>
-
-<span class="c1"># Creating the path for the data directory</span>
-<span class="n">plutodir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PLUTO_DIR&#39;</span><span class="p">]</span>
-<span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span> <span class="o">+</span> <span class="s1">&#39;/Test_Problems/MHD/Rayleigh_Taylor&#39;</span>
+<span class="kn">import</span> <span class="nn">pyPLUTO</span>
 
 <span class="c1"># Loading the data into a pload object D</span>
-<span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">path</span> <span class="o">=</span> <span class="n">wdir</span><span class="p">)</span>
+<span class="n">Data</span> <span class="o">=</span> <span class="n">pyPLUTO</span><span class="o">.</span><span class="n">Load</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;Test_Problems/MHD/Rayleigh_Taylor&quot;</span><span class="p">)</span>
 
 <span class="c1"># Creating the image</span>
-<span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">[</span><span class="mi">13</span><span class="p">,</span><span class="mf">7.6</span><span class="p">],</span>
-             <span class="n">suptitle</span> <span class="o">=</span> <span class="s1">&#39;Test 03 - MHD Rayleigh-Taylor instability&#39;</span><span class="p">,</span>
-             <span class="n">suptitlesize</span> <span class="o">=</span> <span class="mi">22</span><span class="p">)</span>
+<span class="n">Image</span> <span class="o">=</span> <span class="n">pyPLUTO</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mf">7.6</span><span class="p">],</span>
+    <span class="n">suptitle</span><span class="o">=</span><span class="s2">&quot;Test 03 - MHD Rayleigh-Taylor instability&quot;</span><span class="p">,</span>
+    <span class="n">suptitlesize</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="c1"># Creating the subplots (3 for the temporal evolution and 1 for the colorbar)</span>
-<span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">wratio</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">],</span> <span class="n">wspace</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.005</span><span class="p">,</span><span class="mf">0.005</span><span class="p">,</span><span class="mf">0.005</span><span class="p">],</span>
-              <span class="n">top</span> <span class="o">=</span> <span class="mf">0.88</span><span class="p">)</span>
+<span class="n">Image</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">wratio</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="n">wspace</span><span class="o">=</span><span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">],</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.88</span><span class="p">)</span>
 
 <span class="c1"># Customizing y labels and y ticks labels</span>
-<span class="n">ylab</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>  <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="n">ylab</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 <span class="n">ytcl</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 
 <span class="c1"># Loop over the different outputs</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]:</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
     <span class="c1"># Plotting the data</span>
-    <span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1r</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2r</span><span class="p">,</span>
-                        <span class="n">ax</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span>
-                        <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;inferno&#39;</span><span class="p">,</span>
-                        <span class="n">title</span> <span class="o">=</span> <span class="sa">rf</span><span class="s1">&#39;$\tau = $</span><span class="si">{</span><span class="n">D</span><span class="o">.</span><span class="n">timelist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-                        <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
-                        <span class="n">ytitle</span> <span class="o">=</span> <span class="n">ylab</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                        <span class="n">aspect</span> <span class="o">=</span> <span class="s1">&#39;equal&#39;</span><span class="p">,</span>
-                        <span class="n">ytickslabels</span> <span class="o">=</span> <span class="n">ytcl</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                        <span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.4</span><span class="p">])</span>
+    <span class="n">Image</span><span class="o">.</span><span class="n">display</span><span class="p">(</span>
+        <span class="n">Data</span><span class="o">.</span><span class="n">rho</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+        <span class="n">x1</span><span class="o">=</span><span class="n">Data</span><span class="o">.</span><span class="n">x1r</span><span class="p">,</span>
+        <span class="n">x2</span><span class="o">=</span><span class="n">Data</span><span class="o">.</span><span class="n">x2r</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;inferno&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="sa">rf</span><span class="s2">&quot;$\tau = $</span><span class="si">{</span><span class="n">Data</span><span class="o">.</span><span class="n">timelist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">xtitle</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span>
+        <span class="n">ytitle</span><span class="o">=</span><span class="n">ylab</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+        <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;equal&quot;</span><span class="p">,</span>
+        <span class="n">ytickslabels</span><span class="o">=</span><span class="n">ytcl</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+        <span class="n">xticks</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">],</span>
+    <span class="p">)</span>
 
 <span class="c1"># Placing the colorbar</span>
-<span class="n">I</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">axs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">clabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\rho$&#39;</span><span class="p">)</span>
+<span class="n">Image</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">axs</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cax</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">clabel</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\rho$&quot;</span><span class="p">)</span>
 
 <span class="c1"># Saving the image and showing the plots</span>
-<span class="n">I</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;test03_rti.png&#39;</span><span class="p">)</span>
-<span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">Image</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;test03_rti.png&quot;</span><span class="p">)</span>
+<span class="n">pyPLUTO</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -133,7 +131,7 @@
       </div>
         </div>
         <div class="sidebar">
-
+          
           <h3>Table of Contents</h3>
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
@@ -189,7 +187,7 @@
         </div>
 
         <div class="right">
-
+          
     <div class="footer" role="contentinfo">
     &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.

@@ -4,11 +4,11 @@ Test 10 - HD Riemann 2D test
 ============================
 
 
-  .. image:: ../../Tests/test10_riemann2d.gif
+  .. image:: ../../Examples/test10_riemann2d.gif
      :align: center
      :width: 600px
 
-  .. literalinclude :: ../../Tests/test10_riemann2d.py
+  .. literalinclude :: ../../Examples/test10_riemann2d.py
      :language: python
 
 |

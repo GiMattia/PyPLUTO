@@ -14,7 +14,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Test 11 - Particles CR Xpoint test" href="test11_crxpoint.html" />
-    <link rel="prev" title="Test 09 - MHD Blast test" href="test09_blast.html" />
+    <link rel="prev" title="Test 09 - MHD Blast test" href="test09_blast.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
@@ -34,24 +34,22 @@
     <div class="content-wrapper">
       <div class="content">
         <div class="document">
-
+            
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-
+            
   <section id="test-10-hd-riemann-2d-test">
 <span id="test10-riemann2d"></span><h1>Test 10 - HD Riemann 2D test<a class="headerlink" href="#test-10-hd-riemann-2d-test" title="Link to this heading">¶</a></h1>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/test10_riemann2d.gif"><img alt="_images/test10_riemann2d.gif" class="align-center" src="_images/test10_riemann2d.gif" style="width: 600px;" />
 </a>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">HD Riemann 2D test (configuration 3)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;HD Riemann 2D test (configuration 3)</span>
 
 <span class="sd">This test shows how to produce an interactive animation of a display.</span>
 
-<span class="sd">The package &quot;os&quot; is loaded to create the path to the directory</span>
-<span class="sd">$PLUTO_DIR/Test_Problems/HD/Riemann_2D, where the Riemann 2D test problem is</span>
-<span class="sd">located.</span>
+<span class="sd">The data are the ones obtained from the PLUTO test problem</span>
+<span class="sd">$PLUTO_DIR/Test_Problems/HD/Riemann_2D (configuration 3).</span>
 
 <span class="sd">The data is loaded into a pload object D and the Image class is created.</span>
 <span class="sd">The interactive method is used to create an animation of sequential frames</span>
@@ -67,30 +65,29 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># Loading the relevant packages</span>
-<span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
-<span class="kn">import</span> <span class="nn">os</span>
-
-<span class="c1"># Creating the path for the data directory</span>
-<span class="n">plutodir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PLUTO_DIR&#39;</span><span class="p">]</span>
-<span class="n">wdir</span>     <span class="o">=</span> <span class="n">plutodir</span> <span class="o">+</span> <span class="s1">&#39;/Test_Problems/HD/Riemann_2D&#39;</span>
+<span class="kn">import</span> <span class="nn">pyPLUTO</span>
 
 <span class="c1"># Loading the data into a pload object D</span>
-<span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">datatype</span> <span class="o">=</span> <span class="s1">&#39;vtk&#39;</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">wdir</span><span class="p">)</span>
+<span class="n">Data</span> <span class="o">=</span> <span class="n">pyPLUTO</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="s2">&quot;vtk&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;Test_Problems/HD/Riemann_2D&quot;</span><span class="p">)</span>
 
 <span class="c1"># Creating the image</span>
-<span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+<span class="n">Image</span> <span class="o">=</span> <span class="n">pyPLUTO</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
 
 <span class="c1"># Creating the interactive plot</span>
-<span class="n">I</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span>
-                                <span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span>
-                                <span class="n">vmin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-                                <span class="n">vmax</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-                                <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Test 10 - HD Riemann 2D test&#39;</span><span class="p">,</span>
-                                <span class="n">xtitle</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span>
-                                <span class="n">ytitle</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">Image</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
+    <span class="n">Data</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span>
+    <span class="n">x1</span><span class="o">=</span><span class="n">Data</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span>
+    <span class="n">x2</span><span class="o">=</span><span class="n">Data</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span>
+    <span class="n">cpos</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Test 10 - HD Riemann 2D test&quot;</span><span class="p">,</span>
+    <span class="n">xtitle</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span>
+    <span class="n">ytitle</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="c1"># Saving the gif of the animation</span>
-<span class="n">I</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="s1">&#39;test10_riemann2d.gif&#39;</span><span class="p">)</span>
+<span class="n">Image</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="s2">&quot;test10_riemann2d.gif&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -107,7 +104,7 @@
       </div>
         </div>
         <div class="sidebar">
-
+          
           <h3>Table of Contents</h3>
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
@@ -163,7 +160,7 @@
         </div>
 
         <div class="right">
-
+          
     <div class="footer" role="contentinfo">
     &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.

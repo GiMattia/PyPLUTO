@@ -4,11 +4,11 @@ Test 09 - MHD Blast test
 ========================
 
 
-  .. image:: ../../Tests/test09_blast.png
+  .. image:: ../../Examples/test09_blast.png
      :align: center
      :width: 600px
 
-  .. literalinclude :: ../../Tests/test09_blast.py
+  .. literalinclude :: ../../Examples/test09_blast.py
      :language: python
 
 |

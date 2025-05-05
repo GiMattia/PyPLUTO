@@ -4,11 +4,11 @@ Test 03 - MHD Rayleigh-Taylor instability
 =========================================
 
 
-  .. image:: ../../Tests/test03_rti.png
+  .. image:: ../../Examples/test03_rti.png
      :align: center
      :width: 600px
 
-  .. literalinclude :: ../../Tests/test03_rti.py
+  .. literalinclude :: ../../Examples/test03_rti.py
      :language: python
 
 |

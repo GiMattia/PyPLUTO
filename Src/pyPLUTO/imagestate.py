@@ -11,5 +11,5 @@ class ImageState:
     fig: Figure = field(default_factory=Figure)
     color: list[str] = field(default_factory=list)
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: object) -> None:
         super().__setattr__(name, value)

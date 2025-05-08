@@ -1,4 +1,6 @@
 # figure_new.py
+import warnings
+
 import matplotlib.pyplot as plt
 
 from .delegator import delegator
@@ -11,11 +13,11 @@ class FigureManager:
         self.state = state
         self._setup_style()
 
-    def _setup_style(self):
+    def _setup_style(self) -> None:
         try:
-            plt.style.use(self.style)
+            plt.style.use(self.state.style)
         except OSError:
-            print(
-                f"Warning: Style '{self.style}' not found. Switching to 'default'"
-            )
-            self.style = "default"
+            warn = f"Warning: Style '{self.state.style}' not found. \
+                Switching to 'default'"
+            warnings.warn(warn, UserWarning)
+            self.state.style = "default"

@@ -1,29 +1,36 @@
-# delegator.py
-
 from collections.abc import Callable, Iterable
-from typing import Any
+from typing import Any, Protocol, TypeVar
+
+T = TypeVar("T")
+
+
+class HasState(Protocol):
+    state: Any  # We use Any because it can be any object (e.g., ImageState)
 
 
 def delegator(
     *attr_names: str,
     exclude: Iterable[str] = (),
     readonly: bool = False,
-) -> Callable:
-    """Delegate attribute access to multiple internal attributes (e.g., 'state', 'manager').
+) -> Callable[[type[T]], type[T]]:
+    """Delegate attribute access to internal attributes like 'state'.
 
     Parameters
     ----------
-        *attr_names (str): attribute names to delegate to (in order of priority)
-        exclude (Iterable[str]): attribute names NOT to delegate
-        readonly (bool): if True, __setattr__ won't delegate
+    *attr_names : str
+        Attributes to delegate to.
+    exclude : Iterable[str]
+        Attributes not to delegate.
+    readonly : bool
+        If True, __setattr__ won't delegate.
 
     """
     exclude_set = set(exclude)
 
-    def decorator(cls):
+    def decorator(cls: type[T]) -> type[T]:
         orig_getattr = getattr(cls, "__getattr__", None)
 
-        def __getattr__(self, name: str) -> Any:
+        def __getattr__(self: HasState, name: str) -> Any:
             if name in exclude_set:
                 raise AttributeError(f"'{name}' is a prohibited attribute!")
             for attr_name in attr_names:
@@ -36,7 +43,7 @@ def delegator(
                 f"'{type(self).__name__}' object has no attribute '{name}'"
             )
 
-        def __setattr__(self, name: str, value: Any) -> None:
+        def __setattr__(self: HasState, name: str, value: Any) -> None:
             if (
                 name in attr_names
                 or name in self.__dict__
@@ -52,15 +59,15 @@ def delegator(
                         return
                 object.__setattr__(self, name, value)
 
-        def assign(self, **kwargs: Any) -> None:
+        def assign(self: HasState, **kwargs: Any) -> HasState:
             for key, value in kwargs.items():
-                setattr(self, key, value)  # Set in the current object
+                setattr(self, key, value)
                 setattr(self.state, key, value)
             return self
 
-        cls.__getattr__ = __getattr__
-        cls.__setattr__ = __setattr__
-        cls.assign = assign
+        cls.__getattr__ = __getattr__  # type: ignore
+        cls.__setattr__ = __setattr__  # type: ignore
+        cls.assign = assign  # type: ignore
         return cls
 
     return decorator

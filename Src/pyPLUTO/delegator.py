@@ -25,9 +25,7 @@ def delegator(
 
         def __getattr__(self, name: str) -> Any:
             if name in exclude_set:
-                raise AttributeError(
-                    f"'{type(self).__name__}' has no attribute '{name}' (excluded from delegation)"
-                )
+                raise AttributeError(f"'{name}' is a prohibited attribute!")
             for attr_name in attr_names:
                 target = getattr(self, attr_name, None)
                 if target and hasattr(target, name):

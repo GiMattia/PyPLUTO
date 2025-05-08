@@ -1,12 +1,14 @@
 # figure_new.py
 import matplotlib.pyplot as plt
 
-from .imagestate import ImageState, ImageStateComponent
+from .delegator import delegator
+from .imagestate import ImageState
 
 
-class FigureManager(ImageStateComponent):
+@delegator("state")
+class FigureManager:
     def __init__(self, state: ImageState) -> None:
-        super().__init__(state)
+        self.state = state
         self._setup_style()
 
     def _setup_style(self):

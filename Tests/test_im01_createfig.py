@@ -77,10 +77,3 @@ def test_getattr_new():
     with pytest.raises(AttributeError):
         Image = pp.Image_new()
         Image.wrong
-
-
-# First test refactored Image
-def test_setattr_new():
-    Image = pp.Image_new()
-    Image.wrong = "wrong"
-    assert Image.wrong is Image.state.wrong

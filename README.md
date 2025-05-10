@@ -4,19 +4,19 @@
 | --- | --- |
 | Package | [![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) ![Python Versions](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-3776AB.svg?style=flat&logo=python&logoColor=white) ![GitHub release](https://img.shields.io/github/v/release/GiMattia/PyPLUTO?include_prereleases&label=Github%20Release) [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
 | Tests | [![Windows Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml) [![MacOS Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml) [![Linux Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml) |
-| Style | [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com//GiMattia/PyPLUTO/actions/workflows/pre-commit.yml) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) [![Documentation](https://readthedocs.org/projects/pypluto/badge/?version=latest)](https://pypluto.readthedocs.io/en/latest/?badge=latest) |
-| Distribution | [![Arxiv](https://img.shields.io/badge/arXiv-2501.09748-8F1515?style=flat&logo=arxiv&logoColor=red)](https://doi.org/10.48550/arXiv.2501.09748) |
+| Style | [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com//GiMattia/PyPLUTO/actions/workflows/pre-commit.yml) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) |
+| Distribution | [![Arxiv](https://img.shields.io/badge/arXiv-2501.09748-8F1515?style=flat&logo=arxiv&logoColor=red)](https://doi.org/10.48550/arXiv.2501.09748) [![Documentation](https://readthedocs.org/projects/pypluto/badge/?version=latest)](https://pypluto.readthedocs.io/en/latest/?badge=latest) |
 
 
 <!-- [![cov](https://<you>.github.io/<repo>/badges/coverage.svg)](https://github.com/<you>/<repo>/actions) -->
 
 <!-- ![Mypy](https://img.shields.io/badge/type_checking-mypy-brightgreen) -->
+<!-- pylint ? interrogate? -->
 
 <!-- ![PyPI](https://img.shields.io/pypi/v/PyPLUTO) -->
 <!-- ![Conda](https://img.shields.io/badge/conda-available-brightgreen) -->
 <!-- ![Zenodo](https://img.shields.io/badge/zenodo-DATA-brightgreen) -->
 <!-- [![DOI](https://joss.theoj.org/papers/.../status.svg)](https://doi.org/...) -->
-<!-- [![Citation Badge](https://api.juleskreuer.eu/citation-badge.php?doi=YOURDOI)](https://juleskreuer.eu/citation-badge/) -->
 
 
 

@@ -85,3 +85,13 @@ ignore = [
 check_untyped_defs = true
 ignore_missing_imports = true
 strict_optional = true
+
+[tool.interrogate]
+verbose = 1
+fail-under = 80
+exclude = ["tests", "Docs"]
+ignore-init-method = false
+ignore-init-module = true
+ignore-private = true
+ignore-semiprivate = true
+ignore-magic = true

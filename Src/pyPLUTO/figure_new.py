@@ -1,15 +1,19 @@
 # figure_new.py
 import warnings
+from typing import Any
 
 import matplotlib.pyplot as plt
 
 from .delegator import delegator
 from .imagestate import ImageState
+from .inspect_kwargs import track_kwargs
 
 
 @delegator("state")
 class FigureManager:
-    def __init__(self, state: ImageState) -> None:
+
+    @track_kwargs
+    def __init__(self, state: ImageState, **kwargs: Any) -> None:
         self.state = state
         self._setup_style()
 
@@ -21,3 +25,9 @@ class FigureManager:
                 Switching to 'default'"
             warnings.warn(warn, UserWarning)
             self.state.style = "default"
+
+    def _choose_colorlines(self) -> None:
+        pass
+
+    def _assign_LaTeX(self) -> None:
+        pass

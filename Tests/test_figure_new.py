@@ -8,7 +8,7 @@ from pyPLUTO.imagestate import ImageState
 def test_setup_style_with_valid_style():
     # Given
     state = ImageState(
-        style="ggplot"
+        style="ggplot", LaTeX=True
     )  # Use a valid style available in matplotlib
     _ = FigureManager(state)
     assert state.style == "ggplot"  # style should remain the same
@@ -16,7 +16,7 @@ def test_setup_style_with_valid_style():
 
 # Test when the style is invalid and falls back to default
 def test_setup_style_with_invalid_style():
-    state = ImageState(style="non_existent_style")
+    state = ImageState(style="non_existent_style", LaTeX=True)
     with pytest.warns(
         UserWarning, match="Style 'non_existent_style' not found."
     ) as warning:
@@ -34,6 +34,7 @@ def test_interaction_with_image_new():
             style="non_existent_style"
         )  # Initialize Image_new with invalid style
 
+    assert img.state.LaTeX == True
     assert img.state.style == "default"  # style should fallback to default
     assert (
         img.figure_manager.state.style == "default"

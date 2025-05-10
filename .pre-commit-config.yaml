@@ -59,9 +59,14 @@ repos:
         stages: [pre-commit]
 
   # 5. mypy - static typing
+  # TODO: ONLY TO UNCOMMENT AFTER FULL REFACTORING!!!
   #- repo: https://github.com/pre-commit/mirrors-mypy
   #  rev: v1.10.0
   #  hooks:
-  #    - id: mypy
-  #      args: ["--install-types", "--non-interactive"]
+  #   - id: mypy
   #      name: mypy
+  #      args: ["--strict", "--explicit-package-bases", "--ignore-missing-imports"]
+  #      types: [python]
+  #      files: ^Src/pyPLUTO/  # Regex: only runs on files in this folder
+
+  # pylint, interrogate?

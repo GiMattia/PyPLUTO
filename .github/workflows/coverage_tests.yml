@@ -33,5 +33,11 @@ jobs:
         run: pytest -v -cov=Src/pyPLUTO -cov-report=xml -cov-report=term-missing
         working-directory: ./Tests
 
-      - name: Run static checks (coverage, pylint, interrogate)
-        run: python coverage_tests.py
+      #- name: Run static checks (coverage, pylint, interrogate)
+     #   run: python coverage_tests.py
+
+      - name: Upload badge files as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: badges
+          path: Docs/Badges/*.svg

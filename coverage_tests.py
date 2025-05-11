@@ -11,14 +11,13 @@ tasks = {
     "coverage": [
         ["coverage", "erase"],  # Erase previous coverage data
         [
-            "coverage",
-            "run",
-            "--source",
-            str(source_dir),
-            "-m",
             "pytest",
+            "--cov=Src/pyPLUTO",  # Use pytest-cov to track coverage
+            "--cov-report=xml",  # Generate XML coverage report
+            "--cov-report=term",  # Show coverage in the terminal
+            #   "-m",
+            #   "pytest",  # Run tests with pytest
         ],  # Run pytest with coverage
-        ["coverage", "report"],  # Show coverage report in terminal
         [
             "coverage",
             "xml",

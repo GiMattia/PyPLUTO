@@ -32,6 +32,7 @@ jobs:
 
       - name: Test and Coverage
         run: python -m pytest --cov --cov-report json
+        working-directory: ./Tests
 
       # Add this
       - name: Update Coverage Badge

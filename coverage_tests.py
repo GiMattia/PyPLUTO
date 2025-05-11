@@ -1,3 +1,4 @@
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -15,15 +16,7 @@ tasks = {
             "--cov=Src/pyPLUTO",  # Use pytest-cov to track coverage
             "--cov-report=xml",  # Generate XML coverage report
             "--cov-report=term",  # Show coverage in the terminal
-            #   "-m",
-            #   "pytest",  # Run tests with pytest
         ],  # Run pytest with coverage
-        [
-            "coverage",
-            "xml",
-            "-o",
-            str(output_dir / "coverage.xml"),
-        ],  # Save coverage as XML file
     ],
     "pylint": [
         [
@@ -46,6 +39,7 @@ tasks = {
 output_files = {
     "pylint": output_dir / "pylint.txt",
     "interrogate": output_dir / "interrogate.txt",
+    "coverage": output_dir / "coverage.xml",  # Coverage report destination
 }
 
 # Run tasks
@@ -53,7 +47,18 @@ for tool, commands in tasks.items():
     print(f"\nRunning {tool}...")
     for cmd in commands:
         try:
-            if tool in output_files and cmd == commands[-1]:
+            if tool == "coverage":
+                # Run pytest with coverage
+                subprocess.run(cmd, check=True)
+                # After pytest completes, move the coverage.xml file
+                coverage_report_path = Path("coverage.xml")
+                if coverage_report_path.exists():
+                    shutil.move(coverage_report_path, output_files["coverage"])
+                    print(
+                        f"Coverage report moved to: {output_files['coverage']}"
+                    )
+            elif tool in output_files and cmd == commands[-1]:
+                # For pylint and interrogate, save output to a file
                 with open(output_files[tool], "w") as f:
                     subprocess.run(
                         cmd, check=True, stdout=f, stderr=subprocess.STDOUT

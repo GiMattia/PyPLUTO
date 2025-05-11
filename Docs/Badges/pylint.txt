@@ -605,7 +605,6 @@ Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
         "ytickslabels",
         "ytitle",
     }
-
     if check is True: (duplicate-code)
 Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
 ==pyPLUTO.plot2d:[204:218]
@@ -758,24 +757,23 @@ Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
             "Resetting to 'h5'"
         )
         warnings.warn(warn)
-        pass (duplicate-code)
+        pass
+
+    # End of the function (duplicate-code)
 Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
 ==pyPLUTO.readfluid:[139:145]
 ==pyPLUTO.readpart:[137:146]
     self._offset, self._shape = ({}, {})
-
     endl = self._d_info["endianess"][i] = (
         ">" if endian is None else self._d_end[endian]
     )
     if endl is None:
-        raise ValueError("Error: Wrong endianess in vtk file.")
-
-    # Open the file and read the lines (duplicate-code)
+        raise ValueError("Error: Wrong endianess in vtk file.") (duplicate-code)
 Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
 ==pyPLUTO.plot1d:[216:224]
 ==pyPLUTO.plot2d:[462:470]
-    x = np.asarray(x)
-    y = np.asarray(y)
+        x = np.asarray(x)
+        y = np.asarray(y)
 
     # Check parameters
     param = {

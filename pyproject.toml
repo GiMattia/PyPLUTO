@@ -33,6 +33,7 @@ docs = [
     "sphinx-automodapi",
     "numpydoc"
 ]
+
 test = [
     "pytest",
     "pytest-doctestplus",

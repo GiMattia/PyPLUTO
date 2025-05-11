@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -41,7 +41,7 @@ jobs:
           python Utils/generate_badges.py --coverage-xml coverage.xml --pylint-output pylint_output.txt --interrogate-output interrogate_output.txt --output-dir badges
 
       - name: Upload badges to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: badges
           path: badges/

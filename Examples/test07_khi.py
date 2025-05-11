@@ -1,4 +1,4 @@
-"""RMHD Kelvin-Helmholtz instability test
+"""RMHD Kelvin-Helmholtz instability test.
 
 This test shows how to plot a more complex figure with a customized number of
 subplots and the insert of text inside the plots.
@@ -15,6 +15,7 @@ screen.
 
 IMPORTANT: For the correct representation of the secondary plots, the analysis
 parameter in the pluto.ini should be changed to 0.05.
+
 """
 
 # Loading the relevant packages

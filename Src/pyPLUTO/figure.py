@@ -8,8 +8,8 @@ from matplotlib.figure import Figure
 
 
 def _assign_LaTeX(self, LaTeX: bool | str) -> None:
-    """Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX and should be
-    used only to get vectorial figures with minimal file size.
+    """Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX and should
+    be used only to get vectorial figures with minimal file size.
 
     Returns
     -------
@@ -107,8 +107,8 @@ def _choose_colorlines(
     withblack: bool = False,
     withwhite: bool = False,
 ) -> list[str]:
-    """Chooses the colors for the lines. Depending on the number of colors and the
-    option 'oldcolor', the colors are:
+    """Chooses the colors for the lines. Depending on the number of colors and
+    the option 'oldcolor', the colors are:
 
     - black, red, blue, cyan, green, orange (oldcolor = True)
     - a new list of colors (oldcolor = False, default)

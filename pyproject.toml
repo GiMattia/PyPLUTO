@@ -78,6 +78,7 @@ select = [
 
 ignore = [
     "D203",  # Conflicts with D211 (one-blank-line-before-class)
+    "D209",  # Conflicts with docformatter
     "D213"   # Conflicts with D212 (summary on first vs second line)
 ]
 
@@ -85,6 +86,13 @@ ignore = [
 check_untyped_defs = true
 ignore_missing_imports = true
 strict_optional = true
+
+[tool.docformatter]
+in-place = true
+black = true
+blank = true
+wrap-summaries = 79
+wrap-descriptions = 79
 
 [tool.interrogate]
 verbose = 1

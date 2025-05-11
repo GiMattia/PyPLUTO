@@ -287,9 +287,8 @@ def create_axes(
 def set_axis(
     self, ax: Axes | None = None, check: bool = True, **kwargs: Any
 ) -> None:
-    """Customization of a single subplot axis.
-    Properties such as the range, scale and aspect of each subplot
-    should be customized here.
+    """Customization of a single subplot axis. Properties such as the range,
+    scale and aspect of each subplot should be customized here.
 
     Returns
     -------

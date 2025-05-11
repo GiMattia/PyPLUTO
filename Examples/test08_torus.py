@@ -1,4 +1,4 @@
-"""MHD Torus test
+"""MHD Torus test.
 
 This test shows how to plot two quantities in two different subplots, together
 with the plotting of streamlines in one of them and the plotting of the field
@@ -9,12 +9,13 @@ $PLUTO_DIR/Test_Problems/MHD/Torus (configuration 4).
 
 The data is loaded into a pload object D and the Image class is created. The
 create_axes method is used to create two plots for the two variables. The
-display method is used to plot the density and the pressure in the two subplots,
-while the streamplot method and the find_fieldlines method are used to compute
-and then plot streamlines and fieldlines of the magnetic field. Note that the
-magnetic field components need to be converted from spherical into cartesian
-through the cartesian_vector method before converting them on the cartesian
-mesh grid. The image is then saved and shown on screen.
+display method is used to plot the density and the pressure in the two
+subplots, while the streamplot method and the find_fieldlines method are used
+to compute and then plot streamlines and fieldlines of the magnetic field. Note
+that the magnetic field components need to be converted from spherical into
+cartesian through the cartesian_vector method before converting them on the
+cartesian mesh grid. The image is then saved and shown on screen.
+
 """
 
 # Loading the relevant packages

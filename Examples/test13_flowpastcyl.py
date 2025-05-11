@@ -1,4 +1,4 @@
-"""AMR Flow past cylinder test
+"""AMR Flow past cylinder test.
 
 This test shows how to plot data from the Load class when handling data obtained
 from a simulation with AMR.
@@ -10,6 +10,7 @@ The data is loaded with the Load class into a pload object and the Image class
 is created. The display method is used to plot the density, and the oplotbox
 method is used to show the AMR levels. The image is then saved and
 shown on screen.
+
 """
 
 # Loading the relevant packages

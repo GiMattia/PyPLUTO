@@ -51,7 +51,6 @@ def _read_grid_h5(self) -> None:
     (self._nshp_st1, self._nshp_st2, self._nshp_st3) = GRID_SHAPES[self.dim](
         self.nx1, self.nx2, self.nx3
     )
-
     """
     self.dx1 = self.x1r[1:] - self.x1r[:-1]
     self.dx1 = 0.5*(self.dx1[:, 1:] + self.dx1[:, :-1]) if self.dim > 1 else self.dx1
@@ -323,11 +322,11 @@ def _read_gridfile(self) -> None:
 
 
 def _read_outfile(self, nout: int, endian: str) -> None:
-    """Reads the datatype.out file and stores the relevant information within the
-    class. Such information are the time array, the output variables, the file
-    type (single or multiples), the endianess, the simulation path and the bin
-    format. All these information are relevant in order to open the output files
-    and access the data.
+    """Reads the datatype.out file and stores the relevant information within
+    the class. Such information are the time array, the output variables, the
+    file type (single or multiples), the endianess, the simulation path and the
+    bin format. All these information are relevant in order to open the output
+    files and access the data.
 
     Returns
     -------
@@ -400,8 +399,8 @@ def _read_outfile(self, nout: int, endian: str) -> None:
 def _split_gridfile(
     self, i: str, xL: list[float], xR: list[float], nmax: list[int]
 ) -> None:
-    """Splits the gridfile, storing the information in the variables passed by the
-    function. Dimensions and geometry are stored in the class.
+    """Splits the gridfile, storing the information in the variables passed by
+    the function. Dimensions and geometry are stored in the class.
 
     Return
     ------

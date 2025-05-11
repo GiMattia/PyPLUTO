@@ -40,9 +40,9 @@ def _is_number(value: Any) -> bool:
 
 
 def _islice_imin_imax(xvalue, xgrid) -> list[int]:
-    """Returns i, imin, imax for xgrid such that xgrid[i] <= xvalue <= xgrid[i+1]
-    with a stencil of 3 cells. If the grid is too small, imin and imax are
-    set to 0 and N, respectively.
+    """Returns i, imin, imax for xgrid such that xgrid[i] <= xvalue <=
+    xgrid[i+1] with a stencil of 3 cells. If the grid is too small, imin and
+    imax are set to 0 and N, respectively.
 
     Returns
     -------
@@ -160,11 +160,11 @@ def gradient(
     x3slice: float | int | None = None,
     edge_order: int = 2,
 ) -> np.ndarray:
-    """Computes the gradient of a specified field 'var' in all available directions
-    using second-order accurate central differences via the NumPy gradient()
-    function. The first index of the resulting array represents the N gradient
-    components. If 'x1slice', 'x2slice', or 'x3slice' are specified, the
-    gradient is only computed at the corresponding x1, x2, or x3 values. N
+    """Computes the gradient of a specified field 'var' in all available
+    directions using second-order accurate central differences via the NumPy
+    gradient() function. The first index of the resulting array represents the
+    N gradient components. If 'x1slice', 'x2slice', or 'x3slice' are specified,
+    the gradient is only computed at the corresponding x1, x2, or x3 values. N
     corresponds to the number of employed dimensions unless a slice is taken.
 
     Returns
@@ -297,11 +297,11 @@ def divergence(
     x3slice: float | int | None = None,
     edge_order: int = 2,
 ) -> np.ndarray:
-    """Calculates the divergence of a vector field specified by its components v1,
-    v2, and v3 using second-order accurate central differences via the NumPy
-    gradient() function.
-    If 'x1slice', 'x2slice', or 'x3slice' are specified, the divergence is only
-    computed at the corresponding x1, x2, or x3 values.
+    """Calculates the divergence of a vector field specified by its components
+    v1, v2, and v3 using second-order accurate central differences via the
+    NumPy gradient() function. If 'x1slice', 'x2slice', or 'x3slice' are
+    specified, the divergence is only computed at the corresponding x1, x2, or
+    x3 values.
 
     Returns
     -------
@@ -500,12 +500,12 @@ def curl(
     edge_order: int = 2,
 ) -> np.ndarray:
     """Calculates the curl of a specified vector field (v1, v2, v3) using
-    second-order accurate central differences via the NumPy gradient() function.
-    Unlike in divergence(), all three vector components must be specified.
-    The resulting array has its first index representing the 3 curl components,
-    while the remaining indices correspond to the grid location. If 'x1slice',
-    'x2slice', or 'x3slice' are specified, the curl is only computed at the
-    corresponding x1, x2, or x3 values.
+    second-order accurate central differences via the NumPy gradient()
+    function. Unlike in divergence(), all three vector components must be
+    specified. The resulting array has its first index representing the 3 curl
+    components, while the remaining indices correspond to the grid location. If
+    'x1slice', 'x2slice', or 'x3slice' are specified, the curl is only computed
+    at the corresponding x1, x2, or x3 values.
 
     Returns
     -------

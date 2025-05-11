@@ -18,8 +18,8 @@ def slices(
     x3: int | list | None = None,
     **kwargs: Any,
 ) -> np.ndarray:
-    """Function that slices the variable in the 3 directions.
-    Also, it can slice the diagonal of the variable.
+    """Function that slices the variable in the 3 directions. Also, it can
+    slice the diagonal of the variable.
 
     Returns
     -------
@@ -104,8 +104,8 @@ def slices(
 def mirror(
     self, var: NDArray, dirs="l", xax=None, yax=None
 ) -> list[np.ndarray]:
-    """Function that mirrors the variable in the specified directions.
-    Multiple directions can be specified.
+    """Function that mirrors the variable in the specified directions. Multiple
+    directions can be specified.
 
     Returns
     -------
@@ -194,8 +194,8 @@ def repeat(
     xax: NDArray | None = None,
     yax: NDArray | None = None,
 ) -> np.ndarray:
-    """Function that repeats the variable in the specified directions.
-    Multiple directions can be specified.
+    """Function that repeats the variable in the specified directions. Multiple
+    directions can be specified.
 
     Returns
     -------
@@ -361,9 +361,9 @@ def cartesian_vector(
 
 
 def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray, ...]:
-    """Function that reshapes a variable from a cylindrical or spherical grid into
-    a cartesian grid. Zones not covered by the original domain (e.g. the very
-    inner radial regions) are also interpolated.
+    """Function that reshapes a variable from a cylindrical or spherical grid
+    into a cartesian grid. Zones not covered by the original domain (e.g. the
+    very inner radial regions) are also interpolated.
 
     Returns
     -------

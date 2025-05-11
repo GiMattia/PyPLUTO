@@ -30,7 +30,7 @@ repos:
   #      files: \.py$
   #      stages: [pre-commit]
 
-  # 2. Black - code formatter (NOT Ruff)
+  # 2. Black - code formatter
   - repo: https://github.com/psf/black
     rev: 25.1.0
     hooks:
@@ -40,7 +40,7 @@ repos:
 
   # 3. Blackened-docs (formats code in docstrings)
   - repo: https://github.com/adamchainz/blacken-docs
-    rev: "1.19.1"  # replace with latest tag on GitHub
+    rev: 1.19.1
     hooks:
     -   id: blacken-docs
         args: [--line-length, "80"]
@@ -48,8 +48,16 @@ repos:
         additional_dependencies:
         - black==22.1.0
 
+  # 4. Docformatter (formats docstrings)
+  - repo: https://github.com/PyCQA/docformatter
+    rev: v1.7.7
+    hooks:
+      - id: docformatter
+        args: ["--in-place", "--black", "--blank"]
+        files: \.py$
+        stages: [pre-commit]
 
-  # 4. Ruff - linter, fixer (but NOT formatter)
+  # 5. Ruff - linter, fixer (but NOT formatter)
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.11.7
     hooks:
@@ -58,7 +66,7 @@ repos:
         files: \.py$
         stages: [pre-commit]
 
-  # 5. mypy - static typing
+  # 6. mypy - static typing
   # TODO: ONLY TO UNCOMMENT AFTER FULL REFACTORING!!!
   #- repo: https://github.com/pre-commit/mirrors-mypy
   #  rev: v1.10.0

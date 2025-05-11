@@ -1,4 +1,4 @@
-"""Classical MHD Rayleigh-Taylor instability test
+"""Classical MHD Rayleigh-Taylor instability test.
 
 This test shows how to display a 2D quantity from a test problem at different
 times in different subplots.
@@ -24,6 +24,7 @@ time at which a .dbl output file is printed should be changed in
 dbl      7.5   -1   single_file
 
 in the static grid output section.
+
 """
 
 # Loading the relevant packages

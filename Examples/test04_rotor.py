@@ -1,4 +1,4 @@
-"""MHD Rotor test
+"""MHD Rotor test.
 
 This test shows how to compute and plot contour lines of the vector potential
 from a test problem in non-cartesian coordinates.
@@ -23,6 +23,7 @@ following lines should be added to the definitions.h file:
 #define  UPDATE_VECTOR_POTENTIAL        YES
 
 in the user-defined constants section.
+
 """
 
 import numpy as np

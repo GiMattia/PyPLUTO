@@ -39,8 +39,7 @@ test = [
     "coverage",
     "pytest-cov",
     "approvaltests"
-]
-    
+] 
 dev = [
     "black",
     "pre-commit",

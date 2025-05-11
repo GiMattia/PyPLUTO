@@ -1,4 +1,4 @@
-"""MHD Torus test
+"""MHD Torus test.
 
 This test shows how to plot two quantities in two different subplots, together
 with the plotting of streamlines in one of them and the plotting of the field
@@ -9,12 +9,13 @@ $PLUTO_DIR/Test_Problems/MHD/Torus (configuration 4).
 
 The data is loaded into a pload object D and the Image class is created. The
 create_axes method is used to create two plots for the two variables. The
-display method is used to plot the density and the pressure in the two subplots,
-while the streamplot method and the find_fieldlines method are used to compute
-and then plot streamlines and fieldlines of the magnetic field. Note that the
-magnetic field components need to be converted from spherical into cartesian
-through the cartesian_vector method before converting them on the cartesian
-mesh grid. The image is then saved and shown on screen.
+display method is used to plot the density and the pressure in the two
+subplots, while the streamplot method and the find_fieldlines method are used
+to compute and then plot streamlines and fieldlines of the magnetic field. Note
+that the magnetic field components need to be converted from spherical into
+cartesian through the cartesian_vector method before converting them on the
+cartesian mesh grid. The image is then saved and shown on screen.
+
 """
 
 # Loading the relevant packages
@@ -25,7 +26,9 @@ import pyPLUTO
 Data = pyPLUTO.Load(path="Test_Problems/MHD/Torus")
 
 # Creating the image
-Image = pyPLUTO.Image(nwin=2, figsize=[11, 5], suptitle="Test 08 - MHD Torus test")
+Image = pyPLUTO.Image(
+    nwin=2, figsize=[11, 5], suptitle="Test 08 - MHD Torus test"
+)
 
 # Creating the subplots (2 for the different variables)
 ax = Image.create_axes(ncol=2, top=0.91)
@@ -71,7 +74,9 @@ xc, yc, B = Data.reshape_cartesian(var1=Bx, var2=Bz, nx1=500)
 Bx, Bz = B[0], B[1]
 
 # Plot the magnetic field lines in two different ways
-Image.streamplot(Bx, Bz, x1=xc, x2=yc, ax=0, c="gray", lw=0.7, vmin=1.0e-5, density=5)
+Image.streamplot(
+    Bx, Bz, x1=xc, x2=yc, ax=0, c="gray", lw=0.7, vmin=1.0e-5, density=5
+)
 
 lines = Data.find_fieldlines(
     Bx, Bz, x1=xc, x2=yc, x0=[3.75, 4, 4.25], y0=[0, 0, 0], maxstep=0.07

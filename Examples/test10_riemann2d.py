@@ -16,6 +16,7 @@ printed should be changed in
 vtk       0.1  -1   multiple_files
 
 in the static grid output section.
+
 """
 
 # Loading the relevant packages

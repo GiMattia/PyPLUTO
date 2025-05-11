@@ -6,7 +6,9 @@ import pyPLUTO as pp
 def test_figure_default_init():
     Image = pp.Image()
     Image.create_axes()
-    nrow, ncol = Image.fig.axes[0].get_subplotspec().get_gridspec().get_geometry()
+    nrow, ncol = (
+        Image.fig.axes[0].get_subplotspec().get_gridspec().get_geometry()
+    )
     assert ncol == 1
     assert nrow == 1
 
@@ -15,7 +17,9 @@ def test_figure_default_init():
 def test_rows_columns():
     Image = pp.Image()
     ax = Image.create_axes(ncol=2, nrow=3)
-    nrow, ncol = Image.fig.axes[0].get_subplotspec().get_gridspec().get_geometry()
+    nrow, ncol = (
+        Image.fig.axes[0].get_subplotspec().get_gridspec().get_geometry()
+    )
     assert ncol == 2
     assert nrow == 3
     assert len(ax) == 6
@@ -44,7 +48,9 @@ def test_borders():
 # Two columns custom
 def test_twocolumns():
     Image = pp.Image()
-    ax = Image.create_axes(ncol=2, left=0.15, right=0.8, wspace=0.2, wratio=[2, 1])
+    ax = Image.create_axes(
+        ncol=2, left=0.15, right=0.8, wspace=0.2, wratio=[2, 1]
+    )
     pos = ax[0].get_position().bounds
     assert np.isclose(pos[0], 0.15)
     assert np.isclose(pos[2], 0.3)

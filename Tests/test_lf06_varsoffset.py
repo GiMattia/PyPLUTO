@@ -50,7 +50,9 @@ def test_singlevtkout():
 
 # Test single file, vtk output (standalone)
 def test_singlevtkalone():
-    Data = pp.Load(path=path / "single_file", datatype="vtk", text=False, alone=True)
+    Data = pp.Load(
+        path=path / "single_file", datatype="vtk", text=False, alone=True
+    )
     for num, var in enumerate(varslist):
         assert Data._offset[var] == size_vtk0 + num * (size_vtkh + size * 4)
 
@@ -63,7 +65,9 @@ def test_multiplevtkout():
 
 # Test multiple files, vtk output (standalone)
 def test_multiplevtkalone():
-    Data = pp.Load(path=path / "multiple_files", datatype="vtk", text=False, alone=True)
+    Data = pp.Load(
+        path=path / "multiple_files", datatype="vtk", text=False, alone=True
+    )
     var = list(Data._offset.keys())[0]
     assert Data._offset[var] == size_vtkm
 

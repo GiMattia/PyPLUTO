@@ -64,14 +64,14 @@ def _check_pathformat(self, path: str | Path) -> None:
 
 
 def _find_format(self, datatype: str | None, alone: bool | None) -> None:
-    """Finds the format of the data files to load. At first, the code checks the
-    filetype to be loaded (if fluid or particles). Then, depending on the
+    """Finds the format of the data files to load. At first, the code checks
+    the filetype to be loaded (if fluid or particles). Then, depending on the
     filetype given, the code checks if the corresponding filetype is present
     Depending on the properties of the filetype and of the type of the output
-    (if fluid or particles) different checks are performed.
-    If no format is given or if the given format is not found, the code checks
-    the presence other filetypes in the directory. If no file is found, an error
-    is raised. CUrrent filetypes available are dbl, flt, vtk, dbl.h5 and flt.h5.
+    (if fluid or particles) different checks are performed. If no format is
+    given or if the given format is not found, the code checks the presence
+    other filetypes in the directory. If no file is found, an error is raised.
+    CUrrent filetypes available are dbl, flt, vtk, dbl.h5 and flt.h5.
 
     Returns
     -------
@@ -144,20 +144,25 @@ def _find_format(self, datatype: str | None, alone: bool | None) -> None:
             )
         elif class_name == "LoadPart":
             err = (
-                f"Invalid datatype {datatype}.\n" f"Possible formats are: dbl, flt, vtk"
+                f"Invalid datatype {datatype}.\n"
+                f"Possible formats are: dbl, flt, vtk"
             )
         raise ValueError(err)
 
     # Create the list of types to iterate over. If the datatype is None
     # then the list is the full list of types, otherwise the list is the
     # datatype itself.
-    typeout0, typelon0 = ([], []) if datatype is not None else (type_out, type_lon)
+    typeout0, typelon0 = (
+        ([], []) if datatype is not None else (type_out, type_lon)
+    )
     type_out = [datatype] if datatype in type_out else typeout0
     type_lon = [datatype] if datatype in type_lon else typelon0
 
     # Create the list of functions to be called (.out or alone)
     funcf = [_check_typeout] if len(type_out) > 0 and alone is not True else []
-    funcf += [_check_typelon] if len(type_lon) > 0 and alone is not False else []
+    funcf += (
+        [_check_typelon] if len(type_lon) > 0 and alone is not False else []
+    )
 
     # Define the dictionary for the function argument
     dict_func = {"_check_typeout": type_out, "_check_typelon": type_lon}
@@ -188,9 +193,9 @@ def _find_format(self, datatype: str | None, alone: bool | None) -> None:
 
 
 def _check_typeout(self, type_out: list[str]) -> None:
-    """Loops over possible formats in order to find, at first the grid.out file,
-    then the datatype.out file. If the datatype.out file is found, the file
-    format is selected and the flag alone is set to False.
+    """Loops over possible formats in order to find, at first the grid.out
+    file, then the datatype.out file. If the datatype.out file is found, the
+    file format is selected and the flag alone is set to False.
 
     Returns
     -------

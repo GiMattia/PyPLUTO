@@ -10,11 +10,10 @@ from .h_pypluto import check_par
 
 
 class Image:
-    """Class that creates a new figure and sets the LaTeX
-    conditions, as well as the matplotlib style.
-    Every Image is associated to a figure object and only one in order to
-    avoid confusion between images and figures. If you want to create multiple
-    figures, you have to create multiple Image objects.
+    """Class that creates a new figure and sets the LaTeX conditions, as well
+    as the matplotlib style. Every Image is associated to a figure object and
+    only one in order to avoid confusion between images and figures. If you
+    want to create multiple figures, you have to create multiple Image objects.
 
     Returns
     -------

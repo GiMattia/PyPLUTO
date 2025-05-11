@@ -89,7 +89,9 @@ def test_tab():
 
 # Test single file, vtk output (standalone)
 def test_singlevtkalone():
-    Data = pp.Load(0, path=path / "single_file", datatype="vtk", text=False, alone=True)
+    Data = pp.Load(
+        0, path=path / "single_file", datatype="vtk", text=False, alone=True
+    )
     for num, var in enumerate(varslist):
         npt.assert_allclose(getattr(Data, var), exact_vars[var])
 
@@ -146,9 +148,13 @@ def test_tabalone():
         "prs": "var4",
     }
 
-    Data = pp.Load(0, path=path / "single_file", datatype="tab", text=False, alone=True)
+    Data = pp.Load(
+        0, path=path / "single_file", datatype="tab", text=False, alone=True
+    )
     for num, var in enumerate(varslist):
-        npt.assert_allclose(getattr(Data, vars_conversion[var]), exact_vars[var])
+        npt.assert_allclose(
+            getattr(Data, vars_conversion[var]), exact_vars[var]
+        )
 
 
 # Test single file, tab output (1D)
@@ -157,14 +163,18 @@ prs = np.array([1] * 200 + [0.1] * 200)
 
 
 def test_tab1D():
-    Data = pp.Load(0, path=path / "multiple_outputs", datatype="tab", text=False)
+    Data = pp.Load(
+        0, path=path / "multiple_outputs", datatype="tab", text=False
+    )
     npt.assert_allclose(Data.rho, rho)
     npt.assert_allclose(Data.prs, prs)
 
 
 # Test muptiple outputs
 def test_multipleout():
-    Data = pp.Load([0, 1], path=path / "multiple_outputs", datatype="dbl", text=False)
+    Data = pp.Load(
+        [0, 1], path=path / "multiple_outputs", datatype="dbl", text=False
+    )
     assert isinstance(Data.rho, dict)
     assert list(Data.rho.keys()) == [0, 1]
     npt.assert_allclose(Data.rho[0], rho)

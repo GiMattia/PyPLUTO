@@ -10,8 +10,8 @@ def fourier(
 ) -> tuple[list[np.ndarray], np.ndarray]:
     """Compute the Fourier transform of a given array. The function uses the
     numpy.fft.fftn function. The function returns a tuple containing the
-    transformed array and the frequency array (which is a list of arrays if
-    the input is in 2D or 3D).
+    transformed array and the frequency array (which is a list of arrays if the
+    input is in 2D or 3D).
 
     Returns
     -------
@@ -106,7 +106,9 @@ def fourier(
         if kwargs.get(dir, True) is True and dim > numdir:
             axes.append(numdir)
             # Compute the frequencies
-            freqs.append(2.0 * np.pi * np.fft.rfftfreq(shp[numdir], spacing[pars]))
+            freqs.append(
+                2.0 * np.pi * np.fft.rfftfreq(shp[numdir], spacing[pars])
+            )
 
     # Compute the Fourier transform
     fk = np.fft.fftn(f, axes=axes)

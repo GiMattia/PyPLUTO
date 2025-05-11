@@ -1,4 +1,4 @@
-"""Particles CR Xpoint test
+"""Particles CR Xpoint test.
 
 This test shows how to plot data from the Load class and the LoadPart class
 simultaneously and how to produce a scatter plot.
@@ -7,12 +7,13 @@ The data are the ones obtained from the PLUTO test problem
 $PLUTO_DIR/Test_Problems/Particles/CR/Xpoint (configuration 1).
 
 The data is loaded with the Load class and the LoadPart class into two pload
- objects, and the Image class is created. The contour method is used to plot the
+objects, and the Image class is created. The contour method is used to plot the
 contour lines of the electromagnetic vector potential. The scatter method is
 used to plot the single particles at the end of the simulation time. The
 spectrum and plot method are then used to show the velocity spectra of the
 particles at the beginning and at the end of the simulation. The image is then
 saved and shown on screen.
+
 """
 
 import matplotlib.pyplot as plt
@@ -21,8 +22,12 @@ import pyPLUTO
 
 # --- Load fluid and particle data ---
 Data = pyPLUTO.Load(path="Test_Problems/Particles/CR/Xpoint")
-Dp_f = pyPLUTO.LoadPart(path="Test_Problems/Particles/CR/Xpoint", datatype="vtk")
-Dp_i = pyPLUTO.LoadPart(0, path="Test_Problems/Particles/CR/Xpoint", datatype="vtk")
+Dp_f = pyPLUTO.LoadPart(
+    path="Test_Problems/Particles/CR/Xpoint", datatype="vtk"
+)
+Dp_i = pyPLUTO.LoadPart(
+    0, path="Test_Problems/Particles/CR/Xpoint", datatype="vtk"
+)
 
 
 # --- Compute Lorentz factor and sort ---

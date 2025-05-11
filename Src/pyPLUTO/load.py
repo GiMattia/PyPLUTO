@@ -202,14 +202,18 @@ class Load:
         self._d_info: dict[str, Any]  # Info dictionary
         self._matching_files: list[str]  # The list of files to be loaded
         self._pathgrid: Path  # Path to the grid file
-        self._pathdata: Path | None = None  # Path to the data files to be loaded
+        self._pathdata: Path | None = (
+            None  # Path to the data files to be loaded
+        )
         self._filepath: Path  # The filepath to be loaded
         self._load_vars: list[str]  # The list of variables to be loaded
         self._offset: dict[str, int]  # The offset of the variables
         self._shape: dict[str, tuple[int, ...]]  # The shape of the variables
         self._vardim: list[int]  # The dimension of the variables
         self._dictdim: dict  # The dictionary of dimensions
-        self._fastvtk: bool = kwargs.get("fastvtk", True)  # Bool for fast vtk loading
+        self._fastvtk: bool = kwargs.get(
+            "fastvtk", True
+        )  # Bool for fast vtk loading
 
         # Declaration of the grid variables
         self.x1: NDArray
@@ -299,7 +303,9 @@ class Load:
         # Print loaded folder and output
         if text:
             _nout_out = (
-                self.nout[0] if len(self.nout) == 1 else [int(x) for x in self.nout]
+                self.nout[0]
+                if len(self.nout) == 1
+                else [int(x) for x in self.nout]
             )
             print(f"Load: folder {path},     output {_nout_out}")
 

@@ -8,7 +8,8 @@ from .h_pypluto import check_par
 def savefig(
     self, filename: str = "img.png", bbox: str | None = "tight", dpi: int = 300
 ) -> None:
-    """Creation of a .png image file of the figure created with the Image class.
+    """Creation of a .png image file of the figure created with the Image
+    class.
 
     Returns
     -------

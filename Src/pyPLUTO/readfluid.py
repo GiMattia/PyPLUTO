@@ -7,9 +7,9 @@ import pandas as pd
 
 
 def _read_tabfile(self, i: int) -> None:
-    """Reads the data.****.tab file and stores the relevant information within the
-    class. Such information are the grid variables, the output variables and the
-    output time.
+    """Reads the data.****.tab file and stores the relevant information within
+    the class. Such information are the grid variables, the output variables
+    and the output time.
 
     Returns
     -------
@@ -94,11 +94,11 @@ def _read_tabfile(self, i: int) -> None:
 
 
 def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
-    """Routine to inspect the vtk file and find the variables, the offset and the
-    shape. The routine loops over the lines of the file and finds the relevant
-    information. The routine also finds the time information if the file is
-    standalone. The routine also finds the coordinates if the file is standalone
-    and cartesian.
+    """Routine to inspect the vtk file and find the variables, the offset and
+    the shape. The routine loops over the lines of the file and finds the
+    relevant information. The routine also finds the time information if the
+    file is standalone. The routine also finds the coordinates if the file is
+    standalone and cartesian.
 
     Returns
     -------
@@ -138,7 +138,9 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
     # Initialize the offset and shape arrays, the endianess and the coordinates
     # dictionary
     self._offset, self._shape = ({}, {})
-    endl = self._d_info["endianess"][i] = ">" if endian is None else self._d_end[endian]
+    endl = self._d_info["endianess"][i] = (
+        ">" if endian is None else self._d_end[endian]
+    )
     if endl is None:
         raise ValueError("Error: Wrong endianess in vtk file.")
     if self._info is True:
@@ -267,7 +269,9 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
                     if ind == len(self._d_info["varslist"][i]) - 1
                     else len(self._d_info["varslist"][i][ind + 1])
                 )
-                offset = offset + scrh + lenvar - len(self._d_info["varslist"][i][0])
+                offset = (
+                    offset + scrh + lenvar - len(self._d_info["varslist"][i][0])
+                )
             break
         else:
             self._offset[var] = offset
@@ -293,9 +297,9 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
 
 
 def _inspect_h5(self, i: int, exout: int) -> None:
-    """Inspects the h5 files (static grid) in order to find offset and shape of the
-    different variables. If the files are standalone, the routine also finds the
-    coordinates.
+    """Inspects the h5 files (static grid) in order to find offset and shape of
+    the different variables. If the files are standalone, the routine also
+    finds the coordinates.
 
     Returns
     -------
@@ -375,8 +379,8 @@ def _inspect_h5(self, i: int, exout: int) -> None:
 def _compute_offset(
     self, i: int, endian: str | None, exout: int, var: str | None
 ) -> None:
-    """Routine to compute the offset and shape of the variables to be loaded. The
-    routine calls different functions depending on the file format.
+    """Routine to compute the offset and shape of the variables to be loaded.
+    The routine calls different functions depending on the file format.
 
     Returns
     -------
@@ -424,9 +428,9 @@ def _compute_offset(
 
 
 def _offset_bin(self, i: int, var: str | None) -> None:
-    """Routine to compute the offset and shape of the variables to be loaded. The
-    routine, knowing the grid shape, computes the offset and stores the shape
-    dependng on wether the variable is staggered or not.
+    """Routine to compute the offset and shape of the variables to be loaded.
+    The routine, knowing the grid shape, computes the offset and stores the
+    shape dependng on wether the variable is staggered or not.
 
     Returns
     -------

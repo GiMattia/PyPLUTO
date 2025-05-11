@@ -48,7 +48,9 @@ def test_gridfile():
 
 # Testing the grid from a standalone vtk file
 def test_standalone_vtk():
-    Data = pp.Load(path=path / "single_file", text=False, datatype="vtk", alone=True)
+    Data = pp.Load(
+        path=path / "single_file", text=False, datatype="vtk", alone=True
+    )
     npt.assert_allclose(Data.x1r, xr)
     npt.assert_allclose(Data.x2r, xr)
 

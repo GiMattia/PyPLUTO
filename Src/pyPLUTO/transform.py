@@ -18,8 +18,8 @@ def slices(
     x3: int | list | None = None,
     **kwargs: Any,
 ) -> np.ndarray:
-    """Function that slices the variable in the 3 directions.
-    Also, it can slice the diagonal of the variable.
+    """Function that slices the variable in the 3 directions. Also, it can
+    slice the diagonal of the variable.
 
     Returns
     -------
@@ -101,9 +101,11 @@ def slices(
     return newvar
 
 
-def mirror(self, var: NDArray, dirs="l", xax=None, yax=None) -> list[np.ndarray]:
-    """Function that mirrors the variable in the specified directions.
-    Multiple directions can be specified.
+def mirror(
+    self, var: NDArray, dirs="l", xax=None, yax=None
+) -> list[np.ndarray]:
+    """Function that mirrors the variable in the specified directions. Multiple
+    directions can be specified.
 
     Returns
     -------
@@ -192,8 +194,8 @@ def repeat(
     xax: NDArray | None = None,
     yax: NDArray | None = None,
 ) -> np.ndarray:
-    """Function that repeats the variable in the specified directions.
-    Multiple directions can be specified.
+    """Function that repeats the variable in the specified directions. Multiple
+    directions can be specified.
 
     Returns
     -------
@@ -319,7 +321,9 @@ def cartesian_vector(
     }
 
     if var is not None:
-        var_0 = [self.check_var(v, kwargs.get("transpose", False)) for v in vars[var]]
+        var_0 = [
+            self.check_var(v, kwargs.get("transpose", False)) for v in vars[var]
+        ]
     elif "var1" in kwargs and "var2" in kwargs:
         var_0 = [
             self.check_var(kwargs["var1"], kwargs.get("transpose", False)),
@@ -329,7 +333,9 @@ def cartesian_vector(
         raise ValueError("Either var or var1 and var2 must be specified.")
 
     if "var3" in kwargs:
-        var_0.append(self.check_var(kwargs["var3"], kwargs.get("transpose", False)))
+        var_0.append(
+            self.check_var(kwargs["var3"], kwargs.get("transpose", False))
+        )
 
     # x1 = kwargs.get("x1", self.x1)
     x2 = kwargs.get("x2", self.x2)
@@ -355,9 +361,9 @@ def cartesian_vector(
 
 
 def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray, ...]:
-    """Function that reshapes a variable from a cylindrical or spherical grid into
-    a cartesian grid. Zones not covered by the original domain (e.g. the very
-    inner radial regions) are also interpolated.
+    """Function that reshapes a variable from a cylindrical or spherical grid
+    into a cartesian grid. Zones not covered by the original domain (e.g. the
+    very inner radial regions) are also interpolated.
 
     Returns
     -------

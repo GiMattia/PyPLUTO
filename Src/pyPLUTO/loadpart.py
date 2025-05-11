@@ -9,8 +9,8 @@ class LoadPart:
     particles from the simulation and store the data in the class attributes.
     The data are loaded in a memory mapped numpy multidimensional array. Such
     approach does not load the full data until needed. Basic operations (i.e.
-    no numpy) are possible, as well as slicing the arrays, without fully loading
-    the data. At the moment, only one output can be loaded at a time.
+    no numpy) are possible, as well as slicing the arrays, without fully
+    loading the data. At the moment, only one output can be loaded at a time.
 
     Returns
     -------
@@ -117,7 +117,9 @@ class LoadPart:
         self.set_outs: set[int]  # The set of outputs to be loaded
         self._matching_files: list[str]  # The list of files to be loaded
         self._pathgrid: Path  # Path to the grid file
-        self._pathdata: Path | None = None  # Path to the data files to be loaded
+        self._pathdata: Path | None = (
+            None  # Path to the data files to be loaded
+        )
         self._filepath: Path  # The filepath to be loaded
         self._load_vars: list[str]  # The list of variables to be loaded
         self._offset: dict[str, int]  # The offset of the variables

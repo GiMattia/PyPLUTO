@@ -11,9 +11,8 @@ from .h_pypluto import check_par
 
 
 def display(self, var: NDArray, check: bool = True, **kwargs: Any) -> QuadMesh:
-    """Plot for a 2D function (or a 2D slice) using the
-    matplotlib's pcolormesh function.
-    A simple figure and a single axis can also be created.
+    """Plot for a 2D function (or a 2D slice) using the matplotlib's pcolormesh
+    function. A simple figure and a single axis can also be created.
 
     Returns
     -------
@@ -575,9 +574,9 @@ def scatter(
 
 
 def colorbar(self, pcm=None, axs=None, cax=None, check=True, **kwargs) -> None:
-    """Method to display a colorbar in a selected position. If the keyword cax is
-    enabled the colorbar is located in a specific axis, otherwise an axis will
-    be shrunk in order to place the colorbar.
+    """Method to display a colorbar in a selected position. If the keyword cax
+    is enabled the colorbar is located in a specific axis, otherwise an axis
+    will be shrunk in order to place the colorbar.
 
     Returns
     -------
@@ -670,7 +669,11 @@ def colorbar(self, pcm=None, axs=None, cax=None, check=True, **kwargs) -> None:
         warnings.warn(warn, UserWarning)
 
     # Select the source axis
-    axs = pcm.axes if pcm is not None else axs if axs is not None else self.fig.gca()
+    axs = (
+        pcm.axes
+        if pcm is not None
+        else axs if axs is not None else self.fig.gca()
+    )
     axs, _ = self._assign_ax(axs, **kwargs)
 
     # Select the keywords
@@ -718,8 +721,8 @@ def _set_cscale(
     tresh: float,
     lint: float | None = None,
 ):
-    """Sets the color scale of a pcolormesh given the scale, the minimum and the
-    maximum.
+    """Sets the color scale of a pcolormesh given the scale, the minimum and
+    the maximum.
 
     Returns
     -------

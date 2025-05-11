@@ -5,7 +5,9 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 
 
-def savefig(filename: str | Path = "img.png", bbox: str | None = "tight") -> None:
+def savefig(
+    filename: str | Path = "img.png", bbox: str | None = "tight"
+) -> None:
     raise NotImplementedError(
         "pyPLUTO.savefig is deprecated.\n"
         "Please call savefig from the Image class instead"
@@ -41,8 +43,8 @@ def show(block: bool = True) -> None:
 
 
 def ring(length: float = 0.5, freq: int = 440) -> None:
-    """Makes a sound for a given length and frequency.
-    It works on Linux, MacOS and Windows.
+    """Makes a sound for a given length and frequency. It works on Linux, MacOS
+    and Windows.
 
     Parameters
     ----------

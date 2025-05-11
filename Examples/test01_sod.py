@@ -1,4 +1,4 @@
-"""HD shock tube test
+"""HD shock tube test.
 
 This test shows how to plot different 1D quantities from a test problem in the
 same plot.
@@ -17,6 +17,7 @@ saved and shown on screen.
 Note that the Image is saved through I.savefig (and not pp.savefig) since
 saving a file should be strictly related to a single Image class. Conversely,
 the pp.show displays all the figures generated in the script (here only one).
+
 """
 
 # Loading the relevant packages

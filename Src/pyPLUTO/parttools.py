@@ -90,8 +90,7 @@ def select(
     ascending: bool = True,
 ) -> np.ndarray:
     """Selects or sorts the indices that satisfy a given condition for the
-    particles.
-    The condition is given by a string or a callable function.
+    particles. The condition is given by a string or a callable function.
 
     Returns
     -------
@@ -134,7 +133,8 @@ def select(
     # Determine the indices that satisfy the condition
     if isinstance(cond, str):
         warn = (
-            "The condition should be a callable function to " "avoid security issues."
+            "The condition should be a callable function to "
+            "avoid security issues."
         )
         warnings.warn(warn)
 

@@ -1,4 +1,4 @@
-"""Classical MHD Rayleigh-Taylor instability test
+"""Classical MHD Rayleigh-Taylor instability test.
 
 This test shows how to display a 2D quantity from a test problem at different
 times in different subplots.
@@ -24,6 +24,7 @@ time at which a .dbl output file is printed should be changed in
 dbl      7.5   -1   single_file
 
 in the static grid output section.
+
 """
 
 # Loading the relevant packages
@@ -40,7 +41,9 @@ Image = pyPLUTO.Image(
 )
 
 # Creating the subplots (3 for the temporal evolution and 1 for the colorbar)
-Image.create_axes(ncol=4, wratio=[1, 1, 1, 0.2], wspace=[0.005, 0.005, 0.005], top=0.88)
+Image.create_axes(
+    ncol=4, wratio=[1, 1, 1, 0.2], wspace=[0.005, 0.005, 0.005], top=0.88
+)
 
 # Customizing y labels and y ticks labels
 ylab = ["y", None, None]

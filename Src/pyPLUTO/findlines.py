@@ -11,10 +11,10 @@ from .h_pypluto import check_par, makelist
 
 
 def _check_var(self, var: str | NDArray, transpose: bool = False) -> np.ndarray:
-    """Function that checks returns a variable. If the variable is a numpy array,
-    it is simply returned (and the transpose is taken into account). If the
-    variable is a string, the variable is retrieved from the dataset. If the
-    variable is not found, an error is raised.
+    """Function that checks returns a variable. If the variable is a numpy
+    array, it is simply returned (and the transpose is taken into account). If
+    the variable is a string, the variable is retrieved from the dataset. If
+    the variable is not found, an error is raised.
 
     Returns
     -------
@@ -73,9 +73,9 @@ def _vector_field(
     xc: np.ndarray,
     yc: np.ndarray,
 ) -> list[np.ndarray]:
-    """Compute the vector field at the given time and coordinates by interpolating
-    the variables var1 and var2 at the given coordinates. The interpolation is
-    made through the routine np.interpolate.
+    """Compute the vector field at the given time and coordinates by
+    interpolating the variables var1 and var2 at the given coordinates. The
+    interpolation is made through the routine np.interpolate.
 
     Returns
     -------
@@ -274,7 +274,9 @@ def find_fieldlines(
 
     # Set the initial step size and maximum number of steps
     step = np.abs(
-        kwargs.get("step", min((xend - xbeg) / self.nx1, (yend - ybeg) / self.nx2))
+        kwargs.get(
+            "step", min((xend - xbeg) / self.nx1, (yend - ybeg) / self.nx2)
+        )
     )
 
     maxstep = kwargs.get("maxstep", 100 * step)
@@ -309,7 +311,9 @@ def find_fieldlines(
         return 1  # Do not trigger event (still below maximum step number)
 
     # Set the events to be triggered
-    close_to_start.terminal = True if kwargs.get("close", True) is True else False
+    close_to_start.terminal = (
+        True if kwargs.get("close", True) is True else False
+    )
     close_to_start.direction = 0
 
     outside_domain.terminal = True

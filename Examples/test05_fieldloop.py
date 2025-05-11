@@ -1,17 +1,18 @@
-"""Classical MHD Field loop test
+"""Classical MHD Field loop test.
 
-This test shows how to compute streamlines and field lines of the magnetic field
-in a display with two subplots.
+This test shows how to compute streamlines and field lines of the magnetic
+field in a display with two subplots.
 
 The data are the ones obtained from the PLUTO test problem
 $PLUTO_DIR/Test_Problems/MHD/Field_Loop (configuration 5).
 
 The data is loaded into a pload object D and the Image class is created. The
-display method is used to plot the x and y components of the magnetic field. The
-find_fieldlines method is used to compute the field lines of the magnetic field.
-The streamplot method is used to plot the streamlines of the magnetic field in
-the first display, while the plot method is used to plot the field lines
-previously computed. The image is then saved and shown on screen.
+display method is used to plot the x and y components of the magnetic field.
+The find_fieldlines method is used to compute the field lines of the magnetic
+field. The streamplot method is used to plot the streamlines of the magnetic
+field in the first display, while the plot method is used to plot the field
+lines previously computed. The image is then saved and shown on screen.
+
 """
 
 # Loading the relevant packages

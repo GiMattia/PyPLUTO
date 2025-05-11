@@ -8,7 +8,9 @@ from numpy.typing import NDArray
 from .h_pypluto import check_par
 
 
-def contour(self, var: NDArray, check: bool = True, **kwargs: Any) -> LineCollection:
+def contour(
+    self, var: NDArray, check: bool = True, **kwargs: Any
+) -> LineCollection:
     """Plots a contour plot of a given variable. The function uses the
     matplotlib.pyplot.contour function. The function returns None.
 
@@ -256,7 +258,9 @@ def contour(self, var: NDArray, check: bool = True, **kwargs: Any) -> LineCollec
     return cnt
 
 
-def streamplot(self, var1, var2, check: bool = True, **kwargs: Any) -> LineCollection:
+def streamplot(
+    self, var1, var2, check: bool = True, **kwargs: Any
+) -> LineCollection:
     """Plots a streamplot of a vector field. The function uses the streamplot
     function from matplotlib.pyplot.
 

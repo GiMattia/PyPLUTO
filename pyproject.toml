@@ -51,8 +51,11 @@ dev = [
 [tool.setuptools.packages.find]
 where = ["Src"]
 
+[tool.black]
+line-length = 80
+
 [tool.ruff]
-line-length = 88
+line-length = 80
 respect-gitignore = true
 fix = true
 fix-only = true
@@ -75,11 +78,28 @@ select = [
 
 ignore = [
     "D203",  # Conflicts with D211 (one-blank-line-before-class)
+    "D209",  # Conflicts with docformatter
     "D213"   # Conflicts with D212 (summary on first vs second line)
 ]
-
 
 [tool.mypy]
 check_untyped_defs = true
 ignore_missing_imports = true
 strict_optional = true
+
+[tool.docformatter]
+in-place = true
+black = true
+blank = true
+wrap-summaries = 79
+wrap-descriptions = 79
+
+[tool.interrogate]
+verbose = 1
+fail-under = 80
+exclude = ["tests", "Docs"]
+ignore-init-method = false
+ignore-init-module = true
+ignore-private = true
+ignore-semiprivate = true
+ignore-magic = true

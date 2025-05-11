@@ -302,7 +302,7 @@ def zoom(self, ax=None, check: bool = True, **kwargs) -> Axes:
 
 
 def _zoomplot(self, ax: Axes, nax: int, axins: Axes, **kwargs: Any) -> None:
-    """ """
+    """"""
     lines = ax.get_lines()
     for i in lines:
         self.plot(
@@ -318,7 +318,7 @@ def _zoomplot(self, ax: Axes, nax: int, axins: Axes, **kwargs: Any) -> None:
 
 
 def _zoomdisplay(self, ax: Axes, nax: int, axins: Axes, **kwargs: Any) -> None:
-    """ """
+    """"""
     pcm = ax.collections[0]
     pnr = str(pcm.norm).split()[0].split(".")[2]
     dict_norm = {
@@ -352,7 +352,9 @@ def _zoomdisplay(self, ax: Axes, nax: int, axins: Axes, **kwargs: Any) -> None:
     kwargs["vmax"] = kwargs.pop("vmax", self.vlims[nax][1])
     kwargs["tresh"] = kwargs.pop("tresh", self.vlims[nax][2])
 
-    self.display(pcm0, x1=xc, x2=yc, ax=axins, check=False, shading=psh, **kwargs)
+    self.display(
+        pcm0, x1=xc, x2=yc, ax=axins, check=False, shading=psh, **kwargs
+    )
 
 
 def _place_inset_pos(ax: Axes, pos: list[float]) -> Axes:
@@ -383,9 +385,8 @@ def _place_inset_pos(ax: Axes, pos: list[float]) -> Axes:
 
 
 def _place_inset_loc(ax: Axes, **kwargs: Any) -> Axes:
-    """Places an inset axes given different keywords.
-    In case both top and bottom are given, the top is given priority and a
-    warning is raised.
+    """Places an inset axes given different keywords. In case both top and
+    bottom are given, the top is given priority and a warning is raised.
 
     Returns
     -------

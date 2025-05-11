@@ -9,15 +9,37 @@ output_dir.mkdir(parents=True, exist_ok=True)
 # Define tasks
 tasks = {
     "coverage": [
-        ["coverage", "run", "--source", str(source_dir), "-m", "pytest"],
-        ["coverage", "report"],
-        ["coverage", "xml", "-o", str(output_dir / "coverage.xml")],
+        ["coverage", "erase"],  # Erase previous coverage data
+        [
+            "coverage",
+            "run",
+            "--source",
+            str(source_dir),
+            "-m",
+            "pytest",
+        ],  # Run pytest with coverage
+        ["coverage", "report"],  # Show coverage report in terminal
+        [
+            "coverage",
+            "xml",
+            "-o",
+            str(output_dir / "coverage.xml"),
+        ],  # Save coverage as XML file
     ],
     "pylint": [
-        ["pylint", str(source_dir), "--exit-zero"],
+        [
+            "pylint",
+            str(source_dir),
+            "--exit-zero",
+        ],  # Run pylint without failing the build on issues
     ],
     "interrogate": [
-        ["interrogate", str(source_dir), "--verbose"],
+        [
+            "interrogate",
+            str(source_dir),
+            "--verbose",
+            "--fail-under=40.0",
+        ],  # Set docstring coverage threshold to 40%
     ],
 }
 

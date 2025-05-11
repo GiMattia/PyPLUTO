@@ -702,14 +702,9 @@ Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
 ==pyPLUTO.readfluid:[241:254]
 ==pyPLUTO.readpart:[215:233]
     while True:
-        # Find the next occurrence of the header
-        # points_pos  = mmapped_file.find(b'POINTS', search_pos)
         scalars_pos = mmapped_file.find(b"SCALARS", search_pos)
-        # vectors_pos = -1#mmapped_file.find(b'VECTORS', search_pos)
-
-        # Determine the closest header found
-        if scalars_pos == -1:  # and scalars_pos == -1 and vectors_pos == -1:
-            break  # No more headers found
+        if scalars_pos == -1:
+            break  # No more occurrences found
 
         # Move to the end of the 'SCALARS' line
         line_end = mmapped_file.find(b"\n", scalars_pos)
@@ -762,7 +757,9 @@ Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
             "Resetting to 'h5'"
         )
         warnings.warn(warn)
-        pass (duplicate-code)
+        pass
+
+    # End of the function (duplicate-code)
 Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
 ==pyPLUTO.readfluid:[139:145]
 ==pyPLUTO.readpart:[137:146]
@@ -848,5 +845,5 @@ Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
         "c", (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 7.86/10 (previous run: 7.43/10, +0.42)
+Your code has been rated at 7.86/10 (previous run: 7.86/10, +0.00)
 

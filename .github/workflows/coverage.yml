@@ -1,23 +1,31 @@
-name: Coverage
+# This workflow will install dependencies, create coverage tests and run Pytest Coverage Comment
+# For more information see: https://github.com/MishaKav/pytest-coverage-comment/
+name: pytest-coverage-comment
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
+    push:
+      branches:
+        - master
+    pull_request:
+
+# https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
+# `contents` is for permission to the contents of the repository.
+# `pull-requests` is for permission to pull request
+permissions:
+  contents: write
+  checks: write
+  pull-requests: write
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - name: Set up Python 3.13
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
-          python-version: "3.13"
+          python-version: 3.13
 
       - name: Install dependencies
         run: |
@@ -28,23 +36,13 @@ jobs:
         run: |
           python -m pip install .
 
-      - name: Test and Coverage
-        run: python -m pytest --cov --cov-report json
+      - name: Build coverage file
+        run: |
+          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=app tests/ | tee pytest-coverage.txt
         working-directory: ./Tests
 
-      - name: Save Coverage Badge to .github/badges
-        run: |
-          mkdir -p .github/badges
-          python -m coverage report --show-missing --fail-under=100 > .github/badges/coverage.txt
-          # You can use an external tool like 'shields.io' to generate the actual badge
-          curl -o .github/badges/coverage.svg "https://img.shields.io/badge/coverage-100%25-brightgreen"
-          
-      - name: Commit and push coverage badge
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add .github/badges/coverage.svg
-          git commit -m "Update coverage badge"
-          git push origin master  # Change this to 'main' if that’s your default branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Pytest coverage comment
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-coverage-path: ./pytest-coverage.txt
+          junitxml-path: ./pytest.xml

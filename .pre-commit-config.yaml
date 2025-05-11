@@ -80,3 +80,10 @@ repos:
   # pylint, interrogate?
 
   # 7. Pytest + coverage badge
+  #- repo: local
+  #  hooks:
+  #    - id: pytest
+  #      name: Run pytest with coverage
+  #      language: system
+  #      entry: python -m pytest Tests/ --cov=pyPLUTO --cov-report=xml --cov-report=term-missing
+  #      files: .py$ # Matches all Python files

@@ -78,3 +78,5 @@ repos:
   #      files: ^Src/pyPLUTO/  # Regex: only runs on files in this folder
 
   # pylint, interrogate?
+
+  # 7. Pytest + coverage badge

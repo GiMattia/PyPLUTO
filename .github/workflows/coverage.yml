@@ -1,12 +1,11 @@
-# .github/workflows/coverage.yml
 name: Coverage
 
 on:
-    push:
-      branches:
-        - master
-    pull_request:
-  
+  push:
+    branches:
+      - master
+  pull_request:
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -15,11 +14,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Your original steps
       - name: Set up Python 3.13
         uses: actions/setup-python@v4
         with:
-            python-version: "3.13"
+          python-version: "3.13"
 
       - name: Install dependencies
         run: |
@@ -34,9 +32,19 @@ jobs:
         run: python -m pytest --cov --cov-report json
         working-directory: ./Tests
 
-      # Add this
-      - name: Update Coverage Badge
-        # GitHub actions: default branch variable
-        # https://stackoverflow.com/questions/64781462/github-actions-default-branch-variable
-        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        uses: we-cli/coverage-badge-action@main
+      - name: Save Coverage Badge to .github/badges
+        run: |
+          mkdir -p .github/badges
+          python -m coverage report --show-missing --fail-under=100 > .github/badges/coverage.txt
+          # You can use an external tool like 'shields.io' to generate the actual badge
+          curl -o .github/badges/coverage.svg "https://img.shields.io/badge/coverage-100%25-brightgreen"
+          
+      - name: Commit and push coverage badge
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .github/badges/coverage.svg
+          git commit -m "Update coverage badge"
+          git push origin master  # Change this to 'main' if that’s your default branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

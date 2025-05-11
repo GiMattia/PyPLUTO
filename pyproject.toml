@@ -36,16 +36,21 @@ docs = [
 test = [
     "pytest",
     "pytest-doctestplus",
-    "codecov",
+    "coverage",
     "pytest-cov",
     "approvaltests"
 ]
+    
 dev = [
     "black",
     "pre-commit",
+    "pylint",
     "ruff",
     "mypy",
-    "blacken-docs"
+    "blacken-docs",
+    "docformatter",
+    "interrogate"
+
 ]
 
 [tool.setuptools.packages.find]
@@ -93,6 +98,19 @@ black = true
 blank = true
 wrap-summaries = 79
 wrap-descriptions = 79
+
+[tool.coverage.run]
+source = ["Src/pyPLUTO"]
+branch = true
+
+[tool.coverage.report]
+omit = [
+    "*/Tests/*",
+    "*/Docs/*",
+    "*/Src/setup.py",
+    "*/.venv/*",
+    "*/site-packages/*"
+]
 
 [tool.interrogate]
 verbose = 1

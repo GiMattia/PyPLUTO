@@ -29,19 +29,5 @@ jobs:
         run: |
           python -m pip install .
 
-      - name: Run tests and generate coverage report
-        run: |
-          pytest --maxfail=5 --disable-warnings -q
-          coverage xml -o coverage.xml
-          pylint --output-format=text > pylint_output.txt
-          interrogate . --output-format text > interrogate_output.txt
-
-      - name: Generate badges
-        run: |
-          python Utils/generate_badges.py --coverage-xml coverage.xml --pylint-output pylint_output.txt --interrogate-output interrogate_output.txt --output-dir badges
-
-      - name: Upload badges to GitHub
-        uses: actions/upload-artifact@v4
-        with:
-          name: badges
-          path: badges/
+      - name: Run static checks (coverage, pylint, interrogate)
+        run: python coverage_tests.py

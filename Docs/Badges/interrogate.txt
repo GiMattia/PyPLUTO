@@ -1,0 +1,42 @@
+=============== Coverage for /home/gian/WIP/pyPLUTO/Src/pyPLUTO/ ===============
+----------------------------------- Summary ------------------------------------
+| Name                     |      Total |      Miss |      Cover |      Cover% |
+|--------------------------|------------|-----------|------------|-------------|
+| amr.py                   |          2 |         1 |          1 |         50% |
+| defpluto.py              |          1 |         1 |          0 |          0% |
+| delegator.py             |          5 |         4 |          1 |         20% |
+| echo_load.py             |          2 |         1 |          1 |         50% |
+| figure.py                |          1 |         1 |          0 |          0% |
+| figure_new.py            |          3 |         3 |          0 |          0% |
+| findlines.py             |          7 |         5 |          2 |         29% |
+| fourier.py               |          2 |         1 |          1 |         50% |
+| h_image.py               |          1 |         1 |          0 |          0% |
+| h_pypluto.py             |          7 |         4 |          3 |         43% |
+| image.py                 |          3 |         2 |          1 |         33% |
+| image_new.py             |          3 |         3 |          0 |          0% |
+| imagestate.py            |          2 |         2 |          0 |          0% |
+| imagetools.py            |          4 |         2 |          2 |         50% |
+| inspect_kwargs.py        |          4 |         4 |          0 |          0% |
+| interact.py              |          3 |         1 |          2 |         67% |
+| load.py                  |          3 |         2 |          1 |         33% |
+| loadpart.py              |          3 |         2 |          1 |         33% |
+| make_docstrings.py       |          4 |         4 |          0 |          0% |
+| nabla.py                 |          4 |         1 |          3 |         75% |
+| parttools.py             |          3 |         1 |          2 |         67% |
+| plot1d.py                |          3 |         1 |          2 |         67% |
+| plot2d.py                |          4 |         1 |          3 |         75% |
+| plotlines.py             |          3 |         1 |          2 |         67% |
+| plotzoom.py              |          2 |         1 |          1 |         50% |
+| pytools.py               |          4 |         2 |          2 |         50% |
+| read_files.py            |          5 |         1 |          4 |         80% |
+| readdata.py              |          1 |         1 |          0 |          0% |
+| readfluid.py             |          1 |         1 |          0 |          0% |
+| readformat.py            |          1 |         1 |          0 |          0% |
+| readgridout.py           |          1 |         1 |          0 |          0% |
+| readpart.py              |          1 |         1 |          0 |          0% |
+| setaxes.py               |          3 |         1 |          2 |         67% |
+| transform.py             |          7 |         1 |          6 |         86% |
+| write_files.py           |          5 |         1 |          4 |         80% |
+|--------------------------|------------|-----------|------------|-------------|
+| TOTAL                    |        108 |        61 |         47 |       43.5% |
+---------------- RESULT: FAILED (minimum: 80.0%, actual: 43.5%) ----------------

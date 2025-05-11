@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Your original steps
-      - name: Set up Python 3.10
+      - name: Set up Python 3.13
         uses: actions/setup-python@v3
         with:
-            python-version: "python-latest"
+            python-version: "3.13"
 
       - name: Install
         run: |

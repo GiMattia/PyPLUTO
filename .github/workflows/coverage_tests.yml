@@ -2,11 +2,7 @@ name: Badge Generator
 
 on:
   push:
-    branches:
-      - master
   pull_request:
-    branches:
-      - master
 
 jobs:
   generate-badges:

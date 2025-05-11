@@ -133,7 +133,6 @@ max-line-length = 81
 [tool.pylint.reports]
 output-format = "text"
 
-
 [tool.interrogate]
 verbose = 1
 fail-under = 80

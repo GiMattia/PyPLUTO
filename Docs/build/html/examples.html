@@ -5,25 +5,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Examples with pyPLUTO &#8212; pyPLUTO 1.0 documentation</title>
+    <title>Examples with PyPLUTO &#8212; PyPLUTO 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=08520df9" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="HD Sod" href="test01_sod.html" />
-    <link rel="prev" title="Manipulating the data" href="tools.html" /> 
+    <link rel="next" title="Test 01 - HD Sod shock tube" href="test01_sod.html" />
+    <link rel="prev" title="The Graphics User Interface" href="gui.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyPLUTO 1.0 documentation</a></div>
-        <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="tools.html" title="Manipulating the data"
+          href="index.html">PyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="gui.html" title="The Graphics User Interface"
              accesskey="P">previous</a> |
-          <a href="test01_sod.html" title="HD Sod"
+          <a href="test01_sod.html" title="Test 01 - HD Sod shock tube"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -40,16 +40,28 @@
           <div class="body" role="main">
             
   <section id="examples-with-pypluto">
-<span id="examples"></span><h1>Examples with pyPLUTO<a class="headerlink" href="#examples-with-pypluto" title="Link to this heading">¶</a></h1>
+<span id="examples"></span><h1>Examples with PyPLUTO<a class="headerlink" href="#examples-with-pypluto" title="Link to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="test01_sod.html">HD Sod</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test02_ot.html">MHD OT</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test03_rti.html">MHD RTI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test04_rotor.html">MHD Rotor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test06_diskplanet.html">HD Disk-Planet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test01_sod.html">Test 01 - HD Sod shock tube</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test02_ot.html">Test 02 - MHD Orszag-Tang vortex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test03_rti.html">Test 03 - MHD Rayleigh-Taylor instability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test04_rotor.html">Test 04 - MHD Rotor test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test05_fieldloop.html">Test 05 - MHD Field loop test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test06_diskplanet.html">Test 06 - HD Disk planet test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test07_khi.html">Test 07 - RMHD Kelvin-Helmholtz instability test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test08_torus.html">Test 08 - MHD Torus test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test09_blast.html">Test 09 - MHD Blast test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test10_riemann2d.html">Test 10 - HD Riemann 2D test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test11_crxpoint.html">Test 11 - Particles CR Xpoint test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test12_riemannlp.html">Test 12 - LP Riemann 2D test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test13_flowpastcyl.html">Test 13 - AMR Flow past cylinder test</a></li>
 </ul>
 </div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
 </section>
 
 
@@ -62,28 +74,37 @@
           
           <h3>Table of Contents</h3>
           <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples with pyPLUTO</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="test01_sod.html">HD Sod</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test02_ot.html">MHD OT</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test03_rti.html">MHD RTI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test04_rotor.html">MHD Rotor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test06_diskplanet.html">HD Disk-Planet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">The Graphics User Interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples with PyPLUTO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="test01_sod.html">Test 01 - HD Sod shock tube</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test02_ot.html">Test 02 - MHD Orszag-Tang vortex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test03_rti.html">Test 03 - MHD Rayleigh-Taylor instability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test04_rotor.html">Test 04 - MHD Rotor test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test05_fieldloop.html">Test 05 - MHD Field loop test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test06_diskplanet.html">Test 06 - HD Disk planet test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test07_khi.html">Test 07 - RMHD Kelvin-Helmholtz instability test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test08_torus.html">Test 08 - MHD Torus test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test09_blast.html">Test 09 - MHD Blast test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test10_riemann2d.html">Test 10 - HD Riemann 2D test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test11_crxpoint.html">Test 11 - Particles CR Xpoint test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test12_riemannlp.html">Test 12 - LP Riemann 2D test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test13_flowpastcyl.html">Test 13 - AMR Flow past cylinder test</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
-          <div role="search">
+          <search role="search">
             <h3 style="margin-top: 1.5em;">Search</h3>
             <form class="search" action="search.html" method="get">
                 <input type="text" name="q" />
                 <input type="submit" value="Go" />
             </form>
-          </div>
+          </search>
 
         </div>
         <div class="clearer"></div>
@@ -93,10 +114,10 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <div role="navigation" aria-label="related navigaton">
-            <a href="tools.html" title="Manipulating the data"
+          <div role="navigation" aria-label="Related">
+            <a href="gui.html" title="The Graphics User Interface"
               >previous</a> |
-            <a href="test01_sod.html" title="HD Sod"
+            <a href="test01_sod.html" title="Test 01 - HD Sod shock tube"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>
@@ -108,8 +129,8 @@
         <div class="right">
           
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     </div>
         </div>
         <div class="clearer"></div>

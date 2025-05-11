@@ -5,25 +5,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Plotting the data &#8212; pyPLUTO 1.0 documentation</title>
+    <title>&lt;no title&gt; &#8212; PyPLUTO 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=08520df9" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="create_axes function" href="create_axes.html" />
-    <link rel="prev" title="Loading the data" href="load.html" /> 
+    <link rel="next" title="&lt;no title&gt;" href="create_axes.html" />
+    <link rel="prev" title="Plotting the data" href="imageclass.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyPLUTO 1.0 documentation</a></div>
-        <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="load.html" title="Loading the data"
+          href="index.html">PyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="imageclass.html" title="Plotting the data"
              accesskey="P">previous</a> |
-          <a href="create_axes.html" title="create_axes function"
+          <a href="create_axes.html" title="&lt;no title&gt;"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -39,89 +39,108 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="plotting-the-data">
-<h1>Plotting the data<a class="headerlink" href="#plotting-the-data" title="Link to this heading">¶</a></h1>
-<p>The loaded data should be visualized in a complete yet efficient way.
-The class <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Image</span></code> is a quick tool in order to obtain simple plots
-suitable for scientific articles.</p>
-<section id="image-initialization">
-<h2>Image initialization<a class="headerlink" href="#image-initialization" title="Link to this heading">¶</a></h2>
-<p>For the sake of simplicity, every Image class corresponds to one single figure.
-The reason behind such choice is that an Image including multiple figures would
-not be efficient in order to effectively remember where all the potential
-subplots are located.</p>
-</section>
-<section id="subplots-creation-and-customization">
-<h2>Subplots creation and customization<a class="headerlink" href="#subplots-creation-and-customization" title="Link to this heading">¶</a></h2>
-<p>The first step of the plotting procedure is to create a list of axes
-(where each element of the axes list corresponds to a subplot).
-Three functions are built in order to give a good compromise between simplicity and
-customization:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
+  <dl class="py class" id="image">
+<dt class="sig sig-object py" id="pyPLUTO.Image">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyPLUTO.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><a class="headerlink" href="#pyPLUTO.Image" title="Link to this definition">¶</a></dt>
+<dd><p>Class that creates a new figure and sets the LaTeX
+conditions, as well as the matplotlib style.
+Every Image is associated to a figure object and only one in order to
+avoid confusion between images and figures. If you want to create multiple
+figures, you have to create multiple Image objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- close: bool, default True</strong></dt><dd><p>If True, the existing figure with the same window number is closed.</p>
+</dd>
+<dt><strong>- fig: Figure | None, default None</strong></dt><dd><p>The the figure instance. If not None, the figure is used (only
+if we need to associate an Image to an existing figure).</p>
+</dd>
+<dt><strong>- figsize: list[float], default [8,5]</strong></dt><dd><p>The figure size.</p>
+</dd>
+<dt><strong>- fontsize: int, default 17</strong></dt><dd><p>The font size.</p>
+</dd>
+<dt><strong>- LaTeX: bool | str, default False</strong></dt><dd><p>The LaTeX option. Is True is selected, the default LaTeX font
+is used. If ‘pgf’ is selected, the pgf backend is used to save pdf
+figures with minimal file size. If XeLaTeX is not installed and the
+‘pgf’ option is selected, the LaTeX option True is used as backup
+strategy.</p>
+</dd>
+<dt><strong>- numcolor: int, default 10</strong></dt><dd><p>The number of colors in the colorscheme. The default number is 10, but
+the full list contains 24 colors (+ black or white).</p>
+</dd>
+<dt><strong>- nwin: int, default 1</strong></dt><dd><p>The window number.</p>
+</dd>
+<dt><strong>- oldcolor: bool, default False</strong></dt><dd><p>if True, the old colors are used</p>
+</dd>
+<dt><strong>- style: str, default ‘default’</strong></dt><dd><p>The style of the figure. Possible values are: ‘seaborn’, ‘ggplot’,
+‘fivethirtyeight’, ‘bmh’, ‘grayscale’, ‘dark_background’, ‘classic’,
+etc.</p>
+</dd>
+<dt><strong>- suptitle: str, default None</strong></dt><dd><p>The super title of the figure.</p>
+</dd>
+<dt><strong>- suptitlesize: str | int, default ‘large’</strong></dt><dd><p>The figure title size.</p>
+</dd>
+<dt><strong>- tight: bool, default True</strong></dt><dd><p>If True, the tight layout is used.</p>
+</dd>
+<dt><strong>- withblack: bool, default False</strong></dt><dd><p>If True, the black color is used as first color.</p>
+</dd>
+<dt><strong>- withwhite: bool, default False</strong></dt><dd><p>If True, the white color is used as first color.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</li>
 </ul>
-</div>
-<p>The <a class="reference internal" href="create_axes.html#create-axes"><span class="std std-ref">create_axes function</span></a> creates a simple figure and set of axes, given a specific number
-of rows and columns. The subplots are automatically spaced evenly and the ratio between
-the different subplots sizes is 1. The aspect of the single subplots is automatically determined
-from the image size.</p>
-<p>The <a class="reference internal" href="create_axes.html#create-axes"><span class="std std-ref">create_axes function</span></a> allows for a better customization, since both the size ratios
-of the plots and the horizontal and vertical spacing are customizable. Moreover, this function is
-designed to be called multiple times for the same figure (e.g. in case of plots which span over
-a different number of columns). However, in such case the <a class="reference internal" href="create_axes.html#create-axes"><span class="std std-ref">create_axes function</span></a> should be
-called first in order to create the figure.</p>
-<p>Once the figure and the axes are created, they are customizable through:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="set_axis.html">setaxis function</a></li>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>None</p></li>
 </ul>
-</div>
-<p>Parameters as the axes range or scale should be defined here. However, in case of simple plots
-all the parameters in this function can be defined in the specific plotting functions.</p>
-</section>
-<section id="the-plotting-procedure">
-<h2>The plotting procedure<a class="headerlink" href="#the-plotting-procedure" title="Link to this heading">¶</a></h2>
-<p>At the moment only 1D and 2D plots are available.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Full 3D plotting is under active development.</p>
-</div>
-<p>The standard 1D and 2D plots can be produced through the functions:</p>
-<p>Parameters such as the line colors are almost fully customizable.</p>
-<div class="toctree-wrapper compound">
+<hr class="docutils" />
+<p class="rubric">Examples</p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="plot.html">plot function</a></li>
-</ul>
+<li><p>Example #1: create an empty image</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+</pre></div>
 </div>
-<p>1D plot <a class="reference internal" href="plot.html#plot"><span class="std std-ref">plot function</span></a></p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="display.html">display function</a></li>
-</ul>
+</li>
+<li><p>Example #2: create an image with the pgf backend</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">LaTeX</span> <span class="o">=</span> <span class="s1">&#39;pgf&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
-<p>2D plot <a class="reference internal" href="display.html#display"><span class="std std-ref">display function</span></a></p>
-</section>
-<section id="useful-plotting-tools">
-<h2>Useful plotting tools<a class="headerlink" href="#useful-plotting-tools" title="Link to this heading">¶</a></h2>
-<p>Although features such as the legend or colorbar can be easily included
-during the plotting procedure, sometimes the best choice (especially for
-non-trivial figures) is to add them during a later step.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="zoom.html">zoom function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="text.html">text function</a></li>
-</ul>
+</li>
+<li><p>Example #3: create an image with the LaTeX option True</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">LaTeX</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
 </div>
-<p>The pyPLUTO module allows for inset zooms through two functions, which, respectively,
-zoom 1D and 2D plots.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
-</ul>
+</li>
+<li><p>Example #4: create an image with fixed size</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
 </div>
-</section>
-</section>
+</li>
+<li><p>Example #5: create an image with a title</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">suptitle</span> <span class="o">=</span> <span class="s1">&#39;Title&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
 
 
             <div class="clearer"></div>
@@ -133,40 +152,30 @@ zoom 1D and 2D plots.</p>
           
           <h3>Table of Contents</h3>
           <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Plotting the data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#image-initialization">Image initialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#subplots-creation-and-customization">Subplots creation and customization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="set_axis.html">setaxis function</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#the-plotting-procedure">The plotting procedure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plot.html">plot function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="display.html">display function</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#useful-plotting-tools">Useful plotting tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="zoom.html">zoom function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="text.html">text function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create_axes.html">create_axes function</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="imageclass.html">Plotting the data</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#the-plotting-procedure">The plotting procedure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#field-and-contour-lines">Field and contour lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#interactive-plots">Interactive plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#useful-plotting-tools">Useful plotting tools</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">The Graphics User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
-          <div role="search">
+          <search role="search">
             <h3 style="margin-top: 1.5em;">Search</h3>
             <form class="search" action="search.html" method="get">
                 <input type="text" name="q" />
                 <input type="submit" value="Go" />
             </form>
-          </div>
+          </search>
 
         </div>
         <div class="clearer"></div>
@@ -176,10 +185,10 @@ zoom 1D and 2D plots.</p>
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <div role="navigation" aria-label="related navigaton">
-            <a href="load.html" title="Loading the data"
+          <div role="navigation" aria-label="Related">
+            <a href="imageclass.html" title="Plotting the data"
               >previous</a> |
-            <a href="create_axes.html" title="create_axes function"
+            <a href="create_axes.html" title="&lt;no title&gt;"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>
@@ -191,8 +200,8 @@ zoom 1D and 2D plots.</p>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     </div>
         </div>
         <div class="clearer"></div>

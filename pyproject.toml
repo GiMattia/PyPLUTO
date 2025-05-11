@@ -1,3 +1,105 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "PyPLUTO"
+version = "1.0.0"
+description = "PyPLUTO: Plotting routines for PLUTO"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+    { name = "G. Mattia", email = "mattia@mpia.de" },
+    { name = "D. Crocco" },
+    { name = "D. Melon Fuksman" },
+    { name = "M. Bugli" },
+    { name = "V. Berta" },
+    { name = "E. Puzzoni" },
+    { name = "A. Mignone" },
+    { name = "B. Vaidya" }
+]
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "scipy",
+    "pandas",
+    "h5py",
+    "PyQt6"
+]
+[project.optional-dependencies]
+docs = [
+    "sphinx",
+    "sphinx-automodapi",
+    "numpydoc"
+]
+test = [
+    "pytest",
+    "pytest-doctestplus",
+    "codecov",
+    "pytest-cov",
+    "approvaltests"
+]
+dev = [
+    "black",
+    "pre-commit",
+    "ruff",
+    "mypy",
+    "blacken-docs"
+]
+
+[tool.setuptools.packages.find]
+where = ["Src"]
+
+[tool.black]
+line-length = 80
+
+[tool.ruff]
+line-length = 80
+respect-gitignore = true
+fix = true
+fix-only = true
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle (errors)
+    "F",  # pyflakes (logical errors)
+    "I",  # isort (import sorting)
+    "UP", # pyupgrade (e.g. f-strings for older format)
+    "D",  # pydocstyle (docstring conventions)
+    "PL", # pylint (careful coding style)
+    "B",  # flake8-bugbear (likely bugs and design flaws)
+    "A",  # flake8-builtins (avoid shadowing built-ins)
+    "C4", # flake8-comprehensions (inefficient comprehensions)
+    "SIM",# flake8-simplify (simplify complex logic)
+    "PT", # flake8-pytest-style (if you use pytest)
+    "RUF",# Ruff-specific rules
+]
+
+ignore = [
+    "D203",  # Conflicts with D211 (one-blank-line-before-class)
+    "D209",  # Conflicts with docformatter
+    "D213"   # Conflicts with D212 (summary on first vs second line)
+]
+
+[tool.mypy]
+check_untyped_defs = true
+ignore_missing_imports = true
+strict_optional = true
+
+[tool.docformatter]
+in-place = true
+black = true
+blank = true
+wrap-summaries = 79
+wrap-descriptions = 79
+
+[tool.interrogate]
+verbose = 1
+fail-under = 80
+exclude = ["tests", "Docs"]
+ignore-init-method = false
+ignore-init-module = true
+ignore-private = true
+ignore-semiprivate = true
+ignore-magic = true

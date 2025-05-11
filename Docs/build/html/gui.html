@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The Graphics User Interface &#8212; PyPLUTO 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=08520df9" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples with PyPLUTO" href="examples.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="text.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">PyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="text.html" title="&lt;no title&gt;"
+             accesskey="P">previous</a> |
+          <a href="examples.html" title="Examples with PyPLUTO"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="the-graphics-user-interface">
+<span id="gui"></span><h1>The Graphics User Interface<a class="headerlink" href="#the-graphics-user-interface" title="Link to this heading">¶</a></h1>
+<p>A simplified GUI has been implemented to allow for a quick visualization of the
+output files. The GUI is based on the PyPLUTO module and is designed to be
+simple and user-friendly. The GUI is divided into twhree main sections: the
+loading section the setting section and the plotting section.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/gui01_start.png"><img alt="_images/gui01_start.png" class="align-center" src="_images/gui01_start.png" style="width: 600px;" />
+</a>
+</div></blockquote>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+<section id="load-the-data-with-the-gui">
+<h2>Load the data with the GUI<a class="headerlink" href="#load-the-data-with-the-gui" title="Link to this heading">¶</a></h2>
+<p>The loading section is used to load the data files. The user can load the data
+files by clicking on the “Select File” button. A window will open, allowing
+the user to select the desired file by clicking on it. Once the data are loaded,
+the user can quickly change the loaded variables or output time by using the
+“Reload folder” button.
+Note that the variables can be specified also while selecting the file, while
+the output file number will be determine by the clicked file.
+The “preferred format” combo box allows the user to visualize only the selected
+formats while searching the file.
+A “Clear” button will simply clear the loading panel.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="selecting-the-variable-with-the-gui">
+<h2>Selecting the variable with the GUI<a class="headerlink" href="#selecting-the-variable-with-the-gui" title="Link to this heading">¶</a></h2>
+<p>The setting section is used to select the variable to be plotted. The user can
+select the variable by choosing from the loaded variables. The user can also
+slice the variables by selecting the desired slice.
+The x- and the y-axes (in case of 2D plots) can also be selected here.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="plotting-the-data-with-the-gui">
+<h2>Plotting the data with the GUI<a class="headerlink" href="#plotting-the-data-with-the-gui" title="Link to this heading">¶</a></h2>
+<p>The plotting section is used to plot the data. The user can plot the data by
+clicking on the “Plot” button. The title, range and scales are highly
+customizable, as well as the colormap (for 2D plots).
+All these features can be changed and updated without the need to reload the
+data by clicking on the “Update plot” button.
+Multiple lines can be plotted on the same figure by checking the “overplot”
+box.
+The user can also further customize the plot due to the matplotlib customization
+bar.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Graphics User Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#load-the-data-with-the-gui">Load the data with the GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#selecting-the-variable-with-the-gui">Selecting the variable with the GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plotting-the-data-with-the-gui">Plotting the data with the GUI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="text.html" title="&lt;no title&gt;"
+              >previous</a> |
+            <a href="examples.html" title="Examples with PyPLUTO"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

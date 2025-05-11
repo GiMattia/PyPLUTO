@@ -1,18 +1,18 @@
 .. _test06_diskplanet:
 
-HD Disk-Planet
-==============
-
-The Disk-Planet test offers a nice view of an interaction of a planet embedded in an proto-stellar
-disk rotating around the protostar.
-
-The display shows the density profile of the disk and presents two different zooms of the 
-planet region in density scale and angular velocity scale.
+Test 06 - HD Disk planet test
+=============================
 
 
-  .. image:: ../../Tests/test06_diskplanet.png
+  .. image:: ../../Examples/test06_diskplanet.png
      :align: center
      :width: 600px
 
-  .. literalinclude :: ../../Tests/test06_diskplanet.py
+  .. literalinclude :: ../../Examples/test06_diskplanet.py
      :language: python
+
+|
+
+----
+
+.. This is a comment to prevent the document from ending with a transition.

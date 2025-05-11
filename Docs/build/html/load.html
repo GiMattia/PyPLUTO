@@ -5,25 +5,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Loading the data &#8212; pyPLUTO 1.0 documentation</title>
+    <title>&lt;no title&gt; &#8212; PyPLUTO 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=08520df9" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Plotting the data" href="image.html" />
-    <link rel="prev" title="Installation" href="install.html" /> 
+    <link rel="next" title="&lt;no title&gt;" href="read_file.html" />
+    <link rel="prev" title="Loading the data" href="loadclass.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyPLUTO 1.0 documentation</a></div>
-        <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="install.html" title="Installation"
+          href="index.html">PyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="loadclass.html" title="Loading the data"
              accesskey="P">previous</a> |
-          <a href="image.html" title="Plotting the data"
+          <a href="read_file.html" title="&lt;no title&gt;"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -39,21 +39,162 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="loading-the-data">
-<h1>Loading the data<a class="headerlink" href="#loading-the-data" title="Link to this heading">¶</a></h1>
-<p>PLUTO has several output files, depending on the users’ needs.
-With pyPLUTO the data loading is done through the <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Load()</span></code> class and it
-is available for dbl, vtk and flt files.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>So far the AMR has not been included yet.</p>
+  <dl class="py class" id="load">
+<dt class="sig sig-object py" id="pyPLUTO.Load">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyPLUTO.</span></span><span class="sig-name descname"><span class="pre">Load</span></span><a class="headerlink" href="#pyPLUTO.Load" title="Link to this definition">¶</a></dt>
+<dd><p>The Load class loads the data (fluid) from the output files. The
+initialization corresponds to the loading, if wanted, of one or more
+datafiles for the fluid. The data are loaded in a memory mapped numpy
+multidimensional array. Such approach does not load the full data until
+needed. Basic operations (i.e. no numpy) are possible, as well as slicing
+the arrays, without fully loading the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- alone: bool | None, default False</strong></dt><dd><p>If the files are standalone. If False, the code will look for the
+grid file in the folder. If True, the code will look for the grid
+information within the data files. Should be used only for non-binary
+files.</p>
+</dd>
+<dt><strong>- datatype: str | None, default None</strong></dt><dd><p>The format of the data file. If not specified, the code will look for
+the format from the list of possible formats. HDF5 (AMR) formats have
+not been implemented yet.</p>
+</dd>
+<dt><strong>- endian: str | None, default None</strong></dt><dd><p>Endianess of the datafiles. Should be used only if specific
+architectures are used, since the code computes it by itself. Valid
+values are ‘big’ and ‘little’ (or ‘&lt;’ and ‘&gt;’).</p>
+</dd>
+<dt><strong>- full3d: bool, default True</strong></dt><dd><p>If disabled, the 3D meshgrids for the grid in non-cartesian coordinates
+are not used. Instead, a combination of an external loop and2D meshgrid
+is employed. The aim is to allow for cartesian meshes from non-cartesian
+geometries without saturating the computer memory (suited for laptops).</p>
+</dd>
+<dt><strong>- level: int, default 0</strong></dt><dd><p>The refinement level of the grid. Should be used only if the grid is
+refined through AMR.</p>
+</dd>
+<dt><strong>- multiple: bool, default False</strong></dt><dd><p>If the files are multiple. If False, the code will look for the single
+files, otherwise for the multiple files each corresponding to the loaded
+variables. Should be used only if both single files and multiple files
+are present in the same format for the same datatype.</p>
+</dd>
+<dt><strong>- nout: int | str | list | None, default ‘last’</strong></dt><dd><p>The files to be loaded. Possible choices are int values (which
+correspond to the number of the output file), strings (‘last’, which
+corresponds to the last file, ‘all’, which corresponds to all files) or
+a list of the aforementioned types. Note that the ‘all’ value should be
+used carefully, e.g. only when the data need to be shown interactively.</p>
+</dd>
+<dt><strong>- path: str, default ‘./’</strong></dt><dd><p>The path of the folder where the files should be loaded.</p>
+</dd>
+<dt><strong>- text: bool, default True</strong></dt><dd><p>If True, the folder and output are printed. In case the user needs a
+more detailed information of the structure and attributes loaded from
+the class, the __str__ method provides a easy display of all the
+important information.</p>
+</dd>
+<dt><strong>- vars: str | list | bool | None, default True</strong></dt><dd><p>The variables to be loaded. The default value, True, corresponds to all
+the variables.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Warning if the .out files are not found.</p></li>
+</ul>
+<hr class="docutils" />
+<p class="rubric">Examples</p>
+<ul>
+<li><p>Example #1: Load the data from the default folder and output</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">()</span>
+<span class="go">Loading folder ./,     output [0]</span>
+</pre></div>
 </div>
-<section id="the-pypluto-load-class">
-<span id="loadclass"></span><h2>The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Load()</span></code> class<a class="headerlink" href="#the-pypluto-load-class" title="Link to this heading">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Load()</span></code> class is design to load the data in the standard PLUTO
-formats. The formats available are dbl, vtk and flt (for now):</p>
-</section>
-</section>
+</li>
+<li><p>Example #2: Load the data from the default folder but output 0</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">Loading folder ./,     output [0]</span>
+</pre></div>
+</div>
+</li>
+<li><dl>
+<dt>Example #3: Load the data from the default folder but last output is</dt><dd><p>specified</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="s1">&#39;last&#39;</span><span class="p">)</span>
+<span class="go">Loading folder ./,     output [1]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p>Example #4: Load the data from the default folder and all outputs</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span>
+<span class="go">Loading folder ./,     output [0, 1, 2, 3, 4]</span>
+</pre></div>
+</div>
+</li>
+<li><dl>
+<dt>Example #5: Load the data from the default folder and multiple</dt><dd><p>selected outputs</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="go">Loading folder ./,     output [0, 1, 2]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Example #6: Load the data from the default folder and multiple selected</dt><dd><p>outputs and variables</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rho&#39;</span><span class="p">,</span><span class="s1">&#39;vel1&#39;</span><span class="p">])</span>
+<span class="go">Loading folder ./,     output [0, 1, 2]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Example #7: Load the data from the default folder, multiple selected</dt><dd><p>outputs and variables, without text</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rho&#39;</span><span class="p">,</span><span class="s1">&#39;vel1&#39;</span><span class="p">],</span> <span class="n">text</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Example #8: Load the data from the default format with selected output</dt><dd><p>and format</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="s1">&#39;vtk&#39;</span><span class="p">,</span> <span class="n">nout</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">Loading folder ./,     output [0]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Example #9: Load the data from the default folder with selected output,</dt><dd><p>variables and format</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="s1">&#39;vtk&#39;</span><span class="p">,</span> <span class="n">nout</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rho&#39;</span><span class="p">,</span><span class="s1">&#39;vel1&#39;</span><span class="p">])</span>
+<span class="go">Loading folder ./,     output [0]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p>Example #10: Load the data from a specific folder with selected output</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;./data/&#39;</span><span class="p">,</span> <span class="n">nout</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">Loading folder ./data/,     output [0]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
 
 
             <div class="clearer"></div>
@@ -65,24 +206,31 @@ formats. The formats available are dbl, vtk and flt (for now):</p>
           
           <h3>Table of Contents</h3>
           <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Loading the data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-pypluto-load-class">The <code class="docutils literal notranslate"><span class="pre">pyPLUTO.Load()</span></code> class</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="loadclass.html">Loading the data</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="loadclass.html#loading-the-fluid-files">Loading the fluid files</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">Load</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="read_file.html"><code class="docutils literal notranslate"><span class="pre">read_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="write_file.html"><code class="docutils literal notranslate"><span class="pre">write_file()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loadclass.html#loading-the-particles-files">Loading the particles files</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">The Graphics User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
-          <div role="search">
+          <search role="search">
             <h3 style="margin-top: 1.5em;">Search</h3>
             <form class="search" action="search.html" method="get">
                 <input type="text" name="q" />
                 <input type="submit" value="Go" />
             </form>
-          </div>
+          </search>
 
         </div>
         <div class="clearer"></div>
@@ -92,10 +240,10 @@ formats. The formats available are dbl, vtk and flt (for now):</p>
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <div role="navigation" aria-label="related navigaton">
-            <a href="install.html" title="Installation"
+          <div role="navigation" aria-label="Related">
+            <a href="loadclass.html" title="Loading the data"
               >previous</a> |
-            <a href="image.html" title="Plotting the data"
+            <a href="read_file.html" title="&lt;no title&gt;"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>
@@ -107,8 +255,8 @@ formats. The formats available are dbl, vtk and flt (for now):</p>
         <div class="right">
           
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     </div>
         </div>
         <div class="clearer"></div>

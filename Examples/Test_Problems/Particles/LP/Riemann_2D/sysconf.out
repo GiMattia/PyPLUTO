@@ -1,0 +1,12 @@
+USER           = gian
+WORKING_DIR    = /home/gian/PLUTO/Test_Problems/Particles/LP/Riemann_2D
+SYSTEM_NAME    = Linux
+NODE_NAME      = Gmattia
+RELEASE        = 5.15.0-125-generic
+ARCH           = x86_64
+BYTE_ORDER     = little
+VERSION        = #135~20.04.1-Ubuntu SMP Mon Oct 7 13:56:22 UTC 2024
+PLUTO_DIR      = /home/gian/PLUTO
+PLUTO_VERSION  = 2024)"
+C_COMPILER     = gcc
+MPI_C_COMPILER = mpicc

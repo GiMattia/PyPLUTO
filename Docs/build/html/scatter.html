@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; PyPLUTO 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=08520df9" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="contour.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="display.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">PyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="display.html" title="&lt;no title&gt;"
+             accesskey="P">previous</a> |
+          <a href="contour.html" title="&lt;no title&gt;"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <dl class="py function" id="scatter">
+<dt class="sig sig-object py" id="pyPLUTO.Image.scatter">
+<span class="sig-prename descclassname"><span class="pre">pyPLUTO.Image.</span></span><span class="sig-name descname"><span class="pre">scatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">QuadMesh</span></span></span><a class="headerlink" href="#pyPLUTO.Image.scatter" title="Link to this definition">¶</a></dt>
+<dd><p>Scatter plot for a 2D function (or a 2D slice) using the matplotlib’s
+scatter function. A simple figure and a single axis can also be created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- alpha: float, default 1.0</strong></dt><dd><p>Sets the transparency of the plot.</p>
+</dd>
+<dt><strong>- aspect: {‘auto’, ‘equal’, float}, default ‘auto’</strong></dt><dd><p>Sets the aspect ratio of the plot. The ‘auto’ keyword is the default
+option (most likely the plot will be squared). The ‘equal’ keyword will
+set the same scaling for x and y. A float will fix the ratio between the
+y-scale and the x-scale (1.0 is the same as ‘equal’).</p>
+</dd>
+<dt><strong>- ax: axis object</strong></dt><dd><p>The axis where to plot the scatter. If not given, the last considered
+axis will be used.</p>
+</dd>
+<dt><strong>- c: str, default [‘k’,’#12e3c0’,’#3f6600’,’#1815c5’,’#f67451’,’#d7263d’]</strong></dt><dd><p>Determines the scatter plot color. If not defined, the program will loop
+over an array of 6 color which are different for the most common vision
+deficiencies.</p>
+</dd>
+<dt><strong>- clabel: str, default None</strong></dt><dd><p>Sets the colorbar label.</p>
+</dd>
+<dt><strong>- cmap: str, default ‘hot’</strong></dt><dd><p>Selects the colormap. If not defined, the colormap ‘hot’ will be
+adopted. Some useful colormaps are: plasma, magma, seismic. Please avoid
+using colorbars like jjet or rainbow, which are not perceptively uniform
+and not suited for people with vision deficiencies.
+All the colormap available are listed in the following link:
+<a class="reference external" href="https://matplotlib.org/stable/tutorials/colors/colormaps.html">https://matplotlib.org/stable/tutorials/colors/colormaps.html</a></p>
+</dd>
+<dt><strong>- cpos: {‘top’,’bottom’,’left’,’right’}, default None</strong></dt><dd><p>Enables the colorbar (if defined), default position on the right.</p>
+</dd>
+<dt><strong>- cscale: {‘linear’,’log’,’symlog’,’twoslope’}, default ‘linear’</strong></dt><dd><p>Sets the colorbar scale. Default is the linear (‘norm’) scale.</p>
+</dd>
+<dt><strong>- edgecolors: str, default None</strong></dt><dd><p>Enables a contouring color for the markers.</p>
+</dd>
+<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components (only for the current
+axis).</p>
+</dd>
+<dt><strong>- grid: bool, default False</strong></dt><dd><p>Enables/disables the grid on the plot.</p>
+</dd>
+<dt><strong>- label: str, default None</strong></dt><dd><p>Associates a label to be used for the creation of the legend.</p>
+</dd>
+<dt><strong>- labelsize: float, default fontsize</strong></dt><dd><p>Sets the labels fontsize (which is the same for both labels).
+The default value corresponds to the value of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- legpos: int/str, default None</strong></dt><dd><p>If enabled, creates a legend. This keyword selects the legend location.
+The possible locations for the legend are indicated in the following
+link:
+<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.legend.html</a></p>
+</dd>
+<dt><strong>- marker: {‘o’, ‘v’, ‘^’, ‘&lt;’, ‘&gt;’, ‘X’, ‘ ‘, etc.}, default ‘ ‘</strong></dt><dd><p>Sets an optional symbol for every point. The default value is no marker
+(’ ‘).</p>
+</dd>
+<dt><strong>- minorticks: str, default None</strong></dt><dd><p>If not None enables the minor ticks on the plot (for both grid axes).</p>
+</dd>
+<dt><strong>- ms: float, default 3</strong></dt><dd><p>Sets the marker size.</p>
+</dd>
+<dt><strong>- ticksdir: {‘in’, ‘out’}, default ‘in’</strong></dt><dd><p>Sets the ticks direction. The default option is ‘in’.</p>
+</dd>
+<dt><strong>- tickssize: float | bool, default True</strong></dt><dd><p>Sets the ticks fontsize (which is the same for both grid axes).
+The default value corresponds to the value of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- title: str, default None</strong></dt><dd><p>Places the title of the plot on top of it.</p>
+</dd>
+<dt><strong>- titlepad: float, default 8.0</strong></dt><dd><p>Sets the distance between the title and the top of the plot</p>
+</dd>
+<dt><strong>- titlesize: float, default fontsize</strong></dt><dd><p>Sets the title fontsize. The default value corresponds to the value
+of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- tresh: float, default max(abs(vmin),vmax)*0.01</strong></dt><dd><p>Sets the threshold for the colormap. If not defined, the threshold will
+be set to 1% of the maximum absolute value of the variable.
+The default cases are the following:
+- twoslope colorscale: sets the limit between the two linear regimes.
+- symlog: sets the limit between the logaitrhmic and the linear regime.</p>
+</dd>
+<dt><strong>- vmax: float</strong></dt><dd><p>The maximum value of the colormap.</p>
+</dd>
+<dt><strong>- vmin: float</strong></dt><dd><p>The minimum value of the colormap.</p>
+</dd>
+<dt><strong>- x (not optional): 1D array</strong></dt><dd><p>The x-axis variable.</p>
+</dd>
+<dt><strong>- xrange: [float, float], default ‘Default’</strong></dt><dd><p>Sets the range in the x-direction. If not defined or set to ‘Default’
+the code will compute the range while plotting the data by taking the
+minimum and the maximum values of the x1-array.</p>
+</dd>
+<dt><strong>- xscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from True), sets automatically the scale
+on the x-axis. Data in log scale should be used with the keyword ‘log’,
+while data in linear scale should be used with the keyword ‘linear’.</p>
+</dd>
+<dt><strong>- xticks: {[float], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on
+x-axis. In order to completely remove the ticks the keyword should
+be used with None.</p>
+</dd>
+<dt><strong>- xtickslabels: {[str], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
+labels on the x-axis. In order to completely remove the ticks the
+keyword should be used with None. Note that fixed tickslabels should
+always correspond to fixed ticks.</p>
+</dd>
+<dt><strong>- xtitle: str, default None</strong></dt><dd><p>Sets and places the label of the x-axis.</p>
+</dd>
+<dt><strong>- y (not optional): 1D array</strong></dt><dd><p>The y-axis variable.</p>
+</dd>
+<dt><strong>- yrange: [float, float], default [0,1]</strong></dt><dd><p>Sets the range in the y-direction. If not defined the code will
+compute the range while plotting the data.</p>
+</dd>
+<dt><strong>- yscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from True), sets automatically the scale
+on the y-axis. Data in log scale should be used with the keyword ‘log’,
+while data in linear scale should be used with the keyword ‘linear’.</p>
+</dd>
+<dt><strong>- yticks: {[float], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on
+y-axis. In order to completely remove the ticks the keyword should
+be used with None.</p>
+</dd>
+<dt><strong>- ytickslabels: {[str], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
+labels on the y-axis. In order to completely remove the ticks the
+keyword should be used with None. Note that fixed tickslabels should
+always correspond to fixed ticks.</p>
+</dd>
+<dt><strong>- ytitle: str, default None</strong></dt><dd><p>Sets and places the label of the y-axis.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>The scatter plot</dt><dd></dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The scatter with legend is still preliminary</p></li>
+</ul>
+<hr class="docutils" />
+<p class="rubric">Examples</p>
+<ul>
+<li><p>Example #1: Plot a scatter plot of a variable</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #2: Plot a scatter plot of a variable with a colorbar</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;hot&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">cpos</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="imageclass.html">Plotting the data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="image.html"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#subplots-creation-and-customization">Subplots creation and customization</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="imageclass.html#the-plotting-procedure">The plotting procedure</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="plot.html"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="display.html"><code class="docutils literal notranslate"><span class="pre">display()</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">scatter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#field-and-contour-lines">Field and contour lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#interactive-plots">Interactive plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imageclass.html#useful-plotting-tools">Useful plotting tools</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">The Graphics User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+          <search role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </search>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="Related">
+            <a href="display.html" title="&lt;no title&gt;"
+              >previous</a> |
+            <a href="contour.html" title="&lt;no title&gt;"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

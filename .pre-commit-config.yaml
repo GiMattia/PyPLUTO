@@ -1,0 +1,80 @@
+repos:
+  # 0. Pre-commit official hooks (cleanup, merge conflicts, etc.)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        files: \.py$
+      - id: check-case-conflict
+        files: \.py$
+      - id: check-merge-conflict
+        files: \.py$
+      - id: debug-statements
+        files: \.py$
+      - id: end-of-file-fixer
+        files: \.py$
+      - id: mixed-line-ending
+        files: \.py$
+      - id: trailing-whitespace
+        files: \.py$
+        args: ["--markdown-linebreak-ext=md"]
+
+        
+  # 1. Code spelling
+  #- repo: https://github.com/codespell-project/codespell
+  #  rev: 'v2.4.1'
+  #  hooks:
+  #    - id: codespell
+  #      name: codespell
+  #      #args: ["--ignore-words-list=nd"]  # Customize if needed
+  #      files: \.py$
+  #      stages: [pre-commit]
+
+  # 2. Black - code formatter
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+        files: \.py$
+        stages: [pre-commit]
+
+  # 3. Blackened-docs (formats code in docstrings)
+  - repo: https://github.com/adamchainz/blacken-docs
+    rev: 1.19.1
+    hooks:
+    -   id: blacken-docs
+        args: [--line-length, "80"]
+        stages: [pre-commit]
+        additional_dependencies:
+        - black==22.1.0
+
+  # 4. Docformatter (formats docstrings)
+  - repo: https://github.com/PyCQA/docformatter
+    rev: v1.7.7
+    hooks:
+      - id: docformatter
+        args: ["--in-place", "--black", "--blank"]
+        files: \.py$
+        stages: [pre-commit]
+
+  # 5. Ruff - linter, fixer (but NOT formatter)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.7
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+        files: \.py$
+        stages: [pre-commit]
+
+  # 6. mypy - static typing
+  # TODO: ONLY TO UNCOMMENT AFTER FULL REFACTORING!!!
+  #- repo: https://github.com/pre-commit/mirrors-mypy
+  #  rev: v1.10.0
+  #  hooks:
+  #   - id: mypy
+  #      name: mypy
+  #      args: ["--strict", "--explicit-package-bases", "--ignore-missing-imports"]
+  #      types: [python]
+  #      files: ^Src/pyPLUTO/  # Regex: only runs on files in this folder
+
+  # pylint, interrogate?

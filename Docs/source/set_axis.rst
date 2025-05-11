@@ -1,8 +1,9 @@
 .. _set_axis:
 
-setaxis function
-================
-
-The function set_axis has the following structure:
-
 .. autofunction:: pyPLUTO.Image.set_axis
+
+|
+
+----
+
+.. This is a comment to prevent the document from ending with a transition.

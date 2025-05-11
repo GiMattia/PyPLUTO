@@ -5,25 +5,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Manipulating the data &#8212; pyPLUTO 1.0 documentation</title>
+    <title>Manipulating the data &#8212; PyPLUTO 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=47acb022" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=08520df9" />
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Examples with pyPLUTO" href="examples.html" />
-    <link rel="prev" title="text function" href="text.html" /> 
+    <link rel="next" title="&lt;no title&gt;" href="cartesian_vector.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="loadpart.html" /> 
   </head><body>
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="index.html">pyPLUTO 1.0 documentation</a></div>
-        <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="text.html" title="text function"
+          href="index.html">PyPLUTO 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="Related">
+          <a href="loadpart.html" title="&lt;no title&gt;"
              accesskey="P">previous</a> |
-          <a href="examples.html" title="Examples with pyPLUTO"
+          <a href="cartesian_vector.html" title="&lt;no title&gt;"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -41,6 +41,97 @@
             
   <section id="manipulating-the-data">
 <h1>Manipulating the data<a class="headerlink" href="#manipulating-the-data" title="Link to this heading">¶</a></h1>
+<p>Once loaded, both fluid and particle data can be customized in order to retrieve
+fundamental quantities.</p>
+<section id="variables-and-grid-conversion">
+<h2>Variables and grid conversion<a class="headerlink" href="#variables-and-grid-conversion" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<p>PyPLUTO works with all the geometries accessible with the PLUTO code.
+In order to obtain field lines in non-cartesian geometries, some additional
+procedures should be followed. First, the vector components whould bconverted
+into the cartesian ones through the <a class="reference internal" href="cartesian_vector.html#cartesian-vector"><span class="std std-ref">cartesian_vector</span></a>
+method, which works for both polar and spherical coordinates.
+Next, the variables and the grid can be converted into a cartesian mesh by using
+the <a class="reference internal" href="reshape_cartesian.html#reshape-cartesian"><span class="std std-ref">reshape_cartesian</span></a> method.
+Note that the inner radial zones will also be interpolated for the sake of
+simplicity. One this transformation is complete, field lines become possible
+as with cartesian grids.
+In order to reshape the domain, the <a class="reference internal" href="reshape_uniform.html#reshape-uniform"><span class="std std-ref">reshape_uniform</span></a>
+method is used. Such method converts a stretched grid into a uniform one, and
+can be used also for cartesian grids since it does not alter the geometry of
+the grid but only its spacing.</p>
+<p>Variables can also be slices through one or more axes and through the major and
+minor diagonal by using the <a class="reference internal" href="slices.html#slices"><span class="std std-ref">slices</span></a> method.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="field-and-contour-lines-tool">
+<h2>Field and contour lines tool<a class="headerlink" href="#field-and-contour-lines-tool" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<p>The <a class="reference internal" href="find_fieldlines.html#find-fieldlines"><span class="std std-ref">find_fieldlines</span></a> methods represents an upgrade in
+terms of accuracy when compared to the streamplot method. Here the field lines
+are computed through high-order integration algorithms starting from a selected
+footpoint in both directions. Additional checks, e.g. exiting from the domain
+or closing the field line, are performed.
+Once the lines are computed, they can be plotted through standard plotting
+methods.
+The same principle works for the <a class="reference internal" href="find_contour.html#find-contour"><span class="std std-ref">find_contour</span></a> method,
+which aims at finding all the contour lines of sleected levels (or a range
+of levels linearly or logarithmically spaced) in any geometry.
+As for the field lines, here the contour lines are only computed (and associated
+to a color depending on the level) and can be plotted through standard plotting
+methods. Such method, however, has an enhanced accuracy when compared with the
+plotting contour method.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="fourier-transform">
+<h2>Fourier Transform<a class="headerlink" href="#fourier-transform" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<p>Fourier transform can be performed in all dimensions considering or exclunding
+selected directions through the <a class="reference internal" href="fourier.html#fourier"><span class="std std-ref">fourier</span></a> method. Note that this
+method works only in cartesiangeometry and for uniform grids (but the
+<a class="reference internal" href="reshape_uniform.html#reshape-uniform"><span class="std std-ref">reshape_uniform</span></a> method can convert a stretched grid
+into a cartesian one).</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="derivatives">
+<h2>Derivatives<a class="headerlink" href="#derivatives" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<p>Derivatives (such as <a class="reference internal" href="gradient.html#gradient"><span class="std std-ref">gradient</span></a>, <a class="reference internal" href="divergence.html#divergence"><span class="std std-ref">divergence</span></a>
+and <a class="reference internal" href="curl.html#curl"><span class="std std-ref">curl</span></a> can be perfoemrd in any geometry and dimension. A 3-cells
+stencil is computed in order to achieve at least second-order accuracy.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="spectrum-and-select-particles">
+<h2>Spectrum and select particles<a class="headerlink" href="#spectrum-and-select-particles" title="Link to this heading">¶</a></h2>
+<p>Particle spectra are a key tool in order to investigate their acceleration in
+magnetized plasma. The <a class="reference internal" href="spectrum.html#spectrum"><span class="std std-ref">spectrum</span></a> method has a variable number
+of bins and can be done in both linear and logarithmic scale.
+In case particles need a filter, the <a class="reference internal" href="select.html#select"><span class="std std-ref">select</span></a> method can be
+adopted to sort or find a particles subset with specific requirements.
+Both a string and a lambda function can be adopted.</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+</section>
 </section>
 
 
@@ -53,21 +144,51 @@
           
           <h3>Table of Contents</h3>
           <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="python.html">Brief introduction to python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="load.html">Loading the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="image.html">Plotting the data</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Manipulating the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with pyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Manipulating the data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#variables-and-grid-conversion">Variables and grid conversion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cartesian_vector.html"><code class="docutils literal notranslate"><span class="pre">cartesian_vector()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reshape_cartesian.html"><code class="docutils literal notranslate"><span class="pre">reshape_cartesian()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reshape_uniform.html"><code class="docutils literal notranslate"><span class="pre">reshape_uniform()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="slices.html"><code class="docutils literal notranslate"><span class="pre">slices()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#field-and-contour-lines-tool">Field and contour lines tool</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="find_fieldlines.html"><code class="docutils literal notranslate"><span class="pre">find_fieldlines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="find_contour.html"><code class="docutils literal notranslate"><span class="pre">find_contour()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fourier-transform">Fourier Transform</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fourier.html"><code class="docutils literal notranslate"><span class="pre">fourier()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#derivatives">Derivatives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gradient.html"><code class="docutils literal notranslate"><span class="pre">gradient()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="divergence.html"><code class="docutils literal notranslate"><span class="pre">divergence()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="curl.html"><code class="docutils literal notranslate"><span class="pre">curl()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#spectrum-and-select-particles">Spectrum and select particles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spectrum.html"><code class="docutils literal notranslate"><span class="pre">spectrum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="select.html"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">The Graphics User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
 
-          <div role="search">
+          <search role="search">
             <h3 style="margin-top: 1.5em;">Search</h3>
             <form class="search" action="search.html" method="get">
                 <input type="text" name="q" />
                 <input type="submit" value="Go" />
             </form>
-          </div>
+          </search>
 
         </div>
         <div class="clearer"></div>
@@ -77,10 +198,10 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <div role="navigation" aria-label="related navigaton">
-            <a href="text.html" title="text function"
+          <div role="navigation" aria-label="Related">
+            <a href="loadpart.html" title="&lt;no title&gt;"
               >previous</a> |
-            <a href="examples.html" title="Examples with pyPLUTO"
+            <a href="cartesian_vector.html" title="&lt;no title&gt;"
               >next</a> |
             <a href="genindex.html" title="General Index"
               >index</a>
@@ -92,8 +213,8 @@
         <div class="right">
           
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2024, G. Mattia, D. Crocco, --....
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     </div>
         </div>
         <div class="clearer"></div>

@@ -1,59 +1,116 @@
-from .libraries import *
+import os
+import warnings
+from pathlib import Path
 
-def savefig(filename: str | Path = 'img.png', 
-            bbox: str | None = 'tight'
-           ) -> None:
-    warning_message: str = """
-    pyPLUTO.savefig is deprecated. 
-    Please call savefig from the Image class instead"""
-    warnings.warn(warning_message, DeprecationWarning)
-    plt.savefig(filename, bbox_inches = bbox)
+import matplotlib.pyplot as plt
+
+
+def savefig(
+    filename: str | Path = "img.png", bbox: str | None = "tight"
+) -> None:
+    raise NotImplementedError(
+        "pyPLUTO.savefig is deprecated.\n"
+        "Please call savefig from the Image class instead"
+    )
+
 
 def show(block: bool = True) -> None:
-    plt.show(block = block)
+    """Shows the figures created with the Image class.
 
-def ring(length: float = 0.5, 
-         freq: int = 440
-        ) -> None:
-    
-    # CHANGE FROM ERROR TO WARNING
-    if os.name == 'posix':
+    Parameters
+    ----------
+    - block: bool, default True
+        If True, the function blocks until the figure is closed.
+
+    Returns
+    -------
+    - None
+
+    Notes
+    -----
+    - None
+
+    ----
+
+    Examples
+    --------
+    - Example #1: Shows the image created with the Image class
+
+        >>> pp.show()
+
+    """
+    plt.show(block=block)
+
+
+def ring(length: float = 0.5, freq: int = 440) -> None:
+    """Makes a sound for a given length and frequency. It works on Linux, MacOS
+    and Windows.
+
+    Parameters
+    ----------
+    - length: float, default 0.5
+        The length of the sound in seconds.
+    - freq: int, default 440
+        The frequency of the sound in Hz.
+
+    Returns
+    -------
+    - None
+
+    Notes
+    -----
+    - None
+
+    ----
+
+    Examples
+    --------
+    - Example #1: Make a sound with a frequency of 440 Hz and a length
+      of 0.5 seconds
+
+        >>> ring()
+
+    - Example #2: Make a sound with a frequency of 880 Hz and a length
+      of 1 second
+
+        >>> ring(freq = 880)
+
+    - Example #3: Make a sound with a frequency of 220 Hz and a length
+      of 0.2 seconds
+
+        >>> ring(length = 0.2, freq = 220)
+
+    """
+    # Check the OS
+    if os.name == "posix":
+        # Check if the 'play' command is available on Linux and MacOS
         try:
-            os.system(f'play -nq -t alsa synth {length} sine {freq}')
-        except:
-            text = ("pyPLUTO.ring requires the 'play' command from the"
-             "'sox' package. \nPlease install it through the command \n"
-             "\nsudo apt install sox \n\n"          
-             "and try again.")
+            os.system(f"play -nq -t alsa synth {length} sine {freq}")
+        except UserWarning:
+            # If the 'play' command is not available, raise a warning
+            text = (
+                "pyPLUTO.ring requires the 'play' command from the"
+                "'sox' package. \nPlease install it through the command"
+                "\n\nsudo apt install sox \n\nand try again."
+            )
             warnings.warn(text, UserWarning)
-    elif os.name == 'nt':
+    elif os.name == "nt":
         try:
+            # Check if the 'winsound' package is available on Windows
             import winsound
-            winsound.Beep(freq, length)
-        except:
-            text = ("pyPLUTO.ring requires the 'winsound' package. \n"
-            "Please install it through the command\n\n"
 
-            "pip install winsound\n\n"
-
-            "and try again.")
+            winsound.Beep(freq, length)  # type: ignore
+        except UserWarning:
+            # If the 'winsound' package is not available, raise a warning
+            text = (
+                "pyPLUTO.ring requires the 'winsound' package.\n"
+                "Please install it through the command"
+                "\n\npip install winsound\n\nand try again."
+            )
             warnings.warn(text, UserWarning)
     else:
-        text = "pyPLUTO.ring is not implemented for this OS"
+        # If the OS is not Linux, MacOS or Windows, raise a warning
+        text = f"pyPLUTO.ring is not implemented for this OS: {os.name}"
         warnings.warn(text, UserWarning)
-    
-from functools import wraps
 
-def copy_docstring(source_func):
-    """Decorator to copy the docstring from another function."""
-    def decorator(target_func):
-        @wraps(target_func)
-        def wrapper(*args, **kwargs):
-            return target_func(*args, **kwargs)
-        
-        # Copy the docstring from source_func to target_func
-        wrapper.__doc__ = source_func.__doc__
-        
-        return wrapper
-    
-    return decorator
+    # End of the function

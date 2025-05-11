@@ -1,8 +1,9 @@
 .. _zoom:
 
-zoom function
-=============
-
-The function zoom has the following structure:
-
 .. autofunction:: pyPLUTO.Image.zoom
+
+|
+
+----
+
+.. This is a comment to prevent the document from ending with a transition.

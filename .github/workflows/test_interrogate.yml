@@ -1,0 +1,40 @@
+name: interrogate-docs-coverage
+on:
+  pull_request:
+  push:
+
+jobs:
+  interrogate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install interrogate
+
+          - name: Generate interrogate badge
+          run: |
+            mkdir -p temp-badges
+            interrogate Src/ --fail-under=80 --badge-path Docs/interrogate.svg
+  
+      - name: Upload badge to Gist
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.INTERROGATE_GIST_TOKEN }}
+          gistID: YOUR_GIST_ID
+          filename: interrogate-badge.svg
+          label: ""
+          message: ""
+          color: ""
+          namedLogo: ""
+          style: flat
+          raw: Docs/interrogate.svg

@@ -30,7 +30,16 @@ repos:
   #      files: \.py$
   #      stages: [pre-commit]
 
-  # 2. Blackened-docs (formats code in docstrings)
+  # 2. Docformatter (formats docstrings)
+  - repo: https://github.com/PyCQA/docformatter
+    rev: v1.7.7
+    hooks:
+      - id: docformatter
+        args: ["--in-place", "--black", "--blank"]
+        files: \.py$
+        stages: [pre-commit]
+
+  # 3. Blackened-docs (formats code in docstrings)
   - repo: https://github.com/adamchainz/blacken-docs
     rev: 1.19.1
     hooks:
@@ -40,15 +49,6 @@ repos:
         additional_dependencies:
         - black==22.1.0
 
-  # 3. Docformatter (formats docstrings)
-  - repo: https://github.com/PyCQA/docformatter
-    rev: v1.7.7
-    hooks:
-      - id: docformatter
-        args: ["--in-place", "--black", "--blank"]
-        files: \.py$
-        stages: [pre-commit]
-
   # 4. Ruff - linter, fixer (but NOT formatter)
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.11.7
@@ -57,6 +57,7 @@ repos:
         args: ["--fix"]
         files: \.py$
         stages: [pre-commit]
+        
   # 5. Black - code formatter
   - repo: https://github.com/psf/black
     rev: 25.1.0
@@ -75,14 +76,3 @@ repos:
   #      args: ["--strict", "--explicit-package-bases", "--ignore-missing-imports"]
   #      types: [python]
   #      files: ^Src/pyPLUTO/  # Regex: only runs on files in this folder
-
-  # pylint, interrogate?
-
-  # 7. Pytest + coverage badge
-  #- repo: local
-  #  hooks:
-  #    - id: pytest
-  #      name: Run pytest with coverage
-  #      language: system
-  #      entry: python -m pytest Tests/ --cov=pyPLUTO --cov-report=xml --cov-report=term-missing
-  #      files: .py$ # Matches all Python files

@@ -3,6 +3,8 @@
 name: pytest-coverage-comment
 on:
   push:
+    branches:
+      - master
   pull_request:
 
 # https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
@@ -63,7 +65,7 @@ jobs:
           auth: ${{ secrets.PYTEST_COVERAGE_COMMENT }}
           gistID: 384b1f3a3a3b74cdbd65c4e3dce0632f
           filename: pytest-coverage-comment__main.json
-          label: Coverage Report
+          label: Coverage
           message: ${{ steps.coverageComment.outputs.coverage }}
           color: ${{ steps.coverageComment.outputs.color }}
-          namedLogo: python
+          namedLogo: pytest

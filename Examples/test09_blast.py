@@ -42,6 +42,7 @@ def plot_frame(Data, ax_idx: int, time_label: str):
             ax=ax_idx,
             label=label,
             yscale="log" if label == r"$p$" else "linear",
+            legpos=3,
         )
         Image.plot(
             x,
@@ -52,6 +53,7 @@ def plot_frame(Data, ax_idx: int, time_label: str):
             yrange=yrange,
             title=f"t = {time_label} s",
             xtitle="x",
+            legpos=3,
         )
 
     Image.legend(ax=ax_idx, legpos=1, label=["M", "m"], ls=["-", "--"])

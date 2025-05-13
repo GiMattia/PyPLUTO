@@ -30,7 +30,7 @@ jobs:
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.INTERROGATE_GIST_TOKEN }}
-          gistID: YOUR_GIST_ID
+          gistID: cc212934fc58b93ddebda8c669dbb171
           filename: interrogate-badge.svg
           label: ""
           message: ""

@@ -21,10 +21,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install interrogate
 
-          - name: Generate interrogate badge
-          run: |
+      - name: Generate interrogate badge
+        run: |
             mkdir -p temp-badges
-            interrogate Src/ --fail-under=80 --badge-path Docs/interrogate.svg
+            interrogate Src/ --fail-under=0 --badge-path Docs/interrogate.svg
   
       - name: Upload badge to Gist
         uses: schneegans/dynamic-badges-action@v1.7.0

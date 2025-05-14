@@ -59,3 +59,9 @@ def test_assign_chainability():
     assert result is img
     assert img.a == 1
     assert img.b == 2
+
+
+def test_image_new_prints_message(capfd):
+    I = pp.Image_new(text=True)
+    captured = capfd.readouterr()
+    assert "Image class created at nwin..." in captured.out

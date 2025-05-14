@@ -1,17 +1,17 @@
-from collections.abc import Callable, Iterable
+from collections.abc import Callable
 from typing import Any, Protocol, TypeVar
 
 T = TypeVar("T")
 
 
 class HasState(Protocol):
+    """Protocol for objects that have a 'state' attribute."""
+
     state: Any  # We use Any because it can be any object (e.g., ImageState)
 
 
 def delegator(
     *attr_names: str,
-    exclude: Iterable[str] = (),
-    readonly: bool = False,
 ) -> Callable[[type[T]], type[T]]:
     """Delegate attribute access to internal attributes like 'state'.
 
@@ -19,20 +19,16 @@ def delegator(
     ----------
     *attr_names : str
         Attributes to delegate to.
-    exclude : Iterable[str]
-        Attributes not to delegate.
-    readonly : bool
-        If True, __setattr__ won't delegate.
 
     """
-    exclude_set = set(exclude)
 
     def decorator(cls: type[T]) -> type[T]:
+        """Decorator to add delegation functionality to a class."""
         orig_getattr = getattr(cls, "__getattr__", None)
 
         def __getattr__(self: HasState, name: str) -> Any:
-            if name in exclude_set:
-                raise AttributeError(f"'{name}' is a prohibited attribute!")
+            """Delegate attribute access to internal attributes like
+            'state'."""
             for attr_name in attr_names:
                 target = getattr(self, attr_name, None)
                 if target and hasattr(target, name):
@@ -44,12 +40,9 @@ def delegator(
             )
 
         def __setattr__(self: HasState, name: str, value: Any) -> None:
-            if (
-                name in attr_names
-                or name in self.__dict__
-                or name in exclude_set
-                or readonly
-            ):
+            """Delegate attribute access to internal attributes like
+            'state'."""
+            if name in attr_names or name in self.__dict__:
                 object.__setattr__(self, name, value)
             else:
                 for attr_name in attr_names:
@@ -60,6 +53,7 @@ def delegator(
                 object.__setattr__(self, name, value)
 
         def assign(self: HasState, **kwargs: Any) -> HasState:
+            """Assign attributes to internal attributes like 'state'."""
             for key, value in kwargs.items():
                 setattr(self, key, value)
                 setattr(self.state, key, value)

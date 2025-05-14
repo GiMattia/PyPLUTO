@@ -1,3 +1,8 @@
+import shutil
+import warnings
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 import pytest
 from pyPLUTO.figure_new import FigureManager
 from pyPLUTO.image_new import Image_new
@@ -51,3 +56,121 @@ def test_interaction_with_image_new_valid_style():
     assert (
         img.figure_manager.state.style == "ggplot"
     )  # Same for the figure manager
+
+
+def test_number_colors():
+    # Given
+    img = Image_new(numcolors=15)
+    assert img.figure_manager.state.color[0] == "#0104fe"
+    assert img.figure_manager.color[0] == "#0104fe"
+    with pytest.warns(
+        DeprecationWarning,
+        match="numcolor is deprecated. Use numcolors instead.",
+    ) as warning:
+        _ = Image_new(numcolor=15)
+
+
+def test_latex():
+    # Given
+    img = Image_new(LaTeX=False)
+    assert img.LaTeX == False
+    assert img.state.LaTeX == False
+    assert img.figure_manager.state.LaTeX == False
+
+    img = Image_new(LaTeX=True)
+    assert img.LaTeX == True
+    assert img.state.LaTeX == True
+    assert img.figure_manager.state.LaTeX == True
+
+
+def test_latex_pgf(monkeypatch):
+
+    monkeypatch.setattr(plt, "switch_backend", lambda *args, **kwargs: None)
+    monkeypatch.setattr(mpl.rcParams, "update", lambda *args, **kwargs: None)
+
+    img = Image_new(LaTeX="pgf")
+    assert img.LaTeX == "pgf"
+    assert img.state.LaTeX == "pgf"
+    assert img.figure_manager.state.LaTeX == "pgf"
+
+
+def test_latex_pgf_latex_not_installed(monkeypatch):
+
+    monkeypatch.setattr(plt, "switch_backend", lambda *args, **kwargs: None)
+    monkeypatch.setattr(mpl.rcParams, "update", lambda *args, **kwargs: None)
+
+    img = Image_new(LaTeX="pgf")
+
+    monkeypatch.setattr(shutil, "which", lambda cmd: None)  # No latex
+
+    with pytest.warns(UserWarning, match="LaTeX not installed"):
+        img.figure_manager._assign_LaTeX("normal")
+
+    assert img.state.LaTeX is True  # It should fallback to True
+    img = Image_new(LaTeX="True")
+
+
+def test_latex_pgf_backend_import_error(monkeypatch):
+
+    monkeypatch.setattr(plt, "switch_backend", lambda *args, **kwargs: None)
+    monkeypatch.setattr(mpl.rcParams, "update", lambda *args, **kwargs: None)
+
+    img = Image_new(LaTeX="pgf")
+
+    monkeypatch.setattr(
+        shutil, "which", lambda cmd: "fakepath"
+    )  # Simulate installed
+    monkeypatch.setattr(
+        plt, "switch_backend", lambda *_: (_ for _ in ()).throw(ImportError)
+    )
+
+    with pytest.warns(UserWarning, match="pgf backend is not available"):
+        img.figure_manager._assign_LaTeX("normal")
+
+    assert img.state.LaTeX is True
+
+
+class FakeRcParams(dict):
+    def __setitem__(self, key, value):
+        raise ImportError("Simulated failure setting font")
+
+
+# suppress unrelated warnings
+def test_latex_true_font_missing(monkeypatch):
+    img = Image_new(LaTeX=True)
+
+    # Replace mpl.rcParams with a fake object that raises on set
+    monkeypatch.setattr(mpl, "rcParams", FakeRcParams(mpl.rcParams))
+
+    with pytest.warns(
+        UserWarning, match="LaTeX = True option is not available"
+    ):
+        img.figure_manager._assign_LaTeX("bold")
+
+
+def test_latex_pgf_success(monkeypatch):
+
+    monkeypatch.setattr(plt, "switch_backend", lambda *args, **kwargs: None)
+    monkeypatch.setattr(mpl.rcParams, "update", lambda *args, **kwargs: None)
+
+    img = Image_new(LaTeX="pgf")
+
+    monkeypatch.setattr(shutil, "which", lambda cmd: "fakepath")
+    monkeypatch.setattr(plt, "switch_backend", lambda backend: None)
+    monkeypatch.setattr(mpl.rcParams, "update", lambda d: None)
+
+    # No warnings expected here
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter("always")
+        img.figure_manager._assign_LaTeX("bold")
+        assert len(w) == 0
+
+
+def test_latex_true_success(monkeypatch):
+    img = Image_new(LaTeX=True)
+
+    # No warning expected if assignment is valid
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter("always")
+        img.figure_manager._assign_LaTeX("normal")
+        assert len(w) == 0

@@ -177,3 +177,13 @@ def find_session():
 
     # Return the session
     return session
+
+
+def setup_handlers(colorwarn=True, colorerr=True):
+    warnings.simplefilter("always")
+    if colorwarn:
+        warnings.formatwarning = color_warning
+    if colorerr:
+        sys.excepthook = color_error
+
+    # End of the function

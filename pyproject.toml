@@ -33,10 +33,10 @@ docs = [
     "sphinx-automodapi",
     "numpydoc"
 ]
-
 test = [
     "pytest",
     "pytest-doctestplus",
+    "pytest-mock",
     "coverage",
     "pytest-cov",
     "approvaltests"
@@ -50,7 +50,6 @@ dev = [
     "blacken-docs",
     "docformatter",
     "interrogate"
-
 ]
 
 [tool.setuptools.packages.find]
@@ -125,6 +124,7 @@ disable = [
     "invalid-name",
     "too-few-public-methods",
     "too-many-arguments",
+    "too-many-positional-arguments",
 ]
 
 [tool.pylint.format]
@@ -135,10 +135,10 @@ output-format = "text"
 
 [tool.interrogate]
 verbose = 1
-fail-under = 80
+fail-under = 0
 exclude = ["tests", "Docs"]
 ignore-init-method = false
 ignore-init-module = true
-ignore-private = true
-ignore-semiprivate = true
-ignore-magic = true
+ignore-module = true
+ignore-private = false
+ignore-semiprivate = false

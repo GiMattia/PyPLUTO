@@ -54,4 +54,5 @@ jobs:
           valColorRange: ${{ steps.badge.outputs.score_badge }}
           maxColorRange: 10
           minColorRange: 0
+          namedLogo: python
           

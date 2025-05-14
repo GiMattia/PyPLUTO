@@ -24,17 +24,5 @@ jobs:
       - name: Generate interrogate badge
         run: |
             mkdir -p temp-badges
-            interrogate Src/ --fail-under=0 --generate-badge Docs/interrogate.svg
+            interrogate Src/pyPLUTO/ --fail-under=0 --generate-badge Docs/interrogate.svg
   
-      - name: Upload badge to Gist
-        uses: schneegans/dynamic-badges-action@v1.7.0
-        with:
-          auth: ${{ secrets.INTERROGATE_GIST_TOKEN }}
-          gistID: cc212934fc58b93ddebda8c669dbb171
-          filename: interrogate-badge.svg
-          label: ""
-          message: ""
-          color: ""
-          namedLogo: ""
-          style: flat
-          raw: Docs/interrogate.svg

@@ -261,8 +261,8 @@ def contour(
 def streamplot(
     self, var1, var2, check: bool = True, **kwargs: Any
 ) -> LineCollection:
-    """Plots a streamplot of a vector field. The function uses the streamplot
-    function from matplotlib.pyplot.
+    """Plots a streamplot of a vector field. The function uses the
+    streamplot function from matplotlib.pyplot.
 
     Returns
     -------

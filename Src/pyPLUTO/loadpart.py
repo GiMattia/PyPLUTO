@@ -5,12 +5,12 @@ from numpy.typing import NDArray
 
 
 class LoadPart:
-    """Load the particles from the simulation. The class is used to load the
-    particles from the simulation and store the data in the class attributes.
-    The data are loaded in a memory mapped numpy multidimensional array. Such
-    approach does not load the full data until needed. Basic operations (i.e.
-    no numpy) are possible, as well as slicing the arrays, without fully
-    loading the data. At the moment, only one output can be loaded at a time.
+    """Load the particles from the simulation. The class is used to load the particles
+    from the simulation and store the data in the class attributes. The data are loaded
+    in a memory mapped numpy multidimensional array. Such approach does not load the
+    full data until needed. Basic operations (i.e. no numpy) are possible, as well as
+    slicing the arrays, without fully loading the data. At the moment, only one output
+    can be loaded at a time.
 
     Returns
     -------

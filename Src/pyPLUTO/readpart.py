@@ -4,11 +4,11 @@ import numpy as np
 
 
 def _inspect_bin(self, i: int, endian: str | None) -> None:
-    """Routine to inspect the binary file and find the variables, the offset
-    and the shape. The routine loops over the lines of the file and finds the
-    relevant information. The routine then creates a key 'tot' in the offset
-    and shape dictionaries, which contains the offset and shape of the whole
-    data.
+    """Routine to inspect the binary file and find the variables, the
+    offset and the shape. The routine loops over the lines of the file
+    and finds the relevant information. The routine then creates a key
+    'tot' in the offset and shape dictionaries, which contains the
+    offset and shape of the whole data.
 
     Returns
     -------
@@ -103,11 +103,11 @@ def _inspect_bin(self, i: int, endian: str | None) -> None:
 
 
 def _inspect_vtk(self, i: int, endian: str | None) -> None:
-    """Routine to inspect the vtk file and find the variables, the offset and
-    the shape. The routine loops over the lines of the file and finds the
-    relevant information. The routine also finds the time information if the
-    file is standalone. The routine also finds the coordinates if the file is
-    standalone and cartesian.
+    """Routine to inspect the vtk file and find the variables, the
+    offset and the shape. The routine loops over the lines of the file
+    and finds the relevant information. The routine also finds the time
+    information if the file is standalone. The routine also finds the
+    coordinates if the file is standalone and cartesian.
 
     Returns
     -------
@@ -272,9 +272,9 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
 
 def _store_bin_particles(self, i: int) -> None:
     """Routine to store the particles data. The routine loops over the
-    variables and stores the data in the dictionary from the 'tot' key. Then
-    the 'tot' keyword is removed from the dictionary for memory and clarity
-    reasons.
+    variables and stores the data in the dictionary from the 'tot' key.
+    Then the 'tot' keyword is removed from the dictionary for memory and
+    clarity reasons.
 
     Returns
     -------
@@ -324,9 +324,9 @@ def _store_bin_particles(self, i: int) -> None:
 
 
 def _store_vtk_particles(self, i: int) -> None:
-    """Routine to store the particles data. Since positions and velocities are
-    stored in 2d arrays, the routine splits the data in the different
-    components and stores them in the dictionary.
+    """Routine to store the particles data. Since positions and
+    velocities are stored in 2d arrays, the routine splits the data in
+    the different components and stores them in the dictionary.
 
     Returns
     -------
@@ -395,8 +395,9 @@ def _store_vtk_particles(self, i: int) -> None:
 def _compute_offset(
     self, i: int, endian: str | None, exout: int, var: str | None
 ) -> None:
-    """Routine to compute the offset and shape of the variables to be loaded.
-    The routine calls different functions depending on the file format.
+    """Routine to compute the offset and shape of the variables to be
+    loaded. The routine calls different functions depending on the file
+    format.
 
     Returns
     -------

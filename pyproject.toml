@@ -93,10 +93,10 @@ strict_optional = true
 
 [tool.docformatter]
 in-place = true
-black = true
 blank = true
-wrap-summaries = 79
-wrap-descriptions = 79
+wrap-summaries = 72
+wrap-descriptions = 72
+docstring-length  = [10, 70]
 
 [tool.coverage.run]
 source = ["Src/pyPLUTO"]
@@ -128,7 +128,7 @@ disable = [
 ]
 
 [tool.pylint.format]
-max-line-length = 81
+max-line-length = 80
 
 [tool.pylint.reports]
 output-format = "text"

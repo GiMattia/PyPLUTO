@@ -358,7 +358,8 @@ def _zoomdisplay(self, ax: Axes, nax: int, axins: Axes, **kwargs: Any) -> None:
 
 
 def _place_inset_pos(ax: Axes, pos: list[float]) -> Axes:
-    """Places an inset axes given the position (left, top, bottom, right).
+    """Places an inset axes given the position (left, top, bottom,
+    right).
 
     Returns
     -------
@@ -385,8 +386,9 @@ def _place_inset_pos(ax: Axes, pos: list[float]) -> Axes:
 
 
 def _place_inset_loc(ax: Axes, **kwargs: Any) -> Axes:
-    """Places an inset axes given different keywords. In case both top and
-    bottom are given, the top is given priority and a warning is raised.
+    """Places an inset axes given different keywords. In case both top
+    and bottom are given, the top is given priority and a warning is
+    raised.
 
     Returns
     -------

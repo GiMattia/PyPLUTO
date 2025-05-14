@@ -73,6 +73,6 @@ repos:
   #  hooks:
   #   - id: mypy
   #      name: mypy
-  #      args: ["--strict", "--explicit-package-bases", "--ignore-missing-imports"]
+  #      args: ["--strict", '$(git diff --name-only --cached)']
   #      types: [python]
   #      files: ^Src/pyPLUTO/  # Regex: only runs on files in this folder

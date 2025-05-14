@@ -8,8 +8,8 @@ from matplotlib.figure import Figure
 
 
 def _assign_LaTeX(self, LaTeX: bool | str) -> None:
-    """Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX and should
-    be used only to get vectorial figures with minimal file size.
+    """Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX and
+    should be used only to get vectorial figures with minimal file size.
 
     Returns
     -------
@@ -107,8 +107,8 @@ def _choose_colorlines(
     withblack: bool = False,
     withwhite: bool = False,
 ) -> list[str]:
-    """Chooses the colors for the lines. Depending on the number of colors and
-    the option 'oldcolor', the colors are:
+    """Chooses the colors for the lines. Depending on the number of
+    colors and the option 'oldcolor', the colors are:
 
     - black, red, blue, cyan, green, orange (oldcolor = True)
     - a new list of colors (oldcolor = False, default)
@@ -230,8 +230,8 @@ def _choose_colorlines(
 
 
 def _create_figure(self, fig: Figure | None, **kwargs: Any) -> None:
-    """Function that creates the figure associated to an Image instance. It is
-    called by default when the Image class is instantiated.
+    """Function that creates the figure associated to an Image instance.
+    It is called by default when the Image class is instantiated.
 
     Returns
     -------
@@ -287,7 +287,7 @@ def _create_figure(self, fig: Figure | None, **kwargs: Any) -> None:
         self.figsize = [fig.get_figwidth(), fig.get_figheight()]
         self.fontsize = plt.rcParams["font.size"]
         self.nwin = fig.number  # type: ignore
-        self.tg = fig.get_tight_layout()
+        self.tight = fig.get_tight_layout()
 
     # If figsize is assigned, a keyword fixes it
     if "figsize" in kwargs:

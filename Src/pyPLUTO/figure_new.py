@@ -5,6 +5,7 @@ from typing import Any
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 
 from .delegator import delegator
 from .imagestate import ImageState
@@ -25,15 +26,29 @@ class FigureManager:
                 DeprecationWarning,
             )
 
+        close = kwargs.pop("close", True)
         fontweight = kwargs.pop("fontweight", "normal")
-        numcolors = kwargs.pop("numcolor", 10)  # To remove in the future!!!
+        numcolors = kwargs.pop("numcolor", 10)  # DEPRECATED!!!
         numcolors = kwargs.pop("numcolors", numcolors)
+        replace = kwargs.pop("replace", False)
+        suptitle = kwargs.pop("suptitle", None)
+        suptitlesize = kwargs.pop("suptitlesize", "large")
         withblack = kwargs.pop("withblack", False)
         withwhite = kwargs.pop("withwhite", False)
+
+        self._check_previous_fig(close)
+
+        self.fontsize = kwargs.get("fontsize", self.state.fontsize)
+        self.nwin = kwargs.get("nwin", self.state.nwin)
+        self.tight = kwargs.get("tight", self.state.tight)
+        self.figsize = kwargs.get("figsize", self.state.figsize)
+        if "figsize" in kwargs:
+            self._set_size = True
 
         self._setup_style()
         self.color = self._choose_colorlines(numcolors, withblack, withwhite)
         self._assign_LaTeX(fontweight)
+        self._create_figure(replace, suptitle, suptitlesize)
 
     def _setup_style(self) -> None:
         try:
@@ -47,8 +62,8 @@ class FigureManager:
     def _choose_colorlines(
         self, numcolors: int, withblack: bool, withwhite: bool
     ) -> list[str]:
-        """Chooses the colors for the lines. Depending on the number of colors
-        and the option 'oldcolor', the colors are:
+        """Chooses the colors for the lines. Depending on the number of
+        colors and the option 'oldcolor', the colors are:
 
         - black, red, blue, cyan, green, orange (oldcolor = True)
         - a new list of colors (oldcolor = False, default)
@@ -165,8 +180,9 @@ class FigureManager:
         return [self.dictcol[lstc[i]] for i in range(numcolors)]
 
     def _assign_LaTeX(self, fontweight: str) -> None:
-        """Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX and
-        should be used only to get vectorial figures with minimal file size.
+        """Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX
+        and should be used only to get vectorial figures with minimal
+        file size.
 
         Returns
         -------
@@ -175,10 +191,11 @@ class FigureManager:
         Parameters
         ----------
         - LaTeX (not optional): bool | str
-            The LaTeX option. Is True is selected, the default LaTeX font is used.
-            If 'pgf' is selected, the pgf backend is used to save pdf figures with
-            minimal file size. If XeLaTeX is not installed and the 'pgf' option is
-            selected, the LaTeX option True is used as backup strategy.
+            The LaTeX option. Is True is selected, the default LaTeX font is
+            used. If 'pgf' is selected, the pgf backend is used to save pdf
+            figures with minimal file size. If XeLaTeX is not installed and the
+            'pgf' option is selected, the LaTeX option True is used as backup
+            strategy.
 
         Notes
         -----
@@ -245,3 +262,97 @@ class FigureManager:
                 warnings.warn(warn, UserWarning)
 
         # End of the function
+
+    def _check_previous_fig(self, close: bool) -> None:
+
+        if isinstance(self.state.fig, Figure):
+            self.figsize = [
+                self.state.fig.get_figwidth(),
+                self.state.fig.get_figheight(),
+            ]
+            self.fontsize = plt.rcParams["font.size"]
+            try:
+                self.nwin = self.state.fig.number  # type: ignore
+            except:
+                warnings.warn(
+                    "The figure is not associated to a window number",
+                    UserWarning,
+                )
+                self.nwin = 1
+            self.tight = self.state.fig.get_tight_layout()
+
+        # Close the existing figure if it exists (and 'close' is enabled)
+        if plt.fignum_exists(self.nwin) and close is True:
+            plt.close(self.nwin)
+
+    def _create_figure(
+        self, replace: bool, suptitle: str, suptitlesize: str
+    ) -> None:
+        """Function that creates the figure associated to an Image
+        instance. It is called by default when the Image class is
+        instantiated.
+
+        Returns
+        -------
+        - None
+
+        Parameters
+        ----------
+        - close: bool, default True
+            If True, the existing figure with the same window number is closed.
+        - fig (not optional): Figure | None, default None
+            The the figure instance. If not None, the figure is used (only if we
+            need to associate an Image to an existing figure).
+        - figsize: list[float], default [8,5]
+            The figure size.
+        - fontsize: int, default 17
+            The font size.
+        - nwin: int, default 1
+            The window number.
+        - suptitle: str, default None
+            The super title of the figure.
+        - suptitlesize: str | int, default 'large'
+            The figure title size.
+        - tight: bool, default True
+            If True, the tight layout is used.
+
+        Notes
+        -----
+        - None
+
+        ----
+
+        Examples
+        --------
+        - Example #1: Create a new figure
+
+            >>> _create_figure()
+
+        - Example #2: Associate an Image to an existing figure
+
+            >>> _create_figure(fig = fig)
+
+        - Example #3: Create a new figure with different size and a figure title
+
+            >>> _create_figure(suptitle = 'Super Title', figsize = [10,5])
+
+        - Example #4: Create a new figure with a specific window number
+
+            >>> _create_figure(nwin = 2)
+
+        """
+        # Create a new figure instance with the provided window number
+        if self.state.fig is None or replace is True:
+            self.state.fig = plt.figure(
+                self.state.nwin,
+                figsize=(self.state.figsize[0], self.state.figsize[1]),
+            )
+        plt.rcParams.update({"font.size": self.state.fontsize})
+
+        # Suptitle
+        if suptitle is not None:
+            self.state.fig.suptitle(suptitle, fontsize=suptitlesize)
+
+        # Tight layout
+        if self.tight is True:
+            self.state.fig.tight_layout()

@@ -1,6 +1,6 @@
+import matplotlib.pyplot as plt
 import pyPLUTO as pp
 import pytest
-from matplotlib.figure import Figure
 from pyPLUTO.imagestate import ImageState
 
 
@@ -11,7 +11,7 @@ def test_default_initialization():
 
 
 def test_custom_arguments():
-    fig = Figure()
+    fig = plt.figure()
     img = pp.Image_new(fig=fig, style="dark_background")
     assert img.state.fig is fig
     assert img.state.style == "dark_background"
@@ -65,3 +65,26 @@ def test_image_new_prints_message(capfd):
     I = pp.Image_new(text=True)
     captured = capfd.readouterr()
     assert "Image class created at nwin..." in captured.out
+
+
+# Check if the __str__ method works
+def test_str():
+    Image = pp.Image_new()
+    s = str(Image)
+    assert "Image properties:" in s
+    assert "Adds a set of [nrow,ncol] subplots to the figure." in s
+    assert "Plots one line in a subplot." in s
+    assert "Image class." in s
+    assert "Public methods available:" in s
+    assert "- display" in s
+    assert "- savefig" in s
+    assert "Public attributes available:" in s
+    assert "- fig" in s
+    assert "Please do not use 'private'" in s
+
+
+# Check if raises an error with wrong attribute
+def test_getattr_new():
+    with pytest.raises(AttributeError):
+        Image = pp.Image_new()
+        Image.wrong

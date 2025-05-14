@@ -4,6 +4,8 @@ import functools
 import inspect
 import textwrap
 import warnings
+from collections.abc import Callable
+from typing import Any
 
 
 @functools.cache
@@ -49,7 +51,7 @@ def find_kwargs_keys(func):
 _kwargs_state: dict = {"remaining": set()}
 
 
-def track_kwargs(func):
+def track_kwargs(func: Callable[..., Any]) -> Callable[..., Any]:
     used_keys = find_kwargs_keys(func)
 
     @functools.wraps(func)

@@ -10,10 +10,11 @@ from .h_pypluto import check_par
 
 
 class Image:
-    """Class that creates a new figure and sets the LaTeX conditions, as well
-    as the matplotlib style. Every Image is associated to a figure object and
-    only one in order to avoid confusion between images and figures. If you
-    want to create multiple figures, you have to create multiple Image objects.
+    """Class that creates a new figure and sets the LaTeX conditions, as
+    well as the matplotlib style. Every Image is associated to a figure
+    object and only one in order to avoid confusion between images and
+    figures. If you want to create multiple figures, you have to create
+    multiple Image objects.
 
     Returns
     -------
@@ -140,7 +141,6 @@ class Image:
         self.tickspar: list[Any | int] = []  # ticks parameters
         self.shade: list[str] = []  # shading of the plot
         self.fontweight: str = kwargs.get("fontweight", "normal")  # fontweight
-        self.tg: bool  # tight layout of the figure
         self.fig: Figure  # the figure associated to the image
         self.anim_var: NDArray  # the variable to be animated
         self.anim_ax: Axes  # the axes of the animation

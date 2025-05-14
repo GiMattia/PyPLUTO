@@ -1,24 +1,24 @@
 """HD disk-planet test.
 
-This test shows how to plot different 2D quantities from a test problem in the
-same plot with two zooms.
+This test shows how to plot different 2D quantities from a test problem
+in the same plot with two zooms.
 
 The data are the ones obtained from the PLUTO test problem directory
 $PLUTO_DIR/Test_Problems/HD/Disk_Planet (configuration 6).
 
-The data is loaded into a pload object D and the Image class is created. The
-create_axes method is used here to make easier to associate the zooms with the
-main plot. The display method is used to plot the density in the main plot,
-while the zoom method is used to create the two zooms. The image is then saved
-and shown on screen.
+The data is loaded into a pload object D and the Image class is created.
+The create_axes method is used here to make easier to associate the
+zooms with the main plot. The display method is used to plot the density
+in the main plot, while the zoom method is used to create the two zooms.
+The image is then saved and shown on screen.
 
-Note that the second zoom requires the keyword ax to be passed to the zoom
-method, in order to associate the zoom with main plot. The zoom method is
-called twice, once for each zoom region. If no keyword ax was passed, the
-second zoom would be associated as a zoom of the first zoom. The second zoom is
-also plotted with a different variable with respect to the main plot, to show
-the flexibility of the zoom method in plotting different quantities in the same
-region.
+Note that the second zoom requires the keyword ax to be passed to the
+zoom method, in order to associate the zoom with main plot. The zoom
+method is called twice, once for each zoom region. If no keyword ax was
+passed, the second zoom would be associated as a zoom of the first zoom.
+The second zoom is also plotted with a different variable with respect
+to the main plot, to show the flexibility of the zoom method in plotting
+different quantities in the same region.
 
 """
 

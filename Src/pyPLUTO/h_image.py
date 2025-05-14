@@ -7,8 +7,8 @@ from numpy.typing import NDArray
 
 
 def _add_ax(self, ax: Axes, i: int) -> None:
-    """Adds the axhes properties to the class info variables. The corresponding
-    axis is appended to the list of axes.
+    """Adds the axhes properties to the class info variables. The
+    corresponding axis is appended to the list of axes.
 
     Returns
     -------
@@ -94,8 +94,8 @@ def _hide_text(self, nax: int, txts: str | None) -> None:
 
 
 def _set_xrange(self, ax: Axes, nax: int, xlim: list[float], case: int) -> None:
-    """Sets the lower and upper limits of the x-axis of a set of axes (if not
-    stated otherwise later).
+    """Sets the lower and upper limits of the x-axis of a set of axes
+    (if not stated otherwise later).
 
     Returns
     -------
@@ -162,9 +162,9 @@ def _set_yrange(
     x: NDArray | None = None,
     y: NDArray | None = None,
 ) -> None:
-    """Sets the lower and upper limits of the y-axis of a set of axes (if not
-    stated otherwise later). Unlike the x-axis, the y-axis limits are recovered
-    depending on both the x-data and the y-data.
+    """Sets the lower and upper limits of the y-axis of a set of axes
+    (if not stated otherwise later). Unlike the x-axis, the y-axis
+    limits are recovered depending on both the x-data and the y-data.
 
     Returns
     -------
@@ -319,9 +319,9 @@ def _range_offset(
 def _assign_ax(
     self, ax: Axes | list[Axes] | None, **kwargs: Any
 ) -> tuple[Axes, int]:
-    """Sets the axes of the figure where the plot/feature should go. If no axis
-    is present, an axis is created. If the axis is present but no axis is
-    seletced, the last axis is selected.
+    """Sets the axes of the figure where the plot/feature should go. If
+    no axis is present, an axis is created. If the axis is present but
+    no axis is seletced, the last axis is selected.
 
     Returns
     -------

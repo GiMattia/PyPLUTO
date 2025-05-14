@@ -157,3 +157,76 @@ def test_latex_true_success(monkeypatch):
         warnings.simplefilter("always")
         img.figure_manager._assign_LaTeX("normal")
         assert len(w) == 0
+
+
+def test_figure_created():
+    # Given
+    img = Image_new()
+
+    # Then
+    assert img.fig is not None
+    assert img.figure_manager.fig is not None
+    assert isinstance(img.fig, mpl.figure.Figure)
+    assert img.fig.get_figwidth() == 8.0
+    assert img.fig.get_figheight() == 5.0
+    assert img.fig._suptitle is None
+    assert img.fontsize == 17
+    assert img.fig.get_tight_layout() is False
+    assert img.fig.number == 1
+
+
+def test_figure_replaced():
+    # Given
+    fig = plt.figure()
+    img = Image_new(fig=fig, replace=True)
+
+    # Then
+    assert img.fig is not fig
+    assert img.fig is not None
+
+
+def test_figure_not_replaced():
+    # Given
+    fig = plt.figure()
+    img = Image_new(fig=fig)
+
+    # Then
+    assert img.fig is fig
+
+
+def test_figure_params():
+    # Given
+    img = Image_new(figsize=[10, 10], nwin=2, fontsize=20)
+
+    # Then
+    assert img.figsize == [10, 10]
+    assert img._set_size is True
+    assert img.nwin == 2
+    assert img.fontsize == 20
+
+
+def test_suptitle_and_tightlayout():
+    fig = plt.figure()
+    img = Image_new(fig=fig, suptitle="Test Title", suptitlesize=18, tight=True)
+
+    # Test suptitle
+    assert fig._suptitle is not None
+    assert fig._suptitle.get_text() == "Test Title"
+    assert fig._suptitle.get_fontsize() == 18
+
+
+# Test the tight layout
+def test_tight_layout():
+    img = Image_new(tight=False)
+    assert img.fig.get_tight_layout() is False
+
+
+def test_image_new_fig_no_number():
+    fig = plt.Figure()
+
+    with pytest.warns(
+        UserWarning, match="The figure is not associated to a window number"
+    ):
+        img = Image_new(fig=fig)
+
+    assert img.state.nwin == 1

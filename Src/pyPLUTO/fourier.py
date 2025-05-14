@@ -8,10 +8,10 @@ from .h_pypluto import check_par
 def fourier(
     self, f: np.ndarray, check: bool = True, **kwargs: Any
 ) -> tuple[list[np.ndarray], np.ndarray]:
-    """Compute the Fourier transform of a given array. The function uses the
-    numpy.fft.fftn function. The function returns a tuple containing the
-    transformed array and the frequency array (which is a list of arrays if the
-    input is in 2D or 3D).
+    """Compute the Fourier transform of a given array. The function uses
+    the numpy.fft.fftn function. The function returns a tuple containing
+    the transformed array and the frequency array (which is a list of
+    arrays if the input is in 2D or 3D).
 
     Returns
     -------
@@ -120,8 +120,8 @@ def fourier(
 
 
 def _fourier_spacing(dx: float | int | list | np.ndarray) -> float:
-    """Check the grid spacing and return the correct value. If the grid spacing
-    is not valid (negative), raise an error.
+    """Check the grid spacing and return the correct value. If the grid
+    spacing is not valid (negative), raise an error.
 
     Returns
     -------

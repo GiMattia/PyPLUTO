@@ -11,10 +11,10 @@ from .h_pypluto import check_par, makelist
 
 
 def _check_var(self, var: str | NDArray, transpose: bool = False) -> np.ndarray:
-    """Function that checks returns a variable. If the variable is a numpy
-    array, it is simply returned (and the transpose is taken into account). If
-    the variable is a string, the variable is retrieved from the dataset. If
-    the variable is not found, an error is raised.
+    """Function that checks returns a variable. If the variable is a
+    numpy array, it is simply returned (and the transpose is taken into
+    account). If the variable is a string, the variable is retrieved
+    from the dataset. If the variable is not found, an error is raised.
 
     Returns
     -------
@@ -74,8 +74,8 @@ def _vector_field(
     yc: np.ndarray,
 ) -> list[np.ndarray]:
     """Compute the vector field at the given time and coordinates by
-    interpolating the variables var1 and var2 at the given coordinates. The
-    interpolation is made through the routine np.interpolate.
+    interpolating the variables var1 and var2 at the given coordinates.
+    The interpolation is made through the routine np.interpolate.
 
     Returns
     -------
@@ -142,9 +142,9 @@ def find_fieldlines(
     **kwargs: Any,
 ) -> list:
     """Find field lines using the vector field. The field lines are computed by
-    interpolating the variables var1 and var2 at the footpoints x0 and y0.
-    Different integration algorithms are available, based on the method
-    solve_ivp of the scipy package.
+    interpolating the variables var1 and var2 at the footpoints x0 and y0. Different
+    integration algorithms are available, based on the method solve_ivp of the scipy
+    package.
 
     Returns
     -------

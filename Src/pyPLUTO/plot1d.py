@@ -15,11 +15,11 @@ def plot(
     check: bool = True,
     **kwargs: Any,
 ) -> None:
-    """Creation of a 1D function plot (or a 1D slice plot). It creates a simple
-    figure and a single axis if none are given prior. If a single function
-    argument is given, it plots the graph of that function using a linear
-    variable as x parameter. However, if a pair of arrays is provided, it plots
-    the second as a function of the first one.
+    """Creation of a 1D function plot (or a 1D slice plot). It creates a
+    simple figure and a single axis if none are given prior. If a single
+    function argument is given, it plots the graph of that function using
+    a linear variable as x parameter. However, if a pair of arrays is
+    provided, it plots the second as a function of the first one.
 
     Returns
     -------

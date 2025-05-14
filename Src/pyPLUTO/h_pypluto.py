@@ -41,8 +41,9 @@ def makelist(el: Any) -> list[Any]:
 
 
 def check_par(par: set[str], func: str, **kwargs: Any) -> None:
-    """Checks if a parameter is in the corresponding list depending on the
-    function. If the parameter does not belong to the list it raises a warning.
+    """Checks if a parameter is in the corresponding list depending on
+    the function. If the parameter does not belong to the list it raises
+    a warning.
 
     Returns
     -------

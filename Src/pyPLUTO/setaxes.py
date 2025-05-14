@@ -12,7 +12,8 @@ from .h_pypluto import check_par, makelist
 def create_axes(
     self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs: Any
 ) -> Axes:
-    """Creation of a set of axes using add_subplot from the matplotlib library.
+    """Creation of a set of axes using add_subplot from the matplotlib
+    library.
 
     If additional parameters (like the figure limits or the spacing)
     are given, the plots are located using set_position.
@@ -287,8 +288,8 @@ def create_axes(
 def set_axis(
     self, ax: Axes | None = None, check: bool = True, **kwargs: Any
 ) -> None:
-    """Customization of a single subplot axis. Properties such as the range,
-    scale and aspect of each subplot should be customized here.
+    """Customization of a single subplot axis. Properties such as the
+    range, scale and aspect of each subplot should be customized here.
 
     Returns
     -------
@@ -559,7 +560,8 @@ def set_axis(
 def _check_rowcol(
     ratio: list[float], space: float | list[float], length: int, func: str
 ) -> tuple[list[float], list[float]]:
-    """Checks the width and spacing of the plots on a single row or column.
+    """Checks the width and spacing of the plots on a single row or
+    column.
 
     Returns
     -------
@@ -628,7 +630,8 @@ def _set_ticks(
     tl: str | list[str] | None,
     typeaxis: str,
 ) -> None:
-    """Sets the ticks and ticks labels on the x- or y-axis of a selected axis.
+    """Sets the ticks and ticks labels on the x- or y-axis of a selected
+    axis.
 
     Returns
     -------

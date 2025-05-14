@@ -105,12 +105,13 @@ def test_latex_pgf_latex_not_installed(monkeypatch):
     monkeypatch.setattr(plt, "switch_backend", lambda *args, **kwargs: None)
     monkeypatch.setattr(mpl.rcParams, "update", lambda *args, **kwargs: None)
 
-    img = Image_new(LaTeX="pgf")  # triggers fallback inside constructor
-
     with pytest.warns(UserWarning, match="LaTeX not installed"):
-        img.figure_manager._assign_LaTeX("normal")
+        img = Image_new(LaTeX="pgf")  # triggers fallback inside constructor
+    #    img.figure_manager._assign_LaTeX("normal")
 
     assert img.state.LaTeX is True  # fallback occurred
+    img = Image_new(LaTeX=True)
+    assert img.LaTeX is True
 
 
 def test_latex_pgf_backend_import_error(monkeypatch):
@@ -118,19 +119,16 @@ def test_latex_pgf_backend_import_error(monkeypatch):
         shutil, "which", lambda cmd: "fakepath"
     )  # simulate installed
 
-    # Raise ImportError when trying to switch backend
     def fake_switch_backend(*args, **kwargs):
         raise ImportError("Backend pgf not available")
 
     monkeypatch.setattr(plt, "switch_backend", fake_switch_backend)
     monkeypatch.setattr(mpl.rcParams, "update", lambda *args, **kwargs: None)
 
-    img = Image_new(LaTeX="pgf")
-
     with pytest.warns(UserWarning, match="pgf backend is not available"):
-        img.figure_manager._assign_LaTeX("normal")
+        img = Image_new(LaTeX="pgf")  # moved inside
 
-    assert img.state.LaTeX is True  # fallback occurred
+    assert img.state.LaTeX is True
 
 
 class FakeRcParams(dict):

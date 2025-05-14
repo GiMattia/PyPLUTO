@@ -25,7 +25,7 @@ def _find_kwargs_keys_from_source(source: str) -> set[str]:
                 if (
                     isinstance(node.func.value, ast.Name)
                     and node.func.value.id == "kwargs"
-                    and node.func.attr == "get"
+                    and node.func.attr in {"get", "pop"}
                 ):
                     if (
                         node.args

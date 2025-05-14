@@ -23,10 +23,14 @@ class Image_new:
         **kwargs: Any,
     ) -> None:
 
+        kwargs.pop("check", check)
+
         self.state: ImageState = ImageState(
             style=style, LaTeX=LaTeX, fig=fig or Figure()
         )
         self.figure_manager: FigureManager = FigureManager(self.state, **kwargs)
 
         if text:
-            print("Image class created at ")  # NEED TO FINISH THE SENTENCE
+            print(
+                "Image class created at nwin..."
+            )  # NEED TO FINISH THE SENTENCE

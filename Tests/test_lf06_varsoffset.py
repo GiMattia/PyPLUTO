@@ -5,6 +5,7 @@ import pyPLUTO as pp
 
 # Assuming the root of the repo is your current working directory
 repo_root = Path(os.getcwd())
+repo_root = repo_root if repo_root.name == "Tests" else repo_root / "Tests"
 path = repo_root / "Test_load"
 
 size = 128 * 128

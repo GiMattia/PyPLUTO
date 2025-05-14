@@ -1,0 +1,58 @@
+name: pylint-score
+
+on:
+    push:
+      branches:
+        - master
+    pull_request:
+
+permissions:
+  contents: write
+  checks: write
+  pull-requests: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint
+          if [ -f requirements_dev.txt ]; then pip install -r requirements_dev.txt; fi
+
+      - name: Run pylint and extract score
+        id: lint
+        run: |
+          score=$(pylint Src/pyPLUTO --score=y --fail-under=0 | tee pylint-report.txt | grep "Your code has been rated at" | sed -E 's/.* ([0-9\.]+)\/10.*/\1/')
+          echo "pylint-score=$score" >> $GITHUB_OUTPUT
+
+      - name: Format score and color for badge
+        id: badge
+        run: |
+          score="${{ steps.lint.outputs.pylint-score }}"
+          score_badge="${score}/10"
+
+          echo "score_badge=$score_badge" >> $GITHUB_OUTPUT
+          echo "color=$color" >> $GITHUB_OUTPUT
+
+      - name: Create the Badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.PYTEST_COVERAGE_COMMENT }}
+          gistID: 8fc3a521f1c5e59e41eb16d1197bf8c8
+          filename: pylint-score.json
+          label: Pylint
+          message: ${{ steps.badge.outputs.score_badge }}
+          valColorRange: ${{ steps.badge.outputs.score_badge }}
+          maxColorRange: 10
+          minColorRange: 0
+          namedLogo: python
+          

@@ -30,11 +30,12 @@ repos:
   #      files: \.py$
   #      stages: [pre-commit]
 
-  # 2. Black - code formatter
-  - repo: https://github.com/psf/black
-    rev: 25.1.0
+  # 2. Docformatter (formats docstrings)
+  - repo: https://github.com/PyCQA/docformatter
+    rev: v1.7.7
     hooks:
-      - id: black
+      - id: docformatter
+        args: ["--in-place", "--black", "--blank"]
         files: \.py$
         stages: [pre-commit]
 
@@ -48,21 +49,20 @@ repos:
         additional_dependencies:
         - black==22.1.0
 
-  # 4. Docformatter (formats docstrings)
-  - repo: https://github.com/PyCQA/docformatter
-    rev: v1.7.7
-    hooks:
-      - id: docformatter
-        args: ["--in-place", "--black", "--blank"]
-        files: \.py$
-        stages: [pre-commit]
-
-  # 5. Ruff - linter, fixer (but NOT formatter)
+  # 4. Ruff - linter, fixer (but NOT formatter)
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.11.7
     hooks:
       - id: ruff
         args: ["--fix"]
+        files: \.py$
+        stages: [pre-commit]
+        
+  # 5. Black - code formatter
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
         files: \.py$
         stages: [pre-commit]
 
@@ -76,5 +76,3 @@ repos:
   #      args: ["--strict", "--explicit-package-bases", "--ignore-missing-imports"]
   #      types: [python]
   #      files: ^Src/pyPLUTO/  # Regex: only runs on files in this folder
-
-  # pylint, interrogate?

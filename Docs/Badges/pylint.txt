@@ -1,0 +1,846 @@
+************* Module pyPLUTO.plot2d
+Src/pyPLUTO/plot2d.py:734:0: C0301: Line too long (83/81) (line-too-long)
+Src/pyPLUTO/plot2d.py:13:0: R0914: Too many local variables (19/15) (too-many-locals)
+Src/pyPLUTO/plot2d.py:254:14: W0212: Access to a protected member _assign_ax of a client class (protected-access)
+Src/pyPLUTO/plot2d.py:271:4: W0212: Access to a protected member _hide_text of a client class (protected-access)
+Src/pyPLUTO/plot2d.py:285:11: W0212: Access to a protected member _set_cscale of a client class (protected-access)
+Src/pyPLUTO/plot2d.py:314:0: R0914: Too many local variables (17/15) (too-many-locals)
+Src/pyPLUTO/plot2d.py:509:14: W0212: Access to a protected member _assign_ax of a client class (protected-access)
+Src/pyPLUTO/plot2d.py:519:4: W0212: Access to a protected member _hide_text of a client class (protected-access)
+Src/pyPLUTO/plot2d.py:542:11: W0212: Access to a protected member _set_cscale of a client class (protected-access)
+Src/pyPLUTO/plot2d.py:677:13: W0212: Access to a protected member _assign_ax of a client class (protected-access)
+Src/pyPLUTO/plot2d.py:690:20: W0212: Access to a protected member _assign_ax of a client class (protected-access)
+Src/pyPLUTO/plot2d.py:691:8: W0212: Access to a protected member _hide_text of a client class (protected-access)
+Src/pyPLUTO/plot2d.py:716:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+Src/pyPLUTO/plot2d.py:778:15: E1123: Unexpected keyword argument 'linthresh' in constructor call (unexpected-keyword-arg)
+Src/pyPLUTO/plot2d.py:779:9: R1714: Consider merging these comparisons with 'in' by using 'cscale in ('twoslope', '2slope')'. Use a set instead if elements are hashable. (consider-using-in)
+Src/pyPLUTO/plot2d.py:784:15: E1123: Unexpected keyword argument 'linear_width' in constructor call (unexpected-keyword-arg)
+Src/pyPLUTO/plot2d.py:717:4: W0613: Unused argument 'self' (unused-argument)
+************* Module pyPLUTO.make_docstrings
+Src/pyPLUTO/make_docstrings.py:27:16: W0621: Redefining name 'keys' from outer scope (line 60) (redefined-outer-name)
+Src/pyPLUTO/make_docstrings.py:30:15: W0718: Catching too general exception Exception (broad-exception-caught)
+Src/pyPLUTO/make_docstrings.py:34:12: W0621: Redefining name 'name' from outer scope (line 60) (redefined-outer-name)
+Src/pyPLUTO/make_docstrings.py:51:19: W0718: Catching too general exception Exception (broad-exception-caught)
+Src/pyPLUTO/make_docstrings.py:45:24: W0612: Unused variable 'ispkg' (unused-variable)
+************* Module pyPLUTO.plotlines
+Src/pyPLUTO/plotlines.py:11:0: R0914: Too many local variables (23/15) (too-many-locals)
+Src/pyPLUTO/plotlines.py:197:14: W0212: Access to a protected member _assign_ax of a client class (protected-access)
+Src/pyPLUTO/plotlines.py:210:4: W0212: Access to a protected member _hide_text of a client class (protected-access)
+Src/pyPLUTO/plotlines.py:228:7: R1727: Boolean condition ''colors' in 'kwargs' and 'cmap' in 'kwargs'' will always evaluate to ''colors' in 'kwargs'' (condition-evals-to-constant)
+Src/pyPLUTO/plotlines.py:228:7: R0133: Comparison between constants: 'colors in kwargs' has a constant value (comparison-of-constants)
+Src/pyPLUTO/plotlines.py:228:32: R0133: Comparison between constants: 'cmap in kwargs' has a constant value (comparison-of-constants)
+Src/pyPLUTO/plotlines.py:233:11: W0212: Access to a protected member _set_cscale of a client class (protected-access)
+Src/pyPLUTO/plotlines.py:261:0: R0914: Too many local variables (33/15) (too-many-locals)
+Src/pyPLUTO/plotlines.py:472:14: W0212: Access to a protected member _assign_ax of a client class (protected-access)
+Src/pyPLUTO/plotlines.py:491:4: W0212: Access to a protected member _hide_text of a client class (protected-access)
+Src/pyPLUTO/plotlines.py:500:7: R1727: Boolean condition ''colors' in 'kwargs' and 'cmap' in 'kwargs'' will always evaluate to ''colors' in 'kwargs'' (condition-evals-to-constant)
+Src/pyPLUTO/plotlines.py:500:7: R0133: Comparison between constants: 'colors in kwargs' has a constant value (comparison-of-constants)
+Src/pyPLUTO/plotlines.py:500:32: R0133: Comparison between constants: 'cmap in kwargs' has a constant value (comparison-of-constants)
+Src/pyPLUTO/plotlines.py:516:11: W0212: Access to a protected member _set_cscale of a client class (protected-access)
+************* Module pyPLUTO.image_new
+Src/pyPLUTO/image_new.py:16:4: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+Src/pyPLUTO/image_new.py:22:8: W0613: Unused argument 'check' (unused-argument)
+************* Module pyPLUTO.load
+Src/pyPLUTO/load.py:10:0: R0902: Too many instance attributes (62/7) (too-many-instance-attributes)
+Src/pyPLUTO/load.py:132:4: R0917: Too many positional arguments (7/5) (too-many-positional-arguments)
+Src/pyPLUTO/load.py:132:4: R0914: Too many local variables (24/15) (too-many-locals)
+Src/pyPLUTO/load.py:137:8: W0622: Redefining built-in 'vars' (redefined-builtin)
+Src/pyPLUTO/load.py:267:8: R1720: Unnecessary "else" after "raise", remove the "else" and de-indent the code inside it (no-else-raise)
+Src/pyPLUTO/load.py:290:8: C0206: Consider iterating with .items() (consider-using-dict-items)
+Src/pyPLUTO/load.py:323:16: W0106: Expression "print(f'No {defhfile} is read!') if defh is True else ..." is assigned to nothing (expression-not-assigned)
+Src/pyPLUTO/load.py:332:16: W0106: Expression "print('No pluto.ini is read!') if plini is True else ..." is assigned to nothing (expression-not-assigned)
+Src/pyPLUTO/load.py:132:4: R0912: Too many branches (22/12) (too-many-branches)
+Src/pyPLUTO/load.py:132:4: R0915: Too many statements (124/50) (too-many-statements)
+Src/pyPLUTO/load.py:387:12: W0707: Consider explicitly re-raising using 'except AttributeError as exc' and 'raise AttributeError(f"'Load' object has no attribute '{name}'") from exc' (raise-missing-from)
+Src/pyPLUTO/load.py:389:4: C0415: Import outside toplevel (amr._DataScanHDF5, amr._inspect_hdf5) (import-outside-toplevel)
+Src/pyPLUTO/load.py:390:4: C0415: Import outside toplevel (defpluto._read_defh, defpluto._read_plini) (import-outside-toplevel)
+Src/pyPLUTO/load.py:391:4: C0415: Import outside toplevel (echo_load.echo_load) (import-outside-toplevel)
+Src/pyPLUTO/load.py:392:4: C0415: Import outside toplevel (findlines._check_var, findlines.find_contour, findlines.find_fieldlines) (import-outside-toplevel)
+Src/pyPLUTO/load.py:393:4: C0415: Import outside toplevel (fourier.fourier) (import-outside-toplevel)
+Src/pyPLUTO/load.py:394:4: C0415: Import outside toplevel (nabla.curl, nabla.divergence, nabla.gradient) (import-outside-toplevel)
+Src/pyPLUTO/load.py:395:4: C0415: Import outside toplevel (read_files._read_dat, read_files._read_h5, read_files.read_file) (import-outside-toplevel)
+Src/pyPLUTO/load.py:396:4: C0415: Import outside toplevel (readdata._assign_var, readdata._check_nout, readdata._findfiles, readdata._init_vardict, readdata._load_variables) (import-outside-toplevel)
+Src/pyPLUTO/load.py:403:4: C0415: Import outside toplevel (readfluid._compute_offset, readfluid._inspect_h5, readfluid._inspect_vtk, readfluid._offset_bin, readfluid._read_tabfile) (import-outside-toplevel)
+Src/pyPLUTO/load.py:410:4: C0415: Import outside toplevel (readformat._check_pathformat, readformat._find_format) (import-outside-toplevel)
+Src/pyPLUTO/load.py:411:4: C0415: Import outside toplevel (readgridout._read_grid_h5, readgridout._read_grid_vtk, readgridout._read_gridfile, readgridout._read_outfile, readgridout._split_gridfile) (import-outside-toplevel)
+Src/pyPLUTO/load.py:418:4: C0415: Import outside toplevel (transform._congrid, transform.cartesian_vector, transform.mirror, transform.reshape_cartesian, transform.reshape_uniform, transform.slices) (import-outside-toplevel)
+Src/pyPLUTO/load.py:426:4: C0415: Import outside toplevel (write_files._write_h5, write_files.write_file) (import-outside-toplevel)
+************* Module pyPLUTO.write_files
+Src/pyPLUTO/write_files.py:104:4: W0101: Unreachable code (unreachable)
+Src/pyPLUTO/write_files.py:104:4: W0212: Access to a protected member _pathvtk of a client class (protected-access)
+Src/pyPLUTO/write_files.py:107:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+Src/pyPLUTO/write_files.py:107:14: W0212: Access to a protected member _pathvtk of a client class (protected-access)
+Src/pyPLUTO/write_files.py:186:4: W0101: Unreachable code (unreachable)
+Src/pyPLUTO/write_files.py:186:4: W0212: Access to a protected member _pathtab of a client class (protected-access)
+Src/pyPLUTO/write_files.py:189:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+Src/pyPLUTO/write_files.py:189:14: W0212: Access to a protected member _pathtab of a client class (protected-access)
+Src/pyPLUTO/write_files.py:233:4: W0101: Unreachable code (unreachable)
+Src/pyPLUTO/write_files.py:233:4: W0212: Access to a protected member _pathbin of a client class (protected-access)
+Src/pyPLUTO/write_files.py:236:14: W0212: Access to a protected member _pathbin of a client class (protected-access)
+Src/pyPLUTO/write_files.py:245:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+Src/pyPLUTO/write_files.py:306:8: W0107: Unnecessary pass statement (unnecessary-pass)
+************* Module pyPLUTO.setaxes
+Src/pyPLUTO/setaxes.py:12:0: R0914: Too many local variables (33/15) (too-many-locals)
+Src/pyPLUTO/setaxes.py:221:33: W0212: Access to a protected member _set_size of a client class (protected-access)
+Src/pyPLUTO/setaxes.py:234:8: W0212: Access to a protected member _add_ax of a client class (protected-access)
+Src/pyPLUTO/setaxes.py:12:0: R0912: Too many branches (15/12) (too-many-branches)
+Src/pyPLUTO/setaxes.py:12:0: R0915: Too many statements (72/50) (too-many-statements)
+Src/pyPLUTO/setaxes.py:287:0: R0914: Too many local variables (19/15) (too-many-locals)
+Src/pyPLUTO/setaxes.py:451:14: W0212: Access to a protected member _assign_ax of a client class (protected-access)
+Src/pyPLUTO/setaxes.py:463:8: W0212: Access to a protected member _set_xrange of a client class (protected-access)
+Src/pyPLUTO/setaxes.py:465:8: W0212: Access to a protected member _set_yrange of a client class (protected-access)
+Src/pyPLUTO/setaxes.py:507:8: W0106: Expression "ax.minorticks_on() if mintks != 'off' else ax.minorticks_off()" is assigned to nothing (expression-not-assigned)
+Src/pyPLUTO/setaxes.py:287:0: R0912: Too many branches (21/12) (too-many-branches)
+Src/pyPLUTO/setaxes.py:287:0: R0915: Too many statements (65/50) (too-many-statements)
+************* Module pyPLUTO.nabla
+Src/pyPLUTO/nabla.py:132:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+Src/pyPLUTO/nabla.py:155:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+Src/pyPLUTO/nabla.py:155:0: R0914: Too many local variables (19/15) (too-many-locals)
+Src/pyPLUTO/nabla.py:232:4: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+Src/pyPLUTO/nabla.py:251:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+Src/pyPLUTO/nabla.py:155:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+Src/pyPLUTO/nabla.py:290:0: R0917: Too many positional arguments (8/5) (too-many-positional-arguments)
+Src/pyPLUTO/nabla.py:290:0: R0914: Too many local variables (28/15) (too-many-locals)
+Src/pyPLUTO/nabla.py:374:4: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+Src/pyPLUTO/nabla.py:423:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+Src/pyPLUTO/nabla.py:290:0: R0912: Too many branches (32/12) (too-many-branches)
+Src/pyPLUTO/nabla.py:290:0: R0915: Too many statements (90/50) (too-many-statements)
+Src/pyPLUTO/nabla.py:290:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+Src/pyPLUTO/nabla.py:492:0: R0917: Too many positional arguments (8/5) (too-many-positional-arguments)
+Src/pyPLUTO/nabla.py:492:0: R0914: Too many local variables (34/15) (too-many-locals)
+Src/pyPLUTO/nabla.py:577:4: R1720: Unnecessary "elif" after "raise", remove the leading "el" from "elif" (no-else-raise)
+Src/pyPLUTO/nabla.py:627:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+Src/pyPLUTO/nabla.py:492:0: R0912: Too many branches (30/12) (too-many-branches)
+Src/pyPLUTO/nabla.py:492:0: R0915: Too many statements (105/50) (too-many-statements)
+Src/pyPLUTO/nabla.py:492:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+************* Module pyPLUTO.amr
+Src/pyPLUTO/amr.py:34:8: W0212: Access to a protected member _read_gridfile of a client class (protected-access)
+Src/pyPLUTO/amr.py:42:23: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/amr.py:43:4: W0212: Access to a protected member _multiple of a client class (protected-access)
+Src/pyPLUTO/amr.py:44:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/amr.py:46:8: R1704: Redefining argument with the local name 'i' (redefined-argument-from-local)
+Src/pyPLUTO/amr.py:47:8: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/amr.py:49:14: W0212: Access to a protected member _DataScanHDF5 of a client class (protected-access)
+Src/pyPLUTO/amr.py:49:41: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/amr.py:5:32: W0613: Unused argument 'exout' (unused-argument)
+Src/pyPLUTO/amr.py:61:0: R0914: Too many local variables (87/15) (too-many-locals)
+Src/pyPLUTO/amr.py:247:4: W0622: Redefining built-in 'vars' (redefined-builtin)
+Src/pyPLUTO/amr.py:126:15: R1714: Consider merging these comparisons with 'in' by using 'dim in (1, 2)'. Use a set instead if elements are hashable. (consider-using-in)
+Src/pyPLUTO/amr.py:161:10: E0606: Possibly using variable 'dx' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/amr.py:165:11: E0606: Possibly using variable 'logr' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/amr.py:166:42: E0606: Possibly using variable 'x1b' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/amr.py:178:39: E0606: Possibly using variable 'x2b' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/amr.py:178:46: E0606: Possibly using variable 'ystr' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/amr.py:185:39: E0606: Possibly using variable 'x3b' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/amr.py:185:46: E0606: Possibly using variable 'zstr' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/amr.py:194:42: E0606: Possibly using variable 'nx' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/amr.py:204:38: E0606: Possibly using variable 'ny' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/amr.py:205:38: E0606: Possibly using variable 'nz' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/amr.py:241:19: E0606: Possibly using variable 'dt' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/amr.py:314:16: R0916: Too many boolean expressions in if statement (6/5) (too-many-boolean-expressions)
+Src/pyPLUTO/amr.py:388:24: W0212: Access to a protected member _congrid of a client class (protected-access)
+Src/pyPLUTO/amr.py:402:4: W0212: Access to a protected member _load_vars of a client class (protected-access)
+Src/pyPLUTO/amr.py:61:0: R0912: Too many branches (37/12) (too-many-branches)
+Src/pyPLUTO/amr.py:61:0: R0915: Too many statements (203/50) (too-many-statements)
+Src/pyPLUTO/amr.py:411:0: W0102: Dangerous default value [] as argument (dangerous-default-value)
+Src/pyPLUTO/amr.py:411:0: R0917: Too many positional arguments (9/5) (too-many-positional-arguments)
+Src/pyPLUTO/amr.py:411:0: R0914: Too many local variables (29/15) (too-many-locals)
+Src/pyPLUTO/amr.py:509:21: R1714: Consider merging these comparisons with 'in' by using 'geom in ('POLAR', 'SPHERICAL')'. Use a set instead if elements are hashable. (consider-using-in)
+************* Module pyPLUTO.echo_load
+Src/pyPLUTO/echo_load.py:4:32: W0622: Redefining built-in 'vars' (redefined-builtin)
+Src/pyPLUTO/echo_load.py:23:4: W0212: Access to a protected member _check_pathformat of a client class (protected-access)
+Src/pyPLUTO/echo_load.py:49:4: C0206: Consider iterating with .items() (consider-using-dict-items)
+Src/pyPLUTO/echo_load.py:113:8: W0104: Statement seems to have no effect (pointless-statement)
+************* Module pyPLUTO.readpart
+Src/pyPLUTO/readpart.py:137:0: C0301: Line too long (90/81) (line-too-long)
+Src/pyPLUTO/readpart.py:201:0: C0301: Line too long (93/81) (line-too-long)
+Src/pyPLUTO/readpart.py:41:13: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readpart.py:56:12: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:57:12: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:58:16: W0212: Access to a protected member _d_end of a client class (protected-access)
+Src/pyPLUTO/readpart.py:60:21: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:63:26: W0212: Access to a protected member _charsize of a client class (protected-access)
+Src/pyPLUTO/readpart.py:64:12: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:64:43: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:82:12: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:85:12: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:89:12: W0212: Access to a protected member _vardim of a client class (protected-access)
+Src/pyPLUTO/readpart.py:92:12: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readpart.py:93:12: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readpart.py:93:52: W0212: Access to a protected member _vardim of a client class (protected-access)
+Src/pyPLUTO/readpart.py:100:28: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:101:8: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readpart.py:102:8: W0212: Access to a protected member _dictdim of a client class (protected-access)
+Src/pyPLUTO/readpart.py:102:27: W0212: Access to a protected member _vardim of a client class (protected-access)
+Src/pyPLUTO/readpart.py:41:8: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+Src/pyPLUTO/readpart.py:105:0: R0914: Too many local variables (18/15) (too-many-locals)
+Src/pyPLUTO/readpart.py:140:11: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:141:35: W0212: Access to a protected member _d_end of a client class (protected-access)
+Src/pyPLUTO/readpart.py:147:13: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readpart.py:148:4: W0105: String statement has no effect (pointless-string-statement)
+Src/pyPLUTO/readpart.py:211:8: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readpart.py:212:8: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readpart.py:234:8: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readpart.py:235:8: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readpart.py:253:8: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readpart.py:254:8: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readpart.py:261:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:261:35: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:262:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:262:48: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readpart.py:267:28: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:268:8: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readpart.py:269:8: W0212: Access to a protected member _dictdim of a client class (protected-access)
+Src/pyPLUTO/readpart.py:269:27: W0212: Access to a protected member _vardim of a client class (protected-access)
+Src/pyPLUTO/readpart.py:270:8: W0212: Access to a protected member _init_vardict of a client class (protected-access)
+Src/pyPLUTO/readpart.py:147:8: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+Src/pyPLUTO/readpart.py:307:28: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readpart.py:310:16: W0212: Access to a protected member _vardim of a client class (protected-access)
+Src/pyPLUTO/readpart.py:312:8: R1720: Unnecessary "else" after "raise", remove the "else" and de-indent the code inside it (no-else-raise)
+Src/pyPLUTO/readpart.py:312:11: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readpart.py:317:12: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readpart.py:317:32: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readpart.py:323:8: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readpart.py:360:4: C0206: Consider iterating with .items() (consider-using-dict-items)
+Src/pyPLUTO/readpart.py:361:18: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readpart.py:362:16: R1704: Redefining argument with the local name 'i' (redefined-argument-from-local)
+Src/pyPLUTO/readpart.py:363:16: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readpart.py:363:34: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readpart.py:364:16: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readpart.py:367:21: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readpart.py:368:8: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readpart.py:368:29: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readpart.py:369:12: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readpart.py:431:8: W0212: Access to a protected member _inspect_vtk of a client class (protected-access)
+Src/pyPLUTO/readpart.py:433:8: W0212: Access to a protected member _inspect_bin of a client class (protected-access)
+Src/pyPLUTO/readpart.py:396:38: W0613: Unused argument 'exout' (unused-argument)
+Src/pyPLUTO/readpart.py:396:50: W0613: Unused argument 'var' (unused-argument)
+************* Module pyPLUTO.transform
+Src/pyPLUTO/transform.py:11:0: R0917: Too many positional arguments (7/5) (too-many-positional-arguments)
+Src/pyPLUTO/transform.py:12:4: W0613: Unused argument 'self' (unused-argument)
+Src/pyPLUTO/transform.py:166:8: W0622: Redefining built-in 'dir' (redefined-builtin)
+Src/pyPLUTO/transform.py:180:4: W0106: Expression "xax is not None and nax.append(axx)" is assigned to nothing (expression-not-assigned)
+Src/pyPLUTO/transform.py:181:4: W0106: Expression "yax is not None and nax.append(axy)" is assigned to nothing (expression-not-assigned)
+Src/pyPLUTO/transform.py:182:4: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+Src/pyPLUTO/transform.py:105:4: W0613: Unused argument 'self' (unused-argument)
+Src/pyPLUTO/transform.py:247:8: W0622: Redefining built-in 'dir' (redefined-builtin)
+Src/pyPLUTO/transform.py:244:4: W0101: Unreachable code (unreachable)
+Src/pyPLUTO/transform.py:262:4: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+Src/pyPLUTO/transform.py:191:4: W0613: Unused argument 'self' (unused-argument)
+Src/pyPLUTO/transform.py:317:4: W0622: Redefining built-in 'vars' (redefined-builtin)
+Src/pyPLUTO/transform.py:350:12: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+Src/pyPLUTO/transform.py:272:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+Src/pyPLUTO/transform.py:363:0: R0914: Too many local variables (25/15) (too-many-locals)
+Src/pyPLUTO/transform.py:408:4: W0622: Redefining built-in 'vars' (redefined-builtin)
+Src/pyPLUTO/transform.py:411:20: W0212: Access to a protected member _check_var of a client class (protected-access)
+Src/pyPLUTO/transform.py:448:12: W0212: Access to a protected member _congrid of a client class (protected-access)
+Src/pyPLUTO/transform.py:449:12: W0212: Access to a protected member _congrid of a client class (protected-access)
+Src/pyPLUTO/transform.py:453:18: W0212: Access to a protected member _congrid of a client class (protected-access)
+Src/pyPLUTO/transform.py:455:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+Src/pyPLUTO/transform.py:520:18: R1721: Unnecessary use of a comprehension, use list(args) instead. (unnecessary-comprehension)
+Src/pyPLUTO/transform.py:461:20: W0613: Unused argument 'self' (unused-argument)
+Src/pyPLUTO/transform.py:525:0: R0914: Too many local variables (23/15) (too-many-locals)
+Src/pyPLUTO/transform.py:596:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+Src/pyPLUTO/transform.py:661:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+Src/pyPLUTO/transform.py:596:13: W0613: Unused argument 'self' (unused-argument)
+************* Module pyPLUTO.readfluid
+Src/pyPLUTO/readfluid.py:41:12: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:81:11: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:82:8: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:83:4: W0212: Access to a protected member _load_vars of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:83:22: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:88:19: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:92:18: W0212: Access to a protected member _load_vars of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:96:0: R0914: Too many local variables (29/15) (too-many-locals)
+Src/pyPLUTO/readfluid.py:141:11: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:142:35: W0212: Access to a protected member _d_end of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:146:7: W0212: Access to a protected member _info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:148:7: W0212: Access to a protected member _alone of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:149:8: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:151:15: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:151:46: W0212: Access to a protected member _charsize of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:154:13: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:167:16: W0212: Access to a protected member _info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:175:16: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:181:12: W0122: Use of exec (exec-used)
+Src/pyPLUTO/readfluid.py:184:39: W0212: Access to a protected member _info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:206:35: W0212: Access to a protected member _info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:211:16: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:219:16: W0122: Use of exec (exec-used)
+Src/pyPLUTO/readfluid.py:220:16: W0122: Use of exec (exec-used)
+Src/pyPLUTO/readfluid.py:233:33: W0212: Access to a protected member _alone of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:257:8: R1723: Unnecessary "else" after "break", remove the "else" and de-indent the code inside it (no-else-break)
+Src/pyPLUTO/readfluid.py:258:12: W0212: Access to a protected member _info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:260:16: W0212: Access to a protected member _alone of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:261:16: W0212: Access to a protected member _fastvtk of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:264:38: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:265:16: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:266:16: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:269:34: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:268:24: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:270:29: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:273:49: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:277:12: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:278:12: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:287:7: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:287:56: W0212: Access to a protected member _alone of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:288:8: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:288:52: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:291:7: W0212: Access to a protected member _info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:292:8: W0212: Access to a protected member _read_grid_vtk of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:293:8: W0212: Access to a protected member _info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:96:0: R0912: Too many branches (22/12) (too-many-branches)
+Src/pyPLUTO/readfluid.py:96:0: R0915: Too many statements (89/50) (too-many-statements)
+Src/pyPLUTO/readfluid.py:154:8: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+Src/pyPLUTO/readfluid.py:332:23: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:335:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:348:7: W0212: Access to a protected member _alone of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:349:8: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:351:8: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:354:13: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:356:12: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:357:12: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:359:12: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:360:12: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:365:7: W0212: Access to a protected member _info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:372:8: W0212: Access to a protected member _read_grid_h5 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:373:8: W0212: Access to a protected member _info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:413:7: W0212: Access to a protected member _alone of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:415:8: W0212: Access to a protected member _read_gridfile of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:419:8: W0212: Access to a protected member _read_tabfile of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:421:8: W0212: Access to a protected member _inspect_vtk of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:423:8: W0212: Access to a protected member _inspect_h5 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:425:8: W0212: Access to a protected member _inspect_hdf5 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:427:8: W0212: Access to a protected member _offset_bin of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:460:7: W0212: Access to a protected member _info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:461:8: W0212: Access to a protected member _read_gridfile of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:462:8: W0212: Access to a protected member _info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:470:17: W0212: Access to a protected member _nshp_st1 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:470:33: W0212: Access to a protected member _gridsize_st1 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:471:17: W0212: Access to a protected member _nshp_st1 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:471:33: W0212: Access to a protected member _gridsize_st1 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:472:17: W0212: Access to a protected member _nshp_st2 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:472:33: W0212: Access to a protected member _gridsize_st2 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:473:17: W0212: Access to a protected member _nshp_st2 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:473:33: W0212: Access to a protected member _gridsize_st2 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:474:17: W0212: Access to a protected member _nshp_st3 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:474:33: W0212: Access to a protected member _gridsize_st3 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:475:17: W0212: Access to a protected member _nshp_st3 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:475:33: W0212: Access to a protected member _gridsize_st3 of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:479:14: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:481:8: R1704: Redefining argument with the local name 'var' (redefined-argument-from-local)
+Src/pyPLUTO/readfluid.py:484:8: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:486:8: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readfluid.py:488:36: W0212: Access to a protected member _charsize of a client class (protected-access)
+************* Module pyPLUTO.read_files
+Src/pyPLUTO/read_files.py:64:8: W0212: Access to a protected member _pathh5 of a client class (protected-access)
+Src/pyPLUTO/read_files.py:66:8: W0212: Access to a protected member _pathh5 of a client class (protected-access)
+Src/pyPLUTO/read_files.py:70:19: W0212: Access to a protected member _pathh5 of a client class (protected-access)
+Src/pyPLUTO/read_files.py:72:8: C0206: Consider iterating with .items() (consider-using-dict-items)
+Src/pyPLUTO/read_files.py:35:0: W0613: Unused argument 'kwargs' (unused-argument)
+Src/pyPLUTO/read_files.py:165:8: W0212: Access to a protected member _pathh5 of a client class (protected-access)
+Src/pyPLUTO/read_files.py:167:8: W0212: Access to a protected member _pathh5 of a client class (protected-access)
+Src/pyPLUTO/read_files.py:173:25: W0212: Access to a protected member _pathh5 of a client class (protected-access)
+Src/pyPLUTO/read_files.py:233:8: W0107: Unnecessary pass statement (unnecessary-pass)
+Src/pyPLUTO/read_files.py:236:11: E0606: Possibly using variable 'res' before assignment (possibly-used-before-assignment)
+************* Module pyPLUTO.fourier
+Src/pyPLUTO/fourier.py:8:0: R0914: Too many local variables (17/15) (too-many-locals)
+Src/pyPLUTO/fourier.py:90:24: W0622: Redefining built-in 'dir' (redefined-builtin)
+************* Module pyPLUTO.interact
+Src/pyPLUTO/interact.py:282:0: C0301: Line too long (86/81) (line-too-long)
+Src/pyPLUTO/interact.py:7:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+Src/pyPLUTO/interact.py:7:0: R0914: Too many local variables (20/15) (too-many-locals)
+Src/pyPLUTO/interact.py:100:14: W0212: Access to a protected member _assign_ax of a client class (protected-access)
+Src/pyPLUTO/interact.py:138:27: W0212: Access to a protected member _update_slider of a client class (protected-access)
+Src/pyPLUTO/interact.py:11:4: W0613: Unused argument 'check' (unused-argument)
+Src/pyPLUTO/interact.py:100:8: W0612: Unused variable 'nax' (unused-variable)
+Src/pyPLUTO/interact.py:254:4: W0212: Access to a protected member _update_slider of a client class (protected-access)
+Src/pyPLUTO/interact.py:298:13: W0212: Access to a protected member _update_both of a client class (protected-access)
+Src/pyPLUTO/interact.py:298:52: W0212: Access to a protected member _update_slider of a client class (protected-access)
+************* Module pyPLUTO.plotzoom
+Src/pyPLUTO/plotzoom.py:262:14: W0212: Access to a protected member _assign_ax of a client class (protected-access)
+Src/pyPLUTO/plotzoom.py:273:4: W0212: Access to a protected member _add_ax of a client class (protected-access)
+Src/pyPLUTO/plotzoom.py:304:30: W0613: Unused argument 'nax' (unused-argument)
+Src/pyPLUTO/plotzoom.py:304:0: W0613: Unused argument 'kwargs' (unused-argument)
+Src/pyPLUTO/plotzoom.py:320:0: R0914: Too many local variables (16/15) (too-many-locals)
+Src/pyPLUTO/plotzoom.py:335:32: W0212: Access to a protected member _shading of a client class (protected-access)
+************* Module pyPLUTO.readdata
+Src/pyPLUTO/readdata.py:11:4: W0622: Redefining built-in 'vars' (redefined-builtin)
+Src/pyPLUTO/readdata.py:69:8: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readdata.py:69:50: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:72:8: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readdata.py:73:26: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:81:7: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:82:8: W0212: Access to a protected member _compute_offset of a client class (protected-access)
+Src/pyPLUTO/readdata.py:90:8: W0212: Access to a protected member _load_vars of a client class (protected-access)
+Src/pyPLUTO/readdata.py:90:26: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:94:8: W0212: Access to a protected member _load_vars of a client class (protected-access)
+Src/pyPLUTO/readdata.py:105:4: W0105: String statement has no effect (pointless-string-statement)
+Src/pyPLUTO/readdata.py:127:7: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:128:25: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readdata.py:128:50: W0212: Access to a protected member _load_vars of a client class (protected-access)
+Src/pyPLUTO/readdata.py:130:12: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readdata.py:131:22: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readdata.py:132:23: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:133:21: W0212: Access to a protected member _load_vars of a client class (protected-access)
+Src/pyPLUTO/readdata.py:147:12: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readdata.py:155:13: W0212: Access to a protected member _load_vars of a client class (protected-access)
+Src/pyPLUTO/readdata.py:156:11: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:157:12: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readdata.py:157:49: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:158:12: W0212: Access to a protected member _compute_offset of a client class (protected-access)
+Src/pyPLUTO/readdata.py:159:25: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readdata.py:162:16: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readdata.py:163:16: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:165:23: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readdata.py:166:22: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readdata.py:170:8: W0106: Expression "self._init_vardict(j) if self._lennout != 1 else None" is assigned to nothing (expression-not-assigned)
+Src/pyPLUTO/readdata.py:170:33: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:170:8: W0212: Access to a protected member _init_vardict of a client class (protected-access)
+Src/pyPLUTO/readdata.py:177:16: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readdata.py:181:26: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readdata.py:182:27: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:186:23: E0606: Possibly using variable 'file_memmap' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/readdata.py:190:22: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readdata.py:191:22: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:202:16: W0212: Access to a protected member _filepath of a client class (protected-access)
+Src/pyPLUTO/readdata.py:203:16: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:205:23: W0212: Access to a protected member _offset of a client class (protected-access)
+Src/pyPLUTO/readdata.py:206:22: W0212: Access to a protected member _shape of a client class (protected-access)
+Src/pyPLUTO/readdata.py:210:8: W0212: Access to a protected member _assign_var of a client class (protected-access)
+Src/pyPLUTO/readdata.py:210:35: E0606: Possibly using variable 'scrh' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/readdata.py:9:0: R0912: Too many branches (14/12) (too-many-branches)
+Src/pyPLUTO/readdata.py:330:16: W0212: Access to a protected member _matching_files of a client class (protected-access)
+Src/pyPLUTO/readdata.py:340:4: W0212: Access to a protected member _check_nout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:343:4: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:344:26: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:347:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:348:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:348:40: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:349:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:349:41: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:350:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:350:41: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:361:8: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:362:8: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:362:54: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:363:8: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:363:54: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:366:11: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:372:42: W0212: Access to a protected member _multiple of a client class (protected-access)
+Src/pyPLUTO/readdata.py:374:12: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:375:12: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:376:17: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:378:12: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:381:12: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:382:12: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:382:58: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:395:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readdata.py:428:18: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readdata.py:429:8: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readdata.py:430:8: W0105: String statement has no effect (pointless-string-statement)
+Src/pyPLUTO/readdata.py:496:7: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readdata.py:499:8: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readdata.py:502:8: W0212: Access to a protected member _d_vars of a client class (protected-access)
+Src/pyPLUTO/readdata.py:547:4: W0622: Redefining built-in 'vars' (redefined-builtin)
+************* Module pyPLUTO.readgridout
+Src/pyPLUTO/readgridout.py:56:0: C0301: Line too long (85/81) (line-too-long)
+Src/pyPLUTO/readgridout.py:57:0: C0301: Line too long (91/81) (line-too-long)
+Src/pyPLUTO/readgridout.py:60:0: C0301: Line too long (85/81) (line-too-long)
+Src/pyPLUTO/readgridout.py:61:0: C0301: Line too long (91/81) (line-too-long)
+Src/pyPLUTO/readgridout.py:64:0: C0301: Line too long (85/81) (line-too-long)
+Src/pyPLUTO/readgridout.py:65:0: C0301: Line too long (91/81) (line-too-long)
+Src/pyPLUTO/readgridout.py:127:0: C0301: Line too long (95/81) (line-too-long)
+Src/pyPLUTO/readgridout.py:128:0: C0301: Line too long (101/81) (line-too-long)
+Src/pyPLUTO/readgridout.py:141:0: C0301: Line too long (101/81) (line-too-long)
+Src/pyPLUTO/readgridout.py:54:4: W0105: String statement has no effect (pointless-string-statement)
+Src/pyPLUTO/readgridout.py:70:4: W0212: Access to a protected member _gridsize_st1 of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:71:4: W0212: Access to a protected member _gridsize_st2 of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:72:4: W0212: Access to a protected member _gridsize_st3 of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:174:0: R0914: Too many local variables (24/15) (too-many-locals)
+Src/pyPLUTO/readgridout.py:207:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+Src/pyPLUTO/readgridout.py:207:14: W0212: Access to a protected member _pathgrid of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:209:12: W0212: Access to a protected member _split_gridfile of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:212:4: W0632: Possible unbalanced tuple unpacking with sequence defined at line 204: left side has 3 labels, right side has 0 values (unbalanced-tuple-unpacking)
+Src/pyPLUTO/readgridout.py:291:29: W0212: Access to a protected member _full3d of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:317:4: W0212: Access to a protected member _gridsize_st1 of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:318:4: W0212: Access to a protected member _gridsize_st2 of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:319:4: W0212: Access to a protected member _gridsize_st3 of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:321:4: W0212: Access to a protected member _info of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:174:0: R0915: Too many statements (60/50) (too-many-statements)
+Src/pyPLUTO/readgridout.py:358:26: W0212: Access to a protected member _pathdata of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:365:4: W0212: Access to a protected member _check_nout of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:367:4: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:370:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:377:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:378:41: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:380:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:381:8: W0212: Access to a protected member _d_end of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:381:55: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:386:8: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:389:8: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:389:54: W0212: Access to a protected member _lennout of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:392:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:393:8: W0212: Access to a protected member _d_info of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:393:45: W0212: Access to a protected member _charsize of a client class (protected-access)
+Src/pyPLUTO/readgridout.py:396:4: W0212: Access to a protected member _d_info of a client class (protected-access)
+************* Module pyPLUTO.findlines
+Src/pyPLUTO/findlines.py:58:12: W0707: Consider explicitly re-raising using 'except ValueError as exc' and 'raise ValueError(f'Variable {var} not found in the dataset.') from exc' (raise-missing-from)
+Src/pyPLUTO/findlines.py:68:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+Src/pyPLUTO/findlines.py:69:4: W0613: Unused argument 't' (unused-argument)
+Src/pyPLUTO/findlines.py:134:0: R0917: Too many positional arguments (7/5) (too-many-positional-arguments)
+Src/pyPLUTO/findlines.py:134:0: R0914: Too many local variables (42/15) (too-many-locals)
+Src/pyPLUTO/findlines.py:239:11: W0212: Access to a protected member _check_var of a client class (protected-access)
+Src/pyPLUTO/findlines.py:240:11: W0212: Access to a protected member _check_var of a client class (protected-access)
+Src/pyPLUTO/findlines.py:291:23: W0613: Unused argument 't' (unused-argument)
+Src/pyPLUTO/findlines.py:307:22: W0613: Unused argument 't' (unused-argument)
+Src/pyPLUTO/findlines.py:307:25: W0613: Unused argument 'y' (unused-argument)
+Src/pyPLUTO/findlines.py:315:8: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
+Src/pyPLUTO/findlines.py:400:8: W0106: Expression "lines_list.append([x_line, y_line]) if len(x_line) > 1 else None" is assigned to nothing (expression-not-assigned)
+Src/pyPLUTO/findlines.py:134:0: R0915: Too many statements (69/50) (too-many-statements)
+Src/pyPLUTO/findlines.py:411:0: R0914: Too many local variables (22/15) (too-many-locals)
+Src/pyPLUTO/findlines.py:498:10: W0212: Access to a protected member _check_var of a client class (protected-access)
+Src/pyPLUTO/findlines.py:562:12: W0106: Expression "lines_list.append([x_c, y_c, col]) if len(line) > 1 else None" is assigned to nothing (expression-not-assigned)
+************* Module pyPLUTO.parttools
+Src/pyPLUTO/parttools.py:10:4: W0613: Unused argument 'self' (unused-argument)
+Src/pyPLUTO/parttools.py:142:24: W0123: Use of eval (eval-used)
+Src/pyPLUTO/parttools.py:86:4: W0613: Unused argument 'self' (unused-argument)
+************* Module pyPLUTO.defpluto
+Src/pyPLUTO/defpluto.py:17:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+Src/pyPLUTO/defpluto.py:16:15: W0613: Unused argument 'self' (unused-argument)
+Src/pyPLUTO/defpluto.py:35:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+Src/pyPLUTO/defpluto.py:26:16: W0613: Unused argument 'self' (unused-argument)
+************* Module pyPLUTO.h_pypluto
+Src/pyPLUTO/h_pypluto.py:94:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+Src/pyPLUTO/h_pypluto.py:94:55: W0613: Unused argument 'file' (unused-argument)
+Src/pyPLUTO/h_pypluto.py:94:66: W0613: Unused argument 'line' (unused-argument)
+Src/pyPLUTO/h_pypluto.py:103:16: W0622: Redefining built-in 'type' (redefined-builtin)
+Src/pyPLUTO/h_pypluto.py:103:16: W0613: Unused argument 'type' (unused-argument)
+Src/pyPLUTO/h_pypluto.py:153:8: C0415: Import outside toplevel (IPython.get_ipython) (import-outside-toplevel)
+************* Module pyPLUTO.image
+Src/pyPLUTO/image.py:12:0: R0902: Too many instance attributes (27/7) (too-many-instance-attributes)
+Src/pyPLUTO/image.py:100:8: W0613: Unused argument 'text' (unused-argument)
+Src/pyPLUTO/image.py:172:12: W0707: Consider explicitly re-raising using 'except AttributeError as exc' and 'raise AttributeError(f"'Image' object has no attribute '{name}'") from exc' (raise-missing-from)
+Src/pyPLUTO/image.py:233:4: C0415: Import outside toplevel (amr.oplotbox) (import-outside-toplevel)
+Src/pyPLUTO/image.py:234:4: C0415: Import outside toplevel (figure._assign_LaTeX, figure._choose_colorlines, figure._create_figure) (import-outside-toplevel)
+Src/pyPLUTO/image.py:235:4: C0415: Import outside toplevel (h_image._add_ax, h_image._assign_ax, h_image._hide_text, h_image._range_offset, h_image._set_xrange, h_image._set_yrange) (import-outside-toplevel)
+Src/pyPLUTO/image.py:243:4: C0415: Import outside toplevel (imagetools.savefig, imagetools.show, imagetools.text) (import-outside-toplevel)
+Src/pyPLUTO/image.py:244:4: C0415: Import outside toplevel (interact._update_both, interact._update_slider, interact.animate, interact.interactive) (import-outside-toplevel)
+Src/pyPLUTO/image.py:245:4: C0415: Import outside toplevel (plot1d.legend, plot1d.plot) (import-outside-toplevel)
+Src/pyPLUTO/image.py:246:4: C0415: Import outside toplevel (plot2d._set_cscale, plot2d.colorbar, plot2d.display, plot2d.scatter) (import-outside-toplevel)
+Src/pyPLUTO/image.py:247:4: C0415: Import outside toplevel (plotlines.contour, plotlines.streamplot) (import-outside-toplevel)
+Src/pyPLUTO/image.py:248:4: C0415: Import outside toplevel (plotzoom.zoom) (import-outside-toplevel)
+Src/pyPLUTO/image.py:249:4: C0415: Import outside toplevel (setaxes.create_axes, setaxes.set_axis) (import-outside-toplevel)
+************* Module pyPLUTO.plot1d
+Src/pyPLUTO/plot1d.py:11:0: W0102: Dangerous default value [] as argument (dangerous-default-value)
+Src/pyPLUTO/plot1d.py:268:14: W0212: Access to a protected member _assign_ax of a client class (protected-access)
+Src/pyPLUTO/plot1d.py:272:4: W0212: Access to a protected member _hide_text of a client class (protected-access)
+Src/pyPLUTO/plot1d.py:277:4: W0212: Access to a protected member _set_xrange of a client class (protected-access)
+Src/pyPLUTO/plot1d.py:278:4: W0212: Access to a protected member _set_yrange of a client class (protected-access)
+Src/pyPLUTO/plot1d.py:315:0: R0914: Too many local variables (21/15) (too-many-locals)
+Src/pyPLUTO/plot1d.py:437:14: W0212: Access to a protected member _assign_ax of a client class (protected-access)
+************* Module pyPLUTO.h_image
+Src/pyPLUTO/h_image.py:88:8: W0106: Expression "[txt.set_visible(False) for txt in txts]" is assigned to nothing (expression-not-assigned)
+Src/pyPLUTO/h_image.py:156:0: R0917: Too many positional arguments (7/5) (too-many-positional-arguments)
+Src/pyPLUTO/h_image.py:212:21: W0212: Access to a protected member _range_offset of a client class (protected-access)
+Src/pyPLUTO/h_image.py:237:21: W0212: Access to a protected member _range_offset of a client class (protected-access)
+Src/pyPLUTO/h_image.py:307:4: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+Src/pyPLUTO/h_image.py:259:4: W0613: Unused argument 'self' (unused-argument)
+************* Module pyPLUTO.loadpart
+Src/pyPLUTO/loadpart.py:7:0: R0902: Too many instance attributes (31/7) (too-many-instance-attributes)
+Src/pyPLUTO/loadpart.py:84:4: R0917: Too many positional arguments (8/5) (too-many-positional-arguments)
+Src/pyPLUTO/loadpart.py:89:8: W0622: Redefining built-in 'vars' (redefined-builtin)
+Src/pyPLUTO/loadpart.py:176:8: C0206: Consider iterating with .items() (consider-using-dict-items)
+Src/pyPLUTO/loadpart.py:84:4: R0915: Too many statements (53/50) (too-many-statements)
+Src/pyPLUTO/loadpart.py:221:12: W0707: Consider explicitly re-raising using 'except AttributeError as exc' and 'raise AttributeError(f"'LoadPart' object has no attribute '{name}'") from exc' (raise-missing-from)
+Src/pyPLUTO/loadpart.py:223:4: C0415: Import outside toplevel (parttools.select, parttools.spectrum) (import-outside-toplevel)
+PyPLUTO version: 1.0   session: Standard Python interpreter
+Src/pyPLUTO/loadpart.py:224:4: C0415: Import outside toplevel (readdata._assign_var, readdata._check_nout, readdata._findfiles, readdata._init_vardict, readdata._load_variables) (import-outside-toplevel)
+Src/pyPLUTO/loadpart.py:231:4: C0415: Import outside toplevel (readformat._check_pathformat, readformat._find_format) (import-outside-toplevel)
+Src/pyPLUTO/loadpart.py:232:4: C0415: Import outside toplevel (readpart._compute_offset, readpart._inspect_bin, readpart._inspect_vtk, readpart._store_bin_particles, readpart._store_vtk_particles) (import-outside-toplevel)
+************* Module pyPLUTO.readformat
+Src/pyPLUTO/readformat.py:49:4: R1720: Unnecessary "elif" after "raise", remove the leading "el" from "elif" (no-else-raise)
+Src/pyPLUTO/readformat.py:150:25: E0606: Possibly using variable 'err' before assignment (possibly-used-before-assignment)
+Src/pyPLUTO/readformat.py:177:12: W0212: Access to a protected member _charsize of a client class (protected-access)
+Src/pyPLUTO/readformat.py:192:4: W0101: Unreachable code (unreachable)
+Src/pyPLUTO/readformat.py:230:8: W0212: Access to a protected member _pathgrid of a client class (protected-access)
+Src/pyPLUTO/readformat.py:231:8: W0212: Access to a protected member _pathdata of a client class (protected-access)
+Src/pyPLUTO/readformat.py:234:11: W0212: Access to a protected member _pathdata of a client class (protected-access)
+Src/pyPLUTO/readformat.py:234:40: W0212: Access to a protected member _pathgrid of a client class (protected-access)
+Src/pyPLUTO/readformat.py:237:12: W0212: Access to a protected member _alone of a client class (protected-access)
+Src/pyPLUTO/readformat.py:282:8: W0212: Access to a protected member _matching_files of a client class (protected-access)
+Src/pyPLUTO/readformat.py:285:11: W0212: Access to a protected member _matching_files of a client class (protected-access)
+Src/pyPLUTO/readformat.py:288:12: W0212: Access to a protected member _alone of a client class (protected-access)
+************* Module pyPLUTO.figure_new
+Src/pyPLUTO/figure_new.py:16:0: W0613: Unused argument 'kwargs' (unused-argument)
+************* Module pyPLUTO.imagestate
+Src/pyPLUTO/imagestate.py:9:0: R0902: Too many instance attributes (8/7) (too-many-instance-attributes)
+************* Module pyPLUTO.figure
+Src/pyPLUTO/figure.py:294:8: W0212: Access to a protected member _set_size of a client class (protected-access)
+************* Module pyPLUTO.imagetools
+Src/pyPLUTO/imagetools.py:53:0: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+Src/pyPLUTO/imagetools.py:55:4: W0621: Redefining name 'text' from outer scope (line 53) (redefined-outer-name)
+Src/pyPLUTO/imagetools.py:133:14: W0212: Access to a protected member _assign_ax of a client class (protected-access)
+Src/pyPLUTO/imagetools.py:148:8: W0212: Access to a protected member _hide_text of a client class (protected-access)
+************* Module pyPLUTO.pytools
+Src/pyPLUTO/pytools.py:100:12: C0415: Import outside toplevel (winsound) (import-outside-toplevel)
+Src/pyPLUTO/pytools.py:100:12: E0401: Unable to import 'winsound' (import-error)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot2d:[232:250]
+==pyPLUTO.plotlines:[174:193]
+        "transpose",
+        "tresh",
+        "vmax",
+        "vmin",
+        "x1",
+        "x2",
+        "xrange",
+        "xscale",
+        "xticks",
+        "xtickslabels",
+        "xtitle",
+        "yrange",
+        "yscale",
+        "yticks",
+        "ytickslabels",
+        "ytitle",
+    }
+    if check is True: (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot2d:[204:218]
+==pyPLUTO.plotzoom:[205:219]
+    param = {
+        "alpha",
+        "aspect",
+        "ax",
+        "bottom",
+        "clabel",
+        "cmap",
+        "cpad",
+        "cpos",
+        "cscale",
+        "cticks",
+        "ctickslabels",
+        "extend",
+        "extendrect", (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot1d:[252:264]
+==pyPLUTO.plotlines:[452:465]
+        "xrange",
+        "xscale",
+        "xticks",
+        "xtickslabels",
+        "xtitle",
+        "yrange",
+        "yscale",
+        "yticks",
+        "ytickslabels",
+        "ytitle",
+    }
+
+    if check is True: (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot2d:[236:248]
+==pyPLUTO.plotzoom:[239:251]
+        "x1",
+        "x2",
+        "xrange",
+        "xscale",
+        "xticks",
+        "xtickslabels",
+        "xtitle",
+        "yrange",
+        "yscale",
+        "yticks",
+        "ytickslabels",
+        "ytitle", (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot2d:[238:250]
+==pyPLUTO.setaxes:[435:447]
+        "xrange",
+        "xscale",
+        "xticks",
+        "xtickslabels",
+        "xtitle",
+        "yrange",
+        "yscale",
+        "yticks",
+        "ytickslabels",
+        "ytitle",
+    }
+    if check is True: (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot2d:[492:505]
+==pyPLUTO.plotlines:[180:193]
+        "xrange",
+        "xscale",
+        "xticks",
+        "xtickslabels",
+        "xtitle",
+        "yrange",
+        "yscale",
+        "yticks",
+        "ytickslabels",
+        "ytitle",
+    }
+
+    if check is True: (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot2d:[492:502]
+==pyPLUTO.plotzoom:[241:251]
+        "xrange",
+        "xscale",
+        "xticks",
+        "xtickslabels",
+        "xtitle",
+        "yrange",
+        "yscale",
+        "yticks",
+        "ytickslabels",
+        "ytitle", (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.readfluid:[241:254]
+==pyPLUTO.readpart:[215:233]
+    while True:
+        scalars_pos = mmapped_file.find(b"SCALARS", search_pos)
+        if scalars_pos == -1:
+            break  # No more occurrences found
+
+        # Move to the end of the 'SCALARS' line
+        line_end = mmapped_file.find(b"\n", scalars_pos)
+        line = mmapped_file[scalars_pos:line_end]
+        parts = line.split()
+        var = parts[1].decode()
+
+        # Move to the start of the scalar data
+        lookup_table_pos = mmapped_file.find(b"LOOKUP_TABLE default", line_end) (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.load:[202:211]
+==pyPLUTO.loadpart:[117:126]
+        self._matching_files: list[str]  # The list of files to be loaded
+        self._pathgrid: Path  # Path to the grid file
+        self._pathdata: Path | None = (
+            None  # Path to the data files to be loaded
+        )
+        self._filepath: Path  # The filepath to be loaded
+        self._load_vars: list[str]  # The list of variables to be loaded
+        self._offset: dict[str, int]  # The offset of the variables
+        self._shape: dict[str, tuple[int, ...]]  # The shape of the variables (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plotlines:[166:174]
+==pyPLUTO.setaxes:[427:435]
+        "minorticks",
+        "sharex",
+        "sharey",
+        "ticksdir",
+        "tickssize",
+        "title",
+        "titlepad",
+        "titlesize", (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot2d:[226:234]
+==pyPLUTO.plotzoom:[227:235]
+        "shading",
+        "ticksdir",
+        "tickssize",
+        "title",
+        "titlesize",
+        "top",
+        "transpose",
+        "tresh", (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.read_files:[226:235]
+==pyPLUTO.write_files:[299:306]
+    else:
+        warn = (
+            f"Invalid datatype: {datatype}, not implemented yet! "
+            "Resetting to 'h5'"
+        )
+        warnings.warn(warn)
+        pass
+
+    # End of the function (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.readfluid:[139:145]
+==pyPLUTO.readpart:[137:146]
+    self._offset, self._shape = ({}, {})
+    endl = self._d_info["endianess"][i] = (
+        ">" if endian is None else self._d_end[endian]
+    )
+    if endl is None:
+        raise ValueError("Error: Wrong endianess in vtk file.") (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot1d:[216:224]
+==pyPLUTO.plot2d:[462:470]
+        x = np.asarray(x)
+        y = np.asarray(y)
+
+    # Check parameters
+    param = {
+        "alpha",
+        "aspect",
+        "ax", (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.read_files:[216:223]
+==pyPLUTO.write_files:[291:298]
+    if datatype not in poss_types:
+        warn = f"Invalid datatype: {datatype}. Resetting to 'h5'"
+        warnings.warn(warn)
+        datatype = "h5"
+
+    # Check the format of the output files
+    if datatype == "h5": (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.load:[174:181]
+==pyPLUTO.loadpart:[95:102]
+        if nout is None:
+            return
+
+        # Initialization or declaration of variables (used in this file)
+        self.nout: NDArray  # Output to be loaded
+        self._d_end: dict[str | None, str | None]  # Endianess dictionary
+        self._multiple: bool  # Bool for single or multiple files (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plotlines:[441:446]
+==pyPLUTO.setaxes:[430:435]
+        "ticksdir",
+        "tickssize",
+        "title",
+        "titlepad",
+        "titlesize", (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot1d:[247:252]
+==pyPLUTO.plot2d:[227:232]
+        "ticksdir",
+        "tickssize",
+        "title",
+        "titlesize",
+        "top", (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot1d:[220:225]
+==pyPLUTO.plot2d:[204:209]
+    param = {
+        "alpha",
+        "aspect",
+        "ax",
+        "bottom", (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot2d:[484:489]
+==pyPLUTO.plotlines:[169:174]
+        "ticksdir",
+        "tickssize",
+        "title",
+        "titlepad",
+        "titlesize", (duplicate-code)
+Src/pyPLUTO/pytools.py:1:0: R0801: Similar lines in 2 files
+==pyPLUTO.plot2d:[466:471]
+==pyPLUTO.plotlines:[151:156]
+    param = {
+        "alpha",
+        "aspect",
+        "ax",
+        "c", (duplicate-code)
+
+------------------------------------------------------------------
+Your code has been rated at 7.86/10 (previous run: 7.86/10, +0.00)
+

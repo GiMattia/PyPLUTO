@@ -286,7 +286,7 @@ def _create_figure(self, fig: Figure | None, **kwargs: Any) -> None:
     if isinstance(fig, Figure):
         self.figsize = [fig.get_figwidth(), fig.get_figheight()]
         self.fontsize = plt.rcParams["font.size"]
-        self.nwin = fig.number
+        self.nwin = fig.number  # type: ignore
         self.tg = fig.get_tight_layout()
 
     # If figsize is assigned, a keyword fixes it

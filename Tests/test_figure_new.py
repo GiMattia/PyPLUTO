@@ -149,26 +149,6 @@ def test_latex_true_font_missing(monkeypatch):
         img.figure_manager._assign_LaTeX("bold")
 
 
-"""
-def test_latex_pgf_success(monkeypatch):
-
-    monkeypatch.setattr(plt, "switch_backend", lambda *args, **kwargs: None)
-    monkeypatch.setattr(mpl.rcParams, "update", lambda *args, **kwargs: None)
-
-    img = Image_new(LaTeX="pgf")
-
-    monkeypatch.setattr(shutil, "which", lambda cmd: "fakepath")
-    monkeypatch.setattr(plt, "switch_backend", lambda backend: None)
-    monkeypatch.setattr(mpl.rcParams, "update", lambda d: None)
-
-    # No warnings expected here
-    with warnings.catch_warnings(record=True) as w:
-        warnings.simplefilter("always")
-        img.figure_manager._assign_LaTeX("bold")
-        assert len(w) == 0
-"""
-
-
 def test_latex_true_success(monkeypatch):
     img = Image_new(LaTeX=True)
 

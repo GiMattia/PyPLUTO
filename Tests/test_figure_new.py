@@ -84,50 +84,53 @@ def test_latex():
 
 
 def test_latex_pgf(monkeypatch):
-
+    monkeypatch.setattr(
+        shutil, "which", lambda cmd: "latex"
+    )  # simulate installed
     monkeypatch.setattr(plt, "switch_backend", lambda *args, **kwargs: None)
     monkeypatch.setattr(mpl.rcParams, "update", lambda *args, **kwargs: None)
 
     img = Image_new(LaTeX="pgf")
+
+    # Now this should pass
     assert img.LaTeX == "pgf"
     assert img.state.LaTeX == "pgf"
     assert img.figure_manager.state.LaTeX == "pgf"
 
 
 def test_latex_pgf_latex_not_installed(monkeypatch):
-
+    monkeypatch.setattr(
+        shutil, "which", lambda cmd: None
+    )  # simulate missing latex
     monkeypatch.setattr(plt, "switch_backend", lambda *args, **kwargs: None)
     monkeypatch.setattr(mpl.rcParams, "update", lambda *args, **kwargs: None)
 
-    img = Image_new(LaTeX="pgf")
-
-    monkeypatch.setattr(shutil, "which", lambda cmd: None)  # No latex
+    img = Image_new(LaTeX="pgf")  # triggers fallback inside constructor
 
     with pytest.warns(UserWarning, match="LaTeX not installed"):
         img.figure_manager._assign_LaTeX("normal")
 
-    assert img.state.LaTeX is True  # It should fallback to True
-    img = Image_new(LaTeX="True")
+    assert img.state.LaTeX is True  # fallback occurred
 
 
 def test_latex_pgf_backend_import_error(monkeypatch):
+    monkeypatch.setattr(
+        shutil, "which", lambda cmd: "fakepath"
+    )  # simulate installed
 
-    monkeypatch.setattr(plt, "switch_backend", lambda *args, **kwargs: None)
+    # Raise ImportError when trying to switch backend
+    def fake_switch_backend(*args, **kwargs):
+        raise ImportError("Backend pgf not available")
+
+    monkeypatch.setattr(plt, "switch_backend", fake_switch_backend)
     monkeypatch.setattr(mpl.rcParams, "update", lambda *args, **kwargs: None)
 
     img = Image_new(LaTeX="pgf")
 
-    monkeypatch.setattr(
-        shutil, "which", lambda cmd: "fakepath"
-    )  # Simulate installed
-    monkeypatch.setattr(
-        plt, "switch_backend", lambda *_: (_ for _ in ()).throw(ImportError)
-    )
-
     with pytest.warns(UserWarning, match="pgf backend is not available"):
         img.figure_manager._assign_LaTeX("normal")
 
-    assert img.state.LaTeX is True
+    assert img.state.LaTeX is True  # fallback occurred
 
 
 class FakeRcParams(dict):

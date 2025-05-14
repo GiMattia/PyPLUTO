@@ -1,7 +1,10 @@
 name: interrogate-docs-coverage
+
 on:
-  pull_request:
   push:
+  #  branches:
+  #    - master
+  pull_request:
 
 jobs:
   interrogate:

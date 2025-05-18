@@ -14,9 +14,26 @@ from .inspect_kwargs import track_kwargs
 
 @delegator("state")
 class FigureManager:
+    """Manages the figure and sets the style, size, and LaTeX settings."""
 
     @track_kwargs
     def __init__(self, state: ImageState, **kwargs: Any) -> None:
+        """Initialization of the FigureManager class that creates a new
+        figure and sets the LaTeX conditions, as well as the matplotlib
+        style. Every Image is associated to a figure object and only one
+        in order to avoid confusion between images and figures. If you
+        want to create multiple figures, you have to create multiple
+        Image objects.
+
+        Returns
+        -------
+        - None
+
+        Parameters
+        ----------
+        - WIP...
+
+        """
         self.state = state
 
         # Extract specific kwargs for colorlines, with defaults if not provided
@@ -51,6 +68,7 @@ class FigureManager:
         self._create_figure(replace, suptitle, suptitlesize)
 
     def _setup_style(self) -> None:
+        """Sets the matplotlib style."""
         try:
             plt.style.use(self.state.style)
         except OSError:
@@ -264,7 +282,31 @@ class FigureManager:
         # End of the function
 
     def _check_previous_fig(self, close: bool) -> None:
+        """Checks if there is an existing figure and if it is closed or
+        not.
 
+        Returns
+        -------
+        - None
+
+        Parameters
+        ----------
+        - close: bool, default True
+            If True, the existing figure with the same window number is closed.
+
+        Notes
+        -----
+        - None
+
+        ----
+
+        Examples
+        --------
+        - Example #1: Check if there is an existing figure
+
+            >>> _check_previous_fig(True)
+
+        """
         if isinstance(self.state.fig, Figure):
             self.figsize = [
                 self.state.fig.get_figwidth(),

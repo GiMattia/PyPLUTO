@@ -7,6 +7,20 @@ from matplotlib.figure import Figure
 
 @dataclass
 class ImageState:
+    """Class that stores the state of the Image class. It contains the
+    following attributes:
+
+    - LaTeX: bool | str (non optional)
+    - style: str (non optional)
+    - color: list[str]
+    - dictcolor: dict[int, str]
+    - fig: Figure | None
+    - figsize: list[float]
+    - fontsize: int
+    - nwin: int
+    - tight: bool
+    """
+
     LaTeX: bool | str
     style: str
     color: list[str] = field(default_factory=list)

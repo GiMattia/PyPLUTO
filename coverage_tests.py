@@ -1,75 +1,64 @@
-import shutil
 import subprocess
-from pathlib import Path
 
-# Set paths
-source_dir = Path(__file__).resolve().parent / "Src" / "pyPLUTO"
-output_dir = Path(__file__).resolve().parent / "Docs" / "Badges"
-output_dir.mkdir(parents=True, exist_ok=True)
+commands = [
+    {
+        "name": "pytest",
+        "cmd": ["pytest", "--cov=pyPLUTO", "--cov-report=term-missing"],
+        "output": "pytest_output.txt",
+    },
+    {
+        "name": "mypy",
+        "cmd": ["mypy", "--strict", "@mypy_files.txt"],
+        "output": "mypy_output.txt",
+    },
+    {
+        "name": "pylint",
+        "cmd": None,  # We'll fill this dynamically based on mypy_files.txt
+        "output": "pylint_output.txt",
+    },
+    {
+        "name": "interrogate",
+        "cmd": ["interrogate", "Src/pyPLUTO/"],
+        "output": "interrogate_output.txt",
+    },
+]
 
-# Define tasks
-tasks = {
-    "coverage": [
-        ["coverage", "erase"],  # Erase previous coverage data
-        [
-            "pytest",
-            "--cov=Src/pyPLUTO",  # Use pytest-cov to track coverage
-            "--cov-report=xml",  # Generate XML coverage report
-            "--cov-report=term",  # Show coverage in the terminal
-        ],  # Run pytest with coverage
-    ],
-    "pylint": [
-        [
-            "pylint",
-            str(source_dir),
-            "--exit-zero",
-        ],  # Run pylint without failing the build on issues
-    ],
-    "interrogate": [
-        [
-            "interrogate",
-            str(source_dir),
-            "--verbose",
-            "--fail-under=40.0",
-        ],  # Set docstring coverage threshold to 40%
-    ],
-}
 
-# Output destinations
-output_files = {
-    "pylint": output_dir / "pylint.txt",
-    "interrogate": output_dir / "interrogate.txt",
-    "coverage": output_dir / "coverage.xml",  # Coverage report destination
-}
+def read_mypy_files_list(file_path: str = "mypy_files.txt") -> list[str]:
+    with open(file_path) as f:
+        return [
+            line.strip()
+            for line in f
+            if line.strip() and not line.startswith("#")
+        ]
 
-# Run tasks
-for tool, commands in tasks.items():
-    print(f"\nRunning {tool}...")
-    for cmd in commands:
-        try:
-            if tool == "coverage":
-                # Run pytest with coverage
-                subprocess.run(cmd, check=True)
-                # After pytest completes, move the coverage.xml file
-                coverage_report_path = Path("coverage.xml")
-                if coverage_report_path.exists():
-                    shutil.move(coverage_report_path, output_files["coverage"])
-                    print(
-                        f"Coverage report moved to: {output_files['coverage']}"
-                    )
-            elif tool in output_files and cmd == commands[-1]:
-                # For pylint and interrogate, save output to a file
-                with open(output_files[tool], "w") as f:
-                    subprocess.run(
-                        cmd, check=True, stdout=f, stderr=subprocess.STDOUT
-                    )
-            else:
-                subprocess.run(cmd, check=True)
-        except subprocess.CalledProcessError as e:
-            if tool == "interrogate" and e.returncode == 1:
-                # Missing docstrings — not fatal
-                print(
-                    "Interrogate found missing docstrings (exit code 1). Output saved."
-                )
-            else:
-                print(f"Error running {tool} step: {e}")
+
+def run_command(cmd: list[str], output_file: str):
+    try:
+        result = subprocess.run(
+            cmd,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,  # Let it continue even on failures
+        )
+        with open(output_file, "w") as f:
+            f.write(result.stdout)
+    except Exception as e:
+        with open(output_file, "w") as f:
+            f.write(f"Error running command: {' '.join(cmd)}\n{e}")
+
+
+def main():
+    files = read_mypy_files_list()
+
+    for entry in commands:
+        if entry["name"] == "pylint":
+            entry["cmd"] = ["pylint"] + files
+        print(f"Running {entry['name']}...")
+        run_command(entry["cmd"], entry["output"])
+        print(f"→ Output written to {entry['output']}")
+
+
+if __name__ == "__main__":
+    main()

@@ -7,15 +7,15 @@ from matplotlib.figure import Figure
 
 @dataclass
 class ImageState:
-    style: str
     LaTeX: bool | str
-    fig: Figure | None = None
+    style: str
     color: list[str] = field(default_factory=list)
     dictcolor: dict[int, str] = field(default_factory=dict)
-    nwin: int = 1
-    fontsize: int = 17
-    tight: bool = True
+    fig: Figure | None = None
     figsize: list[float] = field(default_factory=lambda: [8.0, 5.0])
+    fontsize: int = 17
+    nwin: int = 1
+    tight: bool = True
     _set_size: bool = False
 
     def __setattr__(self, name: str, value: object) -> None:

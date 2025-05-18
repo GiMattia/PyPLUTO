@@ -273,7 +273,7 @@ class FigureManager:
             self.fontsize = plt.rcParams["font.size"]
             try:
                 self.nwin = self.state.fig.number  # type: ignore
-            except:
+            except AttributeError:
                 warnings.warn(
                     "The figure is not associated to a window number",
                     UserWarning,

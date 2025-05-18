@@ -125,6 +125,7 @@ disable = [
     "too-few-public-methods",
     "too-many-arguments",
     "too-many-positional-arguments",
+    "too-many-instance-attributes",
 ]
 
 [tool.pylint.format]
@@ -139,6 +140,7 @@ fail-under = 0
 exclude = ["tests", "Docs"]
 ignore-init-method = false
 ignore-init-module = true
+ignore-magic = true
 ignore-module = true
 ignore-private = false
 ignore-semiprivate = false

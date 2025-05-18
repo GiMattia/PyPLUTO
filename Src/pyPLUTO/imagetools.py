@@ -126,7 +126,7 @@ def text(
 
     """
     # Check parameters
-    param = {"c", "horalign", "textsize", "veralign", "xycoords"}
+    param = {"bbox", "c", "horalign", "textsize", "veralign", "xycoords"}
     if check is True:
         check_par(param, "text", **kwargs)
 
@@ -155,6 +155,8 @@ def text(
     hortx = kwargs.get("horalign", "left")
     vertx = kwargs.get("veralign", "baseline")
 
+    bbox = kwargs.get("bbox")
+
     # Insert the text
     ax.text(
         x,
@@ -165,6 +167,7 @@ def text(
         fontsize=kwargs.get("textsize", self.fontsize),
         horizontalalignment=hortx,
         verticalalignment=vertx,
+        bbox=kwargs.get("bbox", bbox),
     )
 
     # End of the function

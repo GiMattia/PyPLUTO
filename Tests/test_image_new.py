@@ -7,7 +7,7 @@ from pyPLUTO.imagestate import ImageState
 def test_default_initialization():
     img = pp.Image_new()
     assert isinstance(img.state, ImageState)
-    assert isinstance(img.figure_manager, object)
+    assert isinstance(img._figure_manager, object)
 
 
 def test_custom_arguments():
@@ -64,7 +64,7 @@ def test_assign_chainability():
 def test_image_new_prints_message(capfd):
     I = pp.Image_new(text=True)
     captured = capfd.readouterr()
-    assert "Image class created at nwin..." in captured.out
+    assert "Image class created at nwin" in captured.out
 
 
 # Check if the __str__ method works

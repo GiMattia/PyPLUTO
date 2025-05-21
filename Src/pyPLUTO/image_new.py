@@ -7,6 +7,7 @@ from .delegator import delegator
 from .figure_new import FigureManager
 from .imagestate import ImageState
 from .inspect_kwargs import track_kwargs
+from .setaxes_new import AxesManager
 
 
 @delegator("state")
@@ -138,9 +139,13 @@ class Image_new:
         self._figure_manager: FigureManager = FigureManager(
             self.state, **kwargs
         )
+        self._axes_manager = AxesManager(self.state)
 
         if text:
             print(f"Image class created at nwin {self.state.nwin}")
+
+    def create_axes(self) -> None:
+        self._axes_manager.create_axes()
 
     def __str__(self) -> str:
         return r"""

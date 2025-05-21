@@ -27,6 +27,7 @@ dependencies = [
     "h5py",
     "PyQt6"
 ]
+
 [project.optional-dependencies]
 docs = [
     "sphinx",

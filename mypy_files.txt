@@ -1,4 +1,7 @@
-Src/pyPLUTO/image_new.py
-Src/pyPLUTO/figure_new.py
+Src/pyPLUTO/__init__.py
+Src/pyPLUTO/configure.py
 Src/pyPLUTO/delegator.py
+Src/pyPLUTO/figure_new.py
+Src/pyPLUTO/image_new.py
 Src/pyPLUTO/imagestate.py
+Src/pyPLUTO/setaxes_new.py

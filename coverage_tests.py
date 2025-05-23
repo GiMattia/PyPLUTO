@@ -85,7 +85,7 @@ def extract_score(tool_name: str, output_file: str) -> str:
 
     if tool_name == "pytest":
 
-        errors_match = re.search(r"=+\s*(\d+)\s+errors? in [\d\.]+s", content)
+        errors_match = re.search(r"=+\s*(\d+)\s+failed? in [\d\.]+s", content)
         errors_count = int(errors_match.group(1)) if errors_match else 0
 
         # Extract coverage percentage from TOTAL line
@@ -138,7 +138,6 @@ def extract_score(tool_name: str, output_file: str) -> str:
             files = int(match_error.group(2))
             summary = f"Errors: {errors} in {files} files"
             score = max(0, 100 * (1 - float(errors) / float(files)))
-            print(score)
             return colorize_test(score, summary)
 
         # Fallback if neither pattern matches

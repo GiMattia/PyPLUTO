@@ -36,12 +36,12 @@ The package includes a set of examples in the `Examples` directory.
 
 The package is tested on Python 3.10 (and newer versions) and with the following dependencies:
 
-- `numpy >= 1.19`
-- `matplotlib >= 3.3`
+- `numpy`
+- `matplotlib`
 - `scipy`
 - `pandas`
-- `h5py` (optional)
-- `PyQt6` (optional)
+- `h5py`
+- `PyQt6`
 
 The package is provided with a `LICENSE` file which contains the license terms.
 
@@ -93,13 +93,15 @@ An example of 1D plot of the density can be:
 ```python
 D = pp.Load()
 pp.Image().plot(D.x1, D.rho)
+pp.show()
 ```
 
 while 2D plots can be created with
 
 ```python
 D = pp.Load()
-pp.Image().display(D.rho, x1=D.x1, x2=D.x2)
+pp.Image().display(D.rho, x1=D.x1, x2=D.x2, cpos="right")
+pp.show()
 ```
 
 ## Documentation
@@ -142,7 +144,7 @@ pip install -r requirements_dev.txt
 
 ### Rules for Contributing
 
-We use pre-commit to ensure that the code is consistent with the style "Black".
+We use pre-commit to ensure that the code is consistent with the code guidelines, including the "black" format and several "ruff" checks.
 You can either link the pre-commit to the repository through the command
 
 ```bash
@@ -155,5 +157,11 @@ or by enforcing the guide styles manually through the command
 pre-commit run --all-files
 ```
 
-An automatic check will verify if the code complies with the "Black" style at every pull request.
+Before opening a pull request,there is the possibility to run a deeper series of checks, including tests with coverage, pylint check, docstring coverage and so through the command
+
+```bash
+pre-commit run --all-files --hook-stage manual
+```
+
+If one or more tests do not pass the automatic code checks anforced through github actions will not allow the pull request to pass, so is higly recommended to run the full pre-commit before every pull request.
 For any question or enquiry, please contact one of the administrators.

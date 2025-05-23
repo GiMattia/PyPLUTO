@@ -127,6 +127,7 @@ disable = [
     "too-many-arguments",
     "too-many-positional-arguments",
     "too-many-instance-attributes",
+    "import-outside-toplevel",
 ]
 
 [tool.pylint.format]

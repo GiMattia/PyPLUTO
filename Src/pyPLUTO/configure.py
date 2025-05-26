@@ -107,6 +107,7 @@ class Configure:
         _file: str | None = None,
         _line: str | None = None,
     ) -> str:
+        """Color the warnings in yellow."""
         message = (
             f"\33[33m{category.__name__}: {message}"
             f"[{filename}:{lineno}]\33[0m\n"
@@ -119,6 +120,7 @@ class Configure:
         value: BaseException | None,
         tb: TracebackType | None,
     ) -> None:
+        """Color the errors in red."""
         traceback_str = "".join(traceback.format_tb(tb))
         sys.stderr.write(f"\033[91m{traceback_str}\033[0m")
         sys.stderr.write(f"\33[31m{value}\33[0m\n")  # Red color for errors
@@ -126,6 +128,7 @@ class Configure:
     def _setup_handlers(
         self, colorwarn: bool = True, colorerr: bool = True
     ) -> None:
+        """Set up the handlers for the warnings and errors."""
         warnings.simplefilter("always")
         if colorwarn:
             warnings.formatwarning = self.color_warning  # type: ignore

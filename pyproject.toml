@@ -111,9 +111,16 @@ omit = [
     "*/.venv/*",
     "*/site-packages/*"
 ]
+exclude_lines = [
+    "pragma: no cover",
+    "@overload",
+    "if TYPE_CHECKING:",
+    "def __repr__",
+    "def __str__",
+    "raise NotImplementedError"
+]
 
 [tool.pylint.main]
-# Paths to analyze (you can still override in the CLI if needed)
 jobs = 1
 persistent = true
 suggestion-mode = true
@@ -127,7 +134,6 @@ disable = [
     "too-many-arguments",
     "too-many-positional-arguments",
     "too-many-instance-attributes",
-    "import-outside-toplevel",
 ]
 
 [tool.pylint.format]

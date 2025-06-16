@@ -146,7 +146,7 @@ def test_latex_true_font_missing(monkeypatch):
     with pytest.warns(
         UserWarning, match="LaTeX = True option is not available"
     ):
-        img._figure_manager._assign_LaTeX("bold")
+        img._figure_manager.assign_LaTeX("bold")
 
 
 def test_latex_true_success(monkeypatch):
@@ -155,7 +155,7 @@ def test_latex_true_success(monkeypatch):
     # No warning expected if assignment is valid
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
-        img._figure_manager._assign_LaTeX("normal")
+        img._figure_manager.assign_LaTeX("normal")
         assert len(w) == 0
 
 
@@ -200,7 +200,7 @@ def test_figure_params():
 
     # Then
     assert img.figsize == [10, 10]
-    assert img._set_size is True
+    assert img.set_size is True
     assert img.nwin == 2
     assert img.fontsize == 20
 
@@ -218,6 +218,7 @@ def test_suptitle_and_tightlayout():
 # Test the tight layout
 def test_tight_layout():
     img = Image_new(tight=False)
+
     assert img.fig.get_tight_layout() is False
 
 

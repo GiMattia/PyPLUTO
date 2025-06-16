@@ -9,7 +9,7 @@ from matplotlib.figure import Figure
 
 from .delegator import delegator
 from .imagestate import ImageState
-from .inspect_kwargs import track_kwargs
+from .inspector import track_kwargs
 
 
 @delegator("state")
@@ -17,7 +17,11 @@ class FigureManager:
     """Manages the figure and sets the style, size, and LaTeX settings."""
 
     @track_kwargs
-    def __init__(self, state: ImageState, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        state: ImageState,
+        **kwargs: Any,
+    ) -> None:
         """Initialization of the FigureManager class that creates a new
         figure and sets the LaTeX conditions, as well as the matplotlib
         style. Every Image is associated to a figure object and only one
@@ -34,8 +38,10 @@ class FigureManager:
         - WIP...
 
         """
+        # needed because the __init__ is longer than simply self.state = state
         self.state = state
 
+        # def initialize(self, **kwargs: Any) -> None:
         # Extract specific kwargs for colorlines, with defaults if not provided
         if "numcolor" in kwargs:
             warnings.warn(
@@ -53,21 +59,23 @@ class FigureManager:
         withblack = kwargs.pop("withblack", False)
         withwhite = kwargs.pop("withwhite", False)
 
-        self._check_previous_fig(close)
+        self.check_previous_fig(close)
 
-        self.fontsize = kwargs.get("fontsize", self.state.fontsize)
-        self.nwin = kwargs.get("nwin", self.state.nwin)
-        self.tight = kwargs.get("tight", self.state.tight)
-        self.figsize = kwargs.get("figsize", self.state.figsize)
+        self.state.fontsize = kwargs.get("fontsize", self.state.fontsize)
+        self.state.nwin = kwargs.get("nwin", self.state.nwin)
+        self.state.tight = kwargs.get("tight", self.state.tight)
+        self.state.figsize = kwargs.get("figsize", self.state.figsize)
         if "figsize" in kwargs:
-            self._set_size = True
+            self.state.set_size = True
 
-        self._setup_style()
-        self.color = self._choose_colorlines(numcolors, withblack, withwhite)
-        self._assign_LaTeX(fontweight)
-        self._create_figure(replace, suptitle, suptitlesize)
+        self.setup_style()
+        self.state.color = self.choose_colorlines(
+            numcolors, withblack, withwhite
+        )
+        self.assign_LaTeX(fontweight)
+        self.create_figure(replace, suptitle, suptitlesize)
 
-    def _setup_style(self) -> None:
+    def setup_style(self) -> None:
         """Sets the matplotlib style."""
         try:
             plt.style.use(self.state.style)
@@ -77,7 +85,7 @@ class FigureManager:
             warnings.warn(warn, UserWarning)
             self.state.style = "default"
 
-    def _choose_colorlines(
+    def choose_colorlines(
         self, numcolors: int, withblack: bool, withwhite: bool
     ) -> list[str]:
         """Chooses the colors for the lines. Depending on the number of
@@ -127,7 +135,7 @@ class FigureManager:
 
         """
         # New colors dictionary (black and white included)
-        self.dictcol = {
+        self.state.dictcol = {
             0: "#ffffff",
             1: "#e8ecfb",
             2: "#d9cce3",
@@ -195,9 +203,9 @@ class FigureManager:
         lstc = [0] + lstc if withwhite else [31] + lstc if withblack else lstc
 
         # End of function, return the colors
-        return [self.dictcol[lstc[i]] for i in range(numcolors)]
+        return [self.state.dictcol[lstc[i]] for i in range(numcolors)]
 
-    def _assign_LaTeX(self, fontweight: str) -> None:
+    def assign_LaTeX(self, fontweight: str) -> None:
         """Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX
         and should be used only to get vectorial figures with minimal
         file size.
@@ -281,7 +289,7 @@ class FigureManager:
 
         # End of the function
 
-    def _check_previous_fig(self, close: bool) -> None:
+    def check_previous_fig(self, close: bool) -> None:
         """Checks if there is an existing figure and if it is closed or
         not.
 
@@ -308,26 +316,26 @@ class FigureManager:
 
         """
         if isinstance(self.state.fig, Figure):
-            self.figsize = [
+            self.state.figsize = [
                 self.state.fig.get_figwidth(),
                 self.state.fig.get_figheight(),
             ]
-            self.fontsize = plt.rcParams["font.size"]
+            self.state.fontsize = plt.rcParams["font.size"]
             try:
-                self.nwin = self.state.fig.number  # type: ignore
+                self.state.nwin = self.state.fig.number  # type: ignore
             except AttributeError:
                 warnings.warn(
                     "The figure is not associated to a window number",
                     UserWarning,
                 )
-                self.nwin = 1
-            self.tight = self.state.fig.get_tight_layout()
+                self.state.nwin = 1
+            self.state.tight = self.state.fig.get_tight_layout()
 
         # Close the existing figure if it exists (and 'close' is enabled)
-        if plt.fignum_exists(self.nwin) and close is True:
-            plt.close(self.nwin)
+        if plt.fignum_exists(self.state.nwin) and close is True:
+            plt.close(self.state.nwin)
 
-    def _create_figure(
+    def create_figure(
         self, replace: bool, suptitle: str, suptitlesize: str
     ) -> None:
         """Function that creates the figure associated to an Image
@@ -396,5 +404,5 @@ class FigureManager:
             self.state.fig.suptitle(suptitle, fontsize=suptitlesize)
 
         # Tight layout
-        if self.tight is True:
+        if self.state.tight is True:
             self.state.fig.tight_layout()

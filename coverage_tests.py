@@ -88,6 +88,11 @@ def extract_score(tool_name: str, output_file: str) -> str:
         errors_match = re.search(r"=+\s*(\d+)\s+failed? in [\d\.]+s", content)
         errors_count = int(errors_match.group(1)) if errors_match else 0
 
+        warnings_match = re.search(
+            r"=+\s*\d+\s+passed,\s*(\d+)\s+warnings? in [\d\.]+s", content
+        )
+        warnings_count = int(warnings_match.group(1)) if warnings_match else 0
+
         # Extract coverage percentage from TOTAL line
         coverage_match = re.search(
             r"TOTAL\s+\d+\s+\d+\s+\d+\s+\d+\s+(\d+)%", content
@@ -97,22 +102,18 @@ def extract_score(tool_name: str, output_file: str) -> str:
         passed_match = re.search(
             r"=+\s*(\d+\s+passed[^i]*)\s+in\s+[\d\.]+s", content
         )
-        passed_text = (
-            passed_match.group(1).strip()
-            if passed_match
-            else f"{errors_count} errors, "
-        )
+        if passed_match:
+            passed_text = passed_match.group(1).strip()
+        elif errors_match:
+            passed_text = f"{errors_count} errors, "
+        else:
+            passed_text = f"{warnings_count} warnings, "
 
         summary = f"{passed_text} (coverage {coverage}%)"
 
         coverage = (
             cov_errs - 1
-            if "error" in passed_text or "errors" in passed_text
-            else coverage
-        )
-        coverage = (
-            cov_warn - 1
-            if "warning" in passed_text or "warnings" in passed_text
+            if "warnings" in passed_text or "errors" in passed_text
             else coverage
         )
 

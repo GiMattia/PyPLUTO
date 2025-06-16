@@ -1,7 +1,11 @@
 Src/pyPLUTO/__init__.py
 Src/pyPLUTO/configure.py
+Src/pyPLUTO/create_axes.py
 Src/pyPLUTO/delegator.py
 Src/pyPLUTO/figure_new.py
 Src/pyPLUTO/image_new.py
 Src/pyPLUTO/imagestate.py
-Src/pyPLUTO/setaxes_new.py
+Src/pyPLUTO/imagetools_new.py
+Src/pyPLUTO/inspector.py
+Src/pyPLUTO/mediator.py
+Src/pyPLUTO/range.py

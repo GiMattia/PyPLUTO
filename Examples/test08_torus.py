@@ -71,8 +71,7 @@ Image.display(
 
 # Convert the magnetic field into cartesian components and cartesian grid
 Bx, Bz, *others = Data.cartesian_vector("B")
-xc, yc, B = Data.reshape_cartesian(var1=Bx, var2=Bz, nx1=500)
-Bx, Bz = B[0], B[1]
+xc, yc, Bx, Bz = Data.reshape_cartesian(Bx, Bz, nx1=500)
 
 # Plot the magnetic field lines in two different ways
 Image.streamplot(

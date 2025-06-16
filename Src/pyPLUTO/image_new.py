@@ -3,14 +3,19 @@ from typing import Any
 
 from matplotlib.figure import Figure
 
+from .create_axes import CreateAxesManager
 from .delegator import delegator
 from .figure_new import FigureManager
 from .imagestate import ImageState
-from .inspect_kwargs import track_kwargs
-from .setaxes_new import AxesManager
+from .imagetools_new import ImageToolsManager
+from .inspector import track_kwargs
+from .mediator import Mediator
+from .set_axis import AxisManager
+
+manager_classes = (CreateAxesManager, ImageToolsManager, AxisManager)
 
 
-@delegator("state")
+@delegator("state", "mediator")
 class Image_new:
     """Image class. It plots the data.
 
@@ -135,17 +140,13 @@ class Image_new:
         """
         kwargs.pop("check", check)
 
-        self.state: ImageState = ImageState(style=style, LaTeX=LaTeX, fig=fig)
-        self._figure_manager: FigureManager = FigureManager(
-            self.state, **kwargs
-        )
-        self._axes_manager = AxesManager(self.state)
+        self.state = ImageState(style=style, LaTeX=LaTeX, fig=fig)
+        self.mediator = Mediator(self.state, manager_classes)
+
+        self._figure_manager = FigureManager(self.state, **kwargs)
 
         if text:
             print(f"Image class created at nwin {self.state.nwin}")
-
-    def create_axes(self) -> None:
-        self._axes_manager.create_axes()
 
     def __str__(self) -> str:
         return r"""

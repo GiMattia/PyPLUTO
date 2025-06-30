@@ -1,7 +1,10 @@
+import warnings
 from collections.abc import Sequence
 from typing import Any
 
+import matplotlib.colors as mcol
 from matplotlib.axes import Axes
+from matplotlib.colors import Normalize
 from matplotlib.text import Text
 
 from .create_axes import CreateAxesManager
@@ -22,7 +25,8 @@ class ImageToolsManager:
     def __init__(self, state: ImageState):
         """Initialize the ImageToolsManager with the given state."""
         self.state = state
-        self.AxesManager = CreateAxesManager(state)
+
+        self.CreateAxesManager = CreateAxesManager(state)
 
     def savefig(
         self,
@@ -199,7 +203,7 @@ class ImageToolsManager:
     # End of the function
 
     def assign_ax(
-        self, ax: Axes | list[Axes] | None, **kwargs: Any
+        self, ax: Axes | list[Axes] | int | None, **kwargs: Any
     ) -> tuple[Axes, int]:
         """Sets the axes of the figure where the plot/feature should go.
         If no axis is present, an axis is created. If the axis is
@@ -247,7 +251,7 @@ class ImageToolsManager:
             )
         # Check if the axis is None and no axis is present (and create one)
         if ax is None and len(self.state.ax) == 0:
-            ax = self.AxesManager.create_axes(
+            ax = self.CreateAxesManager.create_axes(
                 ncol=1, nrow=1, check=False, **kwargs
             )
 
@@ -325,3 +329,83 @@ class ImageToolsManager:
             self.state.ntext[nax] = 1
 
         # End of the function
+
+    def set_cscale(
+        self,
+        cscale: str,
+        vmin: float,
+        vmax: float,
+        tresh: float,
+        lint: float | None = None,
+    ) -> Normalize:
+        """Sets the color scale of a pcolormesh given the scale, the
+        minimum and the maximum.
+
+        Returns
+        -------
+        - norm: Normalize
+            The normalization of the colormap
+
+        Parameters
+        ----------
+        - cscale (not optional): {'linear','log','symlog','twoslope'}, default
+            'linear' Sets the colorbar scale. Default is the linear ('norm')
+            scale.
+        - tresh (not optional): float
+            Sets the threshold for the colormap. If not defined, the threshold
+            will be set to 1% of the maximum absolute value of the variable.
+            The default cases are the following:
+            - twoslope colorscale: sets the limit between the two linear
+            regimes.
+            - symlog: sets the limit between the logaitrhmic and the linear
+            regime.
+        - vmax (not optional): float
+            The maximum value of the colormap.
+        - vmin (not optional): float
+            The minimum value of the colormap.
+
+        Notes
+        -----
+        - The lint keyword is deprecated, please use tresh instead
+
+        ----
+
+        Examples
+        --------
+        - Example #1: set a linear colormap between 0 and 1
+
+            >>> _set_cscale('linear', 0.0, 1.0)
+
+        - Example #2: set a logarithmic colormap between 0.1 and 1
+
+            >>> _set_cscale('log', 0.1, 1.0)
+
+        - Example #3: set a twoslope colormap between -1 and 1 with threshold
+            0.1
+
+            >>> _set_cscale('twoslope', -1.0, 1.0, 0.1)
+
+        """
+        if lint is not None:
+            warnings.warn(
+                "'lint' keyword is deprecated, please use \
+                        'tresh' instead",
+                UserWarning,
+            )
+
+        norm: Normalize
+
+        if cscale == "log":
+            norm = mcol.LogNorm(vmin=vmin, vmax=vmax)
+        elif cscale == "symlog":
+            norm = mcol.SymLogNorm(tresh, vmin, vmax)
+        elif cscale in ("twoslope", "2slope"):
+            norm = mcol.TwoSlopeNorm(vmin=vmin, vmax=vmax, vcenter=tresh)
+        elif cscale == "power":
+            norm = mcol.PowerNorm(gamma=tresh, vmin=vmin, vmax=vmax)
+        elif cscale == "asinh":
+            norm = mcol.AsinhNorm(tresh, vmin, vmax)
+        else:
+            norm = mcol.Normalize(vmin=vmin, vmax=vmax)
+
+        return norm

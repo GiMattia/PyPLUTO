@@ -1,3 +1,5 @@
+import warnings
+from collections.abc import Iterable
 from typing import Any
 
 import matplotlib.pyplot as plt
@@ -5,7 +7,9 @@ from matplotlib.axes import Axes
 
 from .delegator import delegator
 from .imagestate import ImageState
+from .imagetools_new import ImageToolsManager
 from .inspector import track_kwargs
+from .range import RangeManager
 
 
 @delegator("state")
@@ -16,6 +20,8 @@ class AxisManager:
     def __init__(self, state: ImageState) -> None:
 
         self.state = state
+        self.ImageToolsManager = ImageToolsManager(state)
+        self.RangeManager = RangeManager(state)
 
     @track_kwargs
     def set_axis(
@@ -157,28 +163,27 @@ class AxisManager:
             ...     xtickslabels = ['1/4','1/2','3/4'])
 
         """
-        # Set fontsize
-        self.state.fontsize = kwargs.get("fontsize", self.state.fontsize)
-        plt.rcParams.update({"font.size": self.state.fontsize})
-
-        # Add create_axes just in case
-        # ax = self.mediator.create_axes(ncol=1, nrow=1, check=False, **kwargs)
+        kwargs.pop("check", check)
 
         # Take last axis if not specified
-        ax, nax = self.assign_ax(ax, **kwargs)
+        ax, nax = self.ImageToolsManager.assign_ax(ax, **kwargs)
 
         if ax is None:
             raise ValueError("No axis can be set!")
 
+        # Set fontsize
+        self.state.fontsize = kwargs.get("fontsize", self.state.fontsize)
+        plt.rcParams.update({"font.size": self.state.fontsize})
+
         # Set aspect ratio
-        if not kwargs.get("aspect", True):
-            ax.set_aspect(kwargs["aspect"])
+        if kwargs.get("aspect", True) is not True:
+            self.state.ax[nax].set_aspect(kwargs["aspect"])
 
         # Set xrange and yrange
         if kwargs.get("xrange") is not None:
-            self.mediator.set_xrange(ax, nax, kwargs["xrange"], 3, "pippo")
+            self.RangeManager.set_xrange(ax, nax, kwargs["xrange"], 3)
         if kwargs.get("yrange") is not None:
-            self.mediator.set_yrange(ax, nax, kwargs["yrange"], 3)
+            self.RangeManager.set_yrange(ax, nax, kwargs["yrange"], 3)
 
         # Set title and axes labels
         if kwargs.get("title") is not None:
@@ -187,28 +192,138 @@ class AxisManager:
                 fontsize=kwargs.get("titlesize", self.state.fontsize),
                 pad=kwargs.get("titlepad", 8.0),
             )
+        if kwargs.get("xtitle") is not None:
+            ax.set_xlabel(
+                kwargs["xtitle"],
+                fontsize=kwargs.get("labelsize", self.state.fontsize),
+            )
+        if kwargs.get("ytitle") is not None:
+            ax.set_ylabel(
+                kwargs["ytitle"],
+                fontsize=kwargs.get("labelsize", self.state.fontsize),
+            )
+        # Set shareaxisx and shareaxisy (+ deprecated sharex and sharey)
+        if kwargs.get("sharex", False) is not False:
+            warnings.warn(
+                "sharexs is deprecated. Use shareaxisx instead.",
+                DeprecationWarning,
+            )
+        if kwargs.get("sharey", False) is not False:
+            warnings.warn(
+                "sharey is deprecated. Use shareaxisy instead.",
+                DeprecationWarning,
+            )
+        if kwargs.get("shareaxisx", False) is not False:
+            ax.sharex(kwargs["shareaxisx"])
+        if kwargs.get("shareaxisy", False) is not False:
+            ax.sharey(kwargs["shareaxisy"])
 
-    def assign_ax(
-        self, ax: Axes | list[Axes] | None, **kwargs: Any
-    ) -> tuple[Axes, int]:
-        """Sets the axes of the figure where the plot/feature should go.
-        If no axis is present, an axis is created. If the axis is
-        present but no axis is seletced, the last axis is selected.
+        # Set ticks size
+        if kwargs.get("tickssize", True) is not True:
+            ax.tick_params(axis="x", labelsize=kwargs["tickssize"])
+            ax.tick_params(axis="y", labelsize=kwargs["tickssize"])
+        else:
+            ax.tick_params(axis="both", labelsize=self.state.fontsize)
+
+        # Set ticks direction
+        if kwargs.get("ticksdir") or self.state.tickspar[nax] == 0:
+            tckd = kwargs.get("ticksdir", "in")
+            ax.tick_params(
+                axis="both",
+                which="major",
+                direction=tckd,
+                right="off",
+                top="off",
+            )
+            ax.tick_params(
+                which="minor", direction=tckd, right="off", top="off"
+            )
+
+        # Set minor ticks
+        if kwargs.get("minorticks") or self.state.tickspar[nax] == 0:
+            mintks = kwargs.get("minorticks", "on")
+            if mintks != "off":
+                ax.minorticks_on()
+            else:
+                ax.minorticks_off()
+
+        # Set parameter that fixes the minorticks and ticksdir
+        self.state.tickspar[nax] = 1
+
+        spar = {"asinh": "linear_width", "symlog": "linthresh"}
+
+        # Scales and alpha
+        if kwargs.get("xscale", True) is not True:
+            xscale = kwargs["xscale"]
+            xscale_param = spar.get(xscale)
+            xscale_kwargs = (
+                {str(xscale_param): kwargs.get("xtresh")}
+                if "xtresh" in kwargs
+                else {}
+            )
+            ax.set_xscale(xscale, **xscale_kwargs)
+            self.state.xscale[nax] = xscale
+
+        if kwargs.get("yscale", True) is not True:
+            yscale = kwargs["yscale"]
+            yscale_param = spar.get(yscale)
+            yscale_kwargs = (
+                {str(yscale_param): kwargs.get("ytresh")}
+                if "ytresh" in kwargs
+                else {}
+            )
+            ax.set_yscale(yscale, **yscale_kwargs)
+            self.state.yscale[nax] = yscale
+
+        if kwargs.get("alpha"):
+            ax.set_alpha(kwargs["alpha"])
+
+        # Set ticks and tickslabels
+        xtc = kwargs.get("xticks", True)
+        ytc = kwargs.get("yticks", True)
+        xtl = kwargs.get("xtickslabels", True)
+        ytl = kwargs.get("ytickslabels", True)
+        if xtc is not True or xtl is not True:
+            self.set_ticks(ax, xtc, xtl, "x")
+        if ytc is not True or ytl is not True:
+            self.set_ticks(ax, ytc, ytl, "y")
+
+        # Sets grid on the axis
+        if kwargs.get("grid", False) is True:
+            ax.grid(True)
+        elif isinstance(kwargs.get("grid", False), str):
+            ax.grid(True, axis=kwargs["grid"])
+
+        # Reinforces the tight_layout if needed
+        if self.state.tight is not False and self.state.fig is not None:
+            self.state.fig.tight_layout()
+
+        # End of the function
+
+    def set_ticks(
+        self,
+        ax: Axes,
+        tc: str | list[float] | bool | None,
+        tl: str | list[str] | bool | None,
+        typeaxis: str,
+    ) -> None:
+        """Sets the ticks and ticks labels on the x- or y-axis of a
+        selected axis.
 
         Returns
         -------
-        - ax: ax | list[ax] | int | None
-            The selected set of axes.
-        - nax: int
-            The number of the selected set of axes.
+        - None
 
         Parameters
         ----------
-        - ax (not optional): ax | int | list[ax] | None
-            The selected set of axes.
-        - **kwargs: Any
-            The keyword arguments to be passed to the create_axes function
-            (not written here since is not public method).
+        - ax: ax
+            the selected set of axes
+        - tc: list[float]
+            the ticks of the x-axis
+        - tl: list[float]
+            the ticks labels of the x-axis
+        - typeaxis: str
+            the type of axis (x or y)
 
         Notes
         -----
@@ -218,60 +333,63 @@ class AxisManager:
 
         Examples
         --------
-        - Example #1: Set the axes of the figure
+        - Example #1: set ticks and ticks labels on the x-axis
 
-            >>> _assign_ax(ax, **kwargs)
+            >>> _set_ticks(ax, [0,1,2,3], ['0','1','2','3'], 'x')
 
-        - Example #2: Set the axes of the figure (no axis selected)
+        - Example #2: set ticks and ticks labels on the y-axis (no ticks)
 
-            >>> _assign_ax(None, **kwargs)
+            >>> _set_ticks(ax, None, None, 'y')
 
-        - Example #3: Set the axes of the figure (axis is a list)
+        - Example #3: set ticks and ticks labels on the x-axis (no ticks labels)
 
-            >>> _assign_ax([ax], **kwargs)
+            >>> _set_ticks(ax, [0,1,2,3], None, 'x')
 
         """
-        # Check if the axis is None and no axis is present (and create one)
-        if ax is None and len(self.state.ax) == 0:
-            ax = self.mediator.create_axes(
-                ncol=1, nrow=1, check=False, **kwargs
-            )
+        set_ticks = {"x": ax.set_xticks, "y": ax.set_yticks}
+        set_label = {"x": ax.set_xticklabels, "y": ax.set_yticklabels}
 
-        # Check if the axis is None and an axis is present (and select the last one,
-        # the current axis if it belongs to the one saved in the figure or the last
-        # one saved
-        elif ax is None and len(self.state.ax) > 0:
-            if self.state.fig is None:
-                raise ValueError("No figure is present.")
-            ax = (
-                self.state.fig.gca()
-                if self.state.fig.gca() in self.state.ax
-                else self.state.ax[-1]
-            )
+        # Ticks are None
+        if tc is None:
 
-        # Check if the axis is a list and select the first element
-        elif isinstance(ax, list):
-            ax = ax[0]
+            set_ticks[typeaxis]([])
+            set_label[typeaxis]([])
 
-        # Check if the axis is an int, and select the corresponding axis from
-        # the list of axes
-        elif isinstance(ax, int):
-            ax = self.state.ax[ax]
+            # If tickslabels are not None raise a warning
+            if tl is not None and tl is not True:
+                warn = (
+                    "Warning, tickslabels are defined with no"
+                    "ticks!! (function setax)"
+                )
+                warnings.warn(warn, UserWarning)
 
-        # If none of the previous cases is satisfied assert that ax is an axis
-        if not isinstance(ax, Axes):
-            raise ValueError("The provided axis is not valid.")
+        # Ticks are not None and tickslabels are custom
+        elif tl is not True:
 
-        # Get the figure associated to the axes
-        fig = ax.get_figure()
+            # Ticks are not None, then are set
+            if tc is not True:
+                set_ticks[typeaxis](tc)
 
-        # Check if the figure is the same as the one in the class
-        if fig != self.state.fig:
-            text = "The provided axis does not belong to the expected figure."
-            raise ValueError(text)
+            # Ticks are Default with custom tickslabels, a warning is raised
+            elif tl is not None:
+                warn = (
+                    "Warning, tickslabels should be fixed only"
+                    "when ticks are fixed (function setax)"
+                )
+                warnings.warn(warn, UserWarning)
 
-        # Find the number of the axes and return it
-        nax = self.state.ax.index(ax)
+            # Ticks are set custom, then tickslabels are set
+            if tl is None:
+                set_label[typeaxis]([])
+            elif isinstance(tl, str):
+                set_label[typeaxis]([tl])  # Wrap single string
+            elif isinstance(tl, Iterable):
+                set_label[typeaxis](tl)
+            else:
+                raise TypeError(f"Invalid tick labels: {tl!r}")
 
-        # Return the axis and its index
-        return ax, nax
+        # Ticks are custom, tickslabels are default
+        elif tc is not True:
+            set_ticks[typeaxis](tc)
+
+        # End of the function

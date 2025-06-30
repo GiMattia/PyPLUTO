@@ -167,6 +167,7 @@ class CreateAxesManager:
             raise ValueError(
                 "You need to create a figure before creating axes."
             )
+
         if figsize := kwargs.get("figsize"):
             self.state.fig.set_size_inches(*figsize)
             self.state.figsize = figsize
@@ -198,7 +199,7 @@ class CreateAxesManager:
                 sharey_ref = sharey
 
             self.add_ax(
-                self.state.fig.add_subplot(
+                axis := self.state.fig.add_subplot(
                     nrow + self.state.nrow0,
                     ncol + self.state.ncol0,
                     i + 1,
@@ -208,6 +209,7 @@ class CreateAxesManager:
                 ),
                 len(self.state.ax),
             )
+            self.state.ax.append(axis)
 
             # Compute row and column
             row = int(i / ncol)
@@ -378,7 +380,7 @@ class CreateAxesManager:
 
         """
         ax_pars = {
-            "ax": ax,
+            #      "ax": ax,
             "legpos": None,
             "legpar": [self.state.fontsize, 1, 2, 0.8, 0.8],
             "nline": 0,
@@ -397,6 +399,4 @@ class CreateAxesManager:
             getattr(self, attr).append(copy.copy(default))
 
         # Position the axis index in the middle of the axis
-        self.state.ax[i].annotate(
-            str(i), (0.47, 0.47), xycoords="axes fraction"
-        )
+        ax.annotate(str(i), (0.47, 0.47), xycoords="axes fraction")

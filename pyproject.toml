@@ -134,6 +134,7 @@ disable = [
     "too-many-arguments",
     "too-many-positional-arguments",
     "too-many-instance-attributes",
+    "duplicate-code",
 ]
 
 [tool.pylint.format]

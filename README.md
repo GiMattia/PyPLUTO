@@ -104,6 +104,14 @@ pp.Image().display(D.rho, x1=D.x1, x2=D.x2, cpos="right")
 pp.show()
 ```
 
+## Examples
+
+In order to test PyPLUTO capabilities, even without the PLUTO code, we provide
+an extensive tests suite with all the necessary data.
+In this way, PyPLUTO can be explored without any knowledge of the PLUTO code.
+All the tests are located in the `Examples` directory and are aimed at showing
+how to exploit the package capabilities.
+
 ## Documentation
 
 For more detailed instructions and additional installation options, please refer to the PyPLUTO documentation where you can find comprehensive guides and examples.

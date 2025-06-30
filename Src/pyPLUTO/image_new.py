@@ -3,16 +3,38 @@ from typing import Any
 
 from matplotlib.figure import Figure
 
+from .colorbar import ColorbarManager
+from .contour import ContourManager
 from .create_axes import CreateAxesManager
 from .delegator import delegator
+from .display import DisplayManager
 from .figure_new import FigureManager
 from .imagestate import ImageState
 from .imagetools_new import ImageToolsManager
 from .inspector import track_kwargs
+from .interactive import InteractiveManager
+from .legend import LegendManager
 from .mediator import Mediator
+from .plot_new import PlotManager
+from .scatter import ScatterManager
 from .set_axis import AxisManager
+from .streamplot import StreamplotManager
+from .zoom import ZoomManager
 
-manager_classes = (CreateAxesManager, ImageToolsManager, AxisManager)
+manager_classes = (
+    AxisManager,
+    ColorbarManager,
+    ContourManager,
+    CreateAxesManager,
+    DisplayManager,
+    ImageToolsManager,
+    InteractiveManager,
+    LegendManager,
+    PlotManager,
+    ScatterManager,
+    StreamplotManager,
+    ZoomManager,
+)
 
 
 @delegator("state", "mediator")
@@ -51,7 +73,7 @@ class Image_new:
         LaTeX: bool | str = True,
         fig: Figure | None = None,
         style: str = "default",
-        text: bool = False,
+        text: bool = True,
         check: bool = True,
         **kwargs: Any,
     ) -> None:

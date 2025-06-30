@@ -26,7 +26,7 @@ import pyPLUTO
 Data = pyPLUTO.Load("all", datatype="vtk", path="Test_Problems/HD/Riemann_2D")
 
 # Creating the image
-Image = pyPLUTO.Image(figsize=[7, 7])
+Image = pyPLUTO.Image_new(figsize=[7, 7])
 
 # Creating the interactive plot
 Image.interactive(
@@ -42,4 +42,5 @@ Image.interactive(
 )
 
 # Saving the gif of the animation
-Image.animate("test10_riemann2d.gif")
+pyPLUTO.show()
+# Image.animate("test10_riemann2d.gif")

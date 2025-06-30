@@ -687,7 +687,8 @@ def colorbar(self, pcm=None, axs=None, cax=None, check=True, **kwargs) -> None:
     # Assign the colorbar axis, if cax is None create a new one
     if cax is None:
         divider = make_axes_locatable(axs)
-        cax = divider.append_axes(cpos, size="7%", pad=cpad)  # 0.07 right
+        cax = divider.append_axes(cpos, size="7%", pad=cpad)
+
     else:
         cax, naxc = self._assign_ax(cax, **kwargs)
         self._hide_text(naxc, cax.texts)

@@ -15,7 +15,7 @@ class RangeManager:
         """Initialize the RangeManager with the given state."""
         self.state = state
 
-    def _set_xrange(
+    def set_xrange(
         self, ax: Axes, nax: int, xlim: list[float], case: int
     ) -> None:
         """Sets the lower and upper limits of the x-axis of a set of
@@ -76,7 +76,7 @@ class RangeManager:
 
         # End of the function
 
-    def _set_yrange(
+    def set_yrange(
         self,
         ax: Axes,
         nax: int,

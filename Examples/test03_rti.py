@@ -34,7 +34,7 @@ import pyPLUTO
 Data = pyPLUTO.Load([0, 1, 2], path="Test_Problems/MHD/Rayleigh_Taylor")
 
 # Creating the image
-Image = pyPLUTO.Image(
+Image = pyPLUTO.Image_new(
     figsize=[13, 7.6],
     suptitle="Test 03 - MHD Rayleigh-Taylor instability",
     suptitlesize=22,

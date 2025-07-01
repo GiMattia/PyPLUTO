@@ -27,7 +27,7 @@ import pyPLUTO
 Data = pyPLUTO.Load(path="Test_Problems/MHD/Torus")
 
 # Creating the image
-Image = pyPLUTO.Image_new(
+Image = pyPLUTO.Image(
     nwin=2, figsize=[11, 5], suptitle="Test 08 - MHD Torus test"
 )
 

@@ -25,8 +25,8 @@ import pyPLUTO
 Data = pyPLUTO.Load(path="Test_Problems/RMHD/KH")
 
 # Creating the image and the subplot axes (to have two secondary plots)
-Image = pyPLUTO.Image_new(
-    figsize=[10, 10],
+Image = pyPLUTO.Image(
+    figsize=[10.5, 10],
     suptitle="Test 07 - RMHD Kelvin-Helmholtz instability test",
 )
 Image.create_axes(ncol=2, wratio=[1, 0.1], wspace=[0.003], right=0.55)

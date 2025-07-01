@@ -5,21 +5,21 @@ from pyPLUTO.imagestate import ImageState
 
 
 def test_default_initialization():
-    img = pp.Image_new()
+    img = pp.Image()
     assert isinstance(img.state, ImageState)
     assert isinstance(img._figure_manager, object)
 
 
 def test_custom_arguments():
     fig = plt.figure()
-    img = pp.Image_new(fig=fig, style="dark_background")
+    img = pp.Image(fig=fig, style="dark_background")
     assert img.state.fig is fig
     assert img.state.style == "dark_background"
     assert img.style == "dark_background"
 
 
 def test_attribute_get_existing():
-    img = pp.Image_new()
+    img = pp.Image()
     img.state.custom_attr = 123
     assert img.custom_attr == 123
     img.custom_attr = 456
@@ -30,14 +30,14 @@ def test_attribute_get_existing():
 
 
 def test_assign_existing_attribute():
-    img = pp.Image_new()
+    img = pp.Image()
     img.assign(style="seaborn")
     assert img.style == "seaborn"
     assert img.state.style == "seaborn"
 
 
 def test_assign_new_custom_attribute():
-    img = pp.Image_new()
+    img = pp.Image()
     img.assign(title="Jet Plot")
     assert img.title == "Jet Plot"
     assert hasattr(img.state, "title")
@@ -45,7 +45,7 @@ def test_assign_new_custom_attribute():
 
 
 def test_assign_multiple_attributes():
-    img = pp.Image_new()
+    img = pp.Image()
     img.assign(style="ggplot", color=["red", "green"], label="Shock Front")
     assert img.style == "ggplot"
     assert img.color == ["red", "green"]
@@ -54,22 +54,22 @@ def test_assign_multiple_attributes():
 
 
 def test_assign_chainability():
-    img = pp.Image_new()
+    img = pp.Image()
     result = img.assign(a=1, b=2)
     assert result is img
     assert img.a == 1
     assert img.b == 2
 
 
-def test_image_new_prints_message(capfd):
-    I = pp.Image_new(text=True)
+def test_Image_prints_message(capfd):
+    I = pp.Image(text=True)
     captured = capfd.readouterr()
     assert "Image class created at nwin" in captured.out
 
 
 # Check if the __str__ method works
 def test_str():
-    Image = pp.Image_new()
+    Image = pp.Image()
     s = str(Image)
     assert "Image properties:" in s
     assert "Adds a set of [nrow,ncol] subplots to the figure." in s
@@ -86,5 +86,10 @@ def test_str():
 # Check if raises an error with wrong attribute
 def test_getattr_new():
     with pytest.raises(AttributeError):
-        Image = pp.Image_new()
+        Image = pp.Image()
         Image.wrong
+
+
+def test_tight_layout():
+    Image = pp.Image(tight=False)
+    assert Image.fig.get_tight_layout() is False

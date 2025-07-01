@@ -4,7 +4,7 @@ import pyPLUTO as pp
 
 # Check the default values of the figure created in the __init__
 def test_figure_default_init():
-    Image = pp.Image_new()
+    Image = pp.Image()
     Image.create_axes()
     nrow, ncol = (
         Image.fig.axes[0].get_subplotspec().get_gridspec().get_geometry()
@@ -15,7 +15,7 @@ def test_figure_default_init():
 
 # Change number of rows and columns
 def test_rows_columns():
-    Image = pp.Image_new()
+    Image = pp.Image()
     ax = Image.create_axes(ncol=2, nrow=3)
     nrow, ncol = (
         Image.fig.axes[0].get_subplotspec().get_gridspec().get_geometry()
@@ -27,7 +27,7 @@ def test_rows_columns():
 
 # Add suptitle and change tight layout
 def test_suptitle_layout():
-    Image = pp.Image_new()
+    Image = pp.Image()
     Image.create_axes(ncol=2, nrow=3, suptitle="this is title", tight=False)
     assert Image.fig._suptitle.get_text() == "this is title"
     assert Image.fig.get_tight_layout() is False
@@ -35,7 +35,7 @@ def test_suptitle_layout():
 
 # Add different borders to the figure
 def test_borders():
-    Image = pp.Image_new()
+    Image = pp.Image()
     ax = Image.create_axes(left=0.2, right=0.8, top=0.85, bottom=0.05)
     assert Image.fig.get_tight_layout() is False
     pos = ax.get_position().bounds
@@ -47,7 +47,7 @@ def test_borders():
 
 # Two columns custom
 def test_twocolumns():
-    Image = pp.Image_new()
+    Image = pp.Image()
     ax = Image.create_axes(
         ncol=2, left=0.15, right=0.8, wspace=0.2, wratio=[2, 1]
     )
@@ -61,7 +61,7 @@ def test_twocolumns():
 
 # Multiple rows
 def test_multiple_row():
-    Image = pp.Image_new()
+    Image = pp.Image()
     ax = Image.create_axes(ncol=1, nrow=3, hspace=[0.2, 0.1], hratio=[1, 2, 1])
     pos = ax[0].get_position().bounds
     assert np.isclose(pos[1], 0.775)
@@ -76,7 +76,7 @@ def test_multiple_row():
 
 # Multiple rows and columns
 def test_multiple_rowcols():
-    Image = pp.Image_new()
+    Image = pp.Image()
     ax = Image.create_axes(ncol=2, nrow=3, left=0.05, bottom=0.05)
     pos = ax[0].get_position().bounds
     assert np.isclose(pos[0], 0.05)
@@ -86,7 +86,7 @@ def test_multiple_rowcols():
 
 # Suptitle and figsize
 def test_size_suptitle():
-    Image = pp.Image_new(suptitle="This is a title", figsize=(6, 7))
+    Image = pp.Image(suptitle="This is a title", figsize=(6, 7))
     assert Image.fig._suptitle.get_text() == "This is a title"
     assert Image.fig.get_figwidth() == 6
     assert Image.fig.get_figheight() == 7
@@ -98,7 +98,7 @@ def test_size_suptitle():
 
 # Multiple create_axes
 def test_multiple_created():
-    Image = pp.Image_new()
+    Image = pp.Image()
     ax = Image.create_axes(left=0.2, right=0.5)
     ax = Image.create_axes(left=0.6, right=0.85)
     assert len(ax) == 2

@@ -27,7 +27,7 @@ Data_p = pyPLUTO.LoadPart(
 )
 
 # Creating the image and the axes
-Image = pyPLUTO.Image_new(figsize=[9.5, 8])
+Image = pyPLUTO.Image(figsize=[9.5, 8])
 Image.create_axes(right=0.8)
 Image.create_axes(nrow=2, left=0.81, right=0.85, hspace=0.01)
 

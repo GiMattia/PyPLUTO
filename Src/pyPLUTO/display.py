@@ -7,7 +7,7 @@ from numpy.typing import ArrayLike
 from .colorbar import ColorbarManager
 from .delegator import delegator
 from .imagestate import ImageState
-from .imagetools_new import ImageToolsManager
+from .imagetools import ImageToolsManager
 from .inspector import track_kwargs
 from .range import RangeManager
 from .set_axis import AxisManager

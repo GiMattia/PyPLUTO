@@ -7,7 +7,7 @@ from numpy.typing import NDArray
 from .colorbar import ColorbarManager
 from .delegator import delegator
 from .imagestate import ImageState
-from .imagetools_new import ImageToolsManager
+from .imagetools import ImageToolsManager
 from .inspector import track_kwargs
 from .legend import LegendManager
 from .range import RangeManager

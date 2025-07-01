@@ -30,7 +30,7 @@ import pyPLUTO
 Data = pyPLUTO.Load(path="Test_Problems/HD/Disk_Planet")
 
 # Creating the image and the subplot axes (to have two zoom simultaneously)
-Image = pyPLUTO.Image_new()
+Image = pyPLUTO.Image()
 ax = Image.create_axes()
 
 # Compute the disk keplerian rotation speed

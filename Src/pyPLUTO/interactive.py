@@ -14,9 +14,9 @@ from numpy.typing import NDArray
 from .delegator import delegator
 from .display import DisplayManager
 from .imagestate import ImageState
-from .imagetools_new import ImageToolsManager
+from .imagetools import ImageToolsManager
 from .inspector import track_kwargs
-from .plot_new import PlotManager
+from .plot import PlotManager
 
 
 @delegator("state")

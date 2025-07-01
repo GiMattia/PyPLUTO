@@ -8,7 +8,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from .delegator import delegator
 from .imagestate import ImageState
-from .imagetools_new import ImageToolsManager
+from .imagetools import ImageToolsManager
 from .inspector import track_kwargs
 
 

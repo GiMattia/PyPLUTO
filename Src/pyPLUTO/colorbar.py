@@ -14,10 +14,16 @@ from .inspector import track_kwargs
 
 @delegator("state")
 class ColorbarManager:
+    """Class to manage the colorbar in the image.
+
+    This class provides methods to create and manage colorbars in the image
+    class. It allows for customization of the colorbar's position, size,
+    ticks, labels, and other properties."""
 
     exposed_methods = ("colorbar",)
 
     def __init__(self, state: ImageState):
+        """Initialize the ColorbarManager with the given state."""
         self.state = state
         self.ImageToolsManager = ImageToolsManager(state)
 
@@ -109,7 +115,6 @@ class ColorbarManager:
 
         """
         # Check parameters
-
         kwargs.pop("check", check)
 
         # If pcm and a source axes are selected, raise a warning and use pcm
@@ -117,6 +122,7 @@ class ColorbarManager:
             warn = "Both pcm and axs are not None, pcm will be used"
             warnings.warn(warn, UserWarning)
 
+        # Standard check on the figure
         if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
@@ -124,17 +130,19 @@ class ColorbarManager:
 
         # Select the source axis
         if pcm is not None:
+            # If the pcm is not none, use it and find the corresponding axes
             if not isinstance(pcm.axes, Axes):
                 raise TypeError("Expected an Axes instance.")
             axs = pcm.axes
         elif axs is None:
+            # If axs is None, use the current axes
             gca = self.state.fig.gca()
             if not isinstance(gca, Axes):
                 raise TypeError("gca() did not return an Axes instance.")
             axs = gca
         axs, _ = self.ImageToolsManager.assign_ax(axs, **kwargs)
 
-        # Select the keywords
+        # Select the keywords to position the colorbar
         if pcm is None:
             collection = axs.collections[0]
             if not isinstance(collection, QuadMesh):

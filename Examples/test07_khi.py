@@ -38,6 +38,7 @@ Image.display(
     x1=Data.x1,
     x2=Data.x2,
     title="Density",
+    aspect="equal",
     ax=0,
     shading="gouraud",
     xtitle=r"$x$",

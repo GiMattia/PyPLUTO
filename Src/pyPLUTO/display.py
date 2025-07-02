@@ -296,6 +296,5 @@ class DisplayManager:
         # If tight_layout is enabled, is re-inforced
         if self.state.tight:
             self.state.fig.tight_layout()
-        ax.set_aspect("equal")
 
         return pcm

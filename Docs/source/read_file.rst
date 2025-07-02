@@ -1,5 +1,8 @@
 .. _read_file:
 
+Load.read_file
+==============
+
 .. autofunction:: pyPLUTO.Load.read_file
 
 |

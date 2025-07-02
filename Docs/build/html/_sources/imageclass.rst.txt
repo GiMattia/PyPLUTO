@@ -1,7 +1,27 @@
 .. _imageclass:
 
-Plotting the data
-=================
+Plotting
+========
+
+.. toctree::
+   :hidden:
+
+   image
+   animate
+   colorbar
+   contour
+   create_axes
+   display
+   interactive
+   legend
+   oplotbox
+   plot
+   savefig
+   scatter
+   set_axis
+   streamplot
+   text
+   zoom
 
 The loaded data should be visualized in a complete yet efficient way.
 The :ref:`Image <image>` class is a quick tool in order to obtain simple plots
@@ -17,11 +37,6 @@ subplots are located.
 ----
 
 
-.. toctree::
-   :hidden:
-
-   image
-
 Subplots creation and customization
 -----------------------------------
 
@@ -29,12 +44,6 @@ The first step of the plotting procedure is to create a list of axes
 (where each element of the axes list corresponds to a subplot).
 Two functions are built in order to give a good compromise between simplicity
 and customization:
-
-.. toctree::
-   :hidden:
-
-   create_axes
-   set_axis
 
 The :ref:`create_axes <create_axes>` method creates a simple figure and set of
 axes, given a specific number of rows and columns. The subplots are
@@ -67,13 +76,6 @@ At the moment only 1D and 2D plots are available, for both fluid and particles.
 .. note::
    Full 3D plotting is under active development.
 
-   .. toctree::
-      :hidden:
-
-      plot
-      display
-      scatter
-
 The standard 1D and 2D fluid plots can be produced through the functions
 :ref:`plot <plot>` and :ref:`display <display>`.
 Both functions are highly customizable and call the :ref:`set_axis  <set_axis>`
@@ -89,12 +91,6 @@ method.
 Field and contour lines
 -----------------------
 
-.. toctree::
-   :hidden:
-
-   contour
-   streamplot
-
 The :ref:`Image <image>` class contains a :ref:`contour <contour>` and a
 :ref:`streamplot <streamplot>` methods, which can be used for a quick
 visualization of contour and field lines. Such methods are based on the contour
@@ -109,12 +105,6 @@ absence of complex structures.
 
 Interactive plots
 -----------------
-
-.. toctree::
-   :hidden:
-
-   interactive
-   animate
 
 A quick interactive visualization is possible due to the
 :ref:`interactive <interactive>` methods, which is available for both 1D and 2D
@@ -146,15 +136,6 @@ sometimes the best choice (especially for non-trivial figures) is to add them
 during a later step. However, multiple legends and colorbars are possible
 within the same figure.
 
-.. toctree::
-   :hidden:
-
-   legend
-   colorbar
-   zoom
-   savefig
-   text
-
 The PyPLUTO module allows for easy inset zooms through the :ref:`zoom <zoom>`
 for both 1D and 2D plots with the same level of customization of the functions
 :ref:`plot <plot>` and :ref:`display <display>`.
@@ -169,6 +150,17 @@ a simple wrapper of the matplotlib savefig method.
 Text can be written within a figure through the :ref:`text <text>` method.
 Depending on the user's choice, the text can be placed in different font size,
 color and position (relative to the figure, axes points or fraction).
+
+|
+
+----
+
+AMR blocks
+----------
+
+AMR blocks can be visualized through the :ref:`oplotbox <oplotbox>` method,
+although, due to the ongoing upgrades to the AMR in gPLUTO and its output, such
+method may change in the future.
 
 |
 

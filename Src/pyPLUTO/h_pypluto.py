@@ -15,10 +15,6 @@ def makelist(el: Any) -> list[Any]:
     - el (not optional): Any
         The element to be converted into a list.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -55,10 +51,6 @@ def check_par(par: set[str], func: str, **kwargs: Any) -> None:
         The function correct parameters.
     - **kwargs: dict
         The selected parameters.
-
-    Notes
-    -----
-    - None
 
     ----
 

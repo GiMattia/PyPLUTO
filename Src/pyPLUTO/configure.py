@@ -36,10 +36,6 @@ class Configure:
         ----------
         - None
 
-        Notes
-        -----
-        - None
-
         ----
 
         Examples
@@ -68,6 +64,11 @@ class Configure:
 
         # Try to get IPython. If not available, it's not an IPython session.
         def get_ipython_wrapper() -> Any:
+            """Wrapper to get the IPython instance. Try to import get_ipython
+            from IPython.core.getipython. If it fails, return None.
+            This is useful for standard Python interpreter sessions where
+            IPython is not available.
+            """
             try:
                 from IPython.core.getipython import get_ipython
 

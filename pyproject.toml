@@ -50,7 +50,8 @@ dev = [
     "mypy",
     "blacken-docs",
     "docformatter",
-    "interrogate"
+    "interrogate",
+    "pydata-sphinx-theme"
 ]
 
 [tool.setuptools.packages.find]

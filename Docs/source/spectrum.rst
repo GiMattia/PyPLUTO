@@ -1,5 +1,8 @@
 .. _spectrum:
 
+LoadPart.spectrum
+=================
+
 .. autofunction:: pyPLUTO.LoadPart.spectrum
 
 |

@@ -1,5 +1,8 @@
 .. _curl:
 
+Load.curl
+=========
+
 .. autofunction:: pyPLUTO.Load.curl
 
 |

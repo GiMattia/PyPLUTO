@@ -25,6 +25,11 @@ defaults = {
 
 @delegator("state")
 class CreateAxesManager:
+    """Class to manage the creation of axes in the image.
+
+    This class provides methods to create axes in the image class. It allows
+    for customization of the axes' position, spacing, projection, and other
+    properties."""
 
     exposed_methods = ("create_axes",)
 
@@ -103,14 +108,6 @@ class CreateAxesManager:
             The space between plot columns (in figure units). If not enough or
             too many spaces are considered, the program will remove the excess
             and fill the lacks with [0.1].
-
-        Notes
-        -----
-        - The subplot_mosaic method of matplotlib will be implemented in future
-        releases.
-        - This method may return None in the future releases
-        - Sharex and sharey will follow a different implementation in future
-        releases
 
         ----
 
@@ -247,6 +244,26 @@ class CreateAxesManager:
     def _set_custom_axes(
         self, custom: dict[str, Any], nrow: int, ncol: int
     ) -> tuple[list[list[float]], list[list[float]]]:
+        """Sets the axes position and spacing according to the custom
+        parameters.
+
+        Returns
+        -------
+        - wplot: list[list[float]]
+            List of the left and right position of the axes.
+        - hplot: list[list[float]]
+            List of the top and bottom position of the axes.
+
+        Parameters
+        ----------
+        - custom: dict[str, Any]
+            Dictionary with the custom parameters for the axes.
+        - nrow: int
+            Number of rows in the axes.
+        - ncol: int
+            Number of columns in the axes.
+
+        """
         hspace, hratio = self._check_rowcol(
             custom["hratio"], custom["hspace"], nrow, "rows"
         )
@@ -308,10 +325,6 @@ class CreateAxesManager:
         - func: str
             the function to check (rows or cols)
 
-        Notes
-        -----
-        - None
-
         ----
 
         Examples
@@ -365,10 +378,6 @@ class CreateAxesManager:
             The axis to be added.
         - i (not optional): int
             The index of the axis in the list.
-
-        Notes
-        -----
-        - None
 
         ----
 

@@ -1,5 +1,8 @@
 .. _gradient:
 
+Load.gradient
+=============
+
 .. autofunction:: pyPLUTO.Load.gradient
 
 |

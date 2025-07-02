@@ -1,6 +1,9 @@
 .. _streamplot:
 
-.. autofunction:: pyPLUTO.Image.streamplot
+Image.streamplot
+================
+
+.. automethod:: pyPLUTO.streamplot.StreamplotManager.streamplot
 
 |
 

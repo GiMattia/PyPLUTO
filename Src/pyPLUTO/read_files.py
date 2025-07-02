@@ -16,10 +16,6 @@ def read_vtk(self) -> None:
     ----------
     - None
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -45,10 +41,6 @@ def _read_h5(self, filename: str, **kwargs: Any) -> None:
         The name of the file to be read.
     - kwargs: Any
         Any additional arguments.
-
-    Notes
-    -----
-    - None
 
     ----
 
@@ -86,10 +78,6 @@ def read_tab(self) -> None:
     ----------
     - None
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -111,10 +99,6 @@ def read_bin(self) -> None:
 
     Parameters
     ----------
-    - None
-
-    Notes
-    -----
     - None
 
     ----
@@ -147,10 +131,6 @@ def _read_dat(self, filename: str, **kwargs: Any) -> None:
     - skip: int, default 0
         The number of rows to skip.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -181,7 +161,9 @@ def _read_dat(self, filename: str, **kwargs: Any) -> None:
     return analysis
 
 
-def read_file(self, filename: str, datatype: str = None, **kwargs: Any) -> Any:
+def read_file(
+    self, filename: str, datatype: str | None = None, **kwargs: Any
+) -> Any:
     """Read the data from the output files.
 
     Returns
@@ -196,10 +178,6 @@ def read_file(self, filename: str, datatype: str = None, **kwargs: Any) -> Any:
         The type of the file.
     - **kwargs: Any
         Any additional arguments.
-
-    Notes
-    -----
-    - None
 
     ----
 

@@ -37,10 +37,6 @@ def fourier(
     - zdir: bool, default True
         If True, the z-direction is transformed.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -132,10 +128,6 @@ def _fourier_spacing(dx: float | int | list | np.ndarray) -> float:
     ----------
     - dx (not optional): float | int | list | np.ndarray
         The grid spacing.
-
-    Notes
-    -----
-    - Extension to non-uniform grids will be added in future releases.
 
     ----
 

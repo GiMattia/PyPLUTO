@@ -40,33 +40,14 @@ manager_classes = (
 
 @delegator("state", "mediator")
 class Image:
-    """Image class. It plots the data.
-
-    Image properties:
-    - Figure size        (figsize)
-    - Window number      (nwin)
-    - Number of subplots (nrow0 x ncol0)
-    - Global fontsize    (fontsize)
-
-    Public methods available:
-
-    WIP...
-
-    Public attributes available:
-
-    - color: the colora available
-    - dictcolor: the color dictionary
-    - fig: the figure associated to the image
-    - figsize: the figure size
-    - fontsize: the fontsize
-    - LaTeX: the LaTeX option
-    - nwin: the window number
-    - style: the plotting style
-    - tight: the tight layout option
-
-    WIP...
-
-    """
+    """Image class. It plots the data. The Image class is a facade for the
+    different managers that handle the various aspects of plotting, such as
+    creating axes, displaying data, adding colorbars, and more. It provides a
+    unified interface for creating and managing plots in a figure.
+    The attributes are handled through the `ImageState` class, which is a
+    dataclass that stores the state of the image, such as the figure, axes,
+    and other properties. The `Image` class uses a mediator pattern to manage
+    the interactions between the different managers and the state."""
 
     @track_kwargs
     def __init__(
@@ -126,10 +107,6 @@ class Image:
             If True, the black color is used as first color.
         - withwhite: bool, default False
             If True, the white color is used as first color.
-
-        Notes
-        -----
-        - None
 
         ----
 
@@ -231,5 +208,5 @@ class Image:
         """
 
     def oplotbox(self, *args: Any, **kwargs: Any) -> None:
-        """Plots a box in the figure."""
+        """Plots a box in the figure (AMR, WIP)"""
         oplotbox(self, *args, **kwargs)

@@ -17,10 +17,16 @@ from .set_axis import AxisManager
 
 @delegator("state")
 class ZoomManager:
+    """Manager for the zoom functionality in pyPLUTO.
+
+    This class provides methods to create inset zooms of existing plots or
+    displays. It allows customization of the zoom axes, including position,
+    size, and various display options."""
 
     exposed_methods = ("zoom",)
 
     def __init__(self, state: ImageState):
+        """Initializes the ZoomManager with the given state."""
         self.state = state
         self.ImageToolsManager = ImageToolsManager(state)
         self.CreateAxesManager = CreateAxesManager(state)
@@ -199,10 +205,6 @@ class ZoomManager:
             Keyword in order to add/remove the inset zoom lines. The default
             option is True.
 
-        Notes
-        -----
-        - Custom shading will be implemented in future releases.
-
         ----
 
         Examples
@@ -285,7 +287,7 @@ class ZoomManager:
         return axins
 
     def zoomplot(self, ax: Axes, axins: Axes) -> None:
-        """Something"""
+        """Plots the lines on the inset zoom"""
         lines = ax.get_lines()
         for i in lines:
             self.PlotManager.plot(
@@ -302,7 +304,7 @@ class ZoomManager:
     def zoomdisplay(
         self, ax: Axes, nax: int, axins: Axes, **kwargs: Any
     ) -> None:
-        """Something"""
+        """Plots the zoom on the inset zoom, for a display plot"""
         pcm = ax.collections[0]
         pnr = str(pcm.norm).split()[0].split(".")[2]
         dict_norm = {
@@ -368,10 +370,6 @@ class ZoomManager:
         - pos: list[float]
             The position of the inset axes.
 
-        Notes
-        -----
-        - None
-
         """
         # Compute the position of the inset axis and return it
         left = pos[0]
@@ -403,10 +401,6 @@ class ZoomManager:
             The width of the inset axis.
         - height: float
             The height of the inset axis.
-
-        Notes
-        -----
-        - None
 
         """
         # Check if both "top" and "bottom" keywords are given

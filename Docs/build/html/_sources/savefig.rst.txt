@@ -1,6 +1,9 @@
 .. _savefig:
 
-.. autofunction:: pyPLUTO.Image.savefig
+Image.savefig
+==============
+
+.. automethod:: pyPLUTO.imagetools.ImageToolsManager.savefig
 
 |
 

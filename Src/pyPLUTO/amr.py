@@ -448,11 +448,6 @@ def oplotbox(
       - lrange: [level_min, level_max]
           The range to be overplotted.
 
-    Notes
-    -----
-      - This routines will be optimize in the future, alongside a novel
-        implementation of the AMR in the PLUTO code.
-
       ----
 
     Examples

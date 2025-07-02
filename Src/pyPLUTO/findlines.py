@@ -28,10 +28,6 @@ def _check_var(self, var: str | NDArray, transpose: bool = False) -> np.ndarray:
     - transpose: bool, default False
         If True, the variable is transposed.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -97,10 +93,6 @@ def _vector_field(
     - yc (not optional): np.ndarray
         The y coordinates of the grid.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -141,10 +133,10 @@ def find_fieldlines(
     check: bool = True,
     **kwargs: Any,
 ) -> list:
-    """Find field lines using the vector field. The field lines are computed by
-    interpolating the variables var1 and var2 at the footpoints x0 and y0. Different
-    integration algorithms are available, based on the method solve_ivp of the scipy
-    package.
+    """Find field lines using the vector field. The field lines are
+    computed by interpolating the variables var1 and var2 at the
+    footpoints x0 and y0. Different integration algorithms are
+    available, based on the method solve_ivp of the scipy package.
 
     Returns
     -------
@@ -193,10 +185,6 @@ def find_fieldlines(
         The y coordinates of the grid.
     - y0: list
         The y coordinates of the footpoints.
-
-    Notes
-    -----
-    - None
 
     ----
 
@@ -285,17 +273,19 @@ def find_fieldlines(
 
     # Define the system of differential equations
     def system(t, y):
+        """System of differential equations for the field lines."""
         return _vector_field(t, y, varx, vary, xc, yc)
 
     # Event to detect if the field line exits the domain
     def outside_domain(t, y):
-
+        """Event to detect if the field line exits the domain."""
         if y[0] < xbeg or y[0] > xend or y[1] < ybeg or y[1] > yend:
             return 0  # Trigger event (exiting the domain)
         return 1  # Do not trigger event (still within the domain)
 
     # Event to detect if the field line closes on itself
     def close_to_start(t, y):
+        """Event to detect if the field line closes on itself."""
         dist_0 = np.linalg.norm(y - np.asarray(self.init_pos))
         if dist_0 < ctol and t > maxstep:
             self.loop_dom = True
@@ -305,6 +295,7 @@ def find_fieldlines(
 
     # Event to detect if the maximum number of steps is reached
     def max_num_steps(t, y):
+        """Event to detect if the maximum number of steps is reached."""
         self.stepnum += 1
         if self.stepnum > numstep:
             return 0  # Trigger event (maximum number of steps reached)
@@ -449,10 +440,6 @@ def find_contour(
     - x2: np.ndarray, default self.x2
         The x2 coordinates. If the geometry is non-Cartesian, the x2 cartesian
         coordinates are taken from the dataset.
-
-    Notes
-    -----
-    - None
 
     ----
 

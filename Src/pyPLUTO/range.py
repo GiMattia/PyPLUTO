@@ -10,6 +10,8 @@ from .imagestate import ImageState
 
 @delegator("state")
 class RangeManager:
+    """RangeManager class. It provides methods to set the x and y axis limits
+    for a set of axes in a plot."""
 
     def __init__(self, state: ImageState):
         """Initialize the RangeManager with the given state."""
@@ -35,11 +37,6 @@ class RangeManager:
             The number of the selected set of axes.
         - xlim (not optional): list[float]
             The limits of the x-axis.
-
-        Notes
-        -----
-        - The chance to set only one limit dinamically will be implemented
-        in future code releases
 
         ----
 
@@ -109,10 +106,6 @@ class RangeManager:
         - ylim (not optional): list[float]
             The limits of the y-axis.
 
-        Notes
-        -----
-        - The chance to set only one limit dinamically will be implemented
-        in future code releases
 
         ----
 
@@ -200,11 +193,6 @@ class RangeManager:
             The scale of the y-axis.
         - margin (optional): float
             The margin of the data range.
-
-        Notes
-        -----
-        - The chance to set only one limit dinamically will be implemented
-        in future code releases
 
         ----
 

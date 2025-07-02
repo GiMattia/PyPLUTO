@@ -16,10 +16,14 @@ from .set_axis import AxisManager
 
 @delegator("state")
 class ScatterManager:
+    """Manager for the scatter plot of a 2D function (or a 2D slice) using
+    the matplotlib's scatter function. A simple figure and a single axis can
+    also be created."""
 
     exposed_methods = ("scatter",)
 
     def __init__(self, state: ImageState):
+        """Initialize the ScatterManager with the given state."""
         self.state = state
 
         self.AxisManager = AxisManager(state)
@@ -166,10 +170,6 @@ class ScatterManager:
             always correspond to fixed ticks.
         - ytitle: str, default None
             Sets and places the label of the y-axis.
-
-        Notes
-        -----
-        - The scatter with legend is still preliminary
 
         ----
 

@@ -16,10 +16,12 @@ from .set_axis import AxisManager
 
 @delegator("state")
 class StreamplotManager:
+    """Manages the streamplot function from matplotlib.pyplot."""
 
     exposed_methods = ("streamplot",)
 
     def __init__(self, state: ImageState):
+        """Initialize the StreamplotManager with the given state."""
         self.state = state
 
         self.AxisManager = AxisManager(state)
@@ -184,10 +186,6 @@ class StreamplotManager:
             always correspond to fixed ticks.
         - ytitle: str, default None
             Sets and places the label of the y-axis.
-
-        Notes
-        -----
-        - None
 
         ----
 

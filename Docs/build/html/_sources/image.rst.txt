@@ -1,5 +1,7 @@
 .. _image:
 
+Image class
+===========
 
 .. autoclass:: pyPLUTO.Image()
 

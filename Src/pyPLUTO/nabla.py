@@ -17,10 +17,6 @@ def _is_number(value: Any) -> bool:
     - value (not optional): Any
         The value to check.
 
-    Notes
-    -----
-    - Probably this function will be moved elsewhere
-
     ----
 
     Examples
@@ -59,10 +55,6 @@ def _islice_imin_imax(xvalue, xgrid) -> list[int]:
         The value to check.
     - xgrid (not optional): numpy.ndarray
         The grid to check.
-
-    Notes
-    -----
-    - None
 
     ----
 
@@ -114,10 +106,6 @@ def _get_slice_indices(slice_val, grid, grid_size):
         The grid of the data.
     - grid_size: int
         The size of the grid.
-
-    Notes
-    -----
-    - None
 
     ----
 
@@ -190,11 +178,6 @@ def gradient(
         If not None, specifies the constant value for the x2 axis.
     - x3slice: float | None, default None
         If not None, specifies the constant value for the x3 axis.
-
-    Notes
-    -----
-    - A more efficient implementation based on the axes will be added in the
-      future.
 
     ----
 
@@ -331,11 +314,6 @@ def divergence(
         If not None, specifies the constant value for the x2 axis.
     - x3slice: float | None
         If not None, specifies the constant value for the x3 axis.
-
-    Notes
-    -----
-    - A more efficient implementation based on the axes will be added in the
-      future.
 
     ----
 
@@ -535,11 +513,6 @@ def curl(
         If not None, specifies the constant value for the x2 axis.
     - x3slice: float | None
         If not None, specifies the constant value for the x3 axis.
-
-    Notes
-    -----
-    - A more efficient implementation based on the axes will be added in the
-      future.
 
     ----
 

@@ -14,11 +14,13 @@ from .range import RangeManager
 
 @delegator("state")
 class AxisManager:
+    """This class manages the axis of the image. It allows to customize the
+    axis of the image, such as the range, scale and aspect."""
 
     exposed_methods = ("set_axis",)
 
     def __init__(self, state: ImageState) -> None:
-
+        """Initializes the AxisManager with the given state."""
         self.state = state
         self.ImageToolsManager = ImageToolsManager(state)
         self.RangeManager = RangeManager(state)
@@ -114,12 +116,6 @@ class AxisManager:
             always correspond to fixed ticks.
         - ytitle: str, default None
             Sets and places the label of the y-axis.
-
-
-        Notes
-        -----
-        - A function which sets seprartely the maximum and the minimum value in
-            both x- and y- directions is needed.
 
         ----
 
@@ -324,10 +320,6 @@ class AxisManager:
             the ticks labels of the x-axis
         - typeaxis: str
             the type of axis (x or y)
-
-        Notes
-        -----
-        - None
 
         ----
 

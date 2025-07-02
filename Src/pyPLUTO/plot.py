@@ -14,10 +14,17 @@ from .set_axis import AxisManager
 
 @delegator("state")
 class PlotManager:
+    """PlotManager class. It provides methods to create and manage plots in the
+    image. It is designed to work with the Image class and allows for dynamic
+    creation of plots based on the current state of the image. The class uses
+    the AxisManager, ImageToolsManager, LegendManager, and RangeManager to
+    handle the display and plotting of the images, axes, legends, and ranges,
+    respectively."""
 
     exposed_methods = ("plot",)
 
     def __init__(self, state: ImageState):
+        """Initializes the PlotManager with the given state."""
         self.state = state
         self.AxisManager = AxisManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
@@ -66,7 +73,7 @@ class PlotManager:
             Sets the figure size. The default value is computed from the number
             of rows and columns.
         - fillstyle: {'full', 'left', 'right', 'bottom', 'top', 'none'},
-                    default 'full'
+            default 'full'
             Sets the marker filling. The default value is the fully filled
             marker ('full').
         - fontsize: float, default 17.0
@@ -181,10 +188,6 @@ class PlotManager:
         - ytitle: str, default None
             Sets and places the label of the y-axis.
 
-        Notes
-        -----
-        - Minorticks on single axis will be added in future releases.
-
         ----
 
         Examples
@@ -201,8 +204,7 @@ class PlotManager:
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
             >>> I.plot(x, y, xrange = [0,100], yrange = [0.0,1.0],
-            ... title = 'y in function of x', xtitle = 'x', ytitle = 'y')
-            ...
+                title = 'y in function of x', xtitle = 'x', ytitle = 'y')
 
         - Example #3: create a plot with logarithmic scale on y-axis
 
@@ -215,8 +217,7 @@ class PlotManager:
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
             >>> I.plot(x, y, label = 'y', legpos = 'lower right',
-            ... xticks = [0.2,0.4,0.6,0.8])
-            ...
+                xticks = [0.2,0.4,0.6,0.8])
 
         - Example #5: create plots on already existing axes
 
@@ -228,6 +229,7 @@ class PlotManager:
             >>> I.plot(x, z, ax = I.ax[0])
 
         """
+        # Check parameters
         kwargs.pop("check", check)
 
         # If only one argument is given, it is the y-axis

@@ -1,6 +1,9 @@
 .. _create_axes:
 
-.. autofunction:: pyPLUTO.Image.create_axes
+Image.create_axes
+=================
+
+.. automethod:: pyPLUTO.create_axes.CreateAxesManager.create_axes
 
 |
 

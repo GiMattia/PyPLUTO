@@ -1,7 +1,5 @@
-.. _examples:
-
-Examples with PyPLUTO
-=====================
+Examples
+========
 
 .. toctree::
 

@@ -1,0 +1,61 @@
+/* Widen the navbar and main content containers */
+.bd-header__inner.bd-page-width,
+.bd-page-width,
+.bd-article-container,
+.bd-main .bd-content {
+  max-width: 1600px !important;
+  width: 100% !important;
+}
+
+/* Widen the secondary sidebar ("On this page") */
+.bd-sidebar-secondary {
+  max-width: 350px !important;
+}
+
+/* Extra spacing between all main nav items */
+.bd-navbar-elements .nav-link {
+    padding-left: 1.5em !important;
+    padding-right: 1.5em !important;
+    font-size: 1.08em; /* Optional: Slightly larger font, adjust/remove as desired */
+}
+
+/* 1. Remove the "More" dropdown and always show all nav links in navbar */
+.bd-navbar .dropdown {
+    position: static !important;
+}
+
+.bd-navbar .dropdown-menu {
+    display: flex !important;
+    position: static !important;
+    background: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex-direction: row !important;
+    min-width: 0 !important;
+    left: 0 !important;
+    top: 0 !important;
+    border: none !important;
+}
+
+.bd-navbar .dropdown-toggle {
+    display: none !important;
+}
+
+/* 2. Ensure all nav links display at same level, not in a "box" */
+#pst-nav-more-links .nav-link {
+    display: inline-block !important;
+    /* padding is inherited from .bd-navbar-elements .nav-link above */
+}
+
+/* 3. Remove extra dropdown arrow for "More" */
+.bd-navbar .dropdown > .dropdown-toggle::after {
+    display: none !important;
+}
+
+/* 4. Responsive fallback: on small screens, let theme collapse menu naturally */
+@media (max-width: 900px) {
+  .bd-navbar .dropdown-menu {
+      flex-direction: column !important;
+  }
+}

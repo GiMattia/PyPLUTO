@@ -33,10 +33,6 @@ def spectrum(
     - vmax: float
         The maximum value of the chosen variable.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -107,10 +103,6 @@ def select(
         If True, the indices are sorted in descending (or ascending) order.
     - var (not optional): np.ndarray
         The chosen variable for the selection.
-
-    Notes
-    -----
-    - None
 
     ----
 

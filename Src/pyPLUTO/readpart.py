@@ -21,10 +21,6 @@ def _inspect_bin(self, i: int, endian: str | None) -> None:
     - i: int
         The index of the file to be loaded.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -120,11 +116,6 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
     - i (not optional): int
         The index of the file to be loaded.
 
-    Notes
-    -----
-    - A more efficient inspection based on the vtk structure will be implemented
-      in future releases
-
     ----
 
     Examples
@@ -145,6 +136,14 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
 
     # Open the file and read the lines
     f = open(self._filepath, "rb")
+
+    # This is a crude implementation to find the variables and their
+    # offsets in the vtk file. The routine loops over the lines of the
+    # file and finds the relevant information. The routine also finds
+    # the time information if the file is standalone. The routine also
+    # finds the coordinates if the file is standalone and cartesian.
+    # The routine is (unfortunately) very slow since the file is read
+    # line by line.
     """
     for l in f:
 
@@ -285,10 +284,6 @@ def _store_bin_particles(self, i: int) -> None:
     - i (not optional): int
         The index of the file to be loaded.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -337,10 +332,6 @@ def _store_vtk_particles(self, i: int) -> None:
     - i (not optional): int
         The index of the file to be loaded.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -368,6 +359,7 @@ def _store_vtk_particles(self, i: int) -> None:
         self._d_vars["id"] = self._d_vars["Identity"]
         del self._d_vars["Identity"]
 
+    # Store the position in the dictionary (old way)
     # if 'points' in self._d_vars:
     #    self._d_vars['x1'] = self._d_vars['points'][0]
     #    self._d_vars['x2'] = self._d_vars['points'][1]
@@ -413,10 +405,6 @@ def _compute_offset(
         The index of the file to be loaded.
     - var (not optional): str | None
         The variable to be loaded.
-
-    Notes
-    -----
-    - None
 
     ----
 

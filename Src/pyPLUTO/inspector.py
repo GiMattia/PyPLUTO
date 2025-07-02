@@ -10,12 +10,18 @@ from typing import Any, TypeVar, overload
 
 @functools.cache
 def _find_kwargs_keys_from_source(source: str) -> set[str]:
-    """Internal function to find kwargs keys from source code."""
+    """Internal function to find kwargs keys from source code. Works through the
+    Abstract Syntax Tree (AST) to identify keys used in `kwargs` dictionary
+    accesses, such as `kwargs['key']`, `kwargs.get('key')`, or
+    `kwargs.pop('key')`. The results are returned as a set of strings
+    representing the keys found in the source code and cached for performance.
+    """
+    # Parse the source code into an AST
     tree = ast.parse(source)
     kwargs_keys = set()
 
     class KwargsVisitor(ast.NodeVisitor):
-        """AST visitor to find kwargs keys."""
+        """Visitor class to traverse the AST and find keys used in kwargs."""
 
         def _get_str_from_slice(self, slice_node: ast.AST) -> str | None:
             """Get string from slice node."""

@@ -38,10 +38,6 @@ def _load_variables(
         If True all the variables are loaded, otherwise just a selection is
         loaded.
 
-    Notes
-    -----
-    - Loading of no variable will be added in the future
-
     ----
 
     Examples
@@ -103,6 +99,8 @@ def _load_variables(
         return None
 
     # ERROR: TOO MANY OPEN FILES!!!
+    # This chunk of code is here simply to show how the variables were loaded
+    # in a preliminary version of the memory mapping procedure.
     """
     # Loop over the variables to be loaded
     for j in self._load_vars:
@@ -135,6 +133,7 @@ def _load_variables(
         )
 
         # Create a single memmap spanning the required byte range
+        # This is the original code that was used to load the variables
 
         # file_memmap = np.memmap(
         #    self._filepath,
@@ -233,10 +232,6 @@ def _check_nout(self, nout: int | str | list[int | str]) -> None:
     - nout (not optional): int | str | list[int|str]
         The output file to be loaded.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -298,10 +293,6 @@ def _findfiles(self, nout: int | str | list[int | str]) -> None:
     ----------
     - nout (not optional): int | str | list[int|str]
         The output file to be loaded
-
-    Notes
-    -----
-    - nfile_lp should be found automatically
 
     ----
 
@@ -415,10 +406,6 @@ def _init_vardict(self, var: str) -> None:
     - var (not optional): str
         The variable to be loaded.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -480,10 +467,6 @@ def _assign_var(self, time: int, var: str, scrh: np.memmap) -> None:
     - var (not optional): str
         The variable to be loaded.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -525,10 +508,6 @@ def _varsouts(self, elem: str, class_name: str) -> None:
         The name of the class. Supported classes are 'Load' or 'LoadPart'.
     - elem (not optional): str
         The matching file.
-
-    Notes
-    -----
-    - None
 
     ----
 

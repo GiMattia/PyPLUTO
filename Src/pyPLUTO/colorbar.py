@@ -38,9 +38,10 @@ class ColorbarManager:
         check: bool = True,
         **kwargs: Any,
     ) -> None:
-        """Method to display a colorbar in a selected position. If the keyword
-        cax is enabled the colorbar is located in a specific axis, otherwise an
-        axis will be shrunk in order to place the colorbar.
+        """Method to display a colorbar in a selected position. If the
+        keyword cax is enabled the colorbar is located in a specific
+        axis, otherwise an axis will be shrunk in order to place the
+        colorbar.
 
         Returns
         -------
@@ -73,14 +74,6 @@ class ColorbarManager:
         - pcm: QuadMesh | PathCollection | None, default None
             The collection to be used for the colorbar. If None, the axs will be
             used. If both pcm and axs are not None, pcm will be used.
-
-        Notes
-        -----
-        - If multiple subplots are present, multiple colorbars cannot be created
-        from the display routine. This issue must be fixed in future releases.
-        - Colorbar should not overlap the plot or other colormaps
-        - Exted the colormap to more positions (e.g., top, bottom) with correct
-        spacing
 
         ----
 

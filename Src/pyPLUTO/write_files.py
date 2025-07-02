@@ -30,10 +30,6 @@ def _write_h5(
     - grid: bool
         if True, write the grid to the HDF5 file
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -84,10 +80,6 @@ def write_vtk(self):
 
     Parameters
     ----------
-    - None
-
-    Notes
-    -----
     - None
 
     ----
@@ -167,10 +159,6 @@ def write_tab(self):
     ----------
     - None
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -212,10 +200,6 @@ def write_bin(self):
 
     Parameters
     ----------
-    - None
-
-    Notes
-    -----
     - None
 
     ----
@@ -271,10 +255,6 @@ def write_file(
         if True, write the grid to the file
     - **kwargs: Any
         additional keyword arguments
-
-    Notes
-    -----
-    - None
 
     ----
 

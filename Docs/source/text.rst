@@ -1,6 +1,9 @@
 .. _text:
 
-.. autofunction:: pyPLUTO.Image.text
+Image.text
+==========
+
+.. automethod:: pyPLUTO.imagetools.ImageToolsManager.text
 
 |
 

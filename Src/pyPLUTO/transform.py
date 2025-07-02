@@ -49,10 +49,6 @@ def slices(
     - x3: int | list | None, default None
         The slice in the 3rd direction.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -127,10 +123,6 @@ def mirror(
         The x-axis to mirror.
     - yax: np.ndarray | None, default None
         The y-axis to mirror.
-
-    Notes
-    -----
-    - None
 
     ----
 
@@ -214,10 +206,6 @@ def repeat(
     - yax: np.ndarray | None, default None
         The y-axis to repeat.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -297,10 +285,6 @@ def cartesian_vector(
     - x2: int
         The second index of the variable.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -363,7 +347,8 @@ def cartesian_vector(
 def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray, ...]:
     """Function that reshapes a variable from a cylindrical or spherical
     grid into a cartesian grid. Zones not covered by the original domain
-    (e.g. the very inner radial regions) are also interpolated.
+    (e.g. the very inner radial regions) are also interpolated. At the
+    current stage, the transformation is only in 2D.
 
     Returns
     -------
@@ -384,11 +369,6 @@ def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray, ...]:
         The first index of the variable.
     - x2: int
         The second index of the variable.
-
-    Notes
-    -----
-    - For now only some methods are available
-    - The transformation is only in 2D for now
 
     ----
 
@@ -459,7 +439,7 @@ def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray, ...]:
 
 
 def reshape_uniform(self, x1, x2, *args, **kwargs):
-    """Reshapes a non-uniform (cartesian) grid into a uniform grid.
+    """Reshapes a non-uniform (cartesian) 2D grid into a uniform grid.
 
     Returns
     -------
@@ -479,11 +459,6 @@ def reshape_uniform(self, x1, x2, *args, **kwargs):
         The first index of the variable.
     - x2: int
         The second index of the variable.
-
-    Notes
-    -----
-    - For now only some methods are available
-    - The transformation is only in 2D for now
 
     ----
 
@@ -541,11 +516,6 @@ def _convert2cartgrid(R, Z, new_r, new_t):
         The new radial grid.
     - new_t: np.ndarray
         The new vertical grid.
-
-    Notes
-    -----
-    - For now only some methods are available
-    - The transformation is only in 2D for now
 
     ----
 
@@ -613,11 +583,6 @@ def _congrid(self, a, newdims, method="linear", center=False, minusone=False):
         If True, centers the resampled array at the new dimensions.
     - minusone: bool, default False
         If True, the new dimensions should be larger by 1 in each dimension.
-
-    Notes
-    -----
-    - For now only some methods are available
-    - The transformation is only in 2D for now
 
     ----
 

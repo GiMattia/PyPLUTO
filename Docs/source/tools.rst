@@ -1,5 +1,5 @@
-Manipulating the data
-=====================
+Manipulating
+============
 
 Once loaded, both fluid and particle data can be customized in order to retrieve
 fundamental quantities.
@@ -119,6 +119,18 @@ Both a string and a lambda function can be adopted.
    select
 
 |
+
+Showing the plot windows
+------------------------
+
+.. toctree::
+   :hidden:
+
+   show
+
+All the windows can be used through the :ref:`show <show>` function of PyPLUTO
+(notice that this function does not belong to any class and is just a module
+function)
 
 ----
 

@@ -9,19 +9,11 @@ from matplotlib.figure import Figure
 
 @dataclass
 class ImageState:
-    """Class that stores the state of the Image class. It contains the
-    following attributes:
-
-    - LaTeX: bool | str (non optional)
-    - style: str (non optional)
-    - color: list[str]
-    - dictcolor: dict[int, str]
-    - fig: Figure | None
-    - figsize: list[float]
-    - fontsize: int
-    - nwin: int
-    - tight: bool
-    ...
+    """Class that stores the state of the Image class. Its purpose is to
+    keep track of the current state of the image, such as the figure, axes,
+    and other properties and update the key attributes through all the
+    different classes that handle the plotting and display of the image at
+    runtime.
     """
 
     LaTeX: bool | str
@@ -50,4 +42,8 @@ class ImageState:
     yscale: list[str] = field(default_factory=list)
 
     def __setattr__(self, name: str, value: object) -> None:
+        """Custom setter for the attributes of the ImageState class. It allows
+        to set the attributes of the class and update the state of the image.
+        This is useful for keeping track of the current state of the image and
+        updating it when necessary."""
         super().__setattr__(name, value)

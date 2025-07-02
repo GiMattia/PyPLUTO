@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 def savefig(
     filename: str | Path = "img.png", bbox: str | None = "tight"
 ) -> None:
+    """This function is deprecated and will be removed in future versions.
+    Please call savefig from the Image class instead."""
     raise NotImplementedError(
         "pyPLUTO.savefig is deprecated.\n"
         "Please call savefig from the Image class instead"
@@ -15,26 +17,22 @@ def savefig(
 
 
 def show(block: bool = True) -> None:
-    """Shows the figures created with the Image class.
+    """Shows the figures created.
+
+    Returns
+    -------
+    - None
 
     Parameters
     ----------
     - block: bool, default True
         If True, the function blocks until the figure is closed.
 
-    Returns
-    -------
-    - None
-
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
     --------
-    - Example #1: Shows the image created with the Image class
+    - Example #1: Shows the image created
 
         >>> pp.show()
 
@@ -55,10 +53,6 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
 
     Returns
     -------
-    - None
-
-    Notes
-    -----
     - None
 
     ----

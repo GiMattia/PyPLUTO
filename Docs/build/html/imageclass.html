@@ -1,46 +1,414 @@
+
 <!DOCTYPE html>
 
-<html lang="en" data-content_root="./">
+
+<html lang="en" data-content_root="./" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Plotting the data &#8212; PyPLUTO 1.0 documentation</title>
+    <title>Plotting &#8212; PyPLUTO 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=08520df9" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=7abc8560" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'imageclass';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="image.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="select.html" /> 
-  </head><body>
-    <div class="header-wrapper" role="banner">
-      <div class="header">
-        <div class="headertitle"><a
-          href="index.html">PyPLUTO 1.0 documentation</a></div>
-        <div class="rel" role="navigation" aria-label="Related">
-          <a href="select.html" title="&lt;no title&gt;"
-             accesskey="P">previous</a> |
-          <a href="image.html" title="&lt;no title&gt;"
-             accesskey="N">next</a> |
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a>
-        </div>
-       </div>
-    </div>
+    <link rel="next" title="Image class" href="image.html" />
+    <link rel="prev" title="pyPLUTO.show" href="show.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    <div class="content-wrapper">
-      <div class="content">
-        <div class="document">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">PyPLUTO 1.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="tools.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gui.html">
+    The GUI
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="faq.html">
+    FAQs
+  </a>
+</li>
+
+                </ul>
+            </li>
             
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <section id="plotting-the-data">
-<span id="imageclass"></span><h1>Plotting the data<a class="headerlink" href="#plotting-the-data" title="Link to this heading">¶</a></h1>
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="tools.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gui.html">
+    The GUI
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="faq.html">
+    FAQs
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="image.html">Image class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animate.html">Image.animate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="colorbar.html">Image.colorbar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contour.html">Image.contour</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_axes.html">Image.create_axes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="display.html">Image.display</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interactive.html">Image.interactive</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legend.html">Image.legend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oplotbox.html">Image.oplotbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot.html">Image.plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="savefig.html">Image.savefig</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scatter.html">Image.scatter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="set_axis.html">Image.set_axis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="streamplot.html">Image.streamplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text.html">Image.text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Image.zoom</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Plotting</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="plotting">
+<span id="imageclass"></span><h1>Plotting<a class="headerlink" href="#plotting" title="Link to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+</div>
 <p>The loaded data should be visualized in a complete yet efficient way.
 The <a class="reference internal" href="image.html#image"><span class="std std-ref">Image</span></a> class is a quick tool in order to obtain simple plots
 suitable for scientific articles.</p>
@@ -52,16 +420,12 @@ subplots are located.</p>
 <div class="line"><br /></div>
 </div>
 <hr class="docutils" />
-<div class="toctree-wrapper compound">
-</div>
 <section id="subplots-creation-and-customization">
-<h2>Subplots creation and customization<a class="headerlink" href="#subplots-creation-and-customization" title="Link to this heading">¶</a></h2>
+<h2>Subplots creation and customization<a class="headerlink" href="#subplots-creation-and-customization" title="Link to this heading">#</a></h2>
 <p>The first step of the plotting procedure is to create a list of axes
 (where each element of the axes list corresponds to a subplot).
 Two functions are built in order to give a good compromise between simplicity
 and customization:</p>
-<div class="toctree-wrapper compound">
-</div>
 <p>The <a class="reference internal" href="create_axes.html#create-axes"><span class="std std-ref">create_axes</span></a> method creates a simple figure and set of
 axes, given a specific number of rows and columns. The subplots are
 automatically spaced evenly and the ratio between the different subplots sizes
@@ -83,13 +447,11 @@ specific plotting functions.</p>
 </section>
 <hr class="docutils" />
 <section id="the-plotting-procedure">
-<h2>The plotting procedure<a class="headerlink" href="#the-plotting-procedure" title="Link to this heading">¶</a></h2>
+<h2>The plotting procedure<a class="headerlink" href="#the-plotting-procedure" title="Link to this heading">#</a></h2>
 <p>At the moment only 1D and 2D plots are available, for both fluid and particles.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Full 3D plotting is under active development.</p>
-<div class="toctree-wrapper compound">
-</div>
 </div>
 <p>The standard 1D and 2D fluid plots can be produced through the functions
 <a class="reference internal" href="plot.html#plot"><span class="std std-ref">plot</span></a> and <a class="reference internal" href="display.html#display"><span class="std std-ref">display</span></a>.
@@ -104,9 +466,7 @@ method.</p>
 </section>
 <hr class="docutils" />
 <section id="field-and-contour-lines">
-<h2>Field and contour lines<a class="headerlink" href="#field-and-contour-lines" title="Link to this heading">¶</a></h2>
-<div class="toctree-wrapper compound">
-</div>
+<h2>Field and contour lines<a class="headerlink" href="#field-and-contour-lines" title="Link to this heading">#</a></h2>
 <p>The <a class="reference internal" href="image.html#image"><span class="std std-ref">Image</span></a> class contains a <a class="reference internal" href="contour.html#contour"><span class="std std-ref">contour</span></a> and a
 <a class="reference internal" href="streamplot.html#streamplot"><span class="std std-ref">streamplot</span></a> methods, which can be used for a quick
 visualization of contour and field lines. Such methods are based on the contour
@@ -120,9 +480,7 @@ absence of complex structures.</p>
 </section>
 <hr class="docutils" />
 <section id="interactive-plots">
-<h2>Interactive plots<a class="headerlink" href="#interactive-plots" title="Link to this heading">¶</a></h2>
-<div class="toctree-wrapper compound">
-</div>
+<h2>Interactive plots<a class="headerlink" href="#interactive-plots" title="Link to this heading">#</a></h2>
 <p>A quick interactive visualization is possible due to the
 <a class="reference internal" href="interactive.html#interactive"><span class="std std-ref">interactive</span></a> methods, which is available for both 1D and 2D
 fluid output files.</p>
@@ -145,14 +503,12 @@ show a video.</p>
 </section>
 <hr class="docutils" />
 <section id="useful-plotting-tools">
-<h2>Useful plotting tools<a class="headerlink" href="#useful-plotting-tools" title="Link to this heading">¶</a></h2>
+<h2>Useful plotting tools<a class="headerlink" href="#useful-plotting-tools" title="Link to this heading">#</a></h2>
 <p>Although features such as the <a class="reference internal" href="legend.html#legend"><span class="std std-ref">legend</span></a> or
 <a class="reference internal" href="colorbar.html#colorbar"><span class="std std-ref">colorbar</span></a> can be easily included during the plotting procedure,
 sometimes the best choice (especially for non-trivial figures) is to add them
 during a later step. However, multiple legends and colorbars are possible
 within the same figure.</p>
-<div class="toctree-wrapper compound">
-</div>
 <p>The PyPLUTO module allows for easy inset zooms through the <a class="reference internal" href="zoom.html#zoom"><span class="std std-ref">zoom</span></a>
 for both 1D and 2D plots with the same level of customization of the functions
 <a class="reference internal" href="plot.html#plot"><span class="std std-ref">plot</span></a> and <a class="reference internal" href="display.html#display"><span class="std std-ref">display</span></a>.
@@ -168,99 +524,131 @@ color and position (relative to the figure, axes points or fraction).</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+</section>
+<hr class="docutils" />
+<section id="amr-blocks">
+<h2>AMR blocks<a class="headerlink" href="#amr-blocks" title="Link to this heading">#</a></h2>
+<p>AMR blocks can be visualized through the <a class="reference internal" href="oplotbox.html#oplotbox"><span class="std std-ref">oplotbox</span></a> method,
+although, due to the ongoing upgrades to the AMR in gPLUTO and its output, such
+method may change in the future.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <hr class="docutils" />
 </section>
 </section>
 
 
-            <div class="clearer"></div>
-          </div>
-        </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="show.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">pyPLUTO.show</p>
       </div>
-        </div>
-        <div class="sidebar">
-          
-          <h3>Table of Contents</h3>
-          <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Plotting the data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="image.html"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#subplots-creation-and-customization">Subplots creation and customization</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="create_axes.html"><code class="docutils literal notranslate"><span class="pre">create_axes()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="set_axis.html"><code class="docutils literal notranslate"><span class="pre">set_axis()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#the-plotting-procedure">The plotting procedure</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plot.html"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="display.html"><code class="docutils literal notranslate"><span class="pre">display()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="scatter.html"><code class="docutils literal notranslate"><span class="pre">scatter()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#field-and-contour-lines">Field and contour lines</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="contour.html"><code class="docutils literal notranslate"><span class="pre">contour()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="streamplot.html"><code class="docutils literal notranslate"><span class="pre">streamplot()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#interactive-plots">Interactive plots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="interactive.html"><code class="docutils literal notranslate"><span class="pre">interactive()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="animate.html"><code class="docutils literal notranslate"><span class="pre">animate()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#useful-plotting-tools">Useful plotting tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="legend.html"><code class="docutils literal notranslate"><span class="pre">legend()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="colorbar.html"><code class="docutils literal notranslate"><span class="pre">colorbar()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="zoom.html"><code class="docutils literal notranslate"><span class="pre">zoom()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="savefig.html"><code class="docutils literal notranslate"><span class="pre">savefig()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="text.html"><code class="docutils literal notranslate"><span class="pre">text()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="gui.html">The Graphics User Interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
-</ul>
-
-          <search role="search">
-            <h3 style="margin-top: 1.5em;">Search</h3>
-            <form class="search" action="search.html" method="get">
-                <input type="text" name="q" />
-                <input type="submit" value="Go" />
-            </form>
-          </search>
-
-        </div>
-        <div class="clearer"></div>
+    </a>
+    <a class="right-next"
+       href="image.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Image class</p>
       </div>
-    </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-    <div class="footer-wrapper">
-      <div class="footer">
-        <div class="left">
-          <div role="navigation" aria-label="Related">
-            <a href="select.html" title="&lt;no title&gt;"
-              >previous</a> |
-            <a href="image.html" title="&lt;no title&gt;"
-              >next</a> |
-            <a href="genindex.html" title="General Index"
-              >index</a>
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subplots-creation-and-customization">Subplots creation and customization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-plotting-procedure">The plotting procedure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#field-and-contour-lines">Field and contour lines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interactive-plots">Interactive plots</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-plotting-tools">Useful plotting tools</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amr-blocks">AMR blocks</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
           </div>
-          <div role="note" aria-label="source link">
-          </div>
-        </div>
-
-        <div class="right">
-          
-    <div class="footer" role="contentinfo">
-    &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
     </div>
-        </div>
-        <div class="clearer"></div>
-      </div>
-    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
   </body>
 </html>

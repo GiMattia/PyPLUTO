@@ -15,11 +15,13 @@ from .inspector import track_kwargs
 
 @delegator("state")
 class ImageToolsManager:
+    """ImageToolsManager class. It provides methods to save figures, add
+    text."""
 
     exposed_methods = (
         "savefig",
-        "text",
         "show",
+        "text",
     )
 
     def __init__(self, state: ImageState):
@@ -49,10 +51,6 @@ class ImageToolsManager:
         - filename: str, default 'img.png'
             The name of the saved image file.
 
-        Notes
-        -----
-        - None
-
         ----
 
         Examples
@@ -71,6 +69,9 @@ class ImageToolsManager:
     def show(
         self,
     ) -> None:
+        """Shows the figure created with the Image class. This method is
+        deprecated and will be removed in future versions. Please use
+        pp.show instead."""
         raise NotImplementedError(
             "Image show is deprecated, please use pp.show instead"
         )
@@ -122,10 +123,6 @@ class ImageToolsManager:
         - y: float, default 0.85
             The vertical starting position of the text box, in units of figure
             size.
-
-        Notes
-        -----
-        - None
 
         ----
 
@@ -224,10 +221,6 @@ class ImageToolsManager:
             The keyword arguments to be passed to the create_axes function
             (not written here since is not public method).
 
-        Notes
-        -----
-        - None
-
         ----
 
         Examples
@@ -307,10 +300,6 @@ class ImageToolsManager:
         - txts (not optional): str | None
             The text of the selected set of axes.
 
-        Notes
-        -----
-        - None
-
         ----
 
         Examples
@@ -363,10 +352,6 @@ class ImageToolsManager:
             The maximum value of the colormap.
         - vmin (not optional): float
             The minimum value of the colormap.
-
-        Notes
-        -----
-        - The lint keyword is deprecated, please use tresh instead
 
         ----
 

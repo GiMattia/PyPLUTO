@@ -1,50 +1,412 @@
+
 <!DOCTYPE html>
 
-<html lang="en" data-content_root="./">
+
+<html lang="en" data-content_root="./" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Test 03 - MHD Rayleigh-Taylor instability &#8212; PyPLUTO 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css?v=08520df9" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=7abc8560" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
     <script src="_static/documentation_options.js?v=f2a433a1"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'test03_rti';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Test 04 - MHD Rotor test" href="test04_rotor.html" />
-    <link rel="prev" title="Test 02 - MHD Orszag-Tang vortex" href="test02_ot.html" /> 
-  </head><body>
-    <div class="header-wrapper" role="banner">
-      <div class="header">
-        <div class="headertitle"><a
-          href="index.html">PyPLUTO 1.0 documentation</a></div>
-        <div class="rel" role="navigation" aria-label="Related">
-          <a href="test02_ot.html" title="Test 02 - MHD Orszag-Tang vortex"
-             accesskey="P">previous</a> |
-          <a href="test04_rotor.html" title="Test 04 - MHD Rotor test"
-             accesskey="N">next</a> |
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a>
-        </div>
-       </div>
-    </div>
+    <link rel="prev" title="Test 02 - MHD Orszag-Tang vortex" href="test02_ot.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    <div class="content-wrapper">
-      <div class="content">
-        <div class="document">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">PyPLUTO 1.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="tools.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="imageclass.html">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gui.html">
+    The GUI
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="faq.html">
+    FAQs
+  </a>
+</li>
+
+                </ul>
+            </li>
             
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="install.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="tools.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="imageclass.html">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="gui.html">
+    The GUI
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="faq.html">
+    FAQs
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="test01_sod.html">Test 01 - HD Sod shock tube</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test02_ot.html">Test 02 - MHD Orszag-Tang vortex</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Test 03 - MHD Rayleigh-Taylor instability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test04_rotor.html">Test 04 - MHD Rotor test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test05_fieldloop.html">Test 05 - MHD Field loop test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test06_diskplanet.html">Test 06 - HD Disk planet test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test07_khi.html">Test 07 - RMHD Kelvin-Helmholtz instability test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test08_torus.html">Test 08 - MHD Torus test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test09_blast.html">Test 09 - MHD Blast test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test10_riemann2d.html">Test 10 - HD Riemann 2D test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test11_crxpoint.html">Test 11 - Particles CR Xpoint test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test12_riemannlp.html">Test 12 - LP Riemann 2D test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test13_flowpastcyl.html">Test 13 - AMR Flow past cylinder test</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="examples.html" class="nav-link">Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Test 03 - MHD Rayleigh-Taylor instability</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section id="test-03-mhd-rayleigh-taylor-instability">
-<span id="test03-rti"></span><h1>Test 03 - MHD Rayleigh-Taylor instability<a class="headerlink" href="#test-03-mhd-rayleigh-taylor-instability" title="Link to this heading">¶</a></h1>
+<span id="test03-rti"></span><h1>Test 03 - MHD Rayleigh-Taylor instability<a class="headerlink" href="#test-03-mhd-rayleigh-taylor-instability" title="Link to this heading">#</a></h1>
 <blockquote>
 <div><a class="reference internal image-reference" href="_images/test03_rti.png"><img alt="_images/test03_rti.png" class="align-center" src="_images/test03_rti.png" style="width: 600px;" />
 </a>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Classical MHD Rayleigh-Taylor instability test</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Classical MHD Rayleigh-Taylor instability test.</span>
 
 <span class="sd">This test shows how to display a 2D quantity from a test problem at different</span>
 <span class="sd">times in different subplots.</span>
@@ -70,6 +432,7 @@
 <span class="sd">dbl      7.5   -1   single_file</span>
 
 <span class="sd">in the static grid output section.</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># Loading the relevant packages</span>
@@ -86,7 +449,9 @@
 <span class="p">)</span>
 
 <span class="c1"># Creating the subplots (3 for the temporal evolution and 1 for the colorbar)</span>
-<span class="n">Image</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">wratio</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="n">wspace</span><span class="o">=</span><span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">],</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.88</span><span class="p">)</span>
+<span class="n">Image</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span>
+    <span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">wratio</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="n">wspace</span><span class="o">=</span><span class="p">[</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">],</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.88</span>
+<span class="p">)</span>
 
 <span class="c1"># Customizing y labels and y ticks labels</span>
 <span class="n">ylab</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
@@ -125,77 +490,93 @@
 </section>
 
 
-            <div class="clearer"></div>
-          </div>
-        </div>
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="test02_ot.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Test 02 - MHD Orszag-Tang vortex</p>
       </div>
-        </div>
-        <div class="sidebar">
-          
-          <h3>Table of Contents</h3>
-          <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Manipulating the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="imageclass.html">Plotting the data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui.html">The Graphics User Interface</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples with PyPLUTO</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="test01_sod.html">Test 01 - HD Sod shock tube</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test02_ot.html">Test 02 - MHD Orszag-Tang vortex</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Test 03 - MHD Rayleigh-Taylor instability</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test04_rotor.html">Test 04 - MHD Rotor test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test05_fieldloop.html">Test 05 - MHD Field loop test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test06_diskplanet.html">Test 06 - HD Disk planet test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test07_khi.html">Test 07 - RMHD Kelvin-Helmholtz instability test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test08_torus.html">Test 08 - MHD Torus test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test09_blast.html">Test 09 - MHD Blast test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test10_riemann2d.html">Test 10 - HD Riemann 2D test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test11_crxpoint.html">Test 11 - Particles CR Xpoint test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test12_riemannlp.html">Test 12 - LP Riemann 2D test</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test13_flowpastcyl.html">Test 13 - AMR Flow past cylinder test</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
-</ul>
-
-          <search role="search">
-            <h3 style="margin-top: 1.5em;">Search</h3>
-            <form class="search" action="search.html" method="get">
-                <input type="text" name="q" />
-                <input type="submit" value="Go" />
-            </form>
-          </search>
-
-        </div>
-        <div class="clearer"></div>
+    </a>
+    <a class="right-next"
+       href="test04_rotor.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Test 04 - MHD Rotor test</p>
       </div>
-    </div>
-
-    <div class="footer-wrapper">
-      <div class="footer">
-        <div class="left">
-          <div role="navigation" aria-label="Related">
-            <a href="test02_ot.html" title="Test 02 - MHD Orszag-Tang vortex"
-              >previous</a> |
-            <a href="test04_rotor.html" title="Test 04 - MHD Rotor test"
-              >next</a> |
-            <a href="genindex.html" title="General Index"
-              >index</a>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
           </div>
-          <div role="note" aria-label="source link">
-          </div>
-        </div>
-
-        <div class="right">
-          
-    <div class="footer" role="contentinfo">
-    &#169; Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
     </div>
-        </div>
-        <div class="clearer"></div>
-      </div>
-    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
   </body>
 </html>

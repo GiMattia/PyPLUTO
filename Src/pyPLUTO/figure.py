@@ -35,13 +35,17 @@ class FigureManager:
 
         Parameters
         ----------
-        - WIP...
+        - state: ImageState
+            The state of the image, which contains the figure and other
+            properties.
+        - kwargs: dict[str, Any]
+            Additional keyword arguments to customize the figure, such as
+            `figsize`, `fontsize`, `nwin`, `suptitle`, etc.
 
         """
         # needed because the __init__ is longer than simply self.state = state
         self.state = state
 
-        # def initialize(self, **kwargs: Any) -> None:
         # Extract specific kwargs for colorlines, with defaults if not provided
         if "numcolor" in kwargs:
             warnings.warn(
@@ -88,13 +92,9 @@ class FigureManager:
     def choose_colorlines(
         self, numcolors: int, withblack: bool, withwhite: bool
     ) -> list[str]:
-        """Chooses the colors for the lines. Depending on the number of
-        colors and the option 'oldcolor', the colors are:
-
-        - black, red, blue, cyan, green, orange (oldcolor = True)
-        - a new list of colors (oldcolor = False, default)
-
-        Both color lists are suited for all types of color vision deficiencies.
+        """Chooses the colors for the lines. The colors are taken from a
+        list of colors that are suitable for all types of color vision
+        deficiencies.
 
         Returns
         -------
@@ -105,33 +105,22 @@ class FigureManager:
         ----------
         - numcolors: int, default 10
             The number of colors.
-        - oldcolor : bool, default False
-            If True, the old colors are used.
         - withblack: bool, default False
             If True, the black color is used as first color.
         - withwhite: bool default False
             If True, the white color is used as first color.
 
-        Notes
-        -----
-        - The withblack and withwhite options are only used if oldcolor = False
-            and they cannot be used together (priority goes to black).
-
         ----
 
         Examples
         --------
-        - Example #1: oldcolor = True
+        - Example #1: withblack = True
 
             >>> _choose_colorlines(6, True)
 
-        - Example #2: oldcolor = False, withblack = True
+        - Example #2: 12 colors, withwhite = True
 
-            >>> _choose_colorlines(6, False, True)
-
-        - Example #3: 12 colors, oldcolor = False, withwhite = True
-
-            >>> _choose_colorlines(12, False, False, True)
+            >>> _choose_colorlines(12, False, True)
 
         """
         # New colors dictionary (black and white included)
@@ -223,10 +212,6 @@ class FigureManager:
             'pgf' option is selected, the LaTeX option True is used as backup
             strategy.
 
-        Notes
-        -----
-        - None
-
         ----
 
         Examples
@@ -302,10 +287,6 @@ class FigureManager:
         - close: bool, default True
             If True, the existing figure with the same window number is closed.
 
-        Notes
-        -----
-        - None
-
         ----
 
         Examples
@@ -365,10 +346,6 @@ class FigureManager:
             The figure title size.
         - tight: bool, default True
             If True, the tight layout is used.
-
-        Notes
-        -----
-        - None
 
         ----
 

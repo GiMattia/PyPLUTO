@@ -1,5 +1,8 @@
 .. _reshape_cartesian:
 
+Load.reshape_cartesian
+======================
+
 .. autofunction:: pyPLUTO.Load.reshape_cartesian
 
 |

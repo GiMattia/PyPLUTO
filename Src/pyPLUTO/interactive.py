@@ -21,6 +21,11 @@ from .plot import PlotManager
 
 @delegator("state")
 class InteractiveManager:
+    """InteractiveManager class. It provides methods to create interactive
+    plots with sliders to change the data. It is designed to work with fluid
+    variables and allows for dynamic visualization of data as a function of
+    time. The class uses the DisplayManager and PlotManager to handle the
+    display and plotting of the data, respectively."""
 
     exposed_methods = (
         "animate",
@@ -28,7 +33,7 @@ class InteractiveManager:
     )
 
     def __init__(self, state: ImageState):
-
+        """Initializes the InteractiveManager with the given state."""
         self.state = state
         self.DisplayManager = DisplayManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
@@ -79,14 +84,6 @@ class InteractiveManager:
             The minimum value of the data.
         - vmax: float, default None
             The maximum value of the data.
-
-        Notes
-        -----
-        - Check vmin and vmax to set the colorbar limits.
-        - Interact is a very primordial version and it should not be used tu
-            perform very complex plots. Instead, it gives a very nice overview
-            of the data as functions of time (like in other softwares such as
-            visit or paraview).
 
         ----
 
@@ -236,10 +233,6 @@ class InteractiveManager:
         - i  (not optional): int
             The slider index.
 
-        Notes
-        -----
-        - None
-
         ----
 
         Examples
@@ -316,10 +309,6 @@ class InteractiveManager:
         - i (not optional): int
             The current frame index.
 
-        Notes
-        -----
-        - None
-
         ----
 
         Examples
@@ -366,20 +355,15 @@ class InteractiveManager:
         - updateslider: bool, default True
             If True, the slider is shown and updated with each frame.
 
-        Notes
-        -----
-        - This method creates and shows an interactive animation based on the
-            stored data.
-
         Examples
         --------
         - Example #1: Display the animation
 
-                >>> show_animation()
+                >>> animate()
 
         - Example #2: Display the animation with a specific number of frames
 
-                >>> show_animation(frames=[0, 1, 2], interval=300)
+                >>> animate(frames=[0, 1, 2], interval=300)
 
         """
         # Choose the frames

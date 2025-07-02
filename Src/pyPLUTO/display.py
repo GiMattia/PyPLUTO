@@ -15,10 +15,16 @@ from .set_axis import AxisManager
 
 @delegator("state")
 class DisplayManager:
+    """Class to manage the display of 2D plots in the image.
+
+    This class provides methods to create and manage 2D plots using matplotlib's
+    pcolormesh function. It allows for customization of the plot's appearance,
+    colorbar, axes, and other properties."""
 
     exposed_methods = ("display",)
 
     def __init__(self, state: ImageState):
+        """Initialize the DisplayManager with the given state."""
         self.state = state
         self.ColorbarManager = ColorbarManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
@@ -187,11 +193,6 @@ class DisplayManager:
             always correspond to fixed ticks.
         - ytitle: str, default None
             Sets and places the label of the y-axis.
-
-        Notes
-        -----
-        - If not x or y is given, no shading can be selected. This issue will be
-            fixed in future releases.
 
         ----
 

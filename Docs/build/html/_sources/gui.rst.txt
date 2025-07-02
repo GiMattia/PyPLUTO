@@ -1,7 +1,7 @@
 .. _gui:
 
-The Graphics User Interface
-===========================
+The GUI
+=======
 
 A simplified GUI has been implemented to allow for a quick visualization of the
 output files. The GUI is based on the PyPLUTO module and is designed to be

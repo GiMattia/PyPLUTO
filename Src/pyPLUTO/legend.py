@@ -11,10 +11,17 @@ from .inspector import track_kwargs
 
 @delegator("state")
 class LegendManager:
+    """LegendManager class. It provides methods to create and manage legends
+    in the plots. It is designed to work with the Image class and allows for
+    dynamic creation of legends based on the current state of the image.
+    The class uses the ImageToolsManager to handle the display and plotting
+    of the legends, and it provides methods to customize the appearance of
+    the legends."""
 
     exposed_methods = ("legend",)
 
     def __init__(self, state: ImageState):
+        """Initializes the LegendManager with the given state."""
         self.state = state
         self.ImageToolsManager = ImageToolsManager(state)
 
@@ -27,7 +34,6 @@ class LegendManager:
         **kwargs: Any,
     ) -> None:
         """Creation of a legend referring to the current figure.
-
         If no labels are given, it shows the labels of all the plots in the
         figure, ordered by entry. If specific labels are given, it shows those
         ones.
@@ -48,7 +54,7 @@ class LegendManager:
         - edgecolor: list[str], default [None]
             Sets the edge color of the legend. The default value is black ('k').
         - fillstyle: {'full', 'left', 'right', 'bottom', 'top', 'none'},
-                    default 'full'
+            default 'full'
             Sets the marker filling. The default value is the fully filled
             marker ('full').
         - label: [str], default None
@@ -84,10 +90,6 @@ class LegendManager:
         - mscale: float, default 1.0
             Sets the marker scale. The default value is 1.0.
 
-        Notes
-        -----
-        - None
-
         ----
 
         Examples
@@ -119,6 +121,7 @@ class LegendManager:
             ... label = ['black lines', 'red lines'])
             >>> I.legend(legpos = 'lower right', ls = ['-','-.'],
             ... c = ['k', 'k'], label = ['continue', 'dotted'])
+            >>> pp.show()
 
         """
         kwargs.pop("check", check)
@@ -225,10 +228,6 @@ def makelist(el: Any) -> list[Any]:
     ----------
     - el (not optional): Any
         The element to be converted into a list.
-
-    Notes
-    -----
-    - None
 
     ----
 

@@ -33,6 +33,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.autosectionlabel",
     "numpydoc",
+    "sphinx.ext.viewcode",
 ]
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
@@ -48,9 +49,16 @@ html_show_sourcelink = False
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "agogo"
+# html_theme = "agogo"
 
-# html_theme = "pydata_sphinx_theme"
+html_theme = "pydata_sphinx_theme"
+
+html_static_path = ["_static"]
+html_css_files = ["custom.css"]
+html_theme_options = {
+    "navbar_align": "content",  # or "left", doesn't affect this feature but is good practice
+    "show_nav_level": 2,  # <--- KEY LINE: Show all nav items at the top
+}
 
 # Add 'qualname' to autodoc_default_options
 # This enables the qualname option for autodoc directives

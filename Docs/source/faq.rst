@@ -1,8 +1,7 @@
-.. include:: <standard_header.rst>
 .. _faq:
 
-Frequently Asked Questions
-==========================
+FAQs
+====
 
 This section contains all the Frequently Asked Questions regarding the
 installation of the PyPLUTO package and its use.

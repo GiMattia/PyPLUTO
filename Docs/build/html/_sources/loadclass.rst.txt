@@ -1,7 +1,7 @@
 .. _loadclass:
 
-Loading the data
-================
+Loading
+=======
 
 PLUTO has several output files (for both fluids and particles), depending on the
 users' needs. The fluid variables can be written into binary files (in double or
@@ -40,6 +40,11 @@ Other h5 files can also be read through the :ref:`read_file <read_file>` method
 Note that multiple fluid files can be loaded (e.g. to have interactive plots) at
 the same time.
 
+Additionally, the definitions.h(pp) and the pluto.ini (although for the latter
+only the "boundary", "time", "parameters" and "solver" blocks) can be inspected.
+If so, the data are stored in two dictionaries (defs and plini) as class
+attributes.
+
 Loading the particles files
 ---------------------------
 
@@ -52,6 +57,17 @@ Particles are loaded as standalones, i.e. no additional file is necessary.
    :hidden:
 
    loadpart
+
+What abou other codes?
+----------------------
+
+PypLUTO is tailored for the PLUTO code output, therefore major efforts will be
+dedicated to the PLUTO code files. However, being the :ref:`Image <imageclass>`
+class code independent, extensions to other codes can be done with minimal
+efforts.
+Currently, the following codes can be used in combination with PyPLUTO:
+
+- ECHO (parameters: nout, path, vars)
 
 |
 

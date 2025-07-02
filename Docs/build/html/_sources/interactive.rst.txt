@@ -1,6 +1,9 @@
 .. _interactive:
 
-.. autofunction:: pyPLUTO.Image.interactive
+Image.interactive
+=================
+
+.. automethod:: pyPLUTO.interactive.InteractiveManager.interactive
 
 |
 

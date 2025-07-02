@@ -1,5 +1,8 @@
 .. _load:
 
+Load class
+==========
+
 .. autoclass:: pyPLUTO.Load()
 
 |

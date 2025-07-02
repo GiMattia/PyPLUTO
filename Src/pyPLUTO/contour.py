@@ -16,12 +16,17 @@ from .set_axis import AxisManager
 
 @delegator("state")
 class ContourManager:
+    """Class to manage contour plots in the image.
+
+    This class provides methods to create contour plots of variables in the
+    image class. It allows for customization of the contour lines, colorbars,
+    and other properties."""
 
     exposed_methods = ("contour",)
 
     def __init__(self, state: ImageState):
+        """Initialize the ContourManager with the given state."""
         self.state = state
-
         self.AxisManager = AxisManager(state)
         self.ColorbarManager = ColorbarManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
@@ -159,11 +164,6 @@ class ContourManager:
             always correspond to fixed ticks.
         - ytitle: str, default None
             Sets and places the label of the y-axis.
-
-        Notes
-        -----
-        - Need to improve the colorbar, now only lines are plotted and not the
-        full colormap.
 
         ----
 

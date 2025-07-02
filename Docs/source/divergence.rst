@@ -1,5 +1,8 @@
 .. _divergence:
 
+Load.divergence
+===============
+
 .. autofunction:: pyPLUTO.Load.divergence
 
 |

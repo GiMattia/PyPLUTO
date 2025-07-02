@@ -4,7 +4,9 @@ import h5py
 def echo_load(self, nout, path, vars):
     """Method to load the data from the output files of the ECHO code.
     The data are loaded only from h5 files and only a single output is
-    possible.
+    possible. Note that binary files produced by ECHO are not supported
+    by this method. The data are loaded in the PLUTO format, so the
+    variables are renamed to match the PLUTO naming convention.
 
     Returns
     -------

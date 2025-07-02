@@ -64,10 +64,6 @@ class Load:
         The variables to be loaded. The default value, True, corresponds to all
         the variables.
 
-    Notes
-    -----
-    - Warning if the .out files are not found.
-
     ----
 
     Examples
@@ -245,7 +241,7 @@ class Load:
         self._nshp_st2: NDArray
         self._gridsize_st3: int
         self._nshp_st3: NDArray
-        self._full3d: bool = kwargs.get("full3d")
+        self._full3d: bool = kwargs.get("full3d", False)
 
         _nout_out: int | list[int]  # Output to be printed
 

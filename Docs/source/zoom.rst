@@ -1,6 +1,9 @@
 .. _zoom:
 
-.. autofunction:: pyPLUTO.Image.zoom
+Image.zoom
+=============
+
+.. automethod:: pyPLUTO.zoom.ZoomManager.zoom
 
 |
 

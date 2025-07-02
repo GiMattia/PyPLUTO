@@ -1,5 +1,8 @@
 .. _find_contour:
 
+Load.find_contour
+=================
+
 .. autofunction:: pyPLUTO.Load.find_contour
 
 |

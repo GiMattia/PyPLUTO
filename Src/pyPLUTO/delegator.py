@@ -15,6 +15,11 @@ def delegator(
 ) -> Callable[[type[T]], type[T]]:
     """Delegate attribute access to internal attributes like 'state'.
 
+    Returns
+    -------
+    Callable[[type[T]], type[T]]
+        A decorator that adds delegation functionality to a class.
+
     Parameters
     ----------
     *attr_names : str

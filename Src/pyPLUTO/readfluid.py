@@ -20,10 +20,6 @@ def _read_tabfile(self, i: int) -> None:
     - i (not optional): int
         The index of the file to be loaded.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -114,10 +110,6 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
         If None the data are loaded as single files, otherwise the data are
         loaded as multiple files. In single files, an adaptive strategy can be
         used to speed up the offset computation without reading the entire file.
-
-    Notes
-    -----
-    - None
 
     ----
 
@@ -312,10 +304,6 @@ def _inspect_h5(self, i: int, exout: int) -> None:
     - i (not optional): int
         The index of the file to be loaded.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -398,10 +386,6 @@ def _compute_offset(
     - var (not optional): str | None
         The variable to be loaded.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -444,10 +428,6 @@ def _offset_bin(self, i: int, var: str | None) -> None:
         The index of the file to be loaded.
     - var (not optional): str
         The variable to be loaded.
-
-    Notes
-    -----
-    - None
 
     ----
 

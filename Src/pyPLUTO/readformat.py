@@ -18,10 +18,6 @@ def _check_pathformat(self, path: str | Path) -> None:
     - path (not optional): str | Path
         The path to the simulation directory.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -90,10 +86,6 @@ def _find_format(self, datatype: str | None, alone: bool | None) -> None:
         The file format. If None the format is recovered between
         (in order) dbl, flt, vtk, dbl.h5 and flt.h5.
         Formats hdf5 (AMR) and tab have not been implemented yet.
-
-    Notes
-    -----
-    - None
 
     ----
 
@@ -209,10 +201,6 @@ def _check_typeout(self, type_out: list[str]) -> None:
     - type_out (not optional): list[str]
         The list of possible formats for the output file.
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -257,10 +245,6 @@ def _check_typelon(self, type_lon: list[str]) -> None:
     ----------
     - type_lon (not optional): list[str]
         The list of possible formats for the output file.
-
-    Notes
-    -----
-    - None
 
     ----
 

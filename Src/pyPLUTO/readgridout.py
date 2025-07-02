@@ -15,13 +15,6 @@ def _read_grid_h5(self) -> None:
     ----------
     - None
 
-    Notes
-    -----
-    - Variables that we already have: x1 x2 x3 x1r x2r x3r
-      Variables that we need: nx1 nx2 nx3 nshp nx1s nx2s nx3s dim
-                              nshp_st1 nshp_st2 nshp_st3
-                              gridsize gridsize_st1 gridsize_st2 gridsize_st3
-
     ----
 
     Examples
@@ -31,6 +24,10 @@ def _read_grid_h5(self) -> None:
         >>> _read_grid_h5()
 
     """
+    #  Variables that we already have: x1 x2 x3 x1r x2r x3r
+    #  Variables that we need: nx1 nx2 nx3 nshp nx1s nx2s nx3s dim
+    #                          nshp_st1 nshp_st2 nshp_st3
+    #                          gridsize gridsize_st1 gridsize_st2 gridsize_st3
     self.nshp = np.shape(self.x1)
     self.dim = len(self.nshp)
     self.geom = "UNKNOWN"
@@ -51,6 +48,8 @@ def _read_grid_h5(self) -> None:
     (self._nshp_st1, self._nshp_st2, self._nshp_st3) = GRID_SHAPES[self.dim](
         self.nx1, self.nx2, self.nx3
     )
+
+    # Grid spacing has been removed from the .h5 file
     """
     self.dx1 = self.x1r[1:] - self.x1r[:-1]
     self.dx1 = 0.5*(self.dx1[:, 1:] + self.dx1[:, :-1]) if self.dim > 1 else self.dx1
@@ -91,12 +90,6 @@ def _read_grid_vtk(self, gridvars) -> None:
     - gridvars (not optional): list[str]
         The list of grid variables.
 
-    Notes
-    -----
-    - RECTILINEAR GRID
-        Variables that we already have: x1r x2r x3r nshp dim nx1 nx2 nx3
-        Variables that we need: x1 x2 x3 dx1 dx2 dx3  gridsize
-
     ----
 
     Examples
@@ -106,6 +99,10 @@ def _read_grid_vtk(self, gridvars) -> None:
         >>> _read_grid_vtk(['self.x1r', 'self.x2r', 'self.x3r'])
 
     """
+    # - RECTILINEAR GRID
+    #   Variables that we already have: x1r x2r x3r nshp dim nx1 nx2 nx3
+    #   Variables that we need: x1 x2 x3 dx1 dx2 dx3  gridsize
+
     self.gridsize = self.nx1 * self.nx2 * self.nx3
 
     if self.geom == "UNKNOWN":
@@ -185,10 +182,6 @@ def _read_gridfile(self) -> None:
 
     Parameters
     ----------
-    - None
-
-    Notes
-    -----
     - None
 
     ----
@@ -341,10 +334,6 @@ def _read_outfile(self, nout: int, endian: str) -> None:
         last file should be opened. Other options available are 'last' (all the
         files should be opened) and -1 (same as 'last').
 
-    Notes
-    -----
-    - None
-
     ----
 
     Examples
@@ -418,10 +407,6 @@ def _split_gridfile(
         The list of the left cell boundaries values.
     - xR (not optional): list[float]
         The list of the right cell boundaries values.
-
-    Notes
-    -----
-    - None
 
     ----
 

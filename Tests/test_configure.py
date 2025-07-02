@@ -11,7 +11,7 @@ from pyPLUTO.configure import Configure
 @pytest.fixture(autouse=True)
 def reset_greeted_flag():
     # Reset the class flag before each test
-    Configure._greeted = False
+    Configure.greeted = False
 
 
 def test_version_and_session():
@@ -95,7 +95,7 @@ def test_find_session_simulated(monkeypatch):
 
 
 def test_greeting_printed_once(capsys):
-    Configure._greeted = False
+    Configure.greeted = False
     c1 = Configure()
     out1 = capsys.readouterr().out
     assert "PyPLUTO version:" in out1

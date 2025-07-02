@@ -22,7 +22,7 @@ class Configure:
         self._setup_handlers(colorwarn, colorerr)
         if greet and not Configure.greeted:
             print(f"PyPLUTO version: {self.version}   session: {self.session}")
-            Configure._greeted = True
+            Configure.greeted = True
 
     def _find_session(self) -> str:
         """Find the session in which the code is running.

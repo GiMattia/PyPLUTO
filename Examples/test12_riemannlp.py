@@ -1,17 +1,18 @@
 """Particle LP Riemann 2D test.
 
-This test shows how to plot data from the Load class and the LoadPart class
-simultaneously and how to produce a scatter plot on a omplex axes grid.
+This test shows how to plot data from the Load class and the LoadPart
+class simultaneously and how to produce a scatter plot on a omplex axes
+grid.
 
 The data are the ones obtained from the PLUTO test problem
 $PLUTO_DIR/Test_Problems/Particles/LP/Riemann_2D (configuration 1).
 
-The data is loaded with the Load class and the LoadPart class into two pload
-objects, and the Image class is created. The display method is used to plot the
-density, and the scatter method is used to plot the loaded particles at the
-final time of the simulation. Two color bars are then created in order to show
-the particle identity and the fluid velocity values. The image is then saved
-and shown on screen.
+The data is loaded with the Load class and the LoadPart class into two
+pload objects, and the Image class is created. The display method is
+used to plot the density, and the scatter method is used to plot the
+loaded particles at the final time of the simulation. Two color bars are
+then created in order to show the particle identity and the fluid
+velocity values. The image is then saved and shown on screen.
 
 """
 

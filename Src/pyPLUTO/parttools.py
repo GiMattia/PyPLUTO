@@ -89,8 +89,9 @@ def select(
     sort: bool = False,
     ascending: bool = True,
 ) -> np.ndarray:
-    """Selects or sorts the indices that satisfy a given condition for the
-    particles. The condition is given by a string or a callable function.
+    """Selects or sorts the indices that satisfy a given condition for
+    the particles. The condition is given by a string or a callable
+    function.
 
     Returns
     -------

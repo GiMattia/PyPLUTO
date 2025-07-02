@@ -2,8 +2,9 @@ import h5py
 
 
 def echo_load(self, nout, path, vars):
-    """Method to load the data from the output files of the ECHO code. The data
-    are loaded only from h5 files and only a single output is possible.
+    """Method to load the data from the output files of the ECHO code.
+    The data are loaded only from h5 files and only a single output is
+    possible.
 
     Returns
     -------

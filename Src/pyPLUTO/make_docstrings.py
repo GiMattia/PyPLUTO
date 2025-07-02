@@ -1,8 +1,5 @@
-import importlib
-import inspect
-import pkgutil
-from collections.abc import Callable
-from types import ModuleType
+"""Import importlib import inspect import pkgutil from collections.abc
+import Callable from types import ModuleType.
 
 from pyPLUTO.inspect_kwargs import find_kwargs_keys
 
@@ -59,3 +56,5 @@ if __name__ == "__main__":
 
     for name, keys in results.items():
         print(f"{name}: {sorted(keys)}")
+
+"""

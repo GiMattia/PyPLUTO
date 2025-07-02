@@ -172,12 +172,12 @@ def _read_grid_vtk(self, gridvars) -> None:
 
 
 def _read_gridfile(self) -> None:
-    """The file grid.out is read and all the grid information are stored in the
-    Load class. Such information are the dimensions, the geometry, the center
-    and edges of each cell, the grid shape and size and, in case of non
-    cartesian coordinates, the transformed cartesian coordinates (only 2D for
-    now).bThe full non-cartesian 3D transformations have not been implemented
-    yet.
+    """The file grid.out is read and all the grid information are stored
+    in the Load class. Such information are the dimensions, the
+    geometry, the center and edges of each cell, the grid shape and size
+    and, in case of non cartesian coordinates, the transformed cartesian
+    coordinates (only 2D for now).bThe full non-cartesian 3D
+    transformations have not been implemented yet.
 
     Returns
     -------
@@ -322,11 +322,11 @@ def _read_gridfile(self) -> None:
 
 
 def _read_outfile(self, nout: int, endian: str) -> None:
-    """Reads the datatype.out file and stores the relevant information within
-    the class. Such information are the time array, the output variables, the
-    file type (single or multiples), the endianess, the simulation path and the
-    bin format. All these information are relevant in order to open the output
-    files and access the data.
+    """Reads the datatype.out file and stores the relevant information
+    within the class. Such information are the time array, the output
+    variables, the file type (single or multiples), the endianess, the
+    simulation path and the bin format. All these information are
+    relevant in order to open the output files and access the data.
 
     Returns
     -------
@@ -399,8 +399,9 @@ def _read_outfile(self, nout: int, endian: str) -> None:
 def _split_gridfile(
     self, i: str, xL: list[float], xR: list[float], nmax: list[int]
 ) -> None:
-    """Splits the gridfile, storing the information in the variables passed by
-    the function. Dimensions and geometry are stored in the class.
+    """Splits the gridfile, storing the information in the variables
+    passed by the function. Dimensions and geometry are stored in the
+    class.
 
     Return
     ------

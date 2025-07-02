@@ -3,10 +3,11 @@ from pathlib import Path
 
 
 def _check_pathformat(self, path: str | Path) -> None:
-    """Check if the path is consistent, i.e. if the path is given through a
-    non-empty string. If the path is consistent, it is converted to a Path
-    object. Then, a check is performed to see if the path is a directory. The
-    path is stored in the class as a Path object self.pathdir.
+    """Check if the path is consistent, i.e. if the path is given
+    through a non- empty string. If the path is consistent, it is
+    converted to a Path object. Then, a check is performed to see if the
+    path is a directory. The path is stored in the class as a Path
+    object self.pathdir.
 
     Returns
     -------
@@ -64,13 +65,14 @@ def _check_pathformat(self, path: str | Path) -> None:
 
 
 def _find_format(self, datatype: str | None, alone: bool | None) -> None:
-    """Finds the format of the data files to load. At first, the code checks
-    the filetype to be loaded (if fluid or particles). Then, depending on the
-    filetype given, the code checks if the corresponding filetype is present
-    Depending on the properties of the filetype and of the type of the output
-    (if fluid or particles) different checks are performed. If no format is
-    given or if the given format is not found, the code checks the presence
-    other filetypes in the directory. If no file is found, an error is raised.
+    """Finds the format of the data files to load. At first, the code
+    checks the filetype to be loaded (if fluid or particles). Then,
+    depending on the filetype given, the code checks if the
+    corresponding filetype is present Depending on the properties of the
+    filetype and of the type of the output (if fluid or particles)
+    different checks are performed. If no format is given or if the
+    given format is not found, the code checks the presence other
+    filetypes in the directory. If no file is found, an error is raised.
     CUrrent filetypes available are dbl, flt, vtk, dbl.h5 and flt.h5.
 
     Returns
@@ -193,9 +195,10 @@ def _find_format(self, datatype: str | None, alone: bool | None) -> None:
 
 
 def _check_typeout(self, type_out: list[str]) -> None:
-    """Loops over possible formats in order to find, at first the grid.out
-    file, then the datatype.out file. If the datatype.out file is found, the
-    file format is selected and the flag alone is set to False.
+    """Loops over possible formats in order to find, at first the
+    grid.out file, then the datatype.out file. If the datatype.out file
+    is found, the file format is selected and the flag alone is set to
+    False.
 
     Returns
     -------
@@ -242,9 +245,9 @@ def _check_typeout(self, type_out: list[str]) -> None:
 
 
 def _check_typelon(self, type_lon: list[str]) -> None:
-    """Loops over posisble formats in order to find matching files with the
-    datatype. If the file is found, the file format is selected and the flag
-    alone is set to True.
+    """Loops over posisble formats in order to find matching files with
+    the datatype. If the file is found, the file format is selected and
+    the flag alone is set to True.
 
     Returns
     -------

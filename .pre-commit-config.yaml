@@ -28,7 +28,6 @@ repos:
   #      name: codespell
   #      #args: ["--ignore-words-list=nd"]  # Customize if needed
   #      files: \.py$
-  #      stages: [pre-commit]
 
   # 2. Docformatter (formats docstrings)
   - repo: https://github.com/PyCQA/docformatter
@@ -37,7 +36,6 @@ repos:
       - id: docformatter
         args: ["--in-place", "--black", "--blank"]
         files: \.py$
-        stages: [pre-commit]
 
   # 3. Blackened-docs (formats code in docstrings)
   - repo: https://github.com/adamchainz/blacken-docs
@@ -45,7 +43,6 @@ repos:
     hooks:
     -   id: blacken-docs
         args: [--line-length, "80"]
-        stages: [pre-commit]
         additional_dependencies:
         - black==22.1.0
 
@@ -56,7 +53,6 @@ repos:
       - id: ruff
         args: ["--fix"]
         files: \.py$
-        stages: [pre-commit]
         
   # 5. Black - code formatter
   - repo: https://github.com/psf/black
@@ -64,7 +60,6 @@ repos:
     hooks:
       - id: black
         files: \.py$
-        stages: [pre-commit]
 
   # 6. mypy - static typing
   # TODO: ONLY TO UNCOMMENT AFTER FULL REFACTORING!!!
@@ -73,6 +68,37 @@ repos:
   #  hooks:
   #   - id: mypy
   #      name: mypy
-  #      args: ["--strict", "--explicit-package-bases", "--ignore-missing-imports"]
+  #      args: ["--strict", '$(git diff --name-only --cached)']
   #      types: [python]
   #      files: ^Src/pyPLUTO/  # Regex: only runs on files in this folder
+
+  # 7 pytest coverage (minimum 45%, all test required)
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest with coverage
+        entry: pytest --cov=pyPLUTO --cov-fail-under=45
+        language: system
+        types: [python]
+        stages: [manual]
+        pass_filenames: false
+
+  # 8 pylint (minimum score 7)
+  #- repo: local
+  #  hooks:
+  #    - id: pylint
+  #      name: pylint
+  #      entry: pylint Src/pyPLUTO --score=y --fail-under=7
+  #      language: system
+  #      types: [python]
+  #      stages: [manual]
+  #      pass_filenames: false
+
+  # 9 interrogate (>= 70% doc coverage)
+  - repo: https://github.com/econchick/interrogate
+    rev: 1.7.0
+    hooks:
+      - id: interrogate
+        args: [--quiet, --fail-under=70, Src/pyPLUTO]
+        stages: [manual]
+        pass_filenames: false

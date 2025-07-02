@@ -109,7 +109,7 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
             zstr = 1.0
             logr = 0
             try:
-                self.geom = fl.attrs.get("geometry")
+                # self.geom = fl.attrs.get("geometry")
                 logr = fl.attrs.get("logr")
                 if dim >= 2:
                     ystr = fl.attrs.get("g_x2stretch")

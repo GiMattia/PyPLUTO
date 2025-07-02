@@ -13,12 +13,13 @@ def _load_variables(
     exout: int,
     endian: str | None,
 ) -> None:
-    """Loads the variables in the class. The function checks if the variables
-    to be loaded are valid and then loads them. If the variables are not valid,
-    an error is raised. If the variables are valid, the function loads them in
-    the class through memory mapping. The offset and shape of each variable is
-    computed depenging on the format and typefile characteristics. In case the
-    files are standalone, the relevand time and grid information is loaded.
+    """Loads the variables in the class. The function checks if the
+    variables to be loaded are valid and then loads them. If the
+    variables are not valid, an error is raised. If the variables are
+    valid, the function loads them in the class through memory mapping.
+    The offset and shape of each variable is computed depenging on the
+    format and typefile characteristics. In case the files are
+    standalone, the relevand time and grid information is loaded.
 
     Returns
     -------
@@ -215,12 +216,13 @@ def _load_variables(
 
 def _check_nout(self, nout: int | str | list[int | str]) -> None:
     """Finds the number of datafile to be loaded. If nout is a list, the
-    function checks if the list contains the keyword 'last' or -1. If so, the
-    keyword is replaced with the last file number. If nout is a string, the
-    function checks if the string contains the keyword 'last' or -1. If so, the
-    keyword is replaced with the last file number. If nout is an integer, the
-    function returns a list containing the integer. If nout is 'all', the
-    function returns a list containing all the file numbers.
+    function checks if the list contains the keyword 'last' or -1. If
+    so, the keyword is replaced with the last file number. If nout is a
+    string, the function checks if the string contains the keyword
+    'last' or -1. If so, the keyword is replaced with the last file
+    number. If nout is an integer, the function returns a list
+    containing the integer. If nout is 'all', the function returns a
+    list containing all the file numbers.
 
     Returns
     -------
@@ -281,11 +283,12 @@ def _check_nout(self, nout: int | str | list[int | str]) -> None:
 
 
 def _findfiles(self, nout: int | str | list[int | str]) -> None:
-    """Finds the files to be loaded. If nout is a list, the function loops over
-    the list and finds the corresponding files. If nout is an integer, the
-    function finds the corresponding file. If nout is 'last', the function
-    finds the last file. If nout is 'all', the function finds all the files.
-    Then, the function stores the relevant information in a dictionary _d_info.
+    """Finds the files to be loaded. If nout is a list, the function
+    loops over the list and finds the corresponding files. If nout is an
+    integer, the function finds the corresponding file. If nout is
+    'last', the function finds the last file. If nout is 'all', the
+    function finds all the files. Then, the function stores the relevant
+    information in a dictionary _d_info.
 
     Returns
     -------
@@ -398,9 +401,10 @@ def _findfiles(self, nout: int | str | list[int | str]) -> None:
 
 
 def _init_vardict(self, var: str) -> None:
-    """If not initialized, a new dictionary is created to store the variables.
-    The dictionary is stored in the class. The shape of the dictionary is
-    computed depending on the number of outputs and the shape of the variable.
+    """If not initialized, a new dictionary is created to store the
+    variables. The dictionary is stored in the class. The shape of the
+    dictionary is computed depending on the number of outputs and the
+    shape of the variable.
 
     Returns
     -------
@@ -458,9 +462,10 @@ def _init_vardict(self, var: str) -> None:
 
 
 def _assign_var(self, time: int, var: str, scrh: np.memmap) -> None:
-    """Assigns the memmap object to the dictionary. If the number of outputs is
-    1, the variable is stored directly in the dictionary, otherwise the
-    variable is stored in the dictionary at the corresponding output.
+    """Assigns the memmap object to the dictionary. If the number of
+    outputs is 1, the variable is stored directly in the dictionary,
+    otherwise the variable is stored in the dictionary at the
+    corresponding output.
 
     Returns
     -------
@@ -505,10 +510,10 @@ def _assign_var(self, time: int, var: str, scrh: np.memmap) -> None:
 
 
 def _varsouts(self, elem: str, class_name: str) -> None:
-    """From the matching files finds the variables and the outputs for the
-    fluid and particles files (variables are to be intended here as the first
-    part of the output filename, they are the effective variables only in case
-    of multiple fluid files).
+    """From the matching files finds the variables and the outputs for
+    the fluid and particles files (variables are to be intended here as
+    the first part of the output filename, they are the effective
+    variables only in case of multiple fluid files).
 
     Returns
     -------

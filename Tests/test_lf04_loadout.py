@@ -21,7 +21,6 @@ varslist = ["rho", "vx1", "vx2", "vx3", "prs"]
 
 # Test the dbl.out file when only last output is loaded
 def test_load_outfile_oneoutput():
-
     endpath = [".0004.dbl"]
 
     Data = pp.Load(path=path / "multiple_outputs", text=False)
@@ -40,7 +39,6 @@ def test_load_outfile_oneoutput():
 
 # Test the dbl.out file when two outputs are loaded
 def test_load_outfile_moreoutputs():
-
     Data = pp.Load(
         [0, "last"],
         path=path / "multiple_outputs",
@@ -86,7 +84,6 @@ def test_load_outfilevtk_oneoutput():
 
 # Test the tab.out file when only last output is loaded
 def test_load_outfiletab_oneoutput():
-
     Data = pp.Load(path=path / "multiple_outputs", text=False, datatype="tab")
 
     endianess = ["<"]

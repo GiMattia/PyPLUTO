@@ -379,12 +379,14 @@
   <h1>Source code for pyPLUTO.imagetools</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sequence</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">cast</span>
 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">mcol</span>
 <span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
 <span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">Normalize</span>
 <span class="kn">from</span> <span class="nn">matplotlib.text</span> <span class="kn">import</span> <span class="n">Text</span>
+<span class="kn">from</span> <span class="nn">pastamarkers</span> <span class="kn">import</span> <span class="n">salsa</span>
 
 <span class="kn">from</span> <span class="nn">.create_axes</span> <span class="kn">import</span> <span class="n">CreateAxesManager</span>
 <span class="kn">from</span> <span class="nn">.delegator</span> <span class="kn">import</span> <span class="n">delegator</span>
@@ -405,8 +407,8 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the ImageToolsManager with the given state.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">CreateAxesManager</span> <span class="o">=</span> <span class="n">CreateAxesManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ImageToolsManager.savefig">
@@ -440,7 +442,7 @@
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; I.savefig(&#39;namefile.png&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; I.savefig(&quot;namefile.png&quot;)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="p">:</span>
@@ -514,24 +516,24 @@
 <span class="sd">        --------</span>
 <span class="sd">        - Example #1: Insert text inside a specific axis</span>
 
-<span class="sd">            &gt;&gt;&gt; I.text(&#39;text&#39;, x = 0.5, y = 0.5, ax = ax)</span>
+<span class="sd">            &gt;&gt;&gt; I.text(&quot;text&quot;, x=0.5, y=0.5, ax=ax)</span>
 
 <span class="sd">        - Example #2: Insert text inside the last axis</span>
 
-<span class="sd">            &gt;&gt;&gt; I.text(&#39;text&#39;, x = 0.5, y = 0.5)</span>
+<span class="sd">            &gt;&gt;&gt; I.text(&quot;text&quot;, x=0.5, y=0.5)</span>
 
 <span class="sd">        - Example #3: Insert text inside the last axis with a specific fontsize</span>
 
-<span class="sd">            &gt;&gt;&gt; I.text(&#39;text&#39;, x = 0.5, y = 0.5, textsize = 20)</span>
+<span class="sd">            &gt;&gt;&gt; I.text(&quot;text&quot;, x=0.5, y=0.5, textsize=20)</span>
 
 <span class="sd">        - Example #4: Insert text inside the last axis with a specific fontsize</span>
 <span class="sd">            and a specific color</span>
 
-<span class="sd">            &gt;&gt;&gt; I.text(&#39;text&#39;, x = 0.5, y = 0.5, textsize = 20, c = &#39;r&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; I.text(&quot;text&quot;, x=0.5, y=0.5, textsize=20, c=&quot;r&quot;)</span>
 
 <span class="sd">        - Example #5: Insert text inside the last axis with a points position</span>
 
-<span class="sd">            &gt;&gt;&gt; I.text(&#39;text&#39;, x = 0.5, y = 0.5, xycoords = &#39;points&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; I.text(&quot;text&quot;, x=0.5, y=0.5, xycoords=&quot;points&quot;)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
@@ -744,16 +746,16 @@
 <span class="sd">        --------</span>
 <span class="sd">        - Example #1: set a linear colormap between 0 and 1</span>
 
-<span class="sd">            &gt;&gt;&gt; _set_cscale(&#39;linear&#39;, 0.0, 1.0)</span>
+<span class="sd">            &gt;&gt;&gt; _set_cscale(&quot;linear&quot;, 0.0, 1.0)</span>
 
 <span class="sd">        - Example #2: set a logarithmic colormap between 0.1 and 1</span>
 
-<span class="sd">            &gt;&gt;&gt; _set_cscale(&#39;log&#39;, 0.1, 1.0)</span>
+<span class="sd">            &gt;&gt;&gt; _set_cscale(&quot;log&quot;, 0.1, 1.0)</span>
 
 <span class="sd">        - Example #3: set a twoslope colormap between -1 and 1 with threshold</span>
 <span class="sd">            0.1</span>
 
-<span class="sd">            &gt;&gt;&gt; _set_cscale(&#39;twoslope&#39;, -1.0, 1.0, 0.1)</span>
+<span class="sd">            &gt;&gt;&gt; _set_cscale(&quot;twoslope&quot;, -1.0, 1.0, 0.1)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">lint</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -779,6 +781,42 @@
             <span class="n">norm</span> <span class="o">=</span> <span class="n">mcol</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">norm</span>
+
+    <span class="k">def</span> <span class="nf">find_cmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">mcol</span><span class="o">.</span><span class="n">Colormap</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mcol</span><span class="o">.</span><span class="n">Colormap</span><span class="p">:</span>
+
+        <span class="c1"># Find a colormap by name or return a default one if not found.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mcol</span><span class="o">.</span><span class="n">Colormap</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">name</span>
+
+        <span class="c1"># First, try matplotlib colormap</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c1"># Not a matplotlib colormap</span>
+
+        <span class="c1"># Try salsa colormap</span>
+        <span class="n">reverse</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">base_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_r&quot;</span><span class="p">):</span>
+            <span class="n">base_name</span> <span class="o">=</span> <span class="n">name</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">reverse</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">cmap</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">salsa</span><span class="p">,</span> <span class="n">base_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cmap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+                <span class="c1"># Prefer .reversed() method if available</span>
+                <span class="n">rev</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span> <span class="s2">&quot;reversed&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">rev</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">mcol</span><span class="o">.</span><span class="n">Colormap</span><span class="p">,</span> <span class="n">rev</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">mcol</span><span class="o">.</span><span class="n">Colormap</span><span class="p">,</span> <span class="n">cmap</span><span class="p">())</span>
+
+        <span class="c1"># Gigantic warning!</span>
+        <span class="n">warn</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Colormap &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; not found in matplotlib or salsa! &quot;</span>
+            <span class="s2">&quot;Defaulting to &#39;plasma&#39;.&quot;</span>
+        <span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;plasma&quot;</span><span class="p">)</span>
 </pre></div>
 
                 </article>

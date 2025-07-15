@@ -48,7 +48,7 @@ def _load_variables(
 
     - Example #2: Load only the selected variables
 
-        >>> _load_variables(['rho','vx1'], 0, 0, True)
+        >>> _load_variables(["rho", "vx1"], 0, 0, True)
 
     - Example #3: Load all the variables (little endian)
 
@@ -171,7 +171,6 @@ def _load_variables(
 
         # Extract the relevant slice and reshape
         if class_name == "Load":
-
             # Calculate the relative start and end for this variable
             rel_start = (
                 self._offset[j] - start_byte
@@ -238,7 +237,7 @@ def _check_nout(self, nout: int | str | list[int | str]) -> None:
     --------
     - Example #1: Load the last file
 
-        >>> _check_nout('last')
+        >>> _check_nout("last")
 
     - Example #2: Load the first file
 
@@ -246,11 +245,11 @@ def _check_nout(self, nout: int | str | list[int | str]) -> None:
 
     - Example #3: Load all the files
 
-        >>> _check_nout('all')
+        >>> _check_nout("all")
 
     - Example #4: Load multiple specific files
 
-        >>> _check_nout([0,1,2,3])
+        >>> _check_nout([0, 1, 2, 3])
 
     """
     # Assign the last possible output file
@@ -300,7 +299,7 @@ def _findfiles(self, nout: int | str | list[int | str]) -> None:
     --------
     - Example #1: Load the last file
 
-        >>> _findfiles('last')
+        >>> _findfiles("last")
 
     - Example #2: Load the first file
 
@@ -308,11 +307,11 @@ def _findfiles(self, nout: int | str | list[int | str]) -> None:
 
     - Example #3: Load all the files
 
-        >>> _findfiles('all')
+        >>> _findfiles("all")
 
     - Example #4: Load multiple specific files
 
-        >>> _findfiles([0,1,2,3])
+        >>> _findfiles([0, 1, 2, 3])
 
     """
     # Initialization or declaration of variables
@@ -412,7 +411,7 @@ def _init_vardict(self, var: str) -> None:
     --------
     - Example #1: Initialize the dictionary of a non-initialized variable
 
-        >>> _init_vardict('rho')
+        >>> _init_vardict("rho")
 
     """
     # If the variable is not initialized, create a new dictionary
@@ -473,11 +472,11 @@ def _assign_var(self, time: int, var: str, scrh: np.memmap) -> None:
     --------
     - Example #1: Assign the variable to the dictionary (single output time)
 
-        >>> _assign_var(3, 'rho', scrh)
+        >>> _assign_var(3, "rho", scrh)
 
     - Example #2: Assign the variable to the dictionary (multiple output times)
 
-        >>> _assign_var(1, 'rho', scrh)
+        >>> _assign_var(1, "rho", scrh)
 
     """
     # Assign the memmap object to the dictionary
@@ -515,15 +514,15 @@ def _varsouts(self, elem: str, class_name: str) -> None:
     --------
     - Example #1: Find the outputs (particles, non LP)
 
-        >>> _varsouts_p('particles.0000.dbl')
+        >>> _varsouts_p("particles.0000.dbl")
 
     - Example #2: Find the outputs (fluid)
 
-        >>> _varsouts_f('rho.0000.dbl')
+        >>> _varsouts_f("rho.0000.dbl")
 
     - Example #3: Find the outputs (LP)
 
-        >>> _varsouts_lp('particles.0000_ch_00.dbl')
+        >>> _varsouts_lp("particles.0000_ch_00.dbl")
 
     """
     # Splits the matching filename (variable/data and output number)

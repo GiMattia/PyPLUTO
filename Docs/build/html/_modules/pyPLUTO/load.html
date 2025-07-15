@@ -456,52 +456,52 @@
 
 <span class="sd">    - Example #2: Load the data from the default folder but output 0</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout = 0)</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=0)</span>
 <span class="sd">        Loading folder ./,     output [0]</span>
 
 <span class="sd">    - Example #3: Load the data from the default folder but last output is</span>
 <span class="sd">        specified</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout = &#39;last&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=&quot;last&quot;)</span>
 <span class="sd">        Loading folder ./,     output [1]</span>
 
 <span class="sd">    - Example #4: Load the data from the default folder and all outputs</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout = &#39;all&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=&quot;all&quot;)</span>
 <span class="sd">        Loading folder ./,     output [0, 1, 2, 3, 4]</span>
 
 <span class="sd">    - Example #5: Load the data from the default folder and multiple</span>
 <span class="sd">        selected outputs</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout = [0,1,2])</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=[0, 1, 2])</span>
 <span class="sd">        Loading folder ./,     output [0, 1, 2]</span>
 
 <span class="sd">    - Example #6: Load the data from the default folder and multiple selected</span>
 <span class="sd">        outputs and variables</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout = [0,1,2], vars = [&#39;rho&#39;,&#39;vel1&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=[0, 1, 2], vars=[&quot;rho&quot;, &quot;vel1&quot;])</span>
 <span class="sd">        Loading folder ./,     output [0, 1, 2]</span>
 
 <span class="sd">    - Example #7: Load the data from the default folder, multiple selected</span>
 <span class="sd">        outputs and variables, without text</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout = [0,1,2], vars = [&#39;rho&#39;,&#39;vel1&#39;], text = False)</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=[0, 1, 2], vars=[&quot;rho&quot;, &quot;vel1&quot;], text=False)</span>
 
 <span class="sd">    - Example #8: Load the data from the default format with selected output</span>
 <span class="sd">        and format</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(data = &#39;vtk&#39;, nout = 0)</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(data=&quot;vtk&quot;, nout=0)</span>
 <span class="sd">        Loading folder ./,     output [0]</span>
 
 <span class="sd">    - Example #9: Load the data from the default folder with selected output,</span>
 <span class="sd">        variables and format</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(data = &#39;vtk&#39;, nout = 0, vars = [&#39;rho&#39;,&#39;vel1&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(data=&quot;vtk&quot;, nout=0, vars=[&quot;rho&quot;, &quot;vel1&quot;])</span>
 <span class="sd">        Loading folder ./,     output [0]</span>
 
 <span class="sd">    - Example #10: Load the data from a specific folder with selected output</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(path = &#39;./data/&#39;, nout = 0)</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(path=&quot;./data/&quot;, nout=0)</span>
 <span class="sd">        Loading folder ./data/,     output [0]</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -516,7 +516,6 @@
         <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="c1"># Check parameters</span>
         <span class="n">param</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;alone&quot;</span><span class="p">,</span>
@@ -710,8 +709,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-
-        <span class="n">text3</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;        - Projections </span><span class="si">{</span><span class="p">[</span><span class="s1">&#39;x1c&#39;</span><span class="p">,</span><span class="s1">&#39;x2c&#39;</span><span class="p">,</span><span class="s1">&#39;x1rc&#39;</span><span class="p">,</span><span class="s1">&#39;x2rc&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">text3</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;        - Projections </span><span class="si">{</span><span class="p">[</span><span class="s1">&#39;x1c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;x2c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;x1rc&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;x2rc&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="n">text3</span> <span class="o">=</span> <span class="n">text3</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
 
         <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
@@ -731,13 +729,13 @@
 <span class="s2">        - Time loaded   (ntime)    </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ntime</span><span class="si">}</span>
 
 <span class="s2">        Public attributes available:</span>
-<span class="s2">        - Number of cells in each direction </span><span class="si">{</span><span class="p">[</span><span class="s1">&#39;nx1&#39;</span><span class="p">,</span><span class="s1">&#39;nx2&#39;</span><span class="p">,</span><span class="s1">&#39;nx3&#39;</span><span class="p">]</span><span class="si">}</span>
-<span class="s2">        - Grid values (cell center)         </span><span class="si">{</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span><span class="s1">&#39;x2&#39;</span><span class="p">,</span><span class="s1">&#39;x3&#39;</span><span class="p">]</span><span class="si">}</span>
-<span class="s2">        - Grid values (face center)         </span><span class="si">{</span><span class="p">[</span><span class="s1">&#39;x1r&#39;</span><span class="p">,</span><span class="s1">&#39;x2r&#39;</span><span class="p">,</span><span class="s1">&#39;x3r&#39;</span><span class="p">]</span><span class="si">}</span>
-<span class="s2">        - Cells size                        </span><span class="si">{</span><span class="p">[</span><span class="s1">&#39;dx1&#39;</span><span class="p">,</span><span class="s1">&#39;dx2&#39;</span><span class="p">,</span><span class="s1">&#39;dx3&#39;</span><span class="p">]</span><span class="si">}</span>
-<span class="s2">        - Time attributes                   </span><span class="si">{</span><span class="p">[</span><span class="s1">&#39;outlist&#39;</span><span class="p">,</span><span class="s1">&#39;timelist&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">text3</span><span class="si">}</span>
+<span class="s2">        - Number of cells in each direction </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;nx1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nx2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nx3&quot;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        - Grid values (cell center)         </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x3&quot;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        - Grid values (face center)         </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;x1r&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x2r&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x3r&quot;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        - Cells size                        </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;dx1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;dx2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;dx3&quot;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        - Time attributes                   </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;outlist&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;timelist&quot;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">text3</span><span class="si">}</span>
 <span class="s2">        Variables available:</span>
-<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_info</span><span class="p">[</span><span class="s1">&#39;varslist&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_info</span><span class="p">[</span><span class="s2">&quot;varslist&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span>
 <span class="s2">        Variables loaded:</span>
 <span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_load_vars</span><span class="si">}</span>
 

@@ -1,11 +1,13 @@
 import warnings
 from collections.abc import Sequence
-from typing import Any
+from typing import Any, cast
 
 import matplotlib.colors as mcol
+import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.colors import Normalize
 from matplotlib.text import Text
+from pastamarkers import salsa
 
 from .create_axes import CreateAxesManager
 from .delegator import delegator
@@ -27,7 +29,6 @@ class ImageToolsManager:
     def __init__(self, state: ImageState):
         """Initialize the ImageToolsManager with the given state."""
         self.state = state
-
         self.CreateAxesManager = CreateAxesManager(state)
 
     def savefig(
@@ -59,7 +60,7 @@ class ImageToolsManager:
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> I.savefig('namefile.png')
+            >>> I.savefig("namefile.png")
 
         """
         if not self.state.fig:
@@ -130,24 +131,24 @@ class ImageToolsManager:
         --------
         - Example #1: Insert text inside a specific axis
 
-            >>> I.text('text', x = 0.5, y = 0.5, ax = ax)
+            >>> I.text("text", x=0.5, y=0.5, ax=ax)
 
         - Example #2: Insert text inside the last axis
 
-            >>> I.text('text', x = 0.5, y = 0.5)
+            >>> I.text("text", x=0.5, y=0.5)
 
         - Example #3: Insert text inside the last axis with a specific fontsize
 
-            >>> I.text('text', x = 0.5, y = 0.5, textsize = 20)
+            >>> I.text("text", x=0.5, y=0.5, textsize=20)
 
         - Example #4: Insert text inside the last axis with a specific fontsize
             and a specific color
 
-            >>> I.text('text', x = 0.5, y = 0.5, textsize = 20, c = 'r')
+            >>> I.text("text", x=0.5, y=0.5, textsize=20, c="r")
 
         - Example #5: Insert text inside the last axis with a points position
 
-            >>> I.text('text', x = 0.5, y = 0.5, xycoords = 'points')
+            >>> I.text("text", x=0.5, y=0.5, xycoords="points")
 
         """
         kwargs.pop("check", check)
@@ -359,16 +360,16 @@ class ImageToolsManager:
         --------
         - Example #1: set a linear colormap between 0 and 1
 
-            >>> _set_cscale('linear', 0.0, 1.0)
+            >>> _set_cscale("linear", 0.0, 1.0)
 
         - Example #2: set a logarithmic colormap between 0.1 and 1
 
-            >>> _set_cscale('log', 0.1, 1.0)
+            >>> _set_cscale("log", 0.1, 1.0)
 
         - Example #3: set a twoslope colormap between -1 and 1 with threshold
             0.1
 
-            >>> _set_cscale('twoslope', -1.0, 1.0, 0.1)
+            >>> _set_cscale("twoslope", -1.0, 1.0, 0.1)
 
         """
         if lint is not None:
@@ -394,3 +395,39 @@ class ImageToolsManager:
             norm = mcol.Normalize(vmin=vmin, vmax=vmax)
 
         return norm
+
+    def find_cmap(self, name: str | mcol.Colormap) -> mcol.Colormap:
+
+        # Find a colormap by name or return a default one if not found.
+        if isinstance(name, mcol.Colormap):
+            return name
+
+        # First, try matplotlib colormap
+        try:
+            return plt.get_cmap(name)
+        except ValueError:
+            pass  # Not a matplotlib colormap
+
+        # Try salsa colormap
+        reverse = False
+        base_name = name
+        if name.endswith("_r"):
+            base_name = name[:-2]
+            reverse = True
+
+        cmap = getattr(salsa, base_name, None)
+        if cmap is not None:
+            if reverse:
+                # Prefer .reversed() method if available
+                rev = getattr(cmap, "reversed", None)
+                if callable(rev):
+                    return cast(mcol.Colormap, rev())
+            return cast(mcol.Colormap, cmap())
+
+        # Gigantic warning!
+        warn = (
+            f"Colormap '{name}' not found in matplotlib or salsa! "
+            "Defaulting to 'plasma'."
+        )
+        warnings.warn(warn)
+        return plt.get_cmap("plasma")

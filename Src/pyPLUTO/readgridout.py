@@ -96,7 +96,7 @@ def _read_grid_vtk(self, gridvars) -> None:
     --------
     - Example #1: Read the grid from a vtk file
 
-        >>> _read_grid_vtk(['self.x1r', 'self.x2r', 'self.x3r'])
+        >>> _read_grid_vtk(["self.x1r", "self.x2r", "self.x3r"])
 
     """
     # - RECTILINEAR GRID
@@ -106,7 +106,6 @@ def _read_grid_vtk(self, gridvars) -> None:
     self.gridsize = self.nx1 * self.nx2 * self.nx3
 
     if self.geom == "UNKNOWN":
-
         if gridvars[0] == "self.x1r":
             self.x1 = 0.5 * (self.x1r[1:] + self.x1r[:-1])
             self.x1 = (
@@ -240,7 +239,6 @@ def _read_gridfile(self) -> None:
     # Compute the cartesian grid coordinates (non-cartesian geometry)
 
     if self.geom == "POLAR":
-
         x1_2D, x2_2D = np.meshgrid(self.x1, self.x2, indexing="ij")
         x1r_2D, x2r_2D = np.meshgrid(self.x1r, self.x2r, indexing="ij")
 
@@ -282,7 +280,6 @@ def _read_gridfile(self) -> None:
         del x1_2D, x2_2D, x1r_2D, x2r_2D, x3_2D, x3r_2D
 
         if self.dim == 3 and self._full3d is True:
-
             x1_3D, x2_3D, x3_3D = np.meshgrid(
                 self.x1, self.x2, self.x3, indexing="ij"
             )
@@ -340,7 +337,7 @@ def _read_outfile(self, nout: int, endian: str) -> None:
     --------
     - Example #1: Read the 'filetype'.out file
 
-        >>> _read_outfile(0, 'big')
+        >>> _read_outfile(0, "big")
 
     """
     # Open and read the 'filetype'.out file

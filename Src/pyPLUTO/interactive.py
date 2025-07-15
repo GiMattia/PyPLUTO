@@ -92,18 +92,18 @@ class InteractiveManager:
         - Example #1: Create an interactive 2D plot
 
             >>> import pyPLUTO as pp
-            >>> D = pp.Load('all')
+            >>> D = pp.Load("all")
             >>> I = pp.Image()
-            >>> I.interactive(D.rho, x1 = D.x1, x2 = D.x2,
-            ... cpos = 'right', vmin = 0, vmax = 1.0)
-            ...
+            >>> I.interactive(
+            ...     D.rho, x1=D.x1, x2=D.x2, cpos="right", vmin=0, vmax=1.0
+            ... )
             >>> pp.show()
 
         - Example #2: Create an interactive 1D plot with a composite variable
 
             >>> import pyPLUTO as pp
             >>> import numpy as np
-            >>> D = pp.Load('all')
+            >>> D = pp.Load("all")
             >>> pp.Image().interactive(D.x1, np.sqrt(D.vx1**2 + D.vx2**2))
             >>> pp.show()
 
@@ -183,7 +183,6 @@ class InteractiveManager:
 
         # Display the data
         if splt == 2:
-
             self.limfix = limfix
             vmin = (
                 min(np.nanmin(array) for array in self.anim_var.values())
@@ -388,6 +387,5 @@ class InteractiveManager:
             plt.close(self.state.fig)
 
         else:
-
             # Display the animation
             plt.show()

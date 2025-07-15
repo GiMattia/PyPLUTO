@@ -126,8 +126,12 @@ class AxisManager:
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
             >>> ax = I.create_axes()
-            >>> I.set_axis(title = 'Title', titlesize = 30.0, xtitle = 'x-axis',
-            ... ytitle = 'y-axis')
+            >>> I.set_axis(
+            ...     title="Title",
+            ...     titlesize=30.0,
+            ...     xtitle="x-axis",
+            ...     ytitle="y-axis",
+            ... )
 
         - Example #2: create an axis, remove the ticks for the x-axis and
             set manually the ticks for the y-axis
@@ -135,28 +139,36 @@ class AxisManager:
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
             >>> ax = I.create_axes()
-            >>> I.set_axis(ax, xticks = None, yrange = [-1.0,1.0],
-            ... yticks = [-0.8,-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8])
+            >>> I.set_axis(
+            ...     ax,
+            ...     xticks=None,
+            ...     yrange=[-1.0, 1.0],
+            ...     yticks=[-0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8],
+            ... )
 
         - Example #3: create two axes and invert the direction of the ticks in
             the first one
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> ax = I.create_axes(right = 0.7)
-            >>> ax = I.create_axes(left = 0.8)
-            >>> I.set_axis(ax = ax[0], ticksdir = 'out')
+            >>> ax = I.create_axes(right=0.7)
+            >>> ax = I.create_axes(left=0.8)
+            >>> I.set_axis(ax=ax[0], ticksdir="out")
 
         - Example #4: create a 2x2 grid with axes labels and customed ticks
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> ax = I.create_axes(ncol = 2, nrow = 2)
-            >>> for i in [0,1,2,3]:
-            ...     I.set_axis(ax = ax[i], xtitle = 'x-axis',
-            ...     ytitle = 'y-title',
-            ...     xticks = [0.25,0.5,0.75], yticks = [0.25,0.5,0.75],
-            ...     xtickslabels = ['1/4','1/2','3/4'])
+            >>> ax = I.create_axes(ncol=2, nrow=2)
+            >>> for i in [0, 1, 2, 3]:
+            ...     I.set_axis(
+            ...         ax=ax[i],
+            ...         xtitle="x-axis",
+            ...         ytitle="y-title",
+            ...         xticks=[0.25, 0.5, 0.75],
+            ...         yticks=[0.25, 0.5, 0.75],
+            ...         xtickslabels=["1/4", "1/2", "3/4"],
+            ...     )
 
         """
         kwargs.pop("check", check)
@@ -327,15 +339,15 @@ class AxisManager:
         --------
         - Example #1: set ticks and ticks labels on the x-axis
 
-            >>> _set_ticks(ax, [0,1,2,3], ['0','1','2','3'], 'x')
+            >>> _set_ticks(ax, [0, 1, 2, 3], ["0", "1", "2", "3"], "x")
 
         - Example #2: set ticks and ticks labels on the y-axis (no ticks)
 
-            >>> _set_ticks(ax, None, None, 'y')
+            >>> _set_ticks(ax, None, None, "y")
 
         - Example #3: set ticks and ticks labels on the x-axis (no ticks labels)
 
-            >>> _set_ticks(ax, [0,1,2,3], None, 'x')
+            >>> _set_ticks(ax, [0, 1, 2, 3], None, "x")
 
         """
         set_ticks = {"x": ax.set_xticks, "y": ax.set_yticks}
@@ -343,7 +355,6 @@ class AxisManager:
 
         # Ticks are None
         if tc is None:
-
             set_ticks[typeaxis]([])
             set_label[typeaxis]([])
 
@@ -357,7 +368,6 @@ class AxisManager:
 
         # Ticks are not None and tickslabels are custom
         elif tl is not True:
-
             # Ticks are not None, then are set
             if tc is not True:
                 set_ticks[typeaxis](tc)

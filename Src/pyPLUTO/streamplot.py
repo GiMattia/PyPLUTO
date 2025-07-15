@@ -237,7 +237,7 @@ class StreamplotManager:
 
         # Keyword for colorbar and colorscale
         color = kwargs.get("c")
-        cmap = kwargs.get("cmap")
+        cmap = self.ImageToolsManager.find_cmap(kwargs.get("cmap", "plasma"))
         cpos = kwargs.get("cpos")
         cscale = kwargs.get("cscale", "norm")
         tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)

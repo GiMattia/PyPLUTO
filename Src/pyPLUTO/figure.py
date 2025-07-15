@@ -62,11 +62,11 @@ class FigureManager:
         suptitlesize = kwargs.pop("suptitlesize", "large")
         withblack = kwargs.pop("withblack", False)
         withwhite = kwargs.pop("withwhite", False)
+        self.state.nwin = kwargs.get("nwin", self.state.nwin)
 
         self.check_previous_fig(close)
 
         self.state.fontsize = kwargs.get("fontsize", self.state.fontsize)
-        self.state.nwin = kwargs.get("nwin", self.state.nwin)
         self.state.tight = kwargs.get("tight", self.state.tight)
         self.state.figsize = kwargs.get("figsize", self.state.figsize)
         if "figsize" in kwargs:
@@ -222,7 +222,7 @@ class FigureManager:
 
         - Example #2: LaTeX option 'pgf'
 
-            >>> _assign_LaTeX('pgf')
+            >>> _assign_LaTeX("pgf")
 
         """
         # LaTeX option 'pgf' (requires XeLaTeX)
@@ -357,15 +357,15 @@ class FigureManager:
 
         - Example #2: Associate an Image to an existing figure
 
-            >>> _create_figure(fig = fig)
+            >>> _create_figure(fig=fig)
 
         - Example #3: Create a new figure with different size and a figure title
 
-            >>> _create_figure(suptitle = 'Super Title', figsize = [10,5])
+            >>> _create_figure(suptitle="Super Title", figsize=[10, 5])
 
         - Example #4: Create a new figure with a specific window number
 
-            >>> _create_figure(nwin = 2)
+            >>> _create_figure(nwin=2)
 
         """
         # Create a new figure instance with the provided window number

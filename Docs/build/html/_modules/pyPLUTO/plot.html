@@ -404,7 +404,6 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the PlotManager with the given state.&quot;&quot;&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span> <span class="o">=</span> <span class="n">AxisManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
@@ -592,7 +591,7 @@
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x, y, yscale = &#39;log&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x, y, yscale=&quot;log&quot;)</span>
 
 <span class="sd">        - Example #4: create a plot with a legend and custom ticks on x-axis</span>
 
@@ -605,10 +604,10 @@
 
 <span class="sd">            &gt;&gt;&gt; import pypLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; I.create_axes(ncol = 2)</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x, y, ax = I.ax[0])</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x, y*y, ax = I.ax[1])</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x, z, ax = I.ax[0])</span>
+<span class="sd">            &gt;&gt;&gt; I.create_axes(ncol=2)</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x, y, ax=I.ax[0])</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x, y * y, ax=I.ax[1])</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x, z, ax=I.ax[0])</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check parameters</span>

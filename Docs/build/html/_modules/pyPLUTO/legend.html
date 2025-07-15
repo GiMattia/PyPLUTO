@@ -480,32 +480,39 @@
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
 <span class="sd">            &gt;&gt;&gt; ax = I.create_axes()</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x,y, ax = ax, label = &#39;label&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x, y, ax=ax, label=&quot;label&quot;)</span>
 <span class="sd">            &gt;&gt;&gt; I.legend(ax)</span>
 
 <span class="sd">        - Example #2: create a legend with custom labels</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x,y)</span>
-<span class="sd">            &gt;&gt;&gt; I.legend(label = &#39;y&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x, y)</span>
+<span class="sd">            &gt;&gt;&gt; I.legend(label=&quot;y&quot;)</span>
 
 <span class="sd">        - Example #3: create a double legend for four lines in a single plot</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x, y1, ls = &#39;-&#39;, c = &#39;k&#39;)</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x, y2, ls = &#39;-.&#39;, c = &#39;r&#39;)</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x, y3, ls = &#39;-&#39;, c = &#39;r&#39;)</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x, y4, ls = &#39;-.&#39;, c = &#39;k&#39;)</span>
-<span class="sd">            &gt;&gt;&gt; I.legend(legpos = &#39;lower left&#39;, ls = [&#39;-&#39;,&#39;-&#39;], c = [&#39;k&#39;,&#39;r&#39;],</span>
-<span class="sd">            ... label = [&#39;black lines&#39;, &#39;red lines&#39;])</span>
-<span class="sd">            &gt;&gt;&gt; I.legend(legpos = &#39;lower right&#39;, ls = [&#39;-&#39;,&#39;-.&#39;],</span>
-<span class="sd">            ... c = [&#39;k&#39;, &#39;k&#39;], label = [&#39;continue&#39;, &#39;dotted&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x, y1, ls=&quot;-&quot;, c=&quot;k&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x, y2, ls=&quot;-.&quot;, c=&quot;r&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x, y3, ls=&quot;-&quot;, c=&quot;r&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x, y4, ls=&quot;-.&quot;, c=&quot;k&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; I.legend(</span>
+<span class="sd">            ...     legpos=&quot;lower left&quot;,</span>
+<span class="sd">            ...     ls=[&quot;-&quot;, &quot;-&quot;],</span>
+<span class="sd">            ...     c=[&quot;k&quot;, &quot;r&quot;],</span>
+<span class="sd">            ...     label=[&quot;black lines&quot;, &quot;red lines&quot;],</span>
+<span class="sd">            ... )</span>
+<span class="sd">            &gt;&gt;&gt; I.legend(</span>
+<span class="sd">            ...     legpos=&quot;lower right&quot;,</span>
+<span class="sd">            ...     ls=[&quot;-&quot;, &quot;-.&quot;],</span>
+<span class="sd">            ...     c=[&quot;k&quot;, &quot;k&quot;],</span>
+<span class="sd">            ...     label=[&quot;continue&quot;, &quot;dotted&quot;],</span>
+<span class="sd">            ... )</span>
 <span class="sd">            &gt;&gt;&gt; pp.show()</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
 
         <span class="c1"># Find figure and number of the axis</span>
@@ -618,7 +625,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    - Example #1: element is a list</span>
 
-<span class="sd">        &gt;&gt;&gt; makelist([1,2,3])</span>
+<span class="sd">        &gt;&gt;&gt; makelist([1, 2, 3])</span>
 <span class="sd">        [1,2,3]</span>
 
 <span class="sd">    - Example #2: element is not a list</span>

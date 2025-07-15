@@ -36,7 +36,7 @@ def _write_h5(
     --------
     - Example #1: Write the data to a HDF5 file
 
-        >>> write_h5('data.h5')
+        >>> write_h5("data.h5")
 
     """
     # Create the path to the HDF5 file
@@ -46,10 +46,8 @@ def _write_h5(
 
     # Open the HDF5 file
     with h5py.File(path_h5, "w") as f:
-
         # Write the data to the HDF5 file
         if isinstance(data, dict):
-
             for key in data.keys():
                 f.create_dataset(key, data=data[key])
         else:
@@ -97,7 +95,6 @@ def write_vtk(self):
 
     # Open the VTK file
     with open(self._pathvtk, "w") as f:
-
         # Write the header to the VTK file
         f.write("# vtk DataFile Version 3.0\n")
         f.write("VTK file for " + self.format + "\n")
@@ -175,7 +172,6 @@ def write_tab(self):
 
     # Open the tab-separated file
     with open(self._pathtab, "w") as f:
-
         # Write the header to the tab-separated file
         f.write("# " + self.format + "\n")
 
@@ -218,7 +214,6 @@ def write_bin(self):
 
     # Open the binary file
     with open(self._pathbin, "wb") as f:
-
         # Write the data to the binary file
         for key in self.data.keys():
             f.write(self.data[key].tobytes())
@@ -262,7 +257,7 @@ def write_file(
     --------
     - Example #1: Write the data to a file
 
-            >>> write_file('data.h5')
+            >>> write_file("data.h5")
 
     """
     # Check the datatype of the input data

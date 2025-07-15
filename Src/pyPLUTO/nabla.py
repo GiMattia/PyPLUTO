@@ -28,7 +28,7 @@ def _is_number(value: Any) -> bool:
 
     - Example #2: Check if '1' is a number
 
-        >>> _is_number('1')
+        >>> _is_number("1")
         False
 
     """
@@ -62,7 +62,7 @@ def _islice_imin_imax(xvalue, xgrid) -> list[int]:
     --------
     - Example # 1: Compute the indices for the stencil of 3 cells
 
-        >>> _islice_imin_imax(0.5, np.linspace(0,1,11))
+        >>> _islice_imin_imax(0.5, np.linspace(0, 1, 11))
 
     """
     # Compute the grid length and the index of the closest grid point
@@ -113,7 +113,7 @@ def _get_slice_indices(slice_val, grid, grid_size):
     --------
     - Example # 1: Get the slice indices
 
-        >>> _get_slice_indices(0.5, np.linspace(0,1,11), 11)
+        >>> _get_slice_indices(0.5, np.linspace(0, 1, 11), 11)
 
     """
     # If the slice value is a number return the index and the slice
@@ -126,7 +126,6 @@ def _get_slice_indices(slice_val, grid, grid_size):
 
     # If the slice value is a list return the indices and the slice
     else:
-
         # Return the indices and the slice
         return slice(0, grid_size), slice(0, grid_size)
 
@@ -398,7 +397,6 @@ def divergence(
         return div1[i, j] + div2[i, j]
 
     elif self.dim == 3:
-
         if self.nx2 == 1:
             var1 = np.copy(v1[irange, 0, krange])
             var3 = np.copy(v3[irange, 0, krange])
@@ -598,7 +596,6 @@ def curl(
         return np.asarray([curl1[i, j], curl2[i, j], curl3[i, j]])
 
     elif self.dim == 3:
-
         if self.nx2 == 1:
             var1 = np.copy(v1[irange, 0, krange])
             var2 = np.copy(v2[irange, 0, krange])

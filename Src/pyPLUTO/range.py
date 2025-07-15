@@ -142,7 +142,6 @@ class RangeManager:
         # Case 2: the y-axis limit are changed automatically
         # (previous limit present)
         if case == 2:
-
             if x is None or y is None:
                 raise ValueError("x and y arrays must be provided if case is 2")
 

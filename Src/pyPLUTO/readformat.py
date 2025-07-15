@@ -24,7 +24,7 @@ def _check_pathformat(self, path: str | Path) -> None:
     --------
     - Example #1: path is a string
 
-        >>> _check_pathformat('path/to/simulation')
+        >>> _check_pathformat("path/to/simulation")
 
     - Example #2: path is not a string
 
@@ -33,12 +33,12 @@ def _check_pathformat(self, path: str | Path) -> None:
 
     - Example #3: path is an empty string
 
-        >>> _check_pathformat('')
+        >>> _check_pathformat("")
         ValueError: 'path' cannot be an empty string.
 
     - Example #4: path is not a directory
 
-        >>> _check_pathformat('path/to/simulation')
+        >>> _check_pathformat("path/to/simulation")
         NotADirectoryError: Directory path/to/simulation not found.
 
     """
@@ -93,11 +93,11 @@ def _find_format(self, datatype: str | None, alone: bool | None) -> None:
     --------
     - Example #1: Find the format of the fluid files
 
-        >>> _find_format('dbl', False)
+        >>> _find_format("dbl", False)
 
     - Example #2: Find the format of the standalone files
 
-        >>> _find_format('vtk', True)
+        >>> _find_format("vtk", True)
 
     - Example #3: Find the format of the fluid files (no format given)
 
@@ -105,7 +105,7 @@ def _find_format(self, datatype: str | None, alone: bool | None) -> None:
 
     - Example #4: Find the format of the particles files
 
-        >>> _find_format('dbl', True)
+        >>> _find_format("dbl", True)
 
     """
     # Initialization or declaration of variables
@@ -207,7 +207,7 @@ def _check_typeout(self, type_out: list[str]) -> None:
     --------
     - Example #1: Check the format of the output files
 
-        >>> _check_typeout(['dbl','flt','vtk','dbl.h5','flt.h5','tab'])
+        >>> _check_typeout(["dbl", "flt", "vtk", "dbl.h5", "flt.h5", "tab"])
 
     - Example #2: Check the format of the output files (no format given)
 
@@ -216,7 +216,6 @@ def _check_typeout(self, type_out: list[str]) -> None:
     """
     # Loop over the possible formats
     for try_type in type_out:
-
         # Create the path to the grid.out and datatype.out files
         self._pathgrid = self.pathdir / "grid.out"
         self._pathdata = self.pathdir / (try_type + ".out")
@@ -252,7 +251,7 @@ def _check_typelon(self, type_lon: list[str]) -> None:
     --------
     - Example #1: Check the format of the output files
 
-        >>> _check_typelon(['dbl','flt','vtk'])
+        >>> _check_typelon(["dbl", "flt", "vtk"])
 
     - Example #2: Check the format of the output files (no format given)
 
@@ -261,7 +260,6 @@ def _check_typelon(self, type_lon: list[str]) -> None:
     """
     # Loop over the possible formats
     for try_type in type_lon:
-
         # Create the pattern to be searched
         pattern: Path = self.pathdir / ("*.*." + try_type)
 

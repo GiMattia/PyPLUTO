@@ -8,12 +8,15 @@ StateType_co = TypeVar("StateType_co", covariant=True)
 class ManagerProtocol(Protocol, Generic[StateType_co]):
     """Protocol for manager classes used in the Mediator pattern."""
 
-    def __init__(self, state: StateType_co) -> None: ...  # pragma: no cover
+    def __init__(self, state: StateType_co) -> None:
+        """Initialize the manager with a shared state."""
+        # pragma: no cover
 
 
 class Mediator(Generic[StateType_co]):
-    """Mediator class that manages the interaction between different manager
-    classes. This class acts as a central point of communication for various
+    """Mediator class that manages the interaction between different manager classes.
+
+    This class acts as a central point of communication for various
     manager classes, allowing them to interact with the shared state without
     needing to know about each other directly. It dynamically creates instances
     of the manager classes as needed and delegates method calls to the

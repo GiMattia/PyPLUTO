@@ -203,7 +203,7 @@ class DisplayManager:
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> I.display(var, title = 'title', cpos = 'right')
+            >>> I.display(var, title="title", cpos="right")
 
         - Example #2: create a 2d plot with title on the axes, bottom colorbar
             and custom shading
@@ -277,13 +277,15 @@ class DisplayManager:
         shade = kwargs.get("shading", "auto")
         alpha = kwargs.get("alpha", 1.0)
 
+        cmap = self.ImageToolsManager.find_cmap(kwargs.get("cmap", "plasma"))
+
         # Display the image
         pcm = ax.pcolormesh(
             x,
             y,
             var.T,
             shading=shade,
-            cmap=kwargs.get("cmap", "plasma"),
+            cmap=cmap,
             norm=norm,
             linewidth=0,
             rasterized=True,

@@ -181,7 +181,7 @@ class ScatterManager:
 
         - Example #2: Plot a scatter plot of a variable with a colorbar
 
-            >>> I.scatter(x, y, cmap = 'hot', c = x**2 + y**2,cpos = 'right')
+            >>> I.scatter(x, y, cmap="hot", c=x**2 + y**2, cpos="right")
 
         """
         # Convert x and y to numpy arrays (if necessary)
@@ -230,15 +230,22 @@ class ScatterManager:
         self.state.vlims[nax] = [vmin, vmax, tresh]
 
         # Set the colorbar scale
-        norm = self.ImageToolsManager.set_cscale(cscale, vmin, vmax, tresh)
+        if not isinstance(c, str) and c is not None:
+            norm = self.ImageToolsManager.set_cscale(cscale, vmin, vmax, tresh)
+            cmap = self.ImageToolsManager.find_cmap(
+                kwargs.get("cmap", "plasma")
+            )
+        else:
+            norm = None
+            cmap = None
 
         # Start scatter plot procedure
         pcm = ax.scatter(
             x,
             y,
-            cmap=kwargs.get("cmap"),
+            cmap=cmap,
             norm=norm,
-            c=kwargs.get("c"),
+            c=c,
             s=kwargs.get("ms", 3),
             edgecolors=kwargs.get("edgecolors", "none"),
             alpha=kwargs.get("alpha", 1.0),

@@ -118,28 +118,28 @@ class CreateAxesManager:
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> ax = I.create_axes(ncol = 2, nrow = 2)
+            >>> ax = I.create_axes(ncol=2, nrow=2)
 
         - Example #2: create a grid of 2 columns with the first one having half
           the width of the second one
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> ax = I.create_axes(ncol = 2, wratio = [0.5,1])
+            >>> ax = I.create_axes(ncol=2, wratio=[0.5, 1])
 
         - Example #3: create a grid of 2 rows with a lot of blank space between
           them
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> ax = I.create_axes(nrow = 2, hspace = [0.5])
+            >>> ax = I.create_axes(nrow=2, hspace=[0.5])
 
         - Example #4: create a 2x2 grid with a fifth image on the right side
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> ax = I.create_axes(ncol = 2, nrow = 2, right = 0.7)
-            >>> ax = I.create_axes(left = 0.75)
+            >>> ax = I.create_axes(ncol=2, nrow=2, right=0.7)
+            >>> ax = I.create_axes(left=0.75)
 
         """
         kwargs.pop("check", check)
@@ -331,15 +331,15 @@ class CreateAxesManager:
         --------
         - Example #1: ratio and space are given correctly (rows)
 
-            >>> _check_rowcol([1,2,3], [0.1,0.2], 3, 'rows')
+            >>> _check_rowcol([1, 2, 3], [0.1, 0.2], 3, "rows")
 
         - Example #2: ratio and space are given incorrectly (rows) (warning)
 
-            >>> _check_rowcol([], 0.1, 3, 'rows')
+            >>> _check_rowcol([], 0.1, 3, "rows")
 
         - Example #3: ratio and space are given correctly (cols)
 
-            >>> _check_rowcol([1,2,3], [0.1,0.2], 3, 'cols')
+            >>> _check_rowcol([1, 2, 3], [0.1, 0.2], 3, "cols")
 
         """
         rat = {"rows": "hratio", "cols": "wratio"}

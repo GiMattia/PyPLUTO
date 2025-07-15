@@ -403,12 +403,13 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="pyPLUTO.LoadPart">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyPLUTO.</span></span><span class="sig-name descname"><span class="pre">LoadPart</span></span><a class="reference internal" href="_modules/pyPLUTO/loadpart.html#LoadPart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyPLUTO.LoadPart" title="Link to this definition">#</a></dt>
-<dd><p>Load the particles from the simulation. The class is used to load the
-particles from the simulation and store the data in the class attributes.
-The data are loaded in a memory mapped numpy multidimensional array. Such
-approach does not load the full data until needed. Basic operations (i.e. no
-numpy) are possible, as well as slicing the arrays, without fully loading
-the data. At the moment, only one output can be loaded at a time.</p>
+<dd><p>Load the particles from the simulation. The class is used to load
+the particles from the simulation and store the data in the class
+attributes. The data are loaded in a memory mapped numpy
+multidimensional array. Such approach does not load the full data
+until needed. Basic operations (i.e. no numpy) are possible, as well
+as slicing the arrays, without fully loading the data. At the
+moment, only one output can be loaded at a time.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -455,7 +456,7 @@ If None, the data are not loaded.</p>
 </li>
 <li><dl>
 <dt>Example #2: Load the last output from the simulation with a specific</dt><dd><p>endianess</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="n">endian</span> <span class="o">=</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="n">endian</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -463,7 +464,7 @@ If None, the data are not loaded.</p>
 </li>
 <li><dl>
 <dt>Example #3: Load the last output from the simulation with a specific</dt><dd><p>set of variables</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rho&#39;</span><span class="p">,</span><span class="s1">&#39;vx&#39;</span><span class="p">,</span><span class="s1">&#39;vy&#39;</span><span class="p">,</span><span class="s1">&#39;vz&#39;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="nb">vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="s2">&quot;vx&quot;</span><span class="p">,</span> <span class="s2">&quot;vy&quot;</span><span class="p">,</span> <span class="s2">&quot;vz&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </dd>
@@ -471,7 +472,7 @@ If None, the data are not loaded.</p>
 </li>
 <li><dl>
 <dt>Example #4: Load the last output from the simulation without printing</dt><dd><p>the folder and the specific output loaded</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -479,7 +480,7 @@ If None, the data are not loaded.</p>
 </li>
 <li><dl>
 <dt>Example #5: Load the last output from the simulation without loading</dt><dd><p>the data</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -487,7 +488,7 @@ If None, the data are not loaded.</p>
 </li>
 <li><dl>
 <dt>Example #6: Load the last output from the simulation with a specific</dt><dd><p>file number for the lp methods</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="n">nfile_lp</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LoadPart</span><span class="p">(</span><span class="n">nfile_lp</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>

@@ -75,52 +75,52 @@ class Load:
 
     - Example #2: Load the data from the default folder but output 0
 
-        >>> D = pp.Load(nout = 0)
+        >>> D = pp.Load(nout=0)
         Loading folder ./,     output [0]
 
     - Example #3: Load the data from the default folder but last output is
         specified
 
-        >>> D = pp.Load(nout = 'last')
+        >>> D = pp.Load(nout="last")
         Loading folder ./,     output [1]
 
     - Example #4: Load the data from the default folder and all outputs
 
-        >>> D = pp.Load(nout = 'all')
+        >>> D = pp.Load(nout="all")
         Loading folder ./,     output [0, 1, 2, 3, 4]
 
     - Example #5: Load the data from the default folder and multiple
         selected outputs
 
-        >>> D = pp.Load(nout = [0,1,2])
+        >>> D = pp.Load(nout=[0, 1, 2])
         Loading folder ./,     output [0, 1, 2]
 
     - Example #6: Load the data from the default folder and multiple selected
         outputs and variables
 
-        >>> D = pp.Load(nout = [0,1,2], vars = ['rho','vel1'])
+        >>> D = pp.Load(nout=[0, 1, 2], vars=["rho", "vel1"])
         Loading folder ./,     output [0, 1, 2]
 
     - Example #7: Load the data from the default folder, multiple selected
         outputs and variables, without text
 
-        >>> D = pp.Load(nout = [0,1,2], vars = ['rho','vel1'], text = False)
+        >>> D = pp.Load(nout=[0, 1, 2], vars=["rho", "vel1"], text=False)
 
     - Example #8: Load the data from the default format with selected output
         and format
 
-        >>> D = pp.Load(data = 'vtk', nout = 0)
+        >>> D = pp.Load(data="vtk", nout=0)
         Loading folder ./,     output [0]
 
     - Example #9: Load the data from the default folder with selected output,
         variables and format
 
-        >>> D = pp.Load(data = 'vtk', nout = 0, vars = ['rho','vel1'])
+        >>> D = pp.Load(data="vtk", nout=0, vars=["rho", "vel1"])
         Loading folder ./,     output [0]
 
     - Example #10: Load the data from a specific folder with selected output
 
-        >>> D = pp.Load(path = './data/', nout = 0)
+        >>> D = pp.Load(path="./data/", nout=0)
         Loading folder ./data/,     output [0]
 
     """
@@ -135,7 +135,6 @@ class Load:
         check: bool = True,
         **kwargs: Any,
     ) -> None:
-
         # Check parameters
         param = {
             "alone",
@@ -329,8 +328,7 @@ class Load:
         return
 
     def __str__(self):
-
-        text3 = f"        - Projections {['x1c','x2c','x1rc','x2rc']}\n"
+        text3 = f"        - Projections {['x1c', 'x2c', 'x1rc', 'x2rc']}\n"
         text3 = text3 if self.geom != "CARTESIAN" else ""
 
         text = f"""
@@ -350,13 +348,13 @@ class Load:
         - Time loaded   (ntime)    {self.ntime}
 
         Public attributes available:
-        - Number of cells in each direction {['nx1','nx2','nx3']}
-        - Grid values (cell center)         {['x1','x2','x3']}
-        - Grid values (face center)         {['x1r','x2r','x3r']}
-        - Cells size                        {['dx1','dx2','dx3']}
-        - Time attributes                   {['outlist','timelist']}\n{text3}
+        - Number of cells in each direction {["nx1", "nx2", "nx3"]}
+        - Grid values (cell center)         {["x1", "x2", "x3"]}
+        - Grid values (face center)         {["x1r", "x2r", "x3r"]}
+        - Cells size                        {["dx1", "dx2", "dx3"]}
+        - Time attributes                   {["outlist", "timelist"]}\n{text3}
         Variables available:
-        {self._d_info['varslist'][0]}
+        {self._d_info["varslist"][0]}
         Variables loaded:
         {self._load_vars}
 

@@ -21,7 +21,7 @@ def makelist(el: Any) -> list[Any]:
     --------
     - Example #1: element is a list
 
-        >>> makelist([1,2,3])
+        >>> makelist([1, 2, 3])
         [1,2,3]
 
     - Example #2: element is not a list
@@ -59,12 +59,12 @@ def check_par(par: set[str], func: str, **kwargs: Any) -> None:
     - Example #1: check if the parameters are in the list (no warning)
 
         **kwargs = {'a': 1, 'b': 2, 'c': 3}
-        >>> check_par({'a','b','c'}, 'func', **kwargs)
+        >>> check_par({"a", "b", "c"}, "func", **kwargs)
 
     - Example #2: check if the parameters are in the list (raises warning)
 
         **kwargs = {'a': 1, 'd': 2, 'c': 3}
-        >>> check_par({'a','b','c'}, 'func', **kwargs)
+        >>> check_par({"a", "b", "c"}, "func", **kwargs)
 
     """
     # Check if the parameters are in the list

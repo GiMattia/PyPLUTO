@@ -99,28 +99,36 @@ class LegendManager:
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
             >>> ax = I.create_axes()
-            >>> I.plot(x,y, ax = ax, label = 'label')
+            >>> I.plot(x, y, ax=ax, label="label")
             >>> I.legend(ax)
 
         - Example #2: create a legend with custom labels
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> I.plot(x,y)
-            >>> I.legend(label = 'y')
+            >>> I.plot(x, y)
+            >>> I.legend(label="y")
 
         - Example #3: create a double legend for four lines in a single plot
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> I.plot(x, y1, ls = '-', c = 'k')
-            >>> I.plot(x, y2, ls = '-.', c = 'r')
-            >>> I.plot(x, y3, ls = '-', c = 'r')
-            >>> I.plot(x, y4, ls = '-.', c = 'k')
-            >>> I.legend(legpos = 'lower left', ls = ['-','-'], c = ['k','r'],
-            ... label = ['black lines', 'red lines'])
-            >>> I.legend(legpos = 'lower right', ls = ['-','-.'],
-            ... c = ['k', 'k'], label = ['continue', 'dotted'])
+            >>> I.plot(x, y1, ls="-", c="k")
+            >>> I.plot(x, y2, ls="-.", c="r")
+            >>> I.plot(x, y3, ls="-", c="r")
+            >>> I.plot(x, y4, ls="-.", c="k")
+            >>> I.legend(
+            ...     legpos="lower left",
+            ...     ls=["-", "-"],
+            ...     c=["k", "r"],
+            ...     label=["black lines", "red lines"],
+            ... )
+            >>> I.legend(
+            ...     legpos="lower right",
+            ...     ls=["-", "-."],
+            ...     c=["k", "k"],
+            ...     label=["continue", "dotted"],
+            ... )
             >>> pp.show()
 
         """
@@ -235,7 +243,7 @@ def makelist(el: Any) -> list[Any]:
     --------
     - Example #1: element is a list
 
-        >>> makelist([1,2,3])
+        >>> makelist([1, 2, 3])
         [1,2,3]
 
     - Example #2: element is not a list

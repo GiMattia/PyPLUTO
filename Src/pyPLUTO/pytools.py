@@ -67,12 +67,12 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
     - Example #2: Make a sound with a frequency of 880 Hz and a length
       of 1 second
 
-        >>> ring(freq = 880)
+        >>> ring(freq=880)
 
     - Example #3: Make a sound with a frequency of 220 Hz and a length
       of 0.2 seconds
 
-        >>> ring(length = 0.2, freq = 220)
+        >>> ring(length=0.2, freq=220)
 
     """
     # Check the OS

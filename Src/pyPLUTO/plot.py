@@ -210,7 +210,7 @@ class PlotManager:
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> I.plot(x, y, yscale = 'log')
+            >>> I.plot(x, y, yscale="log")
 
         - Example #4: create a plot with a legend and custom ticks on x-axis
 
@@ -223,10 +223,10 @@ class PlotManager:
 
             >>> import pypLUTO as pp
             >>> I = pp.Image()
-            >>> I.create_axes(ncol = 2)
-            >>> I.plot(x, y, ax = I.ax[0])
-            >>> I.plot(x, y*y, ax = I.ax[1])
-            >>> I.plot(x, z, ax = I.ax[0])
+            >>> I.create_axes(ncol=2)
+            >>> I.plot(x, y, ax=I.ax[0])
+            >>> I.plot(x, y * y, ax=I.ax[1])
+            >>> I.plot(x, z, ax=I.ax[0])
 
         """
         # Check parameters

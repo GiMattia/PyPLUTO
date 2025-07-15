@@ -58,8 +58,66 @@ Particles are loaded as standalones, i.e. no additional file is necessary.
 
    loadpart
 
-What abou other codes?
-----------------------
+A note on the PLUTO output
+--------------------------
+
+PLUTO simulations produce a wide range of output formats for both fluid and
+particle data. Descriptor files are generated alongside the main fluid data,
+providing essential information about the grid structure and variable
+layout. Although descriptor files are essential only for the binary output
+files, is recommended to include them, especially in presence of simulations
+performed in non-cartesian geometry.
+Binary and vtk fluid files can be produced with the "multiple files" option. In
+such case, each fluid variable is saved in a separate file rather than combining
+all variables into a single output file.
+
+.. list-table::
+   :widths: 20 20 20 20 20
+   :header-rows: 1
+
+   * - Format
+     - Fluid/particles
+     - Fluid descriptor
+     - Single/multiple files
+     - Staggered variables
+   * - dbl
+     - both
+     - required
+     - both
+     - yes
+   * - flt
+     - both
+     - required
+     - both
+     - no
+   * - vtk
+     - both
+     - optional
+     - both
+     - no
+   * - dbl.h5
+     - only fluid
+     - optional
+     - single file only
+     - yes
+   * - flt.h5
+     - only fluid
+     - optional
+     - single file only
+     - no
+   * - hdf5 (AMR)
+     - only fluid
+     - optional
+     - single file only
+     - no
+   * - tab (serial, no 3D)
+     - only fluid
+     - optional
+     - single file only
+     - no
+
+What about other codes?
+-----------------------
 
 PypLUTO is tailored for the PLUTO code output, therefore major efforts will be
 dedicated to the PLUTO code files. However, being the :ref:`Image <imageclass>`
@@ -68,6 +126,7 @@ efforts.
 Currently, the following codes can be used in combination with PyPLUTO:
 
 - ECHO (parameters: nout, path, vars)
+- IDEFIX
 
 |
 

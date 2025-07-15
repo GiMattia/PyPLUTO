@@ -17,22 +17,22 @@ commands = [
     {
         "name": "pytest",
         "cmd": ["pytest", "--cov=pyPLUTO", "--cov-report=term-missing"],
-        "output": "pytest_output.txt",
+        "output": "Utils/pytest_output.txt",
     },
     {
         "name": "mypy",
         "cmd": ["mypy", "--strict", "@mypy_files.txt"],
-        "output": "mypy_output.txt",
+        "output": "Utils/mypy_output.txt",
     },
     {
         "name": "pylint",
         "cmd": None,  # We'll fill this dynamically based on mypy_files.txt
-        "output": "pylint_output.txt",
+        "output": "Utils/pylint_output.txt",
     },
     {
         "name": "interrogate",
         "cmd": ["interrogate", "Src/pyPLUTO/"],
-        "output": "interrogate_output.txt",
+        "output": "Utils/interrogate_output.txt",
     },
 ]
 
@@ -63,7 +63,6 @@ def run_command(cmd: list[str], output_file: str):
 
 
 def colorize_test(score: float, summary: str) -> str:
-
     global globscore
 
     if score < cov_errs:  # 1 error every 2 files or more
@@ -84,7 +83,6 @@ def extract_score(tool_name: str, output_file: str) -> str:
         content = f.read()
 
     if tool_name == "pytest":
-
         errors_match = re.search(r"=+\s*(\d+)\s+failed? in [\d\.]+s", content)
         errors_count = int(errors_match.group(1)) if errors_match else 0
 

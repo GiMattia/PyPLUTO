@@ -48,7 +48,7 @@ def _read_h5(self, filename: str, **kwargs: Any) -> None:
     --------
     - Example #1: Read the data from a HDF5 file
 
-        >>> read_h5('filename.h5')
+        >>> read_h5("filename.h5")
 
     """
     # Create the path to the HDF5 file
@@ -60,7 +60,6 @@ def _read_h5(self, filename: str, **kwargs: Any) -> None:
     # Open the HDF5 file
     data_dict = {}
     with h5py.File(self._pathh5, "r") as f:
-
         for key in f.keys():
             data_dict[key] = f[key][()]  # Store data in the dictionary
 
@@ -137,7 +136,7 @@ def _read_dat(self, filename: str, **kwargs: Any) -> None:
     --------
     - Example #1: Read the data from a dat file
 
-        >>> read_dat('filename.dat')
+        >>> read_dat("filename.dat")
 
     """
     # Create the path to the HDF5 file

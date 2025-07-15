@@ -171,7 +171,7 @@ class ContourManager:
         --------
         - Example #1: Plot a contour plot of a variable
 
-            >>> I.contour(D.rho, levels = 10)
+            >>> I.contour(D.rho, levels=10)
 
         """
         kwargs.pop("check", check)
@@ -208,7 +208,7 @@ class ContourManager:
 
         # Keyword for colorbar and colorscale
         colors = kwargs.get("c")
-        cmap = kwargs.get("cmap")
+        cmap = self.ImageToolsManager.find_cmap(kwargs.get("cmap", "plasma"))
         cpos = kwargs.get("cpos")
         cscale = kwargs.get("cscale", "norm")
         tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)

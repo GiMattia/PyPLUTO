@@ -404,7 +404,6 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the DisplayManager with the given state.&quot;&quot;&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ColorbarManager</span> <span class="o">=</span> <span class="n">ColorbarManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
@@ -585,7 +584,7 @@
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; I.display(var, title = &#39;title&#39;, cpos = &#39;right&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; I.display(var, title=&quot;title&quot;, cpos=&quot;right&quot;)</span>
 
 <span class="sd">        - Example #2: create a 2d plot with title on the axes, bottom colorbar</span>
 <span class="sd">            and custom shading</span>
@@ -612,7 +611,6 @@
 <span class="sd">                        cscale = &#39;symlog&#39;, tresh = 0.001, vmin = -1, vmax = 1)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
 
         <span class="c1"># Set or create figure and axes</span>
@@ -660,13 +658,15 @@
         <span class="n">shade</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;shading&quot;</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">)</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 
+        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">find_cmap</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">,</span> <span class="s2">&quot;plasma&quot;</span><span class="p">))</span>
+
         <span class="c1"># Display the image</span>
         <span class="n">pcm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span>
             <span class="n">y</span><span class="p">,</span>
             <span class="n">var</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
             <span class="n">shading</span><span class="o">=</span><span class="n">shade</span><span class="p">,</span>
-            <span class="n">cmap</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">,</span> <span class="s2">&quot;plasma&quot;</span><span class="p">),</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
             <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>

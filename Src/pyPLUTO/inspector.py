@@ -66,65 +66,6 @@ def find_kwargs_keys(func: Callable[..., Any]) -> set[str]:
     return _find_kwargs_keys_from_source(source)
 
 
-def find_kwargs_keys_recursive(func_source: str, class_source: str) -> set[str]:
-    """Given the source of a method and its class,
-    return the set of all kwargs keys used in that method and helper methods
-    (recursively) where **kwargs is passed.
-    """
-    kwargs_keys = set()
-    seen = set()
-
-    class_node = None
-    class_tree = ast.parse(class_source)
-    for node in class_tree.body:
-        if isinstance(node, ast.ClassDef):
-            class_node = node
-            break
-    if not class_node:
-        return _find_kwargs_keys_from_source(func_source)
-
-    def _recurse(func_node):
-        func_code = ast.get_source_segment(class_source, func_node)
-        direct_keys = _find_kwargs_keys_from_source(func_code)
-        all_keys = set(direct_keys)
-        seen.add(func_node.name)
-        # Search for calls to self.method(..., **kwargs)
-        for stmt in ast.walk(func_node):
-            if isinstance(stmt, ast.Call):
-                # Only look for self.<something>
-                if (
-                    isinstance(stmt.func, ast.Attribute)
-                    and isinstance(stmt.func.value, ast.Name)
-                    and stmt.func.value.id == "self"
-                ):
-                    method_name = stmt.func.attr
-                    # Look for **kwargs in args
-                    if any(
-                        isinstance(arg, ast.Starred)
-                        and isinstance(arg.value, ast.Name)
-                        and arg.value.id == "kwargs"
-                        for arg in stmt.args
-                    ):
-                        # Recurse if method exists and not seen yet
-                        for meth in class_node.body:
-                            if (
-                                isinstance(meth, ast.FunctionDef)
-                                and meth.name == method_name
-                                and method_name not in seen
-                            ):
-                                all_keys |= _recurse(meth)
-        return all_keys
-
-    # Get function node from class AST
-    for node in class_node.body:
-        if isinstance(node, ast.FunctionDef):
-            func_code = ast.get_source_segment(class_source, node)
-            if func_code and func_code.strip() == func_source.strip():
-                return _recurse(node)
-    # Fallback if not found as AST node
-    return _find_kwargs_keys_from_source(func_source)
-
-
 # Shared state for tracking across nested calls
 F = TypeVar("F", bound=Callable[..., Any])
 _kwargs_state: dict[str, Any] = {"remaining": set()}

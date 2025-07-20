@@ -232,9 +232,7 @@ class ScatterManager:
         # Set the colorbar scale
         if not isinstance(c, str) and c is not None:
             norm = self.ImageToolsManager.set_cscale(cscale, vmin, vmax, tresh)
-            cmap = self.ImageToolsManager.find_cmap(
-                kwargs.get("cmap", "plasma")
-            )
+            cmap = self.ImageToolsManager.find_cmap(kwargs.get("cmap"))
         else:
             norm = None
             cmap = None

@@ -1,5 +1,4 @@
 import ast
-import csv
 import json
 import os
 from pathlib import Path
@@ -8,9 +7,8 @@ from pathlib import Path
 UTILS_DIR = Path(__file__).parent.resolve()
 SRC_DIR = (UTILS_DIR / "../Src/pyPLUTO").resolve()
 JSON_FILE = UTILS_DIR / "exposed_kwargs.json"
-CSV_FILE = UTILS_DIR / "all_kwargs.csv"
-
-my_dict = {}
+LOG_FILE = UTILS_DIR / "missing_kwargs.log"
+INTERNAL_KWARGS = {"check"}  # kwargs ignored for docs
 
 # --- Helper Functions ---
 
@@ -23,11 +21,9 @@ def find_python_files(root: Path):
 
 
 def get_class_defs(tree):
-    class_map = {}
-    for node in tree.body:
-        if isinstance(node, ast.ClassDef):
-            class_map[node.name] = node
-    return class_map
+    return {
+        node.name: node for node in tree.body if isinstance(node, ast.ClassDef)
+    }
 
 
 def extract_exposed_methods(class_node):
@@ -77,14 +73,11 @@ def get_function_node(class_node, func_name):
 
 
 def get_function_args(func_node):
-    """Return a list of explicit argument names (excluding self, cls, *args, **kwargs)."""
-    args = []
-    # .args is an ast.arguments object
-    for arg in func_node.args.args:
-        if arg.arg not in {"self", "cls", "kwargs"}:
-            args.append(arg.arg)
-    # Ignore .vararg (*args) and .kwarg (**kwargs)
-    return args
+    return [
+        arg.arg
+        for arg in func_node.args.args
+        if arg.arg not in {"self", "cls", "kwargs"}
+    ]
 
 
 def get_kwargs_keys_from_func(func_node):
@@ -119,7 +112,6 @@ def get_kwargs_keys_from_func(func_node):
 
 
 def has_star_kwargs(call):
-    # True if call uses **kwargs, whether as starred arg or keyword
     return any(
         isinstance(arg, ast.Starred)
         and isinstance(arg.value, ast.Name)
@@ -147,7 +139,6 @@ def recursive_scan(class_map, class_node, func_name, visited=None):
     attr_map = get_attr_class_map(class_node)
     for stmt in ast.walk(func_node):
         if isinstance(stmt, ast.Call):
-            # self.method(**kwargs)
             if (
                 isinstance(stmt.func, ast.Attribute)
                 and isinstance(stmt.func.value, ast.Name)
@@ -158,7 +149,6 @@ def recursive_scan(class_map, class_node, func_name, visited=None):
                     keys |= recursive_scan(
                         class_map, class_node, called_name, visited
                     )
-            # self.<attr>.method(**kwargs)
             elif (
                 isinstance(stmt.func, ast.Attribute)
                 and isinstance(stmt.func.value, ast.Attribute)
@@ -167,42 +157,21 @@ def recursive_scan(class_map, class_node, func_name, visited=None):
             ):
                 attr = stmt.func.value.attr
                 called_name = stmt.func.attr
-                if has_star_kwargs(stmt):
-                    dep_class_name = attr_map.get(attr)
-                    if dep_class_name and dep_class_name in class_map:
-                        dep_class_node = class_map[dep_class_name]
-                        keys |= recursive_scan(
-                            class_map, dep_class_node, called_name, visited
-                        )
+                dep_class_name = attr_map.get(attr)
+                if (
+                    has_star_kwargs(stmt)
+                    and dep_class_name
+                    and dep_class_name in class_map
+                ):
+                    dep_class_node = class_map[dep_class_name]
+                    keys |= recursive_scan(
+                        class_map, dep_class_node, called_name, visited
+                    )
     return keys
 
 
-def write_unique_args_and_kwargs_csv(json_file: Path, csv_file: Path):
-    """Reads a JSON file and writes all unique kwargs and explicit args, sorted alphabetically, to a CSV file (column: "argument")."""
-    with open(json_file, encoding="utf-8") as f:
-        data = json.load(f)
-
-    all_names = set()
-    for item in data:
-        all_names.update(item.get("kwargs", []))
-        all_names.update(item.get("args", []))
-
-    names_sorted = sorted(all_names)
-
-    with open(csv_file, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        for name in names_sorted:
-            writer.writerow([name])
-
-    print(f"Saved unique sorted arguments to {csv_file}")
-
-
-def read_csv_file(csv_file: Path):
-    my_dict = {}
-    with open(csv_file, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            my_dict[row["key"]] = row["value"]
+def arg_in_docstring(docstring: str, name: str) -> bool:
+    return name in docstring if docstring else False
 
 
 # --- MAIN LOGIC ---
@@ -218,12 +187,16 @@ def main():
             file_to_tree[pyfile] = tree
         except Exception as e:
             print(f"Failed to parse {pyfile}: {e}")
-    # Build one big global class_map
+
     class_map = {}
     for tree in file_to_tree.values():
         class_map.update(get_class_defs(tree))
 
     results = []
+    warnings = []
+    summary = []
+    total_missing = 0
+
     print("Scanning for exposed methods and kwargs (recursively)...")
     for pyfile, tree in file_to_tree.items():
         for node in tree.body:
@@ -232,27 +205,74 @@ def main():
                 if not exposed_methods:
                     continue
                 for method in exposed_methods:
-                    keys = recursive_scan(class_map, node, method)
                     func_node = get_function_node(node, method)
-                    func_args = (
-                        get_function_args(func_node)
-                        if func_node is not None
-                        else []
+                    docstring = (
+                        ast.get_docstring(func_node) if func_node else ""
                     )
+                    func_args = (
+                        get_function_args(func_node) if func_node else []
+                    )
+                    kwargs = recursive_scan(class_map, node, method)
+
+                    arg_dict = {
+                        arg: arg_in_docstring(docstring, arg)
+                        for arg in func_args
+                    }
+                    kwarg_dict = {}
+                    missing_in_func = []
+
+                    for kw in kwargs:
+                        present = arg_in_docstring(docstring, kw)
+                        kwarg_dict[kw] = present
+                        if not present and kw not in INTERNAL_KWARGS:
+                            msg = (
+                                f"🚨 WARNING: kwarg '{kw}' is NOT documented in docstring.\n"
+                                f"    → File: {pyfile.relative_to(SRC_DIR.parent)}\n"
+                                f"    → Class: {node.name}\n"
+                                f"    → Method: {method}\n"
+                            )
+                            # print("\n" + msg)
+                            warnings.append(msg)
+                            missing_in_func.append(kw)
+
+                    if missing_in_func:
+                        total_missing += len(missing_in_func)
+                        summary.append(
+                            f"{node.name}.{method} → {len(missing_in_func)} undocumented kwargs:\n"
+                            + "".join(
+                                f"    - '{kw}'\n" for kw in missing_in_func
+                            )
+                        )
+
                     results.append(
                         {
                             "file": str(pyfile.relative_to(SRC_DIR.parent)),
                             "class": node.name,
                             "method": method,
-                            "args": func_args,
-                            "kwargs": sorted(keys),
+                            "args": arg_dict,
+                            "kwargs": kwarg_dict,
                         }
                     )
-    print(f"Found {len(results)} exposed methods.")
+
+    print(f"\n✅ Finished scanning. Found {len(results)} exposed methods.")
     with open(JSON_FILE, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
-    print(f"Results written to {JSON_FILE}")
-    write_unique_args_and_kwargs_csv(JSON_FILE, CSV_FILE)
+    print(f"\n🚨 Total undocumented kwargs: {total_missing}")
+    print(f"\n📄 Results written to {JSON_FILE}")
+
+    with open(LOG_FILE, "w", encoding="utf-8") as logf:
+        if warnings:
+            logf.write("Missing kwarg documentation warnings:\n\n")
+            for msg in warnings:
+                logf.write(msg + "\n")
+            logf.write("\nSUMMARY OF MISSING KWARGS:\n\n")
+            for line in summary:
+                logf.write(line + "\n")
+            logf.write(f"\nTotal undocumented kwargs: {total_missing}\n")
+            print(f"\n📝 Warnings and summary written to: {LOG_FILE}")
+        else:
+            logf.write("🎉 All kwargs are documented properly!\n")
+            print("\n🎉 No undocumented kwargs found!")
 
 
 if __name__ == "__main__":

@@ -25,7 +25,8 @@ dependencies = [
     "scipy",
     "pandas",
     "h5py",
-    "PyQt6"
+    "PyQt6",
+    "pastamarkers",
 ]
 
 [project.optional-dependencies]

@@ -1,0 +1,1025 @@
+Missing kwarg documentation warnings:
+
+🚨 WARNING: kwarg 'tight' is NOT documented in docstring.
+    → File: pyPLUTO/plot.py
+    → Class: PlotManager
+    → Method: plot
+
+🚨 WARNING: kwarg 'titlepad' is NOT documented in docstring.
+    → File: pyPLUTO/plot.py
+    → Class: PlotManager
+    → Method: plot
+
+🚨 WARNING: kwarg 'sharex' is NOT documented in docstring.
+    → File: pyPLUTO/plot.py
+    → Class: PlotManager
+    → Method: plot
+
+🚨 WARNING: kwarg 'edgecolor' is NOT documented in docstring.
+    → File: pyPLUTO/plot.py
+    → Class: PlotManager
+    → Method: plot
+
+🚨 WARNING: kwarg 'shareaxisx' is NOT documented in docstring.
+    → File: pyPLUTO/plot.py
+    → Class: PlotManager
+    → Method: plot
+
+🚨 WARNING: kwarg 'shareaxisy' is NOT documented in docstring.
+    → File: pyPLUTO/plot.py
+    → Class: PlotManager
+    → Method: plot
+
+🚨 WARNING: kwarg 'suptitle' is NOT documented in docstring.
+    → File: pyPLUTO/plot.py
+    → Class: PlotManager
+    → Method: plot
+
+🚨 WARNING: kwarg 'ytresh' is NOT documented in docstring.
+    → File: pyPLUTO/plot.py
+    → Class: PlotManager
+    → Method: plot
+
+🚨 WARNING: kwarg 'xtresh' is NOT documented in docstring.
+    → File: pyPLUTO/plot.py
+    → Class: PlotManager
+    → Method: plot
+
+🚨 WARNING: kwarg 'sharey' is NOT documented in docstring.
+    → File: pyPLUTO/plot.py
+    → Class: PlotManager
+    → Method: plot
+
+🚨 WARNING: kwarg 'sharey' is NOT documented in docstring.
+    → File: pyPLUTO/colorbar.py
+    → Class: ColorbarManager
+    → Method: colorbar
+
+🚨 WARNING: kwarg 'tight' is NOT documented in docstring.
+    → File: pyPLUTO/colorbar.py
+    → Class: ColorbarManager
+    → Method: colorbar
+
+🚨 WARNING: kwarg 'fontsize' is NOT documented in docstring.
+    → File: pyPLUTO/colorbar.py
+    → Class: ColorbarManager
+    → Method: colorbar
+
+🚨 WARNING: kwarg 'suptitle' is NOT documented in docstring.
+    → File: pyPLUTO/colorbar.py
+    → Class: ColorbarManager
+    → Method: colorbar
+
+🚨 WARNING: kwarg 'sharex' is NOT documented in docstring.
+    → File: pyPLUTO/colorbar.py
+    → Class: ColorbarManager
+    → Method: colorbar
+
+🚨 WARNING: kwarg 'proj' is NOT documented in docstring.
+    → File: pyPLUTO/colorbar.py
+    → Class: ColorbarManager
+    → Method: colorbar
+
+🚨 WARNING: kwarg 'figsize' is NOT documented in docstring.
+    → File: pyPLUTO/colorbar.py
+    → Class: ColorbarManager
+    → Method: colorbar
+
+🚨 WARNING: kwarg 'tight' is NOT documented in docstring.
+    → File: pyPLUTO/legend.py
+    → Class: LegendManager
+    → Method: legend
+
+🚨 WARNING: kwarg 'suptitle' is NOT documented in docstring.
+    → File: pyPLUTO/legend.py
+    → Class: LegendManager
+    → Method: legend
+
+🚨 WARNING: kwarg 'sharex' is NOT documented in docstring.
+    → File: pyPLUTO/legend.py
+    → Class: LegendManager
+    → Method: legend
+
+🚨 WARNING: kwarg 'proj' is NOT documented in docstring.
+    → File: pyPLUTO/legend.py
+    → Class: LegendManager
+    → Method: legend
+
+🚨 WARNING: kwarg 'figsize' is NOT documented in docstring.
+    → File: pyPLUTO/legend.py
+    → Class: LegendManager
+    → Method: legend
+
+🚨 WARNING: kwarg 'sharey' is NOT documented in docstring.
+    → File: pyPLUTO/legend.py
+    → Class: LegendManager
+    → Method: legend
+
+🚨 WARNING: kwarg 'alpha' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'xtitle' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'ticksdir' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'tight' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'titlepad' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'mscale' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'sharex' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'proj' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'yticks' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'legpos' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'grid' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'xticks' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'cpad' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'extend' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'ytickslabels' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'titlesize' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'edgecolor' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'fontsize' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'shareaxisx' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'xrange' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'cmap' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'legsize' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'ytitle' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'labelsize' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'legpad' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'marker' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'xscale' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'shareaxisy' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'shading' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'suptitle' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'aspect' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'minorticks' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'legcols' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'yscale' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'yrange' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'ytresh' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'legalpha' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'title' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'xtresh' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'lw' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'ms' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'tresh' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'transpose' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'clabel' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'legspace' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'extendrect' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'cticks' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'xtickslabels' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'fillstyle' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'tickssize' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'cscale' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'ls' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'figsize' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'sharey' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'ctickslabels' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'lint' is NOT documented in docstring.
+    → File: pyPLUTO/interactive.py
+    → Class: InteractiveManager
+    → Method: interactive
+
+🚨 WARNING: kwarg 'tight' is NOT documented in docstring.
+    → File: pyPLUTO/set_axis.py
+    → Class: AxisManager
+    → Method: set_axis
+
+🚨 WARNING: kwarg 'proj' is NOT documented in docstring.
+    → File: pyPLUTO/set_axis.py
+    → Class: AxisManager
+    → Method: set_axis
+
+🚨 WARNING: kwarg 'shareaxisx' is NOT documented in docstring.
+    → File: pyPLUTO/set_axis.py
+    → Class: AxisManager
+    → Method: set_axis
+
+🚨 WARNING: kwarg 'shareaxisy' is NOT documented in docstring.
+    → File: pyPLUTO/set_axis.py
+    → Class: AxisManager
+    → Method: set_axis
+
+🚨 WARNING: kwarg 'suptitle' is NOT documented in docstring.
+    → File: pyPLUTO/set_axis.py
+    → Class: AxisManager
+    → Method: set_axis
+
+🚨 WARNING: kwarg 'ytresh' is NOT documented in docstring.
+    → File: pyPLUTO/set_axis.py
+    → Class: AxisManager
+    → Method: set_axis
+
+🚨 WARNING: kwarg 'xtresh' is NOT documented in docstring.
+    → File: pyPLUTO/set_axis.py
+    → Class: AxisManager
+    → Method: set_axis
+
+🚨 WARNING: kwarg 'figsize' is NOT documented in docstring.
+    → File: pyPLUTO/set_axis.py
+    → Class: AxisManager
+    → Method: set_axis
+
+🚨 WARNING: kwarg 'tight' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'mscale' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'sharex' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'proj' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'cpad' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'shareaxisx' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'legsize' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'legpad' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'shareaxisy' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'suptitle' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'legcols' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'ytresh' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'legalpha' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'xtresh' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'ctickslabels' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'legspace' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'extendrect' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'cticks' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'fillstyle' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'figsize' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'sharey' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'extend' is NOT documented in docstring.
+    → File: pyPLUTO/scatter.py
+    → Class: ScatterManager
+    → Method: scatter
+
+🚨 WARNING: kwarg 'tight' is NOT documented in docstring.
+    → File: pyPLUTO/zoom.py
+    → Class: ZoomManager
+    → Method: zoom
+
+🚨 WARNING: kwarg 'titlepad' is NOT documented in docstring.
+    → File: pyPLUTO/zoom.py
+    → Class: ZoomManager
+    → Method: zoom
+
+🚨 WARNING: kwarg 'sharex' is NOT documented in docstring.
+    → File: pyPLUTO/zoom.py
+    → Class: ZoomManager
+    → Method: zoom
+
+🚨 WARNING: kwarg 'proj' is NOT documented in docstring.
+    → File: pyPLUTO/zoom.py
+    → Class: ZoomManager
+    → Method: zoom
+
+🚨 WARNING: kwarg 'shareaxisx' is NOT documented in docstring.
+    → File: pyPLUTO/zoom.py
+    → Class: ZoomManager
+    → Method: zoom
+
+🚨 WARNING: kwarg 'shareaxisy' is NOT documented in docstring.
+    → File: pyPLUTO/zoom.py
+    → Class: ZoomManager
+    → Method: zoom
+
+🚨 WARNING: kwarg 'suptitle' is NOT documented in docstring.
+    → File: pyPLUTO/zoom.py
+    → Class: ZoomManager
+    → Method: zoom
+
+🚨 WARNING: kwarg 'ytresh' is NOT documented in docstring.
+    → File: pyPLUTO/zoom.py
+    → Class: ZoomManager
+    → Method: zoom
+
+🚨 WARNING: kwarg 'xtresh' is NOT documented in docstring.
+    → File: pyPLUTO/zoom.py
+    → Class: ZoomManager
+    → Method: zoom
+
+🚨 WARNING: kwarg 'figsize' is NOT documented in docstring.
+    → File: pyPLUTO/zoom.py
+    → Class: ZoomManager
+    → Method: zoom
+
+🚨 WARNING: kwarg 'sharey' is NOT documented in docstring.
+    → File: pyPLUTO/zoom.py
+    → Class: ZoomManager
+    → Method: zoom
+
+🚨 WARNING: kwarg 'lint' is NOT documented in docstring.
+    → File: pyPLUTO/zoom.py
+    → Class: ZoomManager
+    → Method: zoom
+
+🚨 WARNING: kwarg 'tight' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'sharex' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'proj' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'cpad' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'figsize' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'shareaxisx' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'shareaxisy' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'suptitle' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'ytresh' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'xtresh' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'ctickslabels' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'clabel' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'cticks' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'sharey' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'lint' is NOT documented in docstring.
+    → File: pyPLUTO/streamplot.py
+    → Class: StreamplotManager
+    → Method: streamplot
+
+🚨 WARNING: kwarg 'tight' is NOT documented in docstring.
+    → File: pyPLUTO/display.py
+    → Class: DisplayManager
+    → Method: display
+
+🚨 WARNING: kwarg 'titlepad' is NOT documented in docstring.
+    → File: pyPLUTO/display.py
+    → Class: DisplayManager
+    → Method: display
+
+🚨 WARNING: kwarg 'sharex' is NOT documented in docstring.
+    → File: pyPLUTO/display.py
+    → Class: DisplayManager
+    → Method: display
+
+🚨 WARNING: kwarg 'shareaxisx' is NOT documented in docstring.
+    → File: pyPLUTO/display.py
+    → Class: DisplayManager
+    → Method: display
+
+🚨 WARNING: kwarg 'shareaxisy' is NOT documented in docstring.
+    → File: pyPLUTO/display.py
+    → Class: DisplayManager
+    → Method: display
+
+🚨 WARNING: kwarg 'suptitle' is NOT documented in docstring.
+    → File: pyPLUTO/display.py
+    → Class: DisplayManager
+    → Method: display
+
+🚨 WARNING: kwarg 'ytresh' is NOT documented in docstring.
+    → File: pyPLUTO/display.py
+    → Class: DisplayManager
+    → Method: display
+
+🚨 WARNING: kwarg 'xtresh' is NOT documented in docstring.
+    → File: pyPLUTO/display.py
+    → Class: DisplayManager
+    → Method: display
+
+🚨 WARNING: kwarg 'sharey' is NOT documented in docstring.
+    → File: pyPLUTO/display.py
+    → Class: DisplayManager
+    → Method: display
+
+🚨 WARNING: kwarg 'lint' is NOT documented in docstring.
+    → File: pyPLUTO/display.py
+    → Class: DisplayManager
+    → Method: display
+
+🚨 WARNING: kwarg 'tight' is NOT documented in docstring.
+    → File: pyPLUTO/imagetools.py
+    → Class: ImageToolsManager
+    → Method: text
+
+🚨 WARNING: kwarg 'suptitle' is NOT documented in docstring.
+    → File: pyPLUTO/imagetools.py
+    → Class: ImageToolsManager
+    → Method: text
+
+🚨 WARNING: kwarg 'figsize' is NOT documented in docstring.
+    → File: pyPLUTO/imagetools.py
+    → Class: ImageToolsManager
+    → Method: text
+
+🚨 WARNING: kwarg 'sharex' is NOT documented in docstring.
+    → File: pyPLUTO/imagetools.py
+    → Class: ImageToolsManager
+    → Method: text
+
+🚨 WARNING: kwarg 'proj' is NOT documented in docstring.
+    → File: pyPLUTO/imagetools.py
+    → Class: ImageToolsManager
+    → Method: text
+
+🚨 WARNING: kwarg 'bbox' is NOT documented in docstring.
+    → File: pyPLUTO/imagetools.py
+    → Class: ImageToolsManager
+    → Method: text
+
+🚨 WARNING: kwarg 'sharey' is NOT documented in docstring.
+    → File: pyPLUTO/imagetools.py
+    → Class: ImageToolsManager
+    → Method: text
+
+🚨 WARNING: kwarg 'tight' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+🚨 WARNING: kwarg 'proj' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+🚨 WARNING: kwarg 'cpad' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+🚨 WARNING: kwarg 'shareaxisx' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+🚨 WARNING: kwarg 'shareaxisy' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+🚨 WARNING: kwarg 'suptitle' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+🚨 WARNING: kwarg 'ytresh' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+🚨 WARNING: kwarg 'xtresh' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+🚨 WARNING: kwarg 'ctickslabels' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+🚨 WARNING: kwarg 'clabel' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+🚨 WARNING: kwarg 'cticks' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+🚨 WARNING: kwarg 'figsize' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+🚨 WARNING: kwarg 'lint' is NOT documented in docstring.
+    → File: pyPLUTO/contour.py
+    → Class: ContourManager
+    → Method: contour
+
+
+SUMMARY OF MISSING KWARGS:
+
+PlotManager.plot → 10 undocumented kwargs:
+    - 'tight'
+    - 'titlepad'
+    - 'sharex'
+    - 'edgecolor'
+    - 'shareaxisx'
+    - 'shareaxisy'
+    - 'suptitle'
+    - 'ytresh'
+    - 'xtresh'
+    - 'sharey'
+
+ColorbarManager.colorbar → 7 undocumented kwargs:
+    - 'sharey'
+    - 'tight'
+    - 'fontsize'
+    - 'suptitle'
+    - 'sharex'
+    - 'proj'
+    - 'figsize'
+
+LegendManager.legend → 6 undocumented kwargs:
+    - 'tight'
+    - 'suptitle'
+    - 'sharex'
+    - 'proj'
+    - 'figsize'
+    - 'sharey'
+
+InteractiveManager.interactive → 56 undocumented kwargs:
+    - 'alpha'
+    - 'xtitle'
+    - 'ticksdir'
+    - 'tight'
+    - 'titlepad'
+    - 'mscale'
+    - 'sharex'
+    - 'proj'
+    - 'yticks'
+    - 'legpos'
+    - 'grid'
+    - 'xticks'
+    - 'cpad'
+    - 'extend'
+    - 'ytickslabels'
+    - 'titlesize'
+    - 'edgecolor'
+    - 'fontsize'
+    - 'shareaxisx'
+    - 'xrange'
+    - 'cmap'
+    - 'legsize'
+    - 'ytitle'
+    - 'labelsize'
+    - 'legpad'
+    - 'marker'
+    - 'xscale'
+    - 'shareaxisy'
+    - 'shading'
+    - 'suptitle'
+    - 'aspect'
+    - 'minorticks'
+    - 'legcols'
+    - 'yscale'
+    - 'yrange'
+    - 'ytresh'
+    - 'legalpha'
+    - 'title'
+    - 'xtresh'
+    - 'lw'
+    - 'ms'
+    - 'tresh'
+    - 'transpose'
+    - 'clabel'
+    - 'legspace'
+    - 'extendrect'
+    - 'cticks'
+    - 'xtickslabels'
+    - 'fillstyle'
+    - 'tickssize'
+    - 'cscale'
+    - 'ls'
+    - 'figsize'
+    - 'sharey'
+    - 'ctickslabels'
+    - 'lint'
+
+AxisManager.set_axis → 8 undocumented kwargs:
+    - 'tight'
+    - 'proj'
+    - 'shareaxisx'
+    - 'shareaxisy'
+    - 'suptitle'
+    - 'ytresh'
+    - 'xtresh'
+    - 'figsize'
+
+ScatterManager.scatter → 22 undocumented kwargs:
+    - 'tight'
+    - 'mscale'
+    - 'sharex'
+    - 'proj'
+    - 'cpad'
+    - 'shareaxisx'
+    - 'legsize'
+    - 'legpad'
+    - 'shareaxisy'
+    - 'suptitle'
+    - 'legcols'
+    - 'ytresh'
+    - 'legalpha'
+    - 'xtresh'
+    - 'ctickslabels'
+    - 'legspace'
+    - 'extendrect'
+    - 'cticks'
+    - 'fillstyle'
+    - 'figsize'
+    - 'sharey'
+    - 'extend'
+
+ZoomManager.zoom → 12 undocumented kwargs:
+    - 'tight'
+    - 'titlepad'
+    - 'sharex'
+    - 'proj'
+    - 'shareaxisx'
+    - 'shareaxisy'
+    - 'suptitle'
+    - 'ytresh'
+    - 'xtresh'
+    - 'figsize'
+    - 'sharey'
+    - 'lint'
+
+StreamplotManager.streamplot → 15 undocumented kwargs:
+    - 'tight'
+    - 'sharex'
+    - 'proj'
+    - 'cpad'
+    - 'figsize'
+    - 'shareaxisx'
+    - 'shareaxisy'
+    - 'suptitle'
+    - 'ytresh'
+    - 'xtresh'
+    - 'ctickslabels'
+    - 'clabel'
+    - 'cticks'
+    - 'sharey'
+    - 'lint'
+
+DisplayManager.display → 10 undocumented kwargs:
+    - 'tight'
+    - 'titlepad'
+    - 'sharex'
+    - 'shareaxisx'
+    - 'shareaxisy'
+    - 'suptitle'
+    - 'ytresh'
+    - 'xtresh'
+    - 'sharey'
+    - 'lint'
+
+ImageToolsManager.text → 7 undocumented kwargs:
+    - 'tight'
+    - 'suptitle'
+    - 'figsize'
+    - 'sharex'
+    - 'proj'
+    - 'bbox'
+    - 'sharey'
+
+ContourManager.contour → 13 undocumented kwargs:
+    - 'tight'
+    - 'proj'
+    - 'cpad'
+    - 'shareaxisx'
+    - 'shareaxisy'
+    - 'suptitle'
+    - 'ytresh'
+    - 'xtresh'
+    - 'ctickslabels'
+    - 'clabel'
+    - 'cticks'
+    - 'figsize'
+    - 'lint'
+
+
+Total undocumented kwargs: 166

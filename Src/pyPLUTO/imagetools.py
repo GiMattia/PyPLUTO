@@ -396,7 +396,12 @@ class ImageToolsManager:
 
         return norm
 
-    def find_cmap(self, name: str | mcol.Colormap) -> mcol.Colormap:
+    def find_cmap(
+        self, name: str | mcol.Colormap | None
+    ) -> mcol.Colormap | None:
+
+        if name is None:
+            return None
 
         # Find a colormap by name or return a default one if not found.
         if isinstance(name, mcol.Colormap):

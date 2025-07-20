@@ -14,7 +14,8 @@ class ManagerProtocol(Protocol, Generic[StateType_co]):
 
 
 class Mediator(Generic[StateType_co]):
-    """Mediator class that manages the interaction between different manager classes.
+    """Mediator class that manages the interaction between different manager
+    classes.
 
     This class acts as a central point of communication for various
     manager classes, allowing them to interact with the shared state without

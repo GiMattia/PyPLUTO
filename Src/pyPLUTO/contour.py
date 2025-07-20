@@ -34,7 +34,7 @@ class ContourManager:
 
     @track_kwargs
     def contour(
-        self, var: NDArray[np.generic], check: bool = True, **kwargs: Any
+        self, var: NDArray[np.generic], _check: bool = True, **kwargs: Any
     ) -> QuadContourSet:
         """Plots a contour plot of a given variable. The function uses the
         matplotlib.pyplot.contour function. The function returns None.
@@ -174,7 +174,7 @@ class ContourManager:
             >>> I.contour(D.rho, levels=10)
 
         """
-        kwargs.pop("check", check)
+        # kwargs.pop("check", _check)
 
         # Set or create figure and axes
         ax, nax = self.ImageToolsManager.assign_ax(
@@ -208,7 +208,7 @@ class ContourManager:
 
         # Keyword for colorbar and colorscale
         colors = kwargs.get("c")
-        cmap = self.ImageToolsManager.find_cmap(kwargs.get("cmap", "plasma"))
+        cmap = self.ImageToolsManager.find_cmap(kwargs.get("cmap"))
         cpos = kwargs.get("cpos")
         cscale = kwargs.get("cscale", "norm")
         tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)

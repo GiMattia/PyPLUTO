@@ -1,5 +1,5 @@
+# scan_exposed.py
 import ast
-import csv
 import json
 import os
 import re
@@ -14,8 +14,6 @@ LOG_FILE = UTILS_DIR / "missing_kwargs.log"
 CANONICAL_FILE = UTILS_DIR / "canonical_params.csv"
 ALL_KWARGS_FILE = UTILS_DIR / "all_kwargs.csv"
 INTERNAL_KWARGS = {"check"}
-
-# --- HELPERS ---
 
 
 def extract_doc_params(docstring: str) -> dict[str, str]:
@@ -220,7 +218,7 @@ def recursive_scan(class_map, class_node, func_name, visited=None):
 # --- MAIN LOGIC ---
 
 
-def main():
+def scan():
     print("Parsing source files...")
     file_to_tree = {}
     for pyfile in find_python_files(SRC_DIR):
@@ -276,7 +274,7 @@ def main():
     with open(JSON_FILE, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
     print(f"📄 JSON with docstrings written to {JSON_FILE}")
-
+    """
     # Canonical param descriptions
     canonical_map = {}
     with open(CANONICAL_FILE, "w", newline="", encoding="utf-8") as f:
@@ -306,7 +304,8 @@ def main():
             print(f"⚠️ '{param}':")
             for d in descs:
                 print(f"   - {d}")
+    """
 
 
 if __name__ == "__main__":
-    main()
+    scan()

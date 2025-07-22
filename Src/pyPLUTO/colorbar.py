@@ -90,21 +90,21 @@ class ColorbarManager:
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> ax = I.create_axes(ncol = 2)
-            >>> I.display(var, ax = ax[0])
-            >>> I.colorbar(axs = ax[0], cax = ax[1])
+            >>> ax = I.create_axes(ncol=2)
+            >>> I.display(var, ax=ax[0])
+            >>> I.colorbar(axs=ax[0], cax=ax[1])
 
         - Example #3: create a set of 3 displays with a colorbar on the bottom.
             Another colorbar is shown on the right of the topmost display
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> ax = I.create_axes(nrow = 4)
-            >>> I.display(var1, ax = ax[0])
-            >>> I.colorbar(axs = ax[0])
-            >>> I.display(var2, ax = ax[1])
-            >>> I.display(var3, ax = ax[2])
-            >>> I.colorbar(axs = ax[2], cax = ax[3])
+            >>> ax = I.create_axes(nrow=4)
+            >>> I.display(var1, ax=ax[0])
+            >>> I.colorbar(axs=ax[0])
+            >>> I.display(var2, ax=ax[1])
+            >>> I.display(var3, ax=ax[2])
+            >>> I.colorbar(axs=ax[2], cax=ax[3])
 
         """
         # Check parameters

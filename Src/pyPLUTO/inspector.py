@@ -113,7 +113,6 @@ def track_kwargs(
             result = inner_func(*args, **kwargs)
 
             if check and _kwargs_state.get("remaining"):
-
                 warnings.warn(
                     f"Unused kwargs: {_kwargs_state['remaining']} "
                     f"in function {inner_func.__name__} "

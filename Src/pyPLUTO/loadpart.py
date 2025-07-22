@@ -53,27 +53,27 @@ class LoadPart:
     - Example #2: Load the last output from the simulation with a specific
         endianess
 
-        >>> LoadPart(endian = 'big')
+        >>> LoadPart(endian="big")
 
     - Example #3: Load the last output from the simulation with a specific
         set of variables
 
-        >>> LoadPart(vars = ['rho','vx','vy','vz'])
+        >>> LoadPart(vars=["rho", "vx", "vy", "vz"])
 
     - Example #4: Load the last output from the simulation without printing
         the folder and the specific output loaded
 
-        >>> LoadPart(0, text = False)
+        >>> LoadPart(0, text=False)
 
     - Example #5: Load the last output from the simulation without loading
         the data
 
-        >>> LoadPart(nout = None)
+        >>> LoadPart(nout=None)
 
     - Example #6: Load the last output from the simulation with a specific
         file number for the lp methods
 
-        >>> LoadPart(nfile_lp = 1)
+        >>> LoadPart(nfile_lp=1)
 
     """
 
@@ -87,7 +87,6 @@ class LoadPart:
         endian: str | None = None,
         nfile_lp: int | None = None,
     ) -> None:
-
         # Check if the user wants to load the data
         if nout is None:
             return

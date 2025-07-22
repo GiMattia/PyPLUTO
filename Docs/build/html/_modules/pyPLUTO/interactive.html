@@ -413,7 +413,6 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the InteractiveManager with the given state.&quot;&quot;&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DisplayManager</span> <span class="o">=</span> <span class="n">DisplayManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
@@ -474,18 +473,18 @@
 <span class="sd">        - Example #1: Create an interactive 2D plot</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
-<span class="sd">            &gt;&gt;&gt; D = pp.Load(&#39;all&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; D = pp.Load(&quot;all&quot;)</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; I.interactive(D.rho, x1 = D.x1, x2 = D.x2,</span>
-<span class="sd">            ... cpos = &#39;right&#39;, vmin = 0, vmax = 1.0)</span>
-<span class="sd">            ...</span>
+<span class="sd">            &gt;&gt;&gt; I.interactive(</span>
+<span class="sd">            ...     D.rho, x1=D.x1, x2=D.x2, cpos=&quot;right&quot;, vmin=0, vmax=1.0</span>
+<span class="sd">            ... )</span>
 <span class="sd">            &gt;&gt;&gt; pp.show()</span>
 
 <span class="sd">        - Example #2: Create an interactive 1D plot with a composite variable</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">            &gt;&gt;&gt; D = pp.Load(&#39;all&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; D = pp.Load(&quot;all&quot;)</span>
 <span class="sd">            &gt;&gt;&gt; pp.Image().interactive(D.x1, np.sqrt(D.vx1**2 + D.vx2**2))</span>
 <span class="sd">            &gt;&gt;&gt; pp.show()</span>
 
@@ -565,7 +564,6 @@
 
         <span class="c1"># Display the data</span>
         <span class="k">if</span> <span class="n">splt</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-
             <span class="bp">self</span><span class="o">.</span><span class="n">limfix</span> <span class="o">=</span> <span class="n">limfix</span>
             <span class="n">vmin</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="nb">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="k">for</span> <span class="n">array</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">anim_var</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
@@ -773,7 +771,6 @@
             <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-
             <span class="c1"># Display the animation</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 

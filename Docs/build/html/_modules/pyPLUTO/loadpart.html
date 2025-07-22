@@ -386,12 +386,13 @@
 <div class="viewcode-block" id="LoadPart">
 <a class="viewcode-back" href="../../loadpart.html#pyPLUTO.LoadPart">[docs]</a>
 <span class="k">class</span> <span class="nc">LoadPart</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the particles from the simulation. The class is used to load the</span>
-<span class="sd">    particles from the simulation and store the data in the class attributes.</span>
-<span class="sd">    The data are loaded in a memory mapped numpy multidimensional array. Such</span>
-<span class="sd">    approach does not load the full data until needed. Basic operations (i.e. no</span>
-<span class="sd">    numpy) are possible, as well as slicing the arrays, without fully loading</span>
-<span class="sd">    the data. At the moment, only one output can be loaded at a time.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the particles from the simulation. The class is used to load</span>
+<span class="sd">    the particles from the simulation and store the data in the class</span>
+<span class="sd">    attributes. The data are loaded in a memory mapped numpy</span>
+<span class="sd">    multidimensional array. Such approach does not load the full data</span>
+<span class="sd">    until needed. Basic operations (i.e. no numpy) are possible, as well</span>
+<span class="sd">    as slicing the arrays, without fully loading the data. At the</span>
+<span class="sd">    moment, only one output can be loaded at a time.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -433,27 +434,27 @@
 <span class="sd">    - Example #2: Load the last output from the simulation with a specific</span>
 <span class="sd">        endianess</span>
 
-<span class="sd">        &gt;&gt;&gt; LoadPart(endian = &#39;big&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; LoadPart(endian=&quot;big&quot;)</span>
 
 <span class="sd">    - Example #3: Load the last output from the simulation with a specific</span>
 <span class="sd">        set of variables</span>
 
-<span class="sd">        &gt;&gt;&gt; LoadPart(vars = [&#39;rho&#39;,&#39;vx&#39;,&#39;vy&#39;,&#39;vz&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; LoadPart(vars=[&quot;rho&quot;, &quot;vx&quot;, &quot;vy&quot;, &quot;vz&quot;])</span>
 
 <span class="sd">    - Example #4: Load the last output from the simulation without printing</span>
 <span class="sd">        the folder and the specific output loaded</span>
 
-<span class="sd">        &gt;&gt;&gt; LoadPart(0, text = False)</span>
+<span class="sd">        &gt;&gt;&gt; LoadPart(0, text=False)</span>
 
 <span class="sd">    - Example #5: Load the last output from the simulation without loading</span>
 <span class="sd">        the data</span>
 
-<span class="sd">        &gt;&gt;&gt; LoadPart(nout = None)</span>
+<span class="sd">        &gt;&gt;&gt; LoadPart(nout=None)</span>
 
 <span class="sd">    - Example #6: Load the last output from the simulation with a specific</span>
 <span class="sd">        file number for the lp methods</span>
 
-<span class="sd">        &gt;&gt;&gt; LoadPart(nfile_lp = 1)</span>
+<span class="sd">        &gt;&gt;&gt; LoadPart(nfile_lp=1)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -467,7 +468,6 @@
         <span class="n">endian</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">nfile_lp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="c1"># Check if the user wants to load the data</span>
         <span class="k">if</span> <span class="n">nout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>

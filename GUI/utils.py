@@ -71,7 +71,6 @@ def update_axes(self):
 
 
 def get_slice(text, axis_length):
-
     try:
         return eval(f"np.s_[{text}]", {"np": np, "axis_length": axis_length})
     except Exception:
@@ -79,7 +78,6 @@ def get_slice(text, axis_length):
 
 
 def plot_data(self):
-
     if not self.data_loaded:
         print("ERROR: No data loaded.")
         return
@@ -201,7 +199,6 @@ def reload_canvas(self):
 
 
 def check_axisparam(self):
-
     self.datadict = {}
     if self.vrange_min.text():
         self.datadict["vmin"] = float(self.vrange_min.text())
@@ -238,7 +235,6 @@ def check_axisparam(self):
 
 
 def set_range(self, xlim, ylim):
-
     if xlim is None:
         xlim = [self.xmin, self.xmax]
     if ylim is None:

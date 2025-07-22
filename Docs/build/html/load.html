@@ -475,14 +475,14 @@ the variables.</p>
 </div>
 </li>
 <li><p>Example #2: Load the data from the default folder but output 0</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="go">Loading folder ./,     output [0]</span>
 </pre></div>
 </div>
 </li>
 <li><dl>
 <dt>Example #3: Load the data from the default folder but last output is</dt><dd><p>specified</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="s1">&#39;last&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="s2">&quot;last&quot;</span><span class="p">)</span>
 <span class="go">Loading folder ./,     output [1]</span>
 </pre></div>
 </div>
@@ -490,14 +490,14 @@ the variables.</p>
 </dl>
 </li>
 <li><p>Example #4: Load the data from the default folder and all outputs</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
 <span class="go">Loading folder ./,     output [0, 1, 2, 3, 4]</span>
 </pre></div>
 </div>
 </li>
 <li><dl>
 <dt>Example #5: Load the data from the default folder and multiple</dt><dd><p>selected outputs</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="go">Loading folder ./,     output [0, 1, 2]</span>
 </pre></div>
 </div>
@@ -506,7 +506,7 @@ the variables.</p>
 </li>
 <li><dl>
 <dt>Example #6: Load the data from the default folder and multiple selected</dt><dd><p>outputs and variables</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rho&#39;</span><span class="p">,</span><span class="s1">&#39;vel1&#39;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="s2">&quot;vel1&quot;</span><span class="p">])</span>
 <span class="go">Loading folder ./,     output [0, 1, 2]</span>
 </pre></div>
 </div>
@@ -515,7 +515,7 @@ the variables.</p>
 </li>
 <li><dl>
 <dt>Example #7: Load the data from the default folder, multiple selected</dt><dd><p>outputs and variables, without text</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rho&#39;</span><span class="p">,</span><span class="s1">&#39;vel1&#39;</span><span class="p">],</span> <span class="n">text</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="s2">&quot;vel1&quot;</span><span class="p">],</span> <span class="n">text</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -523,7 +523,7 @@ the variables.</p>
 </li>
 <li><dl>
 <dt>Example #8: Load the data from the default format with selected output</dt><dd><p>and format</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="s1">&#39;vtk&#39;</span><span class="p">,</span> <span class="n">nout</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;vtk&quot;</span><span class="p">,</span> <span class="n">nout</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="go">Loading folder ./,     output [0]</span>
 </pre></div>
 </div>
@@ -532,7 +532,7 @@ the variables.</p>
 </li>
 <li><dl>
 <dt>Example #9: Load the data from the default folder with selected output,</dt><dd><p>variables and format</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="s1">&#39;vtk&#39;</span><span class="p">,</span> <span class="n">nout</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rho&#39;</span><span class="p">,</span><span class="s1">&#39;vel1&#39;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;vtk&quot;</span><span class="p">,</span> <span class="n">nout</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="s2">&quot;vel1&quot;</span><span class="p">])</span>
 <span class="go">Loading folder ./,     output [0]</span>
 </pre></div>
 </div>
@@ -540,7 +540,7 @@ the variables.</p>
 </dl>
 </li>
 <li><p>Example #10: Load the data from a specific folder with selected output</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;./data/&#39;</span><span class="p">,</span> <span class="n">nout</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;./data/&quot;</span><span class="p">,</span> <span class="n">nout</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="go">Loading folder ./data/,     output [0]</span>
 </pre></div>
 </div>

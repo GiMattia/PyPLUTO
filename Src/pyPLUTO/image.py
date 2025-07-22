@@ -120,22 +120,22 @@ class Image:
         - Example #2: create an image with the pgf backend
 
             >>> import pyPLUTO as pp
-            >>> I = pp.Image(LaTeX = 'pgf')
+            >>> I = pp.Image(LaTeX="pgf")
 
         - Example #3: create an image with the LaTeX option True
 
             >>> import pyPLUTO as pp
-            >>> I = pp.Image(LaTeX = True)
+            >>> I = pp.Image(LaTeX=True)
 
         - Example #4: create an image with fixed size
 
             >>> import pyPLUTO as pp
-            >>> I = pp.Image(figsize = [5,5])
+            >>> I = pp.Image(figsize=[5, 5])
 
         - Example #5: create an image with a title
 
             >>> import pyPLUTO as pp
-            >>> I = pp.Image(suptitle = 'Title')
+            >>> I = pp.Image(suptitle="Title")
 
         """
         kwargs.pop("check", check)

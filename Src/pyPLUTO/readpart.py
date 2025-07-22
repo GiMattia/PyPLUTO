@@ -27,7 +27,7 @@ def _inspect_bin(self, i: int, endian: str | None) -> None:
     --------
     - Example #1: Inspect the binary file
 
-        >>> _inspect_bin(0, 'big')
+        >>> _inspect_bin(0, "big")
 
     """
     # Initialize the offset, shape arrays and dimensions dictionary
@@ -36,7 +36,6 @@ def _inspect_bin(self, i: int, endian: str | None) -> None:
     # Open the file and read the lines
     f = open(self._filepath, "rb")
     for line in f:
-
         # Split the lines (unsplit are binary data)
         try:
             _, spl1, spl2 = line.split()[0:3]
@@ -122,7 +121,7 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
     --------
     - Example #1: Inspect the vtk file
 
-        >>> _inspect_vtk(0, 'big')
+        >>> _inspect_vtk(0, "big")
 
     """
     # Initialize the offset and shape arrays, the endianess and the coordinates dictionary
@@ -236,7 +235,6 @@ def _inspect_vtk(self, i: int, endian: str | None) -> None:
         search_pos = line_end + 4 * self.dim + 1
 
     while True:
-
         vectors_pos = mmapped_file.find(b"VECTORS", search_pos)
 
         # Determine the closest header found
@@ -300,7 +298,6 @@ def _store_bin_particles(self, i: int) -> None:
     # Start with column 0 (id) and loop over the variable names
     ncol = 0
     for j, var in enumerate(self._d_info["varskeys"][i]):
-
         # Compute the size of the variable and store the data
         szvar = self._vardim[j]
         index = ncol if szvar == 1 else slice(ncol, ncol + szvar)

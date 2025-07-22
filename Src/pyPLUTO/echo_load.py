@@ -50,7 +50,6 @@ def echo_load(self, nout, path, vars):
     # Opwn te grid file and load the grid data
     grid = h5py.File(self.pathdir / "grid.h5", "r")
     for key in grid.keys():
-
         # Check if the key is in the dictionary and convert it
         if key in conv_dict:
             setattr(self, conv_dict[key], grid[key][:])
@@ -64,7 +63,6 @@ def echo_load(self, nout, path, vars):
 
     # Set the number of grid points in each direction (nx1, nx2, nx3)
     for dim in ["x1", "x2", "x3"]:
-
         # Check if the variable exists and store the number of grid points
         if hasattr(self, dim) is True:
             setattr(self, f"n{dim}", len(getattr(self, dim)))
@@ -102,7 +100,6 @@ def echo_load(self, nout, path, vars):
 
     # Loop on the vars to load
     for key in vars:
-
         # Skip the time variable
         if key == "time":
             continue

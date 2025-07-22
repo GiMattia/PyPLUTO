@@ -42,7 +42,7 @@ def spectrum(
         >>> import pyPLUTO as pp
         >>> D = pp.LoadPart(0)
         >>> v2 = D.vx1**2 + D.vx2**2 + D.vx3**2
-        >>> pp.spectrum(v2, scale = 'log')
+        >>> pp.spectrum(v2, scale="log")
 
     """
     # Check parameters
@@ -112,7 +112,7 @@ def select(
 
         >>> import pyPLUTO as pp
         >>> D = pp.LoadPart(0)
-        >>> indx = pp.select(D.vx1, 'vx1 > 0.0')
+        >>> indx = pp.select(D.vx1, "vx1 > 0.0")
         >>> print(indx)
 
     - Example #2: Sort the indices that satisfy a condition through a callable

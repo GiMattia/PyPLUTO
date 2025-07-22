@@ -6,7 +6,6 @@ from PyQt6.QtWidgets import QFileDialog
 
 def load_data(self):
     try:
-
         if self.varstext.text():
             vars = self.varstext.text().replace(" ", "")
             vars = vars.replace("-", ",").split(",")

@@ -494,7 +494,7 @@ and fill the lacks with [0.1].</p>
 figure</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
@@ -502,7 +502,7 @@ figure</p>
 the width of the second one</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wratio</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">wratio</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 </li>
@@ -510,15 +510,15 @@ the width of the second one</p>
 them</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">nrow</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">hspace</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">nrow</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">])</span>
 </pre></div>
 </div>
 </li>
 <li><p>Example #4: create a 2x2 grid with a fifth image on the right side</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pyPLUTO</span> <span class="k">as</span> <span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">left</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>

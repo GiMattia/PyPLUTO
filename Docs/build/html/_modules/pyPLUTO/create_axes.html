@@ -499,28 +499,28 @@
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(ncol = 2, nrow = 2)</span>
+<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(ncol=2, nrow=2)</span>
 
 <span class="sd">        - Example #2: create a grid of 2 columns with the first one having half</span>
 <span class="sd">          the width of the second one</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(ncol = 2, wratio = [0.5,1])</span>
+<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(ncol=2, wratio=[0.5, 1])</span>
 
 <span class="sd">        - Example #3: create a grid of 2 rows with a lot of blank space between</span>
 <span class="sd">          them</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(nrow = 2, hspace = [0.5])</span>
+<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(nrow=2, hspace=[0.5])</span>
 
 <span class="sd">        - Example #4: create a 2x2 grid with a fifth image on the right side</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(ncol = 2, nrow = 2, right = 0.7)</span>
-<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(left = 0.75)</span>
+<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(ncol=2, nrow=2, right=0.7)</span>
+<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(left=0.75)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
@@ -713,15 +713,15 @@
 <span class="sd">        --------</span>
 <span class="sd">        - Example #1: ratio and space are given correctly (rows)</span>
 
-<span class="sd">            &gt;&gt;&gt; _check_rowcol([1,2,3], [0.1,0.2], 3, &#39;rows&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; _check_rowcol([1, 2, 3], [0.1, 0.2], 3, &quot;rows&quot;)</span>
 
 <span class="sd">        - Example #2: ratio and space are given incorrectly (rows) (warning)</span>
 
-<span class="sd">            &gt;&gt;&gt; _check_rowcol([], 0.1, 3, &#39;rows&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; _check_rowcol([], 0.1, 3, &quot;rows&quot;)</span>
 
 <span class="sd">        - Example #3: ratio and space are given correctly (cols)</span>
 
-<span class="sd">            &gt;&gt;&gt; _check_rowcol([1,2,3], [0.1,0.2], 3, &#39;cols&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; _check_rowcol([1, 2, 3], [0.1, 0.2], 3, &quot;cols&quot;)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rat</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;rows&quot;</span><span class="p">:</span> <span class="s2">&quot;hratio&quot;</span><span class="p">,</span> <span class="s2">&quot;cols&quot;</span><span class="p">:</span> <span class="s2">&quot;wratio&quot;</span><span class="p">}</span>

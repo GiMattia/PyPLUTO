@@ -84,7 +84,6 @@ def fourier(
 
     # Loop over directions
     for pars, def_attr, dir, numdir in dir_par:
-
         # If the number of dimensions is less than the number of directions
         # break
         if dim <= numdir:

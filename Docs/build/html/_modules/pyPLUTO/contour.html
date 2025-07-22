@@ -405,7 +405,6 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the ContourManager with the given state.&quot;&quot;&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span> <span class="o">=</span> <span class="n">AxisManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ColorbarManager</span> <span class="o">=</span> <span class="n">ColorbarManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
@@ -553,7 +552,7 @@
 <span class="sd">        --------</span>
 <span class="sd">        - Example #1: Plot a contour plot of a variable</span>
 
-<span class="sd">            &gt;&gt;&gt; I.contour(D.rho, levels = 10)</span>
+<span class="sd">            &gt;&gt;&gt; I.contour(D.rho, levels=10)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
@@ -590,7 +589,7 @@
 
         <span class="c1"># Keyword for colorbar and colorscale</span>
         <span class="n">colors</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
-        <span class="n">cmap</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">)</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">find_cmap</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">,</span> <span class="s2">&quot;plasma&quot;</span><span class="p">))</span>
         <span class="n">cpos</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cpos&quot;</span><span class="p">)</span>
         <span class="n">cscale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cscale&quot;</span><span class="p">,</span> <span class="s2">&quot;norm&quot;</span><span class="p">)</span>
         <span class="n">tresh</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tresh&quot;</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vmin</span><span class="p">),</span> <span class="n">vmax</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">)</span>

@@ -406,7 +406,6 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the ZoomManager with the given state.&quot;&quot;&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">CreateAxesManager</span> <span class="o">=</span> <span class="n">CreateAxesManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
@@ -595,7 +594,7 @@
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x1,var)</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x1, var)</span>
 <span class="sd">            &gt;&gt;&gt; I.zoom(pos = [0.1,0.2,0.1,0.3], xrange = [1,10], y</span>
 <span class="sd">            ... range = [10,20])</span>
 
@@ -603,17 +602,22 @@
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; I.display(var, x1 = x1, x2 = x2)</span>
-<span class="sd">            &gt;&gt;&gt; I.zoom(left = 0.8, bottom = 0.9, height = 0.2, width = 0.2,</span>
-<span class="sd">            ... xrange = [1,10], yrange = [10,20])</span>
-<span class="sd">            ...</span>
+<span class="sd">            &gt;&gt;&gt; I.display(var, x1=x1, x2=x2)</span>
+<span class="sd">            &gt;&gt;&gt; I.zoom(</span>
+<span class="sd">            ...     left=0.8,</span>
+<span class="sd">            ...     bottom=0.9,</span>
+<span class="sd">            ...     height=0.2,</span>
+<span class="sd">            ...     width=0.2,</span>
+<span class="sd">            ...     xrange=[1, 10],</span>
+<span class="sd">            ...     yrange=[10, 20],</span>
+<span class="sd">            ... )</span>
 
 <span class="sd">        - Example #3: create a zoom of a different quantity over a 2d plot</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; I.display(var, x1 = x1, x2 = x2)</span>
-<span class="sd">            &gt;&gt;&gt; I.zoom(var = var2, xrange = [1,10], yrange = [10,20])</span>
+<span class="sd">            &gt;&gt;&gt; I.display(var, x1=x1, x2=x2)</span>
+<span class="sd">            &gt;&gt;&gt; I.zoom(var=var2, xrange=[1, 10], yrange=[10, 20])</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>

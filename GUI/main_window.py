@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import QHBoxLayout, QMainWindow, QVBoxLayout, QWidget
 class PyPLUTOApp(QMainWindow):
     def __init__(self, code: str):
         super().__init__()
-        codestr = f" ({self.code := code})" if code != "PLUTO" else ""
+        codestr = f" ({self.code:= code})" if code != "PLUTO" else ""
         self.setWindowTitle(f"PyPLUTO GUI{codestr}")
         if code != "PLUTO":
             raise NotImplementedError(f"Code {code} not yet implemented")
@@ -127,7 +127,9 @@ class PyPLUTOApp(QMainWindow):
 
         main_layout.addLayout(button_layout)
 
-        self.typecmap_selector.currentIndexChanged.connect(self.update_cmap_selector)  # type: ignore
+        self.typecmap_selector.currentIndexChanged.connect(
+            self.update_cmap_selector
+        )  # type: ignore
 
         self.canvas_layout = QVBoxLayout()
         self.create_new_figure()

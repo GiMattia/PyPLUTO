@@ -213,7 +213,7 @@ class ZoomManager:
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> I.plot(x1,var)
+            >>> I.plot(x1, var)
             >>> I.zoom(pos = [0.1,0.2,0.1,0.3], xrange = [1,10], y
             ... range = [10,20])
 
@@ -221,17 +221,22 @@ class ZoomManager:
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> I.display(var, x1 = x1, x2 = x2)
-            >>> I.zoom(left = 0.8, bottom = 0.9, height = 0.2, width = 0.2,
-            ... xrange = [1,10], yrange = [10,20])
-            ...
+            >>> I.display(var, x1=x1, x2=x2)
+            >>> I.zoom(
+            ...     left=0.8,
+            ...     bottom=0.9,
+            ...     height=0.2,
+            ...     width=0.2,
+            ...     xrange=[1, 10],
+            ...     yrange=[10, 20],
+            ... )
 
         - Example #3: create a zoom of a different quantity over a 2d plot
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> I.display(var, x1 = x1, x2 = x2)
-            >>> I.zoom(var = var2, xrange = [1,10], yrange = [10,20])
+            >>> I.display(var, x1=x1, x2=x2)
+            >>> I.zoom(var=var2, xrange=[1, 10], yrange=[10, 20])
 
         """
         kwargs.pop("check", check)

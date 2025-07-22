@@ -419,9 +419,10 @@
         <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Method to display a colorbar in a selected position. If the keyword</span>
-<span class="sd">        cax is enabled the colorbar is located in a specific axis, otherwise an</span>
-<span class="sd">        axis will be shrunk in order to place the colorbar.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Method to display a colorbar in a selected position. If the</span>
+<span class="sd">        keyword cax is enabled the colorbar is located in a specific</span>
+<span class="sd">        axis, otherwise an axis will be shrunk in order to place the</span>
+<span class="sd">        colorbar.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -470,21 +471,21 @@
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(ncol = 2)</span>
-<span class="sd">            &gt;&gt;&gt; I.display(var, ax = ax[0])</span>
-<span class="sd">            &gt;&gt;&gt; I.colorbar(axs = ax[0], cax = ax[1])</span>
+<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(ncol=2)</span>
+<span class="sd">            &gt;&gt;&gt; I.display(var, ax=ax[0])</span>
+<span class="sd">            &gt;&gt;&gt; I.colorbar(axs=ax[0], cax=ax[1])</span>
 
 <span class="sd">        - Example #3: create a set of 3 displays with a colorbar on the bottom.</span>
 <span class="sd">            Another colorbar is shown on the right of the topmost display</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(nrow = 4)</span>
-<span class="sd">            &gt;&gt;&gt; I.display(var1, ax = ax[0])</span>
-<span class="sd">            &gt;&gt;&gt; I.colorbar(axs = ax[0])</span>
-<span class="sd">            &gt;&gt;&gt; I.display(var2, ax = ax[1])</span>
-<span class="sd">            &gt;&gt;&gt; I.display(var3, ax = ax[2])</span>
-<span class="sd">            &gt;&gt;&gt; I.colorbar(axs = ax[2], cax = ax[3])</span>
+<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(nrow=4)</span>
+<span class="sd">            &gt;&gt;&gt; I.display(var1, ax=ax[0])</span>
+<span class="sd">            &gt;&gt;&gt; I.colorbar(axs=ax[0])</span>
+<span class="sd">            &gt;&gt;&gt; I.display(var2, ax=ax[1])</span>
+<span class="sd">            &gt;&gt;&gt; I.display(var3, ax=ax[2])</span>
+<span class="sd">            &gt;&gt;&gt; I.colorbar(axs=ax[2], cax=ax[3])</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check parameters</span>

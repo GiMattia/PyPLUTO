@@ -454,7 +454,7 @@ def oplotbox(
     --------
       - Example #1: Overplot the AMR boxes up to the specified level
 
-              >>> oplotbox(AMRLevel, lrange = [0,2])
+              >>> oplotbox(AMRLevel, lrange=[0, 2])
 
     """
     nlev = len(AMRLevel)

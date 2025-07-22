@@ -403,7 +403,6 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the ScatterManager with the given state.&quot;&quot;&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span> <span class="o">=</span> <span class="n">AxisManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
@@ -563,7 +562,7 @@
 
 <span class="sd">        - Example #2: Plot a scatter plot of a variable with a colorbar</span>
 
-<span class="sd">            &gt;&gt;&gt; I.scatter(x, y, cmap = &#39;hot&#39;, c = x**2 + y**2,cpos = &#39;right&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; I.scatter(x, y, cmap=&quot;hot&quot;, c=x**2 + y**2, cpos=&quot;right&quot;)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Convert x and y to numpy arrays (if necessary)</span>
@@ -612,15 +611,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">vlims</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">tresh</span><span class="p">]</span>
 
         <span class="c1"># Set the colorbar scale</span>
-        <span class="n">norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">set_cscale</span><span class="p">(</span><span class="n">cscale</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">tresh</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">set_cscale</span><span class="p">(</span><span class="n">cscale</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">tresh</span><span class="p">)</span>
+            <span class="n">cmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">find_cmap</span><span class="p">(</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">,</span> <span class="s2">&quot;plasma&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">norm</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">cmap</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Start scatter plot procedure</span>
         <span class="n">pcm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span>
             <span class="n">y</span><span class="p">,</span>
-            <span class="n">cmap</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">),</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
             <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
-            <span class="n">c</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span>
             <span class="n">s</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ms&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
             <span class="n">edgecolors</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;edgecolors&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">),</span>
             <span class="n">alpha</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>

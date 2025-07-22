@@ -55,15 +55,15 @@ def slices(
     --------
     - Example #1: Slice the variable in the 3 directions
 
-        >>> slices(var, x1 = 0, x2 = 0, x3 = 0)
+        >>> slices(var, x1=0, x2=0, x3=0)
 
     - Example #2: Slice the variable in the diagonal
 
-        >>> slices(var, diag = True)
+        >>> slices(var, diag=True)
 
     - Example #3: Slice the variable in the opposite diagonal
 
-        >>> slices(var, diag = 'min')
+        >>> slices(var, diag="min")
 
     """
     # Check the kwargs parameters
@@ -130,23 +130,23 @@ def mirror(
     --------
     - Example #1: Mirror the variable in the left direction
 
-        >>> mirror(var, dirs = 'l')
+        >>> mirror(var, dirs="l")
 
     - Example #2: Mirror the variable in the right direction with axis
 
-        >>> mirror(var, dirs = 'r', xax = xax)
+        >>> mirror(var, dirs="r", xax=xax)
 
     - Example #3: Mirror the variable in the top and left directions
 
-        >>> mirror(var, dirs = ['t','l'])
+        >>> mirror(var, dirs=["t", "l"])
 
     - Example #4: Mirror the variable in the top and left directions (no list)
 
-        >>> mirror(var, dirs = 'tl')
+        >>> mirror(var, dirs="tl")
 
     - Example #5: Mirror the variable in the left direction three times
 
-        >>> mirror(var, dirs = 'lll')
+        >>> mirror(var, dirs="lll")
 
     """
     spp = [*dirs] if not isinstance(dirs, list) else dirs
@@ -212,19 +212,19 @@ def repeat(
     --------
     - Example #1: Repeat the variable in the left direction
 
-        >>> repeat(var, dirs = 'l')
+        >>> repeat(var, dirs="l")
 
     - Example #2: Repeat the variable in the right direction with axis
 
-        >>> repeat(var, dirs = 'r', xax = xax)
+        >>> repeat(var, dirs="r", xax=xax)
 
     - Example #3: Repeat the variable in the top and left directions
 
-        >>> repeat(var, dirs = ['t','l'])
+        >>> repeat(var, dirs=["t", "l"])
 
     - Example #4: Repeat the variable in the top and left directions (no list)
 
-        >>> repeat(var, dirs = 'tl')
+        >>> repeat(var, dirs="tl")
 
     """
     raise NotImplementedError("Function repeat not implemented yet")
@@ -291,11 +291,11 @@ def cartesian_vector(
     --------
     - Example #1: Convert the vector from spherical to cartesian components
 
-        >>> Bx, By, Bz = cartesian_vector(var = 'B')
+        >>> Bx, By, Bz = cartesian_vector(var="B")
 
     - Example #2: Convert the vector from polar to cartesian components
 
-        >>> Bx, By = cartesian_vector(var1 = D.Bx1, var2 = D.Bx2)
+        >>> Bx, By = cartesian_vector(var1=D.Bx1, var2=D.Bx2)
 
     """
     vars = {
@@ -376,11 +376,11 @@ def reshape_cartesian(self, *args: Any, **kwargs: Any) -> tuple[NDArray, ...]:
     --------
     - Example #1: Convert the vector from spherical to cartesian components
 
-        >>> Bx, By, Bz = cartesian_vector(var = 'B')
+        >>> Bx, By, Bz = cartesian_vector(var="B")
 
     - Example #2: Convert the vector from polar to cartesian components
 
-        >>> Bx, By = cartesian_vector(var1 = D.Bx1, var2 = D.Bx2)
+        >>> Bx, By = cartesian_vector(var1=D.Bx1, var2=D.Bx2)
 
     """
     # Get the variable, if it is a string, get the variable from the dataset.
@@ -481,7 +481,6 @@ def reshape_uniform(self, x1, x2, *args, **kwargs):
     newvars = []
 
     if not uniform_x or not uniform_y:
-
         x1new = np.linspace(x1.min(), x1.max(), nx1new) if not uniform_x else x1
         x2new = np.linspace(x2.min(), x2.max(), nx2new) if not uniform_y else x2
 

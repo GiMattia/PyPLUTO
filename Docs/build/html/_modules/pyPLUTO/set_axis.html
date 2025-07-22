@@ -400,7 +400,6 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the AxisManager with the given state.&quot;&quot;&quot;</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span> <span class="o">=</span> <span class="n">RangeManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
@@ -508,8 +507,12 @@
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
 <span class="sd">            &gt;&gt;&gt; ax = I.create_axes()</span>
-<span class="sd">            &gt;&gt;&gt; I.set_axis(title = &#39;Title&#39;, titlesize = 30.0, xtitle = &#39;x-axis&#39;,</span>
-<span class="sd">            ... ytitle = &#39;y-axis&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; I.set_axis(</span>
+<span class="sd">            ...     title=&quot;Title&quot;,</span>
+<span class="sd">            ...     titlesize=30.0,</span>
+<span class="sd">            ...     xtitle=&quot;x-axis&quot;,</span>
+<span class="sd">            ...     ytitle=&quot;y-axis&quot;,</span>
+<span class="sd">            ... )</span>
 
 <span class="sd">        - Example #2: create an axis, remove the ticks for the x-axis and</span>
 <span class="sd">            set manually the ticks for the y-axis</span>
@@ -517,28 +520,36 @@
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
 <span class="sd">            &gt;&gt;&gt; ax = I.create_axes()</span>
-<span class="sd">            &gt;&gt;&gt; I.set_axis(ax, xticks = None, yrange = [-1.0,1.0],</span>
-<span class="sd">            ... yticks = [-0.8,-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8])</span>
+<span class="sd">            &gt;&gt;&gt; I.set_axis(</span>
+<span class="sd">            ...     ax,</span>
+<span class="sd">            ...     xticks=None,</span>
+<span class="sd">            ...     yrange=[-1.0, 1.0],</span>
+<span class="sd">            ...     yticks=[-0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8],</span>
+<span class="sd">            ... )</span>
 
 <span class="sd">        - Example #3: create two axes and invert the direction of the ticks in</span>
 <span class="sd">            the first one</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(right = 0.7)</span>
-<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(left = 0.8)</span>
-<span class="sd">            &gt;&gt;&gt; I.set_axis(ax = ax[0], ticksdir = &#39;out&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(right=0.7)</span>
+<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(left=0.8)</span>
+<span class="sd">            &gt;&gt;&gt; I.set_axis(ax=ax[0], ticksdir=&quot;out&quot;)</span>
 
 <span class="sd">        - Example #4: create a 2x2 grid with axes labels and customed ticks</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(ncol = 2, nrow = 2)</span>
-<span class="sd">            &gt;&gt;&gt; for i in [0,1,2,3]:</span>
-<span class="sd">            ...     I.set_axis(ax = ax[i], xtitle = &#39;x-axis&#39;,</span>
-<span class="sd">            ...     ytitle = &#39;y-title&#39;,</span>
-<span class="sd">            ...     xticks = [0.25,0.5,0.75], yticks = [0.25,0.5,0.75],</span>
-<span class="sd">            ...     xtickslabels = [&#39;1/4&#39;,&#39;1/2&#39;,&#39;3/4&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; ax = I.create_axes(ncol=2, nrow=2)</span>
+<span class="sd">            &gt;&gt;&gt; for i in [0, 1, 2, 3]:</span>
+<span class="sd">            ...     I.set_axis(</span>
+<span class="sd">            ...         ax=ax[i],</span>
+<span class="sd">            ...         xtitle=&quot;x-axis&quot;,</span>
+<span class="sd">            ...         ytitle=&quot;y-title&quot;,</span>
+<span class="sd">            ...         xticks=[0.25, 0.5, 0.75],</span>
+<span class="sd">            ...         yticks=[0.25, 0.5, 0.75],</span>
+<span class="sd">            ...         xtickslabels=[&quot;1/4&quot;, &quot;1/2&quot;, &quot;3/4&quot;],</span>
+<span class="sd">            ...     )</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
@@ -710,15 +721,15 @@
 <span class="sd">        --------</span>
 <span class="sd">        - Example #1: set ticks and ticks labels on the x-axis</span>
 
-<span class="sd">            &gt;&gt;&gt; _set_ticks(ax, [0,1,2,3], [&#39;0&#39;,&#39;1&#39;,&#39;2&#39;,&#39;3&#39;], &#39;x&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; _set_ticks(ax, [0, 1, 2, 3], [&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;], &quot;x&quot;)</span>
 
 <span class="sd">        - Example #2: set ticks and ticks labels on the y-axis (no ticks)</span>
 
-<span class="sd">            &gt;&gt;&gt; _set_ticks(ax, None, None, &#39;y&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; _set_ticks(ax, None, None, &quot;y&quot;)</span>
 
 <span class="sd">        - Example #3: set ticks and ticks labels on the x-axis (no ticks labels)</span>
 
-<span class="sd">            &gt;&gt;&gt; _set_ticks(ax, [0,1,2,3], None, &#39;x&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; _set_ticks(ax, [0, 1, 2, 3], None, &quot;x&quot;)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">set_ticks</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">}</span>
@@ -726,7 +737,6 @@
 
         <span class="c1"># Ticks are None</span>
         <span class="k">if</span> <span class="n">tc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-
             <span class="n">set_ticks</span><span class="p">[</span><span class="n">typeaxis</span><span class="p">]([])</span>
             <span class="n">set_label</span><span class="p">[</span><span class="n">typeaxis</span><span class="p">]([])</span>
 
@@ -740,7 +750,6 @@
 
         <span class="c1"># Ticks are not None and tickslabels are custom</span>
         <span class="k">elif</span> <span class="n">tl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
-
             <span class="c1"># Ticks are not None, then are set</span>
             <span class="k">if</span> <span class="n">tc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
                 <span class="n">set_ticks</span><span class="p">[</span><span class="n">typeaxis</span><span class="p">](</span><span class="n">tc</span><span class="p">)</span>

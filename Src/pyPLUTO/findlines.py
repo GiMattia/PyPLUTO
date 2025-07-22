@@ -34,7 +34,7 @@ def _check_var(self, var: str | NDArray, transpose: bool = False) -> np.ndarray:
     --------
     - Example #1: var is a numpy array
 
-        >>> var = np.array([1,2,3])
+        >>> var = np.array([1, 2, 3])
         >>> D._check_var(var, False)
         array([1, 2, 3])
 
@@ -196,7 +196,7 @@ def find_fieldlines(
 
     - Example #2: Find field lines using two strings 'Bx1' and 'Bx2'
 
-        >>> find_fieldlines('Bx1', 'Bx2', x0, y0)
+        >>> find_fieldlines("Bx1", "Bx2", x0, y0)
 
     - Example #3: Find field lines using two variables and two footpoints
 
@@ -322,7 +322,6 @@ def find_fieldlines(
 
     # Iterate on the footpoints
     for ind, xp in enumerate(x0):
-
         # Set the initial conditions
         self.loop_dom = False
         yp = y0[ind]

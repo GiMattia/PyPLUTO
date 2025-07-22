@@ -43,7 +43,6 @@ def _read_tabfile(self, i: int) -> None:
 
     # If the file is empty the grid is 1D, otherwise 2D
     if empty_lines > 0:
-
         # Remove the empty lines
         vfp["block"] = scrhlines.cumsum()
         vfp = vfp[~scrhlines]
@@ -117,11 +116,11 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
     --------
     - Example #1: Inspect the vtk file
 
-        >>> _inspect_vtk(0, 'big')
+        >>> _inspect_vtk(0, "big")
 
     - Example #2: Inspect the vtk file
 
-        >>> _inspect_vtk(0, 'little')
+        >>> _inspect_vtk(0, "little")
 
     """
     dir_map: dict[str, str] = {}
@@ -146,7 +145,6 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
     f = open(self._filepath, "rb")
 
     for line in f:
-
         # Split the lines (unsplit are binary data or useless lines)
         try:
             spl0, spl1, spl2 = line.split()[0:3]
@@ -223,10 +221,13 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
 
         # Compute the time information
         elif spl0 == b"TIME" and self._alone is True:
-            binf = 8 if line.split()[3].decode() == "double" else 4
-            f.tell()
-            data = f.read(binf)
-            self.ntime[i] = struct.unpack(endl + "d", data)[0]
+            try:
+                binf = 8 if line.split()[3].decode() == "double" else 4
+                f.tell()
+                data = f.read(binf)
+                self.ntime[i] = struct.unpack(endl + "d", data)[0]
+            except:
+                pass
 
     # New memmap strategy for vtk files
     mmapped_file = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)

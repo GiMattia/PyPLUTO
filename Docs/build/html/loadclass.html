@@ -437,8 +437,82 @@ Particles are loaded as standalones, i.e. no additional file is necessary.</p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
-<section id="what-abou-other-codes">
-<h2>What abou other codes?<a class="headerlink" href="#what-abou-other-codes" title="Link to this heading">#</a></h2>
+<section id="a-note-on-the-pluto-output">
+<h2>A note on the PLUTO output<a class="headerlink" href="#a-note-on-the-pluto-output" title="Link to this heading">#</a></h2>
+<p>PLUTO simulations produce a wide range of output formats for both fluid and
+particle data. Descriptor files are generated alongside the main fluid data,
+providing essential information about the grid structure and variable
+layout. Although descriptor files are essential only for the binary output
+files, is recommended to include them, especially in presence of simulations
+performed in non-cartesian geometry.
+Binary and vtk fluid files can be produced with the “multiple files” option. In
+such case, each fluid variable is saved in a separate file rather than combining
+all variables into a single output file.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Format</p></th>
+<th class="head"><p>Fluid/particles</p></th>
+<th class="head"><p>Fluid descriptor</p></th>
+<th class="head"><p>Single/multiple files</p></th>
+<th class="head"><p>Staggered variables</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>dbl</p></td>
+<td><p>both</p></td>
+<td><p>required</p></td>
+<td><p>both</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>flt</p></td>
+<td><p>both</p></td>
+<td><p>required</p></td>
+<td><p>both</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>vtk</p></td>
+<td><p>both</p></td>
+<td><p>optional</p></td>
+<td><p>both</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>dbl.h5</p></td>
+<td><p>only fluid</p></td>
+<td><p>optional</p></td>
+<td><p>single file only</p></td>
+<td><p>yes</p></td>
+</tr>
+<tr class="row-even"><td><p>flt.h5</p></td>
+<td><p>only fluid</p></td>
+<td><p>optional</p></td>
+<td><p>single file only</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-odd"><td><p>hdf5 (AMR)</p></td>
+<td><p>only fluid</p></td>
+<td><p>optional</p></td>
+<td><p>single file only</p></td>
+<td><p>no</p></td>
+</tr>
+<tr class="row-even"><td><p>tab (serial, no 3D)</p></td>
+<td><p>only fluid</p></td>
+<td><p>optional</p></td>
+<td><p>single file only</p></td>
+<td><p>no</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="what-about-other-codes">
+<h2>What about other codes?<a class="headerlink" href="#what-about-other-codes" title="Link to this heading">#</a></h2>
 <p>PypLUTO is tailored for the PLUTO code output, therefore major efforts will be
 dedicated to the PLUTO code files. However, being the <a class="reference internal" href="imageclass.html#imageclass"><span class="std std-ref">Image</span></a>
 class code independent, extensions to other codes can be done with minimal
@@ -446,6 +520,7 @@ efforts.
 Currently, the following codes can be used in combination with PyPLUTO:</p>
 <ul class="simple">
 <li><p>ECHO (parameters: nout, path, vars)</p></li>
+<li><p>IDEFIX</p></li>
 </ul>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -503,7 +578,8 @@ Currently, the following codes can be used in combination with PyPLUTO:</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-fluid-files">Loading the fluid files</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-particles-files">Loading the particles files</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-abou-other-codes">What abou other codes?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-on-the-pluto-output">A note on the PLUTO output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-about-other-codes">What about other codes?</a></li>
 </ul>
   </nav></div>
 

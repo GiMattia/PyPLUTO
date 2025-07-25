@@ -421,13 +421,14 @@ class ImageToolsManager:
             reverse = True
 
         cmap = getattr(salsa, base_name, None)
+        print(cmap)
         if cmap is not None:
             if reverse:
                 # Prefer .reversed() method if available
                 rev = getattr(cmap, "reversed", None)
                 if callable(rev):
                     return cast(mcol.Colormap, rev())
-            return cast(mcol.Colormap, cmap())
+            return cast(mcol.Colormap, cmap)
 
         # Gigantic warning!
         warn = (

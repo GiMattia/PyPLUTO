@@ -9,3 +9,4 @@ visualize the loaded data.
   .. image:: ../Figures/gui04_plot.png
      :align: center
      :width: 600px
+

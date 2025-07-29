@@ -3,8 +3,9 @@ from pathlib import Path
 
 import numpy as np
 import numpy.testing as npt
-import pyPLUTO as pp
 import pytest
+
+import pyPLUTO as pp
 
 # Assuming the root of the repo is your current working directory
 repo_root = Path(os.getcwd())

@@ -3,7 +3,7 @@
 Image.legend
 ============
 
-.. automethod:: pyPLUTO.legend.LegendManager.legend
+.. automethod:: pyPLUTO.imagefuncs.legend.LegendManager.legend
 
 |
 

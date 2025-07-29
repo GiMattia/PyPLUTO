@@ -17,6 +17,7 @@ shown on screen.
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO
 
 # Initialization
@@ -61,13 +62,17 @@ def plot_frame(Data, ax_idx: int, time_label: str):
 
 
 # Plotting the initial time
-Data = pyPLUTO.Load(0, path="Test_Problems/MHD/Blast")
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("MHD/Blast")
+
+# Load data
+Data = pyPLUTO.Load(0, path=data_path)
 plot_frame(Data, ax_idx=0, time_label="0.0")
 
 # Plotting the final time
-Data = pyPLUTO.Load(path="Test_Problems/MHD/Blast")
+Data = pyPLUTO.Load(path=data_path)
 plot_frame(Data, ax_idx=1, time_label="0.01")
 
 # Saving and showing
-Image.savefig("test09_blast.png")
+Image.savefig("test09_blast.png", script_relative=True)
 pyPLUTO.show()

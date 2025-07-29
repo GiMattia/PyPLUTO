@@ -31,6 +31,7 @@ Contents
    gui
    examples
    faq
+   contributing
 
 
 |

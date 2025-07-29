@@ -3,7 +3,7 @@
 Image.display
 =============
 
-.. automethod:: pyPLUTO.display.DisplayManager.display
+.. automethod:: pyPLUTO.imagefuncs.display.DisplayManager.display
 
 |
 

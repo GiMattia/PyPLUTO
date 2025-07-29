@@ -19,8 +19,11 @@ then saved and shown on screen.
 # Loading the relevant packages
 import pyPLUTO
 
-# Loading the data into a pload object D
-Data = pyPLUTO.Load(path="Test_Problems/MHD/Field_Loop")
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("MHD/Field_Loop")
+
+# Load data
+Data = pyPLUTO.Load(path=data_path)
 
 # Creating the image
 Image = pyPLUTO.Image(figsize=[13, 5], suptitle="Test 05 - MHD Field loop test")
@@ -85,5 +88,5 @@ Image.plot(lines[1][0], lines[1][1], ax=1, c="k", lw=1.5)
 Image.plot(lines[2][0], lines[2][1], ax=1, c="k", lw=1.5)
 
 # Saving the image and showing the plots
-Image.savefig("test05_fieldloop.png")
+Image.savefig("test05_fieldloop.png", script_relative=True)
 pyPLUTO.show()

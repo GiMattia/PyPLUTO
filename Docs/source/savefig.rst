@@ -3,7 +3,7 @@
 Image.savefig
 ==============
 
-.. automethod:: pyPLUTO.imagetools.ImageToolsManager.savefig
+.. automethod:: pyPLUTO.imagefuncs.imagetools.ImageToolsManager.savefig
 
 |
 

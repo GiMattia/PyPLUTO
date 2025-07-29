@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyPLUTO.load &#8212; PyPLUTO 1.0 documentation</title>
+    <title>pyPLUTO.load &#8212; PyPLUTO 1.1 documentation</title>
   
   
   
@@ -30,7 +30,7 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=7abc8560" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -38,7 +38,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/documentation_options.js?v=56dcb7b8"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyPLUTO/load';</script>
@@ -108,7 +108,7 @@
   
   
   
-    <p class="title logo__title">PyPLUTO 1.0 documentation</p>
+    <p class="title logo__title">PyPLUTO 1.1 documentation</p>
   
 </a></div>
     
@@ -124,7 +124,7 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../install.html">
-    Installation
+    Install
   </a>
 </li>
 
@@ -152,7 +152,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../gui.html">
-    The GUI
+    GUI
   </a>
 </li>
 
@@ -174,6 +174,13 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
     FAQs
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contributing.html">
+    Contribute
   </a>
 </li>
 
@@ -253,7 +260,7 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../install.html">
-    Installation
+    Install
   </a>
 </li>
 
@@ -281,7 +288,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../gui.html">
-    The GUI
+    GUI
   </a>
 </li>
 
@@ -296,6 +303,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../faq.html">
     FAQs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing.html">
+    Contribute
   </a>
 </li>
 
@@ -509,7 +523,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">nout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;last&quot;</span><span class="p">,</span>
-        <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span><span class="p">,</span>
+        <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span><span class="p">,</span>
         <span class="n">datatype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="nb">vars</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -762,43 +776,43 @@
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;Load&#39; object has no attribute &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 
     <span class="kn">from</span> <span class="nn">.amr</span> <span class="kn">import</span> <span class="n">_DataScanHDF5</span><span class="p">,</span> <span class="n">_inspect_hdf5</span>
-    <span class="kn">from</span> <span class="nn">.defpluto</span> <span class="kn">import</span> <span class="n">_read_defh</span><span class="p">,</span> <span class="n">_read_plini</span>
-    <span class="kn">from</span> <span class="nn">.echo_load</span> <span class="kn">import</span> <span class="n">echo_load</span>
-    <span class="kn">from</span> <span class="nn">.findlines</span> <span class="kn">import</span> <span class="n">_check_var</span><span class="p">,</span> <span class="n">find_contour</span><span class="p">,</span> <span class="n">find_fieldlines</span>
-    <span class="kn">from</span> <span class="nn">.fourier</span> <span class="kn">import</span> <span class="n">fourier</span>
-    <span class="kn">from</span> <span class="nn">.nabla</span> <span class="kn">import</span> <span class="n">curl</span><span class="p">,</span> <span class="n">divergence</span><span class="p">,</span> <span class="n">gradient</span>
-    <span class="kn">from</span> <span class="nn">.read_files</span> <span class="kn">import</span> <span class="n">_read_dat</span><span class="p">,</span> <span class="n">_read_h5</span><span class="p">,</span> <span class="n">read_file</span>
-    <span class="kn">from</span> <span class="nn">.readdata</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="kn">from</span> <span class="nn">.codes.echo_load</span> <span class="kn">import</span> <span class="n">echo_load</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.defpluto</span> <span class="kn">import</span> <span class="n">_read_defh</span><span class="p">,</span> <span class="n">_read_plini</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.read_files</span> <span class="kn">import</span> <span class="n">_read_dat</span><span class="p">,</span> <span class="n">_read_h5</span><span class="p">,</span> <span class="n">read_file</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.readdata</span> <span class="kn">import</span> <span class="p">(</span>
         <span class="n">_assign_var</span><span class="p">,</span>
         <span class="n">_check_nout</span><span class="p">,</span>
         <span class="n">_findfiles</span><span class="p">,</span>
         <span class="n">_init_vardict</span><span class="p">,</span>
         <span class="n">_load_variables</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="kn">from</span> <span class="nn">.readfluid</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.readfluid</span> <span class="kn">import</span> <span class="p">(</span>
         <span class="n">_compute_offset</span><span class="p">,</span>
         <span class="n">_inspect_h5</span><span class="p">,</span>
         <span class="n">_inspect_vtk</span><span class="p">,</span>
         <span class="n">_offset_bin</span><span class="p">,</span>
         <span class="n">_read_tabfile</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="kn">from</span> <span class="nn">.readformat</span> <span class="kn">import</span> <span class="n">_check_pathformat</span><span class="p">,</span> <span class="n">_find_format</span>
-    <span class="kn">from</span> <span class="nn">.readgridout</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.readformat</span> <span class="kn">import</span> <span class="n">_check_pathformat</span><span class="p">,</span> <span class="n">_find_format</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.readgridout</span> <span class="kn">import</span> <span class="p">(</span>
         <span class="n">_read_grid_h5</span><span class="p">,</span>
         <span class="n">_read_grid_vtk</span><span class="p">,</span>
         <span class="n">_read_gridfile</span><span class="p">,</span>
         <span class="n">_read_outfile</span><span class="p">,</span>
         <span class="n">_split_gridfile</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="kn">from</span> <span class="nn">.transform</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.write_files</span> <span class="kn">import</span> <span class="n">_write_h5</span><span class="p">,</span> <span class="n">write_file</span>
+    <span class="kn">from</span> <span class="nn">.toolfuncs.findlines</span> <span class="kn">import</span> <span class="n">_check_var</span><span class="p">,</span> <span class="n">find_contour</span><span class="p">,</span> <span class="n">find_fieldlines</span>
+    <span class="kn">from</span> <span class="nn">.toolfuncs.fourier</span> <span class="kn">import</span> <span class="n">fourier</span>
+    <span class="kn">from</span> <span class="nn">.toolfuncs.nabla</span> <span class="kn">import</span> <span class="n">curl</span><span class="p">,</span> <span class="n">divergence</span><span class="p">,</span> <span class="n">gradient</span>
+    <span class="kn">from</span> <span class="nn">.toolfuncs.transform</span> <span class="kn">import</span> <span class="p">(</span>
         <span class="n">_congrid</span><span class="p">,</span>
         <span class="n">cartesian_vector</span><span class="p">,</span>
         <span class="n">mirror</span><span class="p">,</span>
         <span class="n">reshape_cartesian</span><span class="p">,</span>
         <span class="n">reshape_uniform</span><span class="p">,</span>
         <span class="n">slices</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="kn">from</span> <span class="nn">.write_files</span> <span class="kn">import</span> <span class="n">_write_h5</span><span class="p">,</span> <span class="n">write_file</span></div>
+    <span class="p">)</span></div>
 
 </pre></div>
 
@@ -841,7 +855,7 @@
 
   <p class="copyright">
     
-      © Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      © Copyright 2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       <br/>
     
   </p>

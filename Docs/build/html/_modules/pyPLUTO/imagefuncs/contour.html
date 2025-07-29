@@ -1,0 +1,719 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyPLUTO.imagefuncs.contour &#8212; PyPLUTO 1.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=6bda2a82" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=56dcb7b8"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyPLUTO/imagefuncs/contour';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">PyPLUTO 1.1 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tools.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../imageclass.html">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../gui.html">
+    GUI
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../faq.html">
+    FAQs
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../contributing.html">
+    Contribute
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tools.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../imageclass.html">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../gui.html">
+    GUI
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../faq.html">
+    FAQs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributing.html">
+    Contribute
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pyPLUTO.imagefuncs.contour</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for pyPLUTO.imagefuncs.contour</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib.contour</span> <span class="kn">import</span> <span class="n">QuadContourSet</span>
+<span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
+
+<span class="kn">from</span> <span class="nn">..imagemixin</span> <span class="kn">import</span> <span class="n">ImageMixin</span>
+<span class="kn">from</span> <span class="nn">..imagestate</span> <span class="kn">import</span> <span class="n">ImageState</span>
+<span class="kn">from</span> <span class="nn">..utils.inspector</span> <span class="kn">import</span> <span class="n">track_kwargs</span>
+<span class="kn">from</span> <span class="nn">.colorbar</span> <span class="kn">import</span> <span class="n">ColorbarManager</span>
+<span class="kn">from</span> <span class="nn">.imagetools</span> <span class="kn">import</span> <span class="n">ImageToolsManager</span>
+<span class="kn">from</span> <span class="nn">.range</span> <span class="kn">import</span> <span class="n">RangeManager</span>
+<span class="kn">from</span> <span class="nn">.set_axis</span> <span class="kn">import</span> <span class="n">AxisManager</span>
+
+
+<span class="k">class</span> <span class="nc">ContourManager</span><span class="p">(</span><span class="n">ImageMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to manage contour plots in the image.</span>
+
+<span class="sd">    This class provides methods to create contour plots of variables in the</span>
+<span class="sd">    image class. It allows for customization of the contour lines, colorbars,</span>
+<span class="sd">    and other properties.&quot;&quot;&quot;</span>
+
+    <span class="n">exposed_methods</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;contour&quot;</span><span class="p">,)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the ContourManager with the given state.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span> <span class="o">=</span> <span class="n">AxisManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ColorbarManager</span> <span class="o">=</span> <span class="n">ColorbarManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span> <span class="o">=</span> <span class="n">RangeManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ContourManager.contour">
+<a class="viewcode-back" href="../../../contour.html#pyPLUTO.imagefuncs.contour.ContourManager.contour">[docs]</a>
+    <span class="nd">@track_kwargs</span>
+    <span class="k">def</span> <span class="nf">contour</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">],</span> <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuadContourSet</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plots a contour plot of a given variable. The function uses the</span>
+<span class="sd">        matplotlib.pyplot.contour function. The function returns None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - cnt: LineCollection</span>
+<span class="sd">            The set of contour lines of the given variable.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - alpha: float, default 1.0</span>
+<span class="sd">            Sets the transparency of the contour lines.</span>
+<span class="sd">        - aspect: {&#39;auto&#39;, &#39;equal&#39;, float}, default &#39;auto&#39;</span>
+<span class="sd">            Sets the aspect ratio of the plot. The &#39;auto&#39; keyword is the default</span>
+<span class="sd">            option (most likely the plot will be squared). The &#39;equal&#39; keyword</span>
+<span class="sd">            will set the same scaling for x and y. A float will fix the ratio</span>
+<span class="sd">            between the y-scale and the x-scale (1.0 is the same as &#39;equal&#39;).</span>
+<span class="sd">        - ax: {ax object, &#39;old&#39;, None}, default None</span>
+<span class="sd">            The axis where to plot the lines. If None, a new axis is created.</span>
+<span class="sd">            If &#39;old&#39;, the last considered axis will be used.</span>
+<span class="sd">        - c: str, default self.color</span>
+<span class="sd">            Determines the contour lines plot. If not defined, the program will</span>
+<span class="sd">            loop over an array of 6 color which are different for the most</span>
+<span class="sd">            common vision deficiencies.</span>
+<span class="sd">        - cmap: str, default &#39;hot&#39;</span>
+<span class="sd">            Selects the colormap. If not defined, the colormap &#39;hot&#39; will be</span>
+<span class="sd">            adopted. Some useful colormaps are: plasma, magma, seismic. Please</span>
+<span class="sd">            avoid using colorbars like jjet or rainbow, which are not</span>
+<span class="sd">            perceptively uniform and not suited for people with vision</span>
+<span class="sd">            deficiencies.</span>
+<span class="sd">        - cpos: {&#39;top&#39;,&#39;bottom&#39;,&#39;left&#39;,&#39;right&#39;}, default None</span>
+<span class="sd">            Enables the colorbar (if defined), default position on the right.</span>
+<span class="sd">        - cscale: {&#39;linear&#39;,&#39;log&#39;,&#39;symlog&#39;,&#39;twoslope&#39;}, default &#39;linear&#39;</span>
+<span class="sd">            Sets the colorbar scale. Default is the linear (&#39;norm&#39;) scale.</span>
+<span class="sd">        - extend: {&#39;neither&#39;,&#39;both&#39;,&#39;min&#39;,&#39;max&#39;}, default &#39;neither&#39;</span>
+<span class="sd">            Sets the extension of the triangular colorbar extension.</span>
+<span class="sd">        - extendrect: bool, default False</span>
+<span class="sd">            If True, the colorbar extension will be rectangular.</span>
+<span class="sd">        - fontsize: float, default 17.0</span>
+<span class="sd">            Sets the fontsize for all the axis components (only for the current</span>
+<span class="sd">            axis).</span>
+<span class="sd">        - grid: bool, default False</span>
+<span class="sd">            Enables/disables the grid on the plot.</span>
+<span class="sd">        - labelsize: float, default fontsize</span>
+<span class="sd">            Sets the labels fontsize (which is the same for both labels).</span>
+<span class="sd">            The default value corresponds to the value of the keyword</span>
+<span class="sd">            &#39;fontsize&#39;.</span>
+<span class="sd">        - levels: np.ndarray</span>
+<span class="sd">            The levels of the contour lines.</span>
+<span class="sd">        - minorticks: str, default None</span>
+<span class="sd">            If not None enables the minor ticks on the plot (for both grid</span>
+<span class="sd">            axes).</span>
+<span class="sd">        - sharex: Matplotlib axis | False, default False</span>
+<span class="sd">            Shares the x-axis with another axis.</span>
+<span class="sd">        - sharey: Matplotlib axis | False, default False</span>
+<span class="sd">            Shares the y-axis with another axis.</span>
+<span class="sd">        - ticksdir: {&#39;in&#39;, &#39;out&#39;}, default &#39;in&#39;</span>
+<span class="sd">            Sets the ticks direction. The default option is &#39;in&#39;.</span>
+<span class="sd">        - tickssize: float | bool, default True</span>
+<span class="sd">            Sets the ticks fontsize (which is the same for both grid axes).</span>
+<span class="sd">            The default value corresponds to the value of the keyword</span>
+<span class="sd">            &#39;fontsize&#39;.</span>
+<span class="sd">        - title: str, default None</span>
+<span class="sd">            Places the title of the plot on top of it.</span>
+<span class="sd">        - titlepad: float, default 8.0</span>
+<span class="sd">            Sets the distance between the title and the top of the plot</span>
+<span class="sd">        - titlesize: float, default fontsize</span>
+<span class="sd">            Sets the title fontsize. The default value corresponds to the value</span>
+<span class="sd">            of the keyword &#39;fontsize&#39;.</span>
+<span class="sd">        - transpose: True/False, default False</span>
+<span class="sd">            Transposes the variable matrix. Use is not recommended if not really</span>
+<span class="sd">            necessary (e.g. in case of highly customized variables and plots).</span>
+<span class="sd">        - tresh: float, default max(abs(vmin),vmax)*0.01</span>
+<span class="sd">            Sets the threshold for the colormap. If not defined, the threshold</span>
+<span class="sd">            will be set to 1% of the maximum absolute value of the variable.</span>
+<span class="sd">            The default cases are the following:</span>
+<span class="sd">            - twoslope colorscale: sets the limit between the two linear</span>
+<span class="sd">            regimes.</span>
+<span class="sd">            - symlog: sets the limit between the logaitrhmic and the linear</span>
+<span class="sd">            regime.</span>
+<span class="sd">        - var (not optional): np.ndarray</span>
+<span class="sd">            The variable to be plotted.</span>
+<span class="sd">        - vmax: float</span>
+<span class="sd">            The maximum value of the colormap.</span>
+<span class="sd">        - vmin: float</span>
+<span class="sd">            The minimum value of the colormap.</span>
+<span class="sd">        - x1: 1D array, default &#39;Default&#39;</span>
+<span class="sd">            The &#39;x&#39; array.</span>
+<span class="sd">        - x2: 1D array, default &#39;Default&#39;</span>
+<span class="sd">            The &#39;y&#39; array.</span>
+<span class="sd">        - xrange: [float, float], default [0,1]</span>
+<span class="sd">            Sets the range in the x-direction. If not defined the code will</span>
+<span class="sd">            compute the range while plotting the data.</span>
+<span class="sd">        - xscale: {&#39;linear&#39;,&#39;log&#39;}, default &#39;linear&#39;</span>
+<span class="sd">            If enabled (and different from True), sets automatically the scale</span>
+<span class="sd">            on the x-axis. Data in log scale should be used with the keyword</span>
+<span class="sd">            &#39;log&#39;, while data in linear scale should be used with the keyword</span>
+<span class="sd">            &#39;linear&#39;.</span>
+<span class="sd">        - xticks: {[float], None, True}, default True</span>
+<span class="sd">            If enabled (and different from True), sets manually ticks on</span>
+<span class="sd">            x-axis. In order to completely remove the ticks the keyword should</span>
+<span class="sd">            be used with None.</span>
+<span class="sd">        - xtickslabels: {[str], None, True}, default True</span>
+<span class="sd">            If enabled (and different from True), sets manually the ticks</span>
+<span class="sd">            labels on the x-axis. In order to completely remove the ticks the</span>
+<span class="sd">            keyword should be used with None. Note that fixed tickslabels should</span>
+<span class="sd">            always correspond to fixed ticks.</span>
+<span class="sd">        - xtitle: str, default None</span>
+<span class="sd">            Sets and places the label of the x-axis.</span>
+<span class="sd">        - yrange: [float, float], default [0,1]</span>
+<span class="sd">            Sets the range in the y-direction. If not defined the code will</span>
+<span class="sd">            compute the range while plotting the data.</span>
+<span class="sd">        - yscale: {&#39;linear&#39;,&#39;log&#39;}, default &#39;linear&#39;</span>
+<span class="sd">            If enabled (and different from True), sets automatically the scale</span>
+<span class="sd">            on the y-axis. Data in log scale should be used with the keyword</span>
+<span class="sd">            &#39;log&#39;, while data in linear scale should be used with the keyword</span>
+<span class="sd">            &#39;linear&#39;.</span>
+<span class="sd">        - yticks: {[float], None, True}, default True</span>
+<span class="sd">            If enabled (and different from True), sets manually ticks on</span>
+<span class="sd">            y-axis. In order to completely remove the ticks the keyword should</span>
+<span class="sd">            be used with None.</span>
+<span class="sd">        - ytickslabels: {[str], None, True}, default True</span>
+<span class="sd">            If enabled (and different from True), sets manually the ticks</span>
+<span class="sd">            labels on the y-axis. In order to completely remove the ticks the</span>
+<span class="sd">            keyword should be used with None. Note that fixed tickslabels should</span>
+<span class="sd">            always correspond to fixed ticks.</span>
+<span class="sd">        - ytitle: str, default None</span>
+<span class="sd">            Sets and places the label of the y-axis.</span>
+
+<span class="sd">        ----</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: Plot a contour plot of a variable</span>
+
+<span class="sd">            &gt;&gt;&gt; I.contour(D.rho, levels=10)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
+
+        <span class="c1"># Set or create figure and axes</span>
+        <span class="n">ax</span><span class="p">,</span> <span class="n">nax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">assign_ax</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;ax&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Keyword x1 and x2</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]))))</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]))))</span>
+
+        <span class="c1"># Transpose if needed</span>
+        <span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">var</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="c1"># Set ax parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span><span class="o">.</span><span class="n">set_axis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">hide_text</span><span class="p">(</span><span class="n">nax</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">texts</span><span class="p">)</span>
+
+        <span class="c1"># Keywords vmin and vmax</span>
+        <span class="n">vmin</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmin&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+        <span class="n">vmax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmax&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+
+        <span class="c1"># Sets levels for the contour plot</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;levels&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+        <span class="c1"># Keyword for colorbar and colorscale</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">)</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">find_cmap</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">))</span>
+        <span class="n">cpos</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cpos&quot;</span><span class="p">)</span>
+        <span class="n">cscale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cscale&quot;</span><span class="p">,</span> <span class="s2">&quot;norm&quot;</span><span class="p">)</span>
+        <span class="n">tresh</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tresh&quot;</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vmin</span><span class="p">),</span> <span class="n">vmax</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">lint</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lint&quot;</span><span class="p">)</span>
+        <span class="n">lw</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lw&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;colors&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s2">&quot;cmap&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">warn</span> <span class="o">=</span> <span class="s2">&quot;Both colors and cmap are defined. Using c.&quot;</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">)</span>
+
+        <span class="c1"># Set the colorbar scale (put in function)</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">set_cscale</span><span class="p">(</span>
+            <span class="n">cscale</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">tresh</span><span class="p">,</span> <span class="n">lint</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Select shading</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+        <span class="c1"># Plot the contour plot</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="n">y</span><span class="p">,</span>
+            <span class="n">var</span><span class="p">,</span>
+            <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span>
+            <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
+            <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+            <span class="n">linewidths</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">cpos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ColorbarManager</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cnt</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># If tight_layout is enabled, is re-inforced</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tight</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">cnt</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

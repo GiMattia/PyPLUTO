@@ -1,4 +1,3 @@
-# scan_exposed.py
 import ast
 import json
 import os
@@ -10,20 +9,26 @@ from pathlib import Path
 UTILS_DIR = Path(__file__).parent.resolve()
 SRC_DIR = (UTILS_DIR / "../Src/pyPLUTO").resolve()
 JSON_FILE = UTILS_DIR / "exposed_kwargs.json"
-LOG_FILE = UTILS_DIR / "missing_kwargs.log"
-CANONICAL_FILE = UTILS_DIR / "canonical_params.csv"
-ALL_KWARGS_FILE = UTILS_DIR / "all_kwargs.csv"
-INTERNAL_KWARGS = {"check"}
 
 
-def extract_doc_params(docstring: str) -> dict[str, str]:
+def extract_doc_params(docstring: str) -> tuple[dict[str, str], int]:
     if not docstring:
-        return {}
-    lines = docstring.strip().splitlines()
-    lines = [line.rstrip() for line in lines]
+        return {}, 0
+
+    raw_lines = docstring.splitlines()
+
+    # Skip first line when checking indentation
+    indent_level = 0
+    for line in raw_lines[1:]:
+        if line.strip():
+            indent_level = len(line) - len(line.lstrip(" "))
+            break
+
+    lines = [line.rstrip() for line in raw_lines]
     param_docs = {}
     in_params = False
     i = 0
+
     while i < len(lines):
         if lines[i].strip().lower() == "parameters":
             i += 1
@@ -32,30 +37,46 @@ def extract_doc_params(docstring: str) -> dict[str, str]:
             in_params = True
             break
         i += 1
+
     current_param = None
     current_desc = []
+
+    def flush():
+        if current_param and current_desc:
+            first, *rest = current_desc
+            param_docs[current_param] = first + (
+                "\n" + " ".join(rest) if rest else ""
+            )
+
     while in_params and i < len(lines):
         line = lines[i]
-        param_match = re.match(r"^\s*(\w+)\s*:\s*(.+)", line)
+
+        # STOP if reaching next section like ---- or Examples
+        if re.match(r"^\s*-{3,}\s*$", line) or line.strip().lower().startswith(
+            "examples"
+        ):
+            flush()
+            break
+
+        param_match = re.match(
+            r"^\s*-?\s*([a-zA-Z_]\w*)[^\:]*\s*:\s*(.*)", line
+        )
         if param_match:
-            if current_param and current_desc:
-                param_docs[current_param] = " ".join(current_desc).strip()
-            current_param = param_match.group(1)
-            current_desc = []
-            i += 1
-            continue
-        if line.startswith(" ") or line.startswith("\t"):
+            flush()
+            current_param = param_match.group(1).strip()
+            current_desc = [param_match.group(2).strip()]
+        elif line.startswith(" ") or line.startswith("\t"):
             current_desc.append(line.strip())
         elif line.strip() == "":
             pass
         else:
-            if current_param and current_desc:
-                param_docs[current_param] = " ".join(current_desc).strip()
+            # Any unrecognized line = end of parameter block
+            flush()
             break
         i += 1
-    if current_param and current_desc:
-        param_docs[current_param] = " ".join(current_desc).strip()
-    return param_docs
+
+    flush()
+    return param_docs, indent_level
 
 
 def find_python_files(root: Path):
@@ -221,7 +242,9 @@ def recursive_scan(class_map, class_node, func_name, visited=None):
 def scan():
     print("Parsing source files...")
     file_to_tree = {}
-    for pyfile in find_python_files(SRC_DIR):
+    # for pyfile in find_python_files(SRC_DIR):
+    for pyfile in [SRC_DIR / "imagetools.py"]:
+        print(pyfile)
         try:
             with open(pyfile, encoding="utf-8") as f:
                 tree = ast.parse(f.read(), filename=str(pyfile))
@@ -246,15 +269,38 @@ def scan():
                     continue
                 for method in exposed_methods:
                     func_node = get_function_node(node, method)
-                    docstring = ast.get_docstring(func_node) or ""
-                    doc_params = extract_doc_params(docstring)
+                    docstring_raw = (
+                        ast.get_docstring(func_node, clean=False) or ""
+                    )
+                    doc_params, indent = extract_doc_params(docstring_raw)
                     func_args = (
                         get_function_args(func_node) if func_node else []
                     )
                     kwargs = recursive_scan(class_map, node, method)
 
-                    arg_dict = {arg: arg in doc_params for arg in func_args}
-                    kwarg_dict = {kw: kw in doc_params for kw in kwargs}
+                    normalized_doc_params = {
+                        k.strip(): v for k, v in doc_params.items()
+                    }
+                    arg_dict = dict(
+                        sorted(
+                            {
+                                arg: normalized_doc_params.get(
+                                    arg.strip(), None
+                                )
+                                for arg in func_args
+                                if arg != "check"
+                            }.items()
+                        )
+                    )
+                    kwarg_dict = dict(
+                        sorted(
+                            {
+                                kw: normalized_doc_params.get(kw.strip(), None)
+                                for kw in kwargs
+                                if kw != "check"
+                            }.items()
+                        )
+                    )
                     all_kwargs.update(kwargs)
 
                     for param, desc in doc_params.items():
@@ -267,44 +313,13 @@ def scan():
                             "method": method,
                             "args": arg_dict,
                             "kwargs": kwarg_dict,
-                            "docstring": docstring,
+                            "indent": indent,
                         }
                     )
 
     with open(JSON_FILE, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
     print(f"📄 JSON with docstrings written to {JSON_FILE}")
-    """
-    # Canonical param descriptions
-    canonical_map = {}
-    with open(CANONICAL_FILE, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["param", "status", "canonical_description"])
-        for param, descs in sorted(docstring_registry.items()):
-            if len(descs) == 1:
-                desc = next(iter(descs))
-                canonical_map[param] = desc
-                writer.writerow([param, "ok", desc])
-            else:
-                writer.writerow(
-                    [param, "conflict", " ||| ".join(sorted(descs))]
-                )
-    print(f"📄 Canonical param descriptions written to {CANONICAL_FILE}")
-
-    with open(ALL_KWARGS_FILE, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["key", "description"])
-        for kwarg in sorted(all_kwargs):
-            writer.writerow([kwarg, canonical_map.get(kwarg, "")])
-    print(f"📄 All kwargs written to {ALL_KWARGS_FILE}")
-
-    print("\n🔍 Conflicts detected:")
-    for param, descs in docstring_registry.items():
-        if len(descs) > 1:
-            print(f"⚠️ '{param}':")
-            for d in descs:
-                print(f"   - {d}")
-    """
 
 
 if __name__ == "__main__":

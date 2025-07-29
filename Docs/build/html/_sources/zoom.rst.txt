@@ -3,7 +3,7 @@
 Image.zoom
 =============
 
-.. automethod:: pyPLUTO.zoom.ZoomManager.zoom
+.. automethod:: pyPLUTO.imagefuncs.zoom.ZoomManager.zoom
 
 |
 

@@ -16,12 +16,12 @@ sys.path.insert(0, os.path.abspath("../../Src/pyPLUTO/"))
 
 project: str = "PyPLUTO"
 copyright: str = (
-    "2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya"
+    "2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya"
 )
 author: str = (
     "G. Mattia D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya"
 )
-release: str = "1.0"
+release: str = "1.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -40,7 +40,7 @@ intersphinx_mapping = {
 }
 
 templates_path = ["_templates"]
-exclude_patterns = []
+# exclude_patterns = []
 autoclass_content = "both"
 
 numpydoc_show_class_members = False

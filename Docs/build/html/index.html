@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Welcome to PyPLUTO’s documentation! &#8212; PyPLUTO 1.0 documentation</title>
+    <title>Welcome to PyPLUTO’s documentation! &#8212; PyPLUTO 1.1 documentation</title>
   
   
   
@@ -31,7 +31,7 @@
 <link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=7abc8560" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,13 +39,13 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/documentation_options.js?v=56dcb7b8"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation" href="install.html" />
+    <link rel="next" title="Install" href="install.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -110,7 +110,7 @@
   
   
   
-    <p class="title logo__title">PyPLUTO 1.0 documentation</p>
+    <p class="title logo__title">PyPLUTO 1.1 documentation</p>
   
 </a></div>
     
@@ -126,7 +126,7 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="install.html">
-    Installation
+    Install
   </a>
 </li>
 
@@ -154,7 +154,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="gui.html">
-    The GUI
+    GUI
   </a>
 </li>
 
@@ -176,6 +176,13 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="faq.html">
     FAQs
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="contributing.html">
+    Contribute
   </a>
 </li>
 
@@ -259,7 +266,7 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="install.html">
-    Installation
+    Install
   </a>
 </li>
 
@@ -287,7 +294,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="gui.html">
-    The GUI
+    GUI
   </a>
 </li>
 
@@ -302,6 +309,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="faq.html">
     FAQs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="contributing.html">
+    Contribute
   </a>
 </li>
 
@@ -373,9 +387,12 @@ to quickly recover effective plots that are suited for scientific publications.<
 <h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#creating-a-conda-environment">Creating a Conda Environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="install.html#installation-with-pip">Installation with pip</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#installation-without-pip">Installation without pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#installing-with-pipenv">Installing with <cite>pipenv</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#installing-with-uv">Installing with <cite>uv</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#issues">Issues</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="loadclass.html">Loading</a><ul>
@@ -403,7 +420,8 @@ to quickly recover effective plots that are suited for scientific publications.<
 <li class="toctree-l2"><a class="reference internal" href="imageclass.html#amr-blocks">AMR blocks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="gui.html">The GUI</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gui.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html#load-the-data-with-the-gui">Load the data with the GUI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html#selecting-the-variable-with-the-gui">Selecting the variable with the GUI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html#plotting-the-data-with-the-gui">Plotting the data with the GUI</a></li>
@@ -428,6 +446,16 @@ to quickly recover effective plots that are suited for scientific publications.<
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQs</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="faq.html#how-do-i-install-pypluto">How do I install PyPLUTO?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="faq.html#can-i-use-pypluto-with-python-3-9">Can I use PyPLUTO with Python 3.9?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribute</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#installation-guidelines">Installation guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pre-commit-hooks">Pre-commit Hooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#code-style">Code style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#code-structure">Code Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#questions-or-suggestions">Questions or Suggestions?</a></li>
 </ul>
 </li>
 </ul>
@@ -465,7 +493,7 @@ to quickly recover effective plots that are suited for scientific publications.<
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Installation</p>
+        <p class="prev-next-title">Install</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -518,7 +546,7 @@ to quickly recover effective plots that are suited for scientific publications.<
 
   <p class="copyright">
     
-      © Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      © Copyright 2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       <br/>
     
   </p>

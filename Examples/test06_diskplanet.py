@@ -24,10 +24,14 @@ different quantities in the same region.
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO
 
-# Loading the data into a pload object D
-Data = pyPLUTO.Load(path="Test_Problems/HD/Disk_Planet")
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("HD/Disk_Planet")
+
+# Load data
+Data = pyPLUTO.Load(path=data_path)
 
 # Creating the image and the subplot axes (to have two zoom simultaneously)
 Image = pyPLUTO.Image()
@@ -66,10 +70,10 @@ Image.zoom(
     cscale="linear",
     vmin=-1.2,
     vmax=1.2,
-    ax=ax,
+    ax=0,
     title=r"$v_\phi - \Omega R$",
 )
 
 # Saving the image and showing the plots
-Image.savefig("test06_diskplanet.png")
+Image.savefig("test06_diskplanet.png", script_relative=True)
 pyPLUTO.show()

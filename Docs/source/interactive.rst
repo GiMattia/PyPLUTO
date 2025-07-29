@@ -3,7 +3,7 @@
 Image.interactive
 =================
 
-.. automethod:: pyPLUTO.interactive.InteractiveManager.interactive
+.. automethod:: pyPLUTO.imagefuncs.interactive.InteractiveManager.interactive
 
 |
 

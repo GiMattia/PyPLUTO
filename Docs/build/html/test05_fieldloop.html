@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Test 05 - MHD Field loop test &#8212; PyPLUTO 1.0 documentation</title>
+    <title>Test 05 - MHD Field loop test &#8212; PyPLUTO 1.1 documentation</title>
   
   
   
@@ -31,7 +31,7 @@
 <link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=7abc8560" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/documentation_options.js?v=56dcb7b8"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'test05_fieldloop';</script>
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">PyPLUTO 1.0 documentation</p>
+    <p class="title logo__title">PyPLUTO 1.1 documentation</p>
   
 </a></div>
     
@@ -127,7 +127,7 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="install.html">
-    Installation
+    Install
   </a>
 </li>
 
@@ -155,7 +155,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="gui.html">
-    The GUI
+    GUI
   </a>
 </li>
 
@@ -177,6 +177,13 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="faq.html">
     FAQs
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="contributing.html">
+    Contribute
   </a>
 </li>
 
@@ -254,7 +261,7 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="install.html">
-    Installation
+    Install
   </a>
 </li>
 
@@ -282,7 +289,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="gui.html">
-    The GUI
+    GUI
   </a>
 </li>
 
@@ -297,6 +304,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="faq.html">
     FAQs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="contributing.html">
+    Contribute
   </a>
 </li>
 
@@ -427,8 +441,11 @@
 <span class="c1"># Loading the relevant packages</span>
 <span class="kn">import</span> <span class="nn">pyPLUTO</span>
 
-<span class="c1"># Loading the data into a pload object D</span>
-<span class="n">Data</span> <span class="o">=</span> <span class="n">pyPLUTO</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;Test_Problems/MHD/Field_Loop&quot;</span><span class="p">)</span>
+<span class="c1"># Set the relative path to the data folder</span>
+<span class="n">data_path</span> <span class="o">=</span> <span class="n">pyPLUTO</span><span class="o">.</span><span class="n">find_example</span><span class="p">(</span><span class="s2">&quot;MHD/Field_Loop&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load data</span>
+<span class="n">Data</span> <span class="o">=</span> <span class="n">pyPLUTO</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">data_path</span><span class="p">)</span>
 
 <span class="c1"># Creating the image</span>
 <span class="n">Image</span> <span class="o">=</span> <span class="n">pyPLUTO</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">suptitle</span><span class="o">=</span><span class="s2">&quot;Test 05 - MHD Field loop test&quot;</span><span class="p">)</span>
@@ -493,7 +510,7 @@
 <span class="n">Image</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 
 <span class="c1"># Saving the image and showing the plots</span>
-<span class="n">Image</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;test05_fieldloop.png&quot;</span><span class="p">)</span>
+<span class="n">Image</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;test05_fieldloop.png&quot;</span><span class="p">,</span> <span class="n">script_relative</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">pyPLUTO</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -562,7 +579,7 @@
 
   <p class="copyright">
     
-      © Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      © Copyright 2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       <br/>
     
   </p>

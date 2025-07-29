@@ -13,6 +13,7 @@ from .imagefuncs.imagetools import ImageToolsManager
 from .imagefuncs.interactive import InteractiveManager
 from .imagefuncs.legend import LegendManager
 from .imagefuncs.plot import PlotManager
+from .imagefuncs.range import RangeManager
 from .imagefuncs.scatter import ScatterManager
 from .imagefuncs.set_axis import AxisManager
 from .imagefuncs.streamplot import StreamplotManager
@@ -137,6 +138,7 @@ class Image(ImageMixin):
         self.InteractiveManager = InteractiveManager(self.state)
         self.LegendManager = LegendManager(self.state)
         self.PlotManager = PlotManager(self.state)
+        self.RangeManager = RangeManager(self.state)
         self.ScatterManager = ScatterManager(self.state)
         self.StreamplotManager = StreamplotManager(self.state)
         self.ZoomManager = ZoomManager(self.state)

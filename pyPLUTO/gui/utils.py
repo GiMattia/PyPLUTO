@@ -51,7 +51,7 @@ def update_axes(self):
     vmin = self.datadict.pop("vmin", self.var.min())
     vmax = self.datadict.pop("vmax", self.var.max())
     ctresh = self.datadict.pop("tresh", max(np.abs(vmin), vmax) * 0.01)
-    norm = self.I._set_cscale(cscale, vmin, vmax, ctresh)
+    norm = self.I.ImageToolsManager.set_cscale(cscale, vmin, vmax, ctresh)
     for artist in self.I.ax[0].get_children():
         if isinstance(
             artist,
@@ -252,7 +252,7 @@ def set_range(self, xlim, ylim):
         self.ymax = np.maximum(ylim[1], self.ymax)
 
     ymin, ymax = (
-        self.I._range_offset(
+        self.I.RangeManager.range_offset(
             self.ymin, self.ymax, self.yscale_selector.currentText()
         )
         if self.vardim == 1

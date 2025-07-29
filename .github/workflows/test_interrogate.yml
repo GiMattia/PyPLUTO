@@ -27,5 +27,5 @@ jobs:
       - name: Generate interrogate badge
         run: |
             mkdir -p temp-badges
-            interrogate Src/pyPLUTO/ --fail-under=0 --generate-badge Docs/interrogate.svg
+            interrogate pyPLUTO/ --fail-under=0 --generate-badge Docs/interrogate.svg
   

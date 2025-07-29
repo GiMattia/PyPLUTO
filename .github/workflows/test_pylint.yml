@@ -31,7 +31,7 @@ jobs:
       - name: Run pylint and extract score
         id: lint
         run: |
-          score=$(pylint Src/pyPLUTO --score=y --fail-under=0 | tee pylint-report.txt | grep "Your code has been rated at" | sed -E 's/.* ([0-9\.]+)\/10.*/\1/')
+          score=$(pylint pyPLUTO --score=y --fail-under=0 | tee pylint-report.txt | grep "Your code has been rated at" | sed -E 's/.* ([0-9\.]+)\/10.*/\1/')
           echo "pylint-score=$score" >> $GITHUB_OUTPUT
 
       - name: Format score and color for badge

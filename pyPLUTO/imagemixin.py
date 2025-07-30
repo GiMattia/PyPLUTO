@@ -49,11 +49,14 @@ class ImageMixin:
 
     @property
     def fig(self):
+        if not hasattr(self, "state") or self.state is None:
+            return None
         return self.state.fig
 
     @fig.setter
     def fig(self, value):
-        self.state.fig = value
+        if hasattr(self, "state") and self.state is not None:
+            self.state.fig = value
 
     @property
     def figsize(self):

@@ -9,7 +9,7 @@
 
 /* Widen the secondary sidebar ("On this page") */
 .bd-sidebar-secondary {
-  max-width: 350px !important;
+  max-width: 250px !important;
 }
 
 /* Extra spacing between all main nav items */

@@ -30,7 +30,7 @@ jobs:
 
       - name: Build coverage file
         run: |
-          pytest --junitxml=pytest.xml --cov=Src/pyPLUTO --cov-report=term-missing:skip-covered Tests/  | tee pytest-coverage.txt
+          pytest --junitxml=pytest.xml --cov=pyPLUTO --cov-report=term-missing:skip-covered Tests/  | tee pytest-coverage.txt
 
 
       - name: Pytest coverage comment

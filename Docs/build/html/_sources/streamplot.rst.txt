@@ -3,7 +3,7 @@
 Image.streamplot
 ================
 
-.. automethod:: pyPLUTO.streamplot.StreamplotManager.streamplot
+.. automethod:: pyPLUTO.imagefuncs.streamplot.StreamplotManager.streamplot
 
 |
 

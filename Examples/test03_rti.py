@@ -30,8 +30,11 @@ in the static grid output section.
 # Loading the relevant packages
 import pyPLUTO
 
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("MHD/Rayleigh_Taylor")
+
 # Loading the data into a pload object D
-Data = pyPLUTO.Load([0, 1, 2], path="Test_Problems/MHD/Rayleigh_Taylor")
+Data = pyPLUTO.Load([0, 1, 2], path=data_path)
 
 # Creating the image
 Image = pyPLUTO.Image(
@@ -70,5 +73,5 @@ for i in [0, 1, 2]:
 Image.colorbar(axs=0, cax=-1, clabel=r"$\rho$")
 
 # Saving the image and showing the plots
-Image.savefig("test03_rti.png")
+Image.savefig("test03_rti.png", script_relative=True)
 pyPLUTO.show()

@@ -3,7 +3,7 @@
 pyPLUTO.show
 ============
 
-.. autofunction:: pyPLUTO.show
+.. autofunction:: pyPLUTO.imagefuncs.imagetools.ImageToolsManager.show
 
 |
 

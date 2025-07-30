@@ -3,7 +3,7 @@
 Image.set_axis
 ==============
 
-.. automethod:: pyPLUTO.set_axis.AxisManager.set_axis
+.. automethod:: pyPLUTO.imagefuncs.set_axis.AxisManager.set_axis
 
 |
 

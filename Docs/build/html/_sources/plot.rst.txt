@@ -3,7 +3,7 @@
 Image.plot
 =============
 
-.. automethod:: pyPLUTO.plot.PlotManager.plot
+.. automethod:: pyPLUTO.imagefuncs.plot.PlotManager.plot
 
 |
 

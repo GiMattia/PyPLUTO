@@ -3,7 +3,7 @@
 Image.contour
 =============
 
-.. automethod:: pyPLUTO.contour.ContourManager.contour
+.. automethod:: pyPLUTO.imagefuncs.contour.ContourManager.contour
 
 |
 

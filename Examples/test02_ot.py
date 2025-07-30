@@ -18,8 +18,11 @@ display method. The image is then saved and shown on screen.
 # Loading the relevant packages
 import pyPLUTO
 
-# Loading the data into a pload object D
-Data = pyPLUTO.Load(path="Test_Problems/MHD/Orszag_Tang")
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("MHD/Orszag_Tang")
+
+# Load data
+Data = pyPLUTO.Load(path=data_path)
 
 # Creating the image
 Image = pyPLUTO.Image(figsize=[7, 6])
@@ -38,5 +41,5 @@ Image.display(
 )
 
 # Saving the image and showing the plot
-Image.savefig("test02_ot.png")
+Image.savefig("test02_ot.png", script_relative=True)
 pyPLUTO.show()

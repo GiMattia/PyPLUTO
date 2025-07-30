@@ -59,15 +59,7 @@ pip install ./
 ```
 
 Ensure that you are using Python 3.10 or newer, as the package is compatible from this version onwards.
-
-### Installation without pip
-
-If you need to install the package without pip, you can do so by navigating to the source directory and using the `setup.py` file. Run the commands below:
-
-```bash
-cd Src
-python setup.py install
-```
+Installation through pipenv or uv is also possible (see the documentation).
 
 This method allows installation in a non-editable mode, and it is recommended to use a virtual environment to avoid conflicts with other packages.
 
@@ -110,6 +102,18 @@ an extensive tests suite with all the necessary data.
 In this way, PyPLUTO can be explored without any knowledge of the PLUTO code.
 All the tests are located in the `Examples` directory and are aimed at showing
 how to exploit the package capabilities.
+
+## The GUI
+
+A Graphical User Interface has been implemented in order to simplify and enhance the visualization and analysis of simulation data.
+The GUI is built with PyQt6 and allows users to load and visualize 1D and 2D fluid data (or slices) from PLUTO simulations.
+To run the GUI after the package installation, one should simply run the command
+
+```bash
+pypluto-gui
+```
+
+from the terminal. More details on how to use the GUI can be found in the documentation.
 
 ## Documentation
 

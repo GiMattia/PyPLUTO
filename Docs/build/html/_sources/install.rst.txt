@@ -1,22 +1,28 @@
-Installation
-============
+Install
+=======
 
 The latest version of the *PyPLUTO* code is officially distributed with the
-*PLUTO* code. This can be downloaded from PlutoDownload_.
+*gPLUTO* code. This can be downloaded from gPlutoDownload_.
 
-.. _PlutoDownload: http://plutocode.ph.unito.it/download.html
+.. _gPlutoDownload: https://gitlab.com/PLUTO-code/gPLUTO
 
 The current version of *PyPLUTO* has been updated to support Python version 3.10
 or newer.
-Additional packages that are required are numpy, matplotlib, scipy, pandas and
-h5py (although the latter is not mandatory).
+Additional packages that are required are numpy, matplotlib, scipy, pandas, 
+Pyqt6 and h5py.
 
-All the relevant files are stored in the PyPLUTO directory, whichcan be accessed
-by typing:
+All the relevant files are stored in the PyPLUTO directory, which can be 
+accessed by typing:
 
 .. code-block:: console
 
-   $ cd $PLUTO_DIR/Tools/pyPLUTO
+   $ cd $PLUTO_DIR/Tools/PyPLUTO
+
+Alternatively, the PyPLUTO directory can be cloned from the GitHub repository:
+
+.. code-block:: console
+
+   $ git clone https://github.com/GiMattia/PyPLUTO.git
 
 For the sake of simplicity, we will assume to be in the PyPLUTO directory from
 now until the end of the installation process.
@@ -25,92 +31,100 @@ now until the end of the installation process.
 
 ----
 
-Installation with pip
----------------------
+Creating a Conda Environment
+----------------------------
 
-The easiest and most efficient PyPLUTO installation is through pip, which can
-be done in two ways:
+If you use conda, you can set up a dedicated environment using
+`conda <https://docs.conda.io/en/latest/>`_:
 
-1. The first method is to install PyPLUTO from the main directory through the
-command:
+1. Create the environment:
 
-.. code-block:: console
+   .. code-block:: console
 
-   (.venv) $ pip install -e ./
+      $ conda create -n pypluto python=3.10
 
-2. If this procedure does not work another installation is possible.
-This time the installation is done from the Src directory through the setup.py
-file:
+2. Activate the environment:
 
-.. code-block:: console
+   .. code-block:: console
 
-   (.venv) $ cd Src
-   Src$ pip install -e ./
-
-Note that in this way, if you are working with conda, your installation will be
-always confined within your conda environment.
-
-Installation without pip
-------------------------
-
-If pip has not been installed a global installation through the ``setup.py``
-can be done:
-
-.. code-block:: console
-
-   (.venv) $ cd Src
-   Src$ python setup.py install
-
-
-However, a good pratice is to create your own PYTHONPATH
-and do a local install in the following way:
-
-1. Create a directory where to store this module.
-This directory does not need to be in the PyPLUTO folder, it can be in the $HOME
-directory or any of its subfolders. For the sake of simplicity we will assume
-that this directory will be created as a direct subfolder of the HOME directory:
-
-.. code-block:: console
-
-  (.venv) $ cd
-  $ mkdir MyPython_Modules
-
-2. Go back to the PyPLUTO directory:
-
-.. code-block:: console
-
-  $ cd $PLUTO_DIR/Tools/pyPLUTO/Src
-
-3. Install the code in the directory created:
-
-.. code-block:: console
-
-  (.venv)/Src$ python setup.py install --prefix=~/MyPython_Modules
-
-Remember that, in case you created the ``MyPython_Modules`` folder in a
-different location you should install the code following:
-
-.. code-block:: console
-
-  (.venv)/Src$ python setup.py install --prefix=<path to MyPython_Modules>
-
-4. Append the following in your ``~/.bashrc`` file:
-
-.. code-block:: console
-
-  export PYTHONPATH =~/MyPython_Modules/lib/python<ver>/site-packages
-  export PATH =~/MyPython_Modules/bin:$PATH
-
-where ``<ver>`` indicates the python version used to install PyPLUTO.
-
-5. Update the ``~/.bashrc`` file:
-
-.. code-block:: console
-
-  (.venv)/Src$ source ~/.bashrc
+      $ conda activate pypluto
 
 |
 
 ----
+
+
+Installation with pip
+---------------------
+
+The recommended installation method is using `pip`, directly from the root of 
+the PyPLUTO project. Make sure you are in a clean virtual environment:
+
+.. code-block:: console
+
+   (.venv) $ pip install -e .
+
+This installs *PyPLUTO* in **editable mode**, meaning local changes to the 
+source files are immediately reflected without reinstalling.
+
+|
+
+----
+
+Installing with `pipenv`
+------------------------
+
+If you use `pipenv` as your dependency manager, you can install *PyPLUTO* from a
+local path using:
+
+.. code-block:: console
+
+   $ pipenv install -e .
+
+To enter the virtual environment:
+
+.. code-block:: console
+
+   $ pipenv shell
+
+|
+
+----
+
+Installing with `uv`
+--------------------
+
+If you prefer a fast, modern alternative, you can use 
+[`uv`](https://github.com/astral-sh/uv):
+
+1. Create and activate a virtual environment:
+
+   .. code-block:: console
+
+      $ uv venv
+      $ source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+
+2. Install *PyPLUTO* in editable mode:
+
+   .. code-block:: console
+
+      (.venv) $ uv pip install -e .
+
+|
+
+----
+
+Issues
+------
+
+If you encounter any issues during the installation, plaease check that you have
+the required dependencies installed, and run the command
+
+.. code-block:: console
+
+    (.venv) $ pip install --upgrade pip setuptools wheel
+
+If the problem persists, feel free to open an issue on the GitHub repository
+or contact the maintainers.
 
 .. This is a comment to prevent the document from ending with a transition.

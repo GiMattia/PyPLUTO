@@ -15,12 +15,15 @@ shown on screen.
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO
 
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("HD/Viscosity/Flow_Past_Cylinder")
+
+
 # Load the data (4 levels of AMR)
-Data = pyPLUTO.Load(
-    path="Test_Problems/HD/Viscosity/Flow_Past_Cylinder", level=4
-)
+Data = pyPLUTO.Load(path=data_path, level=4)
 
 # Convert the grid to cartesian
 rr, pphh = np.meshgrid(Data.x1r, Data.x2r, indexing="ij")
@@ -50,5 +53,5 @@ Image.display(
 Image.oplotbox(Data.AMRLevel, lrange=[0, 2], geom=Data.geom)
 
 # Save and show the figure
-Image.savefig("test13_flowpastcyl.png")
+Image.savefig("test13_flowpastcyl.png", script_relative=True)
 pyPLUTO.show()

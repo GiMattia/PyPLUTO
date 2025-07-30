@@ -3,7 +3,7 @@
 Image.scatter
 =============
 
-.. automethod:: pyPLUTO.scatter.ScatterManager.scatter
+.. automethod:: pyPLUTO.imagefuncs.scatter.ScatterManager.scatter
 
 |
 

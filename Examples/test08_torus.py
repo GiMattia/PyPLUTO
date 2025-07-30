@@ -21,10 +21,14 @@ grid. The image is then saved and shown on screen.
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO
 
-# Loading the data into a pload object D
-Data = pyPLUTO.Load(path="Test_Problems/MHD/Torus")
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("MHD/Torus")
+
+# Load data
+Data = pyPLUTO.Load(path=data_path)
 
 # Creating the image
 Image = pyPLUTO.Image(
@@ -87,5 +91,5 @@ Image.plot(lines[1][0], lines[1][1], ax=1, c="gray")
 Image.plot(lines[2][0], lines[2][1], ax=1, c="gray")
 
 # Saving the image and showing the plots
-Image.savefig("test08_torus.png")
+Image.savefig("test08_torus.png", script_relative=True)
 pyPLUTO.show()

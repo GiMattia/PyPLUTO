@@ -22,8 +22,11 @@ in the static grid output section.
 # Loading the relevant packages
 import pyPLUTO
 
-# Loading the data into a pload object D
-Data = pyPLUTO.Load("all", datatype="vtk", path="Test_Problems/HD/Riemann_2D")
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("HD/Riemann_2D")
+
+# Load data
+Data = pyPLUTO.Load("all", datatype="vtk", path=data_path)
 
 # Creating the image
 Image = pyPLUTO.Image(figsize=[7, 7])
@@ -42,4 +45,4 @@ Image.interactive(
 )
 
 # Saving the gif of the animation
-Image.animate("test10_riemann2d.gif")
+Image.animate("test10_riemann2d.gif", script_relative=True)

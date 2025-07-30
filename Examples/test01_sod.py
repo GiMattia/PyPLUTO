@@ -24,8 +24,11 @@ Conversely, the pp.show displays all the figures generated in the script
 # Loading the relevant packages
 import pyPLUTO
 
-# Loading the data into a pload object D
-Data = pyPLUTO.Load(path="Test_Problems/HD/Sod")
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("HD/Sod")
+
+# Load data
+Data = pyPLUTO.Load(path=data_path)
 
 # Creating the image
 Image = pyPLUTO.Image(figsize=[7, 5])
@@ -45,6 +48,7 @@ Image.plot(
 Image.plot(Data.x1, Data.prs, label=r"$p$")
 Image.plot(Data.x1, Data.vx1, label=r"$v_x$")
 
-# Saving the image and showing the plot
-Image.savefig("test01_sod.png")
+# Saving the image and showing the plot in the Examples folder
+# (i.e., where the file test01_sod.py is located)
+Image.savefig("test01_sod.png", script_relative=True)
 pyPLUTO.show()

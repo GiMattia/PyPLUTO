@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Installation &#8212; PyPLUTO 1.0 documentation</title>
+    <title>Install &#8212; PyPLUTO 1.1 documentation</title>
   
   
   
@@ -31,7 +31,7 @@
 <link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=7abc8560" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/documentation_options.js?v=56dcb7b8"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'install';</script>
@@ -111,7 +111,7 @@
   
   
   
-    <p class="title logo__title">PyPLUTO 1.0 documentation</p>
+    <p class="title logo__title">PyPLUTO 1.1 documentation</p>
   
 </a></div>
     
@@ -127,7 +127,7 @@
     
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#">
-    Installation
+    Install
   </a>
 </li>
 
@@ -155,7 +155,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="gui.html">
-    The GUI
+    GUI
   </a>
 </li>
 
@@ -177,6 +177,13 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="faq.html">
     FAQs
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="contributing.html">
+    Contribute
   </a>
 </li>
 
@@ -258,7 +265,7 @@
     
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#">
-    Installation
+    Install
   </a>
 </li>
 
@@ -286,7 +293,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="gui.html">
-    The GUI
+    GUI
   </a>
 </li>
 
@@ -301,6 +308,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="faq.html">
     FAQs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="contributing.html">
+    Contribute
   </a>
 </li>
 
@@ -370,7 +384,7 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Installation</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Install</span></li>
   </ul>
 </nav>
 </div>
@@ -387,17 +401,21 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
+  <section id="install">
+<h1>Install<a class="headerlink" href="#install" title="Link to this heading">#</a></h1>
 <p>The latest version of the <em>PyPLUTO</em> code is officially distributed with the
-<em>PLUTO</em> code. This can be downloaded from <a class="reference external" href="http://plutocode.ph.unito.it/download.html">PlutoDownload</a>.</p>
+<em>gPLUTO</em> code. This can be downloaded from <a class="reference external" href="https://gitlab.com/PLUTO-code/gPLUTO">gPlutoDownload</a>.</p>
 <p>The current version of <em>PyPLUTO</em> has been updated to support Python version 3.10
 or newer.
-Additional packages that are required are numpy, matplotlib, scipy, pandas and
-h5py (although the latter is not mandatory).</p>
-<p>All the relevant files are stored in the PyPLUTO directory, whichcan be accessed
-by typing:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$PLUTO_DIR</span>/Tools/pyPLUTO
+Additional packages that are required are numpy, matplotlib, scipy, pandas,
+Pyqt6 and h5py.</p>
+<p>All the relevant files are stored in the PyPLUTO directory, which can be
+accessed by typing:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$PLUTO_DIR</span>/Tools/PyPLUTO
+</pre></div>
+</div>
+<p>Alternatively, the PyPLUTO directory can be cloned from the GitHub repository:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/GiMattia/PyPLUTO.git
 </pre></div>
 </div>
 <p>For the sake of simplicity, we will assume to be in the PyPLUTO directory from
@@ -406,78 +424,88 @@ now until the end of the installation process.</p>
 <div class="line"><br /></div>
 </div>
 <hr class="docutils" />
+<section id="creating-a-conda-environment">
+<h2>Creating a Conda Environment<a class="headerlink" href="#creating-a-conda-environment" title="Link to this heading">#</a></h2>
+<p>If you use conda, you can set up a dedicated environment using
+<a class="reference external" href="https://docs.conda.io/en/latest/">conda</a>:</p>
+<ol class="arabic">
+<li><p>Create the environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>pypluto<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+</pre></div>
+</div>
+</li>
+<li><p>Activate the environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>pypluto
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
 <section id="installation-with-pip">
 <h2>Installation with pip<a class="headerlink" href="#installation-with-pip" title="Link to this heading">#</a></h2>
-<p>The easiest and most efficient PyPLUTO installation is through pip, which can
-be done in two ways:</p>
-<p>1. The first method is to install PyPLUTO from the main directory through the
-command:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>./
+<p>The recommended installation method is using <cite>pip</cite>, directly from the root of
+the PyPLUTO project. Make sure you are in a clean virtual environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
-<p>2. If this procedure does not work another installation is possible.
-This time the installation is done from the Src directory through the setup.py
-file:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>Src
-<span class="go">Src$ pip install -e ./</span>
-</pre></div>
+<p>This installs <em>PyPLUTO</em> in <strong>editable mode</strong>, meaning local changes to the
+source files are immediately reflected without reinstalling.</p>
+<div class="line-block">
+<div class="line"><br /></div>
 </div>
-<p>Note that in this way, if you are working with conda, your installation will be
-always confined within your conda environment.</p>
 </section>
-<section id="installation-without-pip">
-<h2>Installation without pip<a class="headerlink" href="#installation-without-pip" title="Link to this heading">#</a></h2>
-<p>If pip has not been installed a global installation through the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>
-can be done:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>Src
-<span class="go">Src$ python setup.py install</span>
+<hr class="docutils" />
+<section id="installing-with-pipenv">
+<h2>Installing with <cite>pipenv</cite><a class="headerlink" href="#installing-with-pipenv" title="Link to this heading">#</a></h2>
+<p>If you use <cite>pipenv</cite> as your dependency manager, you can install <em>PyPLUTO</em> from a
+local path using:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pipenv<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
-<p>However, a good pratice is to create your own PYTHONPATH
-and do a local install in the following way:</p>
-<p>1. Create a directory where to store this module.
-This directory does not need to be in the PyPLUTO folder, it can be in the $HOME
-directory or any of its subfolders. For the sake of simplicity we will assume
-that this directory will be created as a direct subfolder of the HOME directory:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span><span class="nb">cd</span>
-<span class="gp">$ </span>mkdir<span class="w"> </span>MyPython_Modules
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>Go back to the PyPLUTO directory:</p></li>
-</ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$PLUTO_DIR</span>/Tools/pyPLUTO/Src
-</pre></div>
-</div>
-<ol class="arabic simple" start="3">
-<li><p>Install the code in the directory created:</p></li>
-</ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span><span class="go">/Src$ python setup.py install --prefix=~/MyPython_Modules</span>
-</pre></div>
-</div>
-<p>Remember that, in case you created the <code class="docutils literal notranslate"><span class="pre">MyPython_Modules</span></code> folder in a
-different location you should install the code following:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span><span class="go">/Src$ python setup.py install --prefix=&lt;path to MyPython_Modules&gt;</span>
-</pre></div>
-</div>
-<ol class="arabic simple" start="4">
-<li><p>Append the following in your <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file:</p></li>
-</ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export PYTHONPATH =~/MyPython_Modules/lib/python&lt;ver&gt;/site-packages</span>
-<span class="go">export PATH =~/MyPython_Modules/bin:$PATH</span>
-</pre></div>
-</div>
-<p>where <code class="docutils literal notranslate"><span class="pre">&lt;ver&gt;</span></code> indicates the python version used to install PyPLUTO.</p>
-<ol class="arabic simple" start="5">
-<li><p>Update the <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file:</p></li>
-</ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span><span class="go">/Src$ source ~/.bashrc</span>
+<p>To enter the virtual environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pipenv<span class="w"> </span>shell
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+</section>
 <hr class="docutils" />
+<section id="installing-with-uv">
+<h2>Installing with <cite>uv</cite><a class="headerlink" href="#installing-with-uv" title="Link to this heading">#</a></h2>
+<p>If you prefer a fast, modern alternative, you can use
+[<cite>uv</cite>](<a class="github reference external" href="https://github.com/astral-sh/uv">astral-sh/uv</a>):</p>
+<ol class="arabic">
+<li><p>Create and activate a virtual environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>uv<span class="w"> </span>venv
+<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w">  </span><span class="c1"># or .venv\Scripts\activate on Windows</span>
+</pre></div>
+</div>
+</li>
+<li><p>Install <em>PyPLUTO</em> in editable mode:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="issues">
+<h2>Issues<a class="headerlink" href="#issues" title="Link to this heading">#</a></h2>
+<p>If you encounter any issues during the installation, plaease check that you have
+the required dependencies installed, and run the command</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(.venv)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip<span class="w"> </span>setuptools<span class="w"> </span>wheel
+</pre></div>
+</div>
+<p>If the problem persists, feel free to open an issue on the GitHub repository
+or contact the maintainers.</p>
 </section>
 </section>
 
@@ -528,8 +556,11 @@ different location you should install the code following:</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">Creating a Conda Environment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-with-pip">Installation with pip</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-without-pip">Installation without pip</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-with-pipenv">Installing with <cite>pipenv</cite></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-with-uv">Installing with <cite>uv</cite></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#issues">Issues</a></li>
 </ul>
   </nav></div>
 
@@ -558,7 +589,7 @@ different location you should install the code following:</p>
 
   <p class="copyright">
     
-      © Copyright 2024, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      © Copyright 2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
       <br/>
     
   </p>

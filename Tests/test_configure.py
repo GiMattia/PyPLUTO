@@ -3,8 +3,9 @@ import sys
 import types
 import warnings
 
-import pyPLUTO as pp
 import pytest
+
+import pyPLUTO as pp
 from pyPLUTO.configure import Configure
 
 

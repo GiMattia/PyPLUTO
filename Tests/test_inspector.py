@@ -1,6 +1,6 @@
 import warnings
 
-from pyPLUTO.inspector import (
+from pyPLUTO.utils.inspector import (
     _find_kwargs_keys_from_source,
     _kwargs_state,
     find_kwargs_keys,

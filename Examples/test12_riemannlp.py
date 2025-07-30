@@ -18,13 +18,15 @@ velocity values. The image is then saved and shown on screen.
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO
 
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("Particles/LP/Riemann_2D")
+
 # Loading the data and the particle data into two pload objects
-Data_f = pyPLUTO.Load(path="Test_Problems/Particles/LP/Riemann_2D")
-Data_p = pyPLUTO.LoadPart(
-    path="Test_Problems/Particles/LP/Riemann_2D", nfile_lp=0
-)
+Data_f = pyPLUTO.Load(path=data_path)
+Data_p = pyPLUTO.LoadPart(path=data_path, nfile_lp=0)
 
 # Creating the image and the axes
 Image = pyPLUTO.Image(figsize=[9.5, 8])
@@ -59,5 +61,5 @@ pcm = Image.scatter(
 Image.colorbar(pcm, cax=2, clabel="id")
 
 # Saving the image and showing the plot
-Image.savefig("test12_riemannlp.png")
+Image.savefig("test12_riemannlp.png", script_relative=True)
 pyPLUTO.show()

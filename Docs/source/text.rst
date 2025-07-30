@@ -3,7 +3,7 @@
 Image.text
 ==========
 
-.. automethod:: pyPLUTO.imagetools.ImageToolsManager.text
+.. automethod:: pyPLUTO.imagefuncs.imagetools.ImageToolsManager.text
 
 |
 

@@ -3,7 +3,7 @@
 Image.colorbar
 ==============
 
-.. automethod:: pyPLUTO.colorbar.ColorbarManager.colorbar
+.. automethod:: pyPLUTO.imagefuncs.colorbar.ColorbarManager.colorbar
 
 |
 

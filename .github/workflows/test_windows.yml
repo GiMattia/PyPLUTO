@@ -2,8 +2,7 @@ name: Tests on Windows
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
   pull_request:
 
 jobs:
@@ -21,13 +20,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Clean untracked files & bytecode
+        shell: pwsh
         run: |
-          # remove any stray compiled or cached files
           git clean -xfd
-          # Purge any lingering pyc/__pycache__
           Get-ChildItem -Path . -Include *.pyc -Recurse | Remove-Item -Force -ErrorAction SilentlyContinue
           Get-ChildItem -Path . -Include __pycache__ -Recurse | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
-        shell: pwsh
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -41,20 +38,19 @@ jobs:
 
       - name: Install pyPLUTO in editable mode
         run: |
-          # ensure any old install is removed
           pip uninstall -y pyPLUTO || true
           pip install -e .
 
       - name: Show import path (debug)
+        shell: pwsh
         run: |
-          python - <<'PYCODE'
-          import pyPLUTO
-          print("pyPLUTO loaded from:", pyPLUTO.__file__)
-          PYCODE
+          python -c "import pyPLUTO; print('pyPLUTO loaded from:', pyPLUTO.__file__)"
 
       - name: Run Tests
+        shell: pwsh
+        env:
+          PYTHONPATH: .
         run: |
-          # force pytest to load from workdir
-          set PYTHONPATH=.
           pytest -v
         working-directory: ./Tests
+

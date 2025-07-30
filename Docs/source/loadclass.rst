@@ -1,7 +1,7 @@
 .. _loadclass:
 
-Loading the data
-================
+Loading
+=======
 
 PLUTO has several output files (for both fluids and particles), depending on the
 users' needs. The fluid variables can be written into binary files (in double or
@@ -40,6 +40,11 @@ Other h5 files can also be read through the :ref:`read_file <read_file>` method
 Note that multiple fluid files can be loaded (e.g. to have interactive plots) at
 the same time.
 
+Additionally, the definitions.h(pp) and the pluto.ini (although for the latter
+only the "boundary", "time", "parameters" and "solver" blocks) can be inspected.
+If so, the data are stored in two dictionaries (defs and plini) as class
+attributes.
+
 Loading the particles files
 ---------------------------
 
@@ -52,6 +57,76 @@ Particles are loaded as standalones, i.e. no additional file is necessary.
    :hidden:
 
    loadpart
+
+A note on the PLUTO output
+--------------------------
+
+PLUTO simulations produce a wide range of output formats for both fluid and
+particle data. Descriptor files are generated alongside the main fluid data,
+providing essential information about the grid structure and variable
+layout. Although descriptor files are essential only for the binary output
+files, is recommended to include them, especially in presence of simulations
+performed in non-cartesian geometry.
+Binary and vtk fluid files can be produced with the "multiple files" option. In
+such case, each fluid variable is saved in a separate file rather than combining
+all variables into a single output file.
+
+.. list-table::
+   :widths: 20 20 20 20 20
+   :header-rows: 1
+
+   * - Format
+     - Fluid/particles
+     - Fluid descriptor
+     - Single/multiple files
+     - Staggered variables
+   * - dbl
+     - both
+     - required
+     - both
+     - yes
+   * - flt
+     - both
+     - required
+     - both
+     - no
+   * - vtk
+     - both
+     - optional
+     - both
+     - no
+   * - dbl.h5
+     - only fluid
+     - optional
+     - single file only
+     - yes
+   * - flt.h5
+     - only fluid
+     - optional
+     - single file only
+     - no
+   * - hdf5 (AMR)
+     - only fluid
+     - optional
+     - single file only
+     - no
+   * - tab (serial, no 3D)
+     - only fluid
+     - optional
+     - single file only
+     - no
+
+What about other codes?
+-----------------------
+
+PypLUTO is tailored for the PLUTO code output, therefore major efforts will be
+dedicated to the PLUTO code files. However, being the :ref:`Image <imageclass>`
+class code independent, extensions to other codes can be done with minimal
+efforts.
+Currently, the following codes can be used in combination with PyPLUTO:
+
+- ECHO (parameters: nout, path, vars)
+- IDEFIX
 
 |
 

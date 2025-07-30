@@ -1,6 +1,9 @@
 .. _set_axis:
 
-.. autofunction:: pyPLUTO.Image.set_axis
+Image.set_axis
+==============
+
+.. automethod:: pyPLUTO.imagefuncs.set_axis.AxisManager.set_axis
 
 |
 

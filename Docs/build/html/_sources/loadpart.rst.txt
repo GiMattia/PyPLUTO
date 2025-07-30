@@ -1,5 +1,8 @@
 .. _loadpart:
 
+LoadPart class
+==============
+
 .. autoclass:: pyPLUTO.LoadPart()
 
 |

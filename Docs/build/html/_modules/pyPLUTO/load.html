@@ -1,0 +1,890 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyPLUTO.load &#8212; PyPLUTO 1.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6bda2a82" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=56dcb7b8"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyPLUTO/load';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">PyPLUTO 1.1 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tools.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../imageclass.html">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../gui.html">
+    GUI
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    FAQs
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contributing.html">
+    Contribute
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tools.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../imageclass.html">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../gui.html">
+    GUI
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    FAQs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing.html">
+    Contribute
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pyPLUTO.load</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for pyPLUTO.load</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
+
+<span class="kn">from</span> <span class="nn">.h_pypluto</span> <span class="kn">import</span> <span class="n">check_par</span>
+
+
+<div class="viewcode-block" id="Load">
+<a class="viewcode-back" href="../../load.html#pyPLUTO.Load">[docs]</a>
+<span class="k">class</span> <span class="nc">Load</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Load class loads the data (fluid) from the output files. The</span>
+<span class="sd">    initialization corresponds to the loading, if wanted, of one or more</span>
+<span class="sd">    datafiles for the fluid. The data are loaded in a memory mapped numpy</span>
+<span class="sd">    multidimensional array. Such approach does not load the full data</span>
+<span class="sd">    until needed. Basic operations (i.e. no numpy) are possible, as well</span>
+<span class="sd">    as slicing the arrays, without fully loading the data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    - None</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - alone: bool | None, default False</span>
+<span class="sd">        If the files are standalone. If False, the code will look for the</span>
+<span class="sd">        grid file in the folder. If True, the code will look for the grid</span>
+<span class="sd">        information within the data files. Should be used only for non-binary</span>
+<span class="sd">        files.</span>
+<span class="sd">    - datatype: str | None, default None</span>
+<span class="sd">        The format of the data file. If not specified, the code will look for</span>
+<span class="sd">        the format from the list of possible formats. HDF5 (AMR) formats have</span>
+<span class="sd">        not been implemented yet.</span>
+<span class="sd">    - endian: str | None, default None</span>
+<span class="sd">        Endianess of the datafiles. Should be used only if specific</span>
+<span class="sd">        architectures are used, since the code computes it by itself. Valid</span>
+<span class="sd">        values are &#39;big&#39; and &#39;little&#39; (or &#39;&lt;&#39; and &#39;&gt;&#39;).</span>
+<span class="sd">    - full3d: bool, default True</span>
+<span class="sd">        If disabled, the 3D meshgrids for the grid in non-cartesian coordinates</span>
+<span class="sd">        are not used. Instead, a combination of an external loop and2D meshgrid</span>
+<span class="sd">        is employed. The aim is to allow for cartesian meshes from non-cartesian</span>
+<span class="sd">        geometries without saturating the computer memory (suited for laptops).</span>
+<span class="sd">    - level: int, default 0</span>
+<span class="sd">        The refinement level of the grid. Should be used only if the grid is</span>
+<span class="sd">        refined through AMR.</span>
+<span class="sd">    - multiple: bool, default False</span>
+<span class="sd">        If the files are multiple. If False, the code will look for the single</span>
+<span class="sd">        files, otherwise for the multiple files each corresponding to the loaded</span>
+<span class="sd">        variables. Should be used only if both single files and multiple files</span>
+<span class="sd">        are present in the same format for the same datatype.</span>
+<span class="sd">    - nout: int | str | list | None, default &#39;last&#39;</span>
+<span class="sd">        The files to be loaded. Possible choices are int values (which</span>
+<span class="sd">        correspond to the number of the output file), strings (&#39;last&#39;, which</span>
+<span class="sd">        corresponds to the last file, &#39;all&#39;, which corresponds to all files) or</span>
+<span class="sd">        a list of the aforementioned types. Note that the &#39;all&#39; value should be</span>
+<span class="sd">        used carefully, e.g. only when the data need to be shown interactively.</span>
+<span class="sd">    - path: str, default &#39;./&#39;</span>
+<span class="sd">        The path of the folder where the files should be loaded.</span>
+<span class="sd">    - text: bool, default True</span>
+<span class="sd">        If True, the folder and output are printed. In case the user needs a</span>
+<span class="sd">        more detailed information of the structure and attributes loaded from</span>
+<span class="sd">        the class, the __str__ method provides a easy display of all the</span>
+<span class="sd">        important information.</span>
+<span class="sd">    - vars: str | list | bool | None, default True</span>
+<span class="sd">        The variables to be loaded. The default value, True, corresponds to all</span>
+<span class="sd">        the variables.</span>
+
+<span class="sd">    ----</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    - Example #1: Load the data from the default folder and output</span>
+
+<span class="sd">        &gt;&gt;&gt; D = pp.Load()</span>
+<span class="sd">        Loading folder ./,     output [0]</span>
+
+<span class="sd">    - Example #2: Load the data from the default folder but output 0</span>
+
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=0)</span>
+<span class="sd">        Loading folder ./,     output [0]</span>
+
+<span class="sd">    - Example #3: Load the data from the default folder but last output is</span>
+<span class="sd">        specified</span>
+
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=&quot;last&quot;)</span>
+<span class="sd">        Loading folder ./,     output [1]</span>
+
+<span class="sd">    - Example #4: Load the data from the default folder and all outputs</span>
+
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=&quot;all&quot;)</span>
+<span class="sd">        Loading folder ./,     output [0, 1, 2, 3, 4]</span>
+
+<span class="sd">    - Example #5: Load the data from the default folder and multiple</span>
+<span class="sd">        selected outputs</span>
+
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=[0, 1, 2])</span>
+<span class="sd">        Loading folder ./,     output [0, 1, 2]</span>
+
+<span class="sd">    - Example #6: Load the data from the default folder and multiple selected</span>
+<span class="sd">        outputs and variables</span>
+
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=[0, 1, 2], vars=[&quot;rho&quot;, &quot;vel1&quot;])</span>
+<span class="sd">        Loading folder ./,     output [0, 1, 2]</span>
+
+<span class="sd">    - Example #7: Load the data from the default folder, multiple selected</span>
+<span class="sd">        outputs and variables, without text</span>
+
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=[0, 1, 2], vars=[&quot;rho&quot;, &quot;vel1&quot;], text=False)</span>
+
+<span class="sd">    - Example #8: Load the data from the default format with selected output</span>
+<span class="sd">        and format</span>
+
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(data=&quot;vtk&quot;, nout=0)</span>
+<span class="sd">        Loading folder ./,     output [0]</span>
+
+<span class="sd">    - Example #9: Load the data from the default folder with selected output,</span>
+<span class="sd">        variables and format</span>
+
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(data=&quot;vtk&quot;, nout=0, vars=[&quot;rho&quot;, &quot;vel1&quot;])</span>
+<span class="sd">        Loading folder ./,     output [0]</span>
+
+<span class="sd">    - Example #10: Load the data from a specific folder with selected output</span>
+
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(path=&quot;./data/&quot;, nout=0)</span>
+<span class="sd">        Loading folder ./data/,     output [0]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">nout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;last&quot;</span><span class="p">,</span>
+        <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span><span class="p">,</span>
+        <span class="n">datatype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="nb">vars</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Check parameters</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;alone&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;read_defh&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;endian&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;full3d&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;level&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;multiple&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;fastvtk&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">check</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">check_par</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;__init__&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Load PyPLUTO for different codes</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;code&quot;</span><span class="p">)</span>
+        <span class="n">codedict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;echo&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">echo_load</span><span class="p">}</span>
+        <span class="c1"># If not code is provided (or the code is PLUTO/gPLUTO) just skip</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">code</span> <span class="ow">or</span> <span class="n">code</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;pluto&quot;</span><span class="p">,</span> <span class="s2">&quot;gpluto&quot;</span><span class="p">}:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="n">code</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">codedict</span><span class="p">:</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Creating instance with alternate method using code: </span><span class="si">{</span><span class="n">code</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+            <span class="n">codedict</span><span class="p">[</span><span class="n">code</span><span class="o">.</span><span class="n">lower</span><span class="p">()](</span><span class="n">nout</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="nb">vars</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Load: folder </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">,     output </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">code</span><span class="si">}</span><span class="s2"> loading is not implemented!&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if the user wants to load the data</span>
+        <span class="k">if</span> <span class="n">nout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Initialization or declaration of variables (used in this file)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># Output to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d_end</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span>  <span class="c1"># Endianess dictionary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_multiple</span><span class="p">:</span> <span class="nb">bool</span>  <span class="c1"># Bool for single or multiple files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_alone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Bool for standalone files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Bool for info (linked to alone)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d_vars</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># The dictionary of variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;level&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># The level for AMR files</span>
+
+        <span class="c1"># Initialization or declaration of variables (used in other files)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pathdir</span><span class="p">:</span> <span class="n">Path</span>  <span class="c1"># Path to the simulation directory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># The format of the files to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outlist</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># The list of outputs to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timelist</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># The list of times to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ntime</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># The time array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_vars</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>  <span class="c1"># The set of variables to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_outs</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>  <span class="c1"># The set of outputs to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geom</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># The geometry of the simulation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># The dimension of the simulation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nshp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>  <span class="c1"># The shape of the grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nfile_lp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># File number for the lp methods</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_charsize</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># The data size in the files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lennout</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># The number of outputs to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>  <span class="c1"># Info dictionary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_matching_files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>  <span class="c1"># The list of files to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pathgrid</span><span class="p">:</span> <span class="n">Path</span>  <span class="c1"># Path to the grid file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pathdata</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="kc">None</span>  <span class="c1"># Path to the data files to be loaded</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filepath</span><span class="p">:</span> <span class="n">Path</span>  <span class="c1"># The filepath to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_vars</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>  <span class="c1"># The list of variables to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>  <span class="c1"># The offset of the variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span>  <span class="c1"># The shape of the variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vardim</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>  <span class="c1"># The dimension of the variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dictdim</span><span class="p">:</span> <span class="nb">dict</span>  <span class="c1"># The dictionary of dimensions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fastvtk</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;fastvtk&quot;</span><span class="p">,</span> <span class="kc">True</span>
+        <span class="p">)</span>  <span class="c1"># Bool for fast vtk loading</span>
+
+        <span class="c1"># Declaration of the grid variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># centered grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x1r</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x2r</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x3r</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># staggered grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x1c</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x2c</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># cartesian centered grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x1rc</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x2rc</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># cartesian staggered grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dx1</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dx2</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dx3</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># cell size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nx1</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nx3</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># number of cells</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># total number of cells</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gridlist3</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x1p</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x2p</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x1rp</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x2rp</span><span class="p">:</span> <span class="n">NDArray</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gridsize_st1</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nshp_st1</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gridsize_st2</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nshp_st2</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gridsize_st3</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nshp_st3</span><span class="p">:</span> <span class="n">NDArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_full3d</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;full3d&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">_nout_out</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>  <span class="c1"># Output to be printed</span>
+
+        <span class="c1"># Check the input endianess</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d_end</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;big&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;little&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&gt;&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&lt;&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&quot;</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">endian</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;endian&quot;</span><span class="p">))</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_end</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Invalid endianess. Valid values are </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_end</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+
+        <span class="c1"># Check the input multiple</span>
+        <span class="n">multiple</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;multiple&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">multiple</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Invalid data type. &#39;multiple&#39; must be a boolean.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_multiple</span> <span class="o">=</span> <span class="n">multiple</span>
+
+        <span class="c1"># Check if the path is an existing directory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_pathformat</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="c1"># Find the format of the data files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_find_format</span><span class="p">(</span><span class="n">datatype</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alone&quot;</span><span class="p">))</span>
+
+        <span class="c1"># Find relevant information without opening the files (e.g.</span>
+        <span class="c1"># the number of files to be loaded) or opening the *.out files</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alone</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_findfiles</span><span class="p">(</span><span class="n">nout</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_read_outfile</span><span class="p">(</span><span class="n">nout</span><span class="p">,</span> <span class="n">endian</span><span class="p">)</span>
+
+        <span class="c1"># For every output load the desired variables</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">exout</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load_variables</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">exout</span><span class="p">,</span> <span class="n">endian</span><span class="p">)</span>
+
+        <span class="c1"># Assign the variables to the class</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_vars</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_vars</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+        <span class="c1"># Transpose nshp (to match with variables)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nshp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nshp</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">nshp</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># Convert ntime if only one number of a list</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ntime</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ntime</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ntime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ntime</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Print loaded folder and output</span>
+        <span class="k">if</span> <span class="n">text</span><span class="p">:</span>
+            <span class="n">_nout_out</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+                <span class="k">else</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Load: folder </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">,     output </span><span class="si">{</span><span class="n">_nout_out</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Try to read the file definitions.h</span>
+        <span class="n">defh</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;defh&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">defh</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">pathdefh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathdir</span> <span class="o">/</span> <span class="s2">&quot;definitions.h&quot;</span>
+            <span class="n">defhfile</span> <span class="o">=</span> <span class="s2">&quot;definitions.hpp&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">pathdefh</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">pathdefh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathdir</span> <span class="o">/</span> <span class="s2">&quot;definitions.hpp&quot;</span>
+                <span class="n">defhfile</span> <span class="o">=</span> <span class="s2">&quot;definitions.h&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">defh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_defh</span><span class="p">(</span><span class="n">pathdefh</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No </span><span class="si">{</span><span class="n">defhfile</span><span class="si">}</span><span class="s2"> is read!&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">defh</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="o">...</span>
+
+        <span class="c1"># Try to read the file pluto.ini</span>
+        <span class="n">plini</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plini&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plini</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">pathplini</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathdir</span> <span class="o">/</span> <span class="s2">&quot;pluto.ini&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">plini</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_plini</span><span class="p">(</span><span class="n">pathplini</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No pluto.ini is read!&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">plini</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="o">...</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">text3</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;        - Projections </span><span class="si">{</span><span class="p">[</span><span class="s1">&#39;x1c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;x2c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;x1rc&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;x2rc&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">text3</span> <span class="o">=</span> <span class="n">text3</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Load class.</span>
+<span class="s2">        It loads the data.</span>
+
+<span class="s2">        File properties:</span>
+<span class="s2">        - Current path loaded (pathdir)      </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pathdir</span><span class="si">}</span>
+<span class="s2">        - Format loaded       (format)       </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="si">}</span>
+
+<span class="s2">        Simulation properties</span>
+<span class="s2">        - Dimensions    (dim)      </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="si">}</span>
+<span class="s2">        - Geometry      (geom)     </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">geom</span><span class="si">}</span>
+<span class="s2">        - Grid size     (gridsize) </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">gridsize</span><span class="si">}</span>
+<span class="s2">        - Grid shape    (nshp)     </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nshp</span><span class="si">}</span>
+<span class="s2">        - Output loaded (nout)     </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="si">}</span>
+<span class="s2">        - Time loaded   (ntime)    </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ntime</span><span class="si">}</span>
+
+<span class="s2">        Public attributes available:</span>
+<span class="s2">        - Number of cells in each direction </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;nx1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nx2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nx3&quot;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        - Grid values (cell center)         </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x3&quot;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        - Grid values (face center)         </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;x1r&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x2r&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x3r&quot;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        - Cells size                        </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;dx1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;dx2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;dx3&quot;</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        - Time attributes                   </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;outlist&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;timelist&quot;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">text3</span><span class="si">}</span>
+<span class="s2">        Variables available:</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_info</span><span class="p">[</span><span class="s2">&quot;varslist&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        Variables loaded:</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_load_vars</span><span class="si">}</span>
+
+<span class="s2">        Public methods available:</span>
+
+<span class="s2">        - slices</span>
+<span class="s2">        - cartesian_vector</span>
+<span class="s2">        - reshape_cartesian</span>
+<span class="s2">        - write_file</span>
+<span class="s2">        - fourier</span>
+<span class="s2">        - nabla</span>
+<span class="s2">        - find_contour</span>
+<span class="s2">        - find_fieldlines</span>
+<span class="s2">        - vector_field</span>
+
+<span class="s2">        Please refrain from using &quot;private&quot; methods and attributes.</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">text</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;Load&#39; object has no attribute &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+    <span class="kn">from</span> <span class="nn">.amr</span> <span class="kn">import</span> <span class="n">_DataScanHDF5</span><span class="p">,</span> <span class="n">_inspect_hdf5</span>
+    <span class="kn">from</span> <span class="nn">.codes.echo_load</span> <span class="kn">import</span> <span class="n">echo_load</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.defpluto</span> <span class="kn">import</span> <span class="n">_read_defh</span><span class="p">,</span> <span class="n">_read_plini</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.read_files</span> <span class="kn">import</span> <span class="n">_read_dat</span><span class="p">,</span> <span class="n">_read_h5</span><span class="p">,</span> <span class="n">read_file</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.readdata</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">_assign_var</span><span class="p">,</span>
+        <span class="n">_check_nout</span><span class="p">,</span>
+        <span class="n">_findfiles</span><span class="p">,</span>
+        <span class="n">_init_vardict</span><span class="p">,</span>
+        <span class="n">_load_variables</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.readfluid</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">_compute_offset</span><span class="p">,</span>
+        <span class="n">_inspect_h5</span><span class="p">,</span>
+        <span class="n">_inspect_vtk</span><span class="p">,</span>
+        <span class="n">_offset_bin</span><span class="p">,</span>
+        <span class="n">_read_tabfile</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.readformat</span> <span class="kn">import</span> <span class="n">_check_pathformat</span><span class="p">,</span> <span class="n">_find_format</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.readgridout</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">_read_grid_h5</span><span class="p">,</span>
+        <span class="n">_read_grid_vtk</span><span class="p">,</span>
+        <span class="n">_read_gridfile</span><span class="p">,</span>
+        <span class="n">_read_outfile</span><span class="p">,</span>
+        <span class="n">_split_gridfile</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.write_files</span> <span class="kn">import</span> <span class="n">_write_h5</span><span class="p">,</span> <span class="n">write_file</span>
+    <span class="kn">from</span> <span class="nn">.toolfuncs.findlines</span> <span class="kn">import</span> <span class="n">_check_var</span><span class="p">,</span> <span class="n">find_contour</span><span class="p">,</span> <span class="n">find_fieldlines</span>
+    <span class="kn">from</span> <span class="nn">.toolfuncs.fourier</span> <span class="kn">import</span> <span class="n">fourier</span>
+    <span class="kn">from</span> <span class="nn">.toolfuncs.nabla</span> <span class="kn">import</span> <span class="n">curl</span><span class="p">,</span> <span class="n">divergence</span><span class="p">,</span> <span class="n">gradient</span>
+    <span class="kn">from</span> <span class="nn">.toolfuncs.transform</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">_congrid</span><span class="p">,</span>
+        <span class="n">cartesian_vector</span><span class="p">,</span>
+        <span class="n">mirror</span><span class="p">,</span>
+        <span class="n">reshape_cartesian</span><span class="p">,</span>
+        <span class="n">reshape_uniform</span><span class="p">,</span>
+        <span class="n">slices</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

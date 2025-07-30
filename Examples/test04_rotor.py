@@ -27,10 +27,14 @@ in the user-defined constants section.
 """
 
 import numpy as np
+
 import pyPLUTO
 
-# Loading the data into a pload object D
-Data = pyPLUTO.Load(path="Test_Problems/MHD/Rotor")
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("MHD/Rotor")
+
+# Load data
+Data = pyPLUTO.Load(path=data_path)
 
 # Creating the image
 Image = pyPLUTO.Image(
@@ -86,5 +90,5 @@ Image.contour(
 )
 
 # Saving the image and showing the plots
-Image.savefig("test04_rotor.png")
+Image.savefig("test04_rotor.png", script_relative=True)
 pyPLUTO.show()

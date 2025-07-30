@@ -1,5 +1,8 @@
 .. _slices:
 
+Load.slices
+===========
+
 .. autofunction:: pyPLUTO.Load.slices
 
 |

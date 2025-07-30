@@ -1,5 +1,8 @@
 .. _reshape_uniform:
 
+Load.reshape_uniform
+====================
+
 .. autofunction:: pyPLUTO.Load.reshape_uniform
 
 |

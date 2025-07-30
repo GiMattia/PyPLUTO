@@ -1,0 +1,768 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyPLUTO.image &#8212; PyPLUTO 1.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6bda2a82" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=56dcb7b8"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyPLUTO/image';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">PyPLUTO 1.1 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tools.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../imageclass.html">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../gui.html">
+    GUI
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    FAQs
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contributing.html">
+    Contribute
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tools.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../imageclass.html">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../gui.html">
+    GUI
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    FAQs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing.html">
+    Contribute
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pyPLUTO.image</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for pyPLUTO.image</h1><div class="highlight"><pre>
+<span></span><span class="c1"># image_new.py</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib.figure</span> <span class="kn">import</span> <span class="n">Figure</span>
+
+<span class="kn">from</span> <span class="nn">.amr</span> <span class="kn">import</span> <span class="n">oplotbox</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.colorbar</span> <span class="kn">import</span> <span class="n">ColorbarManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.contour</span> <span class="kn">import</span> <span class="n">ContourManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.create_axes</span> <span class="kn">import</span> <span class="n">CreateAxesManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.display</span> <span class="kn">import</span> <span class="n">DisplayManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.figure</span> <span class="kn">import</span> <span class="n">FigureManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.imagetools</span> <span class="kn">import</span> <span class="n">ImageToolsManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.interactive</span> <span class="kn">import</span> <span class="n">InteractiveManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.legend</span> <span class="kn">import</span> <span class="n">LegendManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.plot</span> <span class="kn">import</span> <span class="n">PlotManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.range</span> <span class="kn">import</span> <span class="n">RangeManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.scatter</span> <span class="kn">import</span> <span class="n">ScatterManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.set_axis</span> <span class="kn">import</span> <span class="n">AxisManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.streamplot</span> <span class="kn">import</span> <span class="n">StreamplotManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.zoom</span> <span class="kn">import</span> <span class="n">ZoomManager</span>
+<span class="kn">from</span> <span class="nn">.imagemixin</span> <span class="kn">import</span> <span class="n">ImageMixin</span>
+<span class="kn">from</span> <span class="nn">.imagestate</span> <span class="kn">import</span> <span class="n">ImageState</span>
+<span class="kn">from</span> <span class="nn">.utils.inspector</span> <span class="kn">import</span> <span class="n">track_kwargs</span>
+
+
+<div class="viewcode-block" id="Image">
+<a class="viewcode-back" href="../../image.html#pyPLUTO.Image">[docs]</a>
+<span class="k">class</span> <span class="nc">Image</span><span class="p">(</span><span class="n">ImageMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Image class. It plots the data. The Image class is a facade for the</span>
+<span class="sd">    different managers that handle the various aspects of plotting, such as</span>
+<span class="sd">    creating axes, displaying data, adding colorbars, and more. It provides a</span>
+<span class="sd">    unified interface for creating and managing plots in a figure.</span>
+<span class="sd">    The attributes are handled through the `ImageState` class, which is a</span>
+<span class="sd">    dataclass that stores the state of the image, such as the figure, axes,</span>
+<span class="sd">    and other properties. The `Image` class uses a mediator pattern to manage</span>
+<span class="sd">    the interactions between the different managers and the state.&quot;&quot;&quot;</span>
+
+    <span class="nd">@track_kwargs</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">LaTeX</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">fig</span><span class="p">:</span> <span class="n">Figure</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialization of the Image class that creates a new figure and sets</span>
+<span class="sd">        the LaTeX conditions, as well as the matplotlib style. Every Image is</span>
+<span class="sd">        associated to a figure object and only one in order to avoid confusion</span>
+<span class="sd">        between images and figures. If you want to create multiple figures, you</span>
+<span class="sd">        have to create multiple Image objects.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - close: bool, default True</span>
+<span class="sd">            If True, the existing figure with the same window number is closed.</span>
+<span class="sd">        - fig: Figure | None, default None</span>
+<span class="sd">            The the figure instance. If not None, the figure is used (only</span>
+<span class="sd">            if we need to associate an Image to an existing figure).</span>
+<span class="sd">        - figsize: list[float], default [8,5]</span>
+<span class="sd">            The figure size.</span>
+<span class="sd">        - fontsize: int, default 17</span>
+<span class="sd">            The font size.</span>
+<span class="sd">        - LaTeX: bool | str, default False</span>
+<span class="sd">            The LaTeX option. Is True is selected, the default LaTeX font</span>
+<span class="sd">            is used. If &#39;pgf&#39; is selected, the pgf backend is used to save pdf</span>
+<span class="sd">            figures with minimal file size. If XeLaTeX is not installed and the</span>
+<span class="sd">            &#39;pgf&#39; option is selected, the LaTeX option True is used as backup</span>
+<span class="sd">            strategy.</span>
+<span class="sd">        - numcolor: int, default 10</span>
+<span class="sd">            The number of colors in the colorscheme. The default number is 10,</span>
+<span class="sd">            but the full list contains 24 colors (+ black or white).</span>
+<span class="sd">        - nwin: int, default 1</span>
+<span class="sd">            The window number.</span>
+<span class="sd">        - oldcolor: bool, default False</span>
+<span class="sd">            if True, the old colors are used</span>
+<span class="sd">        - style: str, default &#39;default&#39;</span>
+<span class="sd">            The style of the figure. Possible values are: &#39;seaborn&#39;, &#39;ggplot&#39;,</span>
+<span class="sd">            &#39;fivethirtyeight&#39;, &#39;bmh&#39;, &#39;grayscale&#39;, &#39;dark_background&#39;, &#39;classic&#39;,</span>
+<span class="sd">            etc.</span>
+<span class="sd">        - suptitle: str, default None</span>
+<span class="sd">            The super title of the figure.</span>
+<span class="sd">        - suptitlesize: str | int, default &#39;large&#39;</span>
+<span class="sd">            The figure title size.</span>
+<span class="sd">        - tight: bool, default True</span>
+<span class="sd">            If True, the tight layout is used.</span>
+<span class="sd">        - withblack: bool, default False</span>
+<span class="sd">            If True, the black color is used as first color.</span>
+<span class="sd">        - withwhite: bool, default False</span>
+<span class="sd">            If True, the white color is used as first color.</span>
+
+<span class="sd">        ----</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: create an empty image</span>
+
+<span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
+<span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
+
+<span class="sd">        - Example #2: create an image with the pgf backend</span>
+
+<span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
+<span class="sd">            &gt;&gt;&gt; I = pp.Image(LaTeX=&quot;pgf&quot;)</span>
+
+<span class="sd">        - Example #3: create an image with the LaTeX option True</span>
+
+<span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
+<span class="sd">            &gt;&gt;&gt; I = pp.Image(LaTeX=True)</span>
+
+<span class="sd">        - Example #4: create an image with fixed size</span>
+
+<span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
+<span class="sd">            &gt;&gt;&gt; I = pp.Image(figsize=[5, 5])</span>
+
+<span class="sd">        - Example #5: create an image with a title</span>
+
+<span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
+<span class="sd">            &gt;&gt;&gt; I = pp.Image(suptitle=&quot;Title&quot;)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">ImageState</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">LaTeX</span><span class="o">=</span><span class="n">LaTeX</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_figure_manager</span> <span class="o">=</span> <span class="n">FigureManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Initialize managers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span> <span class="o">=</span> <span class="n">AxisManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ColorbarManager</span> <span class="o">=</span> <span class="n">ColorbarManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ContourManager</span> <span class="o">=</span> <span class="n">ContourManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CreateAxesManager</span> <span class="o">=</span> <span class="n">CreateAxesManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DisplayManager</span> <span class="o">=</span> <span class="n">DisplayManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">InteractiveManager</span> <span class="o">=</span> <span class="n">InteractiveManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LegendManager</span> <span class="o">=</span> <span class="n">LegendManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">PlotManager</span> <span class="o">=</span> <span class="n">PlotManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span> <span class="o">=</span> <span class="n">RangeManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ScatterManager</span> <span class="o">=</span> <span class="n">ScatterManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">StreamplotManager</span> <span class="o">=</span> <span class="n">StreamplotManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ZoomManager</span> <span class="o">=</span> <span class="n">ZoomManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">text</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Image class created at nwin </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nwin</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Image class.</span>
+<span class="s2">        It plots the data.</span>
+
+<span class="s2">        Image properties:</span>
+<span class="s2">        - Figure size        (figsize)</span>
+<span class="s2">        - Window number      (nwin)</span>
+<span class="s2">        - Number of subplots (nrow0 x ncol0)</span>
+<span class="s2">        - Global fontsize    (fontsize)</span>
+
+<span class="s2">        Public methods available:</span>
+
+<span class="s2">        - create_axes</span>
+<span class="s2">            Adds a set of [nrow,ncol] subplots to the figure.</span>
+<span class="s2">        - colorbar</span>
+<span class="s2">            Places a colorbar in a subplot or next to a subplot.</span>
+<span class="s2">        - contour</span>
+<span class="s2">            Plots a contour plot in a subplot.</span>
+<span class="s2">        - display</span>
+<span class="s2">            Plots a 2D quantity in a subplot.</span>
+<span class="s2">        - interactive</span>
+<span class="s2">            Creates an interactive plot with a slider to change the data.</span>
+<span class="s2">        - legend</span>
+<span class="s2">            Places one legend in a subplot.</span>
+<span class="s2">        - set_axis</span>
+<span class="s2">            Changes the parameter of a specific subplot.</span>
+<span class="s2">        - plot</span>
+<span class="s2">            Plots one line in a subplot.</span>
+<span class="s2">        - savefig</span>
+<span class="s2">            Saves the figure in a file.</span>
+<span class="s2">        - scatter</span>
+<span class="s2">            Plots a scatter plot in a subplot.</span>
+<span class="s2">        - streamplot</span>
+<span class="s2">            Plots a stream plot in a subplot.</span>
+<span class="s2">        - text</span>
+<span class="s2">            Places the text in the figure or in a subplot.</span>
+<span class="s2">        - zoom</span>
+<span class="s2">            Creates an inset zoom region of a subplot.</span>
+
+<span class="s2">        Public attributes available:</span>
+
+<span class="s2">        - ax:</span>
+<span class="s2">            The list of relevant axes in the figure.</span>
+<span class="s2">        - fig</span>
+<span class="s2">            The figure associated to the image.</span>
+<span class="s2">        - fontsize</span>
+<span class="s2">            The fontsize in the figure.</span>
+<span class="s2">        - fontweight</span>
+<span class="s2">            The fontweight in the figure.</span>
+<span class="s2">        - nwin</span>
+<span class="s2">            The window number.</span>
+<span class="s2">        - tg</span>
+<span class="s2">            The tight layout of the figure.</span>
+
+<span class="s2">        Please do not use &#39;private&#39; methods and attributes if not absolutely</span>
+<span class="s2">        necessary.</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;state&quot;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">):</span>
+            <span class="c1"># Initialization step: allow everything until state exists</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span> <span class="ow">or</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="c1"># Allow normal attributes and managers</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+            <span class="c1"># Write-through to state if attr already defined</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Set the attribute on the state</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="c1"># Called only if attribute not found in usual places</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="c1"># elif hasattr(type(self), name):</span>
+        <span class="c1">#    return getattr(type(self), name)</span>
+        <span class="c1"># elif hasattr(self, name):</span>
+        <span class="c1">#    return getattr(self, name)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;Image&#39; object has no attribute &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">animate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">InteractiveManager</span><span class="o">.</span><span class="n">animate</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">colorbar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ColorbarManager</span><span class="o">.</span><span class="n">colorbar</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">contour</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ContourManager</span><span class="o">.</span><span class="n">contour</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">create_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">CreateAxesManager</span><span class="o">.</span><span class="n">create_axes</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">DisplayManager</span><span class="o">.</span><span class="n">display</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">InteractiveManager</span><span class="o">.</span><span class="n">interactive</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">legend</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">LegendManager</span><span class="o">.</span><span class="n">legend</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PlotManager</span><span class="o">.</span><span class="n">plot</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">savefig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">savefig</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ScatterManager</span><span class="o">.</span><span class="n">scatter</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">set_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span><span class="o">.</span><span class="n">set_axis</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">show</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">text</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">streamplot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">StreamplotManager</span><span class="o">.</span><span class="n">streamplot</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ZoomManager</span><span class="o">.</span><span class="n">zoom</span>
+
+<div class="viewcode-block" id="Image.oplotbox">
+<a class="viewcode-back" href="../../oplotbox.html#pyPLUTO.Image.oplotbox">[docs]</a>
+    <span class="k">def</span> <span class="nf">oplotbox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plots a box in the figure (AMR, WIP)&quot;&quot;&quot;</span>
+        <span class="n">oplotbox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

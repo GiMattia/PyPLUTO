@@ -1,5 +1,8 @@
 .. _find_fieldlines:
 
+Load.find_fieldlines
+====================
+
 .. autofunction:: pyPLUTO.Load.find_fieldlines
 
 |

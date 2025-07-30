@@ -1,14 +1,14 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=65"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "PyPLUTO"
-version = "1.0.0"
+version = "1.1"
 description = "PyPLUTO: Plotting routines for PLUTO"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { file = "LICENSE" }
+license = "BSD-3-Clause"
 authors = [
     { name = "G. Mattia", email = "mattia@mpia.de" },
     { name = "D. Crocco" },
@@ -25,8 +25,10 @@ dependencies = [
     "scipy",
     "pandas",
     "h5py",
-    "PyQt6"
+    "PyQt6",
+    "pastamarkers",
 ]
+
 [project.optional-dependencies]
 docs = [
     "sphinx",
@@ -36,20 +38,28 @@ docs = [
 test = [
     "pytest",
     "pytest-doctestplus",
-    "codecov",
+    "pytest-mock",
+    "coverage",
     "pytest-cov",
     "approvaltests"
-]
+] 
 dev = [
     "black",
     "pre-commit",
+    "pylint",
     "ruff",
     "mypy",
-    "blacken-docs"
+    "blacken-docs",
+    "docformatter",
+    "interrogate",
+    "pydata-sphinx-theme"
 ]
 
 [tool.setuptools.packages.find]
-where = ["Src"]
+include = ["pyPLUTO*"]
+
+[project.scripts]
+pypluto-gui = "pyPLUTO.gui.main:main"
 
 [tool.black]
 line-length = 80
@@ -89,17 +99,62 @@ strict_optional = true
 
 [tool.docformatter]
 in-place = true
-black = true
 blank = true
-wrap-summaries = 79
-wrap-descriptions = 79
+wrap-summaries = 72
+wrap-descriptions = 72
+docstring-length  = [10, 70]
+
+[tool.coverage.run]
+source = ["Src/pyPLUTO"]
+branch = true
+
+[tool.coverage.report]
+omit = [
+    "*/Tests/*",
+    "*/Docs/*",
+    "*/Src/setup.py",
+    "*/.venv/*",
+    "*/site-packages/*"
+]
+exclude_lines = [
+    "pragma: no cover",
+    "@overload",
+    "if TYPE_CHECKING:",
+    "def __repr__",
+    "def __str__",
+    "raise NotImplementedError"
+]
+
+[tool.pylint.main]
+jobs = 1
+persistent = true
+suggestion-mode = true
+exit-zero = true
+
+[tool.pylint.messages_control]
+disable = [
+    "missing-docstring",
+    "invalid-name",
+    "too-few-public-methods",
+    "too-many-arguments",
+    "too-many-positional-arguments",
+    "too-many-instance-attributes",
+    "duplicate-code",
+]
+
+[tool.pylint.format]
+max-line-length = 80
+
+[tool.pylint.reports]
+output-format = "text"
 
 [tool.interrogate]
 verbose = 1
-fail-under = 80
+fail-under = 0
 exclude = ["tests", "Docs"]
 ignore-init-method = false
 ignore-init-module = true
-ignore-private = true
-ignore-semiprivate = true
 ignore-magic = true
+ignore-module = true
+ignore-private = false
+ignore-semiprivate = false

@@ -1,29 +1,34 @@
 """MHD Torus test.
 
-This test shows how to plot two quantities in two different subplots, together
-with the plotting of streamlines in one of them and the plotting of the field
-lines in the other one.
+This test shows how to plot two quantities in two different subplots,
+together with the plotting of streamlines in one of them and the
+plotting of the field lines in the other one.
 
 The data are the ones obtained from the PLUTO test problem
 $PLUTO_DIR/Test_Problems/MHD/Torus (configuration 4).
 
-The data is loaded into a pload object D and the Image class is created. The
-create_axes method is used to create two plots for the two variables. The
-display method is used to plot the density and the pressure in the two
-subplots, while the streamplot method and the find_fieldlines method are used
-to compute and then plot streamlines and fieldlines of the magnetic field. Note
-that the magnetic field components need to be converted from spherical into
-cartesian through the cartesian_vector method before converting them on the
-cartesian mesh grid. The image is then saved and shown on screen.
+The data is loaded into a pload object D and the Image class is created.
+The create_axes method is used to create two plots for the two
+variables. The display method is used to plot the density and the
+pressure in the two subplots, while the streamplot method and the
+find_fieldlines method are used to compute and then plot streamlines and
+fieldlines of the magnetic field. Note that the magnetic field
+components need to be converted from spherical into cartesian through
+the cartesian_vector method before converting them on the cartesian mesh
+grid. The image is then saved and shown on screen.
 
 """
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO
 
-# Loading the data into a pload object D
-Data = pyPLUTO.Load(path="Test_Problems/MHD/Torus")
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("MHD/Torus")
+
+# Load data
+Data = pyPLUTO.Load(path=data_path)
 
 # Creating the image
 Image = pyPLUTO.Image(
@@ -70,8 +75,7 @@ Image.display(
 
 # Convert the magnetic field into cartesian components and cartesian grid
 Bx, Bz, *others = Data.cartesian_vector("B")
-xc, yc, B = Data.reshape_cartesian(var1=Bx, var2=Bz, nx1=500)
-Bx, Bz = B[0], B[1]
+xc, yc, Bx, Bz = Data.reshape_cartesian(Bx, Bz, nx1=500)
 
 # Plot the magnetic field lines in two different ways
 Image.streamplot(
@@ -87,5 +91,5 @@ Image.plot(lines[1][0], lines[1][1], ax=1, c="gray")
 Image.plot(lines[2][0], lines[2][1], ax=1, c="gray")
 
 # Saving the image and showing the plots
-Image.savefig("test08_torus.png")
+Image.savefig("test08_torus.png", script_relative=True)
 pyPLUTO.show()

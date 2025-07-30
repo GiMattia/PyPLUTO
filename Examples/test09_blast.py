@@ -1,21 +1,23 @@
 """MHD Blast test.
 
-This test shows how to plot different quantities with customized legends in two
-different subplots refering to initial and final time data.
+This test shows how to plot different quantities with customized legends
+in two different subplots refering to initial and final time data.
 
 The data are the ones obtained from the PLUTO test problem
 $PLUTO_DIR/Test_Problems/MHD/Blast (configuration 9).
 
-The data is loaded twice into a pload object D and the Image class is created.
-The slices method is used to obtain a slice of the desired quantity along the
-diagonals of the domain. The plot method and the legend method are then used to
-plot a highly informative plot of density and pression with customized legend
-labels. The image is then saved and shown on screen.
+The data is loaded twice into a pload object D and the Image class is
+created. The slices method is used to obtain a slice of the desired
+quantity along the diagonals of the domain. The plot method and the
+legend method are then used to plot a highly informative plot of density
+and pression with customized legend labels. The image is then saved and
+shown on screen.
 
 """
 
 # Loading the relevant packages
 import numpy as np
+
 import pyPLUTO
 
 # Initialization
@@ -42,6 +44,7 @@ def plot_frame(Data, ax_idx: int, time_label: str):
             ax=ax_idx,
             label=label,
             yscale="log" if label == r"$p$" else "linear",
+            legpos=3,
         )
         Image.plot(
             x,
@@ -52,19 +55,24 @@ def plot_frame(Data, ax_idx: int, time_label: str):
             yrange=yrange,
             title=f"t = {time_label} s",
             xtitle="x",
+            legpos=3,
         )
 
     Image.legend(ax=ax_idx, legpos=1, label=["M", "m"], ls=["-", "--"])
 
 
 # Plotting the initial time
-Data = pyPLUTO.Load(0, path="Test_Problems/MHD/Blast")
+# Set the relative path to the data folder
+data_path = pyPLUTO.find_example("MHD/Blast")
+
+# Load data
+Data = pyPLUTO.Load(0, path=data_path)
 plot_frame(Data, ax_idx=0, time_label="0.0")
 
 # Plotting the final time
-Data = pyPLUTO.Load(path="Test_Problems/MHD/Blast")
+Data = pyPLUTO.Load(path=data_path)
 plot_frame(Data, ax_idx=1, time_label="0.01")
 
 # Saving and showing
-Image.savefig("test09_blast.png")
+Image.savefig("test09_blast.png", script_relative=True)
 pyPLUTO.show()

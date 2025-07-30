@@ -1,0 +1,42 @@
+[
+  {
+    "file": "pyPLUTO/imagetools.py",
+    "class": "ImageToolsManager",
+    "method": "savefig",
+    "args": {
+      "bbox": "{'tight', None}, default 'tight'\nCrops the white borders of the Image to create a more balanced image file.",
+      "dpi": null,
+      "filename": "str, default 'img.png'\nThe name of the saved image file."
+    },
+    "kwargs": {},
+    "indent": 8
+  },
+  {
+    "file": "pyPLUTO/imagetools.py",
+    "class": "ImageToolsManager",
+    "method": "show",
+    "args": {},
+    "kwargs": {},
+    "indent": 8
+  },
+  {
+    "file": "pyPLUTO/imagetools.py",
+    "class": "ImageToolsManager",
+    "method": "text",
+    "args": {
+      "ax": "axis object, default None\nThe axis where to insert the text box. If None, the last considered axis will be used.",
+      "text": "str\nThe text that will appear on the text box",
+      "x": "float, default 0.85\nThe horizontal starting position of the text box, in units of figure size.",
+      "y": "float, default 0.85\nThe vertical starting position of the text box, in units of figure size."
+    },
+    "kwargs": {
+      "bbox": null,
+      "c": "str, default 'k'\nDetermines the text color.",
+      "horalign": "str, default 'left'\nThe horizontal alignment. Possible values are 'left', 'center', 'right'.",
+      "textsize": "float, default fontsize\nSets the text fontsize. The default value corresponds to the value of the actual fontsize in the figure.",
+      "veralign": "str, default 'baseline'\nThe vertical alignment. Possible values are 'baseline', 'bottom', 'center', 'center_baseline', 'top'.",
+      "xycoords": "str, default 'fraction'\nThe coordinate system used. Possible values are 'figure fraction', which sets the position as a fraction of the axis (inside the axis lie values between 0 and 1), 'points', which sets the position in units of the x/y coordinate system, and 'figure', which sets the position as a fraction of the figure."
+    },
+    "indent": 8
+  }
+]

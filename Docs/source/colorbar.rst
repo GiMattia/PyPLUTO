@@ -1,6 +1,9 @@
 .. _colorbar:
 
-.. autofunction:: pyPLUTO.Image.colorbar
+Image.colorbar
+==============
+
+.. automethod:: pyPLUTO.imagefuncs.colorbar.ColorbarManager.colorbar
 
 |
 

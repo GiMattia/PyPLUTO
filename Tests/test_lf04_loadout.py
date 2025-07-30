@@ -3,10 +3,12 @@ from pathlib import Path
 
 import numpy as np
 import numpy.testing as npt
+
 import pyPLUTO as pp
 
 # Assuming the root of the repo is your current working directory
 repo_root = Path(os.getcwd())
+repo_root = repo_root if repo_root.name == "Tests" else repo_root / "Tests"
 path = repo_root / "Test_load"
 
 outlist = np.linspace(0, 4, 5, dtype="int")
@@ -20,7 +22,6 @@ varslist = ["rho", "vx1", "vx2", "vx3", "prs"]
 
 # Test the dbl.out file when only last output is loaded
 def test_load_outfile_oneoutput():
-
     endpath = [".0004.dbl"]
 
     Data = pp.Load(path=path / "multiple_outputs", text=False)
@@ -39,7 +40,6 @@ def test_load_outfile_oneoutput():
 
 # Test the dbl.out file when two outputs are loaded
 def test_load_outfile_moreoutputs():
-
     Data = pp.Load(
         [0, "last"],
         path=path / "multiple_outputs",
@@ -85,7 +85,6 @@ def test_load_outfilevtk_oneoutput():
 
 # Test the tab.out file when only last output is loaded
 def test_load_outfiletab_oneoutput():
-
     Data = pp.Load(path=path / "multiple_outputs", text=False, datatype="tab")
 
     endianess = ["<"]

@@ -1,0 +1,703 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyPLUTO.loadpart &#8212; PyPLUTO 1.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6bda2a82" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=56dcb7b8"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyPLUTO/loadpart';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">PyPLUTO 1.1 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tools.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../imageclass.html">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../gui.html">
+    GUI
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../faq.html">
+    FAQs
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contributing.html">
+    Contribute
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tools.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../imageclass.html">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../gui.html">
+    GUI
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../faq.html">
+    FAQs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing.html">
+    Contribute
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pyPLUTO.loadpart</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for pyPLUTO.loadpart</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
+
+
+<div class="viewcode-block" id="LoadPart">
+<a class="viewcode-back" href="../../loadpart.html#pyPLUTO.LoadPart">[docs]</a>
+<span class="k">class</span> <span class="nc">LoadPart</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the particles from the simulation. The class is used to load</span>
+<span class="sd">    the particles from the simulation and store the data in the class</span>
+<span class="sd">    attributes. The data are loaded in a memory mapped numpy</span>
+<span class="sd">    multidimensional array. Such approach does not load the full data</span>
+<span class="sd">    until needed. Basic operations (i.e. no numpy) are possible, as well</span>
+<span class="sd">    as slicing the arrays, without fully loading the data. At the</span>
+<span class="sd">    moment, only one output can be loaded at a time.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    - None</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - datatype: str, default None</span>
+<span class="sd">        The format of the data files to be loaded. If None, the code</span>
+<span class="sd">        finds the format between dbl, flt and vtk.</span>
+<span class="sd">    - endian: str | None, default None</span>
+<span class="sd">        The endianess of the data files. If None, the code finds the</span>
+<span class="sd">        endianess.</span>
+<span class="sd">    - nfile_lp: int | None, default None</span>
+<span class="sd">        The file number for the lp methods. If None, the code finds the</span>
+<span class="sd">        file number.</span>
+<span class="sd">    - nout: int | str | list | None, default &#39;last&#39;</span>
+<span class="sd">        The output number to be loaded. If &#39;last&#39; the last output is loaded.</span>
+<span class="sd">        If None, the data are not loaded.</span>
+<span class="sd">    - path: str, default &#39;./&#39;</span>
+<span class="sd">        The path to the simulation directory.</span>
+<span class="sd">    - text: bool, default True</span>
+<span class="sd">        If True, the folder and output are printed.</span>
+<span class="sd">        In case the user needs a more detailed information of the structure</span>
+<span class="sd">        and attributes loaded from the class, the __str__ method provides a</span>
+<span class="sd">        easy display of all the important information.</span>
+<span class="sd">    - vars: str | list | bool | None, default True</span>
+<span class="sd">        The variables to be loaded. If True, all the variables are loaded.</span>
+<span class="sd">        If None, the data are not loaded.</span>
+
+<span class="sd">    ----</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    - Example #1: Load the last output from the simulation</span>
+
+<span class="sd">        &gt;&gt;&gt; LoadPart()</span>
+
+<span class="sd">    - Example #2: Load the last output from the simulation with a specific</span>
+<span class="sd">        endianess</span>
+
+<span class="sd">        &gt;&gt;&gt; LoadPart(endian=&quot;big&quot;)</span>
+
+<span class="sd">    - Example #3: Load the last output from the simulation with a specific</span>
+<span class="sd">        set of variables</span>
+
+<span class="sd">        &gt;&gt;&gt; LoadPart(vars=[&quot;rho&quot;, &quot;vx&quot;, &quot;vy&quot;, &quot;vz&quot;])</span>
+
+<span class="sd">    - Example #4: Load the last output from the simulation without printing</span>
+<span class="sd">        the folder and the specific output loaded</span>
+
+<span class="sd">        &gt;&gt;&gt; LoadPart(0, text=False)</span>
+
+<span class="sd">    - Example #5: Load the last output from the simulation without loading</span>
+<span class="sd">        the data</span>
+
+<span class="sd">        &gt;&gt;&gt; LoadPart(nout=None)</span>
+
+<span class="sd">    - Example #6: Load the last output from the simulation with a specific</span>
+<span class="sd">        file number for the lp methods</span>
+
+<span class="sd">        &gt;&gt;&gt; LoadPart(nfile_lp=1)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">nout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;last&quot;</span><span class="p">,</span>
+        <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span><span class="p">,</span>
+        <span class="n">datatype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="nb">vars</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">endian</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">nfile_lp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Check if the user wants to load the data</span>
+        <span class="k">if</span> <span class="n">nout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Initialization or declaration of variables (used in this file)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># Output to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d_end</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span>  <span class="c1"># Endianess dictionary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_multiple</span><span class="p">:</span> <span class="nb">bool</span>  <span class="c1"># Bool for single or multiple files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_alone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Bool for standalone files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">:</span> <span class="nb">bool</span>  <span class="c1"># Bool for info (linked to alone)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d_vars</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># The dictionary of variables</span>
+
+        <span class="c1"># Initialization or declaration of variables (used in other files)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pathdir</span><span class="p">:</span> <span class="n">Path</span>  <span class="c1"># Path to the simulation directory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># The format of the files to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_charsize</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># The data size in the files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outlist</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># The list of outputs to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timelist</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># The list of times to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lennout</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># The number of outputs to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ntime</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># The time array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>  <span class="c1"># Info dictionary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_vars</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>  <span class="c1"># The set of variables to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_outs</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>  <span class="c1"># The set of outputs to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_matching_files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>  <span class="c1"># The list of files to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pathgrid</span><span class="p">:</span> <span class="n">Path</span>  <span class="c1"># Path to the grid file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pathdata</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="kc">None</span>  <span class="c1"># Path to the data files to be loaded</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filepath</span><span class="p">:</span> <span class="n">Path</span>  <span class="c1"># The filepath to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_vars</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>  <span class="c1"># The list of variables to be loaded</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>  <span class="c1"># The offset of the variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span>  <span class="c1"># The shape of the variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geom</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># The geometry of the simulation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># The dimension of the simulation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nshp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>  <span class="c1"># The shape of the grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dictdim</span><span class="p">:</span> <span class="nb">dict</span>  <span class="c1"># The dictionary of dimensions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nfile_lp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">nfile_lp</span>  <span class="c1"># File number for the lp methods</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxpart</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Max number of particles in the simulation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vardim</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># The dimension of the variables</span>
+
+        <span class="c1"># Check the input endianess</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d_end</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;big&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;little&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&gt;&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&lt;&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&quot;</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">}</span>  <span class="c1"># Endianess dictionary</span>
+
+        <span class="k">if</span> <span class="n">endian</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_end</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid endianess. </span><span class="se">\</span>
+<span class="s2">                             Valid values are </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_end</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nfile_lp</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nfile_lp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid value for nfile_lp. </span><span class="se">\</span>
+<span class="s2">                             Valid values are int or None&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Check the path and verify that it is a folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_pathformat</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="c1"># Find the format of the data files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_find_format</span><span class="p">(</span><span class="n">datatype</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Find relevant informations without opening the files (e.g.</span>
+        <span class="c1"># the number of files to be loaded)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_findfiles</span><span class="p">(</span><span class="n">nout</span><span class="p">)</span>
+
+        <span class="c1"># For every output, load the desired variables and store</span>
+        <span class="c1"># them in the class</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">exout</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load_variables</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">exout</span><span class="p">,</span> <span class="n">endian</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">!=</span> <span class="s2">&quot;vtk&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_store_bin_particles</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_store_vtk_particles</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="c1"># Assign the variables to the class</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_vars</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_vars</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+        <span class="c1"># Change the id variable to int depending on the format loaded</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">!=</span> <span class="s2">&quot;vtk&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Print loaded folder and output</span>
+        <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">_nout_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LoadPart: folder </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">,     output </span><span class="si">{</span><span class="n">_nout_out</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        LoadPart class.</span>
+<span class="s2">        It loads the particles.</span>
+
+<span class="s2">        File properties:</span>
+<span class="s2">        - Current path loaded (pathdir)      </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pathdir</span><span class="si">}</span>
+<span class="s2">        - Format loaded       (format)       </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="si">}</span>
+
+<span class="s2">        Simulation properties</span>
+<span class="s2">        - N. particles  (maxpart)  </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">maxpart</span><span class="si">}</span>
+<span class="s2">        - Output loaded (nout)     </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="si">}</span>
+<span class="s2">        - Time loaded   (ntime)    </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ntime</span><span class="si">}</span>
+
+<span class="s2">        Variables loaded:</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span>
+
+<span class="s2">        Public methods available:</span>
+
+<span class="s2">        - select</span>
+<span class="s2">        - spectrum</span>
+
+<span class="s2">        Please refrain from using &quot;private&quot; methods and attributes.</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">text</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;LoadPart&#39; object has no attribute &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+    <span class="kn">from</span> <span class="nn">.loadfuncs.readdata</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">_assign_var</span><span class="p">,</span>
+        <span class="n">_check_nout</span><span class="p">,</span>
+        <span class="n">_findfiles</span><span class="p">,</span>
+        <span class="n">_init_vardict</span><span class="p">,</span>
+        <span class="n">_load_variables</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.readformat</span> <span class="kn">import</span> <span class="n">_check_pathformat</span><span class="p">,</span> <span class="n">_find_format</span>
+    <span class="kn">from</span> <span class="nn">.loadfuncs.readpart</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">_compute_offset</span><span class="p">,</span>
+        <span class="n">_inspect_bin</span><span class="p">,</span>
+        <span class="n">_inspect_vtk</span><span class="p">,</span>
+        <span class="n">_store_bin_particles</span><span class="p">,</span>
+        <span class="n">_store_vtk_particles</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">.toolfuncs.parttools</span> <span class="kn">import</span> <span class="n">select</span><span class="p">,</span> <span class="n">spectrum</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

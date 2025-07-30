@@ -1,6 +1,9 @@
 .. _contour:
 
-.. autofunction:: pyPLUTO.Image.contour
+Image.contour
+=============
+
+.. automethod:: pyPLUTO.imagefuncs.contour.ContourManager.contour
 
 |
 

@@ -1,6 +1,9 @@
 .. _scatter:
 
-.. autofunction:: pyPLUTO.Image.scatter
+Image.scatter
+=============
+
+.. automethod:: pyPLUTO.imagefuncs.scatter.ScatterManager.scatter
 
 |
 

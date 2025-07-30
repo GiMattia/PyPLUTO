@@ -1,6 +1,9 @@
 .. _plot:
 
-.. autofunction:: pyPLUTO.Image.plot
+Image.plot
+=============
+
+.. automethod:: pyPLUTO.imagefuncs.plot.PlotManager.plot
 
 |
 

@@ -1,6 +1,9 @@
 .. _display:
 
-.. autofunction:: pyPLUTO.Image.display
+Image.display
+=============
+
+.. automethod:: pyPLUTO.imagefuncs.display.DisplayManager.display
 
 |
 

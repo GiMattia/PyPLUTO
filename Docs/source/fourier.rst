@@ -1,5 +1,8 @@
 .. _fourier:
 
+Load.fourier
+============
+
 .. autofunction:: pyPLUTO.Load.fourier
 
 |

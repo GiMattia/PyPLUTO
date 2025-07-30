@@ -3,15 +3,11 @@
 | Category | Badges |
 | --- | --- |
 | Package | [![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) ![Python Versions](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-3776AB.svg?style=flat&logo=python&logoColor=white) ![GitHub release](https://img.shields.io/github/v/release/GiMattia/PyPLUTO?include_prereleases&label=Github%20Release) [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
-| Tests | [![Windows Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml) [![MacOS Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml) [![Linux Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml) |
-| Style | [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com//GiMattia/PyPLUTO/actions/workflows/pre-commit.yml) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) [![cov](https://GiMattia.github.io/PyPLUTO/badges/coverage.svg)](https://github.com/GiMattia/PyPLUTO/actions)|
+| Tests | [![Windows Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml) [![MacOS Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml) [![Linux Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml) ![Coverage Report](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/GiMattia/384b1f3a3a3b74cdbd65c4e3dce0632f/raw/pytest-coverage-comment__main.json) |
+| Style | [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com//GiMattia/PyPLUTO/actions/workflows/pre-commit.yml) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) ![Pylint](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/GiMattia/8fc3a521f1c5e59e41eb16d1197bf8c8/raw/pylint-score.json) ![Mypy](https://img.shields.io/badge/type_checking-mypy-brightgreen) |
 | Distribution | [![Arxiv](https://img.shields.io/badge/arXiv-2501.09748-8F1515?style=flat&logo=arxiv&logoColor=red)](https://doi.org/10.48550/arXiv.2501.09748) [![Documentation](https://readthedocs.org/projects/pypluto/badge/?version=latest)](https://pypluto.readthedocs.io/en/latest/?badge=latest) |
 
-
-<!-- [![cov](https://GiMattia.github.io/PyPLUTO/badges/coverage.svg)](https://github.com/GiMattia/PyPLUTO/actions) -->
-
-<!-- ![Mypy](https://img.shields.io/badge/type_checking-mypy-brightgreen) -->
-<!-- pylint? interrogate? -->
+<!-- ![Doc Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/GiMattia/cc212934fc58b93ddebda8c669dbb171/raw/interrogate-badge.svg) -->
 
 <!-- ![PyPI](https://img.shields.io/pypi/v/PyPLUTO) -->
 <!-- ![Conda](https://img.shields.io/badge/conda-available-brightgreen) -->
@@ -39,12 +35,12 @@ The package includes a set of examples in the `Examples` directory.
 
 The package is tested on Python 3.10 (and newer versions) and with the following dependencies:
 
-- `numpy >= 1.19`
-- `matplotlib >= 3.3`
+- `numpy`
+- `matplotlib`
 - `scipy`
 - `pandas`
-- `h5py` (optional)
-- `PyQt6` (optional)
+- `h5py`
+- `PyQt6`
 
 The package is provided with a `LICENSE` file which contains the license terms.
 
@@ -63,15 +59,7 @@ pip install ./
 ```
 
 Ensure that you are using Python 3.10 or newer, as the package is compatible from this version onwards.
-
-### Installation without pip
-
-If you need to install the package without pip, you can do so by navigating to the source directory and using the `setup.py` file. Run the commands below:
-
-```bash
-cd Src
-python setup.py install
-```
+Installation through pipenv or uv is also possible (see the documentation).
 
 This method allows installation in a non-editable mode, and it is recommended to use a virtual environment to avoid conflicts with other packages.
 
@@ -96,14 +84,36 @@ An example of 1D plot of the density can be:
 ```python
 D = pp.Load()
 pp.Image().plot(D.x1, D.rho)
+pp.show()
 ```
 
 while 2D plots can be created with
 
 ```python
 D = pp.Load()
-pp.Image().display(D.rho, x1=D.x1, x2=D.x2)
+pp.Image().display(D.rho, x1=D.x1, x2=D.x2, cpos="right")
+pp.show()
 ```
+
+## Examples
+
+In order to test PyPLUTO capabilities, even without the PLUTO code, we provide
+an extensive tests suite with all the necessary data.
+In this way, PyPLUTO can be explored without any knowledge of the PLUTO code.
+All the tests are located in the `Examples` directory and are aimed at showing
+how to exploit the package capabilities.
+
+## The GUI
+
+A Graphical User Interface has been implemented in order to simplify and enhance the visualization and analysis of simulation data.
+The GUI is built with PyQt6 and allows users to load and visualize 1D and 2D fluid data (or slices) from PLUTO simulations.
+To run the GUI after the package installation, one should simply run the command
+
+```bash
+pypluto-gui
+```
+
+from the terminal. More details on how to use the GUI can be found in the documentation.
 
 ## Documentation
 
@@ -145,7 +155,7 @@ pip install -r requirements_dev.txt
 
 ### Rules for Contributing
 
-We use pre-commit to ensure that the code is consistent with the style "Black".
+We use pre-commit to ensure that the code is consistent with the code guidelines, including the "black" format and several "ruff" checks.
 You can either link the pre-commit to the repository through the command
 
 ```bash
@@ -158,5 +168,11 @@ or by enforcing the guide styles manually through the command
 pre-commit run --all-files
 ```
 
-An automatic check will verify if the code complies with the "Black" style at every pull request.
+Before opening a pull request,there is the possibility to run a deeper series of checks, including tests with coverage, pylint check, docstring coverage and so through the command
+
+```bash
+pre-commit run --all-files --hook-stage manual
+```
+
+If one or more tests do not pass the automatic code checks anforced through github actions will not allow the pull request to pass, so is higly recommended to run the full pre-commit before every pull request.
 For any question or enquiry, please contact one of the administrators.

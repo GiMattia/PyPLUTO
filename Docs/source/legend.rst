@@ -1,6 +1,9 @@
 .. _legend:
 
-.. autofunction:: pyPLUTO.Image.legend
+Image.legend
+============
+
+.. automethod:: pyPLUTO.imagefuncs.legend.LegendManager.legend
 
 |
 

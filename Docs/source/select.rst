@@ -1,5 +1,8 @@
 .. _select:
 
+LoadPart.select
+===============
+
 .. autofunction:: pyPLUTO.LoadPart.select
 
 |

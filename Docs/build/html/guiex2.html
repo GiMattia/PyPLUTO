@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>GUI vars panel &#8212; PyPLUTO 1.1 documentation</title>
+    <title>GUI Example 2: OT vortex &#8212; PyPLUTO 1.1 documentation</title>
   
   
   
@@ -42,11 +42,11 @@
     <script src="_static/documentation_options.js?v=56dcb7b8"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'guivars';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'guiex2';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="GUI plot panel" href="guiplot.html" />
-    <link rel="prev" title="GUI load panel" href="guiload.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="GUI Example 1: Sod" href="guiex1.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -345,14 +345,14 @@
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="guiload.html">GUI load panel</a></li>
 
 
 
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">GUI vars panel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guivars.html">GUI vars panel</a></li>
 
 
 
@@ -366,9 +366,9 @@
 
 
 </ul>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="guiex1.html">GUI Example 1: Sod</a></li>
-<li class="toctree-l1"><a class="reference internal" href="guiex2.html">GUI Example 2: OT vortex</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">GUI Example 2: OT vortex</a></li>
 </ul>
 </div>
 </nav></div>
@@ -412,7 +412,7 @@
     
     <li class="breadcrumb-item"><a href="gui.html" class="nav-link">GUI</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">GUI vars panel</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">GUI Example 2: OT vortex</span></li>
   </ul>
 </nav>
 </div>
@@ -429,39 +429,36 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="gui-vars-panel">
-<span id="guivars"></span><h1>GUI vars panel<a class="headerlink" href="#gui-vars-panel" title="Link to this heading">#</a></h1>
-<p>The second panel of the PyPLUTO GUI is the variables panel, which allows the
-user to select and manipulate the loaded variables.</p>
-<blockquote>
-<div><a class="reference internal image-reference" href="_images/gui03_vars.png"><img alt="_images/gui03_vars.png" class="align-center" src="_images/gui03_vars.png" style="width: 600px;" />
-</a>
-</div></blockquote>
-<p>The user can select the variable to be plotted by choosing from the loaded
-variables. Note that custom variables are not available yet, but they will
-be implemented in the future.</p>
+  <section id="gui-example-2-ot-vortex">
+<span id="guiex2"></span><h1>GUI Example 2: OT vortex<a class="headerlink" href="#gui-example-2-ot-vortex" title="Link to this heading">#</a></h1>
+<div style="text-align: center;">
+  <video width="700" autoplay loop muted playsinline controls>
+    <source src="_static/pluto_ot_gui.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div><section id="phase-1-ot-loading-the-data">
+<h2>Phase 1 (ot): Loading the data<a class="headerlink" href="#phase-1-ot-loading-the-data" title="Link to this heading">#</a></h2>
+<p>The first step in using the PyPLUTO GUI is to load the data files. The user can
+load the data files by clicking on the “Select File” button. A window will open,
+allowing the user to select the desired file by clicking on it. Once the data are
+loaded, the user can quickly change the loaded variables or output time by using
+the “Reload folder” button.</p>
 </section>
-<section id="option-transpose">
-<h1>Option: transpose<a class="headerlink" href="#option-transpose" title="Link to this heading">#</a></h1>
-<p>The transpose button allows the user to transpose the selected variable.
-Although this is not a strictly essential, it will enhance the visualization
-of the data, especially for 2D plots involving different codes.</p>
+<section id="phase-2-ot-selecting-the-variable">
+<h2>Phase 2 (ot): Selecting the variable<a class="headerlink" href="#phase-2-ot-selecting-the-variable" title="Link to this heading">#</a></h2>
+<p>The second step is to select the variable to be plotted. The user can select the
+variable by choosing from the loaded variables. The user can also slice the
+variables by selecting the desired slice. The x- and the y-axes (in case of 2D plots)
+can also be selected here.</p>
 </section>
-<section id="option-axes">
-<h1>Option: axes<a class="headerlink" href="#option-axes" title="Link to this heading">#</a></h1>
-<p>The x- and y-axes (in case of 2D plots) can also be selected here. The user
-can choose the x- and y-axes from the loaded variables, allowing for a
-flexible visualization of the data. This is particularly useful when the user
-wants to plot variables from a non-cartesian geometry, such as spherical
-or cylindrical coordinates.
-The naming convention is the same as in the Load class, where the “p” or “c”
-suffixes indicate polar or cartesian mesh transformation, respectively.</p>
+<section id="phase-3-ot-plotting-the-data">
+<h2>Phase 3 (ot): Plotting the data<a class="headerlink" href="#phase-3-ot-plotting-the-data" title="Link to this heading">#</a></h2>
+<p>The final step is to plot the data. In case of 2D plot, the user can choose an
+appropriate colormap and customize the plot title, range, and scales. All these
+features can be changed and updated without the need to reload the data by clicking
+on the “Update plot” button. The user can also further customize the plot due to
+the matplotlib customization bar.</p>
 </section>
-<section id="option-slices">
-<h1>Option: slices<a class="headerlink" href="#option-slices" title="Link to this heading">#</a></h1>
-<p>In presence of 3D data, or in case the user wants to visualize a 1D slice of 2D
-data, the user can select the desired slice by choosing from the available
-slices. The slices are automatically generated based on the loaded data.</p>
 </section>
 
 
@@ -475,20 +472,20 @@ slices. The slices are automatically generated based on the loaded data.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="guiload.html"
+       href="guiex1.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">GUI load panel</p>
+        <p class="prev-next-title">GUI Example 1: Sod</p>
       </div>
     </a>
     <a class="right-next"
-       href="guiplot.html"
+       href="examples.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">GUI plot panel</p>
+        <p class="prev-next-title">Examples</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -511,12 +508,10 @@ slices. The slices are automatically generated based on the loaded data.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">GUI vars panel</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#option-transpose">Option: transpose</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#option-axes">Option: axes</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#option-slices">Option: slices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-1-ot-loading-the-data">Phase 1 (ot): Loading the data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-2-ot-selecting-the-variable">Phase 2 (ot): Selecting the variable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-3-ot-plotting-the-data">Phase 3 (ot): Plotting the data</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>

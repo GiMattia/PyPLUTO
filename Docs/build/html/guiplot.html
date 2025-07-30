@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>GUI vars panel &#8212; PyPLUTO 1.1 documentation</title>
+    <title>GUI plot panel &#8212; PyPLUTO 1.1 documentation</title>
   
   
   
@@ -42,11 +42,11 @@
     <script src="_static/documentation_options.js?v=56dcb7b8"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'guivars';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'guiplot';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="GUI plot panel" href="guiplot.html" />
-    <link rel="prev" title="GUI load panel" href="guiload.html" />
+    <link rel="next" title="GUI Example 1: Sod" href="guiex1.html" />
+    <link rel="prev" title="GUI vars panel" href="guivars.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -352,11 +352,11 @@
 
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">GUI vars panel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guivars.html">GUI vars panel</a></li>
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="guiplot.html">GUI plot panel</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">GUI plot panel</a></li>
 
 
 
@@ -412,7 +412,7 @@
     
     <li class="breadcrumb-item"><a href="gui.html" class="nav-link">GUI</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">GUI vars panel</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">GUI plot panel</span></li>
   </ul>
 </nav>
 </div>
@@ -429,39 +429,85 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="gui-vars-panel">
-<span id="guivars"></span><h1>GUI vars panel<a class="headerlink" href="#gui-vars-panel" title="Link to this heading">#</a></h1>
-<p>The second panel of the PyPLUTO GUI is the variables panel, which allows the
-user to select and manipulate the loaded variables.</p>
+  <section id="gui-plot-panel">
+<span id="guiplot"></span><h1>GUI plot panel<a class="headerlink" href="#gui-plot-panel" title="Link to this heading">#</a></h1>
+<p>The third panel of the PyPLUTO GUI is the plot panel, which allows the user to
+visualize the loaded data.</p>
 <blockquote>
-<div><a class="reference internal image-reference" href="_images/gui03_vars.png"><img alt="_images/gui03_vars.png" class="align-center" src="_images/gui03_vars.png" style="width: 600px;" />
+<div><a class="reference internal image-reference" href="_images/gui04_plot.png"><img alt="_images/gui04_plot.png" class="align-center" src="_images/gui04_plot.png" style="width: 600px;" />
 </a>
 </div></blockquote>
-<p>The user can select the variable to be plotted by choosing from the loaded
-variables. Note that custom variables are not available yet, but they will
-be implemented in the future.</p>
+<p>At the moment the GUI supports only 1D/2D plots of the PLUTO fluid files.
+Once the particles will be available in the GUI, the plot panel will be updated
+to allow the user to plot also the particle data from the very top left window.
+3D plots and volume renderings will be added in the future.</p>
+<p>Once the variables are loaded and selected, the user can plot the data by
+clicking on the “Plot” button. The “overplot” checkbox allows the user to
+plot multiple lines on the same figure in case of 1D plots.</p>
 </section>
-<section id="option-transpose">
-<h1>Option: transpose<a class="headerlink" href="#option-transpose" title="Link to this heading">#</a></h1>
-<p>The transpose button allows the user to transpose the selected variable.
-Although this is not a strictly essential, it will enhance the visualization
-of the data, especially for 2D plots involving different codes.</p>
+<section id="options-title">
+<h1>Options: title<a class="headerlink" href="#options-title" title="Link to this heading">#</a></h1>
+<p>The title of the plot can be set by using the “Title” text box.</p>
 </section>
-<section id="option-axes">
-<h1>Option: axes<a class="headerlink" href="#option-axes" title="Link to this heading">#</a></h1>
-<p>The x- and y-axes (in case of 2D plots) can also be selected here. The user
-can choose the x- and y-axes from the loaded variables, allowing for a
-flexible visualization of the data. This is particularly useful when the user
-wants to plot variables from a non-cartesian geometry, such as spherical
-or cylindrical coordinates.
-The naming convention is the same as in the Load class, where the “p” or “c”
-suffixes indicate polar or cartesian mesh transformation, respectively.</p>
+<section id="options-aspect-ratio">
+<h1>Options: aspect ratio<a class="headerlink" href="#options-aspect-ratio" title="Link to this heading">#</a></h1>
+<p>The “Auto-ratio” checkbox allows the user to set the aspect ratio of the plot
+automatically. If the checkbox is unchecked, the aspect ratio will be set to
+“equal”, meaning that the x- and y-axes will have the same scale. The default
+value is “Auto-ratio”, which means that the aspect ratio will be set automatically
+based on the data.</p>
 </section>
-<section id="option-slices">
-<h1>Option: slices<a class="headerlink" href="#option-slices" title="Link to this heading">#</a></h1>
-<p>In presence of 3D data, or in case the user wants to visualize a 1D slice of 2D
-data, the user can select the desired slice by choosing from the available
-slices. The slices are automatically generated based on the loaded data.</p>
+<section id="options-range">
+<h1>Options: range<a class="headerlink" href="#options-range" title="Link to this heading">#</a></h1>
+<p>The (x/y/v) range text boxes allow the user to set the range of the plot.
+The user can set the range by typing the desired values in the text boxes.
+In case of 1D plots, the user can set the range of the x-axis and the y-axis.
+In case of 2D plots, the user can set the range of the x-axis, the y-axis, and the
+variable to be plotted (v-axis). The range can also be set automatically by
+simply leaving these text boxes empty. The default value is “Auto”, which means
+that the range will be set automatically based on the data.</p>
+</section>
+<section id="options-scales">
+<h1>Options: scales<a class="headerlink" href="#options-scales" title="Link to this heading">#</a></h1>
+<p>The x- and y-scales can be set by using the “x-scale” and “y-scale” combo boxes.
+Possible options are “linear”, “logarithmic”, “symlog” and “asinh”. The default
+value is “linear”, which means that the x- and y-axes will be plotted on a
+linear scale. The last two options require an additional treshold value to be set
+in the “tresh” text box. The 2D plot scale can be set by using the “v-scale”
+combo box. Possible options are “linear”, “logarithmic”, “symlog”, “2slope”,
+“power” and “asinh”. The default value is “linear”, which means that the
+variable will be plotted on a linear scale. Some scales trequire an additional
+treshold value to be set in the “tresh” text box.</p>
+</section>
+<section id="options-colormap">
+<h1>Options: colormap<a class="headerlink" href="#options-colormap" title="Link to this heading">#</a></h1>
+<p>The colormap can be set by using the “Colormap” combo box. The user can choose
+from a list of available colormaps. The default value is “plasma”
+which is a perceptually uniform colormap. The user can also select the colormap type
+by using the leftmost panel in the cmap section. Then the user can choose the
+cesigned colormap from the middle combo box. The colormap can also be reversed
+by checking the “Reverse” checkbox.</p>
+</section>
+<section id="options-update-plot">
+<h1>Options: update plot<a class="headerlink" href="#options-update-plot" title="Link to this heading">#</a></h1>
+<p>The “Update plot” button allows the user to update the plot without having to
+reload the data. This is useful when the user wants to change the plot settings
+or the colormap without having to reload the data. The user can also change the
+title, range and scales without having to reload the data. The plot will be
+updated automatically when the user clicks on the “Update plot” button.</p>
+</section>
+<section id="options-clear-plot-section">
+<h1>Options: clear plot section<a class="headerlink" href="#options-clear-plot-section" title="Link to this heading">#</a></h1>
+<p>The “Clear” button will simply clear the plot panel, allowing the user to
+start over with a new plot. This is useful when the user wants to plot a new
+variable without having to reset all the panels.</p>
+</section>
+<section id="options-reload-canvas">
+<h1>Options: reload canvas<a class="headerlink" href="#options-reload-canvas" title="Link to this heading">#</a></h1>
+<p>The “Reload canvas” button allows the user to quickly change the plot settings
+by reloading the canvas. This is useful when the user has made changes to the
+plot settings or when the user wants to quickly switch between different
+plot settings without having to close and reopen the GUI.</p>
 </section>
 
 
@@ -475,20 +521,20 @@ slices. The slices are automatically generated based on the loaded data.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="guiload.html"
+       href="guivars.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">GUI load panel</p>
+        <p class="prev-next-title">GUI vars panel</p>
       </div>
     </a>
     <a class="right-next"
-       href="guiplot.html"
+       href="guiex1.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">GUI plot panel</p>
+        <p class="prev-next-title">GUI Example 1: Sod</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -511,10 +557,15 @@ slices. The slices are automatically generated based on the loaded data.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">GUI vars panel</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#option-transpose">Option: transpose</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#option-axes">Option: axes</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#option-slices">Option: slices</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">GUI plot panel</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#options-title">Options: title</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#options-aspect-ratio">Options: aspect ratio</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#options-range">Options: range</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#options-scales">Options: scales</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#options-colormap">Options: colormap</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#options-update-plot">Options: update plot</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#options-clear-plot-section">Options: clear plot section</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#options-reload-canvas">Options: reload canvas</a></li>
 </ul>
 
   </nav></div>

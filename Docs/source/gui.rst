@@ -90,4 +90,19 @@ bar.
 
 ----
 
+Examples with the GUI
+---------------------
+
+The GUI can be used to visualize the data in a simple and intuitive way. We have
+selected two examples to show how the GUI can be used to visualize the data:
+
+.. toctree::
+
+   guiex1
+   guiex2
+
+|
+
+----
+
 .. This is a comment to prevent the document from ending with a transition.

@@ -128,8 +128,18 @@ do the following:
 Code Structure
 --------------
 
-WIP...
+The code is mainly structured in the following way:
 
+- **gui**: Contains the GUI code, including panels, widgets, and main window logic
+- **imagefuncs**: Contains image processing functions and utilities
+- **loadfuncs**: Contains functions for loading and processing data files
+- **toolsfuncs**: Contains various utility functions and classes for data manipulation
+- **utils**: Contains utility functions and classes used across the project
+
+Note that the Image relies on a series of Manager classes (located in the 
+imagefuncs folder) that handle the image processing and plotting functionalities.
+In order to share the relevant methods and attributes across the Managers and 
+the Image class, two classes (ImageState and ImageMixin) are used.
 
 Questions or Suggestions?
 -------------------------

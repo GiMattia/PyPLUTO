@@ -53,6 +53,7 @@ Further information can be found in the
 
    guiload
    guivars
+   guiplot
 
 |
 
@@ -84,6 +85,21 @@ Multiple lines can be plotted on the same figure by checking the "overplot"
 box.
 The user can also further customize the plot due to the matplotlib customization
 bar.
+
+|
+
+----
+
+Examples with the GUI
+---------------------
+
+The GUI can be used to visualize the data in a simple and intuitive way. We have
+selected two examples to show how the GUI can be used to visualize the data:
+
+.. toctree::
+
+   guiex1
+   guiex2
 
 |
 

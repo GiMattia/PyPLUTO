@@ -503,7 +503,18 @@ do the following:</p>
 </section>
 <section id="code-structure">
 <h2>Code Structure<a class="headerlink" href="#code-structure" title="Link to this heading">#</a></h2>
-<p>WIP…</p>
+<p>The code is mainly structured in the following way:</p>
+<ul class="simple">
+<li><p><strong>gui</strong>: Contains the GUI code, including panels, widgets, and main window logic</p></li>
+<li><p><strong>imagefuncs</strong>: Contains image processing functions and utilities</p></li>
+<li><p><strong>loadfuncs</strong>: Contains functions for loading and processing data files</p></li>
+<li><p><strong>toolsfuncs</strong>: Contains various utility functions and classes for data manipulation</p></li>
+<li><p><strong>utils</strong>: Contains utility functions and classes used across the project</p></li>
+</ul>
+<p>Note that the Image relies on a series of Manager classes (located in the
+imagefuncs folder) that handle the image processing and plotting functionalities.
+In order to share the relevant methods and attributes across the Managers and
+the Image class, two classes (ImageState and ImageMixin) are used.</p>
 </section>
 <section id="questions-or-suggestions">
 <h2>Questions or Suggestions?<a class="headerlink" href="#questions-or-suggestions" title="Link to this heading">#</a></h2>

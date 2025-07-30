@@ -43,8 +43,8 @@ even if the output is stored in multiple files. However, the user can also
 specify the variables to be loaded by using the "vars" combo box. This is useful
 when the user wants to load only a subset of the variables present in the file.
 
-Options: clear
---------------
+Options: clear load section
+---------------------------
 
 The "Clear" button will simply clear the loading panel, allowing the user to
 start over with a new file selection. This is useful when the user wants to

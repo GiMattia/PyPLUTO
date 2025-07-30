@@ -70,24 +70,19 @@ def select_folder(self):
         else ""
     )
     bigstr += "PLUTO Files (*.dbl *.vtk *.flt *.dbl.h5 *.flt.h5 *.out *.hdf5 *.tab);;All Files (*)"
-    file_path, _ = QFileDialog.getOpenFileName(
-        self, "Select a File or Folder", os.getcwd(), bigstr
-    )
-    if file_path:
-        self.folder_path = os.path.dirname(file_path)
-        datatype = file_path.split("/")[-1].split(".")[-1]
-        datatype = datatype if datatype in formats_list else None
-        datatry = file_path.split("/")[-1].split(".")[0]
-        self.datatype = (
-            datatry
-            if datatry in formats_list and datatype is None
-            else datatype
-        )
-        try:
-            self.nout = int(file_path.split("/")[-1].split(".")[1])
-        except NameError:
-            self.nout = "last"
-        self.load_data()
+    dialog = QFileDialog(self, "Select a File or Folder", os.getcwd(), bigstr)
+    dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
+    dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
+
+    def on_accept():
+        selected = dialog.selectedFiles()
+        if selected:
+            file_path = selected[0]
+            self._finalize_load_path(file_path)
+
+    dialog.accepted.connect(on_accept)
+    dialog.open()
+    self._file_dialog = dialog  # Save for automation access
 
 
 def reload_data(self):
@@ -104,3 +99,15 @@ def clearload(self):
     self.format_selector.setCurrentIndex(0)
     self.outtext.clear()
     self.varstext.clear()
+
+
+def _finalize_load_path(self, file_path):
+    self.folder_path = os.path.dirname(file_path)
+    filename = os.path.basename(file_path)
+    parts = filename.split(".")
+    self.datatype = parts[-1]
+    try:
+        self.nout = int(parts[1])
+    except Exception:
+        self.nout = "last"
+    self.load_data()

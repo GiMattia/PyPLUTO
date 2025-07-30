@@ -406,6 +406,7 @@
 <span class="kn">from</span> <span class="nn">.imagefuncs.interactive</span> <span class="kn">import</span> <span class="n">InteractiveManager</span>
 <span class="kn">from</span> <span class="nn">.imagefuncs.legend</span> <span class="kn">import</span> <span class="n">LegendManager</span>
 <span class="kn">from</span> <span class="nn">.imagefuncs.plot</span> <span class="kn">import</span> <span class="n">PlotManager</span>
+<span class="kn">from</span> <span class="nn">.imagefuncs.range</span> <span class="kn">import</span> <span class="n">RangeManager</span>
 <span class="kn">from</span> <span class="nn">.imagefuncs.scatter</span> <span class="kn">import</span> <span class="n">ScatterManager</span>
 <span class="kn">from</span> <span class="nn">.imagefuncs.set_axis</span> <span class="kn">import</span> <span class="n">AxisManager</span>
 <span class="kn">from</span> <span class="nn">.imagefuncs.streamplot</span> <span class="kn">import</span> <span class="n">StreamplotManager</span>
@@ -532,6 +533,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">InteractiveManager</span> <span class="o">=</span> <span class="n">InteractiveManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">LegendManager</span> <span class="o">=</span> <span class="n">LegendManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">PlotManager</span> <span class="o">=</span> <span class="n">PlotManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span> <span class="o">=</span> <span class="n">RangeManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ScatterManager</span> <span class="o">=</span> <span class="n">ScatterManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">StreamplotManager</span> <span class="o">=</span> <span class="n">StreamplotManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ZoomManager</span> <span class="o">=</span> <span class="n">ZoomManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>

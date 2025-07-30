@@ -136,7 +136,13 @@ class PyPLUTOApp(QMainWindow):
         self.create_new_figure()
         main_layout.addLayout(self.canvas_layout)
 
-    from .config import clearload, load_data, reload_data, select_folder
+    from .config import (
+        _finalize_load_path,
+        clearload,
+        load_data,
+        reload_data,
+        select_folder,
+    )
     from .panels import (
         add_checkbox,
         add_combobox,

@@ -108,6 +108,7 @@ class ColorbarManager(ImageMixin):
         """
         # Check parameters
         kwargs.pop("check", check)
+        print("ColorbarManager MRO:", ColorbarManager.__mro__)
 
         # If pcm and a source axes are selected, raise a warning and use pcm
         if pcm is not None and axs is not None:
@@ -115,12 +116,7 @@ class ColorbarManager(ImageMixin):
             warnings.warn(warn, UserWarning)
 
         # Standard check on the figure
-        if self.state is None:
-            raise ValueError(
-                "No figure is present. Please create a figure first."
-            )
-
-        if self.state.fig is None:
+        if self.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )

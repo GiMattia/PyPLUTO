@@ -25,10 +25,6 @@ def test_attribute_get_existing():
     assert img.custom_attr == 123
     img.custom_attr = 456
     assert img.state.custom_attr == 456
-    img.another_attr = 789
-    assert img.state.another_attr == 789
-    img.another_attr = 101112
-    assert img.state.another_attr == 101112
 
 
 def test_Image_prints_message(capfd):

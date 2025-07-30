@@ -120,7 +120,7 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
             # Check if the 'winsound' package is available on Windows
             import winsound
 
-            winsound.Beep(freq, length)
+            winsound.Beep(freq, length)  # type: ignore
         except UserWarning:
             # If the 'winsound' package is not available, raise a warning
             text = (

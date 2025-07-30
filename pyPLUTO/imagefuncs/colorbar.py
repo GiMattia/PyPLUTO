@@ -115,6 +115,8 @@ class ColorbarManager(ImageMixin):
             warnings.warn(warn, UserWarning)
 
         # Standard check on the figure
+        # Here we use self.state to fix a WINDOWS issue where self.fig
+        # is not defined in the ImageMixin
         if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."

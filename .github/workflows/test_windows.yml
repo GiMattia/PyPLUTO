@@ -20,6 +20,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Clean untracked files & bytecode
+        run: |
+          # remove any stray compiled or cached files
+          git clean -xfd
+          # Purge any lingering pyc/__pycache__
+          Get-ChildItem -Path . -Include *.pyc -Recurse | Remove-Item -Force -ErrorAction SilentlyContinue
+          Get-ChildItem -Path . -Include __pycache__ -Recurse | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
+        shell: pwsh
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -30,10 +39,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements_dev.txt
 
-      - name: Install pyPLUTO
+      - name: Install pyPLUTO in editable mode
         run: |
-          python -m pip install .
+          # ensure any old install is removed
+          pip uninstall -y pyPLUTO || true
+          pip install -e .
+
+      - name: Show import path (debug)
+        run: |
+          python - <<'PYCODE'
+          import pyPLUTO
+          print("pyPLUTO loaded from:", pyPLUTO.__file__)
+          PYCODE
 
       - name: Run Tests
-        run: pytest -v
+        run: |
+          # force pytest to load from workdir
+          set PYTHONPATH=.
+          pytest -v
         working-directory: ./Tests

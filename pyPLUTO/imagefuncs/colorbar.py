@@ -24,6 +24,7 @@ class ColorbarManager(ImageMixin):
     def __init__(self, state: ImageState):
         """Initialize the ColorbarManager with the given state."""
         self.state = state
+        super().__init__()
         self.ImageToolsManager = ImageToolsManager(state)
 
     @track_kwargs

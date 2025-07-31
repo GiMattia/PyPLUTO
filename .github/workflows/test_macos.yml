@@ -24,8 +24,6 @@ jobs:
         shell: pwsh
         run: |
           git clean -xfd
-          Get-ChildItem -Path . -Include *.pyc -Recurse | Remove-Item -Force -ErrorAction SilentlyContinue
-          Get-ChildItem -Path . -Include __pycache__ -Recurse | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
 
       - name: Set up Python
         uses: actions/setup-python@v4

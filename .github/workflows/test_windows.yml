@@ -2,7 +2,7 @@ name: Tests on Windows
 
 on:
   push:
-    branches: [ master ]
+    #branches: [ master ]
   pull_request:
 
 jobs:
@@ -23,8 +23,8 @@ jobs:
         shell: pwsh
         run: |
           git clean -xfd
-          Get-ChildItem -Path . -Include *.pyc -Recurse | Remove-Item -Force -ErrorAction SilentlyContinue
-          Get-ChildItem -Path . -Include __pycache__ -Recurse | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
+        #  Get-ChildItem -Path . -Include *.pyc -Recurse | Remove-Item -Force -ErrorAction SilentlyContinue
+        #  Get-ChildItem -Path . -Include __pycache__ -Recurse | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -40,11 +40,6 @@ jobs:
         run: |
           pip uninstall -y pyPLUTO || true
           pip install -e .
-
-      - name: Show import path (debug)
-        shell: pwsh
-        run: |
-          python -c "import pyPLUTO; print('pyPLUTO loaded from:', pyPLUTO.__file__)"
 
       - name: Run Tests
         shell: pwsh

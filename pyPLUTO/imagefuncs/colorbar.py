@@ -118,7 +118,7 @@ class ColorbarManager(ImageMixin):
         # Standard check on the figure
         # Here we use self.state to fix a WINDOWS issue where self.fig
         # is not defined in the ImageMixin
-        if self.state.fig is None:
+        if self.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -131,7 +131,7 @@ class ColorbarManager(ImageMixin):
             axs = pcm.axes
         elif axs is None:
             # If axs is None, use the current axes
-            gca = self.state.fig.gca()
+            gca = self.fig.gca()
             if not isinstance(gca, Axes):
                 raise TypeError("gca() did not return an Axes instance.")
             axs = gca
@@ -160,7 +160,7 @@ class ColorbarManager(ImageMixin):
             raise TypeError("cax must be an Axes instance.")
 
         # Place the colorbar
-        cbar = self.state.fig.colorbar(
+        cbar = self.fig.colorbar(
             pcm,
             cax=cax,
             label=kwargs.get("clabel", ""),
@@ -177,6 +177,6 @@ class ColorbarManager(ImageMixin):
 
         # Ensure, if needed, the tight layout
         if self.state.tight:
-            self.state.fig.tight_layout()
+            self.fig.tight_layout()
 
         # End of function

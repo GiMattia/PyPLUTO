@@ -31,9 +31,15 @@ jobs:
           # paper.md
           path: Paper/paper.pdf
 
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+          persist-credentials: true
+
       - name: Commit PDF to repository
         uses: EndBug/add-and-commit@v9
         with:
           message: '(auto) Paper PDF Draft'
-          # This should be the path to the paper within your repo.
-          add: 'Paper/paper.pdf' # 'paper/*.pdf' to commit all PDFs in the paper directory
+          add: 'Paper/paper.pdf'

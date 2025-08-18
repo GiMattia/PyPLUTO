@@ -9,10 +9,12 @@ class ImageMixin:
 
     @property
     def LaTeX(self):
+        """Get the LaTeX state of the image."""
         return self.state.LaTeX
 
     @LaTeX.setter
     def LaTeX(self, value):
+        """Set the LaTeX state of the image."""
         self.state.LaTeX = value
 
     @property

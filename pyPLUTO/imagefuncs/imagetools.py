@@ -9,7 +9,11 @@ import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.colors import Normalize
 from matplotlib.text import Text
-from pastamarkers import salsa
+
+try:
+    from pastamarkers import salsa
+except:
+    salsa = None  # type: ignore[assignment]
 
 from ..imagemixin import ImageMixin
 from ..imagestate import ImageState
@@ -417,6 +421,14 @@ class ImageToolsManager(ImageMixin):
             return plt.get_cmap(name)
         except ValueError:
             pass  # Not a matplotlib colormap
+
+        if salsa is None:
+            warn = (
+                "salsa is not installed, cannot find colormap. "
+                "Defaulting to 'plasma'."
+            )
+            warnings.warn(warn, UserWarning)
+            return plt.get_cmap("plasma")
 
         # Try salsa colormap
         reverse = False

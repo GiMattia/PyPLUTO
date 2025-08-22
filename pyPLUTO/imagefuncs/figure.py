@@ -329,7 +329,7 @@ class FigureManager(ImageMixin):
         - close: bool, default True
             If True, the existing figure with the same window number is closed.
         - fig (not optional): Figure | None, default None
-            The the figure instance. If not None, the figure is used (only if we
+            The figure instance. If not None, the figure is used (only if we
             need to associate an Image to an existing figure).
         - figsize: list[float], default [8,5]
             The figure size.

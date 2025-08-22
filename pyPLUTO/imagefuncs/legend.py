@@ -34,8 +34,7 @@ class LegendManager(ImageMixin):
     ) -> None:
         """Creation of a legend referring to the current figure.
         If no labels are given, it shows the labels of all the plots in the
-        figure, ordered by entry. If specific labels are given, it shows those
-        ones.
+        figure, ordered by entry. If specific labels are given, it shows those.
 
         Returns
         -------

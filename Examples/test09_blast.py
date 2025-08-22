@@ -1,13 +1,13 @@
 """MHD Blast test.
 
 This test shows how to plot different quantities with customized legends
-in two different subplots refering to initial and final time data.
+in two different subplots referring to initial and final time data.
 
 The data are the ones obtained from the PLUTO test problem
 $PLUTO_DIR/Test_Problems/MHD/Blast (configuration 9).
 
 The data is loaded twice into a pload object D and the Image class is
-created. The slices method is used to obtain a slice of the desired
+created. The ´slices´ method is used to obtain a slice of the desired
 quantity along the diagonals of the domain. The plot method and the
 legend method are then used to plot a highly informative plot of density
 and pression with customized legend labels. The image is then saved and

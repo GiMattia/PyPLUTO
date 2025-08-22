@@ -117,7 +117,7 @@ If you prefer a fast, modern alternative, you can use
 Issues
 ------
 
-If you encounter any issues during the installation, plaease check that you have
+If you encounter any issues during the installation, please check that you have
 the required dependencies installed, and run the command
 
 .. code-block:: console

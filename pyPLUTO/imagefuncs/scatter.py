@@ -115,8 +115,7 @@ class ScatterManager(ImageMixin):
             of the keyword 'fontsize'.
         - tresh: float, default max(abs(vmin),vmax)*0.01
             Sets the threshold for the colormap. If not defined, the threshold
-            will
-            be set to 1% of the maximum absolute value of the variable.
+            will be set to 1% of the maximum absolute value of the variable.
             The default cases are the following:
             - twoslope colorscale: sets the limit between the two linear
             regimes.

@@ -6,13 +6,13 @@ in the same plot.
 The data are the ones obtained from the PLUTO test problem
 $PLUTO_DIR/Test_Problems/HD/Sod (configuration 1).
 
-In this script the quatities plotted are density, pressure and velocity
+In this script the plotted variables are density, pressure and velocity
 (component x) in different colors. The relevant keywords to customize
 the plot (e.g., the labels or the legend position) are scattered through
 the different line plotting methods in order to show the flexibility of
-PyPLUTO in terms of plot cusotmization. A legend is placed (legpos 0
+PyPLUTO in terms of plot customization. A legend is placed (legpos 0
 means that the location is chosen automatically) in order to
-differenciate the lines. The image is then saved and shown on screen.
+differentiate the lines. The image is then saved and shown on screen.
 
 Note that the Image is saved through I.savefig (and not pp.savefig)
 since saving a file should be strictly related to a single Image class.

@@ -69,7 +69,7 @@ def show(block: bool = True) -> None:
 
 def ring(length: float = 0.5, freq: int = 440) -> None:
     """Makes a sound for a given length and frequency. It works on
-    Linux, MacOS and Windows.
+    Linux, macOS and Windows.
 
     Parameters
     ----------

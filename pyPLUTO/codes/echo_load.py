@@ -28,7 +28,7 @@ def echo_load(self, nout, path, vars):
     # Geometry is set to CARTESIAN by default
     self.geom = "CARTESIAN"
 
-    # DIctionary to convert the keys from ECHO to PLUTO
+    # Dictionary to convert the keys from ECHO to PLUTO
     conv_dict = {
         "x": "x1",
         "y": "x2",
@@ -47,7 +47,7 @@ def echo_load(self, nout, path, vars):
         "ez": "Ex3",
     }
 
-    # Opwn te grid file and load the grid data
+    # Open te grid file and load the grid data
     grid = h5py.File(self.pathdir / "grid.h5", "r")
     for key in grid.keys():
         # Check if the key is in the dictionary and convert it
@@ -71,7 +71,7 @@ def echo_load(self, nout, path, vars):
         else:
             setattr(self, f"n{dim}", 1)
 
-    # Compute the dimensios and the grid size
+    # Compute the dimensions and the grid size
     self.dim = (self.nx1 > 1) + (self.nx2 > 1) + (self.nx3 > 1)
     self.gridsize = self.nx1 * self.nx2 * self.nx3
 

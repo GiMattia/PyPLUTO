@@ -3,7 +3,7 @@ Contribute
 
 Thank you for considering contributing to **PyPLUTO**!
 
-We welcome contributions of all kinds, including bug reports, feature requests, 
+We welcome contributions of all kinds, including bug reports, feature requests,
 documentation improvements, and code contributions.
 
 Getting Started
@@ -47,7 +47,7 @@ You should see this (or similar) output:
 Testing
 -------
 
-The core functionalty of PyPLUTO is tested through a set of pytes benchmarks 
+The core functionality of PyPLUTO is tested through a set of pytest benchmarks 
 present in the `Tests` folder. To run the tests, you can use:
 
 .. code-block:: console
@@ -115,7 +115,7 @@ During every pre-commit the code is automatically formatted to adhere with the
 In order to format automatically the code at every saving in VsCode, you can 
 do the following:
 
-1. Search the VS Code Marketplace for the formatter extension "Black formatter"
+1. Search the VS Code Marketplace fot the formatter extension "Black formatter"
 
 2. Go to File -> Preferences -> Settings
 

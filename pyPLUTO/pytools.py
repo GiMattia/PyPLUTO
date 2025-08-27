@@ -104,7 +104,7 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
     """
     # Check the OS
     if os.name == "posix":
-        # Check if the 'play' command is available on Linux and MacOS
+        # Check if the 'play' command is available on Linux and macOS
         try:
             os.system(f"play -nq -t alsa synth {length} sine {freq}")
         except UserWarning:
@@ -130,7 +130,7 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
             )
             warnings.warn(text, UserWarning)
     else:
-        # If the OS is not Linux, MacOS or Windows, raise a warning
+        # If the OS is not Linux, macOS or Windows, raise a warning
         text = f"pyPLUTO.ring is not implemented for this OS: {os.name}"
         warnings.warn(text, UserWarning)
 

@@ -112,7 +112,7 @@ fluid output files.
 
 .. note::
    In the future a better customization will be possible (e.g. displays with
-   fieldlines through callable functions).
+   field lines through callable functions).
 
 Figures plotted interactively can be visualized through the entire temporal
 evolution, with a high parameters customization provided by the

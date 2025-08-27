@@ -17,7 +17,7 @@ Variables and grid conversion
 
 PyPLUTO works with all the geometries accessible with the PLUTO code.
 In order to obtain field lines in non-cartesian geometries, some additional
-procedures should be followed. First, the vector components whould bconverted
+procedures should be followed. First, the vector components would be converted
 into the cartesian ones through the :ref:`cartesian_vector <cartesian_vector>`
 method, which works for both polar and spherical coordinates.
 Next, the variables and the grid can be converted into a cartesian mesh by using
@@ -54,7 +54,7 @@ or closing the field line, are performed.
 Once the lines are computed, they can be plotted through standard plotting
 methods.
 The same principle works for the :ref:`find_contour <find_contour>` method,
-which aims at finding all the contour lines of sleected levels (or a range
+which aims at finding all the contour lines of selected levels (or a range
 of levels linearly or logarithmically spaced) in any geometry.
 As for the field lines, here the contour lines are only computed (and associated
 to a color depending on the level) and can be plotted through standard plotting
@@ -73,9 +73,9 @@ Fourier Transform
 
    fourier
 
-Fourier transform can be performed in all dimensions considering or exclunding
+Fourier transform can be performed in all dimensions considering or excluding
 selected directions through the :ref:`fourier <fourier>` method. Note that this
-method works only in cartesiangeometry and for uniform grids (but the
+method works only in cartesian geometry and for uniform grids (but the
 :ref:`reshape_uniform <reshape_uniform>` method can convert a stretched grid
 into a cartesian one).
 
@@ -95,7 +95,7 @@ Derivatives
    curl
 
 Derivatives (such as :ref:`gradient <gradient>`, :ref:`divergence <divergence>`
-and :ref:`curl <curl>` can be perfoemrd in any geometry and dimension. A 3-cells
+and :ref:`curl <curl>` can be performed in any geometry and dimension. A 3-cells
 stencil is computed in order to achieve at least second-order accuracy.
 
 |

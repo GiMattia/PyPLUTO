@@ -81,7 +81,7 @@ class StreamplotManager(ImageMixin):
             Sets the colorbar scale. Default is the linear ('norm') scale.
         - density: float, default 1.0
             Sets the density and closeness of the streamlines. The domain is
-            divided in a 30x30 grid. When set as default, each cells contains at
+            divided in a 30x30 grid. When set as default, each cell contains at
             most a number of crossing streamplot line equal to this keyword.
         - extend: {'neither','both','min','max'}, default 'neither'
             Sets the extension of the triangular colorbar extension.

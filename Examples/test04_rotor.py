@@ -1,7 +1,7 @@
 """MHD Rotor test.
 
 This test shows how to compute and plot contour lines of the vector potential
-from a test problem in non-cartesian coordinates.
+from a test problem in non-Cartesian coordinates.
 
 The data are the ones obtained from the PLUTO test problem
 $PLUTO_DIR/Test_Problems/MHD/Rotor (configuration 4).

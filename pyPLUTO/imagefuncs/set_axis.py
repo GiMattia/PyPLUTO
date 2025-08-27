@@ -52,7 +52,7 @@ class AxisManager(ImageMixin):
             axis).
         - grid: bool | string, default False
             Enables/disables the grid on the plot. If True it enables both axes
-            grids. If 'x' or 'y' it enables only the x or y axis grid.
+            grids. If 'x' or 'y' it enables only the x- or y-axis grid.
         - labelsize: float, default fontsize
             Sets the labels fontsize (which is the same for both labels).
             The default value corresponds to the value of the keyword

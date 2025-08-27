@@ -120,7 +120,7 @@ This plot provides a clear visual representation of particle motion and energy c
 
 # Ongoing research using PyPLUTO
 
-Research applicable with PyPLUTO includes the development of numerical algorithms [@MattiaMignone2022;@Bertaetal2024,@MelonFuksman2025] and numerical simulations of astrophysical objects, such as jets [@MattiaFendt2022;@Mattiaetal2023;@Mattiaetal2024;@Costa2025;@Sciaccaluge2025], star clusters[@Harer2025], and protoplanetary disks [@MelonFuksman2024a;@MelonFuksman2024b], as well as physical processes, such as particle acceleration [@Wangetal2024] and magnetic reconnection [@Buglietal2024].
+Research applicable with PyPLUTO includes the development of numerical algorithms [@MattiaMignone2022;@Bertaetal2024;@MelonFuksman2025] and numerical simulations of astrophysical objects, such as jets [@MattiaFendt2022;@Mattiaetal2023;@Mattiaetal2024;@Costa2025;@Sciaccaluge2025], star clusters [@Harer2025], and protoplanetary disks [@MelonFuksman2024a;@MelonFuksman2024b], as well as physical processes, such as particle acceleration [@Wangetal2024] and magnetic reconnection [@Buglietal2024].
 
 # Conclusion and Future Perspectives
 

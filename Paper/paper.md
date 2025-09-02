@@ -79,8 +79,8 @@ In recent years, numerical simulations have become indispensable for addressing 
 # Statement of Need
 
 The PLUTO code [@PLUTO_2007] is a widely used, freely distributed computational fluid dynamics code designed to solve the classical and (special) relativistic MHD equations in different geometries and spatial dimensions. The original code is written in C (while the upcoming GPU version provides a full [C++ rewrite](https://plutocode.ph.unito.it/pluto-gpu.html)) and it contains several numerical methods adaptable to different contexts. Data post-processing is a crucial step in analyzing the results of any numerical simulation. Other packages addressing related needs (e.g., [plutoplot](https://github.com/Simske/plutoplot)), provide valuable functionality for working with PLUTO data, including loading and visualization. However, they may not support all data formats or offer integration for tasks like data manipulation and advanced plotting.
-In this work, we present PyPLUTO v1.1, a Python package designed to load, manipulate and visualize efficiently the output from the PLUTO code.
-While a previous version of PyPLUTO is [available](https://github.com/coolastro/pyPLUTO), PyPLUTO v1.1, is a complete rewrite hosted at a [new repository](https://github.com/GiMattia/PyPLUTO).
+In this work, we present PyPLUTO, a Python package designed to load, manipulate and visualize efficiently the output from the PLUTO code.
+While a previous version of PyPLUTO is [available](https://github.com/coolastro/pyPLUTO), the package presented here is a complete rewrite hosted at a [new repository](https://github.com/GiMattia/PyPLUTO).
 The package retains its core strengths while offering user-friendly methods for generating publication-quality plots with high customization. In addition to its enhanced flexibility, PyPLUTO offers strong computational efficiency, enabling the rapid handling of large datasets typical of state-of-the-art numerical simulations. Through this balance between customization, performance, and ease of use, PyPLUTO represents a key tool to effectively communicate scientific results while minimizing the effort required for post-processing.
 
 # Main Features
@@ -93,7 +93,7 @@ PyPLUTO is a package written in Python (version $\geq$ 3.10) with the additions 
 
 • The `Image` class produces and handles the graphical windows and the plotting procedures.
 
-Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot 1D and 2D data in a single set of axes. PyPLUTO has been implemented to be supported by Windows, MacOS, and Linux, through both standard scripts and more interactive tools (e.g., IPython or Jupyter). The style guidelines follow the [PEP8](https://peps.python.org/pep-0008/) conventions for Python codes (enforced through the Black package [@Langa2020]) and focus on clarity and code readability.
+Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot 1D and 2D data in a single set of axes. PyPLUTO has been implemented to be supported by Windows, MacOS, and Linux, through both standard scripts and more interactive tools (e.g., IPython or Jupyter). The style guidelines follow the [PEP8](https://peps.python.org/pep-0008/) conventions for Python codes enforced through the Black package [@Langa2020], and focus on clarity and code readability.
 Finally, by leveraging the capabilities of the [sphinx package](http://sphinx-doc.org/sphinx.pdf), PyPLUTO features extensive docstrings, providing a useful reference for both users and developers.
 
 # Benchmark Examples

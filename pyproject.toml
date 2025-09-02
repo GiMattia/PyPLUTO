@@ -111,7 +111,6 @@ branch = true
 omit = [
     "*/Tests/*",
     "*/Docs/*",
-    "*/Src/setup.py",
     "*/.venv/*",
     "*/site-packages/*"
 ]

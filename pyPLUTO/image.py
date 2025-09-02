@@ -1,4 +1,5 @@
-# image_new.py
+"""Image class. It plots the data."""
+
 from typing import Any
 
 from matplotlib.figure import Figure
@@ -24,14 +25,18 @@ from .utils.inspector import track_kwargs
 
 
 class Image(ImageMixin):
-    """Image class. It plots the data. The Image class is a facade for the
-    different managers that handle the various aspects of plotting, such as
-    creating axes, displaying data, adding colorbars, and more. It provides a
-    unified interface for creating and managing plots in a figure.
-    The attributes are handled through the `ImageState` class, which is a
-    dataclass that stores the state of the image, such as the figure, axes,
-    and other properties. The `Image` class uses a mediator pattern to manage
-    the interactions between the different managers and the state."""
+    """Description of the Image class.
+
+    The Image class is a facade for the different managers that handle the
+    various aspects of plotting, such as creating axes, displaying data, adding
+    legends, text, fieldlines, colorbars, and more. It provides a unified
+    interface for creating and managing plots in a figure. The attributes are
+    handled through the `ImageState` class, which is a dataclass that stores the
+    state of the image, such as the figure, axes, and other properties. The
+    `Image` class uses a mediator pattern to manage the interactions between the
+    different managers and the state.
+
+    """
 
     @track_kwargs
     def __init__(
@@ -43,11 +48,12 @@ class Image(ImageMixin):
         check: bool = True,
         **kwargs: Any,
     ) -> None:
-        """Initialization of the Image class that creates a new figure and sets
-        the LaTeX conditions, as well as the matplotlib style. Every Image is
-        associated to a figure object and only one in order to avoid confusion
-        between images and figures. If you want to create multiple figures, you
-        have to create multiple Image objects.
+        """Initialize the Image class.
+
+        Ihat creates a new figure and sets the LaTeX conditions, as well as the
+        matplotlib style. Every Image is associated to a figure object and only
+        one in order to avoid confusion between images and figures. If you want
+        to create multiple figures, you have to create multiple Image objects.
 
         Returns
         -------
@@ -147,6 +153,7 @@ class Image(ImageMixin):
             print(f"Image class created at nwin {self.nwin}")
 
     def __str__(self) -> str:
+        """Print the Image class."""
         return r"""
         Image class.
         It plots the data.
@@ -206,6 +213,7 @@ class Image(ImageMixin):
         """
 
     def __setattr__(self, name, value):
+        """Set the attribute of the Image class."""
         if name == "state" or not hasattr(self, "state"):
             # Initialization step: allow everything until state exists
             super().__setattr__(name, value)
@@ -220,6 +228,7 @@ class Image(ImageMixin):
             setattr(self.state, name, value)
 
     def __getattr__(self, name):
+        """Get the attribute of the Image class."""
         # Called only if attribute not found in usual places
         if hasattr(self.state, name):
             return getattr(self.state, name)
@@ -232,64 +241,79 @@ class Image(ImageMixin):
 
     @property
     def animate(self):
+        """Property for the animate method."""
         return self.InteractiveManager.animate
 
     @property
     def colorbar(self):
+        """Property for the colorbar method."""
         return self.ColorbarManager.colorbar
 
     @property
     def contour(self):
+        """Property for the contour method."""
         return self.ContourManager.contour
 
     @property
     def create_axes(self):
+        """Property for the create_axes method."""
         return self.CreateAxesManager.create_axes
 
     @property
     def display(self):
+        """Property for the display method."""
         return self.DisplayManager.display
 
     @property
     def interactive(self):
+        """Property for the interactive method."""
         return self.InteractiveManager.interactive
 
     @property
     def legend(self):
+        """Property for the legend method."""
         return self.LegendManager.legend
 
     @property
     def plot(self):
+        """Property for the plot method."""
         return self.PlotManager.plot
 
     @property
     def savefig(self):
+        """Property for the savefig method."""
         return self.ImageToolsManager.savefig
 
     @property
     def scatter(self):
+        """Property for the scatter method."""
         return self.ScatterManager.scatter
 
     @property
     def set_axis(self):
+        """Property for the set_axis method."""
         return self.AxisManager.set_axis
 
     @property
     def show(self):
+        """Property for the show method."""
         return self.ImageToolsManager.show
 
     @property
     def text(self):
+        """Property for the text method."""
         return self.ImageToolsManager.text
 
     @property
     def streamplot(self):
+        """Property for the streamplot method."""
         return self.StreamplotManager.streamplot
 
     @property
     def zoom(self):
+        """Property for the zoom method."""
         return self.ZoomManager.zoom
 
     def oplotbox(self, *args: Any, **kwargs: Any) -> None:
-        """Plots a box in the figure (AMR, WIP)"""
+        """Plot a box in the figure (AMR, WIP)."""
         oplotbox(self, *args, **kwargs)

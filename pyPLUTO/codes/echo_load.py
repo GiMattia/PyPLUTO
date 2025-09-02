@@ -1,16 +1,20 @@
+"""Module to load the data from the output files of the ECHO code."""
+
 import h5py
 
 
-def echo_load(self, nout, path, vars):
-    """Method to load the data from the output files of the ECHO code.
+def echo_load(
+    self,
+    nout: int | str | list | None,
+    path: str,
+    vars: str | list[str] | bool | None = True,
+) -> None:
+    """Load the data from the output files of the ECHO code.
+
     The data are loaded only from h5 files and only a single output is
     possible. Note that binary files produced by ECHO are not supported
     by this method. The data are loaded in the PLUTO format, so the
     variables are renamed to match the PLUTO naming convention.
-
-    Returns
-    -------
-    - None
 
     Parameters
     ----------
@@ -20,6 +24,17 @@ def echo_load(self, nout, path, vars):
         The path to the folder containing the data files.
     - vars: str | list[str] | bool | None, default True
         The variables to be loaded. If 'True', all the variables are loaded.
+
+    Returns
+    -------
+    - None
+
+    Examples
+    --------
+    Example 1: Load all the variables from the last output in the current
+    folder.
+
+    >>> NOT IMPLEMENTED YET
 
     """
     # Check the path and convert it to a Path object
@@ -49,7 +64,7 @@ def echo_load(self, nout, path, vars):
 
     # Open te grid file and load the grid data
     grid = h5py.File(self.pathdir / "grid.h5", "r")
-    for key in grid.keys():
+    for key in grid:
         # Check if the key is in the dictionary and convert it
         if key in conv_dict:
             setattr(self, conv_dict[key], grid[key][:])

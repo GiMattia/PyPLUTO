@@ -91,6 +91,9 @@ ignore = [
     "D213"   # Conflicts with D212 (summary on first vs second line)
 ]
 
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
 [tool.mypy]
 check_untyped_defs = true
 ignore_missing_imports = true

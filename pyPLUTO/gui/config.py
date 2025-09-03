@@ -4,6 +4,8 @@ from PyQt6.QtWidgets import QFileDialog
 
 import pyPLUTO as pp
 
+from .custom_var import setup_var_selector
+
 
 def load_data(self):
     try:
@@ -25,6 +27,8 @@ def load_data(self):
         self.xaxis_selector.clear()
         self.yaxis_selector.clear()
         self.var_selector.addItems(self.D._load_vars)
+        self.var_selector.addItems(["Custom var..."])
+        setup_var_selector(self.var_selector, self.D)
         if self.D.geom == "POLAR":
             xaxis_labels = ["R", "phi", "z", "x", "y"]
             yaxis_labels = ["phi", "z", "R", "x", "y"]
@@ -69,8 +73,9 @@ def select_folder(self):
         if format_name != "None"
         else ""
     )
+    starting_dir = self.folder_path if self.folder_path else os.getcwd()
     bigstr += "PLUTO Files (*.dbl *.vtk *.flt *.dbl.h5 *.flt.h5 *.out *.hdf5 *.tab);;All Files (*)"
-    dialog = QFileDialog(self, "Select a File or Folder", os.getcwd(), bigstr)
+    dialog = QFileDialog(self, "Select a File or Folder", starting_dir, bigstr)
     dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
     dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
 

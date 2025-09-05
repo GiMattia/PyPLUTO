@@ -53,7 +53,7 @@ affiliations:
  - name: Institut d’Astrophysique de Paris, UMR 7095, CNRS & Sorbonne Université, 98bis boulevard Arago, 75014 Paris, France
    index: 4
 
- - name: Université Paris-Saclay, Université Paris Cité,CEA, CNRS, AIM, Gif-sur-Yvette, 91191, France
+ - name: Université Paris-Saclay, Université Paris Cité, CEA, CNRS, AIM, Gif-sur-Yvette, 91191, France
    index: 5
 
  - name: INFN, Sezione di Torino, Via P. Giuria 1, Torino, 10125, Italy
@@ -139,6 +139,7 @@ Alongside these improvements, PyPLUTO development will focus on encompassing the
 G. Mattia thanks L. Del Zanna and M. Flock for the discussions on data visualization and the Data Science Department of the Max Planck Institute for Astronomy for helping with Python and Matplotlib.
 The authors thank Simeon Doetsch for their insights on memory mapping techniques and Deniss Stepanovs and Antoine Strugarek for their contribution throughout the years to previous PyPLUTO versions.
 The authors thank Agnese Costa, Alberto Sciaccaluga, Alessio Suriano, Asmita Bhandare, Dhruv Muley, Dipanjan Mukherjee, Jieshuang Wang, Jacksen Narvaez, Lucia Haerer, Prakruti Sudarshan, Stefano Truzzi, and Stella Boula for testing the module while still under full rewrite.
+M. Bugli acknowledges the support of the French Agence Nationale de la Recherche (ANR), under grant ANR-24-ERCS-0006 (project BlackJET).
 This project has received funding from the European Union's Horizon Europe research and innovation programme under the Marie Skłodowska-Curie grant agreement No 101064953 (GR-PLUTO).
 
 # References

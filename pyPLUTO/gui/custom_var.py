@@ -1,4 +1,11 @@
-# pypluto_custom_var_singlefile.py
+"""A custom variable evaluator for PyPLUTO."""
+
+import os
+import re
+import tempfile
+
+import numexpr as ne
+import numpy as np
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QComboBox,
@@ -6,155 +13,344 @@ from PyQt6.QtWidgets import (
     QDialogButtonBox,
     QFormLayout,
     QLabel,
-    QLineEdit,
     QPlainTextEdit,
     QVBoxLayout,
 )
 
 SENTINEL = "Custom var..."
 
+# --- tiny normalizer ---------------------------------------------------------
+# Allow both D.something and bare names; allow np./numpy. prefixes.
+_NORM_PATTERNS = [
+    (re.compile(r"\bD\."), ""),  # D.Bx1 -> Bx1
+    (re.compile(r"\bnp\."), ""),  # np.sqrt -> sqrt
+    (re.compile(r"\bnumpy\."), ""),  # numpy.sqrt -> sqrt
+]
 
-# ---- Minimal dialog: name (1 line) + expression (multi-line) ----
+
+def _normalize_expr(expr: str) -> str:
+    s = expr.strip()
+    for pat, repl in _NORM_PATTERNS:
+        s = pat.sub(repl, s)
+    return s
+
+
+# --- evaluator ---------------------------------------------------------------
+def evaluate_custom_var(D, name: str, expr: str, *, assign: bool = True):
+    """
+    numexpr-only, memmap output for arrays, scalar stays scalar.
+    Accepts D.foo or foo; np.func/numpy.func or func directly.
+    """
+    expr = _normalize_expr(expr)
+
+    # Build locals from D (public, non-callable) + constants
+    local = {"pi": float(np.pi), "e": float(np.e)}
+    for k, v in D.__dict__.items():
+        if not k.startswith("_") and not callable(v):
+            local[k] = v
+
+    # Parse/compile (syntax check)
+    try:
+        compiled = ne.NumExpr(expr)
+    except Exception as e:
+        raise ValueError(f"compile error: {e}")
+
+    # Validate cheaply on only the used names (1-element views)
+    names = compiled.input_names
+    tiny = {}
+    for n in names:
+        v = local.get(n)
+        if v is None:
+            raise ValueError(f"unknown name: {n}")
+        tiny[n] = v.reshape(-1)[:1] if isinstance(v, np.ndarray) else v
+    try:
+        tiny_res = ne.evaluate(expr, local_dict=tiny, global_dict={})
+    except Exception as e:
+        raise ValueError(f"validation error: {e}")
+
+    # Infer shape from arrays actually referenced (broadcasting)
+    arrs = [local[n] for n in names if isinstance(local[n], np.ndarray)]
+    if not arrs:
+        # Scalar result
+        try:
+            res = ne.evaluate(expr, local_dict=local, global_dict={})
+        except Exception as e:
+            raise ValueError(f"evaluate error: {e}")
+        if isinstance(res, np.ndarray) and res.shape == ():
+            res = res.item()
+    else:
+        out_shape = np.broadcast(
+            *[np.empty(a.shape, dtype=[]) for a in arrs]
+        ).shape
+        out_dtype = getattr(tiny_res, "dtype", arrs[0].dtype)
+        # Tempfile-backed memmap keeps result on disk
+        tmp = tempfile.NamedTemporaryFile(
+            prefix=f"{name}_", suffix=".dat", delete=False
+        )
+        tmp_path = tmp.name
+        tmp.close()
+        try:
+            out = np.memmap(
+                tmp_path, mode="w+", dtype=out_dtype, shape=out_shape
+            )
+            ne.evaluate(expr, local_dict=local, global_dict={}, out=out)
+            res = out
+        except Exception as e:
+            try:
+                if "out" in locals():
+                    del out
+                if os.path.exists(tmp_path):
+                    os.remove(tmp_path)
+            except Exception:
+                pass
+            raise ValueError(f"evaluate error: {e}")
+
+    if assign:
+        setattr(D, name, res)
+    return res
+
+
+# --- Dialog: now a single textbox with one-or-more "name = expr" lines -------
+_LINE_RE = re.compile(r"^\s*(!?[A-Za-z_]\w*)\s*=\s*(.+?)\s*$")
+
+
 class CustomVarDialog(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, D, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Add Custom Variable")
-        self.setModal(True)
-        self.setMinimumWidth(420)
+        self.D = D
+        self.setWindowTitle("Add Custom Variables")
+        self.setMinimumWidth(460)
 
-        self.name_edit = QLineEdit(self)
-        self.name_edit.setPlaceholderText("variable name")
+        self.exprs = QPlainTextEdit()
+        self.exprs.setPlaceholderText("Define variables:\nA = ...\nB = ...")
+        self.exprs.setMinimumHeight(160)
 
-        self.expr_edit = QPlainTextEdit(self)
-        self.expr_edit.setPlaceholderText("variable expression")
-        self.expr_edit.setMinimumHeight(140)
+        self.err = QLabel("")
+        self.err.setStyleSheet("color:#b00020;")
+        self.err.setWordWrap(True)
 
         form = QFormLayout()
-        form.addRow(QLabel("Variable name:"), self.name_edit)
-        form.addRow(QLabel("Variable expression:"), self.expr_edit)
+        form.addRow("Variables:", self.exprs)
 
-        buttons = QDialogButtonBox(
+        btns = QDialogButtonBox(
             QDialogButtonBox.StandardButton.Ok
-            | QDialogButtonBox.StandardButton.Cancel,
-            Qt.Orientation.Horizontal,
-            self,
+            | QDialogButtonBox.StandardButton.Cancel
         )
-        buttons.accepted.connect(self._on_accept)
-        buttons.rejected.connect(self.reject)
+        btns.accepted.connect(self._accept)
+        btns.rejected.connect(self.reject)
 
-        layout = QVBoxLayout(self)
-        layout.addLayout(form)
-        layout.addWidget(buttons)
+        lay = QVBoxLayout(self)
+        lay.addLayout(form)
+        lay.addWidget(self.err)
+        lay.addWidget(btns)
 
-        self._name = None
-        self._expr = None
+        self._pairs: list[tuple[str, str]] = []
+        self.exprs.textChanged.connect(lambda: self.err.setText(""))
 
-        self.name_edit.returnPressed.connect(self.expr_edit.setFocus)
+    def _parse_lines(self, text: str):
+        """
+        Returns a list of tuples:
+        (display_name, expr_display, hidden, clean_name, expr_clean)
+        - display_name: what the user typed for the name (may start with '!')
+        - expr_display: right-hand side exactly as typed (keeps '# comment')
+        - hidden: True if name starts with '!'
+        - clean_name: display_name without leading '!' (actual Python attribute)
+        - expr_clean: expr_display with trailing comment stripped (before evaluation)
+        """
+        pairs = []
+        for raw in text.splitlines():
+            if not raw.strip():
+                continue
+            m = _LINE_RE.match(raw)
+            if not m:
+                raise ValueError(f"invalid line: {raw!r} (use NAME = EXPR)")
+            display_name, expr_display = m.group(1), m.group(2).strip()
+            hidden = display_name.startswith("!")
+            clean_name = display_name[1:] if hidden else display_name
+            expr_clean = expr_display.split("#", 1)[
+                0
+            ].strip()  # ignore comments when evaluating
+            if not expr_clean:
+                raise ValueError(
+                    f"empty expression after comment stripping in line: {raw!r}"
+                )
+            pairs.append(
+                (display_name, expr_display, hidden, clean_name, expr_clean)
+            )
+        if not pairs:
+            raise ValueError("Please enter at least one 'NAME = EXPR' line.")
+        return pairs
 
-    def _on_accept(self):
-        name = self.name_edit.text().strip()
-        expr = self.expr_edit.toPlainText().strip()
-        if name and expr:
-            self._name, self._expr = name, expr
-            self.accept()
-        elif not name:
-            self.name_edit.setFocus()
-        else:
-            self.expr_edit.setFocus()
+    def _accept(self):
+        text = self.exprs.toPlainText()
+        try:
+            pairs = self._parse_lines(text)
+            # validate sequentially using clean_name / expr_clean
+            seq = [(p[3], p[4]) for p in pairs]  # (clean_name, expr_clean)
+            _validate_lines_sequential(self.D, seq)
+        except Exception as ex:
+            self.err.setText(f"Invalid definitions: {ex}")
+            return
+        self._pairs = pairs
+        self.accept()
 
     @property
     def values(self):
-        return self._name, self._expr
+        # Backwards-compatible name (used by _on_activated)
+        return self._pairs
 
 
-# ---- Combo hook ----
-def setup_var_selector(var_selector: QComboBox, D):
-    """Attach once after you add items (including 'Custom var...')."""
-    if not getattr(var_selector, "_custom_var_connected", False):
-        var_selector.activated[int].connect(
-            lambda idx: _on_var_selector_activated(var_selector, idx, D)
-        )
-        var_selector._custom_var_connected = True
-        var_selector._last_real_index = 0 if var_selector.count() > 0 else -1
-
-
-def _on_var_selector_activated(combo: QComboBox, idx: int, D):
-    if combo.itemText(idx) != SENTINEL:
-        combo._last_real_index = idx
+def setup_var_selector(combo: QComboBox, D):
+    """Set up a QComboBox to handle custom variable creation and re-apply."""
+    if combo.property("_cv_connected"):
+        # still re-apply on each load
+        _reapply_custom_vars(combo, D)
         return
+    combo.setProperty("_cv_connected", True)
+    combo.setProperty("_last", 0 if combo.count() else -1)
+    if combo.property("_cv_defs") is None:
+        combo.setProperty("_cv_defs", [])  # list[(name, expr)]
+    combo.activated[int].connect(lambda i: _on_activated(combo, i, D))
+    _reapply_custom_vars(combo, D)
 
-    if getattr(combo, "_last_real_index", -1) >= 0:
-        combo.setCurrentIndex(combo._last_real_index)
 
-    dlg = CustomVarDialog(combo.window())
+def _build_locals(D):
+    local = {"pi": float(np.pi), "e": float(np.e)}
+    for k, v in D.__dict__.items():
+        if not k.startswith("_") and not callable(v):
+            local[k] = v
+    return local
+
+
+def _validate_lines_sequential(D, pairs):
+    """Cheap, sequential validation using 1-element array views."""
+    base = _build_locals(D)
+    # tiny env: scalars unchanged, arrays -> 1 element
+    tiny = {
+        k: (v.reshape(-1)[:1] if isinstance(v, np.ndarray) else v)
+        for k, v in base.items()
+    }
+    tiny["pi"], tiny["e"] = float(np.pi), float(np.e)
+    for name, expr in pairs:
+        s = _normalize_expr(expr)
+        compiled = ne.NumExpr(s)
+        names = compiled.input_names
+        # ensure all symbols exist
+        env = {}
+        for n in names:
+            if n not in tiny:
+                raise ValueError(f"unknown name: {n}")
+            env[n] = tiny[n]
+        try:
+            res = ne.evaluate(s, local_dict=env, global_dict={})
+        except Exception as e:
+            raise ValueError(f"error in '{name} = {expr}': {e}")
+        # store the tiny result for subsequent lines
+        tiny[name] = res
+
+
+def _on_activated(combo: QComboBox, idx: int, D):
+    if combo.itemText(idx) != SENTINEL:
+        combo.setProperty("_last", idx)
+        return
+    last = combo.property("_last")
+    if last is not None and last >= 0:
+        combo.setCurrentIndex(last)
+    dlg = CustomVarDialog(D, combo.window())
     if dlg.exec() != QDialog.DialogCode.Accepted:
         return
 
-    name, expr = dlg.values
-    if not name:
+    # tuples: (display_name, expr_display, hidden, clean_name, expr_clean)
+    pairs = dlg.values or []
+    stored = list(combo.property("_cv_defs") or [])
+
+    for display_name, expr_display, hidden, clean_name, expr_clean in pairs:
+        # evaluate & assign on D using clean values
+        try:
+            evaluate_custom_var(D, clean_name, expr_clean, assign=True)
+        except Exception:
+            continue  # silent skip per requirement
+
+        # add to combo only if not hidden
+        if not hidden:
+            # duplicate? select existing
+            for i in range(combo.count()):
+                if combo.itemText(i).lower() == clean_name.lower():
+                    combo.setCurrentIndex(i)
+                    combo.setProperty("_last", i)
+                    break
+            else:
+                # insert before sentinel
+                sent = next(
+                    (
+                        i
+                        for i in range(combo.count())
+                        if combo.itemText(i) == SENTINEL
+                    ),
+                    -1,
+                )
+                pos = sent if sent != -1 else combo.count()
+                combo.insertItem(pos, clean_name)
+                combo.setItemData(
+                    pos, expr_clean, role=Qt.ItemDataRole.UserRole
+                )
+                combo.setCurrentIndex(pos)
+                combo.setProperty("_last", pos)
+
+        # store triple so we can reapply (expr_clean) and display comments (expr_display)
+        stored.append((display_name, expr_clean, expr_display))
+
+    combo.setProperty("_cv_defs", stored)
+
+    # Refresh info panel if present (shows the display expr with comments)
+    top = combo.window()
+    if hasattr(top, "info_label") and stored:
+        lines = []
+        for tup in stored:
+            if len(tup) == 3:
+                disp_name, _clean, disp_expr = tup
+                lines.append(f"{disp_name} = {disp_expr}")
+            else:
+                # backward-compat if older pairs (name, expr)
+                n, e = tup
+                lines.append(f"{n} = {e}")
+        old_text = top.info_label.toPlainText()
+        base = old_text.split("\n\nCustom variables:")[0]
+        top.info_label.setPlainText(
+            f"{base}\n\nCustom variables:\n" + "\n".join(lines)
+        )
+
+
+def _reapply_custom_vars(combo: QComboBox, D):
+    """Recreate previously defined session custom vars on the new D, silently skipping failures."""
+    defs = list(combo.property("_cv_defs") or [])
+    if not defs:
         return
+    for item in defs:
+        # Support both (name, expr) legacy pairs and (display_name, expr_clean, expr_display) triples
+        if len(item) == 3:
+            display_name, expr_clean, _expr_display = item
+        else:
+            display_name, expr_clean = item
+        hidden = display_name.startswith("!")
+        clean_name = display_name[1:] if hidden else display_name
 
-    # if duplicate, just select
-    existing = _find_case_insensitive(combo, name)
-    if existing != -1:
-        combo.setCurrentIndex(existing)
-        combo._last_real_index = existing
-        return
+        try:
+            evaluate_custom_var(D, clean_name, expr_clean, assign=True)
+        except Exception:
+            continue  # silent skip
 
-    # --- 🔽 HERE: set attribute on dataset D ---
-    evaluate_custom_var(D, name, expr)
-
-    # keep sentinel last
-    sentinel_idx = _find_exact(combo, SENTINEL)
-    insert_at = sentinel_idx if sentinel_idx != -1 else combo.count()
-    combo.insertItem(insert_at, name)
-    combo.setItemData(insert_at, expr, role=Qt.ItemDataRole.UserRole)
-    combo.setCurrentIndex(insert_at)
-    combo._last_real_index = insert_at
-
-
-def _find_case_insensitive(combo: QComboBox, text: str) -> int:
-    t = text.lower()
-    for i in range(combo.count()):
-        if combo.itemText(i).lower() == t:
-            return i
-    return -1
-
-
-def _find_exact(combo: QComboBox, text: str) -> int:
-    for i in range(combo.count()):
-        if combo.itemText(i) == text:
-            return i
-    return -1
-
-
-def get_selected_variable(combo: QComboBox):
-    idx = combo.currentIndex()
-    if idx < 0:
-        return None, None
-    name = combo.itemText(idx)
-    if name == SENTINEL:
-        return None, None
-    expr = combo.itemData(idx, role=Qt.ItemDataRole.UserRole)
-    return name, expr
-
-
-def evaluate_custom_var(D, name: str, expr: str):
-    """
-    Evaluate a custom expression in the context of D and attach it as D.<name>.
-    Example:
-        evaluate_custom_var(D, "B2", "Bx1**2 + Bx2**2 + Bx3**2")
-    """
-    # Build context: D and all its attributes
-    ctx = {"D": D}
-    ctx.update(D.__dict__)  # expose D.Bx1, D.Bx2, ... directly
-
-    try:
-        result = eval(
-            expr, {"__builtins__": {}}, ctx
-        )  # disable builtins for safety
-    except Exception as e:
-        raise ValueError(f"Failed to evaluate expression {expr!r}: {e}") from e
-
-    setattr(D, name, result)
-    return result
+        if not hidden and not any(
+            combo.itemText(i) == clean_name for i in range(combo.count())
+        ):
+            sent = next(
+                (
+                    i
+                    for i in range(combo.count())
+                    if combo.itemText(i) == SENTINEL
+                ),
+                -1,
+            )
+            pos = sent if sent != -1 else combo.count()
+            combo.insertItem(pos, clean_name)
+            combo.setItemData(pos, expr_clean, role=Qt.ItemDataRole.UserRole)

@@ -29,6 +29,7 @@ def load_data(self):
         self.var_selector.addItems(self.D._load_vars)
         self.var_selector.addItems(["Custom var..."])
         setup_var_selector(self.var_selector, self.D)
+
         if self.D.geom == "POLAR":
             xaxis_labels = ["R", "phi", "z", "x", "y"]
             yaxis_labels = ["phi", "z", "R", "x", "y"]
@@ -42,8 +43,8 @@ def load_data(self):
         self.xaxis_selector.addItems(xaxis_labels)
         self.yaxis_selector.addItems(yaxis_labels)
 
-        self.info_label.setText(str(self.D))
-        self.info_label.setText(
+        # Base info
+        base = (
             f"Loaded folder: {self.folder_path}\n"
             f"Format file: {self.D.format}\n"
             f"Geometry: {self.D.geom}\n"
@@ -51,6 +52,29 @@ def load_data(self):
             f"Loaded step = {self.D.nout[0]}\nPresent Time = {self.D.ntime}\n"
             f"Variables: {', '.join(self.D._load_vars)}"
         )
+
+        # Append custom vars defined in this session (if any)
+        defs = self.var_selector.property("_cv_defs") or []
+        if defs:
+            lines = "\n".join([f"{n} = {e}" for (n, e) in defs])
+            base += f"\n\nCustom variables:\n{lines}"
+
+        defs = self.var_selector.property("_cv_defs") or []
+        if defs:
+            lines = []
+            for tup in defs:
+                if len(tup) == 3:
+                    # (display_name, expr_clean, expr_display)
+                    n, _clean, disp = tup
+                    lines.append(f"{n} = {disp}")
+                else:
+                    # backward-compat: (name, expr)
+                    n, e = tup
+                    lines.append(f"{n} = {e}")
+            base += "\n\nCustom variables:\n" + "\n".join(lines)
+
+        self.info_label.setPlainText(base)
+
     except Exception as e:
         print(f"Error loading data: {e}")
         self.data_loaded = False

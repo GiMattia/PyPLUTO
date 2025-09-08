@@ -93,8 +93,9 @@ PyPLUTO is a package written in Python (version $\geq$3.10) with the additions o
 
 • The `Image` class produces and handles the graphical windows and the plotting procedures.
 
-Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot 1D and 2D data in a single set of axes. PyPLUTO has been implemented to be supported by Windows, MacOS, and Linux, through both standard scripts and more interactive tools (e.g., IPython or Jupyter). The style guidelines follow the [PEP8](https://peps.python.org/pep-0008/) conventions for Python code (enforced through the Black package [@Langa2020]) and focus on clarity and code readability.
+Additionally, a separate `PyPLUTOApp` class launches a GUI able to load and plot 1D and 2D data in a single set of axes. PyPLUTO has been implemented to be supported by Windows, MacOS, and Linux, through both standard scripts and more interactive tools (e.g., IPython or Jupyter). The style guidelines follow the [PEP8](https://peps.python.org/pep-0008/) conventions for Python code, enforced through the Black package [@Langa2020], and focus on clarity and code readability.
 Finally, by leveraging the capabilities of the [sphinx package](http://sphinx-doc.org/sphinx.pdf), PyPLUTO features extensive docstrings, providing a helpful reference for both users and developers.
+
 # Benchmark Examples
 
 PyPLUTO provides a set of benchmarks that are immediately accessible after the package is installed. These consist of test problems that can be applied to relevant astrophysical applications and showcase the full range of PyPLUTO’s features. Here we report two examples demonstrating the package’s capabilities.
@@ -105,7 +106,7 @@ This test simulates the interaction of a planet embedded in a disk [@Mignone_eta
 
 • The first zoom (upper-right subplot) shows an enlarged view of the density distribution using the same color map and logarithmic scale as the global plot.
 
-• The second zoom (upper-left subplot) highlights the changes in toroidal velocity due to the planet's presence by employing a different color map (to enhance the sign change) and a linear color scale.
+• The second zoom (lower-left subplot) highlights the changes in toroidal velocity due to the planet's presence by employing a different color map (to enhance the sign change) and a linear color scale.
 
 These zoomed views offer deeper insights into the physical processes at play and demonstrate the utility of PyPLUTO for analyzing complex astrophysical systems.
 
@@ -113,10 +114,10 @@ These zoomed views offer deeper insights into the physical processes at play and
 This test problem examines particle acceleration near an X-type magnetic reconnection region [@Puzzoni2021]. In the last decades, magnetic reconnection [@Mattiaetal2023;@Buglietal2024] has proven to be a key physical process to explain the population of non-thermal particles in solar flares, relativistic outflows, and neutron star magnetospheres. This sort of test provides valuable insights into particle acceleration mechanisms in high-energy astrophysical environments by enabling the investigation of particle trajectories and
 energy distribution near the X-point.
 
-In the right panel of Fig. \ref{fig2}, we show an adaptation of the top panel of Figure 13-14 from [@Mignone2018]. The main plot displays the distribution of test particles, color-coded by their velocity magnitudes, with magnetic field lines overlaid as solid and dashed lines. The inset panel shows the energy spectrum at the initial ($t = 0$, in blue) and final ($t = 100$, in red) time. In this scenario, the absence of a guide field ($\vec{E} \cdot \vec{B} = 0$) results in a symmetric distribution along the y-axis from the combined effects of the gradient, curvature, and $\vec{E} \times \vec{B}$ drifts in the vicinity of the X-point, where the electric field is the strongest.
-This plot provides a clear visual representation of particle motion and energy changes, demonstrating how PyPLUTO can be used to investigate complex systems such as particle acceleration in astrophysical sources.
+In the right panel of Fig. \ref{fig2}, we show an adaptation of the top panel of Figures 13-14 from [@Mignone2018]. The main plot displays the distribution of test particles, color-coded by their velocity magnitudes, with magnetic field lines overlaid as solid and dashed lines. The inset panel shows the energy spectrum at the initial ($t = 0$, in blue) and final ($t = 100$, in red) time. In this scenario, the absence of a guide field ($\vec{E} \cdot \vec{B} = 0$) results in a symmetric distribution along the y-axis from the combined effects of the gradient, curvature, and $\vec{E} \times \vec{B}$ drifts in the vicinity of the X-point, where the electric field is the strongest.
+This plot provides a clear visual representation of particle motion and energy changes, demonstrating how PyPLUTO can be used to investigate complex processes such as particle acceleration in astrophysical sources.
 
-![Left panel: Example of inset zooms of the planet region of the disk-planet test problem. The main plot and the right zoom show the density on a logarithmic scale, while the left zoom highlights the toroidal velocity on a linear scale. Right panel: Example of an X-point region with magnetic field lines overlaid (as contour lines of the vector potential, solid lines). The main plot shows the test-particle distribution, color-coded by velocity magnitudes, while the inset plot displays the particle energy spectrum at the beginning (in blue) and end (in red) of the simulation. \label{fig2}](pyplutotests.png)
+![Left panel: example of inset zooms of the planet region of the disk-planet test problem. The main plot and the right zoom show the density on a logarithmic scale, while the left zoom highlights the toroidal velocity on a linear scale. Right panel: example of an X-point region with magnetic field lines overlaid (as contour lines of the vector potential, solid lines). The main plot shows the test-particle distribution, color-coded by velocity magnitudes, while the inset plot displays the particle energy spectrum at the beginning (in blue) and end (in red) of the simulation. \label{fig2}](pyplutotests.png)
 
 # Ongoing research using PyPLUTO
 

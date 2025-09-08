@@ -22,11 +22,11 @@ authors:
 
   - name: Matteo Bugli
     orcid: 0000-0002-7834-0422
-    affiliation: 3, 4, 5,6
+    affiliation: 3, 4, 5, 6
 
   - name: Vittoria Berta
     orcid: 0000-0001-6305-6931
-    affiliation: 3
+    affiliation: 3, 6
 
   - name: Eleonora Puzzoni
     orcid: 0009-0009-5314-348X
@@ -141,6 +141,6 @@ G. Mattia thanks L. Del Zanna and M. Flock for the discussions on data visualiza
 The authors thank Simeon Doetsch for their insights on memory mapping techniques and Deniss Stepanovs and Antoine Strugarek for contributing to previous PyPLUTO versions throughout the years.
 The authors thank Agnese Costa, Alberto Sciaccaluga, Alessio Suriano, Asmita Bhandare, Dhruv Muley, Dipanjan Mukherjee, Jieshuang Wang, Jacksen Narvaez, Lucia Haerer, Prakruti Sudarshan, Stefano Truzzi, and Stella Boula for testing the module while it was under development.
 M. Bugli acknowledges the support of the French Agence Nationale de la Recherche (ANR), under grant ANR-24-ERCS-0006 (project BlackJET).
-This project has received funding from the European Union's Horizon Europe research and innovation programme under the Marie Skłodowska-Curie grant agreement No 101064953 (GR-PLUTO).
+This project has received funding from the European Union's Horizon Europe research and innovation programme under the Marie Skłodowska-Curie grant agreement No 101064953 (GR-PLUTO), and from the European High Performance Computing Joint Undertaking (JU) and Belgium, Czech Republic, France, Germany, Greece, Italy, Norway, and Spain under grant agreement No 101093441 (SPACE).
 
 # References

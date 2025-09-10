@@ -21,10 +21,11 @@ class FigureManager(ImageMixin):
         state: ImageState,
         **kwargs: Any,
     ) -> None:
-        """Initialization of the FigureManager class that creates a new
-        figure and sets the LaTeX conditions, as well as the matplotlib
-        style. Every Image is associated to a figure object and only one
-        in order to avoid confusion between images and figures. If you
+        """Initialize the FigureManager class.
+
+        It creates a new figure and sets the LaTeX conditions, as well as the
+        matplotlib style. Every Image is associated to a figure object and only
+        one in order to avoid confusion between images and figures. If you
         want to create multiple figures, you have to create multiple
         Image objects.
 
@@ -54,20 +55,23 @@ class FigureManager(ImageMixin):
 
         close = kwargs.pop("close", True)
         fontweight = kwargs.pop("fontweight", "normal")
-        numcolors = kwargs.pop("numcolor", 10)  # DEPRECATED!!!
-        numcolors = kwargs.pop("numcolors", numcolors)
+        kwargs.pop("numcolor", None)  # remove numcolor if present
+        numcolors = kwargs.pop("numcolors", 10)
         replace = kwargs.pop("replace", False)
         suptitle = kwargs.pop("suptitle", None)
         suptitlesize = kwargs.pop("suptitlesize", "large")
         withblack = kwargs.pop("withblack", False)
         withwhite = kwargs.pop("withwhite", False)
+
+        self.fig = kwargs.get("fig", self.fig)
         self.nwin = kwargs.get("nwin", self.nwin)
 
         self.check_previous_fig(close)
-
+        self.LaTeX = kwargs.get("LaTeX", self.LaTeX)
         self.fontsize = kwargs.get("fontsize", self.fontsize)
         self.tight = kwargs.get("tight", self.tight)
         self.figsize = kwargs.get("figsize", self.figsize)
+        self.style = kwargs.get("style", self.style)
         if "figsize" in kwargs:
             self.set_size = True
 

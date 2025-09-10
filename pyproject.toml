@@ -107,14 +107,13 @@ wrap-descriptions = 72
 docstring-length  = [10, 70]
 
 [tool.coverage.run]
-source = ["Src/pyPLUTO"]
+source = ["pyPLUTO"]
 branch = true
 
 [tool.coverage.report]
 omit = [
     "*/Tests/*",
     "*/Docs/*",
-    "*/Src/setup.py",
     "*/.venv/*",
     "*/site-packages/*"
 ]

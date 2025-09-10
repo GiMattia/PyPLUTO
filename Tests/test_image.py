@@ -56,6 +56,11 @@ def test_getattr_new():
         Image.wrong
 
 
+def test_warn_attr():
+    with pytest.warns(UserWarning, match=r"Unused kwargs: \{'attr'\}"):
+        obj = pp.Image(attr=None)
+
+
 def test_tight_layout():
     Image = pp.Image(tight=False)
     assert Image.fig.get_tight_layout() is False

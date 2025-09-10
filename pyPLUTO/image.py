@@ -2,8 +2,6 @@
 
 from typing import Any
 
-from matplotlib.figure import Figure
-
 from .amr import oplotbox
 from .imagefuncs.colorbar import ColorbarManager
 from .imagefuncs.contour import ContourManager
@@ -41,9 +39,6 @@ class Image(ImageMixin):
     @track_kwargs
     def __init__(
         self,
-        LaTeX: bool | str = True,
-        fig: Figure | None = None,
-        style: str = "default",
         text: bool = True,
         check: bool = True,
         **kwargs: Any,
@@ -130,7 +125,7 @@ class Image(ImageMixin):
         """
         kwargs.pop("check", check)
 
-        self.state = ImageState(style=style, LaTeX=LaTeX, fig=fig)
+        self.state = ImageState()  # style=style, LaTeX=LaTeX, fig=fig)
 
         self._figure_manager = FigureManager(self.state, **kwargs)
 

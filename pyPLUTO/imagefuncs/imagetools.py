@@ -393,7 +393,7 @@ class ImageToolsManager(ImageMixin):
         if cscale == "log":
             norm = mcol.LogNorm(vmin=vmin, vmax=vmax)
         elif cscale == "symlog":
-            norm = mcol.SymLogNorm(tresh, vmin, vmax)
+            norm = mcol.SymLogNorm(tresh, vmin=vmin, vmax=vmax)
         elif cscale in ("twoslope", "2slope"):
             norm = mcol.TwoSlopeNorm(vmin=vmin, vmax=vmax, vcenter=tresh)
         elif cscale == "power":

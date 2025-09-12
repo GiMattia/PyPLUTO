@@ -125,6 +125,8 @@ def plot_data(self):
             "phi": "x3",
             "R": "x1p",
             "z": "x2p",
+            "rt": "x1t",
+            "zt": "x3t",
         }
     else:
         convert_axis = {"x": "x1", "y": "x2", "z": "x3"}

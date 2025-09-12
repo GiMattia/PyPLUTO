@@ -14,6 +14,12 @@ streamlines of the magnetic field in the first display, while the plot
 method is used to plot the field lines previously computed. The image is
 then saved and shown on screen.
 
+IMPORTANT: During the setup of the test, in the pluto.ini file, the simulation
+time at which a .vtk output file is printed should be changed in
+
+dbl     -1.0   -1   single_file
+vtk      2.0   -1   single_file
+
 """
 
 # Loading the relevant packages

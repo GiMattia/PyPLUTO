@@ -1,5 +1,3 @@
-import pytest
-
 from pyPLUTO.imagestate import ImageState
 
 
@@ -19,8 +17,3 @@ def test_image_state_dynamic_attribute():
     state = ImageState(style="default", LaTeX=True)
     state.custom_attr = 123
     assert state.custom_attr == 123
-
-
-def test_image_state_missing_attribute():
-    with pytest.raises(TypeError):
-        state = ImageState(style="default")

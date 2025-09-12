@@ -1,3 +1,5 @@
+"""Module to configure the pyPLUTO package."""
+
 import sys
 import traceback
 import warnings
@@ -6,15 +8,32 @@ from typing import Any
 
 
 class Configure:
-    """Class to handle the init tools for pyPLUTO. Tools include finding the
-    session, setting up the handlers, and other initialization tasks."""
+    """Handle the init tools for pyPLUTO.
+
+    Tools include finding the session, setting up the handlers, and other
+    initialization tasks."""
 
     greeted = False
 
     def __init__(
         self, colorerr: bool = True, colorwarn: bool = True, greet: bool = True
     ) -> None:
-        """Initialize the Configure class."""
+        """Initialize the Configure class.
+
+        Parameters
+        ----------
+        - colorerr: bool, default True
+            If True, color the errors in red.
+        - colorwarn: bool, default True
+            If True, color the warnings in yellow.
+        - greet: bool, default True
+            If True, print a greeting message with the version and session.
+
+        Returns
+        -------
+        - None
+
+        """
         self.version: str = "1.0"
         self.colorerr: bool = colorerr
         self.colorwarn: bool = colorwarn
@@ -64,10 +83,11 @@ class Configure:
 
         # Try to get IPython. If not available, it's not an IPython session.
         def get_ipython_wrapper() -> Any:
-            """Wrapper to get the IPython instance. Try to import get_ipython
-            from IPython.core.getipython. If it fails, return None.
-            This is useful for standard Python interpreter sessions where
-            IPython is not available.
+            """Get the IPython instance.
+
+            Try to import get_ipython from IPython.core.getipython. If it fails,
+            return None. This is useful for standard Python interpreter sessions
+            where IPython is not available.
             """
             try:
                 from IPython.core.getipython import get_ipython
@@ -108,7 +128,7 @@ class Configure:
         _file: str | None = None,
         _line: str | None = None,
     ) -> str:
-        """Method to color the warnings in yellow.
+        """Color the warnings in yellow.
 
         Parameters
         ----------
@@ -146,7 +166,7 @@ class Configure:
         value: BaseException | None,
         tb: TracebackType | None,
     ) -> None:
-        """Method to color the errors in red.
+        """Color the errors in red.
 
         Parameters
         ----------

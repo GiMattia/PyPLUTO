@@ -61,7 +61,7 @@ Image.display(
 # Zooming the planet region
 Image.zoom(xrange=[0.9, 1.1], yrange=[-0.1, 0.1], pos=[0.74, 0.95, 0.7, 0.9])
 Image.zoom(
-    var=Data.vx2 - omega[:, np.newaxis],
+    var=Data.vx2 - omega[:, None],
     xrange=[0.9, 1.1],
     yrange=[-0.1, 0.1],
     pos=[0.07, 0.27, 0.67, 0.9],

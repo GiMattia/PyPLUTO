@@ -1,8 +1,11 @@
 import os
 
+import numpy as np
 from PyQt6.QtWidgets import QFileDialog
 
 import pyPLUTO as pp
+
+from .custom_var import setup_var_selector
 
 
 def load_data(self):
@@ -24,13 +27,26 @@ def load_data(self):
         self.var_selector.clear()
         self.xaxis_selector.clear()
         self.yaxis_selector.clear()
+
+        keep = []
+        for v in list(map(str, self.D._load_vars)):
+            a = getattr(self.D, v, None)
+            # keep only full-grid arrays
+            if isinstance(a, np.ndarray) and tuple(a.shape) == tuple(
+                self.D.nshp
+            ):
+                keep.append(v)
+        self.D._load_vars = keep
         self.var_selector.addItems(self.D._load_vars)
+        self.var_selector.addItems(["Custom var..."])
+        setup_var_selector(self.var_selector, self.D)
+
         if self.D.geom == "POLAR":
             xaxis_labels = ["R", "phi", "z", "x", "y"]
             yaxis_labels = ["phi", "z", "R", "x", "y"]
         elif self.D.geom == "SPHERICAL":
-            xaxis_labels = ["r", "theta", "phi", "R", "z"]
-            yaxis_labels = ["theta", "phi", "r", "R", "z"]
+            xaxis_labels = ["r", "theta", "phi", "R", "z", "Rt", "zt"]
+            yaxis_labels = ["theta", "phi", "r", "R", "z", "Rt", "zt"]
         else:
             xaxis_labels = ["x", "y", "z"]
             yaxis_labels = ["y", "z", "x"]
@@ -38,8 +54,8 @@ def load_data(self):
         self.xaxis_selector.addItems(xaxis_labels)
         self.yaxis_selector.addItems(yaxis_labels)
 
-        self.info_label.setText(str(self.D))
-        self.info_label.setText(
+        # Base info
+        base = (
             f"Loaded folder: {self.folder_path}\n"
             f"Format file: {self.D.format}\n"
             f"Geometry: {self.D.geom}\n"
@@ -47,6 +63,23 @@ def load_data(self):
             f"Loaded step = {self.D.nout[0]}\nPresent Time = {self.D.ntime}\n"
             f"Variables: {', '.join(self.D._load_vars)}"
         )
+
+        # Append custom vars defined in this session (if any)
+        defs = self.var_selector.property("_cv_defs") or []
+        if defs:
+            lines = []
+            for tup in defs:
+                if len(tup) == 3:
+                    name, _clean, disp = tup
+                    lines.append(f"{name} = {disp}")
+                else:
+                    # backward-compat: (name, expr)
+                    name, expr = tup
+                    lines.append(f"{name} = {expr}")
+            base += "\n\nCustom variables:\n" + "\n".join(lines)
+
+        self.info_label.setPlainText(base)
+
     except Exception as e:
         print(f"Error loading data: {e}")
         self.data_loaded = False
@@ -69,8 +102,9 @@ def select_folder(self):
         if format_name != "None"
         else ""
     )
+    starting_dir = self.folder_path if self.folder_path else os.getcwd()
     bigstr += "PLUTO Files (*.dbl *.vtk *.flt *.dbl.h5 *.flt.h5 *.out *.hdf5 *.tab);;All Files (*)"
-    dialog = QFileDialog(self, "Select a File or Folder", os.getcwd(), bigstr)
+    dialog = QFileDialog(self, "Select a File or Folder", starting_dir, bigstr)
     dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
     dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
 

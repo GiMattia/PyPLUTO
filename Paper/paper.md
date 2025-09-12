@@ -139,6 +139,7 @@ Alongside these improvements, PyPLUTO development will focus on encompassing the
 
 The authors thank the reviewers for improving this work with valuable comments and suggestions. 
 G. Mattia thanks L. Del Zanna and M. Flock for the discussions on data visualization and the Data Science Department of the Max Planck Institute for Astronomy for helping with Python and Matplotlib.
+
 The authors thank Simeon Doetsch for their insights on memory mapping techniques and Deniss Stepanovs and Antoine Strugarek for contributing to previous PyPLUTO versions throughout the years.
 The authors thank Agnese Costa, Alberto Sciaccaluga, Alessio Suriano, Asmita Bhandare, Dhruv Muley, Dipanjan Mukherjee, Jieshuang Wang, Jacksen Narvaez, Lucia Haerer, Prakruti Sudarshan, Stefano Truzzi, and Stella Boula for testing the module while it was under development.
 M. Bugli acknowledges the support of the French Agence Nationale de la Recherche (ANR), under grant ANR-24-ERCS-0006 (project BlackJET).

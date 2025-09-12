@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 from PyQt6.QtWidgets import QFileDialog
 
 import pyPLUTO as pp
@@ -26,6 +27,16 @@ def load_data(self):
         self.var_selector.clear()
         self.xaxis_selector.clear()
         self.yaxis_selector.clear()
+
+        keep = []
+        for v in list(map(str, self.D._load_vars)):
+            a = getattr(self.D, v, None)
+            # keep only full-grid arrays
+            if isinstance(a, np.ndarray) and tuple(a.shape) == tuple(
+                self.D.nshp
+            ):
+                keep.append(v)
+        self.D._load_vars = keep
         self.var_selector.addItems(self.D._load_vars)
         self.var_selector.addItems(["Custom var..."])
         setup_var_selector(self.var_selector, self.D)
@@ -34,8 +45,8 @@ def load_data(self):
             xaxis_labels = ["R", "phi", "z", "x", "y"]
             yaxis_labels = ["phi", "z", "R", "x", "y"]
         elif self.D.geom == "SPHERICAL":
-            xaxis_labels = ["r", "theta", "phi", "R", "z"]
-            yaxis_labels = ["theta", "phi", "r", "R", "z"]
+            xaxis_labels = ["r", "theta", "phi", "R", "z", "Rt", "zt"]
+            yaxis_labels = ["theta", "phi", "r", "R", "z", "Rt", "zt"]
         else:
             xaxis_labels = ["x", "y", "z"]
             yaxis_labels = ["y", "z", "x"]

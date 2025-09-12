@@ -23,6 +23,7 @@ dependencies = [
     "numpy",
     "matplotlib",
     "scipy",
+    "numexpr",
     "pandas",
     "h5py",
     "PyQt6"

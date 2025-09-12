@@ -294,6 +294,8 @@ def _read_gridfile(self) -> None:
             self.x2rc = (np.sin(x2r_3D) * np.sin(x3r_3D) * x1r_3D).T
             self.x3rc = (np.cos(x2r_3D) * x1r_3D).T
 
+            self.gridlist3.extend(["x1c", "x2c", "x3c", "x1rc", "x2rc", "x3rc"])
+
             del x1_3D, x2_3D, x3_3D, x1r_3D, x2r_3D, x3r_3D
         else:
             pass

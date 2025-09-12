@@ -35,6 +35,66 @@ def _normalize_expr(expr: str) -> str:
     return s
 
 
+def _frozen_var_names(D):
+    """Names that must never be overridden by custom vars."""
+    names = set(map(str, getattr(D, "_load_vars", [])))  # loaded-from-file vars
+    names.update({"x1", "x2", "x3"})  # base grid
+    g = (getattr(D, "geom", "") or "").upper()
+    if g == "CARTESIAN":
+        names.update({"x", "y", "z"})
+    elif g == "POLAR":
+        names.update({"R", "phi", "z", "x", "y", "xr", "yr"})
+    elif g == "SPHERICAL":
+        names.update({"r", "theta", "phi", "R", "z", "rt", "zt"})
+    return names
+
+
+def _apply_grid_shaping(local, D):
+    """
+    Reshape only x1/x2/x3 if they are 1-D so they broadcast with D.nshp.
+    PyPLUTO order: 1D -> (nx1,), 2D -> (nx1, nx2), 3D -> (nx1, nx2, nx3)
+    x1 aligns to axis 0, x2 to axis 1, x3 to axis 2.
+    """
+    nshp = D.nshp if isinstance(D.nshp, tuple) else tuple(D.nshp)
+    for axis, name in enumerate(("x1", "x2", "x3")[: D.dim]):
+        v = local.get(name)
+        if (
+            isinstance(v, np.ndarray)
+            and v.ndim == 1
+            and v.shape[0] == nshp[axis]
+        ):
+            try:
+                # make a singleton shape on other axes, then broadcast to D.nshp
+                pattern = [1] * D.dim
+                pattern[axis] = v.shape[0]  # axis-aligned length
+                v_view = v.reshape(tuple(pattern))
+                local[name] = np.broadcast_to(
+                    v_view, nshp
+                )  # FINAL SHAPE == D.nshp
+            except Exception:
+                pass  # stay quiet per your policy
+
+    if D.geom == "CARTESIAN":
+        local["x"] = local["x1"]
+        local["y"] = local["x2"]
+        local["z"] = local["x3"]
+    elif D.geom == "POLAR":
+        local["R"] = local["x1"]
+        local["phi"] = local["x2"]
+        local["z"] = local["x3"]
+        local["x"] = D.x1c.T[:, :, None] if D.dim == 3 else D.x1c.T
+        local["y"] = D.x2c.T[:, :, None] if D.dim == 3 else D.x2c.T
+    elif D.geom == "SPHERICAL":
+        local["r"] = local["x1"]
+        local["theta"] = local["x2"]
+        local["phi"] = local["x3"]
+        local["R"] = D.x1p.T[:, :, None] if D.dim == 3 else D.x1p.T
+        local["z"] = D.x2p.T[:, :, None] if D.dim == 3 else D.x2p.T
+        if D.dim == 3:
+            local["rt"] = D.x1t.T[:, None, :]
+            local["zt"] = D.x3t.T[:, None, :]
+
+
 # --- evaluator ---------------------------------------------------------------
 def evaluate_custom_var(D, name: str, expr: str, *, assign: bool = True):
     """
@@ -43,11 +103,17 @@ def evaluate_custom_var(D, name: str, expr: str, *, assign: bool = True):
     """
     expr = _normalize_expr(expr)
 
+    # Do not allow overriding loaded or grid variables
+    if name in _frozen_var_names(D):
+        raise ValueError(f"protected name: {name}")
+
     # Build locals from D (public, non-callable) + constants
     local = {"pi": float(np.pi), "e": float(np.e)}
     for k, v in D.__dict__.items():
         if not k.startswith("_") and not callable(v):
             local[k] = v
+
+    _apply_grid_shaping(local, D)  # <<< add this
 
     # Parse/compile (syntax check)
     try:
@@ -225,6 +291,7 @@ def _build_locals(D):
 def _validate_lines_sequential(D, pairs):
     """Cheap, sequential validation using 1-element array views."""
     base = _build_locals(D)
+    _apply_grid_shaping(base, D)  # <<< add this
     # tiny env: scalars unchanged, arrays -> 1 element
     tiny = {
         k: (v.reshape(-1)[:1] if isinstance(v, np.ndarray) else v)
@@ -241,6 +308,10 @@ def _validate_lines_sequential(D, pairs):
             if n not in tiny:
                 raise ValueError(f"unknown name: {n}")
             env[n] = tiny[n]
+            if name in _frozen_var_names(D):
+                raise ValueError(
+                    f"'{name}' is protected and cannot be redefined"
+                )
         try:
             res = ne.evaluate(s, local_dict=env, global_dict={})
         except Exception as e:

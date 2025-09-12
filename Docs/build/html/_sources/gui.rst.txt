@@ -3,7 +3,7 @@ GUI
 
 A simplified GUI has been implemented to allow for a quick visualization of the
 output files. The GUI is based on the PyPLUTO module and is designed to be
-simple and user-friendly. The GUI is divided into twhree main sections: the
+simple and user-friendly. The GUI is divided into three main sections: the
 loading section the setting section and the plotting section.
 
   .. image:: ../Figures/gui01_start.png

@@ -9,7 +9,7 @@ single precision), vtk files or h5 files (in double or single precision).
 The particles' variables can be written in binary files (in double or single
 precision) and vtk files.
 All the formats can be opened with PyPLUTO, with or without the .out file (if
-the fluid varibales are written on vtk or h5 files).
+the fluid variables are written on vtk or h5 files).
 Additionally, PyPLUTO loads hdf5 created with CHOMBO for simulations performed
 with AMR, and .tab files (for both 1D and 2D data).
 
@@ -27,7 +27,7 @@ formats  available are dbl, vtk, flt, dbl.h5, flt.h5 hdf5 and tab.
    read_file
    write_file
 
-The vtk and h5 filed can be loaded as standalones (i.e. without the .out files).
+The vtk and h5 filed can be loaded as standalone (i.e. without the .out files).
 However, we highly discourage the users to do so, especially if the simulation
 is run in non-cartesian coordinates.
 
@@ -51,7 +51,7 @@ Loading the particles files
 The :ref:`LoadPart <loadpart>` class is one of the key components of the PyPLUTO
 package, designed to load the particles data in the standard PLUTO formats. The
 formats available are dbl, vtk, flt.
-Particles are loaded as standalones, i.e. no additional file is necessary.
+Particles are loaded as standalone, i.e. no additional file is necessary.
 
 .. toctree::
    :hidden:

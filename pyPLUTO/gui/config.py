@@ -56,21 +56,15 @@ def load_data(self):
         # Append custom vars defined in this session (if any)
         defs = self.var_selector.property("_cv_defs") or []
         if defs:
-            lines = "\n".join([f"{n} = {e}" for (n, e) in defs])
-            base += f"\n\nCustom variables:\n{lines}"
-
-        defs = self.var_selector.property("_cv_defs") or []
-        if defs:
             lines = []
             for tup in defs:
                 if len(tup) == 3:
-                    # (display_name, expr_clean, expr_display)
-                    n, _clean, disp = tup
-                    lines.append(f"{n} = {disp}")
+                    name, _clean, disp = tup
+                    lines.append(f"{name} = {disp}")
                 else:
                     # backward-compat: (name, expr)
-                    n, e = tup
-                    lines.append(f"{n} = {e}")
+                    name, expr = tup
+                    lines.append(f"{name} = {expr}")
             base += "\n\nCustom variables:\n" + "\n".join(lines)
 
         self.info_label.setPlainText(base)

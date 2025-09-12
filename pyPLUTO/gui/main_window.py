@@ -29,7 +29,11 @@ class PyPLUTOApp(QMainWindow):
         button_layout = QVBoxLayout()
 
         layout = QHBoxLayout()
-        self.add_combobox("datatype_selector", layout, ["fluid"])
+        self.add_combobox(
+            "datatype_selector",
+            layout,
+            ["PLUTO fluid", "PLUTO particles", "ECHO"],
+        )
         self.add_label("Preferred format:", layout)
         self.add_combobox("format_selector", layout, format_avail)
         button_layout.addLayout(layout)

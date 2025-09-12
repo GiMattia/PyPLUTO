@@ -402,7 +402,11 @@
 <span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
 <span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">Normalize</span>
 <span class="kn">from</span> <span class="nn">matplotlib.text</span> <span class="kn">import</span> <span class="n">Text</span>
-<span class="kn">from</span> <span class="nn">pastamarkers</span> <span class="kn">import</span> <span class="n">salsa</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pastamarkers</span> <span class="kn">import</span> <span class="n">salsa</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">salsa</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
 
 <span class="kn">from</span> <span class="nn">..imagemixin</span> <span class="kn">import</span> <span class="n">ImageMixin</span>
 <span class="kn">from</span> <span class="nn">..imagestate</span> <span class="kn">import</span> <span class="n">ImageState</span>
@@ -816,6 +820,14 @@
             <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">pass</span>  <span class="c1"># Not a matplotlib colormap</span>
+
+        <span class="k">if</span> <span class="n">salsa</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warn</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;salsa is not installed, cannot find colormap. &quot;</span>
+                <span class="s2">&quot;Defaulting to &#39;plasma&#39;.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;plasma&quot;</span><span class="p">)</span>
 
         <span class="c1"># Try salsa colormap</span>
         <span class="n">reverse</span> <span class="o">=</span> <span class="kc">False</span>

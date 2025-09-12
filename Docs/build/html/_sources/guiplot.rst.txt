@@ -50,12 +50,12 @@ Options: scales
 The x- and y-scales can be set by using the "x-scale" and "y-scale" combo boxes.
 Possible options are "linear", "logarithmic", "symlog" and "asinh". The default 
 value is "linear", which means that the x- and y-axes will be plotted on a 
-linear scale. The last two options require an additional treshold value to be set
+linear scale. The last two options require an additional threshold value to be set
 in the "tresh" text box. The 2D plot scale can be set by using the "v-scale"
 combo box. Possible options are "linear", "logarithmic", "symlog", "2slope", 
 "power" and "asinh". The default value is "linear", which means that the
 variable will be plotted on a linear scale. Some scales trequire an additional
-treshold value to be set in the "tresh" text box.
+threshold value to be set in the "tresh" text box.
 
 Options: colormap
 -----------------
@@ -64,7 +64,7 @@ The colormap can be set by using the "Colormap" combo box. The user can choose
 from a list of available colormaps. The default value is "plasma"
 which is a perceptually uniform colormap. The user can also select the colormap type
 by using the leftmost panel in the cmap section. Then the user can choose the
-cesigned colormap from the middle combo box. The colormap can also be reversed
+designed colormap from the middle combo box. The colormap can also be reversed
 by checking the "Reverse" checkbox.
 
 Options: update plot

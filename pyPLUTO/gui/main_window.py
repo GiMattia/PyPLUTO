@@ -1,4 +1,10 @@
-from PyQt6.QtWidgets import QHBoxLayout, QMainWindow, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import (
+    QHBoxLayout,
+    QMainWindow,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 from .globals import cmaps, cmaps_avail, format_avail, scales, vscales
 
@@ -23,7 +29,11 @@ class PyPLUTOApp(QMainWindow):
         button_layout = QVBoxLayout()
 
         layout = QHBoxLayout()
-        self.add_combobox("datatype_selector", layout, ["fluid"])
+        self.add_combobox(
+            "datatype_selector",
+            layout,
+            ["PLUTO fluid", "PLUTO particles", "ECHO"],
+        )
         self.add_label("Preferred format:", layout)
         self.add_combobox("format_selector", layout, format_avail)
         button_layout.addLayout(layout)
@@ -121,8 +131,12 @@ class PyPLUTOApp(QMainWindow):
 
         self.add_line(button_layout)
 
-        self.add_label("Information:", button_layout, "info_label", 250, 170)
-        self.info_label.setWordWrap(True)  # type: ignore
+        info_box = QTextEdit()
+        info_box.setObjectName("info_label")
+        info_box.setReadOnly(True)
+        info_box.setFixedSize(370, 200)  # keep your original fixed size
+        button_layout.addWidget(info_box)
+        self.info_label = info_box
 
         self.add_line(button_layout)
 

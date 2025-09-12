@@ -23,6 +23,7 @@ dependencies = [
     "numpy",
     "matplotlib",
     "scipy",
+    "numexpr",
     "pandas",
     "h5py",
     "PyQt6"
@@ -91,6 +92,9 @@ ignore = [
     "D213"   # Conflicts with D212 (summary on first vs second line)
 ]
 
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
 [tool.mypy]
 check_untyped_defs = true
 ignore_missing_imports = true
@@ -104,14 +108,13 @@ wrap-descriptions = 72
 docstring-length  = [10, 70]
 
 [tool.coverage.run]
-source = ["Src/pyPLUTO"]
+source = ["pyPLUTO"]
 branch = true
 
 [tool.coverage.report]
 omit = [
     "*/Tests/*",
     "*/Docs/*",
-    "*/Src/setup.py",
     "*/.venv/*",
     "*/site-packages/*"
 ]

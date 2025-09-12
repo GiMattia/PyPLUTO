@@ -32,7 +32,7 @@ def plot_frame(Data, ax_idx: int, time_label: str):
     for idx, (var, label, color, yrange) in enumerate(
         [
             (Data.rho, r"$\rho$", Image.color[0], [0.1, 200]),
-            (Data.prs, r"$p$", Image.color[1], None),
+            (Data.prs, r"$p$", Image.color[1], [0.1, 200]),
         ]
     ):
         var_max = Data.slices(var, diag=True)

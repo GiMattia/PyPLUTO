@@ -195,9 +195,10 @@ class FigureManager:
         return [self.state.dictcol[lstc[i]] for i in range(numcolors)]
 
     def assign_LaTeX(self, fontweight: str) -> None:
-        """Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX
-        and should be used only to get vectorial figures with minimal
-        file size.
+        """Set the LaTeX conditions.
+
+        The option 'pgf' requires XeLaTeX and should be used only to get
+        vectorial figures with minimal file size.
 
         Returns
         -------
@@ -275,17 +276,17 @@ class FigureManager:
         # End of the function
 
     def check_previous_fig(self, close: bool) -> None:
-        """Checks if there is an existing figure and if it is closed or
+        """Check if there is an existing figure and if it is closed or
         not.
-
-        Returns
-        -------
-        - None
 
         Parameters
         ----------
-        - close: bool, default True
+        close : bool, default True
             If True, the existing figure with the same window number is closed.
+
+        Returns
+        -------
+        None
 
         ----
 
@@ -308,6 +309,7 @@ class FigureManager:
                 warnings.warn(
                     "The figure is not associated to a window number",
                     UserWarning,
+                    stacklevel=2,
                 )
                 self.state.nwin = 1
             self.state.tight = self.state.fig.get_tight_layout()
@@ -319,17 +321,15 @@ class FigureManager:
     def create_figure(
         self, replace: bool, suptitle: str, suptitlesize: str
     ) -> None:
-        """Function that creates the figure associated to an Image
-        instance. It is called by default when the Image class is
-        instantiated.
+        """Create the figure associated to an Image instance.
 
-        Returns
-        -------
-        - None
+        This function is private and is not intended to be called by the user.
+        It is called by default when the Image class is instantiated.
 
         Parameters
         ----------
-        - close: bool, default True
+        - close: bool, default T
+        rue
             If True, the existing figure with the same window number is closed.
         - fig (not optional): Figure | None, default None
             The the figure instance. If not None, the figure is used (only if we
@@ -340,12 +340,18 @@ class FigureManager:
             The font size.
         - nwin: int, default 1
             The window number.
+        - replace: bool, default False
+            If True, replaces the existing figure with a new one.
         - suptitle: str, default None
             The super title of the figure.
         - suptitlesize: str | int, default 'large'
             The figure title size.
         - tight: bool, default True
             If True, the tight layout is used.
+
+        Returns
+        -------
+        - None
 
         ----
 

@@ -1,3 +1,5 @@
+"""Helper functions for pyPLUTO."""
+
 import warnings
 from typing import Any
 
@@ -35,7 +37,9 @@ def makelist(el: Any) -> list[Any]:
 
 
 def check_par(par: set[str], func: str, **kwargs: Any) -> None:
-    """Checks if a parameter is in the corresponding list depending on
+    """Check the kwargs of a PyPLUTO function/method.
+
+    Checks if a parameter is in the corresponding list depending on
     the function. If the parameter does not belong to the list it raises
     a warning.
 
@@ -76,6 +80,6 @@ def check_par(par: set[str], func: str, **kwargs: Any) -> None:
             f"WARNING: elements {notfound!s} not found!"
             f"Please check your spelling! (function {func})"
         )
-        warnings.warn(warn, UserWarning)
+        warnings.warn(warn, UserWarning, stacklevel=2)
 
     # End of the function

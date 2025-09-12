@@ -1,3 +1,5 @@
+"""Top-level package for pyPLUTO."""
+
 # Import the libraries, classes and functions
 from .configure import Configure
 from .image import Image

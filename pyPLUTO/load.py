@@ -148,6 +148,8 @@ class Load:
         if check is True:
             check_par(param, "__init__", **kwargs)
 
+        self.nout: NDArray  # Output to be loaded
+
         # Load PyPLUTO for different codes
         code = kwargs.get("code")
         codedict = {"echo": self.echo_load}
@@ -171,7 +173,6 @@ class Load:
             return
 
         # Initialization or declaration of variables (used in this file)
-        self.nout: NDArray  # Output to be loaded
         self._d_end: dict[str | None, str | None]  # Endianess dictionary
         self._multiple: bool  # Bool for single or multiple files
         self._alone: bool | None = None  # Bool for standalone files

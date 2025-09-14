@@ -11,26 +11,6 @@ class ImageMixin:
     state: ImageState
 
     @property
-    def LaTeX(self):
-        """Get the LaTeX attribute of the image."""
-        return self.state.LaTeX
-
-    @LaTeX.setter
-    def LaTeX(self, value):
-        """Set the LaTeX attribute of the image."""
-        self.state.LaTeX = value
-
-    @property
-    def style(self):
-        """Get the style attribute of the image."""
-        return self.state.style
-
-    @style.setter
-    def style(self, value):
-        """Set the style attribute of the image."""
-        self.state.style = value
-
-    @property
     def ax(self):
         """Get the ax attribute of the image."""
         return self.state.ax
@@ -89,6 +69,16 @@ class ImageMixin:
     def fontsize(self, value):
         """Set the fontsize attribute of the image."""
         self.state.fontsize = value
+
+    @property
+    def LaTeX(self):
+        """Get the LaTeX attribute of the image."""
+        return self.state.LaTeX
+
+    @LaTeX.setter
+    def LaTeX(self, value):
+        """Set the LaTeX attribute of the image."""
+        self.state.LaTeX = value
 
     @property
     def legpar(self):
@@ -209,6 +199,16 @@ class ImageMixin:
     def tickspar(self, value):
         """Set the tickspar attribute of the image."""
         self.state.tickspar = value
+
+    @property
+    def style(self):
+        """Get the style attribute of the image."""
+        return self.state.style
+
+    @style.setter
+    def style(self, value):
+        """Set the style attribute of the image."""
+        self.state.style = value
 
     @property
     def tight(self):

@@ -1,4 +1,4 @@
-# imagestate.py
+"""ImageState class."""
 
 from dataclasses import dataclass, field
 from typing import Any
@@ -40,10 +40,3 @@ class ImageState:
     vlims: list[list[float]] = field(default_factory=list)
     xscale: list[str] = field(default_factory=list)
     yscale: list[str] = field(default_factory=list)
-
-    # def __setattr__(self, name: str, value: object) -> None:
-    #    """Custom setter for the attributes of the ImageState class. It allows
-    #    to set the attributes of the class and update the state of the image.
-    #    This is useful for keeping track of the current state of the image and
-    #    updating it when necessary."""
-    #    super().__setattr__(name, value)

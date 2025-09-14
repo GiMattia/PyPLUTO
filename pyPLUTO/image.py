@@ -234,6 +234,10 @@ class Image(ImageMixin):
         else:
             raise AttributeError(f"'Image' object has no attribute '{name}'")
 
+    def oplotbox(self, *args: Any, **kwargs: Any) -> None:
+        """Plot a box in the figure (AMR, WIP)."""
+        oplotbox(self, *args, **kwargs)
+
     @property
     def animate(self):
         """Property for the animate method."""
@@ -308,7 +312,3 @@ class Image(ImageMixin):
     def zoom(self):
         """Property for the zoom method."""
         return self.ZoomManager.zoom
-
-    def oplotbox(self, *args: Any, **kwargs: Any) -> None:
-        """Plot a box in the figure (AMR, WIP)."""
-        oplotbox(self, *args, **kwargs)

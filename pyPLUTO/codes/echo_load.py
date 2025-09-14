@@ -1,12 +1,14 @@
 """Module to load the data from the output files of the ECHO code."""
 
+from pathlib import Path
+
 import h5py
 
 
 def echo_load(
     self,
     nout: int | str | list | None,
-    path: str,
+    path: str | Path,
     vars: str | list[str] | bool | None = True,
 ) -> None:
     """Load the data from the output files of the ECHO code.

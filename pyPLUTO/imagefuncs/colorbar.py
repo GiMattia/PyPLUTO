@@ -1,9 +1,12 @@
+"""Colorbar management for the image class."""
+
 import warnings
 from typing import Any
 
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection, PathCollection, QuadMesh
 from matplotlib.contour import QuadContourSet
+from matplotlib.figure import Figure
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from ..imagemixin import ImageMixin
@@ -38,10 +41,10 @@ class ColorbarManager(ImageMixin):
         check: bool = True,
         **kwargs: Any,
     ) -> None:
-        """Method to display a colorbar in a selected position. If the
-        keyword cax is enabled the colorbar is located in a specific
-        axis, otherwise an axis will be shrunk in order to place the
-        colorbar.
+        """Display a colorbar in a selected position.
+
+        If the keyword cax is enabled the colorbar is located in a specific
+        axis, otherwise an axis will be shrunk in order to place the colorbar.
 
         Returns
         -------
@@ -113,15 +116,10 @@ class ColorbarManager(ImageMixin):
         # If pcm and a source axes are selected, raise a warning and use pcm
         if pcm is not None and axs is not None:
             warn = "Both pcm and axs are not None, pcm will be used"
-            warnings.warn(warn, UserWarning)
+            warnings.warn(warn, UserWarning, stacklevel=2)
 
         # Standard check on the figure
-        # Here we use self.state to fix a WINDOWS issue where self.fig
-        # is not defined in the ImageMixin
-        if self.fig is None:
-            raise ValueError(
-                "No figure is present. Please create a figure first."
-            )
+        self.fig = self.require_fig()
 
         # Select the source axis
         if pcm is not None:
@@ -180,3 +178,11 @@ class ColorbarManager(ImageMixin):
             self.fig.tight_layout()
 
         # End of function
+
+    def require_fig(self) -> Figure:
+        fig = self.state.fig
+        if fig is None:  # pragma: no branch
+            raise ValueError(
+                "No figure is present. Please create a figure first."
+            )
+        return fig

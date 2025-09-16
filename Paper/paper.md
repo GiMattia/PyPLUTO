@@ -41,7 +41,7 @@ authors:
     affiliation: 8
 
 affiliations:
- - name: Max Planck Institut für Astronomie, Königstuhl 17, Heidelberg, 69117, Germany
+ - name: Max-Planck-Institut für Astronomie, Königstuhl 17, Heidelberg, 69117, Germany
    index: 1
 
  - name: INFN, Sezione di Firenze, Via G. Sansone 1, Sesto Fiorentino (FI), 50019, Italy
@@ -65,7 +65,7 @@ affiliations:
  - name: Department of Astronomy, Astrophysics and Space Engineering, Indian Institute of Technology, Khandwa Road, Simrol, Indore, 453552, India
    index: 8
 
-date: 16 January 2025
+date: 16 September 2025
 bibliography: paper.bib
 
 ---
@@ -85,7 +85,7 @@ The package retains its core strengths while offering user-friendly methods for 
 
 # Main Features
 
-PyPLUTO is a package written in Python (version 3.10 or later) with the additions of NumPy [@NUMPY2020], Matplotlib [@MATPLOTLIB_2007], SciPy [@SCIPY_2020], pandas [@PANDAS2020], h5py [@H5PY_2013], and [PyQT6](https://www.riverbankcomputing.com/software/pyqt/intro) (although the last two are optional). The package, which can be installed through pip, primarily consists of three main classes:
+PyPLUTO is a package written for Python 3.10 or later with the additions of external packages like NumPy [@NUMPY2020], Matplotlib [@MATPLOTLIB_2007], SciPy [@SCIPY_2020], pandas [@PANDAS2020], h5py [@H5PY_2013], and [PyQT6](https://www.riverbankcomputing.com/software/pyqt/intro). The package, which can be installed through pip, primarily consists of three main classes:
 
 • The `Load` class loads and manipulates the PLUTO output files containing fluid-related quantities.
 

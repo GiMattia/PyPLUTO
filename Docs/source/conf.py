@@ -21,7 +21,7 @@ copyright: str = (
 author: str = (
     "G. Mattia D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya"
 )
-release: str = "1.1"
+release: str = "1.1.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

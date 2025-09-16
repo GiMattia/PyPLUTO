@@ -381,35 +381,36 @@ class Load:
             raise AttributeError(f"'Load' object has no attribute '{name}'")
 
     from .amr import _DataScanHDF5, _inspect_hdf5
-    from .defpluto import _read_defh, _read_plini
-    from .echo_load import echo_load
-    from .findlines import _check_var, find_contour, find_fieldlines
-    from .fourier import fourier
-    from .nabla import curl, divergence, gradient
-    from .read_files import _read_dat, _read_h5, read_file
-    from .readdata import (
+    from .codes.echo_load import echo_load
+    from .loadfuncs.defpluto import _read_defh, _read_plini
+    from .loadfuncs.read_files import _read_dat, _read_h5, read_file
+    from .loadfuncs.readdata import (
         _assign_var,
         _check_nout,
         _findfiles,
         _init_vardict,
         _load_variables,
     )
-    from .readfluid import (
+    from .loadfuncs.readfluid import (
         _compute_offset,
         _inspect_h5,
         _inspect_vtk,
         _offset_bin,
         _read_tabfile,
     )
-    from .readformat import _check_pathformat, _find_format
-    from .readgridout import (
+    from .loadfuncs.readformat import _check_pathformat, _find_format
+    from .loadfuncs.readgridout import (
         _read_grid_h5,
         _read_grid_vtk,
         _read_gridfile,
         _read_outfile,
         _split_gridfile,
     )
-    from .transform import (
+    from .loadfuncs.write_files import _write_h5, write_file
+    from .toolfuncs.findlines import _check_var, find_contour, find_fieldlines
+    from .toolfuncs.fourier import fourier
+    from .toolfuncs.nabla import curl, divergence, gradient
+    from .toolfuncs.transform import (
         _congrid,
         cartesian_vector,
         mirror,
@@ -417,4 +418,3 @@ class Load:
         reshape_uniform,
         slices,
     )
-    from .write_files import _write_h5, write_file

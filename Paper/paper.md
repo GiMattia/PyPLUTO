@@ -41,7 +41,7 @@ authors:
     affiliation: 8
 
 affiliations:
- - name: Max Planck Institut für Astronomie, Königstuhl 17, Heidelberg, 69117, Germany
+ - name: Max-Planck-Institut für Astronomie, Königstuhl 17, Heidelberg, 69117, Germany
    index: 1
 
  - name: INFN, Sezione di Firenze, Via G. Sansone 1, Sesto Fiorentino (FI), 50019, Italy
@@ -65,7 +65,7 @@ affiliations:
  - name: Department of Astronomy, Astrophysics and Space Engineering, Indian Institute of Technology, Khandwa Road, Simrol, Indore, 453552, India
    index: 8
 
-date: 16 January 2025
+date: 16 September 2025
 bibliography: paper.bib
 
 ---
@@ -85,7 +85,7 @@ The package retains its core strengths while offering user-friendly methods for 
 
 # Main Features
 
-PyPLUTO is a package written in Python (version $\geq$3.10) with the additions of NumPy [@NUMPY2020], Matplotlib [@MATPLOTLIB_2007], SciPy [@SCIPY_2020], pandas [@PANDAS2020], h5py [@H5PY_2013], and [PyQT6](https://www.riverbankcomputing.com/software/pyqt/intro) (although the last two are optional). The package, which can be installed through pip, primarily consists of three main classes:
+PyPLUTO is a package written for Python 3.10 or later with the additions of external packages like NumPy [@NUMPY2020], Matplotlib [@MATPLOTLIB_2007], SciPy [@SCIPY_2020], pandas [@PANDAS2020], h5py [@H5PY_2013], and [PyQT6](https://www.riverbankcomputing.com/software/pyqt/intro). The package, which can be installed through pip, primarily consists of three main classes:
 
 • The `Load` class loads and manipulates the PLUTO output files containing fluid-related quantities.
 
@@ -101,7 +101,6 @@ Finally, by leveraging the capabilities of the [sphinx package](http://sphinx-do
 PyPLUTO provides a set of benchmarks that are immediately accessible after the package is installed. These consist of test problems that can be applied to relevant astrophysical applications and showcase the full range of PyPLUTO’s features. Here we report two examples demonstrating the package’s capabilities.
 
 ### Disk-planet Interaction {#diskplanet}
-This test problem examines particle acceleration near an X-type magnetic reconnection region [@Puzzoni2021]. In the last decades, magnetic reconnection [@Mattiaetal2023;@Buglietal2024] has proven to be a key physical process to explain the population of non-thermal particles in solar flares, relativistic outflows, and neutron star magnetospheres. This sort of test provides valuable insights into particle acceleration mechanisms in high-energy astrophysical environments by enabling the investigation of particle trajectories and energy distribution near the X-point.
 This test simulates the interaction of a planet embedded in a disk [@Mignone_etal_2012] and represents an ideal scenario for understanding the formation and evolution of planetary systems. In particular, forming spiral density waves and disk gaps represents some key observational signatures of planet formation and planet-disk interaction [@MelonFuksman2021;@Muley2024a]. In the left panel of Fig. \ref{fig2}, we show an adaptation of Figure 10 of [@Mignone_etal_2012], featuring two separate zoom-ins around the planet's location.
 
 • The first zoom (upper-right subplot) shows an enlarged view of the density distribution using the same color map and logarithmic scale as the global plot.

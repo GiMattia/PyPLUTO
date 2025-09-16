@@ -17,7 +17,7 @@ def reset_greeted_flag():
 
 def test_version_and_session():
     # Ensure that the version and session are as expected
-    assert pp.Configure().version == "1.0"
+    assert pp.Configure().version == "1.1.1"
     assert pp.Configure().colorwarn is True
     assert pp.Configure().colorerr is True
 

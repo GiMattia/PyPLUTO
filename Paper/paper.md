@@ -85,7 +85,7 @@ The package retains its core strengths while offering user-friendly methods for 
 
 # Main Features
 
-PyPLUTO is a package written for Python 3.10 or later with the additions of external packages like NumPy [@NUMPY2020], Matplotlib [@MATPLOTLIB_2007], SciPy [@SCIPY_2020], pandas [@PANDAS2020], h5py [@H5PY_2013], and [PyQT6](https://www.riverbankcomputing.com/software/pyqt/intro). The package, which can be installed through pip, primarily consists of three main classes:
+PyPLUTO is a package written for Python 3.10 or later with the additions of external packages such as NumPy [@NUMPY2020], Matplotlib [@MATPLOTLIB_2007], SciPy [@SCIPY_2020], pandas [@PANDAS2020], h5py [@H5PY_2013], and [PyQT6](https://www.riverbankcomputing.com/software/pyqt/intro). The package, which can be installed through pip, primarily consists of three main classes:
 
 • The `Load` class loads and manipulates the PLUTO output files containing fluid-related quantities.
 

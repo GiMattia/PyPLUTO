@@ -215,19 +215,19 @@ class LoadPart:
         except AttributeError:
             raise AttributeError(f"'LoadPart' object has no attribute '{name}'")
 
-    from .parttools import select, spectrum
-    from .readdata import (
+    from .loadfuncs.readdata import (
         _assign_var,
         _check_nout,
         _findfiles,
         _init_vardict,
         _load_variables,
     )
-    from .readformat import _check_pathformat, _find_format
-    from .readpart import (
+    from .loadfuncs.readformat import _check_pathformat, _find_format
+    from .loadfuncs.readpart import (
         _compute_offset,
         _inspect_bin,
         _inspect_vtk,
         _store_bin_particles,
         _store_vtk_particles,
     )
+    from .toolfuncs.parttools import select, spectrum

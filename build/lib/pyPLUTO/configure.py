@@ -34,7 +34,7 @@ class Configure:
         - None
 
         """
-        self.version: str = "1.0"
+        self.version: str = "1.1.1"
         self.colorerr: bool = colorerr
         self.colorwarn: bool = colorwarn
         self.session: str = self._find_session()

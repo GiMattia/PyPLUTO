@@ -139,6 +139,12 @@ def _read_dat(self, filename: str, **kwargs: Any) -> None:
         >>> read_dat("filename.dat")
 
     """
+    print("Reading dat file...")
+    print("Reading dat file...")
+    print("Reading dat file...")
+    print("Reading dat file...")
+    print("Reading dat file...")
+    print("Reading dat file...")
     # Create the path to the HDF5 file
     try:
         self._pathh5 = self.pathdir / filename

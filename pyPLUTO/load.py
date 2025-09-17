@@ -1,10 +1,18 @@
+import sys
+import warnings
 from pathlib import Path
-from typing import Any
+from typing import Any, TypeAlias
 
+import inifix
 import numpy as np
 from numpy.typing import NDArray
 
 from .h_pypluto import check_par
+
+if sys.version_info >= (3, 13):
+    from warnings import deprecated
+else:
+    from typing_extensions import deprecated
 
 
 class Load:
@@ -63,6 +71,8 @@ class Load:
     - vars: str | list | bool | None, default True
         The variables to be loaded. The default value, True, corresponds to all
         the variables.
+    - inifile: str, default: 'pluto.ini'
+        The name of the inifile to read simulation parameters from.
 
     ----
 
@@ -133,6 +143,8 @@ class Load:
         vars: str | list[str] | bool | None = True,
         text: bool = True,
         check: bool = True,
+        *,
+        inifile: str = "pluto.ini",
         **kwargs: Any,
     ) -> None:
         # Check parameters
@@ -191,6 +203,9 @@ class Load:
         self.dim: int  # The dimension of the simulation
         self.nshp: int | tuple[int, ...]  # The shape of the grid
         self.nfile_lp: int | None = None  # File number for the lp methods
+        # result of parsing pluto.ini
+        ScalarParam: TypeAlias = float | int | bool | str
+        self.config: dict[str, dict[str, ScalarParam | list[ScalarParam]]]
 
         self._charsize: int  # The data size in the files
         self._lennout: int  # The number of outputs to be loaded
@@ -318,14 +333,35 @@ class Load:
                 print(f"No {defhfile} is read!") if defh is True else ...
 
         # Try to read the file pluto.ini
-        plini = kwargs.get("plini")
-        if plini is not False:
-            pathplini = self.pathdir / "pluto.ini"
-            try:
-                self.plini = self._read_plini(pathplini)
-            except FileNotFoundError:
-                print("No pluto.ini is read!") if plini is True else ...
-        return
+        if (pathplini := self.pathdir / inifile).is_file():
+            self.config = inifix.load(pathplini, sections="require")
+        else:
+            warnings.warn(
+                f"Did not find {inifile!r}",
+                category=UserWarning,
+                stacklevel=2,
+            )
+            self.config = {}
+
+        if "plini" in kwargs:
+            warnings.warn(
+                "The plini argument is now no-op and is deprecated. "
+                "If you do need to read from an ini file, please consider using "
+                "the inifile argument instead. If you don't, you may simply "
+                "omit these arguments to silence this warning.",
+                category=DeprecationWarning,
+                stacklevel=2,
+            )
+
+    @deprecated(
+        "The plini attribute is deprecated, "
+        "please consider using the config attribute instead."
+    )
+    @property
+    def plini(self):
+        r"""A deprecated alias to a subset of self.config."""
+        c = self.config
+        return c["Solver"] | c["Parameters"] | c["Boundary"] | c["Time"]
 
     def __str__(self):
         text3 = f"        - Projections {['x1c', 'x2c', 'x1rc', 'x2rc']}\n"
@@ -382,7 +418,7 @@ class Load:
 
     from .amr import _DataScanHDF5, _inspect_hdf5
     from .codes.echo_load import echo_load
-    from .loadfuncs.defpluto import _read_defh, _read_plini
+    from .loadfuncs.defpluto import _read_defh
     from .loadfuncs.read_files import _read_dat, _read_h5, read_file
     from .loadfuncs.readdata import (
         _assign_var,

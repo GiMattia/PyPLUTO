@@ -168,6 +168,7 @@ class Load:
 
         # Check if the user wants to load the data
         if nout is None:
+            self.pathdir = Path(path)
             return
 
         # Initialization or declaration of variables (used in this file)

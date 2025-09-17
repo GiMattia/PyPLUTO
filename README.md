@@ -11,9 +11,6 @@
 
 <!-- ![PyPI](https://img.shields.io/pypi/v/PyPLUTO) -->
 <!-- ![Conda](https://img.shields.io/badge/conda-available-brightgreen) -->
-<!-- ![Zenodo](https://doi.org/10.5281/zenodo.17137196) -->
-
-
 
 PyPLUTO is a Python library which loads and plots the data obtain from the
 PLUTO code simulations.

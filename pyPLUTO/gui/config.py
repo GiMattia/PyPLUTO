@@ -29,7 +29,9 @@ def load_data(self):
         self.yaxis_selector.clear()
 
         keep = []
+        self.D.nshp = (self.D.nshp,) if self.D.dim == 1 else self.D.nshp
         for v in list(map(str, self.D._load_vars)):
+            print(v)
             a = getattr(self.D, v, None)
             # keep only full-grid arrays
             if isinstance(a, np.ndarray) and tuple(a.shape) == tuple(

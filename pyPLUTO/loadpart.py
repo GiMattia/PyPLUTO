@@ -215,7 +215,7 @@ class LoadPart:
         except AttributeError:
             raise AttributeError(f"'LoadPart' object has no attribute '{name}'")
 
-    from .loadfuncs.readdata import (
+    from .loadfuncs.readdata_old import (
         _assign_var,
         _check_nout,
         _findfiles,

@@ -173,6 +173,7 @@ def evaluate_custom_var(D, name: str, expr: str, *, assign: bool = True):
 
     if assign:
         setattr(D, name, res)
+
     return res
 
 
@@ -321,6 +322,9 @@ def _validate_lines_sequential(D, pairs):
 
 
 def _on_activated(combo: QComboBox, idx: int, D):
+    # Always use the live D from the main window if available
+    D = getattr(combo.window(), "D", D)
+
     if combo.itemText(idx) != SENTINEL:
         combo.setProperty("_last", idx)
         return

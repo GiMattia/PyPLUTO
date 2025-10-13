@@ -29,15 +29,19 @@ def load_data(self):
         self.yaxis_selector.clear()
 
         keep = []
+        self.D.nshp = (
+            self.D.nshp
+            if isinstance(self.D.nshp, tuple)
+            else (int(self.D.nshp),)
+        )
         for v in list(map(str, self.D._load_vars)):
             a = getattr(self.D, v, None)
             # keep only full-grid arrays
-            if isinstance(a, np.ndarray) and tuple(a.shape) == tuple(
-                self.D.nshp
-            ):
+            if isinstance(a, np.ndarray) and (a.shape == self.D.nshp):
                 keep.append(v)
         self.D._load_vars = keep
         self.var_selector.addItems(self.D._load_vars)
+
         self.var_selector.addItems(["Custom var..."])
         setup_var_selector(self.var_selector, self.D)
 
@@ -124,7 +128,19 @@ def reload_data(self):
     self.nout = int(self.outtext.text()) if self.outtext.text() else "last"
     self.folder_path = "./" if self.folder_path is None else self.folder_path
     self.load_data()
-    if var_name in self.D._load_vars:
+    defs = self.var_selector.property("_cv_defs") or []
+    custom_names = []
+    for item in defs:
+        # supports both legacy (name, expr) and new (display_name, expr_clean, expr_display)
+        display_name = item[0] if len(item) == 3 else item[0]
+        clean_name = (
+            display_name[1:]
+            if str(display_name).startswith("!")
+            else display_name
+        )
+        custom_names.append(clean_name)
+
+    if var_name in self.D._load_vars or var_name in custom_names:
         self.var_selector.setCurrentText(var_name)
 
 

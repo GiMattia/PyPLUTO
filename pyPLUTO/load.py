@@ -8,8 +8,9 @@ from .h_pypluto import check_par
 
 
 class Load:
-    """The Load class loads the data (fluid) from the output files. The
-    initialization corresponds to the loading, if wanted, of one or more
+    """The Load class loads the data (fluid) from the output files.
+
+    The initialization corresponds to the loading, if wanted, of one or more
     datafiles for the fluid. The data are loaded in a memory mapped numpy
     multidimensional array. Such approach does not load the full data
     until needed. Basic operations (i.e. no numpy) are possible, as well
@@ -168,6 +169,7 @@ class Load:
 
         # Check if the user wants to load the data
         if nout is None:
+            print("No output is loaded!")
             return
 
         # Initialization or declaration of variables (used in this file)
@@ -286,10 +288,10 @@ class Load:
             setattr(self, key, self._d_vars[key])
 
         # Transpose nshp (to match with variables)
-        try:
-            self.nshp = self.nshp[::-1] if self.dim > 1 else self.nshp
-        except ValueError:
-            pass
+        # try:
+        #    self.nshp = self.nshp[::-1] if self.dim > 1 else self.nshp
+        # except ValueError:
+        #    pass
 
         # Convert ntime if only one number of a list
         if isinstance(self.ntime, np.ndarray) and len(self.ntime) == 1:
@@ -384,7 +386,7 @@ class Load:
     from .codes.echo_load import echo_load
     from .loadfuncs.defpluto import _read_defh, _read_plini
     from .loadfuncs.read_files import _read_dat, _read_h5, read_file
-    from .loadfuncs.readdata import (
+    from .loadfuncs.readdata_old import (
         _assign_var,
         _check_nout,
         _findfiles,

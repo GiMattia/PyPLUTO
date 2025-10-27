@@ -50,7 +50,6 @@ dev = [
     "ruff",
     "mypy",
     "blacken-docs",
-    "docformatter",
     "interrogate",
     "pydata-sphinx-theme"
 ]
@@ -160,7 +159,3 @@ ignore-magic = true
 ignore-module = true
 ignore-private = false
 ignore-semiprivate = false
-
-[tool.uv.sources]
-# Force use of a fixed untokenize fork across all Python versions
-untokenize = { git = "https://github.com/asottile/untokenize", rev = "master" }

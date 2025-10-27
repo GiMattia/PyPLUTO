@@ -91,4 +91,4 @@ Image.contour(
 
 # Saving the image and showing the plots
 Image.savefig("test04_rotor.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

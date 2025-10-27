@@ -97,4 +97,4 @@ Image.ax[1].patch.set_alpha(0.75)
 
 # --- Save and show ---
 Image.savefig("test11_xpoint.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

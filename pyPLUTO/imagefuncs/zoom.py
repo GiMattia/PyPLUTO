@@ -291,7 +291,7 @@ class ZoomManager(ImageMixin):
         return axins
 
     def zoomplot(self, ax: Axes, axins: Axes) -> None:
-        """Plots the lines on the inset zoom"""
+        """Plot the lines on the inset zoom."""
         lines = ax.get_lines()
         for i in lines:
             self.PlotManager.plot(
@@ -305,10 +305,11 @@ class ZoomManager(ImageMixin):
                 ax=axins,
             )
 
+    @track_kwargs
     def zoomdisplay(
         self, ax: Axes, nax: int, axins: Axes, **kwargs: Any
     ) -> None:
-        """Plots the zoom on the inset zoom, for a display plot"""
+        """Plot the zoom on the inset zoom, for a display plot."""
         pcm = ax.collections[0]
         pnr = str(pcm.norm).split()[0].split(".")[2]
         dict_norm = {

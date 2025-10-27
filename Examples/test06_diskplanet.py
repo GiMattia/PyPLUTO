@@ -76,4 +76,4 @@ Image.zoom(
 
 # Saving the image and showing the plots
 Image.savefig("test06_diskplanet.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

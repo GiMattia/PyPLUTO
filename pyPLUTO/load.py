@@ -1,3 +1,9 @@
+"""
+Load the PLUTO data files.
+
+The Load class loads the data (fluid) from the output files.
+"""
+
 from pathlib import Path
 from typing import Any
 
@@ -27,6 +33,10 @@ class Load:
         grid file in the folder. If True, the code will look for the grid
         information within the data files. Should be used only for non-binary
         files.
+    - code: str | None, default None
+        The code from which the data are loaded. If None, the code assumes
+        PLUTO/gPLUTO. If a different code is provided, the corresponding
+        loading method is used (if implemented).
     - datatype: str | None, default None
         The format of the data file. If not specified, the code will look for
         the format from the list of possible formats. HDF5 (AMR) formats have
@@ -139,6 +149,7 @@ class Load:
         # Check parameters
         param = {
             "alone",
+            "code",
             "read_defh",
             "endian",
             "full3d",
@@ -156,11 +167,13 @@ class Load:
         if not code or code.lower() in {"pluto", "gpluto"}:
             pass
         elif code.lower() in codedict:
-            init = f"Creating instance with alternate method using code: {code}"
+            init = f"Loading data with alternative method using code: {code}"
             if text is True:
                 print(init)
             codedict[code.lower()](nout, path, vars)
-            self.nout = self.nout.astype(int)
+            print(self.nout)
+            if not isinstance(self.nout, int):
+                self.nout = self.nout.astype(int)
             if text is True:
                 print(f"Load: folder {path},     output {self.nout}")
             return
@@ -380,10 +393,17 @@ class Load:
         try:
             return object.__getattribute__(self, f"_{name}")
         except AttributeError:
-            raise AttributeError(f"'Load' object has no attribute '{name}'")
+            raise AttributeError(
+                f"'Load' object has no attribute '{name}'"
+            ) from None
 
     from .amr import _DataScanHDF5, _inspect_hdf5
-    from .codes.echo_load import echo_load
+    from .codes.echo_load import (
+        _echo_load_grid,
+        _echo_load_vars,
+        _echo_set_grid_dims,
+        echo_load,
+    )
     from .loadfuncs.defpluto import _read_defh, _read_plini
     from .loadfuncs.read_files import _read_dat, _read_h5, read_file
     from .loadfuncs.readdata_old import (

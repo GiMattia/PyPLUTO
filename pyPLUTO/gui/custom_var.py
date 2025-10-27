@@ -52,6 +52,7 @@ def _frozen_var_names(D):
 def _apply_grid_shaping(local, D):
     """
     Reshape only x1/x2/x3 if they are 1-D so they broadcast with D.nshp.
+
     PyPLUTO order: 1D -> (nx1,), 2D -> (nx1, nx2), 3D -> (nx1, nx2, nx3)
     x1 aligns to axis 0, x2 to axis 1, x3 to axis 2.
     """
@@ -74,6 +75,7 @@ def _apply_grid_shaping(local, D):
             except Exception:
                 pass  # stay quiet per your policy
 
+    IS_3D = 3
     if D.geom == "CARTESIAN":
         local["x"] = local["x1"]
         local["y"] = local["x2"]
@@ -82,14 +84,14 @@ def _apply_grid_shaping(local, D):
         local["R"] = local["x1"]
         local["phi"] = local["x2"]
         local["z"] = local["x3"]
-        local["x"] = D.x1c.T[:, :, None] if D.dim == 3 else D.x1c.T
-        local["y"] = D.x2c.T[:, :, None] if D.dim == 3 else D.x2c.T
+        local["x"] = D.x1c.T[:, :, None] if D.dim == IS_3D else D.x1c.T
+        local["y"] = D.x2c.T[:, :, None] if D.dim == IS_3D else D.x2c.T
     elif D.geom == "SPHERICAL":
         local["r"] = local["x1"]
         local["theta"] = local["x2"]
         local["phi"] = local["x3"]
-        local["R"] = D.x1p.T[:, :, None] if D.dim == 3 else D.x1p.T
-        local["z"] = D.x2p.T[:, :, None] if D.dim == 3 else D.x2p.T
+        local["R"] = D.x1p.T[:, :, None] if D.dim == IS_3D else D.x1p.T
+        local["z"] = D.x2p.T[:, :, None] if D.dim == IS_3D else D.x2p.T
         if D.dim == 3:
             local["rt"] = D.x1t.T[:, None, :]
             local["zt"] = D.x3t.T[:, None, :]
@@ -99,6 +101,7 @@ def _apply_grid_shaping(local, D):
 def evaluate_custom_var(D, name: str, expr: str, *, assign: bool = True):
     """
     numexpr-only, memmap output for arrays, scalar stays scalar.
+
     Accepts D.foo or foo; np.func/numpy.func or func directly.
     """
     expr = _normalize_expr(expr)
@@ -215,14 +218,15 @@ class CustomVarDialog(QDialog):
         self.exprs.textChanged.connect(lambda: self.err.setText(""))
 
     def _parse_lines(self, text: str):
-        """
-        Returns a list of tuples:
+        """Return a list of tuples.
+
         (display_name, expr_display, hidden, clean_name, expr_clean)
         - display_name: what the user typed for the name (may start with '!')
         - expr_display: right-hand side exactly as typed (keeps '# comment')
         - hidden: True if name starts with '!'
         - clean_name: display_name without leading '!' (actual Python attribute)
         - expr_clean: expr_display with trailing comment stripped (before evaluation)
+
         """
         pairs = []
         for raw in text.splitlines():

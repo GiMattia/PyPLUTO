@@ -343,7 +343,10 @@ def _read_outfile(self, nout: int, endian: str) -> None:
 
     """
     # Open and read the 'filetype'.out file
-    vfp = pd.read_csv(str(self._pathdata), sep=r"\s+", header=None)
+    vfp = pd.read_csv(
+        str(self._pathdata), sep=r"\s+", header=None
+    )  # , engine="python"
+    # FIX FOR DIFFERENT NUMBER OF COLUMNS IN THE .OUT FILE
 
     # Store the output and the time full list
     self.outlist = np.array(vfp.iloc[:, 0], dtype="int")

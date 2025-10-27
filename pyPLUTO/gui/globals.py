@@ -1,3 +1,5 @@
+"""Contains global variables for the GUI."""
+
 import matplotlib.scale as mscale
 from matplotlib import colormaps as cmaps
 
@@ -7,7 +9,7 @@ vscales = ["linear", "log", "symlog", "2slope", "power", "asinh"]
 
 cmaps_avail = [list(cmaps)[2]] + list(cmaps)[0:2] + list(cmaps)[3:83]
 
-cmaps = {
+cmaps_divided = {
     "All": cmaps_avail,
     "Uniform": ["plasma", "viridis", "inferno", "magma", "cividis"],
     "Sequential": [

@@ -51,4 +51,4 @@ Image.plot(Data.x1, Data.vx1, label=r"$v_x$")
 # Saving the image and showing the plot in the Examples folder
 # (i.e., where the file test01_sod.py is located)
 Image.savefig("test01_sod.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

@@ -42,4 +42,4 @@ Image.display(
 
 # Saving the image and showing the plot
 Image.savefig("test02_ot.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

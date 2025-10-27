@@ -1,3 +1,5 @@
+"""Module providing colorbar management functionalities for image displays."""
+
 import warnings
 from typing import Any
 
@@ -38,10 +40,11 @@ class ColorbarManager(ImageMixin):
         check: bool = True,
         **kwargs: Any,
     ) -> None:
-        """Method to display a colorbar in a selected position. If the
-        keyword cax is enabled the colorbar is located in a specific
-        axis, otherwise an axis will be shrunk in order to place the
-        colorbar.
+        """Display a colorbar in a selected position.
+
+        The colorbar will be placed next to the axis axs. If the keyword cax is
+        enabled the colorbar is located in a specific axis, otherwise an axis
+        will be shrunk in order to place the colorbar.
 
         Returns
         -------
@@ -113,7 +116,7 @@ class ColorbarManager(ImageMixin):
         # If pcm and a source axes are selected, raise a warning and use pcm
         if pcm is not None and axs is not None:
             warn = "Both pcm and axs are not None, pcm will be used"
-            warnings.warn(warn, UserWarning)
+            warnings.warn(warn, UserWarning, stacklevel=2)
 
         # Standard check on the figure
         # Here we use self.state to fix a WINDOWS issue where self.fig
@@ -123,19 +126,8 @@ class ColorbarManager(ImageMixin):
                 "No figure is present. Please create a figure first."
             )
 
-        # Select the source axis
-        if pcm is not None:
-            # If the pcm is not none, use it and find the corresponding axes
-            if not isinstance(pcm.axes, Axes):
-                raise TypeError("Expected an Axes instance.")
-            axs = pcm.axes
-        elif axs is None:
-            # If axs is None, use the current axes
-            gca = self.fig.gca()
-            if not isinstance(gca, Axes):
-                raise TypeError("gca() did not return an Axes instance.")
-            axs = gca
-        axs, _ = self.ImageToolsManager.assign_ax(axs, **kwargs)
+        # Assign the source axis
+        axs = self._find_ax(pcm, axs, **kwargs)
 
         # Select the keywords to position the colorbar
         if pcm is None:
@@ -180,3 +172,59 @@ class ColorbarManager(ImageMixin):
             self.fig.tight_layout()
 
         # End of function
+
+    @track_kwargs
+    def _find_ax(
+        self,
+        pcm: (
+            QuadMesh | PathCollection | LineCollection | QuadContourSet | None
+        ) = None,
+        axs: Axes | int | None = None,
+        **kwargs: Any,
+    ) -> Axes:
+        """Find and return the appropriate axis based on the input.
+
+        Parameters
+        ----------
+        - axs: Axes | int | None, default None
+            The axis or index of the axis to find. If None, the last used axis
+            will be returned.
+
+        Returns
+        -------
+        - Axes
+            The found axis object.
+
+        Raises
+        ------
+        - ValueError
+            If no figure is present or if the specified axis index is invalid.
+        - TypeError
+            If the provided axs parameter is not of type Axes or int.
+
+        """
+        # Standard check on the figure
+        if self.fig is None:
+            raise ValueError(
+                "No figure is present. Please create a figure first."
+            )
+        # Standard check on the figure
+        # Select the source axis
+        if pcm is not None:
+            # If the pcm is not none, use it and find the corresponding axes
+            if not isinstance(pcm.axes, Axes):
+                raise TypeError("Expected an Axes instance.")
+            axs = pcm.axes
+        elif axs is None:
+            # If axs is None, use the current axes
+            gca = self.fig.gca()
+            if not isinstance(gca, Axes):
+                raise TypeError("gca() did not return an Axes instance.")
+            axs = gca
+        axs, _ = self.ImageToolsManager.assign_ax(axs, **kwargs)
+        if self.fig is None:
+            raise ValueError(
+                "No figure is present. Please create a figure first."
+            )
+
+        return axs

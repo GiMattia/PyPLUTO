@@ -62,4 +62,4 @@ Image.colorbar(pcm, cax=2, clabel="id")
 
 # Saving the image and showing the plot
 Image.savefig("test12_riemannlp.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

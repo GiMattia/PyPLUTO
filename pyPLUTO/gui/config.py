@@ -1,3 +1,5 @@
+"""Configure the Load object for th GUI."""
+
 import os
 
 import numpy as np
@@ -9,6 +11,7 @@ from .custom_var import setup_var_selector
 
 
 def load_data(self):
+    """Load the data from the selected folder."""
     try:
         if self.varstext.text():
             vars = self.varstext.text().replace(" ", "")
@@ -30,17 +33,19 @@ def load_data(self):
 
         keep = []
         self.D.nshp = (
-            self.D.nshp
+            self.D.nshp[::-1]
             if isinstance(self.D.nshp, tuple)
             else (int(self.D.nshp),)
         )
         for v in list(map(str, self.D._load_vars)):
             a = getattr(self.D, v, None)
+
             # keep only full-grid arrays
             if isinstance(a, np.ndarray) and (a.shape == self.D.nshp):
                 keep.append(v)
         self.D._load_vars = keep
         self.var_selector.addItems(self.D._load_vars)
+        print(f"Loaded {len(self.D._load_vars)} variables")
 
         self.var_selector.addItems(["Custom var..."])
         setup_var_selector(self.var_selector, self.D)
@@ -63,17 +68,18 @@ def load_data(self):
             f"Loaded folder: {self.folder_path}\n"
             f"Format file: {self.D.format}\n"
             f"Geometry: {self.D.geom}\n"
-            f"Domain:\nnx1 x nx2 x nx3 = {self.D.nx1} x {self.D.nx2} x {self.D.nx3}\n"
+            f"Domain: {self.D.nx1} x {self.D.nx2} x {self.D.nx3}\n"
             f"Loaded step = {self.D.nout[0]}\nPresent Time = {self.D.ntime}\n"
             f"Variables: {', '.join(self.D._load_vars)}"
         )
 
         # Append custom vars defined in this session (if any)
         defs = self.var_selector.property("_cv_defs") or []
+        CUSTOM_VAR_TUPLE_LENGTH = 3
         if defs:
             lines = []
             for tup in defs:
-                if len(tup) == 3:
+                if len(tup) == CUSTOM_VAR_TUPLE_LENGTH:
                     name, _clean, disp = tup
                     lines.append(f"{name} = {disp}")
                 else:
@@ -90,6 +96,7 @@ def load_data(self):
 
 
 def select_folder(self):
+    """Open a dialog to select the folder containing the data."""
     format_name = self.format_selector.currentText()
     formats_list = {
         "dbl": "*.dbl",
@@ -107,7 +114,10 @@ def select_folder(self):
         else ""
     )
     starting_dir = self.folder_path if self.folder_path else os.getcwd()
-    bigstr += "PLUTO Files (*.dbl *.vtk *.flt *.dbl.h5 *.flt.h5 *.out *.hdf5 *.tab);;All Files (*)"
+    bigstr += (
+        "PLUTO Files (*.dbl *.vtk *.flt *.dbl.h5 *.flt.h5 *.out "
+        "*.hdf5 *.tab);;All Files (*)"
+    )
     dialog = QFileDialog(self, "Select a File or Folder", starting_dir, bigstr)
     dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
     dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
@@ -124,6 +134,7 @@ def select_folder(self):
 
 
 def reload_data(self):
+    """Reload the data from the selected folder."""
     var_name = self.var_selector.currentText()
     self.nout = int(self.outtext.text()) if self.outtext.text() else "last"
     self.folder_path = "./" if self.folder_path is None else self.folder_path
@@ -131,8 +142,7 @@ def reload_data(self):
     defs = self.var_selector.property("_cv_defs") or []
     custom_names = []
     for item in defs:
-        # supports both legacy (name, expr) and new (display_name, expr_clean, expr_display)
-        display_name = item[0] if len(item) == 3 else item[0]
+        display_name = item[0]
         clean_name = (
             display_name[1:]
             if str(display_name).startswith("!")
@@ -145,6 +155,7 @@ def reload_data(self):
 
 
 def clearload(self):
+    """Clear the loaded data and reset the GUI fields."""
     self.folder_path = "./"
     self.format_selector.setCurrentIndex(0)
     self.outtext.clear()
@@ -152,6 +163,7 @@ def clearload(self):
 
 
 def _finalize_load_path(self, file_path):
+    """Finalize the load path and extract relevant information."""
     self.folder_path = os.path.dirname(file_path)
     filename = os.path.basename(file_path)
     parts = filename.split(".")

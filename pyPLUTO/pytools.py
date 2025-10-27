@@ -1,5 +1,6 @@
 """PyPLUTO general tools."""
 
+import importlib.util
 import inspect
 import os
 import warnings
@@ -7,12 +8,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-try:
-    import winsound  # type: ignore
-
-    windows = True
-except ImportError:
-    wondows = False
+windows = bool(importlib.util.find_spec("winsound"))
 
 
 def find_example(name: str) -> Path:
@@ -43,9 +39,7 @@ def find_example(name: str) -> Path:
     )
 
 
-def savefig(
-    filename: str | Path = "img.png", bbox: str | None = "tight"
-) -> None:
+def savefig(**_kwargs: object) -> None:
     """Save the figure created.
 
     This function is deprecated and will be removed in future versions.

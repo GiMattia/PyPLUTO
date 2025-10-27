@@ -94,4 +94,4 @@ Image.plot(
 
 # Saving the image and showing the plots
 Image.savefig("test07_khi.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

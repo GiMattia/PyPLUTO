@@ -54,4 +54,4 @@ Image.oplotbox(Data.AMRLevel, lrange=[0, 2], geom=Data.geom)
 
 # Save and show the figure
 Image.savefig("test13_flowpastcyl.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

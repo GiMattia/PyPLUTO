@@ -7,7 +7,7 @@ from matplotlib.backends.backend_qtagg import (
 
 import pyPLUTO as pp
 
-from .globals import cmaps
+from .globals import cmaps_divided as cmaps
 
 
 def update_cmap_selector(self):

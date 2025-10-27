@@ -38,7 +38,6 @@ def load_data(self):
             else (int(self.D.nshp),)
         )
         for v in list(map(str, self.D._load_vars)):
-            print(v)
             a = getattr(self.D, v, None)
 
             # keep only full-grid arrays
@@ -46,7 +45,6 @@ def load_data(self):
                 keep.append(v)
         self.D._load_vars = keep
         self.var_selector.addItems(self.D._load_vars)
-        print(f"Loaded {len(self.D._load_vars)} variables")
 
         self.var_selector.addItems(["Custom var..."])
         setup_var_selector(self.var_selector, self.D)

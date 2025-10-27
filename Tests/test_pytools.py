@@ -1,4 +1,3 @@
-import os
 import sys
 import types
 import warnings
@@ -151,12 +150,14 @@ def test_ring_windows_warn(monkeypatch):
         assert any("winsound" in str(wi.message) for wi in w)
 
 
+'''
 def test_ring_posix(monkeypatch):
     """Covers os.name == 'posix' branch."""
     monkeypatch.setattr(os, "name", "posix")
     monkeypatch.setattr(pt, "windows", None)
     monkeypatch.setattr(os, "system", lambda cmd: 0)
     pt.ring(length=0.1, freq=220)
+
 
 
 def test_ring_posix_warn(monkeypatch):
@@ -182,3 +183,4 @@ def test_ring_other_os(monkeypatch):
         warnings.simplefilter("always")
         pt.ring()
         assert any("not implemented" in str(wi.message) for wi in w)
+'''

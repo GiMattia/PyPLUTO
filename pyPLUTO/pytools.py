@@ -125,7 +125,7 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
                 "\n\npip install winsound\n\nand try again."
             )
             warnings.warn(text, UserWarning, stacklevel=2)
-    if os.name == "posix":
+    elif os.name == "posix":
         # Check if the 'play' command is available on Linux and macOS
         try:
             os.system(f"play -nq -t alsa synth {length} sine {freq}")

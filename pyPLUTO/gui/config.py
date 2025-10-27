@@ -38,6 +38,7 @@ def load_data(self):
             else (int(self.D.nshp),)
         )
         for v in list(map(str, self.D._load_vars)):
+            print(v)
             a = getattr(self.D, v, None)
 
             # keep only full-grid arrays

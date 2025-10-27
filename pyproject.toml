@@ -160,3 +160,10 @@ ignore-magic = true
 ignore-module = true
 ignore-private = false
 ignore-semiprivate = false
+
+[tool.uv]
+python = ">=3.10,<3.15"
+
+[tool.uv.sources]
+# Force use of a fixed untokenize fork across all Python versions
+untokenize = { git = "https://github.com/asottile/untokenize", rev = "master" }

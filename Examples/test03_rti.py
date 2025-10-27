@@ -75,4 +75,4 @@ Image.colorbar(axs=0, cax=-1, clabel=r"$\rho$")
 
 # Saving the image and showing the plots
 Image.savefig("test03_rti.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

@@ -1,5 +1,6 @@
 import numpy as np
 import numpy.testing as npt
+import pytest
 
 import pyPLUTO as pp
 
@@ -111,3 +112,11 @@ def test_legend():
     Image.plot(x, y, label="rho", legpos=0, legcols=2)
     Image.plot(x, z, label="prs")
     assert Image.ax[0].get_legend()._ncols == 2
+
+
+# Title and labels
+def test_fignone():
+    Image = pp.Image()
+    Image.fig = None
+    with pytest.raises(ValueError):
+        Image.plot(x, y)

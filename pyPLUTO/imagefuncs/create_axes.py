@@ -1,3 +1,5 @@
+"""Module to create axes in the image class."""
+
 import copy
 import warnings
 from itertools import islice
@@ -33,15 +35,14 @@ class CreateAxesManager(ImageMixin):
     exposed_methods = ("create_axes",)
 
     def __init__(self, state: ImageState) -> None:
-        """Initialization of the CreateAxesManager class."""
+        """Initialize the CreateAxesManager class."""
         self.state = state
 
     @track_kwargs(extra_keys=set(defaults.keys()))
     def create_axes(
         self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs: Any
     ) -> Axes | list[Axes]:
-        """Creation of a set of axes using add_subplot from the matplotlib
-        library.
+        """Creation of a set of axes using add_subplot from matplotlib.
 
         If additional parameters (like the figure limits or the spacing)
         are given, the plots are located using set_position.
@@ -241,7 +242,7 @@ class CreateAxesManager(ImageMixin):
     def _set_custom_axes(
         self, custom: dict[str, Any], nrow: int, ncol: int
     ) -> tuple[list[list[float]], list[list[float]]]:
-        """Sets the axes position and spacing according to the custom
+        """Set the axes position and spacing according to the custom
         parameters.
 
         Returns
@@ -301,7 +302,7 @@ class CreateAxesManager(ImageMixin):
         length: int,
         func: str,
     ) -> tuple[list[float | int], list[float | int]]:
-        """Checks the width and spacing of the plots on a single row or
+        """Check the width and spacing of the plots on a single row or
         column.
 
         Returns
@@ -353,17 +354,18 @@ class CreateAxesManager(ImageMixin):
         # Check if the lists have the correct length
         if len(ratio) != length:
             warn = f"WARNING! {rat[func]} has wrong length!"
-            warnings.warn(warn, UserWarning)
+            warnings.warn(warn, UserWarning, stacklevel=2)
         if len(space) + 1 != length:
             warn = f"WARNING! {spc[func]} has wrong length!"
-            warnings.warn(warn, UserWarning)
+            warnings.warn(warn, UserWarning, stacklevel=2)
 
         # End of the function. Return the lists
         return space[: length - 1], ratio[:length]
 
     def add_ax(self, ax: Axes, i: int) -> None:
-        """Adds the axhes properties to the class info variables. The
-        corresponding axis is appended to the list of axes.
+        """Add the axhes properties to the class info variables.
+
+        The corresponding axis is appended to the list of axes.
 
         Returns
         -------

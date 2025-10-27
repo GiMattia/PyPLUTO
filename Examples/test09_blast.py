@@ -75,4 +75,4 @@ plot_frame(Data, ax_idx=1, time_label="0.01")
 
 # Saving and showing
 Image.savefig("test09_blast.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

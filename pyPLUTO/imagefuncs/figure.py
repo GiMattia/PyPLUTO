@@ -1,4 +1,5 @@
-# figure_new.py
+"""Figure Manager Module."""
+
 import shutil
 import warnings
 from typing import Any
@@ -51,6 +52,7 @@ class FigureManager(ImageMixin):
             warnings.warn(
                 "numcolor is deprecated. Use numcolors instead.",
                 DeprecationWarning,
+                stacklevel=2,
             )
 
         close = kwargs.pop("close", True)
@@ -64,14 +66,14 @@ class FigureManager(ImageMixin):
         withwhite = kwargs.pop("withwhite", False)
 
         self.fig = kwargs.get("fig", self.fig)
+        self.figsize = kwargs.get("figsize", self.figsize)
+        self.fontsize = kwargs.get("fontsize", self.fontsize)
+        self.LaTeX = kwargs.get("LaTeX", self.LaTeX)
         self.nwin = kwargs.get("nwin", self.nwin)
+        self.style = kwargs.get("style", self.style)
+        self.tight = kwargs.get("tight", self.tight)
 
         self.check_previous_fig(close)
-        self.LaTeX = kwargs.get("LaTeX", self.LaTeX)
-        self.fontsize = kwargs.get("fontsize", self.fontsize)
-        self.tight = kwargs.get("tight", self.tight)
-        self.figsize = kwargs.get("figsize", self.figsize)
-        self.style = kwargs.get("style", self.style)
         if "figsize" in kwargs:
             self.set_size = True
 
@@ -81,21 +83,22 @@ class FigureManager(ImageMixin):
         self.create_figure(replace, suptitle, suptitlesize)
 
     def setup_style(self) -> None:
-        """Sets the matplotlib style."""
+        """Set the matplotlib style."""
         try:
             plt.style.use(self.style)
         except OSError:
             warn = f"Warning: Style '{self.style}' not found. \
                 Switching to 'default'"
-            warnings.warn(warn, UserWarning)
+            warnings.warn(warn, UserWarning, stacklevel=2)
             self.style = "default"
 
     def choose_colorlines(
         self, numcolors: int, withblack: bool, withwhite: bool
     ) -> list[str]:
-        """Chooses the colors for the lines. The colors are taken from a
-        list of colors that are suitable for all types of color vision
-        deficiencies.
+        """Choose the colors for the lines.
+
+        The colors are taken from a list of colors that are suitable for all
+        types of color vision deficiencies.
 
         Returns
         -------
@@ -190,15 +193,16 @@ class FigureManager(ImageMixin):
         ]
 
         # Black and white addition
-        lstc = [0] + lstc if withwhite else [31] + lstc if withblack else lstc
+        lstc = [0, *lstc] if withwhite else [31, *lstc] if withblack else lstc
 
         # End of function, return the colors
         return [self.dictcol[lstc[i]] for i in range(numcolors)]
 
     def assign_LaTeX(self, fontweight: str) -> None:
-        """Sets the LaTeX conditions. The option 'pgf' requires XeLaTeX
-        and should be used only to get vectorial figures with minimal
-        file size.
+        """Set the LaTeX conditions.
+
+        The option 'pgf' requires XeLaTeX and should be used only to get
+        vectorial figures with minimal file size.
 
         Returns
         -------
@@ -229,7 +233,7 @@ class FigureManager(ImageMixin):
         # LaTeX option 'pgf' (requires XeLaTeX)
         if self.LaTeX == "pgf" and not shutil.which("latex"):
             warn = "LaTeX not installed, switching to LaTeX = True"
-            warnings.warn(warn, UserWarning)
+            warnings.warn(warn, UserWarning, stacklevel=2)
             self.LaTeX = True
 
         if self.LaTeX == "pgf":
@@ -261,7 +265,7 @@ class FigureManager(ImageMixin):
             # message is displayed
             except ImportError:
                 warn = "The pgf backend is not available, reverting to True\n"
-                warnings.warn(warn, UserWarning)
+                warnings.warn(warn, UserWarning, stacklevel=2)
                 self.LaTeX = True
 
         # LaTeX option True: default LaTeX font
@@ -271,13 +275,14 @@ class FigureManager(ImageMixin):
                 mpl.rcParams["font.family"] = "STIXGeneral"
             except ImportError:
                 warn = "The LaTeX = True option is not available."
-                warnings.warn(warn, UserWarning)
+                warnings.warn(warn, UserWarning, stacklevel=2)
 
         # End of the function
 
     def check_previous_fig(self, close: bool) -> None:
-        """Checks if there is an existing figure and if it is closed or
-        not.
+        """Check if there is an existing figure.
+
+        If it exists, the code will check if it is closed or not.
 
         Returns
         -------
@@ -309,6 +314,7 @@ class FigureManager(ImageMixin):
                 warnings.warn(
                     "The figure is not associated to a window number",
                     UserWarning,
+                    stacklevel=2,
                 )
                 self.nwin = 1
             self.tight = self.fig.get_tight_layout()
@@ -320,9 +326,9 @@ class FigureManager(ImageMixin):
     def create_figure(
         self, replace: bool, suptitle: str, suptitlesize: str
     ) -> None:
-        """Function that creates the figure associated to an Image
-        instance. It is called by default when the Image class is
-        instantiated.
+        """Create the figure associated to an Image instance.
+
+        It is called by default when the Image class is instantiated.
 
         Returns
         -------

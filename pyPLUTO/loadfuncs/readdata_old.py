@@ -1,4 +1,3 @@
-import mmap
 import warnings
 from pathlib import Path
 
@@ -125,9 +124,9 @@ def _load_variables(
 
     # Compute the byte range for all variables in the current loop
     if self._d_info["typefile"][i] == "single_file" and class_name == "Load":
-        """start_byte = min(self._offset[j] for j in self._load_vars)
-        end_byte = max( self._offset[j]
-
+        start_byte = min(self._offset[j] for j in self._load_vars)
+        end_byte = max(
+            self._offset[j]
             + np.prod(self._shape[j])
             * np.dtype(self._d_info["binformat"][i]).itemsize
             for j in self._load_vars
@@ -152,20 +151,13 @@ def _load_variables(
             shape=(end_byte - start_byte),
         )
 
-        """
-        with open(self._filepath, "r+b") as fd:
-            mm = mmap.mmap(
-                fd.fileno(), 0
-            )  # maps the entire file, not loaded into RAM
-
     # Loop over the variables to extract slices
     for j in self._load_vars:
         if self._d_info["typefile"][i] == "multiple_files":
             self._filepath = self.pathdir / (j + self._d_info["endpath"][i])
             self._compute_offset(i, endian, exout, j)
-            # start_byte = self._offset[j]
+            start_byte = self._offset[j]
             # Reload memmap for the new file
-            """
             file_memmap = np.memmap(
                 self._filepath,
                 self._d_info["binformat"][i],
@@ -173,43 +165,10 @@ def _load_variables(
                 offset=self._offset[j],
                 shape=self._shape[j],
             )
-            """
-            with open(self._filepath, "r+b") as fd:
-                mm = mmap.mmap(fd.fileno(), 0)
 
         # Initialize the variables dictionary
         self._init_vardict(j) if self._lennout != 1 else None
-        """
-        if (
-            self._d_info["typefile"][i] == "single_file"
-            and class_name == "Load"
-        ):
-        """
-        if (
-            class_name == "Load"
-            and self._d_info["typefile"][i] == "single_file"
-        ):
 
-            dtype = np.dtype(self._d_info["binformat"][i])
-            shape = self._shape[j]
-            offset = self._offset[j]  # must be in bytes
-            scrh = np.ndarray(
-                shape=shape,
-                dtype=dtype,
-                buffer=mm,
-                offset=offset,
-                order="C",
-            ).T
-        else:
-            scrh = np.memmap(
-                self._filepath,
-                self._d_info["binformat"][i],
-                mode="r+",
-                offset=self._offset[j],
-                shape=self._shape[j],
-            ).T
-
-        """
         # Extract the relevant slice and reshape
         if class_name == "Load":
             # Calculate the relative start and end for this variable
@@ -245,7 +204,6 @@ def _load_variables(
                 offset=self._offset[j],
                 shape=self._shape[j],
             ).T
-        """
 
         # Assign the variable
         self._assign_var(exout, j, scrh)

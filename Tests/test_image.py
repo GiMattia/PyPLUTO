@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pytest
 
 import pyPLUTO as pp
+import pyPLUTO.image as image_mod
 from pyPLUTO.imagestate import ImageState
 
 
@@ -64,3 +65,37 @@ def test_warn_attr():
 def test_tight_layout():
     Image = pp.Image(tight=False)
     assert Image.fig.get_tight_layout() is False
+
+
+def test_animate_property(monkeypatch):
+    # Patch before Image() is instantiated
+    monkeypatch.setattr(
+        image_mod,
+        "InteractiveManager",
+        lambda state: type(
+            "DummyInteractive", (), {"animate": lambda self=None: "animate"}
+        )(),
+    )
+
+    # Prevent any matplotlib figure creation
+    monkeypatch.setattr(image_mod, "FigureManager", lambda state, **kw: None)
+    monkeypatch.setattr(
+        image_mod, "ImageState", lambda *a, **kw: type("S", (), {})()
+    )
+
+    img = image_mod.Image(text=False)
+    assert img.animate() == "animate"
+
+
+def test_oplotbox(monkeypatch):
+    called = {}
+
+    def fake_oplotbox(self, *a, **kw):
+        called["yes"] = True
+
+    # ✅ patch the module-level function, not the instance
+    monkeypatch.setattr(image_mod, "oplotbox", fake_oplotbox)
+
+    img = image_mod.Image(text=False)
+    img.oplotbox([1, 2, 3], [4, 5, 6])
+    assert "yes" in called

@@ -1,25 +1,68 @@
-cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
+cff-version: "1.2.0"
 authors:
-  - name: Giancarlo Mattia
-    orcid: 0000-0003-1454-6226
-  - name: Daniele Crocco
-    orcid: 0009-0001-4284-9446
-  - name: David Melon Fuksman
-    orcid: 0000-0002-1697-6433
-  - name: Matteo Bugli
-    orcid: 0000-0002-7834-0422
-  - name: Vittoria Berta
-    orcid: 0000-0001-6305-6931
-  - name: Eleonora Puzzoni
-    orcid: 0009-0009-5314-348X
-  - name: Andrea Mignone
-    orcid: 0000-0002-8352-6635
-  - name: Bhargav Vaidya
-    orcid: 0000-0001-5424-0059
-
-title: 'PyPLUTO: a data analysis Python package for the PLUTO code'
-version: 1.0.0
-doi: 10.48550/arXiv.2501.09748
-date-released: 2025-12-17
-url: "https://github.com/GiMattia/PyPLUTO"
+- family-names: Mattia
+  given-names: Giancarlo
+  orcid: "https://orcid.org/0000-0003-1454-6226"
+- family-names: Crocco
+  given-names: Daniele
+  orcid: "https://orcid.org/0009-0001-4284-9446"
+- family-names: Melon Fuksman
+  given-names: David
+  orcid: "https://orcid.org/0000-0002-1697-6433"
+- family-names: Bugli
+  given-names: Matteo
+  orcid: "https://orcid.org/0000-0002-7834-0422"
+- family-names: Berta
+  given-names: Vittoria
+  orcid: "https://orcid.org/0000-0001-6305-6931"
+- family-names: Puzzoni
+  given-names: Eleonora
+  orcid: "https://orcid.org/0009-0009-5314-348X"
+- family-names: Mignone
+  given-names: Andrea
+  orcid: "https://orcid.org/0000-0002-8352-6635"
+- family-names: Vaidya
+  given-names: Bhargav
+  orcid: "https://orcid.org/0000-0001-5424-0059"
+doi: 10.5281/zenodo.17137196
+message: If you use this software, please cite our article in the
+  Journal of Open Source Software.
+preferred-citation:
+  authors:
+  - family-names: Mattia
+    given-names: Giancarlo
+    orcid: "https://orcid.org/0000-0003-1454-6226"
+  - family-names: Crocco
+    given-names: Daniele
+    orcid: "https://orcid.org/0009-0001-4284-9446"
+  - family-names: Melon Fuksman
+    given-names: David
+    orcid: "https://orcid.org/0000-0002-1697-6433"
+  - family-names: Bugli
+    given-names: Matteo
+    orcid: "https://orcid.org/0000-0002-7834-0422"
+  - family-names: Berta
+    given-names: Vittoria
+    orcid: "https://orcid.org/0000-0001-6305-6931"
+  - family-names: Puzzoni
+    given-names: Eleonora
+    orcid: "https://orcid.org/0009-0009-5314-348X"
+  - family-names: Mignone
+    given-names: Andrea
+    orcid: "https://orcid.org/0000-0002-8352-6635"
+  - family-names: Vaidya
+    given-names: Bhargav
+    orcid: "https://orcid.org/0000-0001-5424-0059"
+  date-published: 2025-09-17
+  doi: 10.21105/joss.08448
+  issn: 2475-9066
+  issue: 113
+  journal: Journal of Open Source Software
+  publisher:
+    name: Open Journals
+  start: 8448
+  title: "PyPLUTO: a data analysis Python package for the PLUTO code"
+  type: article
+  url: "https://joss.theoj.org/papers/10.21105/joss.08448"
+  volume: 10
+title: "PyPLUTO: a data analysis Python package for the PLUTO code"

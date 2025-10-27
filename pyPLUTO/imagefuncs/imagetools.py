@@ -12,7 +12,7 @@ from matplotlib.text import Text
 
 try:
     from pastamarkers import salsa
-except:
+except ImportError:
     salsa = None  # type: ignore[assignment]
 
 from ..imagemixin import ImageMixin
@@ -22,8 +22,9 @@ from .create_axes import CreateAxesManager
 
 
 class ImageToolsManager(ImageMixin):
-    """ImageToolsManager class. It provides methods to save figures, add
-    text."""
+    """ImageToolsManager class.
+
+    It provides methods to save figures, add text."""
 
     def __init__(self, state: ImageState):
         """Initialize the ImageToolsManager with the given state."""
@@ -37,8 +38,8 @@ class ImageToolsManager(ImageMixin):
         dpi: int = 300,
         script_relative: bool = False,
     ) -> None:
-        """Creation of a .png image file of the figure created with the
-        Image class.
+        """Create a .png image file of the figure created with the Image
+        class.
 
         Returns
         -------
@@ -84,9 +85,10 @@ class ImageToolsManager(ImageMixin):
     def show(
         self,
     ) -> None:
-        """Shows the figure created with the Image class. This method is
-        deprecated and will be removed in future versions. Please use
-        pp.show instead."""
+        """Show the figure created with the Image class.
+
+        This method is deprecated and will be removed in future versions.
+        Please use pp.show instead."""
         raise NotImplementedError(
             "Image show is deprecated, please use pp.show instead"
         )
@@ -101,8 +103,7 @@ class ImageToolsManager(ImageMixin):
         check: bool = True,
         **kwargs: Any,
     ) -> None:
-        """Insertion of a text box inside the figure created with Image
-        class.
+        """Insert a text box inside the figure created with Image class.
 
         Returns
         -------
@@ -217,7 +218,8 @@ class ImageToolsManager(ImageMixin):
     def assign_ax(
         self, ax: Axes | list[Axes] | int | None, **kwargs: Any
     ) -> tuple[Axes, int]:
-        """Sets the axes of the figure where the plot/feature should go.
+        """Set the axes of the figure where the plot/feature should go.
+
         If no axis is present, an axis is created. If the axis is
         present but no axis is seletced, the last axis is selected.
 
@@ -297,7 +299,7 @@ class ImageToolsManager(ImageMixin):
         return ax, nax
 
     def hide_text(self, nax: int, txts: Sequence[Text] | None) -> None:
-        """Hides the text placed when an axis is created (the axis
+        """Hide the text placed when an axis is created (the axis
         index).
 
         Returns
@@ -338,8 +340,8 @@ class ImageToolsManager(ImageMixin):
         tresh: float,
         lint: float | None = None,
     ) -> Normalize:
-        """Sets the color scale of a pcolormesh given the scale, the
-        minimum and the maximum.
+        """Set the color scale and limits of a pcolormesh given the
+        scale.
 
         Returns
         -------
@@ -386,6 +388,7 @@ class ImageToolsManager(ImageMixin):
                 "'lint' keyword is deprecated, please use \
                         'tresh' instead",
                 UserWarning,
+                stacklevel=2,
             )
 
         norm: Normalize
@@ -427,7 +430,7 @@ class ImageToolsManager(ImageMixin):
                 "salsa is not installed, cannot find colormap. "
                 "Defaulting to 'plasma'."
             )
-            warnings.warn(warn, UserWarning)
+            warnings.warn(warn, UserWarning, stacklevel=2)
             return plt.get_cmap("plasma")
 
         # Try salsa colormap
@@ -452,5 +455,5 @@ class ImageToolsManager(ImageMixin):
             f"Colormap '{name}' not found in matplotlib or salsa! "
             "Defaulting to 'plasma'."
         )
-        warnings.warn(warn)
+        warnings.warn(warn, UserWarning, stacklevel=2)
         return plt.get_cmap("plasma")

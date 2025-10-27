@@ -92,4 +92,4 @@ Image.plot(lines[2][0], lines[2][1], ax=1, c="gray")
 
 # Saving the image and showing the plots
 Image.savefig("test08_torus.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

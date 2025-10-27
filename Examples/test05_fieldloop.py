@@ -95,4 +95,4 @@ Image.plot(lines[2][0], lines[2][1], ax=1, c="k", lw=1.5)
 
 # Saving the image and showing the plots
 Image.savefig("test05_fieldloop.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

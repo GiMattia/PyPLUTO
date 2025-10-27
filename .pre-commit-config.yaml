@@ -30,12 +30,12 @@ repos:
   #      files: \.py$
 
   # 2. Docformatter (formats docstrings)
-  - repo: https://github.com/PyCQA/docformatter
-    rev: v1.7.7
-    hooks:
-      - id: docformatter
-        args: ["--in-place", "--black", "--blank"]
-        files: \.py$
+  #- repo: https://github.com/PyCQA/docformatter
+  #  rev: v1.7.7
+  #  hooks:
+  #    - id: docformatter
+  #      args: ["--in-place", "--black", "--blank"]
+  #      files: \.py$
 
   # 3. Blackened-docs (formats code in docstrings)
   - repo: https://github.com/adamchainz/blacken-docs

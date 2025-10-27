@@ -1,3 +1,6 @@
+"""PyPLUTO general tools."""
+
+import importlib.util
 import inspect
 import os
 import warnings
@@ -5,9 +8,13 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
+windows = bool(importlib.util.find_spec("winsound"))
+
 
 def find_example(name: str) -> Path:
-    """Resolve the path to a test problem, based on the *calling script’s*
+    """Resolve the path to a test problem.
+
+    The file location is based on the *calling script's*
     location, or fall back to $PLUTO_DIR.
     """
     # Get the path of the calling file
@@ -32,10 +39,10 @@ def find_example(name: str) -> Path:
     )
 
 
-def savefig(
-    filename: str | Path = "img.png", bbox: str | None = "tight"
-) -> None:
-    """This function is deprecated and will be removed in future versions.
+def savefig(**_kwargs: object) -> None:
+    """Save the figure created.
+
+    This function is deprecated and will be removed in future versions.
     Please call savefig from the Image class instead."""
     raise NotImplementedError(
         "pyPLUTO.savefig is deprecated.\n"
@@ -44,7 +51,7 @@ def savefig(
 
 
 def show(block: bool = True) -> None:
-    """Shows the figures created.
+    """Show the figures created.
 
     Returns
     -------
@@ -68,8 +75,9 @@ def show(block: bool = True) -> None:
 
 
 def ring(length: float = 0.5, freq: int = 440) -> None:
-    """Makes a sound for a given length and frequency. It works on
-    Linux, macOS and Windows.
+    """Make a sound for a given length and frequency.
+
+    It works on Linux, macOS and Windows.
 
     Parameters
     ----------
@@ -103,7 +111,21 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
 
     """
     # Check the OS
-    if os.name == "posix":
+    if windows is not None:
+        try:
+            # Check if the 'winsound' package is available on Windows
+            import winsound
+
+            winsound.Beep(freq, int(length * 1000))  # type: ignore
+        except UserWarning:
+            # If the 'winsound' package is not available, raise a warning
+            text = (
+                "pyPLUTO.ring requires the 'winsound' package.\n"
+                "Please install it through the command"
+                "\n\npip install winsound\n\nand try again."
+            )
+            warnings.warn(text, UserWarning, stacklevel=2)
+    elif os.name == "posix":
         # Check if the 'play' command is available on Linux and macOS
         try:
             os.system(f"play -nq -t alsa synth {length} sine {freq}")
@@ -114,24 +136,9 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
                 "'sox' package. \nPlease install it through the command"
                 "\n\nsudo apt install sox \n\nand try again."
             )
-            warnings.warn(text, UserWarning)
-    elif os.name == "nt":
-        try:
-            # Check if the 'winsound' package is available on Windows
-            import winsound
+            warnings.warn(text, UserWarning, stacklevel=2)
 
-            winsound.Beep(freq, length)
-        except UserWarning:
-            # If the 'winsound' package is not available, raise a warning
-            text = (
-                "pyPLUTO.ring requires the 'winsound' package.\n"
-                "Please install it through the command"
-                "\n\npip install winsound\n\nand try again."
-            )
-            warnings.warn(text, UserWarning)
     else:
         # If the OS is not Linux, macOS or Windows, raise a warning
         text = f"pyPLUTO.ring is not implemented for this OS: {os.name}"
-        warnings.warn(text, UserWarning)
-
-    # End of the function
+        warnings.warn(text, UserWarning, stacklevel=2)

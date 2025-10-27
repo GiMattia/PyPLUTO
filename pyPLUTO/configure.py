@@ -187,8 +187,6 @@ class Configure:
         sys.stderr.write(f"\033[91m{traceback_str}\033[0m")
         sys.stderr.write(f"\33[31m{value}\33[0m\n")  # Red color for errors
 
-        # End of the function
-
     def _setup_handlers(
         self, colorwarn: bool = True, colorerr: bool = True
     ) -> None:
@@ -214,5 +212,3 @@ class Configure:
             warnings.formatwarning = self.color_warning  # type: ignore
         if colorerr:
             sys.excepthook = self.color_error
-
-        # End of the function

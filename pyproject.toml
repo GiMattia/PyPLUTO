@@ -50,7 +50,6 @@ dev = [
     "ruff",
     "mypy",
     "blacken-docs",
-    "docformatter",
     "interrogate",
     "pydata-sphinx-theme"
 ]

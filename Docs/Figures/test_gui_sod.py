@@ -98,7 +98,7 @@ def postprocess_video():
         "-t",
         "18",
         "-vf",
-        "crop=1180:750:40:47",
+        "crop=1185:750:50:50",
         "-c:a",
         "copy",
         "pluto_sod_gui.mp4",

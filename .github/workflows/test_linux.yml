@@ -1,4 +1,4 @@
-name: Tests on Linux
+name: Linux Tests
 
 on:
   push:
@@ -9,36 +9,39 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os:
-          - ubuntu-22.04
-          - ubuntu-24.04
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        os: [ubuntu-22.04, ubuntu-24.04]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Clean untracked files & bytecode
-        shell: pwsh
-        run: |
-          git clean -xfd
+        run: git clean -xfd
 
+      # --- Setup Python ---
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements_dev.txt
+      # --- Install UV (replaces pip + virtualenv) ---
+      - name: Install uv
+        run: pip install uv
 
-      - name: Install pyPLUTO in editable mode
+      # --- Create virtual environment with uv ---
+      - name: Create uv environment
         run: |
-          pip uninstall -y pyPLUTO || true
-          pip install -e .
+          uv venv .venv
+          source .venv/bin/activate
 
+      # --- Sync environment (fast + reproducible) ---
+      - name: Install dependencies with uv
+        run: uv pip install -r requirements_dev.txt
+
+      # --- Run tests ---
       - name: Run Tests
-        run: pytest -v
-        working-directory: ./Tests
+        run: uv run pytest -v ./Tests
+

@@ -1,3 +1,6 @@
+"""Module providing image tools for saving figures and adding text."""
+
+import importlib
 import inspect
 import warnings
 from collections.abc import Sequence
@@ -11,9 +14,10 @@ from matplotlib.colors import Normalize
 from matplotlib.text import Text
 
 try:
-    from pastamarkers import salsa
-except ImportError:
-    salsa = None  # type: ignore[assignment]
+    _pm = importlib.import_module("pastamarkers")
+    salsa = getattr(_pm, "salsa", None)
+except Exception:
+    salsa = None
 
 from ..imagemixin import ImageMixin
 from ..imagestate import ImageState
@@ -38,8 +42,7 @@ class ImageToolsManager(ImageMixin):
         dpi: int = 300,
         script_relative: bool = False,
     ) -> None:
-        """Create a .png image file of the figure created with the Image
-        class.
+        """Create a .png image file of the figure created with the Image class.
 
         Returns
         -------
@@ -299,8 +302,7 @@ class ImageToolsManager(ImageMixin):
         return ax, nax
 
     def hide_text(self, nax: int, txts: Sequence[Text] | None) -> None:
-        """Hide the text placed when an axis is created (the axis
-        index).
+        """Hide the text placed when an axis is created (the axis index).
 
         Returns
         -------
@@ -340,8 +342,7 @@ class ImageToolsManager(ImageMixin):
         tresh: float,
         lint: float | None = None,
     ) -> Normalize:
-        """Set the color scale and limits of a pcolormesh given the
-        scale.
+        """Set the color scale and limits of a pcolormesh given the scale.
 
         Returns
         -------
@@ -411,12 +412,33 @@ class ImageToolsManager(ImageMixin):
     def find_cmap(
         self, name: str | mcol.Colormap | None
     ) -> mcol.Colormap | None:
+        """Find a colormap by name.
 
-        if name is None:
-            return None
+        Returns
+        -------
+        - cmap: Colormap | None
+            The colormap found by name.
 
+        Parameters
+        ----------
+        - name (not optional): str | Colormap | None
+            The name of the colormap.
+
+        ----
+
+        Examples
+        --------
+        - Example #1: find a colormap by name
+
+            >>> _find_cmap("viridis")
+
+        - Example #2: find a colormap by name
+
+            >>> _find_cmap("viridis_r")
+
+        """
         # Find a colormap by name or return a default one if not found.
-        if isinstance(name, mcol.Colormap):
+        if isinstance(name, mcol.Colormap) or name is None:
             return name
 
         # First, try matplotlib colormap

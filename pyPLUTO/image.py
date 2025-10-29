@@ -36,6 +36,8 @@ class Image(ImageMixin):
 
     """
 
+    # pylint: disable=too-many-instance-attributes
+
     @track_kwargs
     def __init__(
         self,
@@ -207,7 +209,7 @@ class Image(ImageMixin):
         necessary.
         """
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: Any) -> None:
         """Set the attribute of the Image class."""
         if name == "state" or not hasattr(self, "state"):
             # Initialization step: allow everything until state exists
@@ -222,86 +224,85 @@ class Image(ImageMixin):
             # Set the attribute on the state
             setattr(self.state, name, value)
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str) -> Any:
         """Get the attribute of the Image class."""
         # Called only if attribute not found in usual places
         if hasattr(self.state, name):
             return getattr(self.state, name)
-        else:
-            raise AttributeError(f"'Image' object has no attribute '{name}'")
+        raise AttributeError(f"'Image' object has no attribute '{name}'")
 
     @property
-    def animate(self):
+    def animate(self) -> Any:
         """Property for the animate method."""
         return self.InteractiveManager.animate
 
     @property
-    def colorbar(self):
+    def colorbar(self) -> Any:
         """Property for the colorbar method."""
         return self.ColorbarManager.colorbar
 
     @property
-    def contour(self):
+    def contour(self) -> Any:
         """Property for the contour method."""
         return self.ContourManager.contour
 
     @property
-    def create_axes(self):
+    def create_axes(self) -> Any:
         """Property for the create_axes method."""
         return self.CreateAxesManager.create_axes
 
     @property
-    def display(self):
+    def display(self) -> Any:
         """Property for the display method."""
         return self.DisplayManager.display
 
     @property
-    def interactive(self):
+    def interactive(self) -> Any:
         """Property for the interactive method."""
         return self.InteractiveManager.interactive
 
     @property
-    def legend(self):
+    def legend(self) -> Any:
         """Property for the legend method."""
         return self.LegendManager.legend
 
     @property
-    def plot(self):
+    def plot(self) -> Any:
         """Property for the plot method."""
         return self.PlotManager.plot
 
     @property
-    def savefig(self):
+    def savefig(self) -> Any:
         """Property for the savefig method."""
         return self.ImageToolsManager.savefig
 
     @property
-    def scatter(self):
+    def scatter(self) -> Any:
         """Property for the scatter method."""
         return self.ScatterManager.scatter
 
     @property
-    def set_axis(self):
+    def set_axis(self) -> Any:
         """Property for the set_axis method."""
         return self.AxisManager.set_axis
 
     @property
-    def show(self):
+    def show(self) -> Any:
         """Property for the show method."""
         return self.ImageToolsManager.show
 
     @property
-    def text(self):
+    def text(self) -> Any:
         """Property for the text method."""
         return self.ImageToolsManager.text
 
     @property
-    def streamplot(self):
+    def streamplot(self) -> Any:
         """Property for the streamplot method."""
         return self.StreamplotManager.streamplot
 
     @property
-    def zoom(self):
+    def zoom(self) -> Any:
         """Property for the zoom method."""
         return self.ZoomManager.zoom
 

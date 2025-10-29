@@ -1,3 +1,5 @@
+"""ScatterManager class."""
+
 from typing import Any
 
 import numpy as np
@@ -15,9 +17,9 @@ from .set_axis import AxisManager
 
 
 class ScatterManager(ImageMixin):
-    """Manager for the scatter plot of a 2D function (or a 2D slice) using
-    the matplotlib's scatter function. A simple figure and a single axis can
-    also be created."""
+    """Manager for the scatter plot of a 2D function.
+
+    A simple figure and a single axis can also be created."""
 
     exposed_methods = ("scatter",)
 
@@ -39,9 +41,9 @@ class ScatterManager(ImageMixin):
         check: bool = True,
         **kwargs: Any,
     ) -> PathCollection:
-        """Scatter plot for a 2D function (or a 2D slice) using the
-        matplotlib's scatter function. A simple figure and a single axis can
-        also be created.
+        """Scatter plot for a 2D function (or a 2D slice).
+
+        A simple figure and a single axis can also be created.
 
         Returns
         -------
@@ -198,9 +200,9 @@ class ScatterManager(ImageMixin):
                 "No figure is present. Please create a figure first."
             )
         # Keywords xrange and yrange
-        if not kwargs.get("xrange") and not self.setax[nax] == 1:
+        if not kwargs.get("xrange") and self.setax[nax] != 1:
             kwargs["xrange"] = [x.min(), x.max()]
-        if not kwargs.get("yrange") and not self.setay[nax] == 1:
+        if not kwargs.get("yrange") and self.setay[nax] != 1:
             kwargs["yrange"] = [y.min(), y.max()]
 
         # Set ax parameters

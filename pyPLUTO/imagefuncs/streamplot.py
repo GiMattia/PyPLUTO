@@ -1,3 +1,5 @@
+"""Module to manage the streamplot function from matplotlib.pyplot."""
+
 import warnings
 from typing import Any
 
@@ -36,8 +38,9 @@ class StreamplotManager(ImageMixin):
         check: bool = True,
         **kwargs: Any,
     ) -> LineCollection:
-        """Plots a streamplot of a vector field. The function uses the
-        streamplot function from matplotlib.pyplot.
+        """Plot a streamplot of a vector field.
+
+        The function uses the streamplot function from matplotlib.pyplot.
 
         Returns
         -------
@@ -244,7 +247,7 @@ class StreamplotManager(ImageMixin):
 
         if "colors" in kwargs and "cmap" in kwargs:
             warn = "Both colors and cmap are defined. Using c."
-            warnings.warn(warn)
+            warnings.warn(warn, UserWarning, stacklevel=2)
 
         # Set the lines properties
         linewidth = kwargs.get("lw", 1)

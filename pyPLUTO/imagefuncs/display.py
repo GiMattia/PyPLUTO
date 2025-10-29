@@ -1,3 +1,5 @@
+"""Module to manage the display of 2D plots in the image."""
+
 from typing import Any
 
 import numpy as np
@@ -37,8 +39,9 @@ class DisplayManager(ImageMixin):
         check: bool = True,
         **kwargs: Any,
     ) -> QuadMesh:
-        """Plot for a 2D function (or a 2D slice) using the matplotlib's
-        pcolormesh function. A simple figure and a single axis can also be
+        """Plot for a 2D function using the matplotlib's pcolormesh function.
+
+        A simple figure and a single axis can also be
         created.
 
         Returns

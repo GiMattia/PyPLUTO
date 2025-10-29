@@ -175,10 +175,12 @@ class CreateAxesManager(ImageMixin):
         proj = kwargs.get("proj")
 
         # Set sharex and sharey
-        sharex = kwargs.get("sharex")
-        sharey = kwargs.get("sharey")
+        sharex: bool | str | Axes | int | None = kwargs.get("sharex")
+        sharey: bool | str | Axes | int | None = kwargs.get("sharey")
 
         for i in range(ncol * nrow):
+            sharex_ref = self._check_shareaxis(i, sharex)
+            """
             # Interpret True as: share with the first axis
             if sharex is True:
                 sharex_ref = self.ax[0] if i > 0 else None
@@ -186,14 +188,18 @@ class CreateAxesManager(ImageMixin):
                 sharex_ref = self.ax[sharex]
             else:
                 sharex_ref = sharex  # None or an Axes reference
+            """
 
             # Same for sharey
+            sharey_ref = self._check_shareaxis(i, sharey)
+            """
             if sharey is True:
                 sharey_ref = self.ax[0] if i > 0 else None
             elif isinstance(sharey, int):
                 sharey_ref = self.ax[sharey]
             else:
                 sharey_ref = sharey
+            """
 
             self.add_ax(
                 axis := self.fig.add_subplot(
@@ -237,13 +243,15 @@ class CreateAxesManager(ImageMixin):
 
         ret_ax = self.ax[0] if len(self.ax) == 1 else self.ax
 
+        if not isinstance(ret_ax, list | Axes):
+            raise TypeError("The returned axis is neither a list nor an Axes.")
+
         return ret_ax
 
     def _set_custom_axes(
         self, custom: dict[str, Any], nrow: int, ncol: int
     ) -> tuple[list[list[float]], list[list[float]]]:
-        """Set the axes position and spacing according to the custom
-        parameters.
+        """Set the axes position and spacing according to the parameters.
 
         Returns
         -------
@@ -302,8 +310,7 @@ class CreateAxesManager(ImageMixin):
         length: int,
         func: str,
     ) -> tuple[list[float | int], list[float | int]]:
-        """Check the width and spacing of the plots on a single row or
-        column.
+        """Check the width and spacing of the plots on a single row or column.
 
         Returns
         -------
@@ -408,3 +415,53 @@ class CreateAxesManager(ImageMixin):
 
         # Position the axis index in the middle of the axis
         ax.annotate(str(i), (0.47, 0.47), xycoords="axes fraction")
+
+    def _check_shareaxis(
+        self, i: int, share: bool | str | Axes | int | None
+    ) -> Axes | str | None:
+        """Check the sharing of the x or y axis.
+
+        Returns
+        -------
+        - share_ref: Axes | str | None
+            The reference axis for sharing.
+
+        Parameters
+        ----------
+        - i: int
+            The index of the current axis.
+        - share: bool | str | Axes | int | None
+            The sharing option.
+
+        ----
+
+        Examples
+        --------
+        - Example #1: share is True
+
+            >>> _check_shareaxis(0, True)
+
+        - Example #2: share is False
+
+            >>> _check_shareaxis(0, False)
+
+        - Example #3: share is a string
+
+            >>> _check_shareaxis(0, "left")
+
+        - Example #4: share is an axis
+
+            >>> _check_shareaxis(0, ax)
+
+        """
+        share_ref: Axes | str | None = None
+        if share is True:
+            share_ref = self.ax[0] if i > 0 else None
+        elif isinstance(share, int):
+            share_ref = self.ax[share]
+        else:
+            share_ref = share
+
+        return share_ref
+
+        # End of the function

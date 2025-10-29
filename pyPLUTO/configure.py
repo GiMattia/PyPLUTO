@@ -1,5 +1,6 @@
 """Module to configure the pyPLUTO package."""
 
+import importlib
 import sys
 import traceback
 import warnings
@@ -83,17 +84,18 @@ class Configure:
 
         # Try to get IPython. If not available, it's not an IPython session.
         def get_ipython_wrapper() -> Any:
-            """Get the IPython instance.
+            """Return the IPython instance, or None if not available."""
+            warnings.filterwarnings(
+                "ignore",
+                message=r".*importing 'Const' from 'astroid' is deprecated.*",
+                category=DeprecationWarning,
+            )
 
-            Try to import get_ipython from IPython.core.getipython. If it fails,
-            return None. This is useful for standard Python interpreter sessions
-            where IPython is not available.
-            """
             try:
-                from IPython.core.getipython import get_ipython
-
-                return get_ipython()  # type: ignore
-            except ImportError:
+                ipy_mod = importlib.import_module("IPython.core.getipython")
+                get_ipython = ipy_mod.get_ipython
+                return get_ipython()
+            except (ImportError, AttributeError):
                 return None
 
         # Get the ipython method (from IPthon or from the ImportError)

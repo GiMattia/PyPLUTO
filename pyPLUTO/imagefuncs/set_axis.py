@@ -1,3 +1,5 @@
+"""Module to manage the axis of the image."""
+
 import warnings
 from collections.abc import Iterable
 from typing import Any
@@ -13,13 +15,15 @@ from .range import RangeManager
 
 
 class AxisManager(ImageMixin):
-    """This class manages the axis of the image. It allows to customize the
-    axis of the image, such as the range, scale and aspect."""
+    """Manage the axis of the image.
+
+    It allows to customize the axis of the image, such as the range, scale and
+    aspect."""
 
     exposed_methods = ("set_axis",)
 
     def __init__(self, state: ImageState) -> None:
-        """Initializes the AxisManager with the given state."""
+        """Initialize the AxisManager with the given state."""
         self.state = state
         self.ImageToolsManager = ImageToolsManager(state)
         self.RangeManager = RangeManager(state)
@@ -28,8 +32,10 @@ class AxisManager(ImageMixin):
     def set_axis(
         self, ax: Axes | None = None, check: bool = True, **kwargs: Any
     ) -> None:
-        """Customization of a single subplot axis. Properties such as the
-        range, scale and aspect of each subplot should be customized here.
+        """Customize a single subplot axis.
+
+        Properties such as the range, scale and aspect of each subplot should be
+        customized here.
 
         Returns
         -------
@@ -187,43 +193,13 @@ class AxisManager(ImageMixin):
             self.ax[nax].set_aspect(kwargs["aspect"])
 
         # Set xrange and yrange
-        if kwargs.get("xrange") is not None:
-            self.RangeManager.set_xrange(ax, nax, kwargs["xrange"], 3)
-        if kwargs.get("yrange") is not None:
-            self.RangeManager.set_yrange(ax, nax, kwargs["yrange"], 3)
+        self.check_range(ax, nax, **kwargs)
 
         # Set title and axes labels
-        if kwargs.get("title") is not None:
-            ax.set_title(
-                kwargs["title"],
-                fontsize=kwargs.get("titlesize", self.fontsize),
-                pad=kwargs.get("titlepad", 8.0),
-            )
-        if kwargs.get("xtitle") is not None:
-            ax.set_xlabel(
-                kwargs["xtitle"],
-                fontsize=kwargs.get("labelsize", self.fontsize),
-            )
-        if kwargs.get("ytitle") is not None:
-            ax.set_ylabel(
-                kwargs["ytitle"],
-                fontsize=kwargs.get("labelsize", self.fontsize),
-            )
-        # Set shareaxisx and shareaxisy (+ deprecated sharex and sharey)
-        if kwargs.get("sharex", False) is not False:
-            warnings.warn(
-                "sharexs is deprecated. Use shareaxisx instead.",
-                DeprecationWarning,
-            )
-        if kwargs.get("sharey", False) is not False:
-            warnings.warn(
-                "sharey is deprecated. Use shareaxisy instead.",
-                DeprecationWarning,
-            )
-        if kwargs.get("shareaxisx", False) is not False:
-            ax.sharex(kwargs["shareaxisx"])
-        if kwargs.get("shareaxisy", False) is not False:
-            ax.sharey(kwargs["shareaxisy"])
+        self.set_titles(ax, **kwargs)
+
+        # Share axis if needed
+        self.share_axes(ax, **kwargs)
 
         # Set ticks size
         if kwargs.get("tickssize", True) is not True:
@@ -247,40 +223,13 @@ class AxisManager(ImageMixin):
             )
 
         # Set minor ticks
-        if kwargs.get("minorticks") or self.tickspar[nax] == 0:
-            mintks = kwargs.get("minorticks", "on")
-            if mintks != "off":
-                ax.minorticks_on()
-            else:
-                ax.minorticks_off()
+        self.check_minorticks(ax, nax, **kwargs)
 
         # Set parameter that fixes the minorticks and ticksdir
         self.tickspar[nax] = 1
 
-        spar = {"asinh": "linear_width", "symlog": "linthresh"}
-
         # Scales and alpha
-        if kwargs.get("xscale", True) is not True:
-            xscale = kwargs["xscale"]
-            xscale_param = spar.get(xscale)
-            xscale_kwargs = (
-                {str(xscale_param): kwargs.get("xtresh")}
-                if "xtresh" in kwargs
-                else {}
-            )
-            ax.set_xscale(xscale, **xscale_kwargs)
-            self.xscale[nax] = xscale
-
-        if kwargs.get("yscale", True) is not True:
-            yscale = kwargs["yscale"]
-            yscale_param = spar.get(yscale)
-            yscale_kwargs = (
-                {str(yscale_param): kwargs.get("ytresh")}
-                if "ytresh" in kwargs
-                else {}
-            )
-            ax.set_yscale(yscale, **yscale_kwargs)
-            self.yscale[nax] = yscale
+        self.set_scales(ax, nax, **kwargs)
 
         if kwargs.get("alpha"):
             ax.set_alpha(kwargs["alpha"])
@@ -314,8 +263,7 @@ class AxisManager(ImageMixin):
         tl: str | list[str] | bool | None,
         typeaxis: str,
     ) -> None:
-        """Sets the ticks and ticks labels on the x- or y-axis of a
-        selected axis.
+        """Setsthe ticks and ticks labels on the x-/y-axis of a selected axis.
 
         Returns
         -------
@@ -363,7 +311,7 @@ class AxisManager(ImageMixin):
                     "Warning, tickslabels are defined with no"
                     "ticks!! (function setax)"
                 )
-                warnings.warn(warn, UserWarning)
+                warnings.warn(warn, UserWarning, stacklevel=2)
 
         # Ticks are not None and tickslabels are custom
         elif tl is not True:
@@ -377,7 +325,7 @@ class AxisManager(ImageMixin):
                     "Warning, tickslabels should be fixed only"
                     "when ticks are fixed (function setax)"
                 )
-                warnings.warn(warn, UserWarning)
+                warnings.warn(warn, UserWarning, stacklevel=2)
 
             # Ticks are set custom, then tickslabels are set
             if tl is None:
@@ -394,3 +342,155 @@ class AxisManager(ImageMixin):
             set_ticks[typeaxis](tc)
 
         # End of the function
+
+    @track_kwargs
+    def set_titles(self, ax: Axes, **kwargs: Any) -> None:
+        """Set the title or axis labels of the plot.
+
+        Returns
+        -------
+        - None
+
+        Parameters
+        ----------
+        - ax: ax
+            the selected set of axes
+        - title: str
+            the title or axis label to be set
+        - titlesize: str
+            the fontsize parameter for the title or axis label
+        - titlepad: str
+            the pad parameter for the title or axis label
+        - kwargs: dict
+            the keyword arguments passed to the set_axis function
+
+        """
+        if kwargs.get("title") is not None:
+            ax.set_title(
+                kwargs["title"],
+                fontsize=kwargs.get("titlesize", self.fontsize),
+                pad=kwargs.get("titlepad", 8.0),
+            )
+        if kwargs.get("xtitle") is not None:
+            ax.set_xlabel(
+                kwargs["xtitle"],
+                fontsize=kwargs.get("labelsize", self.fontsize),
+                labelpad=kwargs.get("xlabelpad", 4.0),
+            )
+        if kwargs.get("ytitle") is not None:
+            ax.set_ylabel(
+                kwargs["ytitle"],
+                fontsize=kwargs.get("labelsize", self.fontsize),
+                labelpad=kwargs.get("ylabelpad", 4.0),
+            )
+
+    @track_kwargs
+    def set_scales(self, ax: Axes, nax: int, **kwargs: Any) -> None:
+        """Set the scales of the x- and y-axis of a selected axis.
+
+        Returns
+        -------
+        - None
+
+        Parameters
+        ----------
+        - ax: ax
+            the selected set of axes
+        - nax: int
+            the index of the selected axis
+        - kwargs: dict
+            the keyword arguments passed to the set_axis function
+
+        """
+        spar = {"asinh": "linear_width", "symlog": "linthresh"}
+
+        if kwargs.get("xscale", True) is not True:
+            xscale = kwargs["xscale"]
+            xscale_param = spar.get(xscale)
+            xscale_kwargs = (
+                {str(xscale_param): kwargs.get("xtresh")}
+                if "xtresh" in kwargs
+                else {}
+            )
+            ax.set_xscale(xscale, **xscale_kwargs)
+            self.xscale[nax] = xscale
+
+        if kwargs.get("yscale", True) is not True:
+            yscale = kwargs["yscale"]
+            yscale_param = spar.get(yscale)
+            yscale_kwargs = (
+                {str(yscale_param): kwargs.get("ytresh")}
+                if "ytresh" in kwargs
+                else {}
+            )
+            ax.set_yscale(yscale, **yscale_kwargs)
+            self.yscale[nax] = yscale
+
+    @track_kwargs
+    def check_range(self, ax: Axes, nax: int, **kwargs: Any) -> None:
+        """Check and set the range of the x- and y-axis of a selected axis.
+
+        Returns
+        -------
+        - None
+
+        Parameters
+        ----------
+        - ax: ax
+            the selected set of axes
+        - nax: int
+            the index of the selected axis
+        - kwargs: dict
+            the keyword arguments passed to the set_axis function
+
+        """
+        if kwargs.get("xrange") is not None:
+            self.RangeManager.set_xrange(ax, nax, kwargs["xrange"], 3)
+        if kwargs.get("yrange") is not None:
+            self.RangeManager.set_yrange(ax, nax, kwargs["yrange"], 3)
+
+    @track_kwargs
+    def share_axes(self, ax: Axes, **kwargs: Any) -> None:
+        """Share the x- and y-axis of a selected axis.
+
+        Returns
+        -------
+        - None
+
+        Parameters
+        ----------
+        - ax: ax
+            the selected set of axes
+        - kwargs: dict
+            the keyword arguments passed to the set_axis function
+
+        """
+        if kwargs.get("sharex", False) is not False:
+            ax.sharex(kwargs["sharex"])
+        if kwargs.get("sharey", False) is not False:
+            ax.sharey(kwargs["sharey"])
+
+    @track_kwargs
+    def check_minorticks(self, ax: Axes, nax: int, **kwargs: Any) -> None:
+        """Check and set the minor ticks of the x- and y-axes.
+
+        Returns
+        -------
+        - None
+
+        Parameters
+        ----------
+        - ax: ax
+            the selected set of axes
+        - nax: int
+            the index of the selected axis
+        - kwargs: dict
+            the keyword arguments passed to the set_axis function
+
+        """
+        if kwargs.get("minorticks") or self.tickspar[nax] == 0:
+            mintks = kwargs.get("minorticks", "on")
+            if mintks != "off":
+                ax.minorticks_on()
+            else:
+                ax.minorticks_off()

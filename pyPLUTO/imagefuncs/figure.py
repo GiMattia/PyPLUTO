@@ -309,7 +309,7 @@ class FigureManager(ImageMixin):
             ]
             self.fontsize = plt.rcParams["font.size"]
             try:
-                self.nwin = self.fig.number  # type: ignore
+                self.nwin = int(self.fig.number)
             except AttributeError:
                 warnings.warn(
                     "The figure is not associated to a window number",

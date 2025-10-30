@@ -160,7 +160,7 @@ class CreateAxesManager(ImageMixin):
             wplot, hplot = None, None
 
         # Set figure size
-        if self.fig is None:
+        if not hasattr(self, "fig"):
             raise ValueError(
                 "You need to create a figure before creating axes."
             )

@@ -48,12 +48,12 @@ class ImageMixin:
         self.state.dictcol = value
 
     @property
-    def fig(self) -> Figure | None:
+    def fig(self) -> Figure:
         """Get the fig attribute of the image."""
         return self.state.fig
 
     @fig.setter
-    def fig(self, value: Figure | None) -> None:
+    def fig(self, value: Figure) -> None:
         """Set the fig attribute of the image."""
         self.state.fig = value
 

@@ -115,7 +115,8 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
         try:
             # Check if the 'winsound' package is available on Windows
             winsound = importlib.import_module("winsound")
-            winsound.Beep(freq, int(length * 1000))
+            if hasattr(winsound, "Beep"):
+                winsound.Beep(freq, int(length * 1000))
         except UserWarning:
             # If the 'winsound' package is not available, raise a warning
             text = (

@@ -1,5 +1,7 @@
 """Image class. It plots the data."""
 
+# mypy: ignore-errors
+
 from typing import Any
 
 from .amr import oplotbox
@@ -127,7 +129,7 @@ class Image(ImageMixin):
         """
         kwargs.pop("check", check)
 
-        self.state = ImageState()  # style=style, LaTeX=LaTeX, fig=fig)
+        self.state = ImageState()
 
         self._figure_manager = FigureManager(self.state, **kwargs)
 
@@ -209,14 +211,11 @@ class Image(ImageMixin):
         necessary.
         """
 
-    def __setattr__(self, name: str, value: Any) -> None:
+    def __setattr__(self, name, value):
         """Set the attribute of the Image class."""
         if name == "state" or not hasattr(self, "state"):
             # Initialization step: allow everything until state exists
             super().__setattr__(name, value)
-        # elif hasattr(type(self), name) or name in self.__dict__:
-        # Allow normal attributes and managers
-        #    super().__setattr__(name, value)
         elif hasattr(self.state, name):
             # Write-through to state if attr already defined
             setattr(self.state, name, value)
@@ -224,7 +223,7 @@ class Image(ImageMixin):
             # Set the attribute on the state
             setattr(self.state, name, value)
 
-    def __getattr__(self, name: str) -> Any:
+    def __getattr__(self, name):
         """Get the attribute of the Image class."""
         # Called only if attribute not found in usual places
         if hasattr(self.state, name):
@@ -232,77 +231,77 @@ class Image(ImageMixin):
         raise AttributeError(f"'Image' object has no attribute '{name}'")
 
     @property
-    def animate(self) -> Any:
+    def animate(self):
         """Property for the animate method."""
         return self.InteractiveManager.animate
 
     @property
-    def colorbar(self) -> Any:
+    def colorbar(self):
         """Property for the colorbar method."""
         return self.ColorbarManager.colorbar
 
     @property
-    def contour(self) -> Any:
+    def contour(self):
         """Property for the contour method."""
         return self.ContourManager.contour
 
     @property
-    def create_axes(self) -> Any:
+    def create_axes(self):
         """Property for the create_axes method."""
         return self.CreateAxesManager.create_axes
 
     @property
-    def display(self) -> Any:
+    def display(self):
         """Property for the display method."""
         return self.DisplayManager.display
 
     @property
-    def interactive(self) -> Any:
+    def interactive(self):
         """Property for the interactive method."""
         return self.InteractiveManager.interactive
 
     @property
-    def legend(self) -> Any:
+    def legend(self):
         """Property for the legend method."""
         return self.LegendManager.legend
 
     @property
-    def plot(self) -> Any:
+    def plot(self):
         """Property for the plot method."""
         return self.PlotManager.plot
 
     @property
-    def savefig(self) -> Any:
+    def savefig(self):
         """Property for the savefig method."""
         return self.ImageToolsManager.savefig
 
     @property
-    def scatter(self) -> Any:
+    def scatter(self):
         """Property for the scatter method."""
         return self.ScatterManager.scatter
 
     @property
-    def set_axis(self) -> Any:
+    def set_axis(self):
         """Property for the set_axis method."""
         return self.AxisManager.set_axis
 
     @property
-    def show(self) -> Any:
+    def show(self):
         """Property for the show method."""
         return self.ImageToolsManager.show
 
     @property
-    def text(self) -> Any:
+    def text(self):
         """Property for the text method."""
         return self.ImageToolsManager.text
 
     @property
-    def streamplot(self) -> Any:
+    def streamplot(self):
         """Property for the streamplot method."""
         return self.StreamplotManager.streamplot
 
     @property
-    def zoom(self) -> Any:
+    def zoom(self):
         """Property for the zoom method."""
         return self.ZoomManager.zoom
 

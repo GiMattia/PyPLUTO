@@ -117,6 +117,6 @@ def test_legend():
 # Title and labels
 def test_fignone():
     Image = pp.Image()
-    Image.fig = None
+    delattr(Image.state, "fig")
     with pytest.raises(ValueError):
         Image.plot(x, y)

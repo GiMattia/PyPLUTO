@@ -174,7 +174,7 @@ class ImageToolsManager(ImageMixin):
         # Find figure and number of the axis
         ax, nax = self.assign_ax(ax, **kwargs)
 
-        if self.fig is None:
+        if not hasattr(self, "fig"):
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -258,7 +258,7 @@ class ImageToolsManager(ImageMixin):
             >>> _assign_ax([ax], **kwargs)
 
         """
-        if self.fig is None:
+        if not hasattr(self, "fig"):
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )

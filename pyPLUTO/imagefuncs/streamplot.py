@@ -208,7 +208,7 @@ class StreamplotManager(ImageMixin):
             kwargs.pop("ax", None), **kwargs
         )
 
-        if self.fig is None:
+        if not hasattr(self, "fig"):
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )

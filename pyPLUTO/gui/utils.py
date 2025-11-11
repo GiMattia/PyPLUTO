@@ -183,6 +183,7 @@ def create_new_figure(self):
     self.I = pp.Image(figsize=[10, 6])
     self.firstplot = True
     self.figure = self.I.fig
+    print(self.I.fontsize, self.I.figsize)
 
     self.canvas = FigureCanvas(self.figure)
     self.toolbar = NavigationToolbar(self.canvas, self)

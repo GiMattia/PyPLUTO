@@ -1,3 +1,5 @@
+"""Module to manage the display of 2D plots in the image."""
+
 from typing import Any
 
 import numpy as np
@@ -37,8 +39,9 @@ class DisplayManager(ImageMixin):
         check: bool = True,
         **kwargs: Any,
     ) -> QuadMesh:
-        """Plot for a 2D function (or a 2D slice) using the matplotlib's
-        pcolormesh function. A simple figure and a single axis can also be
+        """Plot for a 2D function using the matplotlib's pcolormesh function.
+
+        A simple figure and a single axis can also be
         created.
 
         Returns
@@ -248,9 +251,9 @@ class DisplayManager(ImageMixin):
         y = np.asarray(kwargs.get("x2", np.arange(len(var[0, :]) + 1)))
 
         # Keywords xrange and yrange
-        if not kwargs.get("xrange") and not self.setax[nax] == 1:
+        if not kwargs.get("xrange") and self.setax[nax] != 1:
             kwargs["xrange"] = [x.min(), x.max()]
-        if not kwargs.get("yrange") and not self.setay[nax] == 1:
+        if not kwargs.get("yrange") and self.setay[nax] != 1:
             kwargs["yrange"] = [y.min(), y.max()]
         # Set ax parameters
         self.AxisManager.set_axis(ax=ax, check=False, **kwargs)

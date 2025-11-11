@@ -139,7 +139,7 @@ class InteractiveManager(ImageMixin):
             kwargs.pop("ax", None), **kwargs, tight=False
         )
 
-        if not hasattr(self, "fig"):
+        if self.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -288,7 +288,7 @@ class InteractiveManager(ImageMixin):
             )
 
         # Update the plot
-        if not hasattr(self, "fig"):
+        if self.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -373,7 +373,7 @@ class InteractiveManager(ImageMixin):
 
         update = self.update_both if updateslider else self.update_slider
 
-        if not hasattr(self, "fig"):
+        if self.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )

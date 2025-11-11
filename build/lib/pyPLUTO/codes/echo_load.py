@@ -1,5 +1,8 @@
 """Module to load the data from the output files of the ECHO code."""
 
+import warnings
+from typing import cast
+
 import h5py
 
 
@@ -62,83 +65,62 @@ def echo_load(
         "ez": "Ex3",
     }
 
-    # Open te grid file and load the grid data
-    grid = h5py.File(self.pathdir / "grid.h5", "r")
-    for key in grid:
-        # Check if the key is in the dictionary and convert it
-        if key in conv_dict:
-            setattr(self, conv_dict[key], grid[key][:])
+    self._echo_load_grid(conv_dict)
+    self._echo_set_grid_dims()
 
-        # If the key is not in the dictionary, simply store the data
-        else:
-            setattr(self, key, grid[key][:])
+    self.nout = nout if nout != "last" else 0
+    file = self.pathdir / f"out{self.nout:03d}.h5"
 
-    # Close the grid file
-    grid.close()
+    with h5py.File(file, "r") as tmp:
+        self.ntime = cast(h5py.Dataset, tmp["time"])[()][0]
+        vars = list(tmp.keys()) if vars is True else vars or []
+        self._echo_load_vars(tmp, conv_dict, vars)
 
-    # Set the number of grid points in each direction (nx1, nx2, nx3)
+
+def _echo_load_grid(self, conv_dict: dict[str, str]) -> None:
+    """Load grid.h5 and set attributes."""
+    with h5py.File(self.pathdir / "grid.h5", "r") as grid:
+        for key, obj in grid.items():
+            if not isinstance(obj, h5py.Dataset):
+                continue
+            data = obj[()]
+            name = conv_dict.get(key, key)
+            if name is not None:
+                setattr(self, name, data)
+
+
+def _echo_set_grid_dims(self) -> None:
+    """Compute nx1, nx2, nx3, dim, gridsize, nshp."""
     for dim in ["x1", "x2", "x3"]:
-        # Check if the variable exists and store the number of grid points
-        if hasattr(self, dim) is True:
-            setattr(self, f"n{dim}", len(getattr(self, dim)))
+        n = len(getattr(self, dim)) if hasattr(self, dim) else 1
+        setattr(self, f"n{dim}", n)
 
-        # If the variable does not exist, set the number of grid points to 1
-        else:
-            setattr(self, f"n{dim}", 1)
-
-    # Compute the dimensions and the grid size
     self.dim = (self.nx1 > 1) + (self.nx2 > 1) + (self.nx3 > 1)
     self.gridsize = self.nx1 * self.nx2 * self.nx3
-
-    # Set the number of grid points in each direction (nx1, nx2, nx3)
     dim_dict = {
         1: self.nx1,
         2: (self.nx1, self.nx2),
         3: (self.nx1, self.nx2, self.nx3),
     }
-
-    # Set the grid shape
     self.nshp = dim_dict[self.dim]
 
-    # Find the output file number and compute the full path to the file
-    self.nout = nout if nout != "last" else 0
-    file = self.pathdir / f"out{self.nout:03d}.h5"
 
-    # Open the output file
-    tmp = h5py.File(file, "r")
-
-    # Set the time (in PLUTO format)
-    self.ntime = tmp["time"][...][0]
-
-    # Check if only selected vars should be loaded or the entire file
-    vars = list(tmp.keys()) if vars is True else vars
-
-    # Loop on the vars to load
+def _echo_load_vars(
+    self, tmp: h5py.File, conv_dict: dict[str, str], vars: list[str]
+) -> None:
+    """Load variables from output file."""
     for key in vars:
-        # Skip the time variable
         if key == "time":
             continue
-
-        # Check if the variable has been requested in ECHO or PLUTO format
-        valkey = next((k for k, v in conv_dict.items() if v == key), None)
-        valkey = key if valkey is None else valkey
-
-        # Load the variable and resize it to the grid shape
-        var = tmp[valkey][:]
-        [var := var[0] for dim in [self.nx3, self.nx2, self.nx1] if dim == 1]
-
-        # Check if the variable is in the dictionary and convert it
-        if valkey in conv_dict:
-            setattr(self, conv_dict[valkey], var.T)
-
-        # If the variable is not in the dictionary, simply store the data
-        elif valkey in tmp.keys():
-            setattr(self, valkey, var.T)
-
-        # Delete the temporary variable
-        del var
-
-    # Close the output file
-    tmp.close()
-
-    # End of the function
+        valkey = next((k for k, v in conv_dict.items() if v == key), key)
+        obj = tmp.get(valkey)
+        if not isinstance(obj, h5py.Dataset):
+            warnings.warn(
+                f"'{valkey}' not a dataset (found {type(obj)})", stacklevel=2
+            )
+            continue
+        var = obj[()]
+        for dim in [self.nx3, self.nx2, self.nx1]:
+            if dim == 1:
+                var = var[0]
+        setattr(self, conv_dict.get(valkey, valkey), var.T)

@@ -1,3 +1,5 @@
+"""LegendManager class."""
+
 from typing import Any
 
 import matplotlib.lines as mlines
@@ -10,7 +12,9 @@ from .imagetools import ImageToolsManager
 
 
 class LegendManager(ImageMixin):
-    """LegendManager class. It provides methods to create and manage legends
+    """LegendManager class.
+
+    It provides methods to create and manage legends
     in the plots. It is designed to work with the Image class and allows for
     dynamic creation of legends based on the current state of the image.
     The class uses the ImageToolsManager to handle the display and plotting
@@ -20,7 +24,7 @@ class LegendManager(ImageMixin):
     exposed_methods = ("legend",)
 
     def __init__(self, state: ImageState):
-        """Initializes the LegendManager with the given state."""
+        """Initialize the LegendManager with the given state."""
         self.state = state
         self.ImageToolsManager = ImageToolsManager(state)
 
@@ -33,6 +37,7 @@ class LegendManager(ImageMixin):
         **kwargs: Any,
     ) -> None:
         """Creation of a legend referring to the current figure.
+
         If no labels are given, it shows the labels of all the plots in the
         figure, ordered by entry. If specific labels are given, it shows those.
 

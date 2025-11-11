@@ -3,7 +3,7 @@
 import os
 
 import numpy as np
-from PyQt6.QtWidgets import QFileDialog
+from PySide6.QtWidgets import QFileDialog
 
 import pyPLUTO as pp
 

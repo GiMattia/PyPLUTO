@@ -56,7 +56,6 @@ class FigureManager(ImageMixin):
             )
 
         close = kwargs.pop("close", True)
-        dpi = kwargs.pop("dpi", 300)
         fontweight = kwargs.pop("fontweight", "normal")
         kwargs.pop("numcolor", None)  # remove numcolor if present
         numcolors = kwargs.pop("numcolors", 10)
@@ -66,9 +65,7 @@ class FigureManager(ImageMixin):
         withblack = kwargs.pop("withblack", False)
         withwhite = kwargs.pop("withwhite", False)
 
-        if "fig" in kwargs and isinstance(kwargs["fig"], Figure):
-            self.fig = kwargs["fig"]
-
+        self.fig = kwargs.get("fig", self.fig)
         self.figsize = kwargs.get("figsize", self.figsize)
         self.fontsize = kwargs.get("fontsize", self.fontsize)
         self.LaTeX = kwargs.get("LaTeX", self.LaTeX)
@@ -83,7 +80,7 @@ class FigureManager(ImageMixin):
         self.setup_style()
         self.color = self.choose_colorlines(numcolors, withblack, withwhite)
         self.assign_LaTeX(fontweight)
-        self.create_figure(dpi, replace, suptitle, suptitlesize)
+        self.create_figure(replace, suptitle, suptitlesize)
 
     def setup_style(self) -> None:
         """Set the matplotlib style."""
@@ -305,14 +302,14 @@ class FigureManager(ImageMixin):
             >>> _check_previous_fig(True)
 
         """
-        if hasattr(self, "fig") and isinstance(self.fig, Figure):
+        if isinstance(self.fig, Figure):
             self.figsize = [
                 self.fig.get_figwidth(),
                 self.fig.get_figheight(),
             ]
             self.fontsize = plt.rcParams["font.size"]
             try:
-                self.nwin = int(self.fig.number)
+                self.nwin = self.fig.number  # type: ignore
             except AttributeError:
                 warnings.warn(
                     "The figure is not associated to a window number",
@@ -327,7 +324,7 @@ class FigureManager(ImageMixin):
             plt.close(self.nwin)
 
     def create_figure(
-        self, dpi: int, replace: bool, suptitle: str, suptitlesize: str
+        self, replace: bool, suptitle: str, suptitlesize: str
     ) -> None:
         """Create the figure associated to an Image instance.
 
@@ -341,8 +338,6 @@ class FigureManager(ImageMixin):
         ----------
         - close: bool, default True
             If True, the existing figure with the same window number is closed.
-        - dpi: int, default 300
-            The figure dpi.
         - fig (not optional): Figure | None, default None
             The figure instance. If not None, the figure is used (only if we
             need to associate an Image to an existing figure).
@@ -381,11 +376,10 @@ class FigureManager(ImageMixin):
 
         """
         # Create a new figure instance with the provided window number
-        if not hasattr(self.state, "fig") or replace is True:
+        if self.fig is None or replace is True:
             self.fig = plt.figure(
                 self.nwin,
                 figsize=(self.figsize[0], self.figsize[1]),
-                dpi=dpi,
             )
         plt.rcParams.update({"font.size": self.fontsize})
 

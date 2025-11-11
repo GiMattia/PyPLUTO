@@ -1,5 +1,7 @@
 """Image class. It plots the data."""
 
+# mypy: ignore-errors
+
 from typing import Any
 
 from .amr import oplotbox
@@ -35,6 +37,8 @@ class Image(ImageMixin):
     different managers and the state.
 
     """
+
+    # pylint: disable=too-many-instance-attributes
 
     @track_kwargs
     def __init__(
@@ -125,7 +129,7 @@ class Image(ImageMixin):
         """
         kwargs.pop("check", check)
 
-        self.state = ImageState()  # style=style, LaTeX=LaTeX, fig=fig)
+        self.state = ImageState()
 
         self._figure_manager = FigureManager(self.state, **kwargs)
 
@@ -212,9 +216,6 @@ class Image(ImageMixin):
         if name == "state" or not hasattr(self, "state"):
             # Initialization step: allow everything until state exists
             super().__setattr__(name, value)
-        elif hasattr(type(self), name) or name in self.__dict__:
-            # Allow normal attributes and managers
-            super().__setattr__(name, value)
         elif hasattr(self.state, name):
             # Write-through to state if attr already defined
             setattr(self.state, name, value)
@@ -227,12 +228,7 @@ class Image(ImageMixin):
         # Called only if attribute not found in usual places
         if hasattr(self.state, name):
             return getattr(self.state, name)
-        # elif hasattr(type(self), name):
-        #    return getattr(type(self), name)
-        # elif hasattr(self, name):
-        #    return getattr(self, name)
-        else:
-            raise AttributeError(f"'Image' object has no attribute '{name}'")
+        raise AttributeError(f"'Image' object has no attribute '{name}'")
 
     @property
     def animate(self):

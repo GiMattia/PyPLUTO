@@ -1,6 +1,6 @@
 """Utility functions to add common widgets to a layout."""
 
-from PyQt6.QtWidgets import (
+from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
     QFrame,

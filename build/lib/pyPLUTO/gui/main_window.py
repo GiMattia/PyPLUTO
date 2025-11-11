@@ -6,7 +6,7 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
-from .globals import cmaps, cmaps_avail, format_avail, scales, vscales
+from .globals import cmaps_avail, cmaps_divided, format_avail, scales, vscales
 
 
 class PyPLUTOApp(QMainWindow):
@@ -113,7 +113,7 @@ class PyPLUTOApp(QMainWindow):
 
         layout = QHBoxLayout()
         self.add_label("cmap:", layout)
-        self.add_combobox("typecmap_selector", layout, cmaps.keys())
+        self.add_combobox("typecmap_selector", layout, cmaps_divided.keys())
         self.add_combobox("cmap_selector", layout, cmaps_avail)
         self.add_checkbox("reverse", layout, "reverse_checkbox")
         button_layout.addLayout(layout)

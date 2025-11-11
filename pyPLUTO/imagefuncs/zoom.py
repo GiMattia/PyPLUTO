@@ -247,7 +247,7 @@ class ZoomManager(ImageMixin):
         # Set or create figure and axes
         ax, nax = self.ImageToolsManager.assign_ax(ax, **kwargs)
 
-        if not hasattr(self, "fig"):
+        if self.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )

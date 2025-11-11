@@ -21,7 +21,7 @@ class ImageState:
     ax: list[Axes] = field(default_factory=list)
     color: list[str] = field(default_factory=list)
     dictcol: dict[int, str] = field(default_factory=dict)
-    fig: Figure = field(init=False)
+    fig: Figure | None = None
     figsize: list[float] = field(default_factory=lambda: [8.0, 5.0])
     fontsize: int = 17
     LaTeX: bool | str = True

@@ -1,3 +1,5 @@
+"""Module for managing contour plots in image displays."""
+
 import warnings
 from typing import Any
 
@@ -35,8 +37,10 @@ class ContourManager(ImageMixin):
     def contour(
         self, var: NDArray[np.generic], check: bool = True, **kwargs: Any
     ) -> QuadContourSet:
-        """Plots a contour plot of a given variable. The function uses the
-        matplotlib.pyplot.contour function. The function returns None.
+        """Plot a contour plot of a given variable.
+
+        The function uses the matplotlib.pyplot.contour function. The function
+        returns None.
 
         Returns
         -------
@@ -216,7 +220,7 @@ class ContourManager(ImageMixin):
 
         if "colors" in kwargs and "cmap" in kwargs:
             warn = "Both colors and cmap are defined. Using c."
-            warnings.warn(warn)
+            warnings.warn(warn, UserWarning, stacklevel=2)
 
         # Set the colorbar scale (put in function)
         norm = self.ImageToolsManager.set_cscale(

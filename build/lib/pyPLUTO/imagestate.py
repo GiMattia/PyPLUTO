@@ -1,4 +1,4 @@
-# imagestate.py
+"""Module that contains the ImageState class."""
 
 from dataclasses import dataclass, field
 from typing import Any
@@ -15,6 +15,8 @@ class ImageState:
     figure, axes, and other properties and update the key attributes through all
     the different classes that handle the plotting and display of the image at
     runtime."""
+
+    # pylint: disable=too-many-instance-attributes
 
     ax: list[Axes] = field(default_factory=list)
     color: list[str] = field(default_factory=list)
@@ -40,10 +42,3 @@ class ImageState:
     vlims: list[list[float]] = field(default_factory=list)
     xscale: list[str] = field(default_factory=list)
     yscale: list[str] = field(default_factory=list)
-
-    # def __setattr__(self, name: str, value: object) -> None:
-    #    """Custom setter for the attributes of the ImageState class. It allows
-    #    to set the attributes of the class and update the state of the image.
-    #    This is useful for keeping track of the current state of the image and
-    #    updating it when necessary."""
-    #    super().__setattr__(name, value)

@@ -1,3 +1,5 @@
+"""Module to manage the zoom functionality in pyPLUTO."""
+
 import warnings
 from typing import Any, cast
 
@@ -25,7 +27,7 @@ class ZoomManager(ImageMixin):
     exposed_methods = ("zoom",)
 
     def __init__(self, state: ImageState):
-        """Initializes the ZoomManager with the given state."""
+        """Initialize the ZoomManager with the given state."""
         self.state = state
         self.ImageToolsManager = ImageToolsManager(state)
         self.CreateAxesManager = CreateAxesManager(state)
@@ -291,7 +293,7 @@ class ZoomManager(ImageMixin):
         return axins
 
     def zoomplot(self, ax: Axes, axins: Axes) -> None:
-        """Plots the lines on the inset zoom"""
+        """Plot the lines on the inset zoom."""
         lines = ax.get_lines()
         for i in lines:
             self.PlotManager.plot(
@@ -305,10 +307,11 @@ class ZoomManager(ImageMixin):
                 ax=axins,
             )
 
+    @track_kwargs
     def zoomdisplay(
         self, ax: Axes, nax: int, axins: Axes, **kwargs: Any
     ) -> None:
-        """Plots the zoom on the inset zoom, for a display plot"""
+        """Plot the zoom on the inset zoom, for a display plot."""
         pcm = ax.collections[0]
         pnr = str(pcm.norm).split()[0].split(".")[2]
         dict_norm = {
@@ -360,8 +363,7 @@ class ZoomManager(ImageMixin):
         )
 
     def place_inset_pos(self, ax: Axes, pos: list[float]) -> Axes:
-        """Places an inset axes given the position (left, top, bottom,
-        right).
+        """Place an inset axes given the position (left, top, bottom, right).
 
         Returns
         -------
@@ -383,8 +385,9 @@ class ZoomManager(ImageMixin):
         return ax.inset_axes((left, bottom, width, height))
 
     def place_inset_loc(self, ax: Axes, **kwargs: Any) -> Axes:
-        """Places an inset axes given different keywords. In case both
-        top and bottom are given, the top is given priority and a
+        """Place an inset axes given different keywords.
+
+        In case both top and bottom are given, the top is given priority and a
         warning is raised.
 
         Returns
@@ -412,7 +415,7 @@ class ZoomManager(ImageMixin):
             warn = (
                 "Both top and bottom keys are given, priority goes to the top"
             )
-            warnings.warn(warn, UserWarning)
+            warnings.warn(warn, UserWarning, stacklevel=2)
 
         # Compute the position of the inset axis and return it
         left = kwargs.get("left", 0.6)

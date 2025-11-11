@@ -1,3 +1,9 @@
+"""
+Load the PLUTO data files.
+
+The Load class loads the data (fluid) from the output files.
+"""
+
 from pathlib import Path
 from typing import Any
 
@@ -8,8 +14,9 @@ from .h_pypluto import check_par
 
 
 class Load:
-    """The Load class loads the data (fluid) from the output files. The
-    initialization corresponds to the loading, if wanted, of one or more
+    """The Load class loads the data (fluid) from the output files.
+
+    The initialization corresponds to the loading, if wanted, of one or more
     datafiles for the fluid. The data are loaded in a memory mapped numpy
     multidimensional array. Such approach does not load the full data
     until needed. Basic operations (i.e. no numpy) are possible, as well
@@ -26,6 +33,10 @@ class Load:
         grid file in the folder. If True, the code will look for the grid
         information within the data files. Should be used only for non-binary
         files.
+    - code: str | None, default None
+        The code from which the data are loaded. If None, the code assumes
+        PLUTO/gPLUTO. If a different code is provided, the corresponding
+        loading method is used (if implemented).
     - datatype: str | None, default None
         The format of the data file. If not specified, the code will look for
         the format from the list of possible formats. HDF5 (AMR) formats have
@@ -138,6 +149,7 @@ class Load:
         # Check parameters
         param = {
             "alone",
+            "code",
             "read_defh",
             "endian",
             "full3d",
@@ -155,11 +167,13 @@ class Load:
         if not code or code.lower() in {"pluto", "gpluto"}:
             pass
         elif code.lower() in codedict:
-            init = f"Creating instance with alternate method using code: {code}"
+            init = f"Loading data with alternative method using code: {code}"
             if text is True:
                 print(init)
             codedict[code.lower()](nout, path, vars)
-            self.nout = self.nout.astype(int)
+            print(self.nout)
+            if not isinstance(self.nout, int):
+                self.nout = self.nout.astype(int)
             if text is True:
                 print(f"Load: folder {path},     output {self.nout}")
             return
@@ -168,6 +182,7 @@ class Load:
 
         # Check if the user wants to load the data
         if nout is None:
+            print("No output is loaded!")
             return
 
         # Initialization or declaration of variables (used in this file)
@@ -286,10 +301,10 @@ class Load:
             setattr(self, key, self._d_vars[key])
 
         # Transpose nshp (to match with variables)
-        try:
-            self.nshp = self.nshp[::-1] if self.dim > 1 else self.nshp
-        except ValueError:
-            pass
+        # try:
+        #    self.nshp = self.nshp[::-1] if self.dim > 1 else self.nshp
+        # except ValueError:
+        #    pass
 
         # Convert ntime if only one number of a list
         if isinstance(self.ntime, np.ndarray) and len(self.ntime) == 1:
@@ -378,13 +393,20 @@ class Load:
         try:
             return object.__getattribute__(self, f"_{name}")
         except AttributeError:
-            raise AttributeError(f"'Load' object has no attribute '{name}'")
+            raise AttributeError(
+                f"'Load' object has no attribute '{name}'"
+            ) from None
 
     from .amr import _DataScanHDF5, _inspect_hdf5
-    from .codes.echo_load import echo_load
+    from .codes.echo_load import (
+        _echo_load_grid,
+        _echo_load_vars,
+        _echo_set_grid_dims,
+        echo_load,
+    )
     from .loadfuncs.defpluto import _read_defh, _read_plini
     from .loadfuncs.read_files import _read_dat, _read_h5, read_file
-    from .loadfuncs.readdata import (
+    from .loadfuncs.readdata_old import (
         _assign_var,
         _check_nout,
         _findfiles,

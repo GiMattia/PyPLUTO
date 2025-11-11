@@ -121,7 +121,7 @@ class ColorbarManager(ImageMixin):
         # Standard check on the figure
         # Here we use self.state to fix a WINDOWS issue where self.fig
         # is not defined in the ImageMixin
-        if not hasattr(self, "fig"):
+        if self.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -204,7 +204,7 @@ class ColorbarManager(ImageMixin):
 
         """
         # Standard check on the figure
-        if not hasattr(self, "fig"):
+        if self.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -222,7 +222,7 @@ class ColorbarManager(ImageMixin):
                 raise TypeError("gca() did not return an Axes instance.")
             axs = gca
         axs, _ = self.ImageToolsManager.assign_ax(axs, **kwargs)
-        if not hasattr(self, "fig"):
+        if self.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )

@@ -184,7 +184,7 @@ class ContourManager(ImageMixin):
             kwargs.pop("ax", None), **kwargs
         )
 
-        if not hasattr(self, "fig"):
+        if self.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )

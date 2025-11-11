@@ -244,7 +244,7 @@ class PlotManager(ImageMixin):
             x = np.asarray(x, dtype=float)
             y = np.asarray(y, dtype=float)
 
-        if not hasattr(self, "fig"):
+        if self.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )

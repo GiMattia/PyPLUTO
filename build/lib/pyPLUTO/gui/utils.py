@@ -7,7 +7,7 @@ from matplotlib.backends.backend_qtagg import (
 
 import pyPLUTO as pp
 
-from .globals import cmaps
+from .globals import cmaps_divided as cmaps
 
 
 def update_cmap_selector(self):
@@ -183,6 +183,7 @@ def create_new_figure(self):
     self.I = pp.Image(figsize=[10, 6])
     self.firstplot = True
     self.figure = self.I.fig
+    print(self.I.fontsize, self.I.figsize)
 
     self.canvas = FigureCanvas(self.figure)
     self.toolbar = NavigationToolbar(self.canvas, self)

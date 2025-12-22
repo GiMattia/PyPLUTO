@@ -1,16 +1,18 @@
 """The Load class loads the data (fluid) from the output files."""
 
-# mypy: ignore-errors
-
-from pathlib import Path
-from typing import TypedDict, Unpack
+from typing import Any
 
 from .loadfuncs.initload import InitLoadManager
 from .loadmixin import LoadMixin
 from .loadstate import LoadState
 from .utils.inspector import track_kwargs
 
+# mypy: ignore-errors
 
+
+'''
+from pathlib import Path
+from typing import TypedDict, Unpack
 class MyKwargs(TypedDict, total=False):
     """TypedDict for keyword arguments."""
 
@@ -20,6 +22,7 @@ class MyKwargs(TypedDict, total=False):
     multiple: bool
     nout: str | int | None
     path: str | Path
+'''
 
 
 class Load(LoadMixin):
@@ -37,7 +40,7 @@ class Load(LoadMixin):
         self,
         text: bool = True,
         check: bool = True,
-        **kwargs: Unpack[MyKwargs],
+        **kwargs: Any,
     ) -> None:
         """Initialize the Load class."""
         kwargs.pop("check", check)

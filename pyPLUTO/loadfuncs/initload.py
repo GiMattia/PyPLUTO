@@ -2,9 +2,7 @@
 
 import warnings
 from pathlib import Path
-from typing import TypedDict, Unpack
-
-from numpy.typing import NDArray
+from typing import Any
 
 from ..baseloadmixin import BaseLoadMixin
 from ..baseloadstate import BaseLoadState
@@ -14,7 +12,9 @@ from .codeselection import CodeManager
 from .descriptor import DescriptorManager
 from .findformat import FindFormat
 
-
+'''
+from typing import TypedDict, Unpack
+from numpy.typing import NDArray
 class MyKwargs(TypedDict):
     """TypedDict for keyword arguments."""
 
@@ -23,6 +23,7 @@ class MyKwargs(TypedDict):
     multiple: bool
     nout: int | str | list[int | str] | NDArray | None
     path: str | Path
+'''
 
 
 @track_kwargs
@@ -30,7 +31,7 @@ class InitLoadManager(BaseLoadMixin):
     """Class that handles the initialization loading process."""
 
     def __init__(
-        self, state: BaseLoadState, **kwargs: Unpack[MyKwargs]
+        self, state: BaseLoadState, **kwargs: Any  # Unpack[MyKwargs]
     ) -> None:
         """Initialize the InitLoadManager class."""
         self.state = state

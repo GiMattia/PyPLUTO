@@ -1,7 +1,7 @@
 """Module providing colorbar management functionalities for image displays."""
 
 import warnings
-from typing import Any, TypedDict  # , Unpack
+from typing import Any
 
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection, PathCollection, QuadMesh
@@ -13,11 +13,11 @@ from ..imagestate import ImageState
 from ..utils.inspector import track_kwargs
 from .imagetools import ImageToolsManager
 
-
+'''
+from typing import TypedDict, Unpacks
 class MyKwargs(TypedDict, total=False):
     """TypedDict for keyword arguments."""
 
-    """
     clabel: str
     cpad: float
     cpos: str
@@ -25,7 +25,8 @@ class MyKwargs(TypedDict, total=False):
     ctickslabels: list[str]
     extend: str
     extendrect: bool
-    """
+
+'''
 
 
 class ColorbarManager(ImageMixin):

@@ -2,11 +2,24 @@
 
 # mypy: ignore-errors
 
-from typing import Any
+from pathlib import Path
+from typing import TypedDict, Unpack
 
+from .loadfuncs.initload import InitLoadManager
 from .loadmixin import LoadMixin
 from .loadstate import LoadState
 from .utils.inspector import track_kwargs
+
+
+class MyKwargs(TypedDict, total=False):
+    """TypedDict for keyword arguments."""
+
+    code: str
+    endian: str | None
+    level: int
+    multiple: bool
+    nout: str | int | None
+    path: str | Path
 
 
 class Load(LoadMixin):
@@ -24,12 +37,33 @@ class Load(LoadMixin):
         self,
         text: bool = True,
         check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[MyKwargs],
     ) -> None:
         """Initialize the Load class."""
         kwargs.pop("check", check)
 
         self.state = LoadState()
+        self.class_name = self.__class__.__name__
+        self._init_load = InitLoadManager(self.state, **kwargs)
 
         if text:
             print("Load: Load class initialized.")
+
+    def __setattr__(self, name, value):
+        """Set the attribute of the Load class."""
+        if name == "state" or not hasattr(self, "state"):
+            # Initialization step: allow everything until state exists
+            super().__setattr__(name, value)
+        elif hasattr(self.state, name):
+            # Write-through to state if attr already defined
+            setattr(self.state, name, value)
+        else:
+            # Set the attribute on the state
+            setattr(self.state, name, value)
+
+    def __getattr__(self, name):
+        """Get the attribute of the Load class."""
+        # Called only if attribute not found in usual places
+        if hasattr(self.state, name):
+            return getattr(self.state, name)
+        raise AttributeError(f"'Load' object has no attribute '{name}'")

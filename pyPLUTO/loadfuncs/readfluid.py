@@ -179,16 +179,19 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
             if self.nx3 == 1 and self.nx2 == 1:
                 self.dim = 1
                 self.nshp = self.nx1
+                self.gridsize = self.nx1
                 nshp_grid = self.nx1 + 1
                 gridvars = ["self.x1r", "self.x2", "self.x3"]
             elif self.nx3 == 1:
                 self.dim = 2
                 self.nshp = (self.nx2, self.nx1)
+                self.gridsize = self.nx1 * self.nx2
                 nshp_grid = (self.nx2 + 1, self.nx1 + 1)
                 gridvars = ["self.x1r", "self.x2r", "self.x3"]
             else:
                 self.dim = 3
                 self.nshp = (self.nx3, self.nx2, self.nx1)
+                self.gridsize = self.nx1 * self.nx2 * self.nx3
                 nshp_grid = (self.nx3 + 1, self.nx2 + 1, self.nx1 + 1)
                 gridvars = ["self.x1r", "self.x2r", "self.x3r"]
             dir_map = {"X": gridvars[0], "Y": gridvars[1], "Z": gridvars[2]}

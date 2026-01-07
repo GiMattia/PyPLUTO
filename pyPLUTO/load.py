@@ -294,6 +294,7 @@ class Load:
 
         # For every output load the desired variables
         for i, exout in enumerate(self.nout):
+            print(i, exout)
             self._load_variables(vars, i, exout, endian)
 
         # Assign the variables to the class

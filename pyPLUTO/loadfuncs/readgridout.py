@@ -343,9 +343,15 @@ def _read_outfile(self, nout: int, endian: str) -> None:
 
     """
     # Open and read the 'filetype'.out file
+    # with open(self._pathdata) as f:
+    #   max_fields = max(len(line.split()) for line in f if line.strip())
     vfp = pd.read_csv(
-        str(self._pathdata), sep=r"\s+", header=None
-    )  # , engine="python"
+        str(self._pathdata),
+        sep=r"\s+",
+        header=None,
+        # engine="python",
+        # names=list(range(max_fields)),
+    )
     # FIX FOR DIFFERENT NUMBER OF COLUMNS IN THE .OUT FILE
 
     # Store the output and the time full list

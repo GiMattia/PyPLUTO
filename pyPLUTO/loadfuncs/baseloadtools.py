@@ -59,12 +59,12 @@ class BaseLoadTools(BaseLoadMixin):
             Dnout = [last if i in {"last", -1} else i for i in nout]
 
         # Sort the list, compute the corresponding time and store its length
-        self.nout = np.sort(np.unique(np.atleast_1d(Dnout)))
+        self.noutlist = np.sort(np.unique(np.atleast_1d(Dnout)))
 
         # Check if the output files are in the list
-        if np.any(~np.isin(self.nout, self.outlist)):
+        if np.any(~np.isin(self.noutlist, self.outlist)):
             raise ValueError(
-                f"Error: Wrong output file(s) {self.nout} \
+                f"Error: Wrong output file(s) {self.noutlist} \
                             in path {self.pathdir}."
             )
 

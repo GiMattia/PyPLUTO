@@ -135,9 +135,9 @@ class FindFormat(BaseLoadMixin):
             do_check(dict_func[do_check.__name__])
 
             # Check if the format has been found
-            if self.format is not None:
+            if self.format != "Unknown":
                 # Store the charsize depending on the format
-                self._charsize = 8 if self.format in dbl else 4
+                self.charsize = 8 if self.format in dbl else 4
 
                 # If the format is found, end the function
                 return None
@@ -229,13 +229,14 @@ class FindFormat(BaseLoadMixin):
             pattern = self.pathdir / Path("*.*." + try_type)
 
             # Find the files matching the pattern
-            matching_files = glob.glob(str(pattern))
+            self.matching_files = glob.glob(str(pattern))
 
             # Check if the file is present
-            if matching_files:
+            if self.matching_files:
                 # Store the format and set the flag alone to True
                 self.format = try_type
                 self.alone = True
+                self.infogrid = False
                 # Format is found, break the loop
                 break
 

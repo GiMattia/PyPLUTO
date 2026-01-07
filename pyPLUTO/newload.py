@@ -9,7 +9,6 @@ from .utils.inspector import track_kwargs
 
 # mypy: ignore-errors
 
-
 '''
 from pathlib import Path
 from typing import TypedDict, Unpack
@@ -38,6 +37,7 @@ class Load(LoadMixin):
     @track_kwargs
     def __init__(
         self,
+        nout: int | str | list[int | str] | None = "last",
         text: bool = True,
         check: bool = True,
         **kwargs: Any,
@@ -47,7 +47,8 @@ class Load(LoadMixin):
 
         self.state = LoadState()
         self.class_name = self.__class__.__name__
-        self._init_load = InitLoadManager(self.state, **kwargs)
+        self.full3D = kwargs.get("full3D", self.full3D)
+        self._init_load = InitLoadManager(self.state, nout, **kwargs)
 
         if text:
             print("Load: Load class initialized.")

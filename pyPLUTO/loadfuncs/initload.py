@@ -4,13 +4,17 @@ import warnings
 from pathlib import Path
 from typing import Any
 
+import numpy as np
+
 from ..baseloadmixin import BaseLoadMixin
 from ..baseloadstate import BaseLoadState
 from ..loadstate import LoadState
 from ..utils.inspector import track_kwargs
 from .codeselection import CodeManager
 from .descriptor import DescriptorManager
+from .findfiles import FindFilesManager
 from .findformat import FindFormat
+from .loadvars import LoadVariables
 
 '''
 from typing import TypedDict, Unpack
@@ -31,12 +35,14 @@ class InitLoadManager(BaseLoadMixin):
     """Class that handles the initialization loading process."""
 
     def __init__(
-        self, state: BaseLoadState, **kwargs: Any  # Unpack[MyKwargs]
+        self,
+        state: BaseLoadState,
+        nout: int | str | list[int | str] | None,
+        **kwargs: Any,  # Unpack[MyKwargs]
     ) -> None:
         """Initialize the InitLoadManager class."""
         self.state = state
 
-        nout = kwargs.get("nout", "last")
         self.code = kwargs.get("code", self.code)
         self.CodeManager = CodeManager(state)
 
@@ -58,12 +64,36 @@ class InitLoadManager(BaseLoadMixin):
         self.check_path(kwargs.get("path", self.pathdir))
         self.FindFormat = FindFormat(state, **kwargs)
 
-        if self.alone:
-            pass
-        elif not isinstance(state, LoadState):
-            raise TypeError("DescriptorManager requires LoadState")
+        if not isinstance(state, LoadState) or self.alone:
+            self.findfile = FindFilesManager(state, nout, **kwargs)
         else:
-            self.Descriptor = DescriptorManager(state)
+            self.Descriptor = DescriptorManager(state, nout, **kwargs)
+
+        loadvars: Any = True
+        if kwargs.get("vars") is not None:
+            warnings.warn(
+                "'vars' argument is deprecated. Use 'var' instead.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            loadvars = kwargs.get("vars")
+        loadvars = kwargs.get("var", loadvars)
+
+        for i, exout in enumerate(self.noutlist):
+            print(f"Loading output index: {exout}")
+            self.LoadVariables = LoadVariables(
+                state, kwargs.get("vars", loadvars), i, exout
+            )
+
+        for key in self.d_vars:
+            setattr(self.state, key, self.d_vars[key])
+
+        if isinstance(self.ntimelist, np.ndarray) and len(self.ntimelist) == 1:
+            self.ntime = self.ntimelist[0]
+            self.nout = self.noutlist[0]
+        else:
+            self.ntime = self.ntimelist
+            self.nout = self.noutlist
 
     def check_endian(self, endian: str | None) -> None:
         """Check the endian format.
@@ -110,9 +140,10 @@ class InitLoadManager(BaseLoadMixin):
         }
 
         self.endian = endian
-        if self.endian not in d_end:
+        if endian not in d_end:
             error = f"Invalid endianess. Valid values are {d_end.keys()}"
             raise ValueError(error)
+        self.endian = d_end[endian]
 
     def check_path(self, path: str | Path) -> None:
         """Check if the given path is consistent.

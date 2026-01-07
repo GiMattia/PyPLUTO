@@ -19,4 +19,45 @@ class LoadState(BaseLoadState):
 
     # pylint: disable=too-many-instance-attributes
 
+    dim: int = field(init=False)
+    dx1: NDArray[Any] = field(init=False)
+    dx2: NDArray[Any] = field(init=False)
+    dx3: NDArray[Any] = field(init=False)
+    full3D: bool = False
+    geom: str = field(init=False)
+
+    gridsize: int = field(init=False)
+    gridsize_st1: int = field(init=False)
+    gridsize_st2: int = field(init=False)
+    gridsize_st3: int = field(init=False)
+
+    nshp: int | tuple[int, ...] = field(init=False)
+    nshp_st1: int | tuple[int, ...] | None = field(init=False)
+    nshp_st2: tuple[int, ...] | None = field(init=False)
+    nshp_st3: tuple[int, ...] | None = field(init=False)
+    nx1: int = field(init=False)
+    nx2: int = field(init=False)
+    nx3: int = field(init=False)
+
     x1: NDArray[Any] = field(init=False)
+    x1c: NDArray[Any] = field(init=False, repr=False)
+    x1p: NDArray[Any] = field(init=False, repr=False)
+    x1r: NDArray[Any] = field(init=False)
+    x1rc: NDArray[Any] = field(init=False, repr=False)
+    x1rp: NDArray[Any] = field(init=False, repr=False)
+    x1rt: NDArray[Any] = field(init=False, repr=False)
+    x1t: NDArray[Any] = field(init=False, repr=False)
+
+    x2: NDArray[Any] = field(init=False)
+    x2c: NDArray[Any] = field(init=False, repr=False)
+    x2p: NDArray[Any] = field(init=False, repr=False)
+    x2r: NDArray[Any] = field(init=False)
+    x2rc: NDArray[Any] = field(init=False, repr=False)
+    x2rp: NDArray[Any] = field(init=False, repr=False)
+
+    x3: NDArray[Any] = field(init=False)
+    x3c: NDArray[Any] = field(init=False, repr=False)
+    x3r: NDArray[Any] = field(init=False)
+    x3rc: NDArray[Any] = field(init=False, repr=False)
+    x3rt: NDArray[Any] = field(init=False, repr=False)
+    x3t: NDArray[Any] = field(init=False, repr=False)

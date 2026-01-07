@@ -19,14 +19,28 @@ class BaseLoadState:
     # pylint: disable=too-many-instance-attributes
 
     alone: bool = field(init=False)
+    charsize: int = field(init=False)
     class_name: str = field(init=False)
     code: str = "gPLUTO"
+    d_info: dict[str, Any] = field(init=False)
+    d_vars: dict[str, Any] = field(default_factory=dict)
     endian: str | None = None
-    format: str | None = None
+    filepath: Path = field(init=False)
+    format: str = "Unknown"
+    infogrid: bool = True
+    lennout: int = field(init=False)
+    lennoutlist: int = field(init=False)
+    matching_files: list[str] | None = None
     multiple: bool = False
+    nout: int | NDArray[Any] = field(init=False)
     noutlist: NDArray[Any] = field(init=False)
+    ntime: int | NDArray[Any] = field(init=False)
+    ntimelist: NDArray[Any] = field(init=False)
     outlist: NDArray[Any] = field(init=False)
     pathdir: str | Path = "./"
+    timelist: NDArray[Any] = field(init=False)
+    varoffset: dict = field(init=False)
+    varshape: dict = field(init=False)
 
 
 StateT = TypeVar("StateT", bound=BaseLoadState)

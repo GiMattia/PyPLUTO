@@ -272,7 +272,9 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
             if varmult is not None:
                 break
 
-        search_pos = line_end + 1  # Continue searching after the current line
+        search_pos = (
+            line_end + 1 + self.gridsize * 4
+        )  # Continue searching after the current line
 
     mmapped_file.close()
 

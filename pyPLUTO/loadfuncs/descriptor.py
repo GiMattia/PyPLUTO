@@ -14,14 +14,20 @@ from .baseloadtools import BaseLoadTools
 class DescriptorManager(LoadMixin):
     """Class that manages the descriptor files for loading data."""
 
-    def __init__(self, state: LoadState, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        state: LoadState,
+        nout: int | str | list[int | str],
+        **kwargs: Any,
+    ) -> None:
         """Initialize the DescriptorManager class."""
         self.state = state
         self.LoadToolManager = BaseLoadTools(self.state)
+        self.load_descriptor(nout, **kwargs)
 
-        self.load_descriptor(**kwargs)
-
-    def load_descriptor(self, **kwargs: Any) -> None:
+    def load_descriptor(
+        self, nout: int | str | list[int | str], **kwargs: Any
+    ) -> None:
         """Read the datatype.out file and stores the information.
 
         Such information are the time array, the output variables, the file type
@@ -53,50 +59,41 @@ class DescriptorManager(LoadMixin):
         """
         if self.format is None:
             raise ValueError("Format not defined. Cannot read descriptor file.")
+
         # Open and read the 'filetype'.out file
         pathdata = self.pathdir / Path(self.format + ".out")
-        vfp = pd.read_csv(
-            str(pathdata), sep=r"\s+", header=None, engine="python"
-        )
+        s = pd.Series(pathdata.read_text().splitlines())
+        vfp = s.str.split(r"\s+", n=6, expand=True)
+        vfp.columns = ["id", "t", "dt", "nstep", "typefile", "endian", "vars"]
 
         # Store the output and the time full list
         self.outlist = np.array(vfp.iloc[:, 0], dtype="int")
-        self.timelist = np.array(vfp.iloc[:, 1])
+        self.timelist = np.array(vfp.iloc[:, 1], dtype="float")
+        self.lennoutlist = len(self.outlist)
 
         # Check the output lines
-        self.LoadToolManager.check_nout(kwargs.get("nout", "last"))
-        self.ntime = self.timelist[self.noutlist]
-        self._lennout = len(self.noutlist)
+        self.LoadToolManager.check_nout(nout)
+        self.ntimelist = self.timelist[self.noutlist]
+        self.lennout = len(self.noutlist)
 
         # Initialize the info dictionary
-        self._d_info = {
-            "typefile": np.array(vfp.iloc[self.noutlist, 4]),
-            "endianess": np.where(
-                vfp.iloc[self.noutlist, 5] == "big", ">", "<"
-            ),
+        self.d_info = {
+            "typefile": np.array(vfp.iloc[self.outlist, 4]),
+            "endianess": np.where(vfp.iloc[self.outlist, 5] == "big", ">", "<"),
         }
 
         # Compute the endianess (vtk have always big endianess).
         # If endian is given, it is used instead of the one in the file.
-        self._d_info["endianess"][:] = (
-            ">" if self.format == "vtk" else self._d_info["endianess"]
+        self.d_info["endianess"][:] = (
+            ">" if self.format == "vtk" else self.d_info["endianess"]
         )
-        self._d_info["endianess"][:] = (
-            self._d_end[self.endian]
-            if self.endian is not None
-            else self._d_info["endianess"]
+        self.d_info["endianess"][:] = (
+            self.endian if self.endian is not None else self.d_info["endianess"]
         )
+        self.d_info["varslist"] = vfp["vars"].str.split()
 
-        # Store the variables list
-        if self.format not in {"dbl.h5", "flt.h5"}:
-            self._d_info["varslist"] = np.array(vfp.iloc[self.noutlist, 6:])
-        else:
-            self.varsh5 = np.array(vfp.iloc[self.nout, 6:])[0]
-            self._d_info["varslist"] = [[] for _ in range(self._lennout)]
-
-        # Compute binformat and endpath
-        self._d_info["binformat"] = np.char.add(
-            self._d_info["endianess"], "f" + str(self._charsize)
+        self.d_info["binformat"] = np.char.add(
+            self.d_info["endianess"], "f" + str(self.charsize)
         )
         format_string = f".%04d.{self.format}"
-        self._d_info["endpath"] = np.char.mod(format_string, self.noutlist)
+        self.d_info["endpath"] = np.char.mod(format_string, self.outlist)

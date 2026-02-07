@@ -1,8 +1,13 @@
-name: Golden (uv.lock) tests on all OS
+name: Golden (uv.lock) tests on all OSes
 
 on:
   push:
   pull_request:
+
+permissions:
+  contents: write
+  checks: write
+  pull-requests: write
 
 jobs:
   golden:
@@ -36,7 +41,7 @@ jobs:
       - name: Sync (locked, with test deps)
         run: uv sync --locked --extra test
 
-      - name: Run tests
+      - name: Build coverage file
         shell: bash
         run: |
           uv run pytest --junitxml=pytest.xml \
@@ -45,7 +50,7 @@ jobs:
 
       # Post coverage comment only once (avoid 3 PR comments)
       - name: Pytest coverage comment
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest' && github.event_name == 'pull_request'
         id: coverageComment
         uses: MishaKav/pytest-coverage-comment@main
         with:
@@ -53,7 +58,7 @@ jobs:
           junitxml-path: ./pytest.xml
 
       - name: Create the Badge
-        if: matrix.os == 'ubuntu-latest' && github.event_name == 'pull_request'
+        if: matrix.os == 'ubuntu-latest'
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.PYTEST_COVERAGE_COMMENT }}

@@ -37,6 +37,7 @@ jobs:
         run: uv sync --locked --extra test
 
       - name: Run tests
+        shell: bash
         run: |
           uv run pytest --junitxml=pytest.xml \
             --cov=pyPLUTO --cov-report=term-missing Tests/ \
@@ -52,7 +53,7 @@ jobs:
           junitxml-path: ./pytest.xml
 
       - name: Create the Badge
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest' && github.event_name == 'pull_request'
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.PYTEST_COVERAGE_COMMENT }}

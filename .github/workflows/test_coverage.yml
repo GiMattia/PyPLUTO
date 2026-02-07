@@ -1,43 +1,42 @@
-name: pytest-coverage-comment (golden uv.lock)
+name: Golden (uv.lock) tests on all OS
 
 on:
   push:
   pull_request:
 
-permissions:
-  contents: write
-  checks: write
-  pull-requests: write
-
 jobs:
   golden:
-    name: Golden env (uv.lock) on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.14"]
 
     steps:
       - uses: actions/checkout@v4
 
+      # IMPORTANT: use runner CPython (includes Tcl/Tk on Windows)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Install uv (do NOT set python-version here)
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
-          python-version: "3.11"
           enable-cache: true
 
-      # Verify uv.lock matches pyproject.toml (+ test extra)
+      # Lockfile must match pyproject.toml
       - name: Check lockfile consistency
         run: uv lock --check
 
-      # Non-negotiable: exact env from uv.lock (+ test deps)
-      - name: Sync (locked)
+      # Non-negotiable environment from uv.lock
+      - name: Sync (locked, with test deps)
         run: uv sync --locked --extra test
 
-      - name: Build coverage file
-        shell: bash
+      - name: Run tests
         run: |
           uv run pytest --junitxml=pytest.xml \
             --cov=pyPLUTO --cov-report=term-missing Tests/ \

@@ -37,9 +37,10 @@ jobs:
         run: uv sync --locked --extra test
 
       - name: Build coverage file
+        shell: bash
         run: |
           uv run pytest --junitxml=pytest.xml \
-            --cov=pyPLUTO --cov-report=term-missing:skip-covered Tests/ \
+            --cov=pyPLUTO --cov-report=term-missing Tests/ \
             | tee pytest-coverage.txt
 
       # Post coverage comment only once (avoid 3 PR comments)

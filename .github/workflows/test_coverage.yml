@@ -11,8 +11,13 @@ permissions:
 
 jobs:
   golden:
-    name: Golden env (uv.lock) + coverage comment
-    runs-on: ubuntu-latest
+    name: Golden env (uv.lock) on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -23,11 +28,12 @@ jobs:
           python-version: "3.11"
           enable-cache: true
 
-      # Fails if uv.lock is not consistent with pyproject.toml
+      # Verify uv.lock matches pyproject.toml (+ test extra)
       - name: Check lockfile consistency
-        run: uv lock --check
+        run: uv lock --check --extra test
 
-      - name: Sync (locked, with test extra)
+      # Non-negotiable: exact env from uv.lock (+ test deps)
+      - name: Sync (locked)
         run: uv sync --locked --extra test
 
       - name: Build coverage file
@@ -36,26 +42,17 @@ jobs:
             --cov=pyPLUTO --cov-report=term-missing:skip-covered Tests/ \
             | tee pytest-coverage.txt
 
+      # Post coverage comment only once (avoid 3 PR comments)
       - name: Pytest coverage comment
+        if: matrix.os == 'ubuntu-latest'
         id: coverageComment
         uses: MishaKav/pytest-coverage-comment@main
         with:
           pytest-coverage-path: ./pytest-coverage.txt
           junitxml-path: ./pytest.xml
 
-      - name: Check the output coverage
-        run: |
-          echo "Coverage Percentage - ${{ steps.coverageComment.outputs.coverage }}"
-          echo "Coverage Color - ${{ steps.coverageComment.outputs.color }}"
-          echo "Coverage Warnings - ${{ steps.coverageComment.outputs.warnings }}"
-          echo "Coverage Errors - ${{ steps.coverageComment.outputs.errors }}"
-          echo "Coverage Failures - ${{ steps.coverageComment.outputs.failures }}"
-          echo "Coverage Skipped - ${{ steps.coverageComment.outputs.skipped }}"
-          echo "Coverage Tests - ${{ steps.coverageComment.outputs.tests }}"
-          echo "Coverage Time - ${{ steps.coverageComment.outputs.time }}"
-          echo "Not Success Test Info - ${{ steps.coverageComment.outputs.notSuccessTestInfo }}"
-
       - name: Create the Badge
+        if: matrix.os == 'ubuntu-latest'
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.PYTEST_COVERAGE_COMMENT }}

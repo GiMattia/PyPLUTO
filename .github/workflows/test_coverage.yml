@@ -30,7 +30,7 @@ jobs:
 
       # Verify uv.lock matches pyproject.toml (+ test extra)
       - name: Check lockfile consistency
-        run: uv lock --check --extra test
+        run: uv lock --check
 
       # Non-negotiable: exact env from uv.lock (+ test deps)
       - name: Sync (locked)

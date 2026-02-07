@@ -1,4 +1,7 @@
 import numpy as np
+import os
+
+os.environ.setdefault("MPLBACKEND", "Agg")
 
 import pyPLUTO as pp
 

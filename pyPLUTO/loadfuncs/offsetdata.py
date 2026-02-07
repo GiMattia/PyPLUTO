@@ -6,7 +6,7 @@ from ..baseloadmixin import BaseLoadMixin
 from ..baseloadstate import BaseLoadState
 from ..loadstate import LoadState
 from .offsetfluid import OffsetFluid
-from .readgrid import GridManager
+from .readgridfile import GridFileManager
 
 
 class OffsetData(BaseLoadMixin):
@@ -15,7 +15,7 @@ class OffsetData(BaseLoadMixin):
     def __init__(self, state: BaseLoadState):
         self.state = state
         if isinstance(state, LoadState):
-            self.GridManager = GridManager(state)
+            self.GridFileManager = GridFileManager(state)
 
     def compute_offset(
         self,
@@ -62,7 +62,7 @@ class OffsetData(BaseLoadMixin):
             and isinstance(self.state, LoadState)
             and self.infogrid is True
         ):
-            self.GridManager.read_gridfile()
+            self.GridFileManager.read_gridfile()
             self.infogrid = False
 
         fmt = "h5" if self.format in {"dbl.h5", "flt.h5"} else self.format

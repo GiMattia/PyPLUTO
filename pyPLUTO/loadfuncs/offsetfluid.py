@@ -8,6 +8,7 @@ import numpy as np
 
 from ..loadmixin import LoadMixin
 from ..loadstate import LoadState
+from .readgridalone import GridManager
 
 
 class OffsetFluid(LoadMixin):
@@ -16,6 +17,7 @@ class OffsetFluid(LoadMixin):
     def __init__(self, state: LoadState):
         self.state = state
         self.varoffset, self.varshape = ({}, {})
+        self.GridAloneManager = GridManager(state)
 
     def offset_bin(
         self, _i: int, var: str | None, exout: int, _mm: mmap.mmap
@@ -113,11 +115,18 @@ class OffsetFluid(LoadMixin):
         timestep = h5file.get(timestep_key, None)
         if isinstance(timestep, h5py.Group):
             cellvs = timestep.get("vars", {})
-            if cellvs is None or isinstance(cellvs, h5py.Datatype):
-                cellvs = {}
             stagvs = timestep.get("stag_vars", {})
-            if stagvs is None or isinstance(stagvs, h5py.Datatype):
-                stagvs = {}
+            cellvs = (
+                {}
+                if cellvs is None or isinstance(cellvs, h5py.Datatype)
+                else cellvs
+            )
+
+            stagvs = (
+                {}
+                if stagvs is None or isinstance(stagvs, h5py.Datatype)
+                else stagvs
+            )
         else:
             # Timestep group not present or not a group; treat as empty
             cellvs = {}
@@ -148,6 +157,7 @@ class OffsetFluid(LoadMixin):
             elif j in stagvs:
                 obj = stagvs[j]
             else:
+                obj = None
                 warnings.warn(
                     f"Warning: Variable {j} not found in the HDF5 file.",
                     UserWarning,
@@ -157,10 +167,24 @@ class OffsetFluid(LoadMixin):
             if isinstance(obj, h5py.Dataset):
                 self.varoffset[j] = obj.id.get_offset()
                 self.varshape[j] = obj.shape
-            else:
+            elif obj is not None:
                 raise ValueError(
                     f"Error: Variable {j} in the HDF5 file is not a dataset."
                 )
+
+        if (
+            self.alone is True
+            and isinstance(self.state, LoadState)
+            and self.infogrid is True
+        ):
+            self.x1 = h5file["cell_coords"]["X"][:]
+            self.x2 = h5file["cell_coords"]["Y"][:]
+            self.x3 = h5file["cell_coords"]["Z"][:]
+            self.x1r = h5file["node_coords"]["X"][:]
+            self.x2r = h5file["node_coords"]["Y"][:]
+            self.x3r = h5file["node_coords"]["Z"][:]
+            self.GridAloneManager.readgridh5()
+            self.infogrid = False
 
         # Close the file
         h5file.close()

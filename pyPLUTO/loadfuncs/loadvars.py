@@ -120,18 +120,18 @@ class LoadVariables(BaseLoadMixin):
                 self.filepath = self.pathdir / (
                     j + self.d_info["endpath"][exout]
                 )
-            try:
-                with open(self.filepath, "rb") as fd:
-                    mm = mmap.mmap(fd.fileno(), 0, access=mmap.ACCESS_READ)
-                    self.offsetdata.compute_offset(i, exout, j, mm)
-            except (OSError, ValueError) as e:
-                warnings.warn(
-                    f"AttributeError: Unable to open file {self.filepath}.\n"
-                    f"{e}\nSkipping variable {j}.",
-                    UserWarning,
-                    stacklevel=2,
-                )
-                continue
+                try:
+                    with open(self.filepath, "rb") as fd:
+                        mm = mmap.mmap(fd.fileno(), 0, access=mmap.ACCESS_READ)
+                        self.offsetdata.compute_offset(i, exout, j, mm)
+                except (OSError, ValueError) as e:
+                    warnings.warn(
+                        f"AttributeError: Unable to open {self.filepath}.\n"
+                        f"{e}\nSkipping variable {j}.",
+                        UserWarning,
+                        stacklevel=2,
+                    )
+                    continue
 
             self.init_vardict(j) if self.lennout != 1 else None
 

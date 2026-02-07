@@ -9,7 +9,7 @@ from ..loadmixin import LoadMixin
 from ..loadstate import LoadState
 
 
-class GridManager(LoadMixin):
+class GridFileManager(LoadMixin):
     """Docstring for BaseLoadTools class."""
 
     def __init__(self, state: LoadState) -> None:
@@ -76,8 +76,8 @@ class GridManager(LoadMixin):
         ](self.nx1, self.nx2, self.nx3)
         """
         nx1s, nx2s, nx3s = self.nx1 + 1, self.nx2 + 1, self.nx3 + 1
-
         oned, twod, threed = 1, 2, 3
+
         if self.dim == oned:
             self.nshp = self.nx1
             self.nshp_st1 = nx1s

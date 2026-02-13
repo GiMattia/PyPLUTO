@@ -45,10 +45,10 @@ class Load(LoadMixin):
         """Initialize the Load class."""
         kwargs.pop("check", check)
 
-        self.state = LoadState()
-        self.class_name = self.__class__.__name__
-        self.full3D = kwargs.get("full3D", self.full3D)
-        self._init_load = InitLoadManager(self.state, nout, **kwargs)
+        self.state: LoadState = LoadState()
+        self.class_name: str = self.__class__.__name__
+        self.full3D: bool = kwargs.get("full3D", self.full3D)
+        self.init_load = InitLoadManager(self.state, nout, **kwargs)
 
         if text:
             print("Load: Load class initialized.")
@@ -62,8 +62,8 @@ class Load(LoadMixin):
             # Write-through to state if attr already defined
             setattr(self.state, name, value)
         else:
-            # Set the attribute on the state
-            setattr(self.state, name, value)
+            # IMPORTANT: keep unknown attrs on the instance
+            super().__setattr__(name, value)
 
     def __getattr__(self, name):
         """Get the attribute of the Load class."""

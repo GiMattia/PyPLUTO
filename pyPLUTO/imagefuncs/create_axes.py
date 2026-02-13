@@ -36,7 +36,7 @@ class CreateAxesManager(ImageMixin):
 
     def __init__(self, state: ImageState) -> None:
         """Initialize the CreateAxesManager class."""
-        self.state = state
+        self.state: ImageState = state
 
     @track_kwargs(extra_keys=set(defaults.keys()))
     def create_axes(

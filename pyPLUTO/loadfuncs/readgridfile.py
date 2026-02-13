@@ -14,7 +14,7 @@ class GridFileManager(LoadMixin):
 
     def __init__(self, state: LoadState) -> None:
         """Initialize the BaseLoadTools class."""
-        self.state = state
+        self.state: LoadState = state
 
     def read_gridfile(self) -> None:
         """Read the file grid.out is read and store all the grid information.
@@ -47,14 +47,14 @@ class GridFileManager(LoadMixin):
         xR: list[float] = []
 
         # Open and read the gridfile
-        with open(self.pathdir / Path("grid.out")) as gfp:
+        with open(file=self.pathdir / Path("grid.out")) as gfp:
             for i in gfp.readlines():
                 self.split_gridfile(i, xL, xR, nmax)
 
         # Compute nx1, nx2, nx3
-        self.nx1, self.nx2, self.nx3 = nmax
-        nx1p2 = self.nx1 + self.nx2
-        nx1p3 = self.nx1 + self.nx2 + self.nx3
+        self.state.nx1, self.nx2, self.nx3 = nmax
+        nx1p2: int = self.nx1 + self.nx2
+        nx1p3: int = self.nx1 + self.nx2 + self.nx3
 
         # Define grid shapes based on dimensions
         """
@@ -79,22 +79,26 @@ class GridFileManager(LoadMixin):
         oned, twod, threed = 1, 2, 3
 
         if self.dim == oned:
-            self.nshp = self.nx1
-            self.nshp_st1 = nx1s
+            self.nshp: int = self.nx1
+            self.nshp_st1: int = nx1s
             self.nshp_st2 = None
-            self.nshp_st3 = None
+            self.state.nshp_st3: None = None
 
         elif self.dim == twod:
-            self.nshp = (self.nx2, self.nx1)
-            self.nshp_st1 = (self.nx2, nx1s)
-            self.nshp_st2 = (nx2s, self.nx1)
+            self.nshp: tuple[int, int] = (self.nx2, self.nx1)
+            self.nshp_st1: tuple[int, int] = (self.nx2, nx1s)
+            self.nshp_st2: tuple[int, int] = (nx2s, self.nx1)
             self.nshp_st3 = None
 
         elif self.dim == threed:
-            self.nshp = (self.nx3, self.nx2, self.nx1)
-            self.nshp_st1 = (self.nx3, self.nx2, nx1s)
-            self.nshp_st2 = (self.nx3, nx2s, self.nx1)
-            self.nshp_st3 = (nx3s, self.nx2, self.nx1)
+            self.nshp: tuple[int, int, int] = (self.nx3, self.nx2, self.nx1)
+            self.nshp_st1: tuple[int, int, int] = (self.nx3, self.nx2, nx1s)
+            self.nshp_st2: tuple[int, int, int] = (self.nx3, nx2s, self.nx1)
+            self.state.nshp_st3: tuple[int, int, int] = (
+                nx3s,
+                self.nx2,
+                self.nx1,
+            )
 
         else:
             raise ValueError(f"dim must be 1..3, got {self.dim}")

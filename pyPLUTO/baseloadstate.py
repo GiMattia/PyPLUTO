@@ -7,7 +7,7 @@ from typing import Any, TypeVar
 from numpy.typing import NDArray
 
 
-@dataclass
+@dataclass(slots=True)
 class BaseLoadState:
     """Class that stores the state of the Load class.
 

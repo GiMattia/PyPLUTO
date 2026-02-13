@@ -211,24 +211,15 @@ class Image(ImageMixin):
         necessary.
         """
 
-    def __setattr__(self, name, value):
+    def __getattr__(self, name: str):
+        """Get the attribute of the Image class."""
+        return getattr(self.state, name)
+
+    def __setattr__(self, name: str, value):
         """Set the attribute of the Image class."""
         if name == "state" or not hasattr(self, "state"):
-            # Initialization step: allow everything until state exists
-            super().__setattr__(name, value)
-        elif hasattr(self.state, name):
-            # Write-through to state if attr already defined
-            setattr(self.state, name, value)
-        else:
-            # Set the attribute on the state
-            setattr(self.state, name, value)
-
-    def __getattr__(self, name):
-        """Get the attribute of the Image class."""
-        # Called only if attribute not found in usual places
-        if hasattr(self.state, name):
-            return getattr(self.state, name)
-        raise AttributeError(f"'Image' object has no attribute '{name}'")
+            return super().__setattr__(name, value)
+        return setattr(self.state, name, value)
 
     @property
     def animate(self):

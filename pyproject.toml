@@ -90,28 +90,37 @@ select = [
     "SIM",# flake8-simplify (simplify complex logic)
     "PT", # flake8-pytest-style (if you use pytest)
     "RUF",# Ruff-specific rules
+    "ANN",# ruff-annotations (type annotations)
 ]
 
 ignore = [
     "D203",  # Conflicts with D211 (one-blank-line-before-class)
-    "D209",  # Conflicts with docformatter
     "D213"   # Conflicts with D212 (summary on first vs second line)
 ]
 
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"
 
-[tool.mypy]
-check_untyped_defs = true
-ignore_missing_imports = true
-strict_optional = true
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/*" = ["D", "PLR2004"]
 
-[tool.docformatter]
-in-place = true
-blank = true
-wrap-summaries = 72
-wrap-descriptions = 72
-docstring-length  = [10, 70]
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_unused_configs = true
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+no_implicit_optional = true
+check_untyped_defs = true
+pretty = true
 
 [tool.coverage.run]
 source = ["pyPLUTO"]
@@ -134,6 +143,7 @@ exclude_lines = [
 ]
 
 [tool.pylint.main]
+py-version = "3.10"
 jobs = 1
 persistent = true
 suggestion-mode = true
@@ -156,13 +166,5 @@ max-line-length = 80
 [tool.pylint.reports]
 output-format = "text"
 
-[tool.interrogate]
-verbose = 1
-fail-under = 0
-exclude = ["tests", "Docs"]
-ignore-init-method = false
-ignore-init-module = true
-ignore-magic = true
-ignore-module = true
-ignore-private = false
-ignore-semiprivate = false
+[tool.ty]
+python-version = "3.10"

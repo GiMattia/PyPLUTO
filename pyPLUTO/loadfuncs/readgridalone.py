@@ -9,7 +9,7 @@ class GridManager(LoadMixin):
 
     def __init__(self, state: LoadState) -> None:
         """Initialize the BaseLoadTools class."""
-        self.state = state
+        self.state: LoadState = state
 
     def readgridvtk(self):
         """Read the grid information from VTK files without descriptor.

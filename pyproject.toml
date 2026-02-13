@@ -47,13 +47,12 @@ test = [
     "approvaltests"
 ] 
 dev = [
-    "black",
+    "uv",
     "pre-commit",
     "pylint",
     "ruff",
     "mypy",
-    "blacken-docs",
-    "interrogate",
+    "ty",
     "pydata-sphinx-theme"
 ]
 

@@ -18,7 +18,8 @@ class AxisManager(ImageMixin):
     """Manage the axis of the image.
 
     It allows to customize the axis of the image, such as the range, scale and
-    aspect."""
+    aspect.
+    """
 
     exposed_methods = ("set_axis",)
 

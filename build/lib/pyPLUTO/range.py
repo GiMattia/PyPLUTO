@@ -11,7 +11,8 @@ from .imagestate import ImageState
 @delegator("state")
 class RangeManager:
     """RangeManager class. It provides methods to set the x and y axis limits
-    for a set of axes in a plot."""
+    for a set of axes in a plot.
+    """
 
     def __init__(self, state: ImageState):
         """Initialize the RangeManager with the given state."""

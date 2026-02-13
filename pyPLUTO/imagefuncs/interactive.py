@@ -30,7 +30,8 @@ class InteractiveManager(ImageMixin):
     data. It is designed to work with fluid variables and allows for dynamic
     visualization of data as a function of time. The class uses the
     DisplayManager and PlotManager to handle the display and plotting of the
-    data, respectively."""
+    data, respectively.
+    """
 
     def __init__(self, state: ImageState):
         """Initialize the InteractiveManager with the given state."""

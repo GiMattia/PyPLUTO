@@ -22,7 +22,8 @@ class PlotManager(ImageMixin):
     creation of plots based on the current state of the image. The class uses
     the AxisManager, ImageToolsManager, LegendManager, and RangeManager to
     handle the display and plotting of the images, axes, legends, and ranges,
-    respectively."""
+    respectively.
+    """
 
     def __init__(self, state: ImageState):
         """Initialize the PlotManager with the given state."""

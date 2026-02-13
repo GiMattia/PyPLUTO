@@ -137,9 +137,9 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
     if self._info is True:
         self.nshp = 0
     if self._alone is True:
-        self._d_info["binformat"][
-            i
-        ] = f"{self._d_info['endianess'][i]}f{self._charsize}"
+        self._d_info["binformat"][i] = (
+            f"{self._d_info['endianess'][i]}f{self._charsize}"
+        )
 
     # Open the file and read the lines
     f = open(self._filepath, "rb")

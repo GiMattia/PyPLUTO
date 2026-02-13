@@ -43,7 +43,8 @@ def savefig(**_kwargs: object) -> None:
     """Save the figure created.
 
     This function is deprecated and will be removed in future versions.
-    Please call savefig from the Image class instead."""
+    Please call savefig from the Image class instead.
+    """
     raise NotImplementedError(
         "pyPLUTO.savefig is deprecated.\n"
         "Please call savefig from the Image class instead"

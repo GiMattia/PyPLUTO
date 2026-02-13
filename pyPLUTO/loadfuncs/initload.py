@@ -16,18 +16,18 @@ from .findfiles import FindFilesManager
 from .findformat import FindFormat
 from .loadvars import LoadVariables
 
-'''
-from typing import TypedDict, Unpack
-from numpy.typing import NDArray
-class MyKwargs(TypedDict):
-    """TypedDict for keyword arguments."""
-
-    code: str
-    endian: str | None
-    multiple: bool
-    nout: int | str | list[int | str] | NDArray | None
-    path: str | Path
-'''
+#'''
+# from typing import TypedDict, Unpack
+# from numpy.typing import NDArray
+# class MyKwargs(TypedDict):
+#    """TypedDict for keyword arguments."""
+#
+#    code: str
+#    endian: str | None
+#    multiple: bool
+#    nout: int | str | list[int | str] | NDArray | None
+#    path: str | Path
+#'''
 
 
 @track_kwargs
@@ -196,8 +196,8 @@ class InitLoadManager(BaseLoadMixin):
         elif not isinstance(path, Path) and not path.strip():
             raise ValueError("'path' cannot be an empty string.")
         # Convert the path to a Path object and store it
-        else:
-            self.pathdir = Path(path)
+
+        self.pathdir = Path(path)
 
         # Check that the path is a directory
         if not self.pathdir.is_dir():

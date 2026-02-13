@@ -18,7 +18,8 @@ from .set_axis import AxisManager
 class ScatterManager:
     """Manager for the scatter plot of a 2D function (or a 2D slice) using
     the matplotlib's scatter function. A simple figure and a single axis can
-    also be created."""
+    also be created.
+    """
 
     exposed_methods = ("scatter",)
 

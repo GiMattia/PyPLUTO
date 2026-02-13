@@ -1,28 +1,34 @@
-default_language_version:
-  python: python3.10
-
 repos:
-  # ----------------------------
-  # Basic hygiene
-  # ----------------------------
+  # 0. Pre-commit official hooks (cleanup, merge conflicts, etc.)
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
+    rev: v5.0.0
     hooks:
       - id: check-ast
-      - id: check-docstring-first
-      - id: check-json
       - id: check-toml
-      - id: check-yaml
+      - id: check-docstring-first
+        files: \.py$
+      - id: check-added-large-files
+        files: \.py$
+      - id: check-case-conflict
+        files: \.py$
       - id: check-merge-conflict
+        files: \.py$
+      - id: debug-statements
+        files: \.py$
       - id: end-of-file-fixer
-      - id: trailing-whitespace
+        files: \.py$
       - id: mixed-line-ending
+        files: \.py$
+      - id: trailing-whitespace
+        files: \.py$
+        args: ["--markdown-linebreak-ext=md"]
 
+        
   # ----------------------------
   # Ruff (lint + fix)
   # ----------------------------
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.4
+    rev: v0.15.1
     hooks:
       # Lint first (with autofix)
       - id: ruff-check

@@ -189,7 +189,6 @@ def _load_variables(
             class_name == "Load"
             and self._d_info["typefile"][i] == "single_file"
         ):
-
             dtype = np.dtype(self._d_info["binformat"][i])
             shape = self._shape[j]
             offset = self._offset[j]  # must be in bytes

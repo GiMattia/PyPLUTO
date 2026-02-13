@@ -15,7 +15,8 @@ from .range import RangeManager
 @delegator("state")
 class AxisManager:
     """This class manages the axis of the image. It allows to customize the
-    axis of the image, such as the range, scale and aspect."""
+    axis of the image, such as the range, scale and aspect.
+    """
 
     exposed_methods = ("set_axis",)
 

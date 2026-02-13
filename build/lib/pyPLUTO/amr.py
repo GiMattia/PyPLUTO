@@ -390,9 +390,7 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
                         new_shape,
                         method="linear",
                         minusone=True,
-                    ).reshape(
-                        (ie0 - ib0 + 1, je0 - jb0 + 1, ke0 - kb0 + 1)
-                    )
+                    ).reshape((ie0 - ib0 + 1, je0 - jb0 + 1, ke0 - kb0 + 1))
                 ncount = ncount + szb
 
     h5vardict = {}

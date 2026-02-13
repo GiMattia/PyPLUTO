@@ -12,7 +12,8 @@ class Configure:
     """Handle the init tools for pyPLUTO.
 
     Tools include finding the session, setting up the handlers, and other
-    initialization tasks."""
+    initialization tasks.
+    """
 
     greeted = False
 

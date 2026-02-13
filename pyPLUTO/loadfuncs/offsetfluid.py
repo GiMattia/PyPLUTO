@@ -224,9 +224,9 @@ class OffsetFluid(LoadMixin):
             raise ValueError("Error: Wrong endianess in vtk file.")
 
         if self.alone is True:
-            self.d_info["binformat"][
-                i
-            ] = f"{self.d_info['endianess'][i]}f{self.charsize}"
+            self.d_info["binformat"][i] = (
+                f"{self.d_info['endianess'][i]}f{self.charsize}"
+            )
         search_pos = 0
         while True:
             scalars_pos = mm.find(b"SCALARS", search_pos)

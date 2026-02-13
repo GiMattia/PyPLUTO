@@ -19,7 +19,8 @@ class LegendManager(ImageMixin):
     dynamic creation of legends based on the current state of the image.
     The class uses the ImageToolsManager to handle the display and plotting
     of the legends, and it provides methods to customize the appearance of
-    the legends."""
+    the legends.
+    """
 
     exposed_methods = ("legend",)
 

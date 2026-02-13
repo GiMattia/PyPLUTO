@@ -30,7 +30,8 @@ class Mediator(Generic[StateType_co]):
         manager_classes: Sequence[type[ManagerProtocol[StateType_co]]],
     ) -> None:
         """Initializes the Mediator with a shared state and a list of manager
-        classes."""
+        classes.
+        """
         object.__setattr__(self, "state", state)
         object.__setattr__(self, "_manager_classes", manager_classes)
         object.__setattr__(self, "_instances", {})

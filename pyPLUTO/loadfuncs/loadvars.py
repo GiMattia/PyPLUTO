@@ -115,7 +115,6 @@ class LoadVariables(BaseLoadMixin):
                 return None
 
         for j in load_vars:
-
             if self.d_info["typefile"][exout] == "multiple_files":
                 self.filepath = self.pathdir / (
                     j + self.d_info["endpath"][exout]

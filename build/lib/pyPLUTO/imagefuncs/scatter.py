@@ -19,7 +19,8 @@ from .set_axis import AxisManager
 class ScatterManager(ImageMixin):
     """Manager for the scatter plot of a 2D function.
 
-    A simple figure and a single axis can also be created."""
+    A simple figure and a single axis can also be created.
+    """
 
     exposed_methods = ("scatter",)
 

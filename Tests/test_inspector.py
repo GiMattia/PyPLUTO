@@ -56,12 +56,12 @@ def test_track_kwargs_check_warns_unused_kwarg():
         warnings.simplefilter("always")
         f(a=10, b=20, check=True)
 
-        assert any(
-            "Unused kwargs" in str(warn.message) for warn in w
-        ), "Expected warning not raised"
-        assert any(
-            "b" in str(warn.message) for warn in w
-        ), "'b' missing from warning message"
+        assert any("Unused kwargs" in str(warn.message) for warn in w), (
+            "Expected warning not raised"
+        )
+        assert any("b" in str(warn.message) for warn in w), (
+            "'b' missing from warning message"
+        )
 
 
 def test_track_kwargs_check_no_warning_if_no_unused():

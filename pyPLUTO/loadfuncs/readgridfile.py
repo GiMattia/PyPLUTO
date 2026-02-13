@@ -160,7 +160,7 @@ class GridFileManager(LoadMixin):
         # to an integer (number of cells in a dimension).
         if len(i.split()) == 1:
             with contextlib.suppress(ValueError):
-                nmax.append(int(i.split()[0]))
+                nmax.append(int(i.split(maxsplit=1)[0]))
 
         # Check if the splitted line has three strings
         if len(i.split()) == three_number:
@@ -168,7 +168,7 @@ class GridFileManager(LoadMixin):
             # dimension) and the other two to floats (left and right cell
             # boundaries)
             try:
-                int(i.split()[0])
+                int(i.split(maxsplit=1)[0])
                 xL.append(float(i.split()[1]))
                 xR.append(float(i.split()[2]))
 

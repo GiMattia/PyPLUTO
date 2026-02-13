@@ -129,7 +129,6 @@ class RangeManager(ImageMixin):
         x, y = data
         # Case 0: the y-axis limits are set automatically (no previous limit)
         if case == self.changerange:
-
             if x is None or y is None:
                 raise ValueError("x and y arrays must be provided if case is 0")
 

@@ -20,7 +20,8 @@ from .inspector import track_kwargs
 @delegator("state")
 class ImageToolsManager:
     """ImageToolsManager class. It provides methods to save figures, add
-    text."""
+    text.
+    """
 
     exposed_methods = (
         "savefig",
@@ -89,7 +90,8 @@ class ImageToolsManager:
     ) -> None:
         """Shows the figure created with the Image class. This method is
         deprecated and will be removed in future versions. Please use
-        pp.show instead."""
+        pp.show instead.
+        """
         raise NotImplementedError(
             "Image show is deprecated, please use pp.show instead"
         )

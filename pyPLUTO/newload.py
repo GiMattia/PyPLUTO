@@ -9,19 +9,19 @@ from .utils.inspector import track_kwargs
 
 # mypy: ignore-errors
 
-'''
-from pathlib import Path
-from typing import TypedDict, Unpack
-class MyKwargs(TypedDict, total=False):
-    """TypedDict for keyword arguments."""
+#'''
+# from pathlib import Path
+# from typing import TypedDict, Unpack
+# class MyKwargs(TypedDict, total=False):
+#    """TypedDict for keyword arguments."""
 
-    code: str
-    endian: str | None
-    level: int
-    multiple: bool
-    nout: str | int | None
-    path: str | Path
-'''
+#    code: str
+#    endian: str | None
+#    level: int
+#    multiple: bool
+#    nout: str | int | None
+#    path: str | Path
+#'''
 
 
 class Load(LoadMixin):

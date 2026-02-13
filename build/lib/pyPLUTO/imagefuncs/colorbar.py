@@ -19,7 +19,8 @@ class ColorbarManager(ImageMixin):
 
     This class provides methods to create and manage colorbars in the image
     class. It allows for customization of the colorbar's position, size,
-    ticks, labels, and other properties."""
+    ticks, labels, and other properties.
+    """
 
     exposed_methods = ("colorbar",)
 

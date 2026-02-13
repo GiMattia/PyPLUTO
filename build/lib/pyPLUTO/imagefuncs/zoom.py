@@ -22,7 +22,8 @@ class ZoomManager(ImageMixin):
 
     This class provides methods to create inset zooms of existing plots or
     displays. It allows customization of the zoom axes, including position,
-    size, and various display options."""
+    size, and various display options.
+    """
 
     exposed_methods = ("zoom",)
 

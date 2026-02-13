@@ -27,7 +27,8 @@ class InteractiveManager:
     plots with sliders to change the data. It is designed to work with fluid
     variables and allows for dynamic visualization of data as a function of
     time. The class uses the DisplayManager and PlotManager to handle the
-    display and plotting of the data, respectively."""
+    display and plotting of the data, respectively.
+    """
 
     exposed_methods = (
         "animate",

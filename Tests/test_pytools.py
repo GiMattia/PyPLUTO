@@ -1,3 +1,5 @@
+"""Test pytools.py."""
+
 import sys
 import types
 import warnings
@@ -148,39 +150,3 @@ def test_ring_windows_warn(monkeypatch):
         # Should fall into warning path
         pt.ring()
         assert any("winsound" in str(wi.message) for wi in w)
-
-
-'''
-def test_ring_posix(monkeypatch):
-    """Covers os.name == 'posix' branch."""
-    monkeypatch.setattr(os, "name", "posix")
-    monkeypatch.setattr(pt, "windows", None)
-    monkeypatch.setattr(os, "system", lambda cmd: 0)
-    pt.ring(length=0.1, freq=220)
-
-
-
-def test_ring_posix_warn(monkeypatch):
-    """Covers posix UserWarning inside try/except."""
-    monkeypatch.setattr(os, "name", "posix")
-    monkeypatch.setattr(pt, "windows", None)
-
-    def bad_system(cmd):
-        raise UserWarning
-
-    monkeypatch.setattr(os, "system", bad_system)
-    with warnings.catch_warnings(record=True) as w:
-        warnings.simplefilter("always")
-        pt.ring()
-        assert any("sox" in str(wi.message) for wi in w)
-
-
-def test_ring_other_os(monkeypatch):
-    """Covers fallback else branch for unsupported OS."""
-    monkeypatch.setattr(os, "name", "weirdOS")
-    monkeypatch.setattr(pt, "windows", None)
-    with warnings.catch_warnings(record=True) as w:
-        warnings.simplefilter("always")
-        pt.ring()
-        assert any("not implemented" in str(wi.message) for wi in w)
-'''

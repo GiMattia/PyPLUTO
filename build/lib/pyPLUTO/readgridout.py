@@ -418,7 +418,7 @@ def _split_gridfile(
     # to an integer (number of cells in a dimension).
     if len(i.split()) == 1:
         try:
-            nmax.append(int(i.split()[0]))
+            nmax.append(int(i.split(maxsplit=1)[0]))
         except ValueError:
             pass
 
@@ -427,7 +427,7 @@ def _split_gridfile(
         # Try to convert the first string to an int (cell number in a dimension)
         # and the other two to floats (left and right cell boundaries)
         try:
-            int(i.split()[0])
+            int(i.split(maxsplit=1)[0])
             xL.append(float(i.split()[1]))
             xR.append(float(i.split()[2]))
 

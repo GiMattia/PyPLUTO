@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, TypeVar
+from typing import Any
 
 from numpy.typing import NDArray
 
@@ -14,7 +14,8 @@ class BaseLoadState:
     Its purpose is to keep track of the current state of the data loading,
     such as the file paths, data arrays, and other properties and update the
     key attributes through all the different classes that handle the data
-    loading at runtime."""
+    loading at runtime.
+    """
 
     # pylint: disable=too-many-instance-attributes
 
@@ -41,6 +42,3 @@ class BaseLoadState:
     timelist: NDArray[Any] = field(init=False)
     varoffset: dict = field(init=False)
     varshape: dict = field(init=False)
-
-
-StateT = TypeVar("StateT", bound=BaseLoadState)

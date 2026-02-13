@@ -28,7 +28,8 @@ from .create_axes import CreateAxesManager
 class ImageToolsManager(ImageMixin):
     """ImageToolsManager class.
 
-    It provides methods to save figures, add text."""
+    It provides methods to save figures, add text.
+    """
 
     def __init__(self, state: ImageState):
         """Initialize the ImageToolsManager with the given state."""
@@ -91,7 +92,8 @@ class ImageToolsManager(ImageMixin):
         """Show the figure created with the Image class.
 
         This method is deprecated and will be removed in future versions.
-        Please use pp.show instead."""
+        Please use pp.show instead.
+        """
         raise NotImplementedError(
             "Image show is deprecated, please use pp.show instead"
         )

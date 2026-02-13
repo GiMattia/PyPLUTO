@@ -56,6 +56,6 @@ def test_example(script):
         if not images_identical(gen_img, ref_img):
             mismatches.append(gen_img.name)
 
-    assert (
-        not mismatches
-    ), f"{script.name}: mismatched images {', '.join(mismatches)}"
+    assert not mismatches, (
+        f"{script.name}: mismatched images {', '.join(mismatches)}"
+    )

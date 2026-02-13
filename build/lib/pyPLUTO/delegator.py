@@ -33,7 +33,8 @@ def delegator(
 
         def __getattr__(self: HasState, name: str) -> Any:
             """Delegate attribute access to internal attributes like
-            'state'."""
+            'state'.
+            """
             for attr_name in attr_names:
                 target = getattr(self, attr_name, None)
                 if target and hasattr(target, name):
@@ -46,7 +47,8 @@ def delegator(
 
         def __setattr__(self: HasState, name: str, value: Any) -> None:
             """Delegate attribute access to internal attributes like
-            'state'."""
+            'state'.
+            """
             if name in attr_names or name in self.__dict__:
                 object.__setattr__(self, name, value)
             else:

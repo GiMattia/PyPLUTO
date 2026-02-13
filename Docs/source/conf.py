@@ -15,12 +15,8 @@ sys.path.insert(0, os.path.abspath("../../Src/pyPLUTO/"))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project: str = "PyPLUTO"
-copyright: str = (
-    "2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya"
-)
-author: str = (
-    "G. Mattia D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya"
-)
+copyright: str = "2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya"
+author: str = "G. Mattia D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya"
 release: str = "1.1.1"
 
 # -- General configuration ---------------------------------------------------

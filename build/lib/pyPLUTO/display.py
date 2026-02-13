@@ -19,7 +19,8 @@ class DisplayManager:
 
     This class provides methods to create and manage 2D plots using matplotlib's
     pcolormesh function. It allows for customization of the plot's appearance,
-    colorbar, axes, and other properties."""
+    colorbar, axes, and other properties.
+    """
 
     exposed_methods = ("display",)
 

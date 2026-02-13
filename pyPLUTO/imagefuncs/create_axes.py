@@ -30,7 +30,8 @@ class CreateAxesManager(ImageMixin):
 
     This class provides methods to create axes in the image class. It allows
     for customization of the axes' position, spacing, projection, and other
-    properties."""
+    properties.
+    """
 
     exposed_methods = ("create_axes",)
 

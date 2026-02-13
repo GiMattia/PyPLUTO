@@ -13,20 +13,19 @@ from ..imagestate import ImageState
 from ..utils.inspector import track_kwargs
 from .imagetools import ImageToolsManager
 
-'''
-from typing import TypedDict, Unpacks
-class MyKwargs(TypedDict, total=False):
-    """TypedDict for keyword arguments."""
-
-    clabel: str
-    cpad: float
-    cpos: str
-    cticks: list[float] | None
-    ctickslabels: list[str]
-    extend: str
-    extendrect: bool
-
-'''
+#'''
+# from typing import TypedDict, Unpacks
+# class MyKwargs(TypedDict, total=False):
+#    """TypedDict for keyword arguments."""
+#
+#    clabel: str
+#    cpad: float
+#    cpos: str
+#    cticks: list[float] | None
+#    ctickslabels: list[str]
+#    extend: str
+#    extendrect: bool
+#'''
 
 
 class ColorbarManager(ImageMixin):
@@ -34,11 +33,12 @@ class ColorbarManager(ImageMixin):
 
     This class provides methods to create and manage colorbars in the image
     class. It allows for customization of the colorbar's position, size,
-    ticks, labels, and other properties."""
+    ticks, labels, and other properties.
+    """
 
     exposed_methods = ("colorbar",)
 
-    def __init__(self, state: ImageState):
+    def __init__(self, state: ImageState) -> None:
         """Initialize the ColorbarManager with the given state."""
         self.state = state
         self.ImageToolsManager = ImageToolsManager(state)

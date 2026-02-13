@@ -21,7 +21,8 @@ class ContourManager(ImageMixin):
 
     This class provides methods to create contour plots of variables in the
     image class. It allows for customization of the contour lines, colorbars,
-    and other properties."""
+    and other properties.
+    """
 
     exposed_methods = ("contour",)
 

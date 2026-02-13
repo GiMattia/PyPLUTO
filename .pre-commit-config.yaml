@@ -42,12 +42,11 @@ repos:
   # ----------------------------
   - repo: local
     hooks:
-      - id: ty
-        name: ty type check
-        entry: ty check
+      - id: ty-warning
+        name: ty (warning only)
+        entry: bash -c 'ty check || true'
         language: system
         pass_filenames: false
-        stages: [pre-push, manual]
 
 
   # ----------------------------

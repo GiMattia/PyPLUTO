@@ -1837,6 +1837,11 @@ test = [
     { name = "pytest-mock" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "radon" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "approvaltests", marker = "extra == 'test'" },
@@ -1866,6 +1871,9 @@ requires-dist = [
     { name = "uv", marker = "extra == 'dev'" },
 ]
 provides-extras = ["gui", "docs", "test", "dev", "pasta"]
+
+[package.metadata.requires-dev]
+dev = [{ name = "radon", specifier = ">=6.0.1" }]
 
 [[package]]
 name = "pyside6"

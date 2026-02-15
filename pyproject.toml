@@ -153,7 +153,7 @@ exit-zero = true
 [tool.pylint.messages_control]
 disable = [
 #    "missing-docstring",
-#    "invalid-name",
+     "invalid-name",
 #    "too-few-public-methods",
 #    "too-many-arguments",
 #    "too-many-positional-arguments",

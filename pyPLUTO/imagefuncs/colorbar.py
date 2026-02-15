@@ -1,30 +1,28 @@
 """Module providing colorbar management functionalities for image displays."""
 
 import warnings
-from typing import Any, TypedDict
+from typing import Any
 
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection, PathCollection, QuadMesh
 from matplotlib.contour import QuadContourSet
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-from typing_extensions import Unpack
 
 from ..imagemixin import ImageMixin
 from ..imagestate import ImageState
 from ..utils.inspector import track_kwargs
 from .imagetools import ImageToolsManager
 
-
-class MyKwargs(TypedDict, total=False):
-    """TypedDict for keyword arguments."""
-
-    clabel: str
-    cpad: float
-    cpos: str
-    cticks: list[float] | None
-    ctickslabels: list[str]
-    extend: str
-    extendrect: bool
+# class MyKwargs(TypedDict, total=False):
+#    """TypedDict for keyword arguments."""
+#
+#    clabel: str
+#    cpad: float
+#    cpos: str
+#    cticks: list[float] | None
+#    ctickslabels: list[str]
+#    extend: str
+#    extendrect: bool
 
 
 class ColorbarManager(ImageMixin):
@@ -51,7 +49,7 @@ class ColorbarManager(ImageMixin):
         axs: Axes | int | None = None,
         cax: Axes | int | None = None,
         check: bool = True,
-        **kwargs: Unpack[MyKwargs],
+        **kwargs: Any,
     ) -> None:
         """Display a colorbar in a selected position.
 

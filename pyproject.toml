@@ -167,8 +167,3 @@ max-line-length = 80
 
 [tool.pylint.reports]
 output-format = "text"
-
-[dependency-groups]
-dev = [
-    "radon>=6.0.1",
-]

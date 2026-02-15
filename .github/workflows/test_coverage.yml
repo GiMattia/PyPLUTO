@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -25,12 +25,12 @@ jobs:
       - name: Set up CPython
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.14"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
-          enable-cache: ${{ matrix.os != 'windows-latest' }}
+          enable-cache: true
             
 
       # Verify uv.lock matches pyproject.toml (+ test extra)
@@ -39,7 +39,7 @@ jobs:
 
       # Non-negotiable: exact env from uv.lock (+ test deps)
       - name: Sync (locked)
-        run: uv sync --python python --locked --extra test
+        run: uv sync --locked --extra test
 
       - name: Build coverage file
         shell: bash

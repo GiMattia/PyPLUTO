@@ -149,7 +149,7 @@ pip install -r requirements_dev.txt
 
 ### Rules for Contributing
 
-We use pre-commit to ensure that the code is consistent with the code guidelines, including the "black" format and several "ruff" checks.
+We use pre-commit to ensure that the code is consistent with the code guidelines, through ruff and ty.
 You can either link the pre-commit to the repository through the command
 
 ```bash

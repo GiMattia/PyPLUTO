@@ -64,18 +64,3 @@ repos:
         types: [python]
         stages: [manual]
         pass_filenames: false
-
-  - repo: local
-    rev: 6.0.1  # pin a specific version
-    hooks:
-      - id: radon
-        name: radon-complexity
-        args:
-          [
-            "cc",
-            "-s",            # show score
-            "-a",            # show average
-            "--fail-under",
-            "B",             # threshold (A best → F worst)
-          ]
-        stages: [manual]

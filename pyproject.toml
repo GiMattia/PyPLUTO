@@ -52,7 +52,6 @@ dev = [
     "pylint",
     "ruff",
     "mypy",
-    "radon",
     "ty",
     "pydata-sphinx-theme"
 ]

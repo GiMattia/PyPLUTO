@@ -1,5 +1,7 @@
 repos:
-  # 0. Pre-commit official hooks (cleanup, merge conflicts, etc.)
+  # -----------------------------
+  # Pre-commit official hooks
+  # -----------------------------
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -24,9 +26,9 @@ repos:
         args: ["--markdown-linebreak-ext=md"]
 
         
-  # ----------------------------
+  # -----------------------------
   # Ruff (lint + fix)
-  # ----------------------------
+  # -----------------------------
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.1
     hooks:
@@ -37,9 +39,9 @@ repos:
       # Then format
       - id: ruff-format
 
-  # ----------------------------
+  # -----------------------------
   # Type checking (ty)
-  # ----------------------------
+  # -----------------------------
   - repo: local
     hooks:
       - id: ty
@@ -50,9 +52,9 @@ repos:
         stages: [pre-push, manual]
 
 
-  # ----------------------------
-  # Tyest coverage (manual only)
-  # ----------------------------
+  # -----------------------------
+  # Pytest coverage (manual only)
+  # -----------------------------
   - repo: local
     hooks:
       - id: pytest
@@ -62,3 +64,18 @@ repos:
         types: [python]
         stages: [manual]
         pass_filenames: false
+
+  - repo: local
+    rev: 6.0.1  # pin a specific version
+    hooks:
+      - id: radon
+        name: radon-complexity
+        args:
+          [
+            "cc",
+            "-s",            # show score
+            "-a",            # show average
+            "--fail-under",
+            "B",             # threshold (A best → F worst)
+          ]
+        stages: [manual]

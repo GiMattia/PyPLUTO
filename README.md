@@ -7,8 +7,6 @@
 | Style | [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com//GiMattia/PyPLUTO/actions/workflows/pre-commit.yml) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) ![Pylint](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/GiMattia/8fc3a521f1c5e59e41eb16d1197bf8c8/raw/pylint-score.json) ![Mypy](https://img.shields.io/badge/type_checking-mypy-brightgreen) [![Documentation](https://readthedocs.org/projects/pypluto/badge/?version=latest)](https://pypluto.readthedocs.io/en/latest/?badge=latest) |
 | Distribution | [![DOI](https://joss.theoj.org/papers/10.21105/joss.08448/status.svg)](https://doi.org/10.21105/joss.08448) [![Arxiv](https://img.shields.io/badge/arXiv-2501.09748-8F1515?style=flat&logo=arxiv&logoColor=red)](https://doi.org/10.48550/arXiv.2501.09748) [![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.17137196.svg)](https://doi.org/10.5281/zenodo.17137196) |
 
-<!-- ![Doc Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/GiMattia/cc212934fc58b93ddebda8c669dbb171/raw/interrogate-badge.svg) -->
-
 <!-- ![PyPI](https://img.shields.io/pypi/v/PyPLUTO) -->
 <!-- ![Conda](https://img.shields.io/badge/conda-available-brightgreen) -->
 

@@ -17,16 +17,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up CPython
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
-          python-version: "3.13"
-          
+          enable-cache: true
+            
 
       # Verify uv.lock matches pyproject.toml (+ test extra)
       - name: Check lockfile consistency

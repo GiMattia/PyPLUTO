@@ -44,7 +44,7 @@ def test_interaction_with_Image():
     assert img.state.LaTeX == True
     assert img.state.style == "default"  # style should fallback to default
     assert (
-        img._figure_manager.state.style == "default"
+        img.FigureManager.state.style == "default"
     )  # Same for the figure manager
 
 
@@ -56,15 +56,15 @@ def test_interaction_with_Image_valid_style():
         img.state.style == "ggplot"
     )  # style should remain as seaborn-darkgrid
     assert (
-        img._figure_manager.state.style == "ggplot"
+        img.FigureManager.state.style == "ggplot"
     )  # Same for the figure manager
 
 
 def test_number_colors():
     # Given
     img = Image(numcolors=15)
-    assert img._figure_manager.state.color[0] == "#0104fe"
-    assert img._figure_manager.color[0] == "#0104fe"
+    assert img.FigureManager.state.color[0] == "#0104fe"
+    assert img.FigureManager.color[0] == "#0104fe"
     with pytest.warns(
         DeprecationWarning,
         match="numcolor is deprecated. Use numcolors instead.",
@@ -77,12 +77,12 @@ def test_latex():
     img = Image(LaTeX=False)
     assert img.LaTeX == False
     assert img.state.LaTeX == False
-    assert img._figure_manager.state.LaTeX == False
+    assert img.FigureManager.state.LaTeX == False
 
     img = Image(LaTeX=True)
     assert img.LaTeX == True
     assert img.state.LaTeX == True
-    assert img._figure_manager.state.LaTeX == True
+    assert img.FigureManager.state.LaTeX == True
 
 
 def test_latex_pgf(monkeypatch):
@@ -97,7 +97,7 @@ def test_latex_pgf(monkeypatch):
     # Now this should pass
     assert img.LaTeX == "pgf"
     assert img.state.LaTeX == "pgf"
-    assert img._figure_manager.state.LaTeX == "pgf"
+    assert img.FigureManager.state.LaTeX == "pgf"
 
 
 def test_latex_pgf_latex_not_installed(monkeypatch):
@@ -109,7 +109,7 @@ def test_latex_pgf_latex_not_installed(monkeypatch):
 
     with pytest.warns(UserWarning, match="LaTeX not installed"):
         img = Image(LaTeX="pgf")  # triggers fallback inside constructor
-    #    img._figure_manager._assign_LaTeX("normal")
+    #    img.FigureManager._assign_LaTeX("normal")
 
     assert img.state.LaTeX is True  # fallback occurred
     img = Image(LaTeX=True)
@@ -148,7 +148,7 @@ def test_latex_true_font_missing(monkeypatch):
     with pytest.warns(
         UserWarning, match="LaTeX = True option is not available"
     ):
-        img._figure_manager.assign_LaTeX("bold")
+        img.FigureManager.assign_LaTeX("bold")
 
 
 def test_latex_true_success(monkeypatch):
@@ -157,7 +157,7 @@ def test_latex_true_success(monkeypatch):
     # No warning expected if assignment is valid
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
-        img._figure_manager.assign_LaTeX("normal")
+        img.FigureManager.assign_LaTeX("normal")
         assert len(w) == 0
 
 
@@ -167,7 +167,7 @@ def test_figure_created():
 
     # Then
     assert img.fig is not None
-    assert img._figure_manager.fig is not None
+    assert img.FigureManager.fig is not None
     assert isinstance(img.fig, mpl.figure.Figure)
     assert img.fig.get_figwidth() == 8.0
     assert img.fig.get_figheight() == 5.0

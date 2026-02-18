@@ -5,7 +5,10 @@ import sys
 import traceback
 import warnings
 from types import TracebackType
-from typing import Any
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from IPython.core.interactiveshell import InteractiveShell  # type: ignore
 
 
 class Configure:
@@ -84,7 +87,7 @@ class Configure:
         """
 
         # Try to get IPython. If not available, it's not an IPython session.
-        def get_ipython_wrapper() -> Any:
+        def get_ipython_wrapper() -> "InteractiveShell" | None:
             """Return the IPython instance, or None if not available."""
             warnings.filterwarnings(
                 "ignore",

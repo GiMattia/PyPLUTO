@@ -8,15 +8,13 @@ from .baseloadmixin import BaseLoadMixin
 from .loadstate import LoadState
 
 
-class LoadMixin(BaseLoadMixin):
+class LoadMixin(BaseLoadMixin[LoadState]):
     """Mixin class for load fluid handling.
 
     It provides properties and methods related to loading fluid data.
     """
 
     # pylint: disable=too-many-public-methods
-
-    state: LoadState
 
     @property
     def dim(self) -> int:

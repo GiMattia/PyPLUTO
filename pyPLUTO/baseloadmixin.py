@@ -1,19 +1,21 @@
 """Mixin class for base load functionality."""
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Generic, TypeVar
 
 from numpy.typing import NDArray
 
 from .baseloadstate import BaseLoadState
 
+S = TypeVar("S", bound=BaseLoadState)
 
-class BaseLoadMixin:
+
+class BaseLoadMixin(Generic[S]):
     """Mixin class that provides base functionality for load state."""
 
     # pylint: disable=too-many-public-methods
 
-    state: BaseLoadState
+    state: S
 
     @property
     def alone(self) -> bool:

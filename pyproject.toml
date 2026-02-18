@@ -53,6 +53,7 @@ dev = [
     "ruff",
     "mypy",
     "ty",
+    "radon",
     "pydata-sphinx-theme"
 ]
 

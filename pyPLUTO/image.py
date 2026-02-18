@@ -1,8 +1,11 @@
 """Image class. It plots the data."""
 
 # mypy: ignore-errors
+# ruff: noqa: ANN201, ANN202  # noqa: RUF100
 
-from typing import Any
+from __future__ import annotations
+
+from typing_extensions import Unpack
 
 from .amr import oplotbox
 from .imagefuncs.colorbar import ColorbarManager
@@ -21,6 +24,7 @@ from .imagefuncs.streamplot import StreamplotManager
 from .imagefuncs.zoom import ZoomManager
 from .imagemixin import ImageMixin
 from .imagestate import ImageState
+from .utils.annotator import AllKwargs
 from .utils.inspector import track_kwargs
 
 
@@ -45,7 +49,7 @@ class Image(ImageMixin):
         self,
         text: bool = True,
         check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[AllKwargs],
     ) -> None:
         """Initialize the Image class.
 
@@ -131,7 +135,7 @@ class Image(ImageMixin):
 
         self.state = ImageState()
 
-        self._figure_manager = FigureManager(self.state, **kwargs)
+        self.FigureManager = FigureManager(self.state, **kwargs)
 
         # Initialize managers
         self.AxisManager = AxisManager(self.state)
@@ -211,11 +215,11 @@ class Image(ImageMixin):
         necessary.
         """
 
-    def __getattr__(self, name: str):
+    def __getattr__(self, name: str) -> object:
         """Get the attribute of the Image class."""
         return getattr(self.state, name)
 
-    def __setattr__(self, name: str, value):
+    def __setattr__(self, name: str, value: object) -> None:
         """Set the attribute of the Image class."""
         if name == "state" or not hasattr(self, "state"):
             return super().__setattr__(name, value)
@@ -296,6 +300,6 @@ class Image(ImageMixin):
         """Property for the zoom method."""
         return self.ZoomManager.zoom
 
-    def oplotbox(self, *args: Any, **kwargs: Any) -> None:
+    def oplotbox(self, *args: object, **kwargs: object) -> None:
         """Plot a box in the figure (AMR, WIP)."""
         oplotbox(self, *args, **kwargs)

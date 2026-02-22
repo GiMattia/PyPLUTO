@@ -6,9 +6,10 @@ import traceback
 import warnings
 from collections.abc import Callable
 from types import TracebackType
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
-from IPython.core.interactiveshell import InteractiveShell
+if TYPE_CHECKING:
+    from IPython.core.interactiveshell import InteractiveShell
 
 FormatWarning = Callable[
     [Warning | str, type[Warning], str, int, str | None], str
@@ -91,7 +92,9 @@ class Configure:
         """
 
         # Try to get IPython. If not available, it's not an IPython session.
-        def get_ipython_wrapper() -> InteractiveShell | None:
+        # Note the quotes around the return type of the get_ipython_wrapper
+        # function. This is because pylint would throw an error.
+        def get_ipython_wrapper() -> "InteractiveShell | None":
             """Return the IPython instance, or None if not available."""
             warnings.filterwarnings(
                 "ignore",

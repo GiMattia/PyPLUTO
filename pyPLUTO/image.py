@@ -7,25 +7,25 @@ from __future__ import annotations
 
 from typing_extensions import Unpack
 
-from .amr import oplotbox
-from .imagefuncs.colorbar import ColorbarManager
-from .imagefuncs.contour import ContourManager
-from .imagefuncs.create_axes import CreateAxesManager
-from .imagefuncs.display import DisplayManager
-from .imagefuncs.figure import FigureManager
-from .imagefuncs.imagetools import ImageToolsManager
-from .imagefuncs.interactive import InteractiveManager
-from .imagefuncs.legend import LegendManager
-from .imagefuncs.plot import PlotManager
-from .imagefuncs.range import RangeManager
-from .imagefuncs.scatter import ScatterManager
-from .imagefuncs.set_axis import AxisManager
-from .imagefuncs.streamplot import StreamplotManager
-from .imagefuncs.zoom import ZoomManager
-from .imagemixin import ImageMixin
-from .imagestate import ImageState
-from .utils.annotator import AllKwargs
-from .utils.inspector import track_kwargs
+from pyPLUTO.amr import oplotbox
+from pyPLUTO.imagefuncs.colorbar import ColorbarManager
+from pyPLUTO.imagefuncs.contour import ContourManager
+from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
+from pyPLUTO.imagefuncs.display import DisplayManager
+from pyPLUTO.imagefuncs.figure import FigureManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.interactive import InteractiveManager
+from pyPLUTO.imagefuncs.legend import LegendManager
+from pyPLUTO.imagefuncs.plot import PlotManager
+from pyPLUTO.imagefuncs.range import RangeManager
+from pyPLUTO.imagefuncs.scatter import ScatterManager
+from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagefuncs.streamplot import StreamplotManager
+from pyPLUTO.imagefuncs.zoom import ZoomManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.annotator import AllKwargs
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class Image(ImageMixin):
@@ -79,7 +79,7 @@ class Image(ImageMixin):
             figures with minimal file size. If XeLaTeX is not installed and the
             'pgf' option is selected, the LaTeX option True is used as backup
             strategy.
-        - numcolor: int, default 10
+        - numcolors: int, default 10
             The number of colors in the colorscheme. The default number is 10,
             but the full list contains 24 colors (+ black or white).
         - nwin: int, default 1
@@ -131,7 +131,7 @@ class Image(ImageMixin):
             >>> I = pp.Image(suptitle="Title")
 
         """
-        kwargs.pop("check", check)
+        kwargs.pop("kwargscheck", check)
 
         self.state = ImageState()
 

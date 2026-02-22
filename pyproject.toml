@@ -50,11 +50,18 @@ dev = [
     "uv",
     "pre-commit",
     "pylint",
+    "pyright",
+    "pyrefly",
     "ruff",
     "mypy",
     "ty",
     "radon",
     "pydata-sphinx-theme"
+]
+
+notebook = [
+    "ipython",
+    "marimo",
 ]
 
 pasta = [
@@ -167,3 +174,6 @@ max-line-length = 80
 
 [tool.pylint.reports]
 output-format = "text"
+
+[tool.pyrefly]
+python-version = "3.10.0"

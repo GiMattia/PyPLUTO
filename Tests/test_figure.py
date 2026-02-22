@@ -65,11 +65,6 @@ def test_number_colors():
     img = Image(numcolors=15)
     assert img.FigureManager.state.color[0] == "#0104fe"
     assert img.FigureManager.color[0] == "#0104fe"
-    with pytest.warns(
-        DeprecationWarning,
-        match="numcolor is deprecated. Use numcolors instead.",
-    ) as warning:
-        _ = Image(numcolor=15)
 
 
 def test_latex():

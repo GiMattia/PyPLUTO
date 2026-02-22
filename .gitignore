@@ -1,3 +1,4 @@
+.approval_test_temp/
 dist/
 Docs/Figures/__pycache__/
 */__pycache__/
@@ -16,10 +17,9 @@ Tests/.coverage
 Utils/
 .approval_test_temp/
 .coverage
-.ipynb_checkpoints
-.mypy_cache/
-.pytest_cache/
-.ruff_cache/
-.vscode/
 .idea/
+.ipynb_checkpoints
+.*_cache/
+.venv/
+.vscode/
 Makefile

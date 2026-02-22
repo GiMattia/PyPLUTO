@@ -12,13 +12,16 @@ class AllKwargs(TypedDict, total=False):
     fig: Figure | None
     figsize: list[float]
     fontsize: int
+    fontweight: str
+    kwargscheck: bool
     LaTeX: bool | str
-    numcolor: int
+    numcolors: int
     nwin: int
     oldcolor: bool
+    replace: bool
     style: str
     suptitle: str | None
-    suptitlesize: str | int
+    suptitlesize: int | str
     tight: bool
     withblack: bool
     withwhite: bool

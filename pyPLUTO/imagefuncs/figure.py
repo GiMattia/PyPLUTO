@@ -2,15 +2,16 @@
 
 import shutil
 import warnings
-from typing import Any
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+from typing_extensions import Unpack
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.annotator import AllKwargs
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FigureManager(ImageMixin):
@@ -20,7 +21,7 @@ class FigureManager(ImageMixin):
     def __init__(
         self,
         state: ImageState,
-        **kwargs: Any,
+        **kwargs: Unpack[AllKwargs],
     ) -> None:
         """Initialize the FigureManager class.
 
@@ -48,16 +49,8 @@ class FigureManager(ImageMixin):
         self.state = state
 
         # Extract specific kwargs for colorlines, with defaults if not provided
-        if "numcolor" in kwargs:
-            warnings.warn(
-                "numcolor is deprecated. Use numcolors instead.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-
         close = kwargs.pop("close", True)
         fontweight = kwargs.pop("fontweight", "normal")
-        kwargs.pop("numcolor", None)  # remove numcolor if present
         numcolors = kwargs.pop("numcolors", 10)
         replace = kwargs.pop("replace", False)
         suptitle = kwargs.pop("suptitle", None)
@@ -324,7 +317,7 @@ class FigureManager(ImageMixin):
             plt.close(self.nwin)
 
     def create_figure(
-        self, replace: bool, suptitle: str, suptitlesize: str
+        self, replace: bool, suptitle: str | None, suptitlesize: int | str
     ) -> None:
         """Create the figure associated to an Image instance.
 
@@ -347,9 +340,9 @@ class FigureManager(ImageMixin):
             The font size.
         - nwin: int, default 1
             The window number.
-        - suptitle: str, default None
+        - suptitle: str | None, default None
             The super title of the figure.
-        - suptitlesize: str | int, default 'large'
+        - suptitlesize: int | str, default 'large'
             The figure title size.
         - tight: bool, default True
             If True, the tight layout is used.
@@ -382,6 +375,9 @@ class FigureManager(ImageMixin):
                 figsize=(self.figsize[0], self.figsize[1]),
             )
         plt.rcParams.update({"font.size": self.fontsize})
+
+        if self.fig is None:
+            raise ValueError("The figure could not be created.")
 
         # Suptitle
         if suptitle is not None:

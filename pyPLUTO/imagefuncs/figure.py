@@ -2,11 +2,11 @@
 
 import shutil
 import warnings
+from typing import Unpack
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from typing_extensions import Unpack
 
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState

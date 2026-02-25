@@ -8,10 +8,10 @@ from matplotlib.collections import LineCollection, PathCollection, QuadMesh
 from matplotlib.contour import QuadContourSet
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 # class MyKwargs(TypedDict, total=False):
 #    """TypedDict for keyword arguments."""

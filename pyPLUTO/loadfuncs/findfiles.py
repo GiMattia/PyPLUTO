@@ -5,12 +5,12 @@ from typing import Any
 
 import numpy as np
 
-from ..baseloadmixin import BaseLoadMixin
-from ..baseloadstate import BaseLoadState
-from .baseloadtools import BaseLoadTools
+from pyPLUTO.baseloadmixin import BaseLoadMixin
+from pyPLUTO.baseloadstate import BaseLoadState
+from pyPLUTO.loadfuncs.baseloadtools import BaseLoadTools
 
 
-class FindFilesManager(BaseLoadMixin):
+class FindFilesManager(BaseLoadMixin[BaseLoadState]):
     """Class that manages file finding operations."""
 
     def __init__(

@@ -1,11 +1,11 @@
 """Top-level package for pyPLUTO."""
 
-from .configure import Configure
-from .image import Image
-from .load import Load
-from .loadpart import LoadPart
-from .newload import Load as Newload
-from .pytools import find_example, ring, savefig, show
+from pyPLUTO.configure import Configure
+from pyPLUTO.image import Image
+from pyPLUTO.load import Load
+from pyPLUTO.loadpart import LoadPart
+from pyPLUTO.newload import Load as Newload
+from pyPLUTO.pytools import find_example, ring, savefig, show
 
 # Define the version and additional environment variables
 Configure()

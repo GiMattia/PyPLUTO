@@ -6,13 +6,13 @@ import numpy as np
 from matplotlib.collections import QuadMesh
 from numpy.typing import ArrayLike
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .colorbar import ColorbarManager
-from .imagetools import ImageToolsManager
-from .range import RangeManager
-from .set_axis import AxisManager
+from pyPLUTO.imagefuncs.colorbar import ColorbarManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.range import RangeManager
+from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class DisplayManager(ImageMixin):

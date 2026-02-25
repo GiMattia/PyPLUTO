@@ -5,7 +5,7 @@ from typing import Any
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from .imagestate import ImageState
+from pyPLUTO.imagestate import ImageState
 
 
 class ImageMixin:

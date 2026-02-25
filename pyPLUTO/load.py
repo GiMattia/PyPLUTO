@@ -10,7 +10,7 @@ from typing import Any
 import numpy as np
 from numpy.typing import NDArray
 
-from .h_pypluto import check_par
+from pyPLUTO.h_pypluto import check_par
 
 
 class Load:
@@ -343,7 +343,7 @@ class Load:
                 print("No pluto.ini is read!") if plini is True else ...
         return
 
-    def __str__(self):
+    def __str__(self) -> str:
         text3 = f"        - Projections {['x1c', 'x2c', 'x1rc', 'x2rc']}\n"
         text3 = text3 if self.geom != "CARTESIAN" else ""
 

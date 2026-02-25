@@ -2,10 +2,11 @@
 
 # mypy: ignore-errors
 # ruff: noqa: ANN201, ANN202  # noqa: RUF100
+# pylint: disable=too-many-instance-attributes
 
 from __future__ import annotations
 
-from typing_extensions import Unpack
+from typing import Unpack
 
 from pyPLUTO.amr import oplotbox
 from pyPLUTO.imagefuncs.colorbar import ColorbarManager
@@ -41,8 +42,6 @@ class Image(ImageMixin):
     different managers and the state.
 
     """
-
-    # pylint: disable=too-many-instance-attributes
 
     @track_kwargs
     def __init__(

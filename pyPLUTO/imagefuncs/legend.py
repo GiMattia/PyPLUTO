@@ -5,10 +5,10 @@ from typing import Any
 import matplotlib.lines as mlines
 from matplotlib.axes import Axes
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class LegendManager(ImageMixin):
@@ -218,7 +218,7 @@ class LegendManager(ImageMixin):
         # End of the function
 
 
-def makelist(el: Any) -> list[Any]:
+def makelist[T](el: T | list[T]) -> list[T]:
     """If the element is not a list, it converts it into a list.
 
     Returns

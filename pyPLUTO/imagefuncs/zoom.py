@@ -7,14 +7,14 @@ import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.collections import QuadMesh
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .create_axes import CreateAxesManager
-from .display import DisplayManager
-from .imagetools import ImageToolsManager
-from .plot import PlotManager
-from .set_axis import AxisManager
+from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
+from pyPLUTO.imagefuncs.display import DisplayManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.plot import PlotManager
+from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class ZoomManager(ImageMixin):
@@ -27,7 +27,7 @@ class ZoomManager(ImageMixin):
 
     exposed_methods = ("zoom",)
 
-    def __init__(self, state: ImageState):
+    def __init__(self, state: ImageState) -> None:
         """Initialize the ZoomManager with the given state."""
         self.state = state
         self.ImageToolsManager = ImageToolsManager(state)

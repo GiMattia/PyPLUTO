@@ -13,16 +13,16 @@ from matplotlib.axes import Axes
 from matplotlib.colors import Normalize
 from matplotlib.text import Text
 
+from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
+
 try:
     _pm = importlib.import_module("pastamarkers")
     salsa = getattr(_pm, "salsa", None)
-except Exception:
+except (ImportError, ModuleNotFoundError, AttributeError):
     salsa = None
-
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .create_axes import CreateAxesManager
 
 
 class ImageToolsManager(ImageMixin):
@@ -31,7 +31,7 @@ class ImageToolsManager(ImageMixin):
     It provides methods to save figures, add text.
     """
 
-    def __init__(self, state: ImageState):
+    def __init__(self, state: ImageState) -> None:
         """Initialize the ImageToolsManager with the given state."""
         self.state = state
         self.CreateAxesManager = CreateAxesManager(state)
@@ -399,7 +399,11 @@ class ImageToolsManager(ImageMixin):
         if cscale == "log":
             norm = mcol.LogNorm(vmin=vmin, vmax=vmax)
         elif cscale == "symlog":
+            # Pylint wrong warning!!! Disabled cause not compatible with modern
+            # matplotlib versions
+            # pylint: disable=redundant-keyword-arg
             norm = mcol.SymLogNorm(tresh, vmin=vmin, vmax=vmax)
+            # pylint: enable=redundant-keyword-arg
         elif cscale in ("twoslope", "2slope"):
             norm = mcol.TwoSlopeNorm(vmin=vmin, vmax=vmax, vcenter=tresh)
         elif cscale == "power":

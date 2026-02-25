@@ -2,20 +2,21 @@
 
 import mmap
 
-from ..baseloadmixin import BaseLoadMixin
-from ..baseloadstate import BaseLoadState
-from ..loadstate import LoadState
-from .offsetfluid import OffsetFluid
-from .readgridfile import GridFileManager
+from pyPLUTO.baseloadmixin import BaseLoadMixin
+from pyPLUTO.baseloadstate import BaseLoadState
+from pyPLUTO.loadfuncs.offsetfluid import OffsetFluid
+from pyPLUTO.loadfuncs.readgridfile import GridFileManager
+from pyPLUTO.loadstate import LoadState
 
 
-class OffsetData(BaseLoadMixin):
+class OffsetData(BaseLoadMixin[BaseLoadState]):
     """Class that computes the offset of variables in single_file format."""
 
-    def __init__(self, state: BaseLoadState):
+    def __init__(self, state: BaseLoadState) -> None:
         self.state = state
         if isinstance(state, LoadState):
             self.GridFileManager = GridFileManager(state)
+            self.Offsetclass = OffsetFluid(state)
 
     def compute_offset(
         self,
@@ -69,7 +70,6 @@ class OffsetData(BaseLoadMixin):
         fmt = "bin" if fmt in {"dbl", "flt"} else fmt
 
         if isinstance(self.state, LoadState):
-            self.Offsetclass = OffsetFluid(self.state)
             handlers = {
                 #  "tab": None,
                 "bin": self.Offsetclass.offset_bin,

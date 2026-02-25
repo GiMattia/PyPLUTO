@@ -6,15 +6,15 @@ from typing import Any
 
 import numpy as np
 
-from ..baseloadmixin import BaseLoadMixin
-from ..baseloadstate import BaseLoadState
-from ..loadstate import LoadState
-from ..utils.inspector import track_kwargs
-from .codeselection import CodeManager
-from .descriptor import DescriptorManager
-from .findfiles import FindFilesManager
-from .findformat import FindFormat
-from .loadvars import LoadVariables
+from pyPLUTO.baseloadmixin import BaseLoadMixin
+from pyPLUTO.baseloadstate import BaseLoadState
+from pyPLUTO.loadfuncs.codeselection import CodeManager
+from pyPLUTO.loadfuncs.descriptor import DescriptorManager
+from pyPLUTO.loadfuncs.findfiles import FindFilesManager
+from pyPLUTO.loadfuncs.findformat import FindFormat
+from pyPLUTO.loadfuncs.loadvars import LoadVariables
+from pyPLUTO.loadstate import LoadState
+from pyPLUTO.utils.inspector import track_kwargs
 
 #'''
 # from typing import TypedDict, Unpack
@@ -31,7 +31,7 @@ from .loadvars import LoadVariables
 
 
 @track_kwargs
-class InitLoadManager(BaseLoadMixin):
+class InitLoadManager(BaseLoadMixin[BaseLoadState]):
     """Class that handles the initialization loading process."""
 
     def __init__(
@@ -198,6 +198,11 @@ class InitLoadManager(BaseLoadMixin):
         # Convert the path to a Path object and store it
 
         self.pathdir = Path(path)
+
+        if not isinstance(self.pathdir, Path):
+            raise TypeError(
+                "Invalid data type. 'path' must be or converted to Path object."
+            )
 
         # Check that the path is a directory
         if not self.pathdir.is_dir():

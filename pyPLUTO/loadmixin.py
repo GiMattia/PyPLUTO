@@ -4,8 +4,8 @@ from typing import Any
 
 from numpy.typing import NDArray
 
-from .baseloadmixin import BaseLoadMixin
-from .loadstate import LoadState
+from pyPLUTO.baseloadmixin import BaseLoadMixin
+from pyPLUTO.loadstate import LoadState
 
 
 class LoadMixin(BaseLoadMixin[LoadState]):
@@ -13,6 +13,8 @@ class LoadMixin(BaseLoadMixin[LoadState]):
 
     It provides properties and methods related to loading fluid data.
     """
+
+    state: LoadState
 
     # pylint: disable=too-many-public-methods
 

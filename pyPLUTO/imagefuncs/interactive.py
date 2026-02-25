@@ -15,12 +15,12 @@ from matplotlib.lines import Line2D
 from matplotlib.widgets import Slider
 from numpy.typing import NDArray
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .display import DisplayManager
-from .imagetools import ImageToolsManager
-from .plot import PlotManager
+from pyPLUTO.imagefuncs.display import DisplayManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.plot import PlotManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class InteractiveManager(ImageMixin):
@@ -33,7 +33,7 @@ class InteractiveManager(ImageMixin):
     data, respectively.
     """
 
-    def __init__(self, state: ImageState):
+    def __init__(self, state: ImageState) -> None:
         """Initialize the InteractiveManager with the given state."""
         self.state = state
         self.DisplayManager = DisplayManager(state)
@@ -43,7 +43,7 @@ class InteractiveManager(ImageMixin):
         self.anim_pcm: Collection | Line2D | None = None
         self.labslider: list[str | float] | None = None
         self.anim_ax: Axes | None = None
-        self.anim_var: dict[str, NDArray[Any]] | NDArray[Any] | None = None
+        self.anim_var: dict[str, NDArray[Any]] | NDArray[Any]
         self.animkeys: NDArray[Any] | None = None
         self.nsld: int = 0
         self.lenlab: int = 0

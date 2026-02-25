@@ -48,6 +48,7 @@ test = [
 ] 
 dev = [
     "uv",
+    "pandas-stubs",
     "pre-commit",
     "pylint",
     "pyright",
@@ -56,7 +57,7 @@ dev = [
     "mypy",
     "ty",
     "radon",
-    "pydata-sphinx-theme"
+    "pydata-sphinx-theme",
 ]
 
 notebook = [
@@ -74,11 +75,8 @@ include = ["pyPLUTO*"]
 [project.scripts]
 pypluto-gui = "pyPLUTO.gui.main:main"
 
-[tool.black]
-line-length = 80
-
 [tool.ruff]
-target-version = "py310"
+target-version = "py313"
 line-length = 80
 respect-gitignore = true
 fix = true
@@ -119,8 +117,11 @@ quote-style = "double"
 indent-style = "space"
 line-ending = "auto"
 
+[tool.ty.environment]
+python-version = "3.13"
+
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.13"
 strict = true
 warn_unused_configs = true
 warn_return_any = true
@@ -130,6 +131,10 @@ disallow_incomplete_defs = true
 no_implicit_optional = true
 check_untyped_defs = true
 pretty = true
+
+[[tool.mypy.overrides]]
+module = "mpl_toolkits.axes_grid1"
+ignore_missing_imports = true
 
 [tool.coverage.run]
 source = ["pyPLUTO"]
@@ -152,7 +157,7 @@ exclude_lines = [
 ]
 
 [tool.pylint.main]
-py-version = "3.10"
+py-version = "3.13"
 jobs = 1
 persistent = true
 suggestion-mode = true
@@ -176,4 +181,7 @@ max-line-length = 80
 output-format = "text"
 
 [tool.pyrefly]
-python-version = "3.10.0"
+python-version = "3.13.0"
+
+[dependency-groups]
+dev = []

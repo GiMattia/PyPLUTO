@@ -5,12 +5,12 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from ..baseloadmixin import BaseLoadMixin
-from ..baseloadstate import BaseLoadState
-from ..utils.inspector import track_kwargs
+from pyPLUTO.baseloadmixin import BaseLoadMixin
+from pyPLUTO.baseloadstate import BaseLoadState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
-class FindFormat(BaseLoadMixin):
+class FindFormat(BaseLoadMixin[BaseLoadState]):
     """Class to find the format of the PLUTO output files."""
 
     @track_kwargs
@@ -103,6 +103,8 @@ class FindFormat(BaseLoadMixin):
                     f"Invalid datatype {datatype}.\n"
                     f"Possible formats are: dbl, flt, vtk"
                 )
+            else:
+                err = f"Invalid class name: {self.class_name}"
             raise ValueError(err)
 
         # Create the list of types to iterate over. If the datatype is None
@@ -127,13 +129,12 @@ class FindFormat(BaseLoadMixin):
             else []
         )
 
-        # Define the dictionary for the function argument
-        dict_func = {"check_typeout": type_out, "check_typelon": type_lon}
-
         # Iterate over the functions to be called
-        for do_check in funcf:
-            do_check(dict_func[do_check.__name__])
-
+        for do_check, arg in (
+            (self.check_typeout, type_out),
+            (self.check_typelon, type_lon),
+        ):
+            do_check([x for x in arg if x is not None])
             # Check if the format has been found
             if self.format != "Unknown":
                 # Store the charsize depending on the format

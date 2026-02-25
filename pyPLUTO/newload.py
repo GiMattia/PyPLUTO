@@ -2,10 +2,10 @@
 
 from typing import Any
 
-from .loadfuncs.initload import InitLoadManager
-from .loadmixin import LoadMixin
-from .loadstate import LoadState
-from .utils.inspector import track_kwargs
+from pyPLUTO.loadfuncs.initload import InitLoadManager
+from pyPLUTO.loadmixin import LoadMixin
+from pyPLUTO.loadstate import LoadState
+from pyPLUTO.utils.inspector import track_kwargs
 
 # mypy: ignore-errors
 
@@ -43,7 +43,7 @@ class Load(LoadMixin):
         **kwargs: Any,
     ) -> None:
         """Initialize the Load class."""
-        kwargs.pop("check", check)
+        kwargs.pop("kwargscheck", check)
 
         self.state: LoadState = LoadState()
         self.class_name: str = self.__class__.__name__
@@ -53,21 +53,12 @@ class Load(LoadMixin):
         if text:
             print("Load: Load class initialized.")
 
-    def __setattr__(self, name, value):
-        """Set the attribute of the Load class."""
-        if name == "state" or not hasattr(self, "state"):
-            # Initialization step: allow everything until state exists
-            super().__setattr__(name, value)
-        elif hasattr(self.state, name):
-            # Write-through to state if attr already defined
-            setattr(self.state, name, value)
-        else:
-            # IMPORTANT: keep unknown attrs on the instance
-            super().__setattr__(name, value)
+    def __getattr__(self, name: str) -> object:
+        """Get the attribute of the Image class."""
+        return getattr(self.state, name)
 
-    def __getattr__(self, name):
-        """Get the attribute of the Load class."""
-        # Called only if attribute not found in usual places
-        if hasattr(self.state, name):
-            return getattr(self.state, name)
-        raise AttributeError(f"'Load' object has no attribute '{name}'")
+    def __setattr__(self, name: str, value: object) -> None:
+        """Set the attribute of the Image class."""
+        if name == "state" or not hasattr(self, "state"):
+            return super().__setattr__(name, value)
+        return setattr(self.state, name, value)

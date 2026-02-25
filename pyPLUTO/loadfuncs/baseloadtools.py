@@ -2,11 +2,11 @@
 
 import numpy as np
 
-from ..baseloadmixin import BaseLoadMixin
-from ..baseloadstate import BaseLoadState
+from pyPLUTO.baseloadmixin import BaseLoadMixin
+from pyPLUTO.baseloadstate import BaseLoadState
 
 
-class BaseLoadTools(BaseLoadMixin):
+class BaseLoadTools(BaseLoadMixin[BaseLoadState]):
     """Docstring for BaseLoadTools class."""
 
     def __init__(self, state: BaseLoadState) -> None:

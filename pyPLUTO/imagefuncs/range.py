@@ -6,8 +6,8 @@ import numpy as np
 from matplotlib.axes import Axes
 from numpy.typing import NDArray
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
 
 
 class RangeManager(ImageMixin):
@@ -17,7 +17,7 @@ class RangeManager(ImageMixin):
     plot.
     """
 
-    def __init__(self, state: ImageState):
+    def __init__(self, state: ImageState) -> None:
         """Initialize the RangeManager with the given state."""
         self.state = state
         self.changerange = 0

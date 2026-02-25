@@ -1,15 +1,17 @@
 """Module for code selection functionality."""
 
-from ..baseloadmixin import BaseLoadMixin
-from ..baseloadstate import BaseLoadState
-from ..utils.inspector import track_kwargs
+from typing import Any
+
+from pyPLUTO.baseloadmixin import BaseLoadMixin
+from pyPLUTO.baseloadstate import BaseLoadState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
-class CodeManager(BaseLoadMixin):
+class CodeManager(BaseLoadMixin[BaseLoadState]):
     """Class that manages the code selection."""
 
     @track_kwargs
-    def __init__(self, state: BaseLoadState, **kwargs) -> None:
+    def __init__(self, state: BaseLoadState, **kwargs: Any) -> None:
         """Initialize the CodeManager class."""
         self.state = state
 
@@ -27,22 +29,20 @@ class CodeManager(BaseLoadMixin):
         else:
             raise NotImplementedError(f"{code} loading is not implemented!")
 
-    """
-        codedict = {"echo": self.echo_load}
-        # If not code is provided (or the code is PLUTO/gPLUTO) just skip
-        if not code or code.lower() in {"pluto", "gpluto"}:
-            pass
-        elif code.lower() in codedict:
-            init = f"Loading data with alternative method using code: {code}"
-            if text is True:
-                print(init)
-            codedict[code.lower()](nout, path, vars)
-            print(self.nout)
-            if not isinstance(self.nout, int):
-                self.nout = self.nout.astype(int)
-            if text is True:
-                print(f"Load: folder {path},     output {self.nout}")
-            return
-        else:
-            raise NotImplementedError(f"{code} loading is not implemented!")
-    """
+    #    codedict = {"echo": self.echo_load}
+    #    # If not code is provided (or the code is PLUTO/gPLUTO) just skip
+    #    if not code or code.lower() in {"pluto", "gpluto"}:
+    #        pass
+    #    elif code.lower() in codedict:
+    #        init = f"Loading data with alternative method using code: {code}"
+    #        if text is True:
+    #            print(init)
+    #        codedict[code.lower()](nout, path, vars)
+    #        print(self.nout)
+    #        if not isinstance(self.nout, int):
+    #            self.nout = self.nout.astype(int)
+    #        if text is True:
+    #            print(f"Load: folder {path},     output {self.nout}")
+    #        return
+    #    else:
+    #        raise NotImplementedError(f"{code} loading is not implemented!")

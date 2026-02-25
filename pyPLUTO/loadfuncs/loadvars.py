@@ -5,12 +5,12 @@ import warnings
 
 import numpy as np
 
-from ..baseloadmixin import BaseLoadMixin
-from ..baseloadstate import BaseLoadState
-from .offsetdata import OffsetData
+from pyPLUTO.baseloadmixin import BaseLoadMixin
+from pyPLUTO.baseloadstate import BaseLoadState
+from pyPLUTO.loadfuncs.offsetdata import OffsetData
 
 
-class LoadVariables(BaseLoadMixin):
+class LoadVariables(BaseLoadMixin[BaseLoadState]):
     """Class that handles the loading of variables from PLUTO output files."""
 
     def __init__(
@@ -75,6 +75,9 @@ class LoadVariables(BaseLoadMixin):
             >>> _load_variables(True, 0, 1, True)
 
         """
+        # Initialize mm variable to None to avoid uninitialized variable error
+        mm = None
+
         # Find the class name and find the single_file filepath
         if self.class_name == "Load":
             # If the class name is Load (single file), the filepath is data
@@ -132,7 +135,11 @@ class LoadVariables(BaseLoadMixin):
                     )
                     continue
 
-            self.init_vardict(j) if self.lennout != 1 else None
+            if self.lennout != 1:
+                self.init_vardict(j)
+
+            if mm is None:
+                raise RuntimeError("memmap object not initialized")
 
             dtype = np.dtype(self.d_info["binformat"][exout])
             shape = self.varshape[j]

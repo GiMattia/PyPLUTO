@@ -6,9 +6,9 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from ..loadmixin import LoadMixin
-from ..loadstate import LoadState
-from .baseloadtools import BaseLoadTools
+from pyPLUTO.loadfuncs.baseloadtools import BaseLoadTools
+from pyPLUTO.loadmixin import LoadMixin
+from pyPLUTO.loadstate import LoadState
 
 
 class DescriptorManager(LoadMixin):
@@ -64,7 +64,9 @@ class DescriptorManager(LoadMixin):
         pathdata = self.pathdir / Path(self.format + ".out")
         s = pd.Series(pathdata.read_text().splitlines())
         vfp = s.str.split(r"\s+", n=6, expand=True)
-        vfp.columns = ["id", "t", "dt", "nstep", "typefile", "endian", "vars"]
+        vfp.columns = pd.Index(
+            ["id", "t", "dt", "nstep", "typefile", "endian", "vars"]
+        )
 
         # Store the output and the time full list
         self.outlist = np.array(vfp.iloc[:, 0], dtype="int")

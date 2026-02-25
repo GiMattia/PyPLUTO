@@ -9,9 +9,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 defaults = {
     "left": 0.125,
@@ -181,26 +181,22 @@ class CreateAxesManager(ImageMixin):
 
         for i in range(ncol * nrow):
             sharex_ref = self._check_shareaxis(i, sharex)
-            """
             # Interpret True as: share with the first axis
-            if sharex is True:
-                sharex_ref = self.ax[0] if i > 0 else None
-            elif isinstance(sharex, int):
-                sharex_ref = self.ax[sharex]
-            else:
-                sharex_ref = sharex  # None or an Axes reference
-            """
+            # if sharex is True:
+            #     sharex_ref = self.ax[0] if i > 0 else None
+            # elif isinstance(sharex, int):
+            #     sharex_ref = self.ax[sharex]
+            # else:
+            #     sharex_ref = sharex  # None or an Axes reference
 
             # Same for sharey
             sharey_ref = self._check_shareaxis(i, sharey)
-            """
-            if sharey is True:
-                sharey_ref = self.ax[0] if i > 0 else None
-            elif isinstance(sharey, int):
-                sharey_ref = self.ax[sharey]
-            else:
-                sharey_ref = sharey
-            """
+            # if sharey is True:
+            #     sharey_ref = self.ax[0] if i > 0 else None
+            # elif isinstance(sharey, int):
+            #     sharey_ref = self.ax[sharey]
+            # else:
+            #     sharey_ref = sharey
 
             self.add_ax(
                 axis := self.fig.add_subplot(

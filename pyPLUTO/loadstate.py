@@ -5,7 +5,7 @@ from typing import Any
 
 from numpy.typing import NDArray
 
-from .baseloadstate import BaseLoadState
+from pyPLUTO.baseloadstate import BaseLoadState
 
 
 @dataclass

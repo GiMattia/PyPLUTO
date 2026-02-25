@@ -1,16 +1,16 @@
 """Mixin class for base load functionality."""
 
 from pathlib import Path
-from typing import Any, Generic, TypeVar
+from typing import Any, TypeVar
 
 from numpy.typing import NDArray
 
-from .baseloadstate import BaseLoadState
+from pyPLUTO.baseloadstate import BaseLoadState
 
 S = TypeVar("S", bound=BaseLoadState)
 
 
-class BaseLoadMixin(Generic[S]):
+class BaseLoadMixin[S: BaseLoadState]:
     """Mixin class that provides base functionality for load state."""
 
     # pylint: disable=too-many-public-methods
@@ -228,21 +228,21 @@ class BaseLoadMixin(Generic[S]):
         self.state.timelist = value
 
     @property
-    def varoffset(self) -> dict:
+    def varoffset(self) -> dict[str, Any]:
         """Get the varoffset attribute of the load state."""
         return self.state.varoffset
 
     @varoffset.setter
-    def varoffset(self, value: dict) -> None:
+    def varoffset(self, value: dict[str, Any]) -> None:
         """Set the varoffset attribute of the load state."""
         self.state.varoffset = value
 
     @property
-    def varshape(self) -> dict:
+    def varshape(self) -> dict[str, Any]:
         """Get the varshape attribute of the load state."""
         return self.state.varshape
 
     @varshape.setter
-    def varshape(self, value: dict) -> None:
+    def varshape(self, value: dict[str, Any]) -> None:
         """Set the varshape attribute of the load state."""
         self.state.varshape = value

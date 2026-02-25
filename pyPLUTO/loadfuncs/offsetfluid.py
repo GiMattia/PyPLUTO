@@ -6,15 +6,15 @@ import warnings
 import h5py
 import numpy as np
 
-from ..loadmixin import LoadMixin
-from ..loadstate import LoadState
-from .readgridalone import GridManager
+from pyPLUTO.loadfuncs.readgridalone import GridManager
+from pyPLUTO.loadmixin import LoadMixin
+from pyPLUTO.loadstate import LoadState
 
 
 class OffsetFluid(LoadMixin):
     """Class that computes the fluid offsets in single_file format."""
 
-    def __init__(self, state: LoadState):
+    def __init__(self, state: LoadState) -> None:
         self.state = state
         self.varoffset, self.varshape = ({}, {})
         self.GridAloneManager = GridManager(state)
@@ -76,7 +76,7 @@ class OffsetFluid(LoadMixin):
         # End of function
 
     def offset_h5(
-        self, i: int, var: str | None, exout: int, mm: mmap.mmap
+        self, i: int, _var: str | None, exout: int, _mm: mmap.mmap
     ) -> None:
         """Compute the offset and shape of the variable in hdf5 format.
 

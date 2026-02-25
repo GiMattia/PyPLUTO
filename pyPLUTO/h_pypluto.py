@@ -1,12 +1,9 @@
 """Helper functions for pyPLUTO."""
 
 import warnings
-from typing import TypeVar
-
-T = TypeVar("T")
 
 
-def makelist(el: T | list[T]) -> list[T]:
+def makelist[T](el: T | list[T]) -> list[T]:
     """If the element is not a list, it converts it into a list.
 
     Returns

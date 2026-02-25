@@ -30,6 +30,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+astropy = [
+    "astropy"
+]
 docs = [
     "sphinx",
     "sphinx-automodapi",

@@ -384,6 +384,7 @@ class Load:
         - find_contour
         - find_fieldlines
         - vector_field
+        - add_units
 
         Please refrain from using "private" methods and attributes.
         """
@@ -440,3 +441,4 @@ class Load:
         reshape_uniform,
         slices,
     )
+    from .toolfuncs.units import add_units

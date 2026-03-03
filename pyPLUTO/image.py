@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import Unpack
 
-import pyPLUTO.amr
+from pyPLUTO.amr import oplotbox
 from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.contour import ContourManager
 from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
@@ -299,4 +299,4 @@ class Image(ImageMixin):
 
     def oplotbox(self, *args: object, **kwargs: object) -> None:
         """Plot a box in the figure (AMR, WIP)."""
-        pyPLUTO.amr.oplotbox(self, *args, **kwargs)
+        oplotbox(self, *args, **kwargs)

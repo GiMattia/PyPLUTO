@@ -172,11 +172,7 @@ class OffsetFluid(LoadMixin):
                     f"Error: Variable {j} in the HDF5 file is not a dataset."
                 )
 
-        if (
-            self.alone is True
-            and isinstance(self.state, LoadState)
-            and self.infogrid is True
-        ):
+        if self.alone is True and self.infogrid is True:
             self.x1 = h5file["cell_coords"]["X"][:]
             self.x2 = h5file["cell_coords"]["Y"][:]
             self.x3 = h5file["cell_coords"]["Z"][:]

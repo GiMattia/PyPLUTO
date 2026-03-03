@@ -1,6 +1,7 @@
-.approval_test_temp/
+
 dist/
 Docs/Figures/__pycache__/
+*/.approval_tests_temp/
 */__pycache__/
 */PyPLUTO.egg-info/
 PyPLUTO.egg-info/*

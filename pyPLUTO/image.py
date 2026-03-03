@@ -1,14 +1,12 @@
 """Image class. It plots the data."""
 
-# mypy: ignore-errors
-# ruff: noqa: ANN201, ANN202  # noqa: RUF100
-# pylint: disable=too-many-instance-attributes
+# ruff: noqa: ANN201  # noqa: RUF100
 
 from __future__ import annotations
 
 from typing import Unpack
 
-from pyPLUTO.amr import oplotbox
+import pyPLUTO.amr
 from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.contour import ContourManager
 from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
@@ -301,4 +299,4 @@ class Image(ImageMixin):
 
     def oplotbox(self, *args: object, **kwargs: object) -> None:
         """Plot a box in the figure (AMR, WIP)."""
-        oplotbox(self, *args, **kwargs)
+        pyPLUTO.amr.oplotbox(self, *args, **kwargs)

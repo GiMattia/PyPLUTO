@@ -25,7 +25,7 @@ class DisplayManager(ImageMixin):
 
     exposed_methods = ("display",)
 
-    def __init__(self, state: ImageState):
+    def __init__(self, state: ImageState) -> None:
         """Initialize the DisplayManager with the given state."""
         self.state = state
         self.ColorbarManager = ColorbarManager(state)

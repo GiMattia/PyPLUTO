@@ -13,7 +13,7 @@ from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
 
-defaults = {
+defaults: dict[str, Any] = {
     "left": 0.125,
     "right": 0.9,
     "top": 0.9,
@@ -240,8 +240,8 @@ class CreateAxesManager(ImageMixin):
 
         ret_ax = self.ax[0] if len(self.ax) == 1 else self.ax
 
-        if not isinstance(ret_ax, list | Axes):
-            raise TypeError("The returned axis is neither a list nor an Axes.")
+        # if not isinstance(ret_ax, list | Axes):
+        #    raise TypeError("The returned axis is neither a list nor an Axes.")
 
         return ret_ax
 

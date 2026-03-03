@@ -79,22 +79,22 @@ class GridFileManager(LoadMixin):
         oned, twod, threed = 1, 2, 3
 
         if self.dim == oned:
-            self.nshp: int = self.nx1
-            self.nshp_st1: int = nx1s
+            self.nshp = self.nx1
+            self.nshp_st1 = nx1s
             self.nshp_st2 = None
-            self.state.nshp_st3: None = None
+            self.state.nshp_st3 = None
 
         elif self.dim == twod:
-            self.nshp: tuple[int, int] = (self.nx2, self.nx1)
-            self.nshp_st1: tuple[int, int] = (self.nx2, nx1s)
-            self.nshp_st2: tuple[int, int] = (nx2s, self.nx1)
+            self.nshp = (self.nx2, self.nx1)
+            self.nshp_st1 = (self.nx2, nx1s)
+            self.nshp_st2 = (nx2s, self.nx1)
             self.nshp_st3 = None
 
         elif self.dim == threed:
-            self.nshp: tuple[int, int, int] = (self.nx3, self.nx2, self.nx1)
-            self.nshp_st1: tuple[int, int, int] = (self.nx3, self.nx2, nx1s)
-            self.nshp_st2: tuple[int, int, int] = (self.nx3, nx2s, self.nx1)
-            self.state.nshp_st3: tuple[int, int, int] = (
+            self.nshp = (self.nx3, self.nx2, self.nx1)
+            self.nshp_st1 = (self.nx3, self.nx2, nx1s)
+            self.nshp_st2 = (self.nx3, nx2s, self.nx1)
+            self.state.nshp_st3 = (
                 nx3s,
                 self.nx2,
                 self.nx1,

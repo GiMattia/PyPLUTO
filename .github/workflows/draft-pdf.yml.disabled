@@ -1,3 +1,4 @@
+# Disabled cause paper is already published
 name: Draft PDF
 on:
   push:

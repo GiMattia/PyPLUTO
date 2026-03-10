@@ -83,7 +83,8 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         self.lennoutlist = len(self.outlist)
         self.LoadToolManager.check_nout(nout)
         self.lennout = len(self.noutlist)
-        self.ntimelist = np.empty(self.lennout)
+        self.ntimelist = np.full(self.lennout, np.nan)
+        self.timelist = np.full(len(self.outlist), np.nan)
 
         # Initialize the info dictionary and initialize some relevant variables
         self.d_info = {}

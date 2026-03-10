@@ -1,6 +1,7 @@
 """Docstring for pyPLUTO.loadfuncs.loadvars module."""
 
 import mmap
+import sys
 import warnings
 
 import numpy as np
@@ -93,6 +94,19 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             # If the class name is not recognized, raise an error
             raise NameError("Invalid class name.")
 
+        # If files in single_file format, inspect the file
+        # or compute the offset and shape
+
+        if self.d_info["typefile"][exout] == "single_file":
+            with open(self.filepath, "rb") as fd:
+                kwargs = {"access": mmap.ACCESS_READ}
+                # if sys.version_info >= (3, 13):
+                #    kwargs["trackfd"] = False
+                mm = mmap.mmap(fd.fileno(), 0, **kwargs)
+            self.offsetdata.compute_offset(i, exout, None, mm)
+            if self.format in ("hdf5", "tab"):
+                return None
+
         # Check if only specific variables should be loaded
         if variables is True:
             # If all the variables are to be loaded, the load_vars
@@ -108,15 +122,6 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             # If no variables are to be loaded, return None (WIP)
             return None
 
-        # If files in single_file format, inspect the file
-        # or compute the offset and shape
-        if self.d_info["typefile"][exout] == "single_file":
-            with open(self.filepath, "rb") as fd:
-                mm = mmap.mmap(fd.fileno(), 0, access=mmap.ACCESS_READ)
-            self.offsetdata.compute_offset(i, exout, None, mm)
-            if self.format in ("hdf5", "tab"):
-                return None
-
         for j in load_vars:
             if self.d_info["typefile"][exout] == "multiple_files":
                 self.filepath = self.pathdir / (
@@ -124,8 +129,10 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
                 )
                 try:
                     with open(self.filepath, "rb") as fd:
-                        mm = mmap.mmap(fd.fileno(), 0, access=mmap.ACCESS_READ)
-                        self.offsetdata.compute_offset(i, exout, j, mm)
+                        kwargs = {"access": mmap.ACCESS_READ}
+                        # if sys.version_info >= (3, 13):
+                        #    kwargs["trackfd"] = False
+                        mm = mmap.mmap(fd.fileno(), 0, **kwargs)
                 except (OSError, ValueError) as e:
                     warnings.warn(
                         f"AttributeError: Unable to open {self.filepath}.\n"
@@ -134,6 +141,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
                         stacklevel=2,
                     )
                     continue
+                self.offsetdata.compute_offset(i, exout, j, mm)
 
             if self.lennout != 1:
                 self.init_vardict(j)
@@ -153,6 +161,8 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             ).T
 
             self.assign_var(exout, j, scrh)
+
+        # ... then after the variable loop ...
 
     def assign_var(self, time: int, var: str, scrh: np.ndarray) -> None:
         """Assign the variable data to the class variable.

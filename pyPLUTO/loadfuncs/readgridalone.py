@@ -11,7 +11,7 @@ class GridManager(LoadMixin):
         """Initialize the BaseLoadTools class."""
         self.state: LoadState = state
 
-    def readgridvtk(self):
+    def readgridvtk(self, gridvars):
         """Read the grid information from VTK files without descriptor.
 
         Such information are the dimensions, the geometry, the center and edges
@@ -36,7 +36,15 @@ class GridManager(LoadMixin):
             >>> _read_gridvtk()
 
         """
-        raise NotImplementedError("Function not implemented yet.")
+        if gridvars[0] == "x1r":
+            self.x1 = 0.5 * (self.x1r[:-1] + self.x1r[1:])
+            self.dx1 = self.x1r[1:] - self.x1r[:-1]
+        if gridvars[1] == "x2r":
+            self.x2 = 0.5 * (self.x2r[:-1] + self.x2r[1:])
+            self.dx2 = self.x2r[1:] - self.x2r[:-1]
+        if gridvars[2] == "x3r":
+            self.x3 = 0.5 * (self.x3r[:-1] + self.x3r[1:])
+            self.dx3 = self.x3r[1:] - self.x3r[:-1]
 
     def readgridh5(self):
         """Read the grid information from HDF5 files without descriptor.
@@ -63,4 +71,5 @@ class GridManager(LoadMixin):
             >>> _read_gridh5()
 
         """
-        raise NotImplementedError("Function not implemented yet.")
+        pass
+        # raise NotImplementedError("Function not implemented yet.")

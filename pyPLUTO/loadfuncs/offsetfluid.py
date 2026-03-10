@@ -1,6 +1,7 @@
 """Docstring for pyPLUTO.loadfuncs.offsetfluid module."""
 
 import mmap
+import struct
 import warnings
 
 import h5py
@@ -104,16 +105,24 @@ class OffsetFluid(LoadMixin):
 
         """
         # Open the file with the h5py library
-        h5file = h5py.File(self.filepath, "r")
+        h5file = h5py.File(str(self.filepath), "r")
 
         # Selects the binformat
-        self.d_info["binformat"][i] = "d" if self.format == "dbl.h5" else "f"
+        self.d_info["binformat"][exout] = (
+            "d" if self.format == "dbl.h5" else "f"
+        )
 
         # Safely access the timestep group and its sub-items to avoid
         # treating an h5py.Datatype as a subscriptable object.
         timestep_key = f"Timestep_{exout}"
         timestep = h5file.get(timestep_key, None)
+
         if isinstance(timestep, h5py.Group):
+            timeattr = timestep.attrs["Time"]
+            idx = np.searchsorted(self.outlist, exout)
+            self.timelist[idx] = float(timeattr)
+            idx = np.searchsorted(self.noutlist, exout)
+            self.ntimelist[idx] = float(timeattr)
             cellvs = timestep.get("vars", {})
             stagvs = timestep.get("stag_vars", {})
             cellvs = (
@@ -180,13 +189,13 @@ class OffsetFluid(LoadMixin):
             self.x2r = h5file["node_coords"]["Y"][:]
             self.x3r = h5file["node_coords"]["Z"][:]
             self.GridAloneManager.readgridh5()
-            self.infogrid = False
+        self.infogrid = False
 
         # Close the file
         h5file.close()
 
     def offset_vtk(
-        self, i: int, var: str | None, _exout: int, mm: mmap.mmap
+        self, i: int, var: str | None, exout: int, mm: mmap.mmap
     ) -> None:
         """Compute the offset and shape of the variables to be loaded.
 
@@ -213,40 +222,113 @@ class OffsetFluid(LoadMixin):
             >>> _offset_vtk(0, True)
 
         """
-        self.d_info["endianess"][i] = (
-            ">" if self.endian is None else self.d_info["endianess"][i]
+        dir_map: dict[str, str] = {}
+
+        self.d_info["endianess"][exout] = (
+            ">" if self.endian is None else self.d_info["endianess"][exout]
         )
-        if self.d_info["endianess"][i] is None:
+        if self.d_info["endianess"][exout] is None:
             raise ValueError("Error: Wrong endianess in vtk file.")
 
         if self.alone is True:
-            self.d_info["binformat"][i] = (
-                f"{self.d_info['endianess'][i]}f{self.charsize}"
+            self.d_info["binformat"][exout] = (
+                f"{self.d_info['endianess'][exout]}f{self.charsize}"
             )
         search_pos = 0
         while True:
-            scalars_pos = mm.find(b"SCALARS", search_pos)
-            if scalars_pos == -1:
+            line_end = mm.find(b"\n", search_pos)
+            if line_end == -1:
                 break  # No more occurrences found
+            line = mm[search_pos:line_end]
 
-            # Move to the end of the 'SCALARS' line
-            line_end = mm.find(b"\n", scalars_pos)
-            line = mm[scalars_pos:line_end]
-            parts = line.split()
-            namevar = parts[1].decode()
+            if line.startswith(b"SCALARS"):
+                parts = line.split()
+                namevar = parts[1].decode()
 
-            # Move to the start of the scalar data
-            lookup_table_pos = mm.find(b"LOOKUP_TABLE default", line_end)
-            offset = mm.find(b"\n", lookup_table_pos) + 1
+                # Move to the start of the scalar data
+                lookup_table_pos = mm.find(b"LOOKUP_TABLE default", line_end)
+                offset = mm.find(b"\n", lookup_table_pos) + 1
 
-            self.varoffset[namevar] = offset
-            self.varshape[namevar] = self.nshp
-            if var is not None:
-                break
+                self.varoffset[namevar] = offset
+                self.varshape[namevar] = self.nshp
+                if var is not None:
+                    break
 
-            search_pos = (
-                line_end + 1 + self.gridsize * 4
-            )  # Continue searching after the current line
+                search_pos = (
+                    line_end + self.gridsize * 4
+                )  # Continue searching after the current line
+            elif line.startswith(b"VECTORS"):
+                # Handle VECTORS data
+                warnings.warn(
+                    "Warning: VECTORS data is not supported.",
+                    UserWarning,
+                    stacklevel=2,
+                )
+                search_pos = line_end + 1
+            elif line.startswith(b"DIMENSIONS") and self.infogrid is True:
+                self.nx1, self.nx2, self.nx3 = [
+                    max(int(i) - 1, 1) for i in line.split()[1:4]
+                ]
+                if self.nx3 == 1 and self.nx2 == 1:
+                    self.dim = 1
+                    self.nshp = self.nx1
+                    self.gridsize = self.nx1
+                    nshp_grid = self.nx1 + 1
+                    gridvars = ["x1r", "x2", "x3"]
+                elif self.nx3 == 1:
+                    self.dim = 2
+                    self.nshp = (self.nx2, self.nx1)
+                    self.gridsize = self.nx1 * self.nx2
+                    nshp_grid = (self.nx2 + 1, self.nx1 + 1)
+                    gridvars = ["x1r", "x2r", "x3"]
+                else:
+                    self.dim = 3
+                    self.nshp = (self.nx3, self.nx2, self.nx1)
+                    self.gridsize = self.nx1 * self.nx2 * self.nx3
+                    nshp_grid = (self.nx3 + 1, self.nx2 + 1, self.nx1 + 1)
+                    gridvars = ["x1r", "x2r", "x3r"]
+                dir_map = {"X": gridvars[0], "Y": gridvars[1], "Z": gridvars[2]}
+                search_pos = line_end + 1
+            elif line.startswith(b"TIME") and self.alone is True:
+                try:
+                    parts = line.split()
+                    binf = 8 if parts[3].decode() == "double" else 4
+                    raw = mm[line_end + 1 : line_end + 1 + binf]
+                    self.timelist[exout] = struct.unpack(
+                        self.d_info["endianess"][exout] + "d", raw
+                    )[0]
+                except Exception:
+                    binf = 0
+                search_pos = line_end + 1 + binf
 
-        if self.d_info["typefile"][i] == "single_file" and self.alone is True:
-            self.d_info["varslist"][i] = np.array(list(self.varoffset.keys()))
+            elif line[1:].startswith(b"_COORDINATES") and self.infogrid is True:
+                self.geom = "CARTESIAN"
+                linesplit = line.split()
+                var_sel = linesplit[0].decode()[0]
+                binf = (
+                    self.d_info["endianess"][exout] + "d"
+                    if linesplit[2].decode() == "double"
+                    else self.d_info["endianess"][exout] + "f"
+                )
+                scrh = np.ndarray(
+                    shape=int(linesplit[1]),
+                    dtype=binf,
+                    buffer=mm,
+                    offset=line_end + 1,
+                    order="C",
+                ).T
+                setattr(self, dir_map[var_sel], scrh)
+                search_pos = line_end + 1
+            else:
+                search_pos = line_end + 1
+
+        if (
+            self.d_info["typefile"][exout] == "single_file"
+            and self.alone is True
+        ):
+            self.d_info["varslist"][exout] = np.array(
+                list(self.varoffset.keys())
+            )
+        if self.infogrid is True:
+            self.GridAloneManager.readgridvtk(gridvars)
+            self.infogrid = False

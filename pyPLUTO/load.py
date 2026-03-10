@@ -171,7 +171,6 @@ class Load:
             if text is True:
                 print(init)
             codedict[code.lower()](nout, path, vars)
-            print(self.nout)
             if not isinstance(self.nout, int):
                 self.nout = self.nout.astype(int)
             if text is True:
@@ -294,7 +293,6 @@ class Load:
 
         # For every output load the desired variables
         for i, exout in enumerate(self.nout):
-            print(i, exout)
             self._load_variables(vars, i, exout, endian)
 
         # Assign the variables to the class
@@ -407,7 +405,7 @@ class Load:
     )
     from .loadfuncs.defpluto import _read_defh, _read_plini
     from .loadfuncs.read_files import _read_dat, _read_h5, read_file
-    from .loadfuncs.readdata_old import (
+    from .loadfuncs.readdata import (
         _assign_var,
         _check_nout,
         _findfiles,

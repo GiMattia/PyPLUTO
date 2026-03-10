@@ -160,6 +160,7 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
             var_sel = spl0.decode()[0]
             binf = endl + "d" if spl2.decode() == "double" else endl + "f"
             offset = f.tell()
+            print(offset)
             shape = int(spl1)
             scrh = np.memmap(
                 self._filepath,

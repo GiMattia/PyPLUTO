@@ -116,6 +116,9 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         type_out = [datatype] if datatype in type_out else typeout0
         type_lon = [datatype] if datatype in type_lon else typelon0
 
+        if alone is True:
+            type_out = []
+
         # Create the list of functions to be called (.out or alone)
         funcf: list[Callable[[list[str]], None]] = []
         funcf += (
@@ -139,7 +142,6 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
             if self.format != "Unknown":
                 # Store the charsize depending on the format
                 self.charsize = 8 if self.format in dbl else 4
-
                 # If the format is found, end the function
                 return None
 
@@ -237,7 +239,6 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
                 # Store the format and set the flag alone to True
                 self.format = try_type
                 self.alone = True
-                self.infogrid = False
                 # Format is found, break the loop
                 break
 

@@ -48,7 +48,7 @@ class Load(LoadMixin):
         self.state: LoadState = LoadState()
         self.class_name: str = self.__class__.__name__
         self.full3D: bool = kwargs.get("full3D", self.full3D)
-        self.init_load = InitLoadManager(self.state, nout, **kwargs)
+        InitLoadManager(self.state, nout, **kwargs)
 
         if text:
             print("Load: Load class initialized.")

@@ -153,10 +153,17 @@ def _load_variables(
         )
 
         """
+        import psutil, os
+
+        proc = psutil.Process()
+
+        # print(f"[{exout}] FDs before open: {len(proc.open_files())}")
         with open(self._filepath, "r+b") as fd:
             mm = mmap.mmap(
                 fd.fileno(), 0
             )  # maps the entire file, not loaded into RAM
+
+    # print(f"[{exout}] FDs after with block: {len(proc.open_files())}")
 
     # Loop over the variables to extract slices
     for j in self._load_vars:
@@ -248,6 +255,9 @@ def _load_variables(
 
         # Assign the variable
         self._assign_var(exout, j, scrh)
+
+    #  print(f"[{exout}] FDs after variable loop: {len(proc.open_files())}")
+    #  print(f"[{exout}] mm.closed: {mm.closed}")
 
     # End of function
     return None

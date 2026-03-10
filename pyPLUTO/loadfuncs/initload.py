@@ -16,19 +16,6 @@ from pyPLUTO.loadfuncs.loadvars import LoadVariables
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.utils.inspector import track_kwargs
 
-#'''
-# from typing import TypedDict, Unpack
-# from numpy.typing import NDArray
-# class MyKwargs(TypedDict):
-#    """TypedDict for keyword arguments."""
-#
-#    code: str
-#    endian: str | None
-#    multiple: bool
-#    nout: int | str | list[int | str] | NDArray | None
-#    path: str | Path
-#'''
-
 
 @track_kwargs
 class InitLoadManager(BaseLoadMixin[BaseLoadState]):
@@ -80,10 +67,7 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
         loadvars = kwargs.get("var", loadvars)
 
         for i, exout in enumerate(self.noutlist):
-            print(f"Loading output index: {exout}")
-            self.LoadVariables = LoadVariables(
-                state, kwargs.get("vars", loadvars), i, exout
-            )
+            LoadVariables(state, kwargs.get("vars", loadvars), i, exout)
 
         for key in self.d_vars:
             setattr(self.state, key, self.d_vars[key])

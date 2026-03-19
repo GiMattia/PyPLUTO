@@ -4,8 +4,10 @@ from typing import Any
 
 try:
     import inifix
+
+    HAS_INIFIX = True
 except ImportError:
-    inifix = None
+    HAS_INIFIX = False
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
@@ -86,7 +88,7 @@ class FiledefpliniManager(LoadMixin):
             The path to the pluto.ini file to read.
 
         """
-        if inifix is not None:
+        if HAS_INIFIX:
             conf = inifix.load(filepath)
             print("used inifix")
             return conf

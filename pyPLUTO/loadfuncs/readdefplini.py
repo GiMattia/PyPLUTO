@@ -30,7 +30,9 @@ class FiledefpliniManager(LoadMixin):
 
         # Try to read the file pluto.ini
         plini = kwargs.get("plini")
-        if plini is not False:
+        if isinstance(plini, str):
+            pathplini = self.pathdir / Path(plini)
+        elif plini is not False:
             pathplini = self.pathdir / Path("pluto.ini")
             try:
                 self.plini = self.read_plini(pathplini)
@@ -89,7 +91,7 @@ class FiledefpliniManager(LoadMixin):
 
         """
         if HAS_INIFIX:
-            conf = inifix.load(filepath)
+            conf = inifix.load(filepath, sections="require")
             print("used inifix")
             return conf
         else:

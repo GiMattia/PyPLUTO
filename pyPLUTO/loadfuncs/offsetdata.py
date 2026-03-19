@@ -6,6 +6,7 @@ from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.loadfuncs.offsetfluid import OffsetFluid
 from pyPLUTO.loadfuncs.readgridfile import GridFileManager
+from pyPLUTO.loadfuncs.readtab import ReadtabManager
 from pyPLUTO.loadstate import LoadState
 
 
@@ -17,6 +18,7 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
         if isinstance(state, LoadState):
             self.GridFileManager = GridFileManager(state)
             self.Offsetclass = OffsetFluid(state)
+            self.ReadtabManager = ReadtabManager(state)
 
     def compute_offset(
         self,
@@ -71,7 +73,7 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
 
         if isinstance(self.state, LoadState):
             handlers = {
-                #  "tab": None,
+                "tab": self.ReadtabManager.read_tab,
                 "bin": self.Offsetclass.offset_bin,
                 "vtk": self.Offsetclass.offset_vtk,
                 "h5": self.Offsetclass.offset_h5,

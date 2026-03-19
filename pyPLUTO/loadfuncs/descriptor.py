@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-import pandas as pd
 
 from pyPLUTO.loadfuncs.baseloadtools import BaseLoadTools
 from pyPLUTO.loadmixin import LoadMixin
@@ -60,17 +59,17 @@ class DescriptorManager(LoadMixin):
         if self.format is None:
             raise ValueError("Format not defined. Cannot read descriptor file.")
 
-        # Open and read the 'filetype'.out file
+        # Read and parse the 'filetype'.out file — pure Python split, no Pandas
         pathdata = self.pathdir / Path(self.format + ".out")
-        s = pd.Series(pathdata.read_text().splitlines())
-        vfp = s.str.split(r"\s+", n=6, expand=True)
-        vfp.columns = pd.Index(
-            ["id", "t", "dt", "nstep", "typefile", "endian", "vars"]
-        )
+        rows = [
+            line.split()
+            for line in pathdata.read_text().splitlines()
+            if line.strip()
+        ]
 
         # Store the output and the time full list
-        self.outlist = np.array(vfp.iloc[:, 0], dtype="int")
-        self.timelist = np.array(vfp.iloc[:, 1], dtype="float")
+        self.outlist = np.array([r[0] for r in rows], dtype=np.int32)
+        self.timelist = np.array([r[1] for r in rows], dtype=np.float64)
         self.lennoutlist = len(self.outlist)
 
         # Check the output lines
@@ -80,11 +79,13 @@ class DescriptorManager(LoadMixin):
 
         # Initialize the info dictionary
         self.d_info = {
-            "typefile": np.array(vfp.iloc[self.outlist, 4]),
-            "endianess": np.where(vfp.iloc[self.outlist, 5] == "big", ">", "<"),
+            "typefile": np.array([rows[k][4] for k in self.outlist]),
+            "endianess": np.array(
+                [">" if rows[k][5] == "big" else "<" for k in self.outlist]
+            ),
         }
 
-        # Compute the endianess (vtk have always big endianess).
+        # Compute the endianess (vtk always big endian).
         # If endian is given, it is used instead of the one in the file.
         self.d_info["endianess"][:] = (
             ">" if self.format == "vtk" else self.d_info["endianess"]
@@ -92,7 +93,7 @@ class DescriptorManager(LoadMixin):
         self.d_info["endianess"][:] = (
             self.endian if self.endian is not None else self.d_info["endianess"]
         )
-        self.d_info["varslist"] = vfp["vars"].str.split()
+        self.d_info["varslist"] = [rows[k][6:] for k in self.outlist]
 
         self.d_info["binformat"] = np.char.add(
             self.d_info["endianess"], "f" + str(self.charsize)

@@ -160,6 +160,7 @@ class Load:
         if check is True:
             check_par(param, "__init__", **kwargs)
 
+        """
         # Load PyPLUTO for different codes
         code = kwargs.get("code")
         codedict = {"echo": self.echo_load}
@@ -178,6 +179,7 @@ class Load:
             return
         else:
             raise NotImplementedError(f"{code} loading is not implemented!")
+        """
 
         # Check if the user wants to load the data
         if nout is None:
@@ -397,14 +399,19 @@ class Load:
             ) from None
 
     from .amr import _DataScanHDF5, _inspect_hdf5
+
+    """
     from .codes.echo_load import (
         _echo_load_grid,
         _echo_load_vars,
         _echo_set_grid_dims,
         echo_load,
     )
+    """
+
     from .loadfuncs.defpluto import _read_defh, _read_plini
     from .loadfuncs.read_files import _read_dat, _read_h5, read_file
+
     from .loadfuncs.readdata_old import (
         _assign_var,
         _check_nout,

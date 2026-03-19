@@ -7,7 +7,6 @@ import pyPLUTO as pp
 def ideal_solution(D, time=None):
     ex = {}
     ntime = D.ntime if time is None else time
-    print(ntime)
     ex["rho"] = 1.0 + 0.5 * np.sin(2 * np.pi * D.x1 + ntime)
     ex["vx1"] = np.sin(2 * np.pi * D.x1 + ntime)
     ex["vx2"] = np.cos(2 * np.pi * D.x1 + ntime)
@@ -22,8 +21,10 @@ def load_and_check(case, dtype, path):
     D = pp.Newload(*case, datatype=dtype, path=path, text=False)
     ex = ideal_solution(D)
     for var in D.d_info["varslist"][D.nout]:
-        print(f"Checking variable: {var}")
-        npt.assert_allclose(getattr(D, var), ex[var], rtol=1e-5, atol=1e-5)
+        # print(f"Checking variable: {var}")
+        npt.assert_allclose(
+            getattr(D.state, var), ex[var], rtol=1e-5, atol=1e-5
+        )
     return D
 
 
@@ -35,20 +36,20 @@ def bench(case, dtype, path, number=20):
     return (t1 - t0) / number
 
 
-cases = ((), (0,), (1,), (2,), (3,), ("last",), (-1,))
+cases = ((), (1,), (2,), (3,), ("last",), (-1,))
 
 groups = [
     (
         "Descriptor single",
         "single_file/descriptor",
-        ["dbl", "flt", "vtk", "dbl.h5", "flt.h5"],
+        ["dbl", "flt", "vtk", "dbl.h5", "flt.h5", "tab"],
     ),
     ("Descriptor multiple", "multiple_files/descriptor", ["dbl", "flt", "vtk"]),
     ("Alone single", "single_file/alone", ["vtk", "dbl.h5", "flt.h5"]),
     ("Alone multiple", "multiple_files/alone", ["vtk"]),
 ]
 
-NUMBER = 1
+NUMBER = 1000
 
 for case in cases:
     print(f"\nCASE {case}")

@@ -560,6 +560,15 @@ wheels = [
 ]
 
 [[package]]
+name = "inifix"
+version = "6.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a4/f4/78dba28215b7ba1c489c7e6ccaf6fe3fbc88cd394b6c0193fe3622c31b12/inifix-6.1.1.tar.gz", hash = "sha256:31770998f6fb6c5faf708f64a01986d8f3f641b2d663dc6ca4782ec9222e1899", size = 39108, upload-time = "2025-04-14T10:00:34.616Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8b/eb/064be5405b5fd53bed5864f0f8c782c0144331ff43c7ecddbf5250b83282/inifix-6.1.1-py3-none-any.whl", hash = "sha256:defa6bbfeef815e1db6456e62b83956aeeffb449b0aa348307634019567cc4c8", size = 28829, upload-time = "2025-04-14T10:00:33.123Z" },
+]
+
+[[package]]
 name = "ipython"
 version = "9.10.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1491,7 +1500,8 @@ docs = [
     { name = "sphinx" },
     { name = "sphinx-automodapi" },
 ]
-gui = [
+extras = [
+    { name = "inifix" },
     { name = "pyside6" },
 ]
 notebook = [
@@ -1518,6 +1528,7 @@ requires-dist = [
     { name = "coverage", marker = "extra == 'test'" },
     { name = "h5py" },
     { name = "h5py-stubs", marker = "extra == 'dev'" },
+    { name = "inifix", marker = "extra == 'extras'" },
     { name = "ipython", marker = "extra == 'notebook'" },
     { name = "marimo", marker = "extra == 'notebook'" },
     { name = "matplotlib" },
@@ -1532,7 +1543,7 @@ requires-dist = [
     { name = "pydata-sphinx-theme", marker = "extra == 'dev'" },
     { name = "pyrefly", marker = "extra == 'dev'" },
     { name = "pyright", marker = "extra == 'dev'" },
-    { name = "pyside6", marker = "extra == 'gui'" },
+    { name = "pyside6", marker = "extra == 'extras'" },
     { name = "pytest", marker = "extra == 'test'" },
     { name = "pytest-cov", marker = "extra == 'test'" },
     { name = "pytest-doctestplus", marker = "extra == 'test'" },
@@ -1545,7 +1556,7 @@ requires-dist = [
     { name = "ty", marker = "extra == 'dev'" },
     { name = "uv", marker = "extra == 'dev'" },
 ]
-provides-extras = ["gui", "docs", "test", "dev", "notebook", "pasta"]
+provides-extras = ["extras", "docs", "test", "dev", "notebook", "pasta"]
 
 [[package]]
 name = "pyrefly"

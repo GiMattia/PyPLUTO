@@ -30,11 +30,6 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
         """Initialize the InitLoadManager class."""
         self.state = state
 
-        self.code = kwargs.get("code", self.code)
-        self.CodeManager = CodeManager(state)
-
-        if self.code.lower() not in {"pluto", "gpluto"}:
-            return
         if nout is None:
             warnings.warn("No output is loaded!", UserWarning, stacklevel=2)
             return
@@ -49,6 +44,12 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
 
         # Check the path
         self.check_path(kwargs.get("path", self.pathdir))
+
+        self.code = kwargs.get("code", self.code)
+        if self.code.lower() not in {"pluto", "gpluto"}:
+            self.CodeManager = CodeManager(state, nout, **kwargs)
+            return
+
         self.FindFormat = FindFormat(state, **kwargs)
 
         if not isinstance(state, LoadState) or self.alone:
@@ -56,21 +57,21 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
         else:
             self.Descriptor = DescriptorManager(state, nout, **kwargs)
 
-        loadvars: Any = True
+        loadvars = True
         if kwargs.get("vars") is not None:
             warnings.warn(
                 "'vars' argument is deprecated. Use 'var' instead.",
                 DeprecationWarning,
                 stacklevel=2,
             )
-            loadvars = kwargs.get("vars")
+            loadvars = kwargs.get("vars", loadvars)
         loadvars = kwargs.get("var", loadvars)
 
         for i, exout in enumerate(self.noutlist):
-            LoadVariables(state, kwargs.get("vars", loadvars), i, exout)
+            LoadVariables(state, loadvars, i, exout)
 
         for key in self.d_vars:
-            setattr(self.state, key, self.d_vars[key])
+            setattr(self.state, str(key), self.d_vars[key])
 
         if isinstance(self.ntimelist, np.ndarray) and len(self.ntimelist) == 1:
             self.ntime = self.ntimelist[0]

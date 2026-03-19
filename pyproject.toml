@@ -30,8 +30,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-gui = [
-    "PySide6"
+extras = [
+    "PySide6",
+    "inifix",
 ]
 
 docs = [

@@ -218,6 +218,16 @@ class BaseLoadMixin[S: BaseLoadState]:
         self.state.pathdir = value
 
     @property
+    def text(self) -> bool | None:
+        """Get the text attribute of the load state."""
+        return self.state.text
+
+    @text.setter
+    def text(self, value: bool | None) -> None:
+        """Set the text attribute of the load state."""
+        self.state.text = value
+
+    @property
     def timelist(self) -> NDArray[Any]:
         """Get the timelist attribute of the load state."""
         return self.state.timelist

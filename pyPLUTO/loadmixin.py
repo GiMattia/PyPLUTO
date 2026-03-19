@@ -19,6 +19,16 @@ class LoadMixin(BaseLoadMixin[LoadState]):
     # pylint: disable=too-many-public-methods
 
     @property
+    def defh(self) -> dict:
+        """Get the defh attribute of the load state."""
+        return self.state.defh
+
+    @defh.setter
+    def defh(self, value: dict) -> None:
+        """Set the defh attribute of the load state."""
+        self.state.defh = value
+
+    @property
     def dim(self) -> int:
         """Get the dim attribute of the load state."""
         return self.state.dim
@@ -187,6 +197,16 @@ class LoadMixin(BaseLoadMixin[LoadState]):
     def nx3(self, value: int) -> None:
         """Set the nx3 attribute of the load state."""
         self.state.nx3 = value
+
+    @property
+    def plini(self) -> dict:
+        """Get the plini attribute of the load state."""
+        return self.state.plini
+
+    @plini.setter
+    def plini(self, value: dict) -> None:
+        """Set the plini attribute of the load state."""
+        self.state.plini = value
 
     @property
     def x1(self) -> NDArray[Any]:

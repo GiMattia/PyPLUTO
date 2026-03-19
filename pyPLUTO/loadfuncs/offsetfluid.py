@@ -223,6 +223,7 @@ class OffsetFluid(LoadMixin):
 
         """
         dir_map: dict[str, str] = {}
+        gridvars: list[str] = []
 
         self.d_info["endianess"][exout] = (
             ">" if self.endian is None else self.d_info["endianess"][exout]
@@ -254,9 +255,8 @@ class OffsetFluid(LoadMixin):
                 if var is not None:
                     break
 
-                search_pos = (
-                    line_end + self.gridsize * 4
-                )  # Continue searching after the current line
+                search_pos = offset + self.gridsize * self.charsize
+
             elif line.startswith(b"VECTORS"):
                 # Handle VECTORS data
                 warnings.warn(
@@ -294,9 +294,12 @@ class OffsetFluid(LoadMixin):
                     parts = line.split()
                     binf = 8 if parts[3].decode() == "double" else 4
                     raw = mm[line_end + 1 : line_end + 1 + binf]
-                    self.timelist[exout] = struct.unpack(
+                    scrh = struct.unpack(
                         self.d_info["endianess"][exout] + "d", raw
                     )[0]
+                    self.timelist[exout] = scrh
+                    idx = np.searchsorted(self.noutlist, exout)
+                    self.ntimelist[idx] = scrh
                 except Exception:
                     binf = 0
                 search_pos = line_end + 1 + binf
@@ -326,9 +329,7 @@ class OffsetFluid(LoadMixin):
             self.d_info["typefile"][exout] == "single_file"
             and self.alone is True
         ):
-            self.d_info["varslist"][exout] = np.array(
-                list(self.varoffset.keys())
-            )
+            self.d_info["varslist"][exout] = list(self.varoffset.keys())
         if self.infogrid is True:
             self.GridAloneManager.readgridvtk(gridvars)
             self.infogrid = False

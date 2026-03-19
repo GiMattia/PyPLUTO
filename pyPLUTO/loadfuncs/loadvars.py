@@ -1,7 +1,6 @@
 """Docstring for pyPLUTO.loadfuncs.loadvars module."""
 
 import mmap
-import sys
 import warnings
 
 import numpy as np

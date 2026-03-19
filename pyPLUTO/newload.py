@@ -3,6 +3,7 @@
 from typing import Any
 
 from pyPLUTO.loadfuncs.initload import InitLoadManager
+from pyPLUTO.loadfuncs.readdefplini import FiledefpliniManager
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -38,7 +39,6 @@ class Load(LoadMixin):
     def __init__(
         self,
         nout: int | str | list[int | str] | None = "last",
-        text: bool = True,
         check: bool = True,
         **kwargs: Any,
     ) -> None:
@@ -46,11 +46,13 @@ class Load(LoadMixin):
         kwargs.pop("kwargscheck", check)
 
         self.state: LoadState = LoadState()
+        self.text: bool | None = kwargs.get("text", self.text)
         self.class_name: str = self.__class__.__name__
         self.full3D: bool = kwargs.get("full3D", self.full3D)
         InitLoadManager(self.state, nout, **kwargs)
+        FiledefpliniManager(self.state, **kwargs)
 
-        if text:
+        if self.text is not False:
             print("Load: Load class initialized.")
 
     def __getattr__(self, name: str) -> object:

@@ -11,7 +11,7 @@ class GridManager(LoadMixin):
         """Initialize the BaseLoadTools class."""
         self.state: LoadState = state
 
-    def readgridvtk(self, gridvars):
+    def readgridvtk(self, gridvars: list[str]) -> None:
         """Read the grid information from VTK files without descriptor.
 
         Such information are the dimensions, the geometry, the center and edges
@@ -25,7 +25,7 @@ class GridManager(LoadMixin):
 
         Parameters
         ----------
-        - None
+        - gridvars (list[str]): List of grid variables to read.
 
         ----
 

@@ -20,6 +20,7 @@ class LoadState(BaseLoadState):
 
     # pylint: disable=too-many-instance-attributes
 
+    defh: dict = field(init=False, repr=False)
     dim: int = field(init=False)
     dx1: NDArray[Any] = field(init=False)
     dx2: NDArray[Any] = field(init=False)
@@ -39,6 +40,8 @@ class LoadState(BaseLoadState):
     nx1: int = field(init=False)
     nx2: int = field(init=False)
     nx3: int = field(init=False)
+
+    plini: dict = field(init=False, repr=False)
 
     x1: NDArray[Any] = field(init=False)
     x1c: NDArray[Any] = field(init=False, repr=False)

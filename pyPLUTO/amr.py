@@ -40,13 +40,13 @@ def _inspect_hdf5(self, i: int, exout: int) -> None:
     self.x3range = None
 
     h5file = h5py.File(self._filepath, "r")
-    self._multiple = False
-    self._d_info["varslist"] = []
+    self.multiple = False
+    self.d_info["varslist"] = []
     self.ntime = h5file.attrs.get("time")
     for i in range(h5file.attrs.get("num_components")):
-        self._d_info["varslist"].append(h5file.attrs.get("component_" + str(i)))
+        self.d_info["varslist"].append(h5file.attrs.get("component_" + str(i)))
 
-    NewData = self._DataScanHDF5(h5file, self._d_info["varslist"], self.level)
+    NewData = self._DataScanHDF5(h5file, self.d_info["varslist"], self.level)
 
     for key in NewData.keys():
         if key == "grid":
@@ -397,7 +397,7 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
     for iv in range(nvar):
         myvars[iv] = myvars[iv].decode()
         h5vardict[myvars[iv]] = vars[:, :, :, iv].squeeze().T
-    self._load_vars = myvars
+    self.load_vars = myvars
     AMRdict = dict([("AMRBoxes", AMRBoxes), ("AMRLevel", AMRLevel)])
     OutDict = dict(NewGridDict)
     OutDict.update(AMRdict)
@@ -539,3 +539,207 @@ def oplotbox(
                         ]
                     )
                     self.plot(xb, yb, c=cols[il], ax=ax, **kwargs)
+
+
+def _read_gridfile(self) -> None:
+    """The file grid.out is read and all the grid information are stored
+    in the Load class. Such information are the dimensions, the
+    geometry, the center and edges of each cell, the grid shape and size
+    and, in case of non cartesian coordinates, the transformed cartesian
+    coordinates (only 2D for now).bThe full non-cartesian 3D
+    transformations have not been implemented yet.
+
+    Returns
+    -------
+    - None
+
+    Parameters
+    ----------
+    - None
+
+    ----
+
+    Examples
+    --------
+    - Example #1: read the grid file
+
+        >>> _read_gridfile()
+
+    """
+    # Initialize relevant lists
+    nmax, xL, xR = [], [], []
+
+    # Open and read the gridfile
+    with open(self._pathgrid) as gfp:
+        for i in gfp.readlines():
+            self._split_gridfile(i, xL, xR, nmax)
+
+    # Compute nx1, nx2, nx3
+    self.nx1, self.nx2, self.nx3 = nmax
+    nx1p2 = self.nx1 + self.nx2
+    nx1p3 = self.nx1 + self.nx2 + self.nx3
+
+    # Define grid shapes based on dimensions
+    nx1s, nx2s, nx3s = self.nx1 + 1, self.nx2 + 1, self.nx3 + 1
+    GRID_SHAPES = {
+        1: lambda nx1, _, __: (nx1, nx1s, None, None),
+        2: lambda nx1, nx2, _: ((nx2, nx1), (nx2, nx1s), (nx2s, nx1), None),
+        3: lambda nx1, nx2, nx3: (
+            (nx3, nx2, nx1),
+            (nx3, nx2, nx1s),
+            (nx3, nx2s, nx1),
+            (nx3s, nx2, nx1),
+        ),
+    }
+
+    # Determine grid shape based on dimension
+    (self.nshp, self._nshp_st1, self._nshp_st2, self._nshp_st3) = GRID_SHAPES[
+        self.dim
+    ](self.nx1, self.nx2, self.nx3)
+
+    # Compute the centered and staggered grid values
+    self.x1r = np.array(xL[0 : self.nx1] + [xR[self.nx1 - 1]])
+    self.x1 = 0.5 * (self.x1r[:-1] + self.x1r[1:])
+    self.dx1 = self.x1r[1:] - self.x1r[:-1]
+
+    self.x2r = np.array(xL[self.nx1 : nx1p2] + [xR[nx1p2 - 1]])
+    self.x2 = 0.5 * (self.x2r[:-1] + self.x2r[1:])
+    self.dx2 = self.x2r[1:] - self.x2r[:-1]
+
+    self.x3r = np.array(xL[nx1p2:nx1p3] + [xR[nx1p3 - 1]])
+    self.x3 = 0.5 * (self.x3r[:-1] + self.x3r[1:])
+    self.dx3 = self.x3r[1:] - self.x3r[:-1]
+
+    # Compute the cartesian grid coordinates (non-cartesian geometry)
+
+    if self.geom == "POLAR" or self.geom == "CYLINDRICAL":
+        x1_2D, x2_2D = np.meshgrid(self.x1, self.x2, indexing="ij")
+        x1r_2D, x2r_2D = np.meshgrid(self.x1r, self.x2r, indexing="ij")
+
+        self.x1c = (np.cos(x2_2D) * x1_2D).T
+        self.x2c = (np.sin(x2_2D) * x1_2D).T
+        self.x1rc = (np.cos(x2r_2D) * x1r_2D).T
+        self.x2rc = (np.sin(x2r_2D) * x1r_2D).T
+
+        self.gridlist3 = ["x1c", "x2c", "x1rc", "x2rc"]
+        del x1_2D, x2_2D, x1r_2D, x2r_2D
+    elif self.geom == "SPHERICAL":
+        x1_2D, x2_2D = np.meshgrid(self.x1, self.x2, indexing="ij")
+        x1r_2D, x2r_2D = np.meshgrid(self.x1r, self.x2r, indexing="ij")
+
+        self.x1p = (np.sin(x2_2D) * x1_2D).T
+        self.x2p = (np.cos(x2_2D) * x1_2D).T
+        self.x1rp = (np.sin(x2r_2D) * x1r_2D).T
+        self.x2rp = (np.cos(x2r_2D) * x1r_2D).T
+
+        x1_2D, x3_2D = np.meshgrid(self.x1, self.x3, indexing="ij")
+        x1r_2D, x3r_2D = np.meshgrid(self.x1r, self.x3r, indexing="ij")
+
+        self.x1t = (np.cos(x3_2D) * x1_2D).T
+        self.x3t = (np.sin(x3_2D) * x1_2D).T
+        self.x1rt = (np.cos(x3r_2D) * x1r_2D).T
+        self.x3rt = (np.sin(x3r_2D) * x1r_2D).T
+
+        self.gridlist3 = [
+            "x1p",
+            "x2p",
+            "x1rp",
+            "x2rp",
+            "x1t",
+            "x3t",
+            "x1rt",
+            "x3rt",
+        ]
+
+        del x1_2D, x2_2D, x1r_2D, x2r_2D, x3_2D, x3r_2D
+
+        if self.dim == 3 and self._full3d is True:
+            x1_3D, x2_3D, x3_3D = np.meshgrid(
+                self.x1, self.x2, self.x3, indexing="ij"
+            )
+            x1r_3D, x2r_3D, x3r_3D = np.meshgrid(
+                self.x1r, self.x2r, self.x3r, indexing="ij"
+            )
+
+            self.x1c = (np.sin(x2_3D) * np.cos(x3_3D) * x1_3D).T
+            self.x2c = (np.sin(x2_3D) * np.sin(x3_3D) * x1_3D).T
+            self.x3c = (np.cos(x2_3D) * x1_3D).T
+            self.x1rc = (np.sin(x2r_3D) * np.cos(x3r_3D) * x1r_3D).T
+            self.x2rc = (np.sin(x2r_3D) * np.sin(x3r_3D) * x1r_3D).T
+            self.x3rc = (np.cos(x2r_3D) * x1r_3D).T
+
+            self.gridlist3.extend(["x1c", "x2c", "x3c", "x1rc", "x2rc", "x3rc"])
+
+            del x1_3D, x2_3D, x3_3D, x1r_3D, x2r_3D, x3r_3D
+        else:
+            pass
+            # self.x1c = np.zeros((self.nx1,self.nx2,self.nx3))
+            # print(np.shape(self.x1c))
+            # self.pippo = np.meshgrid(self.x2, self.x3, indexing='xy')
+            # print(np.shape(self.pippo))
+
+    # Compute the gridsize both centered and staggered
+    self.gridsize = self.nx1 * self.nx2 * self.nx3
+    self.gridsize_st1 = nx1s * self.nx2 * self.nx3
+    self.gridsize_st2 = self.nx1 * nx2s * self.nx3
+    self.gridsize_st3 = self.nx1 * self.nx2 * nx3s
+
+    self.info = False
+
+
+def _split_gridfile(
+    self, i: str, xL: list[float], xR: list[float], nmax: list[int]
+) -> None:
+    """Splits the gridfile, storing the information in the variables
+    passed by the function. Dimensions and geometry are stored in the
+    class.
+
+    Return
+    ------
+
+    - None
+
+    Parameters
+    ----------
+    - i (not optional): str
+        The line of the gridfile.
+    - nmax (not optional): list[int]
+        The number of the cells in the grid.
+    - xL (not optional): list[float]
+        The list of the left cell boundaries values.
+    - xR (not optional): list[float]
+        The list of the right cell boundaries values.
+
+    ----
+
+    Examples
+    --------
+    - Example #1: Split the gridfile
+
+        >>> _split_gridfile(i, xL, xR, nmax)
+
+    """
+    # If the splitted line has only one string, try to convert it
+    # to an integer (number of cells in a dimension).
+    if len(i.split()) == 1:
+        try:
+            nmax.append(int(i.split(maxsplit=1)[0]))
+        except ValueError:
+            pass
+
+    # Check if the splitted line has three strings
+    if len(i.split()) == 3:
+        # Try to convert the first string to an int (cell number in a dimension)
+        # and the other two to floats (left and right cell boundaries)
+        try:
+            int(i.split(maxsplit=1)[0])
+            xL.append(float(i.split()[1]))
+            xR.append(float(i.split()[2]))
+
+        # Check if the keyword is geometry or dimensions and
+        # store the information in the class
+        except ValueError:
+            if i.split()[1] == "GEOMETRY:":
+                self.geom = i.split()[2]
+            if i.split()[1] == "DIMENSIONS:":
+                self.dim = int(i.split()[2])

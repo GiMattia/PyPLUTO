@@ -39,6 +39,7 @@ class BaseLoadState:
     ntimelist: NDArray[Any] = field(init=False)
     outlist: NDArray[Any] = field(init=False)
     pathdir: str | Path = "./"
+    text: bool | None = None
     timelist: NDArray[Any] = field(init=False)
     varoffset: dict[str, Any] = field(init=False)
     varshape: dict[str, Any] = field(init=False)

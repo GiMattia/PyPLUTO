@@ -238,7 +238,7 @@ def _read_gridfile(self) -> None:
 
     # Compute the cartesian grid coordinates (non-cartesian geometry)
 
-    if self.geom == "POLAR":
+    if self.geom == "POLAR" or self.geom == "CYLINDRICAL":
         x1_2D, x2_2D = np.meshgrid(self.x1, self.x2, indexing="ij")
         x1r_2D, x2r_2D = np.meshgrid(self.x1r, self.x2r, indexing="ij")
 

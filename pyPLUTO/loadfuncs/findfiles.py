@@ -68,6 +68,7 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         # Initialization or declaration of variables
         set_vars: set[str] = set()
         set_outs: set[str] = set()
+        self.d_info = {}
 
         if self.matching_files is None:
             raise ValueError("No files are found! Cannot proceed.")
@@ -87,7 +88,6 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         self.timelist = np.full(len(self.outlist), np.nan)
 
         # Initialize the info dictionary and initialize some relevant variables
-        self.d_info = {}
         self.d_info["typefile"] = np.empty(self.lennoutlist, dtype="U20")
         self.d_info["endianess"] = np.empty(self.lennoutlist, dtype="U20")
         self.d_info["binformat"] = np.empty(self.lennoutlist, dtype="U20")
@@ -100,10 +100,10 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
             if "data" not in set_vars or self.multiple is True:
                 # If the files are multiple, the typefile is set accordingly
                 self.d_info["typefile"][:] = "multiple_files"
-                self.d_info["varslist"] = np.empty(
-                    (self.lennoutlist, len(set_vars)), dtype="U20"
-                )
-                self.d_info["varslist"][:] = list(set_vars)
+                self.d_info["varslist"] = [[] for _ in range(self.lennoutlist)]
+                for elem in self.matching_files:
+                    raw_str = Path(elem).name.split(".")
+                    self.d_info["varslist"][int(raw_str[1])].append(raw_str[0])
             else:
                 # If the files are single, the typefile is set to 'single_file'
                 self.d_info["typefile"][:] = "single_file"
@@ -156,8 +156,8 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         out = raw_str[1]
 
         # Set the conditions if the file is fluid or particles
-        isfluid = vars != "particles" and self.class_name == "Load"
-        ispart = vars == "particles" and self.class_name == "LoadPart"
+        isfluid = var != "particles" and self.class_name == "Load"
+        ispart = var == "particles" and self.class_name == "LoadPart"
 
         if isfluid or (ispart and "_" not in out):
             # Control variable set to True

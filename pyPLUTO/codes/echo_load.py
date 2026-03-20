@@ -2,10 +2,10 @@
 
 import warnings
 from pathlib import Path
-from typing import Any, Literal, cast
+from typing import Any, cast
 
 import h5py
-from numpy.typing import NDArray
+from traitlets import warn
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
@@ -22,7 +22,7 @@ class EchoLoadManager(LoadMixin):
         self.state = state
 
     def load_echo(
-        self, nout: int | NDArray[Any] | Literal["last"], **kwargs: Any
+        self, nout: int | str | list[int | str] | None, **kwargs: Any
     ) -> None:
         """Load the data from the output files of the ECHO code.
 
@@ -79,7 +79,24 @@ class EchoLoadManager(LoadMixin):
         self.echo_load_grid(conv_dict)
         self.echo_set_grid_dims()
 
-        self.nout = nout if nout != "last" else 0
+        if isinstance(nout, str) or nout is None:
+            warnings.warn(
+                "Please specify the output or it will be set to 0.",
+                stacklevel=2,
+            )
+            self.nout = 0
+        elif isinstance(nout, list):
+            if isinstance(nout[0], int):
+                self.nout = nout[0]
+            else:
+                warnings.warn(
+                    "Please specify the output or it will be set to 0.",
+                    stacklevel=2,
+                )
+                self.nout = 0
+        else:
+            self.nout = nout
+
         file = self.pathdir / Path(f"out{self.nout:03d}.h5")
 
         loadvars = True

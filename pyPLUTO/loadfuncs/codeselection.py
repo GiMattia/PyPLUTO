@@ -18,7 +18,7 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
     def __init__(
         self,
         state: BaseLoadState,
-        nout: int | NDArray[Any] | Literal["last"],
+        nout: int | str | list[int | str] | None,
         **kwargs: Any,
     ) -> None:
         """Initialize the CodeManager class."""
@@ -29,7 +29,7 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
         self.select_code(nout, **kwargs)
 
     def select_code(
-        self, nout: int | NDArray[Any] | Literal["last"], **kwargs: Any
+        self, nout: int | str | list[int | str] | None, **kwargs: Any
     ) -> None:
         """Select the code based on the state."""
         # If not code is provided (or the code is PLUTO/gPLUTO) just skip

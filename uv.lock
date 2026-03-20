@@ -1528,7 +1528,7 @@ requires-dist = [
     { name = "coverage", marker = "extra == 'test'" },
     { name = "h5py" },
     { name = "h5py-stubs", marker = "extra == 'dev'" },
-    { name = "inifix" },
+    { name = "inifix", specifier = ">=5.1.0" },
     { name = "ipython", marker = "extra == 'notebook'" },
     { name = "marimo", marker = "extra == 'notebook'" },
     { name = "matplotlib" },

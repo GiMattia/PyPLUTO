@@ -27,7 +27,7 @@ dependencies = [
     "numexpr", 
     "pandas", 
     "h5py", 
-    "inifix",
+    "inifix>=5.1.0",
 ]
 
 [project.optional-dependencies]

@@ -1475,6 +1475,7 @@ source = { editable = "." }
 dependencies = [
     { name = "contourpy" },
     { name = "h5py" },
+    { name = "inifix" },
     { name = "matplotlib" },
     { name = "numexpr" },
     { name = "numpy" },
@@ -1501,7 +1502,6 @@ docs = [
     { name = "sphinx-automodapi" },
 ]
 extras = [
-    { name = "inifix" },
     { name = "pyside6" },
 ]
 notebook = [
@@ -1528,7 +1528,7 @@ requires-dist = [
     { name = "coverage", marker = "extra == 'test'" },
     { name = "h5py" },
     { name = "h5py-stubs", marker = "extra == 'dev'" },
-    { name = "inifix", marker = "extra == 'extras'" },
+    { name = "inifix" },
     { name = "ipython", marker = "extra == 'notebook'" },
     { name = "marimo", marker = "extra == 'notebook'" },
     { name = "matplotlib" },

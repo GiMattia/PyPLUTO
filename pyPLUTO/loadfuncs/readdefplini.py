@@ -2,12 +2,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-try:
-    import inifix
-
-    HAS_INIFIX = True
-except ImportError:
-    HAS_INIFIX = False
+import inifix
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
@@ -35,7 +30,7 @@ class FiledefpliniManager(LoadMixin):
         elif plini is not False:
             pathplini = self.pathdir / Path("pluto.ini")
             try:
-                self.plini = self.read_plini(pathplini)
+                self.plini = inifix.load(pathplini, sections="require")
             except FileNotFoundError:
                 print("No pluto.ini is read!") if plini is True else ...
 
@@ -71,65 +66,6 @@ class FiledefpliniManager(LoadMixin):
                     re.split(r"\s+", line.strip(), maxsplit=2)
                 ]
             }
-
-    def read_plini(self, filepath: Path) -> dict:
-        """Read a pluto.ini file and extract settings.
-
-        This function reads a pluto.ini file and extracts key-value pairs,
-        converting the values to their appropriate types.
-
-        Returns
-        -------
-        dict
-            A dictionary where keys are the setting names and values are the
-            converted values.
-
-        Parameters
-        ----------
-        filepath : Path
-            The path to the pluto.ini file to read.
-
-        """
-        if HAS_INIFIX:
-            conf = inifix.load(filepath, sections="require")
-            print("used inifix")
-            return conf
-        else:
-            conf, section = {}, None
-
-            with open(filepath) as f:
-                for lines in f:
-                    line = lines.strip()
-
-                    if not line or line.startswith(("#", ";")):
-                        continue
-
-                    if line.startswith("["):
-                        section = line.strip("[]")
-                        conf[section] = {}
-                        continue
-
-                    if section is None:
-                        continue
-
-                    parts = line.split()
-                    key = parts[0]
-                    values = [self.parse_token(x) for x in parts[1:]]
-
-                    conf[section][key] = (
-                        values[0] if len(values) == 1 else values
-                    )
-
-            return conf
-
-    def parse_token(self, x: str) -> int | float | str:
-        try:
-            return int(x)
-        except ValueError:
-            try:
-                return float(x)
-            except ValueError:
-                return x
 
     def convert_value(self, value: str) -> bool | int | float | str:
         """Convert a string value to its appropriate type.

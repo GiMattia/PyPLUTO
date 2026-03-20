@@ -27,12 +27,12 @@ dependencies = [
     "numexpr", 
     "pandas", 
     "h5py", 
+    "inifix",
 ]
 
 [project.optional-dependencies]
 extras = [
     "PySide6",
-    "inifix",
 ]
 
 docs = [

@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import Any, cast
 
 import h5py
-from traitlets import warn
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState

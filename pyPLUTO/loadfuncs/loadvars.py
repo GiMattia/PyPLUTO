@@ -157,7 +157,12 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
                 buffer=mm,
                 offset=offset,
                 order="C",
-            ).T
+            )
+            if (
+                self.format not in {"dbl.h5", "flt.h5"}
+                or self.alone is not True
+            ):
+                scrh = scrh.T
 
             self.assign_var(exout, j, scrh)
 

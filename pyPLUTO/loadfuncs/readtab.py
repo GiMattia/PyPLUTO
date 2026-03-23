@@ -77,8 +77,8 @@ class ReadtabManager(LoadMixin):
             self.nshp = self.nx1
 
         if self.infogrid is True:
-            self.x1 = data[:, 1].reshape(self.nx2, self.nx1)
-            self.x2 = data[:, 0].reshape(self.nx2, self.nx1)
+            self.x1 = data[:, 1].reshape(self.nx1, self.nx2)
+            self.x2 = data[:, 0].reshape(self.nx1, self.nx2)
             if self.nx2 == 1:
                 self.x1 = self.x2[0]
 
@@ -90,12 +90,12 @@ class ReadtabManager(LoadMixin):
         self.load_vars = self.d_info["varslist"][exout]
 
         # Store variables — pure numpy column slices (views, zero-copy)
-        num_cols_iter = num_cols - 1 if self.nx2 > 1 else num_cols
+        num_cols_iter = num_cols
         for j in range(2, num_cols_iter):
             var = self.d_info["varslist"][exout][j - 2]
             col = data[:, j]
             if empty_lines > 0:
-                col = col.reshape(self.nx2, self.nx1)
+                col = col.reshape(self.nx1, self.nx2)
             Dict_tab[var] = col
             if var in self.load_vars:
                 setattr(self.state, var, col)

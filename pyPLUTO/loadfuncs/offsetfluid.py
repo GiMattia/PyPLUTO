@@ -15,6 +15,10 @@ from pyPLUTO.loadstate import LoadState
 class OffsetFluid(LoadMixin):
     """Class that computes the fluid offsets in single_file format."""
 
+    from pyPLUTO.amr import _DataScanHDF5, _inspect_hdf5, _read_gridfile
+    from pyPLUTO.loadfuncs.readgridout import _split_gridfile
+    from pyPLUTO.toolfuncs.transform import _congrid
+
     def __init__(self, state: LoadState) -> None:
         self.state = state
         self.varoffset, self.varshape = ({}, {})
@@ -104,6 +108,7 @@ class OffsetFluid(LoadMixin):
             >>> _offset_h5(0, True)
 
         """
+        self.state.reverse = self.alone is True
         # Open the file with the h5py library
         h5file = h5py.File(str(self.filepath), "r")
 
@@ -175,7 +180,9 @@ class OffsetFluid(LoadMixin):
             # Only Dataset objects provide shape and a file offset
             if isinstance(obj, h5py.Dataset):
                 self.varoffset[j] = obj.id.get_offset()
-                self.varshape[j] = obj.shape
+                self.varshape[j] = (
+                    obj.shape[::-1] if self.alone is True else obj.shape
+                )
             elif obj is not None:
                 raise ValueError(
                     f"Error: Variable {j} in the HDF5 file is not a dataset."
@@ -333,3 +340,71 @@ class OffsetFluid(LoadMixin):
         if self.infogrid is True:
             self.GridAloneManager.readgridvtk(gridvars)
             self.infogrid = False
+
+    def offset_hdf5(
+        self, i: int, _var: str | None, exout: int, _mm: mmap.mmap
+    ) -> None:
+        """Load AMR data from PLUTO/Chombo HDF5 files.
+
+        This method is intentionally isolated from other formats.
+        """
+        # Bridge AMR helpers (legacy naming) to the Newload state fields.
+        self._filepath = self.filepath
+        self._pathgrid = self.pathdir / "grid.out"
+        if not hasattr(self, "level"):
+            self.level = 0
+
+        # Keep the original varslist structure used by Newload internals.
+        varslist_table = self.d_info.get("varslist", None)
+        self._inspect_hdf5(i, exout)
+
+        # AMR reader stores a flat variable list; normalize as plain strings.
+        loaded_vars = []
+        for v in self.d_info.get("varslist", []):
+            loaded_vars.append(v.decode() if isinstance(v, bytes) else str(v))
+
+        if (
+            isinstance(varslist_table, list)
+            and len(varslist_table) > exout
+            and isinstance(varslist_table[exout], list | set | np.ndarray)
+        ):
+            self.d_info["varslist"] = varslist_table
+            self.d_info["varslist"][exout] = loaded_vars
+        else:
+            self.d_info["varslist"] = loaded_vars
+
+        self.load_vars = loaded_vars
+
+        # Persist AMR metadata to state so Newload exposes it.
+        for amr_key in ("AMRLevel", "AMRBoxes", "Dt", "n1", "n2", "n3"):
+            if hasattr(self, amr_key):
+                setattr(self.state, amr_key, getattr(self, amr_key))
+
+        # Keep times aligned with nout/out tables when available.
+        try:
+            idx = np.searchsorted(self.outlist, exout)
+            self.timelist[idx] = float(self.ntime)
+        except Exception:
+            pass
+        try:
+            idx = np.searchsorted(self.noutlist, exout)
+            self.ntimelist[idx] = float(self.ntime)
+        except Exception:
+            pass
+
+        # Populate d_vars so Newload can expose loaded AMR variables normally.
+        for varname in loaded_vars:
+            if not hasattr(self, varname):
+                continue
+            data = getattr(self, varname)
+            self.varshape[varname] = np.shape(data)
+            self.varoffset[varname] = 0
+
+            if self.lennout != 1:
+                if varname not in self.d_vars:
+                    self.d_vars[varname] = {}
+                self.d_vars[varname][exout] = data
+            else:
+                self.d_vars[varname] = data
+
+        self.infogrid = False

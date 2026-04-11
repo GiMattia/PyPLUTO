@@ -45,8 +45,6 @@ def ideal_solution(D, time=None):
         ex["var2"] = np.atan(10.0 * (D.x1 - 0.5) / (1.0 + 3.0 * ntime))
         ex["var3"] = 1.0 + 0.5 * np.cos(2 * np.pi * D.x1 + ntime)
         ex["var4"] = np.sqrt(ex["var3"] / ex["var1"])
-    with contextlib.suppress(BaseException):
-        print(f"{D.x1 = }")
     return ex
 
 

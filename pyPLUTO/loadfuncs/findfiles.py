@@ -87,10 +87,14 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         self.ntimelist = np.full(self.lennout, np.nan)
         self.timelist = np.full(len(self.outlist), np.nan)
 
+        # Find the max size of the output numbers to allow for loading if some
+        # files are missing
+        d_info_size = int(np.max(self.outlist)) + 1
+
         # Initialize the info dictionary and initialize some relevant variables
-        self.d_info["typefile"] = np.empty(self.lennoutlist, dtype="U20")
-        self.d_info["endianess"] = np.empty(self.lennoutlist, dtype="U20")
-        self.d_info["binformat"] = np.empty(self.lennoutlist, dtype="U20")
+        self.d_info["typefile"] = np.empty(d_info_size, dtype="U20")
+        self.d_info["endianess"] = np.empty(d_info_size, dtype="U20")
+        self.d_info["binformat"] = np.empty(d_info_size, dtype="U20")
         if self.class_name == "LoadPart":
             raise NotImplementedError(
                 "FindFilesManager for LoadPart is not implemented yet."
@@ -100,19 +104,23 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
             if "data" not in set_vars or self.multiple is True:
                 # If the files are multiple, the typefile is set accordingly
                 self.d_info["typefile"][:] = "multiple_files"
-                self.d_info["varslist"] = [[] for _ in range(self.lennoutlist)]
+                self.d_info["varslist"] = [[] for _ in range(d_info_size)]
                 for elem in self.matching_files:
                     raw_str = Path(elem).name.split(".")
                     self.d_info["varslist"][int(raw_str[1])].append(raw_str[0])
             else:
                 # If the files are single, the typefile is set to 'single_file'
                 self.d_info["typefile"][:] = "single_file"
-                self.d_info["varslist"] = [[] for _ in range(self.lennoutlist)]
+                self.d_info["varslist"] = [[] for _ in range(d_info_size)]
         else:
             raise ValueError(f"Unknown class name: {self.class_name}")
 
-        format_string = f".%04d.{self.format}"
-        self.d_info["endpath"] = np.char.mod(format_string, self.outlist)
+        # Sparse map indexed by output number
+        endpath = np.empty(d_info_size, dtype=f"<U{len(self.format) + 6}")
+        endpath[:] = ""
+        for out in self.outlist:
+            endpath[int(out)] = f".{int(out):04d}.{self.format}"
+        self.d_info["endpath"] = endpath
 
     def varsout(
         self,

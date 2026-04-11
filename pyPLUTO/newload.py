@@ -49,6 +49,7 @@ class Load(LoadMixin):
         self.text: bool | None = kwargs.get("text", self.text)
         self.class_name: str = self.__class__.__name__
         self.full3D: bool = kwargs.get("full3D", self.full3D)
+        self.level: int = kwargs.get("level", self.level)
         InitLoadManager(self.state, nout, **kwargs)
         FiledefpliniManager(self.state, **kwargs)
 

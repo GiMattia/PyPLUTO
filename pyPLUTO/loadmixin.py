@@ -29,6 +29,16 @@ class LoadMixin(BaseLoadMixin[LoadState]):
         self.state.defh = value
 
     @property
+    def level(self) -> int:
+        """Get the AMR refinement level."""
+        return self.state.level
+
+    @level.setter
+    def level(self, value: int) -> None:
+        """Set the AMR refinement level."""
+        self.state.level = value
+
+    @property
     def dim(self) -> int:
         """Get the dim attribute of the load state."""
         return self.state.dim
@@ -207,6 +217,16 @@ class LoadMixin(BaseLoadMixin[LoadState]):
     def plini(self, value: dict) -> None:
         """Set the plini attribute of the load state."""
         self.state.plini = value
+
+    @property
+    def reverse(self) -> bool:
+        """Get the reverse attribute of the load state."""
+        return self.state.reverse
+
+    @reverse.setter
+    def reverse(self, value: bool) -> None:
+        """Set the reverse attribute of the load state."""
+        self.state.reverse = value
 
     @property
     def x1(self) -> NDArray[Any]:

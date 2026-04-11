@@ -156,15 +156,8 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
                 dtype=dtype,
                 buffer=mm,
                 offset=offset,
-                order="C",
-            )
-
-            # Transpose the array if necessary (not dbl.h5 / flt.h5)
-            if (
-                self.format not in {"dbl.h5", "flt.h5"}
-                or self.alone is not True
-            ):
-                scrh = scrh.T
+                order="C" if self.state.reverse is False else "F",
+            ).T
 
             self.assign_var(exout, j, scrh)
 

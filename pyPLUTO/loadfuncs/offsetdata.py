@@ -77,7 +77,7 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
                 "bin": self.Offsetclass.offset_bin,
                 "vtk": self.Offsetclass.offset_vtk,
                 "h5": self.Offsetclass.offset_h5,
-                #  "hdf5": None,
+                "hdf5": self.Offsetclass.offset_hdf5,
             }
         else:
             raise TypeError(

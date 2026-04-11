@@ -32,6 +32,7 @@ class LoadState(BaseLoadState):
     gridsize_st1: int = field(init=False)
     gridsize_st2: int = field(init=False)
     gridsize_st3: int = field(init=False)
+    level: int = 0
 
     nshp: int | tuple[int, ...] = field(init=False)
     nshp_st1: int | tuple[int, ...] | None = field(init=False)
@@ -42,6 +43,7 @@ class LoadState(BaseLoadState):
     nx3: int = field(init=False)
 
     plini: dict = field(init=False, repr=False)
+    reverse: bool = False
 
     x1: NDArray[Any] = field(init=False)
     x1c: NDArray[Any] = field(init=False, repr=False)

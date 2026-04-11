@@ -150,7 +150,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
 
             dtype = np.dtype(self.d_info["binformat"][exout])
             shape = self.varshape[j]
-            offset = self.varoffset[j]  # must be in bytes
+            offset = self.varoffset[j]
             scrh = np.ndarray(
                 shape=shape,
                 dtype=dtype,
@@ -158,6 +158,8 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
                 offset=offset,
                 order="C",
             )
+
+            # Transpose the array if necessary (not dbl.h5 / flt.h5)
             if (
                 self.format not in {"dbl.h5", "flt.h5"}
                 or self.alone is not True

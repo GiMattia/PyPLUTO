@@ -52,10 +52,17 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
 
         self.FindFormat = FindFormat(state, **kwargs)
 
+        if isinstance(state, LoadState) and not self.alone:
+            try:
+                self.Descriptor = DescriptorManager(state, nout, **kwargs)
+            except UserWarning:
+                warnings.warn(
+                    "Failed to initialize descriptor manager.", stacklevel=2
+                )
+                self.alone = True
+
         if not isinstance(state, LoadState) or self.alone:
             self.findfile = FindFilesManager(state, nout, **kwargs)
-        else:
-            self.Descriptor = DescriptorManager(state, nout, **kwargs)
 
         loadvars = True
         if kwargs.get("vars") is not None:

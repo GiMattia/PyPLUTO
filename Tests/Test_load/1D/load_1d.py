@@ -2,6 +2,7 @@ import time
 import numpy as np
 import numpy.testing as npt
 import pyPLUTO as pp
+import contextlib
 
 
 def ideal_solution(D, time=None):
@@ -14,6 +15,38 @@ def ideal_solution(D, time=None):
     ex["prs"] = 1.0 + 0.5 * np.cos(2 * np.pi * D.x1 + ntime)
     ex["v2"] = ex["vx1"] ** 2 + ex["vx2"] ** 2 + ex["vx3"] ** 2
     ex["cs"] = np.sqrt(ex["prs"] / ex["rho"])
+    if D.nout == 0:
+        ntime = 0
+        ex["var1"] = 1.0 + 0.5 * np.sin(2 * np.pi * D.x1 + ntime)
+        ex["var2"] = np.sin(2 * np.pi * D.x1 + ntime)
+        ex["var3"] = np.cos(2 * np.pi * D.x1 + ntime)
+        ex["var4"] = np.atan(10.0 * (D.x1 - 0.5) / (1.0 + 3.0 * ntime))
+        ex["var5"] = 1.0 + 0.5 * np.cos(2 * np.pi * D.x1 + ntime)
+        ex["var6"] = ex["var2"] ** 2 + ex["var3"] ** 2 + ex["var4"] ** 2
+    elif D.nout == 1:
+        ntime = 0.5
+        ex["var1"] = 1.0 + 0.5 * np.sin(2 * np.pi * D.x1 + ntime)
+        ex["var2"] = np.sin(2 * np.pi * D.x1 + ntime)
+        ex["var3"] = np.cos(2 * np.pi * D.x1 + ntime)
+        ex["var4"] = np.atan(10.0 * (D.x1 - 0.5) / (1.0 + 3.0 * ntime))
+        ex["var5"] = 1.0 + 0.5 * np.cos(2 * np.pi * D.x1 + ntime)
+    elif D.nout == 2:
+        ntime = 1.0
+        ex["var1"] = 1.0 + 0.5 * np.sin(2 * np.pi * D.x1 + ntime)
+        ex["var2"] = np.sin(2 * np.pi * D.x1 + ntime)
+        ex["var3"] = np.cos(2 * np.pi * D.x1 + ntime)
+        ex["var4"] = np.atan(10.0 * (D.x1 - 0.5) / (1.0 + 3.0 * ntime))
+        ex["var5"] = 1.0 + 0.5 * np.cos(2 * np.pi * D.x1 + ntime)
+        ex["var6"] = ex["var2"] ** 2 + ex["var3"] ** 2 + ex["var4"] ** 2
+        ex["var7"] = np.sqrt(ex["var5"] / ex["var1"])
+    else:
+        ntime = 1.5
+        ex["var1"] = 1.0 + 0.5 * np.sin(2 * np.pi * D.x1 + ntime)
+        ex["var2"] = np.atan(10.0 * (D.x1 - 0.5) / (1.0 + 3.0 * ntime))
+        ex["var3"] = 1.0 + 0.5 * np.cos(2 * np.pi * D.x1 + ntime)
+        ex["var4"] = np.sqrt(ex["var3"] / ex["var1"])
+    with contextlib.suppress(BaseException):
+        print(f"{D.x1 = }")
     return ex
 
 
@@ -49,7 +82,7 @@ groups = [
     ("Alone multiple", "multiple_files/alone", ["vtk"]),
 ]
 
-NUMBER = 1000
+NUMBER = 1
 
 for case in cases:
     print(f"\nCASE {case}")

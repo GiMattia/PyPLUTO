@@ -79,13 +79,13 @@ class ReadtabManager(LoadMixin):
         if self.infogrid is True:
             self.x1 = data[:, 1].reshape(self.nx1, self.nx2)
             self.x2 = data[:, 0].reshape(self.nx1, self.nx2)
-            if self.nx2 == 1:
-                self.x1 = self.x2[0]
+            # if self.nx2 == 1:
+            #    self.x1 = self.x2[0]
 
         # Variable names
         if len(self.d_info["varslist"][exout]) == 0:
             self.d_info["varslist"][exout] = [
-                f"var{k}" for k in range(num_cols - 2)
+                f"var{k + 1}" for k in range(num_cols - 2)
             ]
         self.load_vars = self.d_info["varslist"][exout]
 

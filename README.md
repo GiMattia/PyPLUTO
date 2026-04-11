@@ -33,7 +33,7 @@ The package is tested on Python 3.10 (and newer versions) and with the following
 - `scipy`
 - `pandas`
 - `h5py`
-- `PyQt6`
+- `PySide6`
 
 The package is provided with a `LICENSE` file which contains the license terms.
 
@@ -148,7 +148,7 @@ pip install -r requirements_dev.txt
 
 ### Rules for Contributing
 
-We use pre-commit to ensure that the code is consistent with the code guidelines, through uv, ruff and ty.
+We use pre-commit to ensure that the code is consistent with the code guidelines, through uv, ruff, pyrefly and ty.
 You can either link the pre-commit to the repository through the command
 
 ```bash

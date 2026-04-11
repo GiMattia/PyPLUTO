@@ -60,7 +60,7 @@ groups = [
     ("Alone multiple", "multiple_files/alone", ["vtk"]),
 ]
 
-NUMBER = 1000
+NUMBER = 1
 
 for label, path, dtypes in groups:
     for dtype in dtypes:

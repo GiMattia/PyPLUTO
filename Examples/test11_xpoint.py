@@ -31,7 +31,8 @@ Dp_i = pyPLUTO.LoadPart(0, path=data_path, datatype="vtk")
 
 
 # --- Compute Lorentz factor and sort ---
-def compute_gamma(dp):
+def compute_gamma(dp: pyPLUTO.LoadPart) -> np.ndarray:
+    """Compute the Lorentz factor for a given particle dataset."""
     return np.sqrt(1 + dp.vx1**2 + dp.vx2**2 + dp.vx3**2)
 
 

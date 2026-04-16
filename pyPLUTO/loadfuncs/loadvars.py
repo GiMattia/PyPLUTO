@@ -152,11 +152,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             shape = self.varshape[j]
             offset = self.varoffset[j]
             scrh = np.ndarray(
-                shape=shape,
-                dtype=dtype,
-                buffer=mm,
-                offset=offset,
-                order="C" if self.state.reverse is False else "F",
+                shape=shape, dtype=dtype, buffer=mm, offset=offset, order="C"
             ).T
 
             self.assign_var(exout, j, scrh)

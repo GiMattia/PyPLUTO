@@ -8,12 +8,27 @@ def ideal_solution(D, h5lone):
 
     if h5lone:
         X, Y = D.x1, D.x2
-        Xx, Yx = None, 0.5 * (D.x2r[1:,] + D.x2r[:-1,])
-        Xy, Yy = 0.5 * (D.x1r[:, 1:] + D.x1r[:, :-1]), None
+        print(X)
+        Yx = 0.5 * (D.x2r[:, 1:] + D.x2r[:, :-1])
+        Xy = 0.5 * (D.x1r[1:,] + D.x1r[:-1,])
     else:
         X, Y = np.meshgrid(D.x1, D.x2, indexing="ij")
-        Xx, Yx = np.meshgrid(D.x1r, D.x2, indexing="ij")
-        Xy, Yy = np.meshgrid(D.x1, D.x2r, indexing="ij")
+        _, Yx = np.meshgrid(D.x1r, D.x2, indexing="ij")
+        Xy, _ = np.meshgrid(D.x1, D.x2r, indexing="ij")
+
+    x1r = np.linspace(0, 6.28318530717959, 9)
+    x2r = np.linspace(0, 6.28318530717959, 11)
+    x1 = 0.5 * (x1r[:-1] + x1r[1:])
+    x2 = 0.5 * (x2r[:-1] + x2r[1:])
+
+    x, y = np.meshgrid(x1, x2, indexing="ij")
+    _, yx = np.meshgrid(x1r, x2, indexing="ij")
+    xy, _ = np.meshgrid(x1, x2r, indexing="ij")
+    npt.assert_allclose(X, x)
+    npt.assert_allclose(Y, y)
+    npt.assert_allclose(Yx, yx)
+    npt.assert_allclose(Xy, xy)
+
     ex = {}
     ex["rho"] = 25.0 / 9.0
     ex["vx1"] = -np.sin(Y)

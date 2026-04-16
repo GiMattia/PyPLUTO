@@ -8,6 +8,8 @@ import contextlib
 def ideal_solution(D, time=None):
     ex = {}
     ntime = D.ntime if time is None else time
+    npt.assert_allclose(D.x1r, np.linspace(0, 1, 9))
+    npt.assert_allclose(D.x1, 0.5 * (D.x1r[:-1] + D.x1r[1:]))
     ex["rho"] = 1.0 + 0.5 * np.sin(2 * np.pi * D.x1 + ntime)
     ex["vx1"] = np.sin(2 * np.pi * D.x1 + ntime)
     ex["vx2"] = np.cos(2 * np.pi * D.x1 + ntime)

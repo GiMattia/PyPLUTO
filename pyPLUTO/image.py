@@ -6,6 +6,8 @@ from __future__ import annotations
 
 from typing import Unpack
 
+import matplotlib.pyplot as plt
+
 from pyPLUTO.amr import oplotbox
 from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.contour import ContourManager
@@ -221,6 +223,59 @@ class Image(ImageMixin):
         if name == "state" or not hasattr(self, "state"):
             return super().__setattr__(name, value)
         return setattr(self.state, name, value)
+
+    def close(self, clear: bool = True) -> None:
+        """Close the underlying matplotlib figure and drop internal references.
+
+        Parameters
+        ----------
+        clear: bool, default True
+            If True, clear axes/figure state containers after closing.
+        """
+        fig = self.fig
+        if fig is not None:
+            try:
+                fig.clf()
+            except Exception:
+                pass
+            try:
+                plt.close(fig)
+            except Exception:
+                pass
+            self.fig = None
+
+        if clear:
+            self.ax.clear()
+            self.color.clear()
+            self.dictcol.clear()
+            self.legpar.clear()
+            self.legpos.clear()
+            self.nline.clear()
+            self.ntext.clear()
+            self.setax.clear()
+            self.setay.clear()
+            self.shade.clear()
+            self.tickspar.clear()
+            self.vlims.clear()
+            self.xscale.clear()
+            self.yscale.clear()
+            self.nrow0 = 0
+            self.ncol0 = 0
+
+    def __enter__(self) -> "Image":
+        """Context manager entry."""
+        return self
+
+    def __exit__(self, _exc_type, _exc_val, _exc_tb) -> None:
+        """Context manager exit: always close the figure."""
+        self.close(clear=True)
+
+    def __del__(self) -> None:
+        """Best-effort cleanup when Image is garbage collected."""
+        try:
+            self.close(clear=True)
+        except Exception:
+            pass
 
     @property
     def animate(self):

@@ -3,6 +3,7 @@
 import mmap
 import struct
 import warnings
+from pathlib import Path
 
 import h5py
 import numpy as np
@@ -108,7 +109,6 @@ class OffsetFluid(LoadMixin):
             >>> _offset_h5(0, True)
 
         """
-        self.state.reverse = self.alone is True
         # Open the file with the h5py library
         h5file = h5py.File(str(self.filepath), "r")
 
@@ -180,21 +180,19 @@ class OffsetFluid(LoadMixin):
             # Only Dataset objects provide shape and a file offset
             if isinstance(obj, h5py.Dataset):
                 self.varoffset[j] = obj.id.get_offset()
-                self.varshape[j] = (
-                    obj.shape[::-1] if self.alone is True else obj.shape
-                )
+                self.varshape[j] = obj.shape
             elif obj is not None:
                 raise ValueError(
                     f"Error: Variable {j} in the HDF5 file is not a dataset."
                 )
 
         if self.alone is True and self.infogrid is True:
-            self.x1 = h5file["cell_coords"]["X"][:]
-            self.x2 = h5file["cell_coords"]["Y"][:]
-            self.x3 = h5file["cell_coords"]["Z"][:]
-            self.x1r = h5file["node_coords"]["X"][:]
-            self.x2r = h5file["node_coords"]["Y"][:]
-            self.x3r = h5file["node_coords"]["Z"][:]
+            self.x1 = h5file["cell_coords"]["X"][:].T
+            self.x2 = h5file["cell_coords"]["Y"][:].T
+            self.x3 = h5file["cell_coords"]["Z"][:].T
+            self.x1r = h5file["node_coords"]["X"][:].T
+            self.x2r = h5file["node_coords"]["Y"][:].T
+            self.x3r = h5file["node_coords"]["Z"][:].T
             self.GridAloneManager.readgridh5()
         self.infogrid = False
 
@@ -350,7 +348,7 @@ class OffsetFluid(LoadMixin):
         """
         # Bridge AMR helpers (legacy naming) to the Newload state fields.
         self._filepath = self.filepath
-        self._pathgrid = self.pathdir / "grid.out"
+        self._pathgrid = self.pathdir / Path("grid.out")
         if not hasattr(self, "level"):
             self.level = 0
 

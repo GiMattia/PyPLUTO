@@ -219,16 +219,6 @@ class LoadMixin(BaseLoadMixin[LoadState]):
         self.state.plini = value
 
     @property
-    def reverse(self) -> bool:
-        """Get the reverse attribute of the load state."""
-        return self.state.reverse
-
-    @reverse.setter
-    def reverse(self, value: bool) -> None:
-        """Set the reverse attribute of the load state."""
-        self.state.reverse = value
-
-    @property
     def x1(self) -> NDArray[Any]:
         """Get the x1 attribute of the load state."""
         return self.state.x1

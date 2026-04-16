@@ -43,7 +43,6 @@ class LoadState(BaseLoadState):
     nx3: int = field(init=False)
 
     plini: dict = field(init=False, repr=False)
-    reverse: bool = False
 
     x1: NDArray[Any] = field(init=False)
     x1c: NDArray[Any] = field(init=False, repr=False)

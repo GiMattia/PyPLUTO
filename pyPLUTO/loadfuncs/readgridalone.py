@@ -167,9 +167,9 @@ class GridManager(LoadMixin):
         }
 
         # Determine grid shape based on dimension
-        (self._nshp_st1, self._nshp_st2, self._nshp_st3) = GRID_SHAPES[
-            self.dim
-        ](self.nx1, self.nx2, self.nx3)
+        (self.nshp_st1, self.nshp_st2, self.nshp_st3) = GRID_SHAPES[self.dim](
+            self.nx1, self.nx2, self.nx3
+        )
 
         # Grid spacing has been temporarily removed from the .h5 file
         """
@@ -212,9 +212,9 @@ class GridManager(LoadMixin):
 
         # Compute the gridsize both centered and staggered
         self.gridsize = self.nx1 * self.nx2 * self.nx3
-        self._gridsize_st1 = nx1s * self.nx2 * self.nx3
-        self._gridsize_st2 = self.nx1 * nx2s * self.nx3
-        self._gridsize_st3 = self.nx1 * self.nx2 * nx3s
+        self.gridsize_st1 = nx1s * self.nx2 * self.nx3
+        self.gridsize_st2 = self.nx1 * nx2s * self.nx3
+        self.gridsize_st3 = self.nx1 * self.nx2 * nx3s
 
         warn = (
             "The geometry is unknown, therefore the grid spacing has not been "

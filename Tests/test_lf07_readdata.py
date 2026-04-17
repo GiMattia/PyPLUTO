@@ -143,11 +143,11 @@ def test_flth5alone():
 # Test single file, tab output (standalone)
 def test_tabalone():
     vars_conversion = {
-        "rho": "var0",
-        "vx1": "var1",
-        "vx2": "var2",
-        "vx3": "var3",
-        "prs": "var4",
+        "rho": "var1",
+        "vx1": "var2",
+        "vx2": "var3",
+        "vx3": "var4",
+        "prs": "var5",
     }
 
     Data = pp.Load(

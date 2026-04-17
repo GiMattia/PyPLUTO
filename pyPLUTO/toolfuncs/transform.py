@@ -306,19 +306,19 @@ def cartesian_vector(
 
     if var is not None:
         var_0 = [
-            self.check_var(v, kwargs.get("transpose", False)) for v in vars[var]
+            self._check_var(v, kwargs.get("transpose", False)) for v in vars[var]
         ]
     elif "var1" in kwargs and "var2" in kwargs:
         var_0 = [
-            self.check_var(kwargs["var1"], kwargs.get("transpose", False)),
-            self.check_var(kwargs["var2"], kwargs.get("transpose", False)),
+            self._check_var(kwargs["var1"], kwargs.get("transpose", False)),
+            self._check_var(kwargs["var2"], kwargs.get("transpose", False)),
         ]
     else:
         raise ValueError("Either var or var1 and var2 must be specified.")
 
     if "var3" in kwargs:
         var_0.append(
-            self.check_var(kwargs["var3"], kwargs.get("transpose", False))
+            self._check_var(kwargs["var3"], kwargs.get("transpose", False))
         )
 
     # x1 = kwargs.get("x1", self.x1)

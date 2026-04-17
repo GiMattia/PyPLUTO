@@ -24,39 +24,50 @@ def test_lastoutput():
     )
 
     outlist = np.linspace(0, 4, 5, dtype="int")
-    typefile = ["single_file"]
-    endpath = [".0004.vtk"]
+    typefile = "single_file"
+    endianess = ["", "", "", "", ">"]
+    binformat = ["", "", "", "", ">f4"]
+    endpath = [".0000.vtk", ".0001.vtk", ".0002.vtk", ".0003.vtk", ".0004.vtk"]
 
     npt.assert_array_equal(Data.outlist, outlist)
     assert Data.nout == 4
-    assert Data._d_info["typefile"] == typefile
-    assert Data._d_info["endianess"] == endianess
-    assert Data._d_info["binformat"] == binformat
-    assert Data._d_info["endpath"] == endpath
-    npt.assert_array_equal(Data._d_info["varslist"], [varslist])
+    assert np.all(Data.d_info["typefile"] == typefile)
+    assert np.all(Data.d_info["endianess"] == endianess)
+    assert np.all(Data.d_info["binformat"] == binformat)
+    assert np.all(Data.d_info["endpath"] == endpath)
+    assert all(
+        v == (varslist if i == 4 else [])
+        for i, v in enumerate(Data.d_info["varslist"])
+    )
 
 
 # Test when two outputs are loaded
 def test_twooutputs():
     Data = pp.Load(
         [0, -1],
-        path / "multiple_outputs",
+        path=path / "multiple_outputs",
         datatype="vtk",
         alone=True,
         text=False,
     )
 
     outlist = np.linspace(0, 4, 5, dtype="int")
-    typefile = ["single_file"]
-    endpath = [".0000.vtk", ".0004.vtk"]
+    typefile = "single_file"
+    endianess = [">", "", "", "", ">"]
+    binformat = [">f4", "", "", "", ">f4"]
+    endpath = [".0000.vtk", ".0001.vtk", ".0002.vtk", ".0003.vtk", ".0004.vtk"]
+    print(Data.d_info["endpath"])
 
     npt.assert_array_equal(Data.outlist, outlist)
     npt.assert_array_equal(Data.nout, [0, 4])
-    npt.assert_array_equal(Data._d_info["endianess"], endianess * 2)
-    npt.assert_array_equal(Data._d_info["binformat"], binformat * 2)
-    npt.assert_array_equal(Data._d_info["typefile"], typefile * 2)
-    npt.assert_array_equal(Data._d_info["endpath"], endpath)
-    npt.assert_array_equal(Data._d_info["varslist"], [varslist, varslist])
+    assert np.all(Data.d_info["typefile"] == typefile)
+    assert np.all(Data.d_info["endianess"] == endianess)
+    assert np.all(Data.d_info["binformat"] == binformat)
+    assert np.all(Data.d_info["endpath"] == endpath)
+    assert all(
+        v == (varslist if i in (0, 4) else [])
+        for i, v in enumerate(Data.d_info["varslist"])
+    )
 
 
 # Test when only last output is loaded (tab)
@@ -67,11 +78,14 @@ def test_lasttab():
 
     outlist = np.linspace(0, 4, 5, dtype="int")
     typefile = ["single_file"]
-    endpath = [".0004.tab"]
-    varslist = ["var0", "var1", "var2", "var3", "var4"]
+    endpath = [".0000.tab", ".0001.tab", ".0002.tab", ".0003.tab", ".0004.tab"]
+    varslist = ["var1", "var2", "var3", "var4", "var5"]
 
     npt.assert_array_equal(Data.outlist, outlist)
     assert Data.nout == 4
-    assert Data._d_info["typefile"] == typefile
-    assert Data._d_info["endpath"] == endpath
-    npt.assert_array_equal(Data._d_info["varslist"], [varslist])
+    assert np.all(Data.d_info["typefile"] == typefile)
+    assert np.all(Data.d_info["endpath"] == endpath)
+    assert all(
+        v == (varslist if i == 4 else [])
+        for i, v in enumerate(Data.d_info["varslist"])
+    )

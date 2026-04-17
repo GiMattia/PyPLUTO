@@ -354,6 +354,7 @@ class CreateAxesManager(ImageMixin):
         # Fill the lists with the default values
         ratio = ratio + [1.0] * (length - len(ratio))
         space = space + [0.1] * (length - len(space) - 1)
+        print(ratio, length)
 
         # Check if the lists have the correct length
         if len(ratio) != length:
@@ -451,7 +452,6 @@ class CreateAxesManager(ImageMixin):
             >>> _check_shareaxis(0, ax)
 
         """
-        share_ref: Axes | str | None = None
         if share is True:
             share_ref = self.ax[0] if i > 0 else None
         elif isinstance(share, int):

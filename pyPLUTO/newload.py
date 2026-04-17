@@ -65,3 +65,17 @@ class Load(LoadMixin):
         if name == "state" or not hasattr(self, "state"):
             return super().__setattr__(name, value)
         return setattr(self.state, name, value)
+
+    from .loadfuncs.read_files import _read_dat, _read_h5, read_file
+    from .loadfuncs.write_files import _write_h5, write_file
+    from .toolfuncs.findlines import _check_var, find_contour, find_fieldlines
+    from .toolfuncs.fourier import fourier
+    from .toolfuncs.nabla import curl, divergence, gradient
+    from .toolfuncs.transform import (
+        _congrid,
+        cartesian_vector,
+        mirror,
+        reshape_cartesian,
+        reshape_uniform,
+        slices,
+    )

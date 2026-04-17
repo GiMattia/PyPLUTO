@@ -1,6 +1,7 @@
 """Test of the create_axes.py file."""
 
 import numpy as np
+import pytest
 
 import pyPLUTO as pp
 
@@ -147,3 +148,49 @@ def test_multiple_created() -> None:
     pos = ax[1].get_position().bounds
     assert np.isclose(pos[0], 0.6)
     assert np.isclose(pos[2], 0.25)
+
+
+# Fontsize updated
+def test_update_fontsize() -> None:
+    """Ensure that the fontsize is updated correctly."""
+    fontsize = 17
+    Image = pp.Image()
+    Image.create_axes(fontsize=fontsize)
+    assert Image.fontsize == fontsize
+
+
+def test_createaxes_nofig() -> None:
+    """Ensure that axes cannot be created without an existing figure."""
+    Image = pp.Image()
+    Image.fig = None
+    with pytest.raises(
+        ValueError, match="create a figure before creating axes"
+    ):
+        Image.create_axes()
+
+
+def test_warning_wrong_length() -> None:
+    """Ensure that warning is raised when the input length is incorrect."""
+    Image = pp.Image()
+    with pytest.warns(UserWarning, match="has wrong length!"):
+        Image.create_axes(ncol=2, nrow=2, wratio=[1, 2, 3])
+
+    with pytest.warns(UserWarning, match="has wrong length!"):
+        Image.create_axes(ncol=2, nrow=4, wspace=[0.5, 0.2])
+
+
+def test_share_true() -> None:
+    """Ensure that sharex/y True works properly."""
+    Image = pp.Image()
+    ax = Image.create_axes(ncol=1, nrow=2, sharex=True, sharey=True)
+    assert isinstance(ax, list)
+    assert ax[0].get_shared_x_axes().joined(ax[0], ax[1])
+
+
+def test_share_ax() -> None:
+    """Ensure that sharex/y with an axis reference works properly."""
+    Image = pp.Image()
+    ax = Image.create_axes(ncol=1, nrow=2)
+    ax = Image.create_axes(ncol=1, nrow=2, sharex=0)
+    assert isinstance(ax, list)
+    assert ax[0].get_shared_x_axes().joined(ax[0], ax[2])

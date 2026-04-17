@@ -32,7 +32,7 @@ Data = pyPLUTO.Load(path=data_path)
 
 # Creating the image
 Image = pyPLUTO.Image(
-    nwin=2, figsize=[11, 5], suptitle="Test 08 - MHD Torus test"
+    nwin=8, figsize=[11, 5], suptitle="Test 08 - MHD Torus test"
 )
 
 # Creating the subplots (2 for the different variables)

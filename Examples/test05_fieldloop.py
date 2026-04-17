@@ -32,7 +32,9 @@ data_path = pyPLUTO.find_example("MHD/Field_Loop")
 Data = pyPLUTO.Load(path=data_path)
 
 # Creating the image
-Image = pyPLUTO.Image(figsize=[13, 5], suptitle="Test 05 - MHD Field loop test")
+Image = pyPLUTO.Image(
+    figsize=[13, 5], suptitle="Test 05 - MHD Field loop test", nwin=5
+)
 
 # Creating the subplots
 ax = Image.create_axes(ncol=2, top=0.91)

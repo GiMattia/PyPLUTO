@@ -38,7 +38,7 @@ Data = pyPLUTO.Load(path=data_path)
 
 # Creating the image
 Image = pyPLUTO.Image(
-    nwin=2,
+    nwin=4,
     suptitle="Test 04 - MHD Rotor test",
     figsize=[11, 5],
     suptitlesize=22,

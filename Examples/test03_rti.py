@@ -42,6 +42,7 @@ Image = pyPLUTO.Image(
     figsize=[13, 7.6],
     suptitle="Test 03 - MHD Rayleigh-Taylor instability",
     suptitlesize=22,
+    nwin=3,
 )
 
 # Creating the subplots (3 for the temporal evolution and 1 for the colorbar)

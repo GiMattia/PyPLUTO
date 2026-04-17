@@ -229,3 +229,28 @@ def test_Image_fig_no_number():
         img = Image(fig=fig)
 
     assert img.state.nwin == 1
+
+
+def test_check_previous_fig_clears_existing_figure(monkeypatch):
+    state = ImageState(nwin=3)
+    manager = FigureManager.__new__(FigureManager)
+    manager.state = state
+
+    class DummyFigure:
+        def __init__(self):
+            self.cleared = False
+
+        def clf(self):
+            self.cleared = True
+
+    dummy_fig = DummyFigure()
+    closed = {"arg": None}
+
+    monkeypatch.setattr(plt, "fignum_exists", lambda n: True)
+    monkeypatch.setattr(plt, "figure", lambda n: dummy_fig)
+    monkeypatch.setattr(plt, "close", lambda arg: closed.__setitem__("arg", arg))
+
+    manager.check_previous_fig(close=True)
+
+    assert dummy_fig.cleared is True
+    assert closed["arg"] is dummy_fig

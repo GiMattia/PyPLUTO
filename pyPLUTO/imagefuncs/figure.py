@@ -302,7 +302,9 @@ class FigureManager(ImageMixin):
             ]
             self.fontsize = plt.rcParams["font.size"]
             try:
-                self.nwin = self.fig.number  # type: ignore
+                fignum = self.fig.number
+                if isinstance(fignum, int):
+                    self.state.nwin = fignum
             except AttributeError:
                 warnings.warn(
                     "The figure is not associated to a window number",
@@ -312,9 +314,14 @@ class FigureManager(ImageMixin):
                 self.nwin = 1
             self.tight = self.fig.get_tight_layout()
 
-        # Close the existing figure if it exists (and 'close' is enabled)
+        # Close the existing figure if it exists (and 'close' is enabled).
+        # `clf()` releases artists/axes payloads immediately, which prevents
+        # stale Image instances (still holding axes/text refs) from retaining
+        # heavy plot data in memory.
         if plt.fignum_exists(self.nwin) and close is True:
-            plt.close(self.nwin)
+            existing_fig = plt.figure(self.nwin)
+            existing_fig.clf()
+            plt.close(existing_fig)
 
     def create_figure(
         self, replace: bool, suptitle: str | None, suptitlesize: int | str

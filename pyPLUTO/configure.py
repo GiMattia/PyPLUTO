@@ -113,24 +113,21 @@ class Configure:
 
         ipython = get_ipython_wrapper()
 
+        # Standard Python interpreter
+        if ipython is None:
+            return "Standard Python interpreter"
+
         # Find the session name
         shell = ipython.__class__.__name__
 
-        # Standard Python interpreter
-        if ipython is None:
-            session = "Standard Python interpreter"
         # Jupyter notebook or qtconsole
-        elif shell == "ZMQInteractiveShell":
-            session = "Jupyter notebook or qtconsole"
+        if shell == "ZMQInteractiveShell":
+            return "Jupyter notebook or qtconsole"
         # Terminal running IPython
         elif shell == "TerminalInteractiveShell":
-            session = "Terminal running IPython"
+            return "Terminal running IPython"
         # Unknown session
-        else:
-            session = "Unknown session"
-
-        # Return the session
-        return session
+        return "Unknown session"
 
     def color_warning(
         self,

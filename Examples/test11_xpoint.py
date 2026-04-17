@@ -40,7 +40,7 @@ gl_final = compute_gamma(Dp_f)
 indx_final = np.argsort(gl_final)
 
 # --- Create the figure ---
-Image = pyPLUTO.Image(figsize=[7, 7], fontsize=20)
+Image = pyPLUTO.Image(figsize=[7, 7], fontsize=20, nwin=11)
 
 # --- Plot contour of Ax3 ---
 Image.contour(

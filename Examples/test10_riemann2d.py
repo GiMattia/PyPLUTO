@@ -29,7 +29,7 @@ data_path = pyPLUTO.find_example("HD/Riemann_2D")
 Data = pyPLUTO.Load("all", datatype="vtk", path=data_path)
 
 # Creating the image
-Image = pyPLUTO.Image(figsize=[7, 7])
+Image = pyPLUTO.Image(figsize=[7, 7], nwin=10)
 
 # Creating the interactive plot
 Image.interactive(

@@ -25,7 +25,7 @@ data_path = pyPLUTO.find_example("MHD/Orszag_Tang")
 Data = pyPLUTO.Load(path=data_path)
 
 # Creating the image
-Image = pyPLUTO.Image(figsize=[7, 6])
+Image = pyPLUTO.Image(figsize=[7, 6], nwin=2)
 
 # Plotting the data
 Image.display(

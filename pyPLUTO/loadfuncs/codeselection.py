@@ -1,8 +1,6 @@
 """Module for code selection functionality."""
 
-from typing import Any, Literal
-
-from numpy.typing import NDArray
+from typing import Any
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState

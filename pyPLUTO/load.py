@@ -411,7 +411,6 @@ class Load:
 
     from .loadfuncs.defpluto import _read_defh, _read_plini
     from .loadfuncs.read_files import _read_dat, _read_h5, read_file
-
     from .loadfuncs.readdata_old import (
         _assign_var,
         _check_nout,

@@ -153,7 +153,8 @@ def _load_variables(
         )
 
         """
-        import psutil, os
+
+        import psutil
 
         proc = psutil.Process()
 

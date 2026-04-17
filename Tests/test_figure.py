@@ -248,7 +248,9 @@ def test_check_previous_fig_clears_existing_figure(monkeypatch):
 
     monkeypatch.setattr(plt, "fignum_exists", lambda n: True)
     monkeypatch.setattr(plt, "figure", lambda n: dummy_fig)
-    monkeypatch.setattr(plt, "close", lambda arg: closed.__setitem__("arg", arg))
+    monkeypatch.setattr(
+        plt, "close", lambda arg: closed.__setitem__("arg", arg)
+    )
 
     manager.check_previous_fig(close=True)
 

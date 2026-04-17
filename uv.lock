@@ -1635,6 +1635,7 @@ test = [
     { name = "pytest-cov" },
     { name = "pytest-doctestplus" },
     { name = "pytest-mock" },
+    { name = "pytest-xdist" },
 ]
 
 [package.metadata]
@@ -1665,6 +1666,7 @@ requires-dist = [
     { name = "pytest-doctestplus", marker = "extra == 'test'" },
     { name = "pytest-mock", marker = "extra == 'test'" },
     { name = "pytest-xdist", specifier = ">=3.8.0" },
+    { name = "pytest-xdist", marker = "extra == 'test'" },
     { name = "radon", marker = "extra == 'dev'" },
     { name = "ruff", marker = "extra == 'dev'" },
     { name = "scipy" },

@@ -24,4 +24,5 @@ Utils/
 .*_cache/
 .venv/
 .vscode/
+.codex
 Makefile

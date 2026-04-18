@@ -306,7 +306,8 @@ def cartesian_vector(
 
     if var is not None:
         var_0 = [
-            self._check_var(v, kwargs.get("transpose", False)) for v in vars[var]
+            self._check_var(v, kwargs.get("transpose", False))
+            for v in vars[var]
         ]
     elif "var1" in kwargs and "var2" in kwargs:
         var_0 = [

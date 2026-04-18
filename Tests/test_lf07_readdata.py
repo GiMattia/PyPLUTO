@@ -181,9 +181,7 @@ def test_tab_crlf_line_endings(tmp_path):
         "vx3": "var4",
         "prs": "var5",
     }
-    Data_alone = pp.Load(
-        0, path=dst, datatype="tab", text=False, alone=True
-    )
+    Data_alone = pp.Load(0, path=dst, datatype="tab", text=False, alone=True)
     for var in varslist:
         npt.assert_allclose(
             getattr(Data_alone, vars_conversion[var]), exact_vars[var]

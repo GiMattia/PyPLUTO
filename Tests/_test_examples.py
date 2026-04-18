@@ -1,3 +1,5 @@
+"""Run the examples and ensure that the images are the same pixel by pixel."""
+
 import shutil
 import subprocess
 import sys

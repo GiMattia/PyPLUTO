@@ -44,7 +44,7 @@ jobs:
       - name: Build coverage file
         shell: bash
         run: |
-          uv run pytest --junitxml=pytest.xml \
+          uv run pytest -n auto --junitxml=pytest.xml \
             --cov=pyPLUTO --cov-report=term-missing Tests/ \
             | tee pytest-coverage.txt
 
@@ -59,7 +59,7 @@ jobs:
 
       - name: Create the Badge
         if: matrix.os == 'ubuntu-latest'
-        uses: schneegans/dynamic-badges-action@v1.7.0
+        uses: schneegans/dynamic-badges-action@v1.8.0
         with:
           auth: ${{ secrets.PYTEST_COVERAGE_COMMENT }}
           gistID: 384b1f3a3a3b74cdbd65c4e3dce0632f

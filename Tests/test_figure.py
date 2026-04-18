@@ -96,6 +96,11 @@ def test_latex_pgf(monkeypatch):
 
 
 def test_latex_pgf_latex_not_installed(monkeypatch):
+    # Ensure pyplot backend is initialized before monkeypatching switch_backend.
+    # This keeps the test independent from execution order / xdist worker state.
+    real_switch_backend = plt.switch_backend
+    real_switch_backend("Agg")
+
     monkeypatch.setattr(
         shutil, "which", lambda cmd: None
     )  # simulate missing latex
@@ -112,6 +117,11 @@ def test_latex_pgf_latex_not_installed(monkeypatch):
 
 
 def test_latex_pgf_backend_import_error(monkeypatch):
+    # Ensure pyplot backend is initialized before monkeypatching switch_backend.
+    # This keeps the test independent from execution order / xdist worker state.
+    real_switch_backend = plt.switch_backend
+    real_switch_backend("Agg")
+
     monkeypatch.setattr(
         shutil, "which", lambda cmd: "fakepath"
     )  # simulate installed
@@ -256,3 +266,19 @@ def test_check_previous_fig_clears_existing_figure(monkeypatch):
 
     assert dummy_fig.cleared is True
     assert closed["arg"] is dummy_fig
+
+
+def test_create_figure_raises_if_matplotlib_returns_none(monkeypatch):
+    state = ImageState(
+        fig=None, figsize=[8.0, 5.0], fontsize=17, nwin=1, tight=False
+    )
+    manager = FigureManager.__new__(FigureManager)
+    manager.state = state
+
+    monkeypatch.setattr(plt, "figure", lambda *args, **kwargs: None)
+    monkeypatch.setattr(mpl.rcParams, "update", lambda *args, **kwargs: None)
+
+    with pytest.raises(ValueError, match="The figure could not be created."):
+        manager.create_figure(
+            replace=False, suptitle=None, suptitlesize="large"
+        )

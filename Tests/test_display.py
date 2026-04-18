@@ -1,5 +1,11 @@
+"""Test of the display.py file."""
+
+from typing import cast
+
 import numpy as np
 import numpy.testing as npt
+import numpy.typing as nptp
+from matplotlib.collections import QuadMesh
 
 import pyPLUTO as pp
 
@@ -13,13 +19,17 @@ x2dr, y2dr = np.meshgrid(xr, yr)
 var = 1 / ((x2d**2 + y2d**2) / 2 + 1)
 
 
-# Simple plot
-def test_simple_display():
-    Image = pp.Image(withblack=True)
-    Image.display(var, cpos="right", cmap="magma", x1=x, x2=y)
-    pcm = Image.ax[0].collections[0]
-    ccd = pcm.get_coordinates()
-    xc, _ = ccd[:, :, 0], ccd[:, :, 1]
-    pcm = pcm.get_array()
-    npt.assert_array_equal(pcm, var)
+def test_simple_display() -> None:
+    """Ensure that the display functionalities work correctly."""
+    image = pp.Image(withblack=True)
+    image.display(var, cpos="right", cmap="magma", x1=x, x2=y)
+
+    pcm = image.ax[0].collections[0]
+    assert isinstance(pcm, QuadMesh)
+
+    ccd = cast(nptp.NDArray[np.float64], pcm.get_coordinates())
+    xc = ccd[:, :, 0]
+    arr = np.asarray(pcm.get_array())
+
+    npt.assert_array_equal(arr, var)
     npt.assert_allclose(xc, x2dr, atol=1.0e-13)

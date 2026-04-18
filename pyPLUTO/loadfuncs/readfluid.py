@@ -137,9 +137,9 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
     if self._info is True:
         self.nshp = 0
     if self._alone is True:
-        self._d_info["binformat"][
-            i
-        ] = f"{self._d_info['endianess'][i]}f{self._charsize}"
+        self._d_info["binformat"][i] = (
+            f"{self._d_info['endianess'][i]}f{self._charsize}"
+        )
 
     # Open the file and read the lines
     f = open(self._filepath, "rb")
@@ -160,6 +160,7 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
             var_sel = spl0.decode()[0]
             binf = endl + "d" if spl2.decode() == "double" else endl + "f"
             offset = f.tell()
+            print(offset)
             shape = int(spl1)
             scrh = np.memmap(
                 self._filepath,
@@ -179,16 +180,19 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
             if self.nx3 == 1 and self.nx2 == 1:
                 self.dim = 1
                 self.nshp = self.nx1
+                self.gridsize = self.nx1
                 nshp_grid = self.nx1 + 1
                 gridvars = ["self.x1r", "self.x2", "self.x3"]
             elif self.nx3 == 1:
                 self.dim = 2
                 self.nshp = (self.nx2, self.nx1)
+                self.gridsize = self.nx1 * self.nx2
                 nshp_grid = (self.nx2 + 1, self.nx1 + 1)
                 gridvars = ["self.x1r", "self.x2r", "self.x3"]
             else:
                 self.dim = 3
                 self.nshp = (self.nx3, self.nx2, self.nx1)
+                self.gridsize = self.nx1 * self.nx2 * self.nx3
                 nshp_grid = (self.nx3 + 1, self.nx2 + 1, self.nx1 + 1)
                 gridvars = ["self.x1r", "self.x2r", "self.x3r"]
             dir_map = {"X": gridvars[0], "Y": gridvars[1], "Z": gridvars[2]}
@@ -272,7 +276,9 @@ def _inspect_vtk(self, i: int, endian: str | None, varmult: str | None) -> None:
             if varmult is not None:
                 break
 
-        search_pos = line_end + 1  # Continue searching after the current line
+        search_pos = (
+            line_end + 1 + self.gridsize * 4
+        )  # Continue searching after the current line
 
     mmapped_file.close()
 

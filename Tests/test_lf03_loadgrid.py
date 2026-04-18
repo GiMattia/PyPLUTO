@@ -40,12 +40,12 @@ def test_gridfile():
     assert Data.geom == "CARTESIAN"
     assert Data.nshp == (128, 128)
 
-    assert Data._nshp_st1 == (128, 129)
-    assert Data._nshp_st2 == (129, 128)
+    assert Data.nshp_st1 == (128, 129)
+    assert Data.nshp_st2 == (129, 128)
 
     assert Data.gridsize == 128 * 128
-    assert Data._gridsize_st1 == 129 * 128
-    assert Data._gridsize_st2 == 128 * 129
+    assert Data.gridsize_st1 == 129 * 128
+    assert Data.gridsize_st2 == 128 * 129
 
 
 # Testing the grid from a standalone vtk file
@@ -85,20 +85,20 @@ def test_alone_h5():
             datatype="dbl.h5",
             alone=True,
         )
-    npt.assert_allclose(Data.x1r, xr2D)
-    npt.assert_allclose(Data.x2r, yr2D)
+    npt.assert_allclose(Data.x1r, xr2D.T)
+    npt.assert_allclose(Data.x2r, yr2D.T)
 
-    npt.assert_allclose(Data.x1, xc2D)
-    npt.assert_allclose(Data.x2, yc2D)
+    npt.assert_allclose(Data.x1, xc2D.T)
+    npt.assert_allclose(Data.x2, yc2D.T)
 
     assert Data.dim == 2
     assert (Data.nx1, Data.nx2, Data.nx3) == (128, 128, 1)
     assert Data.geom == "UNKNOWN"
     assert Data.nshp == (128, 128)
 
-    assert Data._nshp_st1 == (128, 129)
-    assert Data._nshp_st2 == (129, 128)
+    assert Data.nshp_st1 == (128, 129)
+    assert Data.nshp_st2 == (129, 128)
 
     assert Data.gridsize == 128 * 128
-    assert Data._gridsize_st1 == 129 * 128
-    assert Data._gridsize_st2 == 128 * 129
+    assert Data.gridsize_st1 == 129 * 128
+    assert Data.gridsize_st2 == 128 * 129

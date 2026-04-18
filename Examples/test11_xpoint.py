@@ -31,7 +31,8 @@ Dp_i = pyPLUTO.LoadPart(0, path=data_path, datatype="vtk")
 
 
 # --- Compute Lorentz factor and sort ---
-def compute_gamma(dp):
+def compute_gamma(dp: pyPLUTO.LoadPart) -> np.ndarray:
+    """Compute the Lorentz factor for a given particle dataset."""
     return np.sqrt(1 + dp.vx1**2 + dp.vx2**2 + dp.vx3**2)
 
 
@@ -39,7 +40,7 @@ gl_final = compute_gamma(Dp_f)
 indx_final = np.argsort(gl_final)
 
 # --- Create the figure ---
-Image = pyPLUTO.Image(figsize=[7, 7], fontsize=20)
+Image = pyPLUTO.Image(figsize=[7, 7], fontsize=20, nwin=11)
 
 # --- Plot contour of Ax3 ---
 Image.contour(

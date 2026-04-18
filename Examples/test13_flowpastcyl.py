@@ -31,7 +31,7 @@ xx = rr * np.cos(pphh)
 yy = rr * np.sin(pphh)
 
 # Initialize the Image class (with black color)
-Image = pyPLUTO.Image(withblack=True)
+Image = pyPLUTO.Image(withblack=True, nwin=13)
 
 # Show the 2D density
 Image.display(

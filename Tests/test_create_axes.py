@@ -1,44 +1,70 @@
+"""Test of the create_axes.py file."""
+
 import numpy as np
+import pytest
 
 import pyPLUTO as pp
 
 
 # Check the default values of the figure created in the __init__
-def test_figure_default_init():
+def test_figure_default_init() -> None:
+    """Ensure that the figure is initialized with default values."""
     Image = pp.Image()
     Image.create_axes()
-    nrow, ncol = (
-        Image.fig.axes[0].get_subplotspec().get_gridspec().get_geometry()
-    )
+    fig = Image.fig
+    assert fig is not None
+    ax = fig.axes[0]
+    assert ax is not None
+    spec = ax.get_subplotspec()
+    assert spec is not None
+    nrow, ncol = spec.get_gridspec().get_geometry()
     assert ncol == 1
     assert nrow == 1
 
 
 # Change number of rows and columns
-def test_rows_columns():
+def test_rows_columns() -> None:
+    """Ensure that the number of rows and columns can be changed."""
     Image = pp.Image()
-    ax = Image.create_axes(ncol=2, nrow=3)
-    nrow, ncol = (
-        Image.fig.axes[0].get_subplotspec().get_gridspec().get_geometry()
-    )
-    assert ncol == 2
-    assert nrow == 3
-    assert len(ax) == 6
+    newax = Image.create_axes(ncol=2, nrow=3)
+    check_col, check_row, check_len = 2, 3, 6
+    assert isinstance(newax, list)
+    fig = Image.fig
+    assert fig is not None
+    ax = fig.axes[0]
+    assert ax is not None
+    spec = ax.get_subplotspec()
+    assert spec is not None
+    nrow, ncol = spec.get_gridspec().get_geometry()
+    assert ncol == check_col
+    assert nrow == check_row
+    assert len(newax) == check_len
 
 
 # Add suptitle and change tight layout
-def test_suptitle_layout():
+def test_suptitle_layout() -> None:
+    """Ensure that suptitle and tight layout can be changed."""
     Image = pp.Image()
     Image.create_axes(ncol=2, nrow=3, suptitle="this is title", tight=False)
-    assert Image.fig._suptitle.get_text() == "this is title"
-    assert Image.fig.get_tight_layout() is False
+    fig = Image.fig
+    assert fig is not None
+    titles = [text.get_text() for text in fig.texts]
+    assert "this is title" in titles
+    assert fig._suptitle is not None  # type: ignore[attr-defined]  # ty:ignore[unresolved-attribute]
+
+    assert fig.get_tight_layout() is False
 
 
 # Add different borders to the figure
-def test_borders():
+def test_borders() -> None:
+    """Ensure that different borders can be added to the figure."""
     Image = pp.Image()
-    ax = Image.create_axes(left=0.2, right=0.8, top=0.85, bottom=0.05)
-    assert Image.fig.get_tight_layout() is False
+    Image.create_axes(left=0.2, right=0.8, top=0.85, bottom=0.05)
+    fig = Image.fig
+    assert fig is not None
+    assert fig.get_tight_layout() is False
+    ax = fig.axes[0]
+    assert ax is not None
     pos = ax.get_position().bounds
     assert np.isclose(pos[0], 0.2)
     assert np.isclose(pos[1], 0.05)
@@ -47,11 +73,13 @@ def test_borders():
 
 
 # Two columns custom
-def test_twocolumns():
+def test_twocolumns() -> None:
+    """Ensure that multiple columns can be created with custom parameters."""
     Image = pp.Image()
     ax = Image.create_axes(
         ncol=2, left=0.15, right=0.8, wspace=0.2, wratio=[2, 1]
     )
+    assert isinstance(ax, list)
     pos = ax[0].get_position().bounds
     assert np.isclose(pos[0], 0.15)
     assert np.isclose(pos[2], 0.3)
@@ -61,9 +89,11 @@ def test_twocolumns():
 
 
 # Multiple rows
-def test_multiple_row():
+def test_multiple_row() -> None:
+    """Ensure that multiple rows can be created with custom parameters."""
     Image = pp.Image()
     ax = Image.create_axes(ncol=1, nrow=3, hspace=[0.2, 0.1], hratio=[1, 2, 1])
+    assert isinstance(ax, list)
     pos = ax[0].get_position().bounds
     assert np.isclose(pos[1], 0.775)
     assert np.isclose(pos[3], 0.125)
@@ -76,9 +106,11 @@ def test_multiple_row():
 
 
 # Multiple rows and columns
-def test_multiple_rowcols():
+def test_multiple_rowcols() -> None:
+    """Ensure that multiple rows/columns can be created with custom params."""
     Image = pp.Image()
     ax = Image.create_axes(ncol=2, nrow=3, left=0.05, bottom=0.05)
+    assert isinstance(ax, list)
     pos = ax[0].get_position().bounds
     assert np.isclose(pos[0], 0.05)
     pos = ax[-1].get_position().bounds
@@ -86,26 +118,79 @@ def test_multiple_rowcols():
 
 
 # Suptitle and figsize
-def test_size_suptitle():
-    Image = pp.Image(suptitle="This is a title", figsize=(6, 7))
-    assert Image.fig._suptitle.get_text() == "This is a title"
-    assert Image.fig.get_figwidth() == 6
-    assert Image.fig.get_figheight() == 7
-    Image.create_axes(suptitle="This is another title", figsize=(5, 8))
-    assert Image.fig._suptitle.get_text() == "This is another title"
-    assert Image.fig.get_figwidth() == 5
-    assert Image.fig.get_figheight() == 8
+def test_size_suptitle() -> None:
+    """Ensure that suptitle and figsize can be changed."""
+    w1, h1, w2, h2 = 6, 7, 5, 8
+    Image = pp.Image(suptitle="This is a title", figsize=[6, 7])
+    fig = Image.fig
+    assert fig is not None
+    assert fig._suptitle.get_text() == "This is a title"  # type: ignore[attr-defined]  # ty:ignore[unresolved-attribute]
+    assert fig.get_figwidth() == w1
+    assert fig.get_figheight() == h1
+    Image.create_axes(suptitle="This is another title", figsize=[5, 8])
+    assert fig._suptitle.get_text() == "This is another title"  # type: ignore[attr-defined]  # ty:ignore[unresolved-attribute]
+    assert fig.get_figwidth() == w2
+    assert fig.get_figheight() == h2
 
 
 # Multiple create_axes
-def test_multiple_created():
+def test_multiple_created() -> None:
+    """Ensure that multiple axes can be created."""
+    axesnum = 2
     Image = pp.Image()
-    ax = Image.create_axes(left=0.2, right=0.5)
+    _ = Image.create_axes(left=0.2, right=0.5)
     ax = Image.create_axes(left=0.6, right=0.85)
-    assert len(ax) == 2
+    assert isinstance(ax, list)
+    assert len(ax) == axesnum
     pos = ax[0].get_position().bounds
     assert np.isclose(pos[0], 0.2)
     assert np.isclose(pos[2], 0.3)
     pos = ax[1].get_position().bounds
     assert np.isclose(pos[0], 0.6)
     assert np.isclose(pos[2], 0.25)
+
+
+# Fontsize updated
+def test_update_fontsize() -> None:
+    """Ensure that the fontsize is updated correctly."""
+    fontsize = 17
+    Image = pp.Image()
+    Image.create_axes(fontsize=fontsize)
+    assert Image.fontsize == fontsize
+
+
+def test_createaxes_nofig() -> None:
+    """Ensure that axes cannot be created without an existing figure."""
+    Image = pp.Image()
+    Image.fig = None
+    with pytest.raises(
+        ValueError, match="create a figure before creating axes"
+    ):
+        Image.create_axes()
+
+
+def test_warning_wrong_length() -> None:
+    """Ensure that warning is raised when the input length is incorrect."""
+    Image = pp.Image()
+    with pytest.warns(UserWarning, match="has wrong length!"):
+        Image.create_axes(ncol=2, nrow=2, wratio=[1, 2, 3])
+
+    with pytest.warns(UserWarning, match="has wrong length!"):
+        Image.create_axes(ncol=2, nrow=4, wspace=[0.5, 0.2])
+
+
+def test_share_true() -> None:
+    """Ensure that sharex/y True works properly."""
+    Image = pp.Image()
+    ax = Image.create_axes(ncol=1, nrow=2, sharex=True, sharey=True)
+    assert isinstance(ax, list)
+    assert ax[0].get_shared_x_axes().joined(ax[0], ax[1])
+
+
+def test_share_ax() -> None:
+    """Ensure that sharex/y with an axis reference works properly."""
+    Image = pp.Image()
+    ax = Image.create_axes(ncol=1, nrow=2)
+    ax = Image.create_axes(ncol=1, nrow=2, sharex=0)
+    assert isinstance(ax, list)
+    assert ax[0].get_shared_x_axes().joined(ax[0], ax[2])

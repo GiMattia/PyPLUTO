@@ -1,3 +1,5 @@
+"""Module to manage the streamplot function from matplotlib.pyplot."""
+
 import warnings
 from typing import Any
 
@@ -5,13 +7,13 @@ import numpy as np
 from matplotlib.collections import LineCollection
 from numpy.typing import NDArray
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .colorbar import ColorbarManager
-from .imagetools import ImageToolsManager
-from .range import RangeManager
-from .set_axis import AxisManager
+from pyPLUTO.imagefuncs.colorbar import ColorbarManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.range import RangeManager
+from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class StreamplotManager(ImageMixin):
@@ -19,7 +21,7 @@ class StreamplotManager(ImageMixin):
 
     exposed_methods = ("streamplot",)
 
-    def __init__(self, state: ImageState):
+    def __init__(self, state: ImageState) -> None:
         """Initialize the StreamplotManager with the given state."""
         self.state = state
 
@@ -36,8 +38,9 @@ class StreamplotManager(ImageMixin):
         check: bool = True,
         **kwargs: Any,
     ) -> LineCollection:
-        """Plots a streamplot of a vector field. The function uses the
-        streamplot function from matplotlib.pyplot.
+        """Plot a streamplot of a vector field.
+
+        The function uses the streamplot function from matplotlib.pyplot.
 
         Returns
         -------
@@ -244,7 +247,7 @@ class StreamplotManager(ImageMixin):
 
         if "colors" in kwargs and "cmap" in kwargs:
             warn = "Both colors and cmap are defined. Using c."
-            warnings.warn(warn)
+            warnings.warn(warn, UserWarning, stacklevel=2)
 
         # Set the lines properties
         linewidth = kwargs.get("lw", 1)

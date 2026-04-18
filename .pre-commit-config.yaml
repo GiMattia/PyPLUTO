@@ -1,8 +1,14 @@
 repos:
-  # 0. Pre-commit official hooks (cleanup, merge conflicts, etc.)
+  # -----------------------------
+  # Pre-commit official hooks
+  # -----------------------------
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
+      - id: check-ast
+      - id: check-toml
+      - id: check-docstring-first
+        files: \.py$
       - id: check-added-large-files
         files: \.py$
       - id: check-case-conflict
@@ -20,59 +26,43 @@ repos:
         args: ["--markdown-linebreak-ext=md"]
 
         
-  # 1. Code spelling
-  #- repo: https://github.com/codespell-project/codespell
-  #  rev: 'v2.4.1'
-  #  hooks:
-  #    - id: codespell
-  #      name: codespell
-  #      #args: ["--ignore-words-list=nd"]  # Customize if needed
-  #      files: \.py$
-
-  # 2. Docformatter (formats docstrings)
-  #- repo: https://github.com/PyCQA/docformatter
-  #  rev: v1.7.7
-  #  hooks:
-  #    - id: docformatter
-  #      args: ["--in-place", "--black", "--blank"]
-  #      files: \.py$
-
-  # 3. Blackened-docs (formats code in docstrings)
-  - repo: https://github.com/adamchainz/blacken-docs
-    rev: 1.19.1
-    hooks:
-    -   id: blacken-docs
-        args: [--line-length, "80"]
-        additional_dependencies:
-        - black==22.1.0
-
-  # 4. Ruff - linter, fixer (but NOT formatter)
+  # -----------------------------
+  # Ruff (lint + fix)
+  # -----------------------------
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.7
+    rev: v0.15.1
     hooks:
-      - id: ruff
-        args: ["--fix"]
-        files: \.py$
-        
-  # 5. Black - code formatter
-  - repo: https://github.com/psf/black
-    rev: 25.1.0
+      # Lint first (with autofix)
+      - id: ruff-check
+        args: [--fix, --exit-non-zero-on-fix]
+
+      # Then format
+      - id: ruff-format
+
+  # -----------------------------
+  # Update uv lock
+  # -----------------------------
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.11.7
     hooks:
-      - id: black
-        files: \.py$
+      - id: uv-lock
 
-  # 6. mypy - static typing
-  # TODO: ONLY TO UNCOMMENT AFTER FULL REFACTORING!!!
-  #- repo: https://github.com/pre-commit/mirrors-mypy
-  #  rev: v1.10.0
-  #  hooks:
-  #   - id: mypy
-  #      name: mypy
-  #      args: ["--strict", '$(git diff --name-only --cached)']
-  #      types: [python]
-  #      files: ^Src/pyPLUTO/  # Regex: only runs on files in this folder
+  # -----------------------------
+  # Type checking (ty)
+  # -----------------------------
+  - repo: local
+    hooks:
+      - id: ty
+        name: ty type check
+        entry: ty check
+        language: system
+        pass_filenames: false
+        stages: [pre-push, manual]
 
-  # 7 pytest coverage (minimum 45%, all test required)
+  # -----------------------------
+  # Pytest coverage (manual only)
+  # -----------------------------
   - repo: local
     hooks:
       - id: pytest
@@ -80,25 +70,5 @@ repos:
         entry: pytest --cov=pyPLUTO --cov-fail-under=45
         language: system
         types: [python]
-        stages: [manual]
-        pass_filenames: false
-
-  # 8 pylint (minimum score 7)
-  #- repo: local
-  #  hooks:
-  #    - id: pylint
-  #      name: pylint
-  #      entry: pylint Src/pyPLUTO --score=y --fail-under=7
-  #      language: system
-  #      types: [python]
-  #      stages: [manual]
-  #      pass_filenames: false
-
-  # 9 interrogate (>= 70% doc coverage)
-  - repo: https://github.com/econchick/interrogate
-    rev: 1.7.0
-    hooks:
-      - id: interrogate
-        args: [--quiet, --fail-under=70, Src/pyPLUTO]
         stages: [manual]
         pass_filenames: false

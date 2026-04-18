@@ -1,27 +1,30 @@
+"""ScatterManager class."""
+
 from typing import Any
 
 import numpy as np
 from matplotlib.collections import PathCollection
 from numpy.typing import NDArray
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .colorbar import ColorbarManager
-from .imagetools import ImageToolsManager
-from .legend import LegendManager
-from .range import RangeManager
-from .set_axis import AxisManager
+from pyPLUTO.imagefuncs.colorbar import ColorbarManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.legend import LegendManager
+from pyPLUTO.imagefuncs.range import RangeManager
+from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class ScatterManager(ImageMixin):
-    """Manager for the scatter plot of a 2D function (or a 2D slice) using
-    the matplotlib's scatter function. A simple figure and a single axis can
-    also be created."""
+    """Manager for the scatter plot of a 2D function.
+
+    A simple figure and a single axis can also be created.
+    """
 
     exposed_methods = ("scatter",)
 
-    def __init__(self, state: ImageState):
+    def __init__(self, state: ImageState) -> None:
         """Initialize the ScatterManager with the given state."""
         self.state = state
 
@@ -39,9 +42,9 @@ class ScatterManager(ImageMixin):
         check: bool = True,
         **kwargs: Any,
     ) -> PathCollection:
-        """Scatter plot for a 2D function (or a 2D slice) using the
-        matplotlib's scatter function. A simple figure and a single axis can
-        also be created.
+        """Scatter plot for a 2D function (or a 2D slice).
+
+        A simple figure and a single axis can also be created.
 
         Returns
         -------
@@ -198,9 +201,9 @@ class ScatterManager(ImageMixin):
                 "No figure is present. Please create a figure first."
             )
         # Keywords xrange and yrange
-        if not kwargs.get("xrange") and not self.setax[nax] == 1:
+        if not kwargs.get("xrange") and self.setax[nax] != 1:
             kwargs["xrange"] = [x.min(), x.max()]
-        if not kwargs.get("yrange") and not self.setay[nax] == 1:
+        if not kwargs.get("yrange") and self.setay[nax] != 1:
             kwargs["yrange"] = [y.min(), y.max()]
 
         # Set ax parameters

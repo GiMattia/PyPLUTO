@@ -1,25 +1,30 @@
 """Image class. It plots the data."""
 
-from typing import Any
+# ruff: noqa: ANN201  # noqa: RUF100
 
-from .amr import oplotbox
-from .imagefuncs.colorbar import ColorbarManager
-from .imagefuncs.contour import ContourManager
-from .imagefuncs.create_axes import CreateAxesManager
-from .imagefuncs.display import DisplayManager
-from .imagefuncs.figure import FigureManager
-from .imagefuncs.imagetools import ImageToolsManager
-from .imagefuncs.interactive import InteractiveManager
-from .imagefuncs.legend import LegendManager
-from .imagefuncs.plot import PlotManager
-from .imagefuncs.range import RangeManager
-from .imagefuncs.scatter import ScatterManager
-from .imagefuncs.set_axis import AxisManager
-from .imagefuncs.streamplot import StreamplotManager
-from .imagefuncs.zoom import ZoomManager
-from .imagemixin import ImageMixin
-from .imagestate import ImageState
-from .utils.inspector import track_kwargs
+from __future__ import annotations
+
+from typing import Unpack
+
+from pyPLUTO.amr import oplotbox
+from pyPLUTO.imagefuncs.colorbar import ColorbarManager
+from pyPLUTO.imagefuncs.contour import ContourManager
+from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
+from pyPLUTO.imagefuncs.display import DisplayManager
+from pyPLUTO.imagefuncs.figure import FigureManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.interactive import InteractiveManager
+from pyPLUTO.imagefuncs.legend import LegendManager
+from pyPLUTO.imagefuncs.plot import PlotManager
+from pyPLUTO.imagefuncs.range import RangeManager
+from pyPLUTO.imagefuncs.scatter import ScatterManager
+from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagefuncs.streamplot import StreamplotManager
+from pyPLUTO.imagefuncs.zoom import ZoomManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.annotator import AllKwargs
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class Image(ImageMixin):
@@ -41,7 +46,7 @@ class Image(ImageMixin):
         self,
         text: bool = True,
         check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[AllKwargs],
     ) -> None:
         """Initialize the Image class.
 
@@ -71,7 +76,7 @@ class Image(ImageMixin):
             figures with minimal file size. If XeLaTeX is not installed and the
             'pgf' option is selected, the LaTeX option True is used as backup
             strategy.
-        - numcolor: int, default 10
+        - numcolors: int, default 10
             The number of colors in the colorscheme. The default number is 10,
             but the full list contains 24 colors (+ black or white).
         - nwin: int, default 1
@@ -123,11 +128,11 @@ class Image(ImageMixin):
             >>> I = pp.Image(suptitle="Title")
 
         """
-        kwargs.pop("check", check)
+        kwargs.pop("kwargscheck", check)
 
-        self.state = ImageState()  # style=style, LaTeX=LaTeX, fig=fig)
+        self.state = ImageState()
 
-        self._figure_manager = FigureManager(self.state, **kwargs)
+        self.FigureManager = FigureManager(self.state, **kwargs)
 
         # Initialize managers
         self.AxisManager = AxisManager(self.state)
@@ -207,28 +212,15 @@ class Image(ImageMixin):
         necessary.
         """
 
-    def __setattr__(self, name, value):
+    def __getattr__(self, name: str) -> object:
+        """Get the attribute of the Image class."""
+        return getattr(self.state, name)
+
+    def __setattr__(self, name: str, value: object) -> None:
         """Set the attribute of the Image class."""
         if name == "state" or not hasattr(self, "state"):
-            # Initialization step: allow everything until state exists
-            super().__setattr__(name, value)
-        # elif hasattr(type(self), name) or name in self.__dict__:
-        # Allow normal attributes and managers
-        #    super().__setattr__(name, value)
-        elif hasattr(self.state, name):
-            # Write-through to state if attr already defined
-            setattr(self.state, name, value)
-        else:
-            # Set the attribute on the state
-            setattr(self.state, name, value)
-
-    def __getattr__(self, name):
-        """Get the attribute of the Image class."""
-        # Called only if attribute not found in usual places
-        if hasattr(self.state, name):
-            return getattr(self.state, name)
-        else:
-            raise AttributeError(f"'Image' object has no attribute '{name}'")
+            return super().__setattr__(name, value)
+        return setattr(self.state, name, value)
 
     @property
     def animate(self):
@@ -305,6 +297,6 @@ class Image(ImageMixin):
         """Property for the zoom method."""
         return self.ZoomManager.zoom
 
-    def oplotbox(self, *args: Any, **kwargs: Any) -> None:
+    def oplotbox(self, *args: object, **kwargs: object) -> None:
         """Plot a box in the figure (AMR, WIP)."""
         oplotbox(self, *args, **kwargs)

@@ -1,4 +1,5 @@
 import os
+import shutil
 from pathlib import Path
 
 import numpy as np
@@ -143,11 +144,11 @@ def test_flth5alone():
 # Test single file, tab output (standalone)
 def test_tabalone():
     vars_conversion = {
-        "rho": "var0",
-        "vx1": "var1",
-        "vx2": "var2",
-        "vx3": "var3",
-        "prs": "var4",
+        "rho": "var1",
+        "vx1": "var2",
+        "vx2": "var3",
+        "vx3": "var4",
+        "prs": "var5",
     }
 
     Data = pp.Load(
@@ -156,6 +157,34 @@ def test_tabalone():
     for num, var in enumerate(varslist):
         npt.assert_allclose(
             getattr(Data, vars_conversion[var]), exact_vars[var]
+        )
+
+
+def test_tab_crlf_line_endings(tmp_path):
+    src = path / "single_file"
+    dst = tmp_path / "single_file"
+    shutil.copytree(src, dst)
+
+    tab_path = dst / "data.0000.tab"
+    raw = tab_path.read_bytes()
+    raw = raw.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    tab_path.write_bytes(raw.replace(b"\n", b"\r\n"))
+
+    Data = pp.Load(0, path=dst, datatype="tab", text=False)
+    for var in varslist:
+        npt.assert_allclose(getattr(Data, var), exact_vars[var])
+
+    vars_conversion = {
+        "rho": "var1",
+        "vx1": "var2",
+        "vx2": "var3",
+        "vx3": "var4",
+        "prs": "var5",
+    }
+    Data_alone = pp.Load(0, path=dst, datatype="tab", text=False, alone=True)
+    for var in varslist:
+        npt.assert_allclose(
+            getattr(Data_alone, vars_conversion[var]), exact_vars[var]
         )
 
 

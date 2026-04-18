@@ -1,26 +1,33 @@
+"""RangeManager class."""
+
 import warnings
 
 import numpy as np
 from matplotlib.axes import Axes
 from numpy.typing import NDArray
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
 
 
 class RangeManager(ImageMixin):
-    """RangeManager class. It provides methods to set the x and y axis limits
-    for a set of axes in a plot."""
+    """RangeManager class.
 
-    def __init__(self, state: ImageState):
+    It provides methods to set the x and y axis limits for a set of axes in a
+    plot.
+    """
+
+    def __init__(self, state: ImageState) -> None:
         """Initialize the RangeManager with the given state."""
         self.state = state
+        self.changerange = 0
+        self.adaptrange = 2
+        self.fixrange = 3
 
     def set_xrange(
         self, ax: Axes, nax: int, xlim: list[float], case: int
     ) -> None:
-        """Sets the lower and upper limits of the x-axis of a set of
-        axes (if not stated otherwise later).
+        """Set the lower and upper limits of the x-axis of a set of axes.
 
         Returns
         -------
@@ -47,7 +54,7 @@ class RangeManager(ImageMixin):
 
         """
         # Case 0: the x-axis limits are set automatically (no previous limit)
-        if case == 0:
+        if case == self.changerange:
             ax.set_xlim(xlim[0], xlim[1])
 
             # Case switched to 2 (previous limits are present now)
@@ -58,13 +65,13 @@ class RangeManager(ImageMixin):
 
         # Case 2: the x-axis limit are changed automatically
         #         (previous limit present)
-        if case == 2:
+        if case == self.adaptrange:
             xmin = min(xlim[0], ax.get_xlim()[0])
             xmax = max(xlim[1], ax.get_xlim()[1])
             ax.set_xlim(xmin, xmax)
 
         # Case 3: x-axis limits are set manually
-        if case == 3:
+        if case == self.fixrange:
             ax.set_xlim(xlim[0], xlim[1])
 
             # Case switched to 1 (no change unless stated explicitly otherwise)
@@ -78,13 +85,17 @@ class RangeManager(ImageMixin):
         nax: int,
         ylim: list[float],
         case: int,
-        x: NDArray[np.float64] | None = None,
-        y: NDArray[np.float64] | None = None,
+        data: tuple[NDArray[np.float64] | None, NDArray[np.float64] | None] = (
+            None,
+            None,
+        ),
+        # x: NDArray[np.float64] | None = None,
+        # y: NDArray[np.float64] | None = None,
     ) -> None:
-        """Sets the lower and upper limits of the y-axis of a set of
-        axes (if not stated otherwise later). Unlike the x-axis, the
-        y-axis limits are recovered depending on both the x-data and the
-        y-data.
+        """Set the lower and upper limits of the y-axis of a set of.
+
+        Unlike the x-axis, the y-axis limits are recovered depending on both the
+        x-data and the y-data.
 
         Returns
         -------
@@ -115,8 +126,9 @@ class RangeManager(ImageMixin):
             >>> _set_yrange(ax, nax, ylim, case)
 
         """
+        x, y = data
         # Case 0: the y-axis limits are set automatically (no previous limit)
-        if case == 0:
+        if case == self.changerange:
             if x is None or y is None:
                 raise ValueError("x and y arrays must be provided if case is 0")
 
@@ -140,7 +152,7 @@ class RangeManager(ImageMixin):
 
         # Case 2: the y-axis limit are changed automatically
         # (previous limit present)
-        if case == 2:
+        if case == self.adaptrange:
             if x is None or y is None:
                 raise ValueError("x and y arrays must be provided if case is 2")
 
@@ -161,7 +173,7 @@ class RangeManager(ImageMixin):
             ax.set_ylim(ymin, ymax)
 
         # Case 3: y-axis limits must be set manually
-        if case == 3:
+        if case == self.fixrange:
             ax.set_ylim(ylim[0], ylim[1])
 
             # Case switched to 1 (no change unless stated explicitly otherwise)
@@ -172,7 +184,7 @@ class RangeManager(ImageMixin):
     def range_offset(
         self, ymin: float, ymax: float, scale: str, margin: float = 0.1
     ) -> tuple[float, float]:
-        """Returns the offsetted data range for the y-axis limits.
+        """Return the offsetted data range for the y-axis limits.
 
         Returns
         -------
@@ -208,7 +220,8 @@ class RangeManager(ImageMixin):
 
         # Find the padding (with non-inear scale adjustments)
         padding = margin * data_range
-        if np.log10(np.abs(data_range)) > 10 and scale != "linear":
+        range_maxval = 10
+        if np.log10(np.abs(data_range)) > range_maxval and scale != "linear":
             padding *= 2 * np.abs(np.log10(np.abs(data_range)))
             print(padding)
 
@@ -220,7 +233,9 @@ class RangeManager(ImageMixin):
                 ymin = min(np.abs(ymin), np.abs(ymax))
                 ymax = max(np.abs(ymin), np.abs(ymax))
                 warnings.warn(
-                    "Negative range for logarithmic scale!", UserWarning
+                    "Negative range for logarithmic scale!",
+                    UserWarning,
+                    stacklevel=2,
                 )
             return (max(ymin - padding, ymin * 0.5), ymax + padding)
 

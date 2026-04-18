@@ -14,7 +14,10 @@ class ImageState:
     Its purpose is to keep track of the current state of the image, such as the
     figure, axes, and other properties and update the key attributes through all
     the different classes that handle the plotting and display of the image at
-    runtime."""
+    runtime.
+    """
+
+    # pylint: disable=too-many-instance-attributes
 
     ax: list[Axes] = field(default_factory=list)
     color: list[str] = field(default_factory=list)

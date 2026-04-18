@@ -2,15 +2,12 @@
 
 | Category | Badges |
 | --- | --- |
-| Package | [![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) ![Python Versions](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-3776AB.svg?style=flat&logo=python&logoColor=white) ![GitHub release](https://img.shields.io/github/v/release/GiMattia/PyPLUTO?include_prereleases&label=Github%20Release) [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
+| Package | [![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) !![Python Versions](https://img.shields.io/badge/Python-3.12%20%7C%203.13%20%7C%203.14-3776AB.svg?style=flat&logo=python&logoColor=white) ![GitHub release](https://img.shields.io/github/v/release/GiMattia/PyPLUTO?include_prereleases&label=Github%20Release) [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
 | Tests | [![Windows Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml) [![MacOS Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml) [![Linux Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml) ![Coverage Report](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/GiMattia/384b1f3a3a3b74cdbd65c4e3dce0632f/raw/pytest-coverage-comment__main.json) |
-| Style | [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com//GiMattia/PyPLUTO/actions/workflows/pre-commit.yml) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) ![Pylint](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/GiMattia/8fc3a521f1c5e59e41eb16d1197bf8c8/raw/pylint-score.json) ![Mypy](https://img.shields.io/badge/type_checking-mypy-brightgreen) [![Documentation](https://readthedocs.org/projects/pypluto/badge/?version=latest)](https://pypluto.readthedocs.io/en/latest/?badge=latest) |
+| Style | [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com//GiMattia/PyPLUTO/actions/workflows/pre-commit.yml) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) [![pyrefly](https://img.shields.io/endpoint?url=https://pyrefly.org/badge.json)](https://github.com/facebook/pyrefly) [![ty](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ty/main/assets/badge/v0.json)](https://github.com/astral-sh/ty) [![Documentation](https://readthedocs.org/projects/pypluto/badge/?version=latest)](https://pypluto.readthedocs.io/en/latest/?badge=latest) |
 | Distribution | [![DOI](https://joss.theoj.org/papers/10.21105/joss.08448/status.svg)](https://doi.org/10.21105/joss.08448) [![Arxiv](https://img.shields.io/badge/arXiv-2501.09748-8F1515?style=flat&logo=arxiv&logoColor=red)](https://doi.org/10.48550/arXiv.2501.09748) [![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.17137196.svg)](https://doi.org/10.5281/zenodo.17137196) |
 
-<!-- ![Doc Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/GiMattia/cc212934fc58b93ddebda8c669dbb171/raw/interrogate-badge.svg) -->
-
 <!-- ![PyPI](https://img.shields.io/pypi/v/PyPLUTO) -->
-<!-- ![Conda](https://img.shields.io/badge/conda-available-brightgreen) -->
 
 PyPLUTO is a Python library which loads and plots the data obtain from the
 PLUTO code simulations.
@@ -36,7 +33,7 @@ The package is tested on Python 3.10 (and newer versions) and with the following
 - `scipy`
 - `pandas`
 - `h5py`
-- `PyQt6`
+- `PySide6`
 
 The package is provided with a `LICENSE` file which contains the license terms.
 
@@ -151,7 +148,7 @@ pip install -r requirements_dev.txt
 
 ### Rules for Contributing
 
-We use pre-commit to ensure that the code is consistent with the code guidelines, including the "black" format and several "ruff" checks.
+We use pre-commit to ensure that the code is consistent with the code guidelines, through uv, ruff, pyrefly and ty.
 You can either link the pre-commit to the repository through the command
 
 ```bash

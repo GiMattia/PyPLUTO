@@ -1,3 +1,5 @@
+"""Interactive functions for image manipulation and display."""
+
 import inspect
 from collections.abc import Iterable
 from pathlib import Path
@@ -13,23 +15,26 @@ from matplotlib.lines import Line2D
 from matplotlib.widgets import Slider
 from numpy.typing import NDArray
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .display import DisplayManager
-from .imagetools import ImageToolsManager
-from .plot import PlotManager
+from pyPLUTO.imagefuncs.display import DisplayManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.plot import PlotManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class InteractiveManager(ImageMixin):
-    """InteractiveManager class. It provides methods to create interactive
-    plots with sliders to change the data. It is designed to work with fluid
-    variables and allows for dynamic visualization of data as a function of
-    time. The class uses the DisplayManager and PlotManager to handle the
-    display and plotting of the data, respectively."""
+    """InteractiveManager class.
 
-    def __init__(self, state: ImageState):
-        """Initializes the InteractiveManager with the given state."""
+    It provides methods to create interactive plots with sliders to change the
+    data. It is designed to work with fluid variables and allows for dynamic
+    visualization of data as a function of time. The class uses the
+    DisplayManager and PlotManager to handle the display and plotting of the
+    data, respectively.
+    """
+
+    def __init__(self, state: ImageState) -> None:
+        """Initialize the InteractiveManager with the given state."""
         self.state = state
         self.DisplayManager = DisplayManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
@@ -38,12 +43,13 @@ class InteractiveManager(ImageMixin):
         self.anim_pcm: Collection | Line2D | None = None
         self.labslider: list[str | float] | None = None
         self.anim_ax: Axes | None = None
-        self.anim_var: dict[str, NDArray[Any]] | NDArray[Any] | None = None
+        self.anim_var: dict[str, NDArray[Any]] | NDArray[Any]
         self.animkeys: NDArray[Any] | None = None
         self.nsld: int = 0
         self.lenlab: int = 0
         self.limfix: bool = True
         self.slider: Slider | None = None
+        self.two_dim: int = 2
 
     @track_kwargs
     def interactive(
@@ -55,7 +61,8 @@ class InteractiveManager(ImageMixin):
         labslider: list[str | float] | None = None,
         **kwargs: Any,
     ) -> None:
-        """Creates an interactive plot with a slider to change the data.
+        """Create an interactive plot with a slider to change the data.
+
         Warning: it works only with the fluid variables.
 
         Returns
@@ -178,7 +185,7 @@ class InteractiveManager(ImageMixin):
         self.slider.on_changed(self.update_slider)
 
         # Display the data
-        if splt == 2:
+        if splt == self.two_dim:
             self.limfix = limfix
             vmin = (
                 min(np.nanmin(array) for array in self.anim_var.values())
@@ -217,7 +224,7 @@ class InteractiveManager(ImageMixin):
             self.anim_pcm = ax.get_lines()[0]
 
     def update_slider(self, i: float) -> Iterable[Artist]:
-        """Updates the data in the interactive plot.
+        """Update the data in the interactive plot.
 
         Returns
         -------
@@ -249,7 +256,7 @@ class InteractiveManager(ImageMixin):
             )
         idx = int(i)
         var = self.anim_var[self.animkeys[idx]]
-        if np.ndim(var) == 2:
+        if np.ndim(var) == self.two_dim:
             if not isinstance(self.anim_pcm, QuadMesh):
                 raise ValueError(
                     "The current plot is not a 2D plot. "
@@ -292,7 +299,7 @@ class InteractiveManager(ImageMixin):
         return ()
 
     def update_both(self, i: float) -> Iterable[Artist]:
-        """Updates both the plot and the slider value during animation.
+        """Update both the plot and the slider value during animation.
 
         Returns
         -------
@@ -334,7 +341,7 @@ class InteractiveManager(ImageMixin):
         updateslider: bool = True,
         script_relative: bool = False,
     ) -> None:
-        """Displays the animation interactively.
+        """Display the animation interactively.
 
         Returns
         -------

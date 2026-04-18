@@ -1,10 +1,9 @@
 """Helper functions for pyPLUTO."""
 
 import warnings
-from typing import Any
 
 
-def makelist(el: Any) -> list[Any]:
+def makelist[T](el: T | list[T]) -> list[T]:
     """If the element is not a list, it converts it into a list.
 
     Returns
@@ -36,7 +35,7 @@ def makelist(el: Any) -> list[Any]:
     return el if isinstance(el, list) else [el]
 
 
-def check_par(par: set[str], func: str, **kwargs: Any) -> None:
+def check_par(par: set[str], func: str, **kwargs: object) -> None:
     """Check the kwargs of a PyPLUTO function/method.
 
     Checks if a parameter is in the corresponding list depending on

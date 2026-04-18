@@ -1,26 +1,31 @@
+"""LegendManager class."""
+
 from typing import Any
 
 import matplotlib.lines as mlines
 from matplotlib.axes import Axes
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class LegendManager(ImageMixin):
-    """LegendManager class. It provides methods to create and manage legends
+    """LegendManager class.
+
+    It provides methods to create and manage legends
     in the plots. It is designed to work with the Image class and allows for
     dynamic creation of legends based on the current state of the image.
     The class uses the ImageToolsManager to handle the display and plotting
     of the legends, and it provides methods to customize the appearance of
-    the legends."""
+    the legends.
+    """
 
     exposed_methods = ("legend",)
 
-    def __init__(self, state: ImageState):
-        """Initializes the LegendManager with the given state."""
+    def __init__(self, state: ImageState) -> None:
+        """Initialize the LegendManager with the given state."""
         self.state = state
         self.ImageToolsManager = ImageToolsManager(state)
 
@@ -33,6 +38,7 @@ class LegendManager(ImageMixin):
         **kwargs: Any,
     ) -> None:
         """Creation of a legend referring to the current figure.
+
         If no labels are given, it shows the labels of all the plots in the
         figure, ordered by entry. If specific labels are given, it shows those.
 
@@ -212,7 +218,7 @@ class LegendManager(ImageMixin):
         # End of the function
 
 
-def makelist(el: Any) -> list[Any]:
+def makelist[T](el: T | list[T]) -> list[T]:
     """If the element is not a list, it converts it into a list.
 
     Returns

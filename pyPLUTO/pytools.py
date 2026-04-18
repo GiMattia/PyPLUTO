@@ -43,7 +43,8 @@ def savefig(**_kwargs: object) -> None:
     """Save the figure created.
 
     This function is deprecated and will be removed in future versions.
-    Please call savefig from the Image class instead."""
+    Please call savefig from the Image class instead.
+    """
     raise NotImplementedError(
         "pyPLUTO.savefig is deprecated.\n"
         "Please call savefig from the Image class instead"
@@ -114,9 +115,9 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
     if windows is not None:
         try:
             # Check if the 'winsound' package is available on Windows
-            import winsound
-
-            winsound.Beep(freq, int(length * 1000))  # type: ignore
+            winsound = importlib.import_module("winsound")
+            if hasattr(winsound, "Beep"):
+                winsound.Beep(freq, int(length * 1000))
         except UserWarning:
             # If the 'winsound' package is not available, raise a warning
             text = (

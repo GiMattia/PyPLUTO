@@ -31,6 +31,7 @@ Data = pyPLUTO.Load(path=data_path)
 Image = pyPLUTO.Image(
     figsize=[10.5, 10],
     suptitle="Test 07 - RMHD Kelvin-Helmholtz instability test",
+    nwin=7,
 )
 Image.create_axes(right=0.55)
 Image.create_axes(nrow=2, hspace=[0.003], left=0.67)

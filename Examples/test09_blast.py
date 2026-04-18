@@ -21,7 +21,7 @@ import numpy as np
 import pyPLUTO
 
 # Initialization
-Image = pyPLUTO.Image(suptitle="Test 09 - MHD Blast test")
+Image = pyPLUTO.Image(suptitle="Test 09 - MHD Blast test", nwin=9)
 Image.create_axes(ncol=2)
 
 

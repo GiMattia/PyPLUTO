@@ -238,7 +238,7 @@ def _read_gridfile(self) -> None:
 
     # Compute the cartesian grid coordinates (non-cartesian geometry)
 
-    if self.geom == "POLAR":
+    if self.geom == "POLAR" or self.geom == "CYLINDRICAL":
         x1_2D, x2_2D = np.meshgrid(self.x1, self.x2, indexing="ij")
         x1r_2D, x2r_2D = np.meshgrid(self.x1r, self.x2r, indexing="ij")
 
@@ -343,9 +343,15 @@ def _read_outfile(self, nout: int, endian: str) -> None:
 
     """
     # Open and read the 'filetype'.out file
+    # with open(self._pathdata) as f:
+    #   max_fields = max(len(line.split()) for line in f if line.strip())
     vfp = pd.read_csv(
-        str(self._pathdata), sep=r"\s+", header=None
-    )  # , engine="python"
+        str(self._pathdata),
+        sep=r"\s+",
+        header=None,
+        # engine="python",
+        # names=list(range(max_fields)),
+    )
     # FIX FOR DIFFERENT NUMBER OF COLUMNS IN THE .OUT FILE
 
     # Store the output and the time full list
@@ -423,7 +429,7 @@ def _split_gridfile(
     # to an integer (number of cells in a dimension).
     if len(i.split()) == 1:
         try:
-            nmax.append(int(i.split()[0]))
+            nmax.append(int(i.split(maxsplit=1)[0]))
         except ValueError:
             pass
 
@@ -432,7 +438,7 @@ def _split_gridfile(
         # Try to convert the first string to an int (cell number in a dimension)
         # and the other two to floats (left and right cell boundaries)
         try:
-            int(i.split()[0])
+            int(i.split(maxsplit=1)[0])
             xL.append(float(i.split()[1]))
             xR.append(float(i.split()[2]))
 

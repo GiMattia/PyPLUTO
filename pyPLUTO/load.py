@@ -10,7 +10,7 @@ from typing import Any
 import numpy as np
 from numpy.typing import NDArray
 
-from .h_pypluto import check_par
+from pyPLUTO.h_pypluto import check_par
 
 
 class Load:
@@ -160,6 +160,7 @@ class Load:
         if check is True:
             check_par(param, "__init__", **kwargs)
 
+        """
         # Load PyPLUTO for different codes
         code = kwargs.get("code")
         codedict = {"echo": self.echo_load}
@@ -171,7 +172,6 @@ class Load:
             if text is True:
                 print(init)
             codedict[code.lower()](nout, path, vars)
-            print(self.nout)
             if not isinstance(self.nout, int):
                 self.nout = self.nout.astype(int)
             if text is True:
@@ -179,6 +179,7 @@ class Load:
             return
         else:
             raise NotImplementedError(f"{code} loading is not implemented!")
+        """
 
         # Check if the user wants to load the data
         if nout is None:
@@ -342,7 +343,7 @@ class Load:
                 print("No pluto.ini is read!") if plini is True else ...
         return
 
-    def __str__(self):
+    def __str__(self) -> str:
         text3 = f"        - Projections {['x1c', 'x2c', 'x1rc', 'x2rc']}\n"
         text3 = text3 if self.geom != "CARTESIAN" else ""
 
@@ -398,12 +399,16 @@ class Load:
             ) from None
 
     from .amr import _DataScanHDF5, _inspect_hdf5
+
+    """
     from .codes.echo_load import (
         _echo_load_grid,
         _echo_load_vars,
         _echo_set_grid_dims,
         echo_load,
     )
+    """
+
     from .loadfuncs.defpluto import _read_defh, _read_plini
     from .loadfuncs.read_files import _read_dat, _read_h5, read_file
     from .loadfuncs.readdata_old import (

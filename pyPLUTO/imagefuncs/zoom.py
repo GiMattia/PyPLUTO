@@ -1,3 +1,5 @@
+"""Module to manage the zoom functionality in pyPLUTO."""
+
 import warnings
 from typing import Any, cast
 
@@ -5,14 +7,14 @@ import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.collections import QuadMesh
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .create_axes import CreateAxesManager
-from .display import DisplayManager
-from .imagetools import ImageToolsManager
-from .plot import PlotManager
-from .set_axis import AxisManager
+from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
+from pyPLUTO.imagefuncs.display import DisplayManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.plot import PlotManager
+from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class ZoomManager(ImageMixin):
@@ -20,12 +22,13 @@ class ZoomManager(ImageMixin):
 
     This class provides methods to create inset zooms of existing plots or
     displays. It allows customization of the zoom axes, including position,
-    size, and various display options."""
+    size, and various display options.
+    """
 
     exposed_methods = ("zoom",)
 
-    def __init__(self, state: ImageState):
-        """Initializes the ZoomManager with the given state."""
+    def __init__(self, state: ImageState) -> None:
+        """Initialize the ZoomManager with the given state."""
         self.state = state
         self.ImageToolsManager = ImageToolsManager(state)
         self.CreateAxesManager = CreateAxesManager(state)
@@ -361,8 +364,7 @@ class ZoomManager(ImageMixin):
         )
 
     def place_inset_pos(self, ax: Axes, pos: list[float]) -> Axes:
-        """Places an inset axes given the position (left, top, bottom,
-        right).
+        """Place an inset axes given the position (left, top, bottom, right).
 
         Returns
         -------
@@ -384,8 +386,9 @@ class ZoomManager(ImageMixin):
         return ax.inset_axes((left, bottom, width, height))
 
     def place_inset_loc(self, ax: Axes, **kwargs: Any) -> Axes:
-        """Places an inset axes given different keywords. In case both
-        top and bottom are given, the top is given priority and a
+        """Place an inset axes given different keywords.
+
+        In case both top and bottom are given, the top is given priority and a
         warning is raised.
 
         Returns
@@ -413,7 +416,7 @@ class ZoomManager(ImageMixin):
             warn = (
                 "Both top and bottom keys are given, priority goes to the top"
             )
-            warnings.warn(warn, UserWarning)
+            warnings.warn(warn, UserWarning, stacklevel=2)
 
         # Compute the position of the inset axis and return it
         left = kwargs.get("left", 0.6)

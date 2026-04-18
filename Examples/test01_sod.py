@@ -31,7 +31,7 @@ data_path = pyPLUTO.find_example("HD/Sod")
 Data = pyPLUTO.Load(path=data_path)
 
 # Creating the image
-Image = pyPLUTO.Image(figsize=[7, 5])
+Image = pyPLUTO.Image(figsize=[7, 5], nwin=1)
 
 # Plotting the data
 Image.plot(
@@ -44,6 +44,7 @@ Image.plot(
     yrange=[-0.05, 1.05],
     legpos=0,
 )
+
 
 Image.plot(Data.x1, Data.prs, label=r"$p$")
 Image.plot(Data.x1, Data.vx1, label=r"$v_x$")

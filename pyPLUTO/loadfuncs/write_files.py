@@ -262,7 +262,7 @@ def write_file(
     """
     # Check the datatype of the input data
     if datatype is None:
-        datatype = filename.split(".")[-1]
+        datatype = filename.rsplit(".", maxsplit=1)[-1]
     poss_types = {"dbl", "flt", "vtk", "h5", "tab"}
     if datatype not in poss_types:
         warn = f"Invalid datatype: {datatype}. Resetting to 'h5'"

@@ -2,8 +2,7 @@ name: Build Documentation
 
 on:
   push:
-   branches:
-     - master
+    branches: [ master ]
   pull_request:
 
 jobs:
@@ -12,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
@@ -29,7 +28,7 @@ jobs:
           sphinx-build -b html Docs/source Docs/_build/html
 
       - name: Upload artifact (optional)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: documentation-html
           path: Docs/_build/html

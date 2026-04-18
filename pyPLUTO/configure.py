@@ -1,17 +1,27 @@
 """Module to configure the pyPLUTO package."""
 
+import importlib
 import sys
 import traceback
 import warnings
+from collections.abc import Callable
 from types import TracebackType
-from typing import Any
+from typing import TYPE_CHECKING, cast
+
+if TYPE_CHECKING:
+    from IPython.core.interactiveshell import InteractiveShell
+
+FormatWarning = Callable[
+    [Warning | str, type[Warning], str, int, str | None], str
+]
 
 
 class Configure:
     """Handle the init tools for pyPLUTO.
 
     Tools include finding the session, setting up the handlers, and other
-    initialization tasks."""
+    initialization tasks.
+    """
 
     greeted = False
 
@@ -82,46 +92,46 @@ class Configure:
         """
 
         # Try to get IPython. If not available, it's not an IPython session.
-        def get_ipython_wrapper() -> Any:
-            """Get the IPython instance.
+        # Note the quotes around the return type of the get_ipython_wrapper
+        # function. This is because pylint would throw an error.
+        def get_ipython_wrapper() -> "InteractiveShell | None":
+            """Return the IPython instance, or None if not available."""
+            warnings.filterwarnings(
+                "ignore",
+                message=r".*importing 'Const' from 'astroid' is deprecated.*",
+                category=DeprecationWarning,
+            )
 
-            Try to import get_ipython from IPython.core.getipython. If it fails,
-            return None. This is useful for standard Python interpreter sessions
-            where IPython is not available.
-            """
             try:
-                from IPython.core.getipython import get_ipython
-
-                return get_ipython()  # type: ignore
-            except ImportError:
+                ipy_mod = importlib.import_module("IPython.core.getipython")
+                get_ipython = ipy_mod.get_ipython
+                return cast("InteractiveShell | None", get_ipython())
+            except (ImportError, AttributeError):
                 return None
 
         # Get the ipython method (from IPthon or from the ImportError)
 
         ipython = get_ipython_wrapper()
 
+        # Standard Python interpreter
+        if ipython is None:
+            return "Standard Python interpreter"
+
         # Find the session name
         shell = ipython.__class__.__name__
 
-        # Standard Python interpreter
-        if ipython is None:
-            session = "Standard Python interpreter"
         # Jupyter notebook or qtconsole
-        elif shell == "ZMQInteractiveShell":
-            session = "Jupyter notebook or qtconsole"
+        if shell == "ZMQInteractiveShell":
+            return "Jupyter notebook or qtconsole"
         # Terminal running IPython
         elif shell == "TerminalInteractiveShell":
-            session = "Terminal running IPython"
+            return "Terminal running IPython"
         # Unknown session
-        else:
-            session = "Unknown session"
-
-        # Return the session
-        return session
+        return "Unknown session"
 
     def color_warning(
         self,
-        message: str,
+        message: Warning | str,
         category: type[Warning],
         filename: str,
         lineno: int,
@@ -132,7 +142,7 @@ class Configure:
 
         Parameters
         ----------
-        - message: str
+        - message: Warning | str
             The warning message.
         - category: type[Warning]
             The category of the warning.
@@ -152,13 +162,9 @@ class Configure:
 
         """
         # Format the warning message with color codes
-        message = (
-            f"\33[33m{category.__name__}: {message}"
-            f"[{filename}:{lineno}]\33[0m\n"
-        )
+        msg = str(message)
 
-        # Return the colored message
-        return message
+        return f"\33[33m{category.__name__}: {msg}[{filename}:{lineno}]\33[0m\n"
 
     def color_error(
         self,
@@ -191,6 +197,47 @@ class Configure:
         self, colorwarn: bool = True, colorerr: bool = True
     ) -> None:
         """Set up the handlers for the warnings and errors.
+
+        Note that a type ignore is placed on the line where the warning handler
+        is set up because mypy and pyrefly would throw the following error:
+
+        (Warning | str, type[Warning], str, int, str | None) -> str is not
+        assignable to attribute formatwarning with type (message: Warning | str,
+        category: type[Warning], filename: str, lineno: int, line: str |
+        None = None) -> str
+        Incompatible types in assignment (expression has type
+        "Callable[[Warning | str, type[Warning], str, int, str | None], str]",
+        variable has type "Callable[[Arg(Warning | str, 'message'),
+        Arg(type[Warning], 'category'), Arg(str, 'filename'),
+        Arg(int, 'lineno'), DefaultArg(str | None, 'line')], str]")
+
+        This is because the signature of the color_warning method does not
+        exactly match the expected signature of the formatwarning attribute.
+        However, since the color_warning method is designed to be compatible
+        with the formatwarning attribute, we can safely ignore this type error.
+
+        The correct approach would be to use the following piece of code:
+
+        if colorwarn:
+            def _formatwarning(
+                message: Warning | str,
+                category: type[Warning],
+                filename: str,
+                lineno: int,
+                line: str | None = None,
+            ) -> str:
+                return self.color_warning(
+                    message,
+                    category,
+                    filename,
+                    lineno,
+                    line
+                )
+
+            warnings.formatwarning = _formatwarning
+
+        but, for simplicity, we directly assign the color_warning method to the
+        formatwarning attribute and ignore the type error.
 
         Parameters
         ----------

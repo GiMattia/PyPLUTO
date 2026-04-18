@@ -8,10 +8,21 @@ from matplotlib.collections import LineCollection, PathCollection, QuadMesh
 from matplotlib.contour import QuadContourSet
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
+
+# class MyKwargs(TypedDict, total=False):
+#    """TypedDict for keyword arguments."""
+#
+#    clabel: str
+#    cpad: float
+#    cpos: str
+#    cticks: list[float] | None
+#    ctickslabels: list[str]
+#    extend: str
+#    extendrect: bool
 
 
 class ColorbarManager(ImageMixin):
@@ -19,14 +30,14 @@ class ColorbarManager(ImageMixin):
 
     This class provides methods to create and manage colorbars in the image
     class. It allows for customization of the colorbar's position, size,
-    ticks, labels, and other properties."""
+    ticks, labels, and other properties.
+    """
 
     exposed_methods = ("colorbar",)
 
-    def __init__(self, state: ImageState):
+    def __init__(self, state: ImageState) -> None:
         """Initialize the ColorbarManager with the given state."""
         self.state = state
-        super().__init__()
         self.ImageToolsManager = ImageToolsManager(state)
 
     @track_kwargs
@@ -111,7 +122,8 @@ class ColorbarManager(ImageMixin):
 
         """
         # Check parameters
-        kwargs.pop("check", check)
+        if not isinstance(check, bool):
+            raise TypeError("check must be a boolean value.")
 
         # If pcm and a source axes are selected, raise a warning and use pcm
         if pcm is not None and axs is not None:
@@ -119,9 +131,7 @@ class ColorbarManager(ImageMixin):
             warnings.warn(warn, UserWarning, stacklevel=2)
 
         # Standard check on the figure
-        # Here we use self.state to fix a WINDOWS issue where self.fig
-        # is not defined in the ImageMixin
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -152,7 +162,7 @@ class ColorbarManager(ImageMixin):
             raise TypeError("cax must be an Axes instance.")
 
         # Place the colorbar
-        cbar = self.fig.colorbar(
+        cbar = self.state.fig.colorbar(
             pcm,
             cax=cax,
             label=kwargs.get("clabel", ""),
@@ -169,7 +179,7 @@ class ColorbarManager(ImageMixin):
 
         # Ensure, if needed, the tight layout
         if self.state.tight:
-            self.fig.tight_layout()
+            self.state.fig.tight_layout()
 
         # End of function
 
@@ -204,7 +214,7 @@ class ColorbarManager(ImageMixin):
 
         """
         # Standard check on the figure
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -217,12 +227,12 @@ class ColorbarManager(ImageMixin):
             axs = pcm.axes
         elif axs is None:
             # If axs is None, use the current axes
-            gca = self.fig.gca()
+            gca = self.state.fig.gca()
             if not isinstance(gca, Axes):
                 raise TypeError("gca() did not return an Axes instance.")
             axs = gca
         axs, _ = self.ImageToolsManager.assign_ax(axs, **kwargs)
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )

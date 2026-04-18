@@ -1,8 +1,8 @@
-name: Tests on Windows
+name: Windows Tests
 
 on:
   push:
-    #branches: [ master ]
+    branches: [ master ]
   pull_request:
 
 jobs:
@@ -13,11 +13,11 @@ jobs:
         os:
           - windows-2022
           - windows-2025
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.12", "3.13", "3.14"]
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Clean untracked files & bytecode
         shell: pwsh
@@ -27,7 +27,7 @@ jobs:
         #  Get-ChildItem -Path . -Include __pycache__ -Recurse | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
 

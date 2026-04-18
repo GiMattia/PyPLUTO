@@ -7,13 +7,14 @@ scale = list(mscale.get_scale_names())
 scales = [scale[i] for i in [3, 4, 6, 0]]
 vscales = ["linear", "log", "symlog", "2slope", "power", "asinh"]
 
-cmaps_avail = [list(cmaps)[2]] + list(cmaps)[0:2] + list(cmaps)[3:83]
+cmaps_list = list(cmaps)
+cmaps_avail0 = [cmaps_list[2], *cmaps_list[0:2], *cmaps_list[3:83]]
+cmaps_avail = [cmap for cmap in cmaps_avail0 if cmap in cmaps_list]
 
 cmaps_divided = {
     "All": cmaps_avail,
     "Uniform": ["plasma", "viridis", "inferno", "magma", "cividis"],
     "Sequential": [
-        "YlOrRd",
         "Greys",
         "Purples",
         "Blues",
@@ -21,6 +22,7 @@ cmaps_divided = {
         "Oranges",
         "Reds",
         "YlOrBr",
+        "YlOrRd",
         "OrRd",
         "PuRd",
         "RdPu",
@@ -33,7 +35,6 @@ cmaps_divided = {
         "YlGn",
     ],
     "Sequential (2)": [
-        "afmhot",
         "binary",
         "gist_yarg",
         "gist_gray",
@@ -47,22 +48,26 @@ cmaps_divided = {
         "cool",
         "Wistia",
         "hot",
+        "afmhot",
         "gist_heat",
         "copper",
     ],
     "Diverging": [
-        "RdBu",
         "PiYG",
         "PRGn",
         "BrBG",
         "PuOr",
         "RdGy",
+        "RdBu",
         "RdYlBu",
         "RdYlGn",
         "Spectral",
         "coolwarm",
         "bwr",
         "seismic",
+        "berlin",
+        "managua",
+        "vanimo",
     ],
     "Cyclic": ["twilight", "twilight_shifted", "hsv"],
     "Qualitative": [

@@ -9,7 +9,7 @@ from pyPLUTO.imagestate import ImageState
 def test_default_initialization():
     img = pp.Image()
     assert isinstance(img.state, ImageState)
-    assert isinstance(img._figure_manager, object)
+    assert isinstance(img.FigureManager, object)
 
 
 def test_custom_arguments():

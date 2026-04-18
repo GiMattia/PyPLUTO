@@ -1,16 +1,18 @@
+"""Module to manage the display of 2D plots in the image."""
+
 from typing import Any
 
 import numpy as np
 from matplotlib.collections import QuadMesh
 from numpy.typing import ArrayLike
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .colorbar import ColorbarManager
-from .imagetools import ImageToolsManager
-from .range import RangeManager
-from .set_axis import AxisManager
+from pyPLUTO.imagefuncs.colorbar import ColorbarManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.range import RangeManager
+from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class DisplayManager(ImageMixin):
@@ -18,11 +20,12 @@ class DisplayManager(ImageMixin):
 
     This class provides methods to create and manage 2D plots using matplotlib's
     pcolormesh function. It allows for customization of the plot's appearance,
-    colorbar, axes, and other properties."""
+    colorbar, axes, and other properties.
+    """
 
     exposed_methods = ("display",)
 
-    def __init__(self, state: ImageState):
+    def __init__(self, state: ImageState) -> None:
         """Initialize the DisplayManager with the given state."""
         self.state = state
         self.ColorbarManager = ColorbarManager(state)
@@ -37,8 +40,9 @@ class DisplayManager(ImageMixin):
         check: bool = True,
         **kwargs: Any,
     ) -> QuadMesh:
-        """Plot for a 2D function (or a 2D slice) using the matplotlib's
-        pcolormesh function. A simple figure and a single axis can also be
+        """Plot for a 2D function using the matplotlib's pcolormesh function.
+
+        A simple figure and a single axis can also be
         created.
 
         Returns

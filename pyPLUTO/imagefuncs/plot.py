@@ -1,27 +1,32 @@
+"""PlotManager class."""
+
 from typing import Any
 
 import numpy as np
 from numpy.typing import ArrayLike
 
-from ..imagemixin import ImageMixin
-from ..imagestate import ImageState
-from ..utils.inspector import track_kwargs
-from .imagetools import ImageToolsManager
-from .legend import LegendManager
-from .range import RangeManager
-from .set_axis import AxisManager
+from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.legend import LegendManager
+from pyPLUTO.imagefuncs.range import RangeManager
+from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class PlotManager(ImageMixin):
-    """PlotManager class. It provides methods to create and manage plots in the
+    """PlotManager class.
+
+    It provides methods to create and manage plots in the
     image. It is designed to work with the Image class and allows for dynamic
     creation of plots based on the current state of the image. The class uses
     the AxisManager, ImageToolsManager, LegendManager, and RangeManager to
     handle the display and plotting of the images, axes, legends, and ranges,
-    respectively."""
+    respectively.
+    """
 
-    def __init__(self, state: ImageState):
-        """Initializes the PlotManager with the given state."""
+    def __init__(self, state: ImageState) -> None:
+        """Initialize the PlotManager with the given state."""
         self.state = state
         self.AxisManager = AxisManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
@@ -36,7 +41,9 @@ class PlotManager(ImageMixin):
         check: bool = True,
         **kwargs: Any,
     ) -> None:
-        """Creation of a 1D function plot (or a 1D slice plot). It creates a
+        """Creation of a 1D function plot (or a 1D slice plot).
+
+        This function plots a 1D function or a 1D slice. It creates a
         simple figure and a single axis if none are given prior. If a single
         function argument is given, it plots the graph of that function using
         a linear variable as x parameter. However, if a pair of arrays is
@@ -264,8 +271,9 @@ class PlotManager(ImageMixin):
             nax,
             [np.nanmin(y), np.nanmax(y)],
             self.setay[nax],
-            x=x.astype(np.float64),
-            y=y,
+            data=(x.astype(np.float64), y),
+            #    x=x.astype(np.float64),
+            #    y=y,
         )
 
         # Set color line and increase the number of lines (if default color)

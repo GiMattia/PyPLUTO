@@ -47,8 +47,12 @@ class ReadtabManager(LoadMixin):
         mm.seek(0)
         raw = mm.read()
 
-        # Count empty lines via C-level bytes.count — no Python loop needed
-        # \n\n indicates a blank line between two newlines
+        # Normalize line endings so grid detection is consistent across OSes.
+        # On Windows checkouts, lines can be CRLF and blank rows are \r\n\r\n.
+        raw = raw.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+
+        # Count empty lines via C-level bytes.count — no Python loop needed.
+        # \n\n indicates a blank line between two newlines.
         empty_lines = raw.count(b"\n\n")
 
         # np.loadtxt skips blank lines natively and parses entirely in C

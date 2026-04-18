@@ -48,6 +48,19 @@ repos:
     hooks:
       - id: uv-lock
 
+
+  # -----------------------------
+  # Check pixi lock
+  # ----------------------------- 
+
+  - repo: local
+    hooks:
+      - id: pixi-lock-check
+        name: pixi lock consistency
+        entry: pixi lock --check
+        language: system
+        pass_filenames: false
+
   # -----------------------------
   # Type checking (ty)
   # -----------------------------

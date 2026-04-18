@@ -44,7 +44,7 @@ jobs:
       - name: Build coverage file
         shell: bash
         run: |
-          uv run pytest -n auto --junitxml=pytest.xml \
+          uv run pytest --junitxml=pytest.xml \
             --cov=pyPLUTO --cov-report=term-missing Tests/ \
             | tee pytest-coverage.txt
 

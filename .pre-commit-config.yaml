@@ -3,7 +3,7 @@ repos:
   # Pre-commit official hooks
   # -----------------------------
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-ast
       - id: check-toml
@@ -30,7 +30,7 @@ repos:
   # Ruff (lint + fix)
   # -----------------------------
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.1
+    rev: v0.15.11
     hooks:
       # Lint first (with autofix)
       - id: ruff-check
@@ -47,6 +47,7 @@ repos:
     rev: 0.11.7
     hooks:
       - id: uv-lock
+        args: [--check]
 
 
   # -----------------------------

@@ -29,7 +29,6 @@ PySide6
 
 [notebook]
 ipython
-marimo
 
 [pasta]
 pastamarkers
@@ -37,9 +36,6 @@ pastamarkers
 [test]
 pytest
 pytest-doctestplus
-pytest-mock
 coverage
 pytest-cov
-pytest-xdist
-approvaltests
-pillow
+pytest-xdist>=3.8.0

@@ -49,7 +49,6 @@ test = [
     "coverage",
     "pytest-cov",
     "pytest-xdist",
-    "approvaltests",
     "pillow"
 ] 
 dev = [

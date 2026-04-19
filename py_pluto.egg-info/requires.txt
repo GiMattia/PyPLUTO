@@ -7,35 +7,8 @@ pandas
 h5py
 inifix>=5.1.0
 
-[dev]
-uv
-pandas-stubs
-h5py-stubs
-pre-commit
-pyright
-pyrefly
-ruff
-ty>=0.0.17
-radon
-pydata-sphinx-theme
-
-[docs]
-sphinx
-sphinx-automodapi
-numpydoc
-
-[extras]
+[gui]
 PySide6
-
-[notebook]
-ipython
 
 [pasta]
 pastamarkers
-
-[test]
-pytest
-pytest-doctestplus
-coverage
-pytest-cov
-pytest-xdist>=3.8.0

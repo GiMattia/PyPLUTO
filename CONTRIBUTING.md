@@ -55,7 +55,7 @@ Replace <your-user> with your own GitHub username (your fork of the repository).
 Create a reproducible environment from the lockfile:
 
 ```bash
-uv sync --all-extras
+uv sync --group local-dev --all-extras
 ```
 
 Run commands inside the synced environment with `uv run`, for example:

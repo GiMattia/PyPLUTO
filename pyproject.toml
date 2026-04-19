@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools>=82.0.1"]
-build-backend = "setuptools.build_meta"
+requires = ["flit_core >=3.11,<4"]
+build-backend = "flit_core.buildapi"
 
 [project]
 name = "py-pluto"
@@ -68,14 +68,14 @@ pasta = [
     "pastamarkers"
 ]
 
-[tool.setuptools.packages.find]
-include = ["pyPLUTO*"]
-
 [project.scripts]
 pypluto-gui = "pyPLUTO.gui.main:main"
 
+[tool.flit.module]
+name = "pyPLUTO"
+
 [tool.coverage.run]
-source = ["pyPLUTO"]
+source = ["src"]
 branch = true
 
 [tool.coverage.report]

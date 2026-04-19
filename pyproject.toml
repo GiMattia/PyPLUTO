@@ -50,7 +50,6 @@ test = [
     "pytest-cov",
     "pytest-xdist",
     "approvaltests",
-    "pillow"
 ] 
 dev = [
     "uv",

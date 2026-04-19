@@ -1630,7 +1630,6 @@ pasta = [
 test = [
     { name = "approvaltests" },
     { name = "coverage" },
-    { name = "pillow" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-doctestplus" },
@@ -1655,7 +1654,6 @@ requires-dist = [
     { name = "pandas" },
     { name = "pandas-stubs", marker = "extra == 'dev'" },
     { name = "pastamarkers", marker = "extra == 'pasta'" },
-    { name = "pillow", marker = "extra == 'test'" },
     { name = "pre-commit", marker = "extra == 'dev'" },
     { name = "pydata-sphinx-theme", marker = "extra == 'dev'" },
     { name = "pyrefly", marker = "extra == 'dev'" },

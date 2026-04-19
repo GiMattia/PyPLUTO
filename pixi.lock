@@ -2450,7 +2450,7 @@ packages:
 - pypi: ./
   name: py-pluto
   version: 1.1.3
-  sha256: 8e64f889c0ba01409f6065215fa68c1dcc5044fb5dbe95e14811b54c4ac6a561
+  sha256: 11aee89c178e4c1229f58556b92fa5a583cc7cb53b3fa7a16ad7ddbca6aeff8f
   requires_dist:
   - contourpy
   - numpy
@@ -2468,7 +2468,7 @@ packages:
   - pytest-doctestplus ; extra == 'test'
   - coverage ; extra == 'test'
   - pytest-cov ; extra == 'test'
-  - pytest-xdist ; extra == 'test'
+  - pytest-xdist>=3.8.0 ; extra == 'test'
   - uv ; extra == 'dev'
   - pandas-stubs ; extra == 'dev'
   - h5py-stubs ; extra == 'dev'

@@ -2450,24 +2450,24 @@ packages:
 - pypi: ./
   name: py-pluto
   version: 1.1.3
-  sha256: feac34958974dfbb098c9af014de78a466a5eb4c445f165d15cadcd502d4de4d
+  sha256: e75e01dd0f341072b614550e16eb6f76c495dca08f90af9bfd09f7009ad16a96
   requires_dist:
-  - contourpy
-  - numpy
-  - matplotlib
-  - scipy
-  - numexpr
-  - pandas
-  - h5py
+  - contourpy>=1.2.1
+  - numpy>=2.0.0
+  - matplotlib>=3.8.4
+  - scipy>=1.13.0
+  - numexpr>=2.10.0
+  - pandas>=2.2.2
+  - h5py>=3.11.0
   - inifix>=5.1.0
   - pyside6 ; extra == 'extras'
-  - sphinx ; extra == 'docs'
-  - sphinx-automodapi ; extra == 'docs'
-  - numpydoc ; extra == 'docs'
-  - pytest ; extra == 'test'
-  - pytest-doctestplus ; extra == 'test'
-  - coverage ; extra == 'test'
-  - pytest-cov ; extra == 'test'
+  - sphinx>=9.0.0 ; extra == 'docs'
+  - sphinx-automodapi>=0.20.0 ; extra == 'docs'
+  - numpydoc>=1.0.0 ; extra == 'docs'
+  - pytest>=9.0.0 ; extra == 'test'
+  - pytest-doctestplus>=1.5.0 ; extra == 'test'
+  - coverage>=7.3.0 ; extra == 'test'
+  - pytest-cov>=7.0.0 ; extra == 'test'
   - pytest-xdist>=3.8.0 ; extra == 'test'
   - uv ; extra == 'dev'
   - pandas-stubs ; extra == 'dev'
@@ -2479,7 +2479,7 @@ packages:
   - ty>=0.0.17 ; extra == 'dev'
   - radon ; extra == 'dev'
   - pydata-sphinx-theme ; extra == 'dev'
-  - ipython ; extra == 'notebook'
+  - ipython>=9.0.0 ; extra == 'notebook'
   - pastamarkers ; extra == 'pasta'
   requires_python: '>=3.12'
 - pypi: https://files.pythonhosted.org/packages/9d/b7/a2bae25aae3568fe9f17040b31f9c190b4c5d86856d8869d0a30364a2567/pydata_sphinx_theme-0.17.0-py3-none-any.whl

@@ -45,7 +45,6 @@ docs = [
 test = [
     "pytest",
     "pytest-doctestplus",
-    "pytest-mock",
     "coverage",
     "pytest-cov",
     "pytest-xdist",

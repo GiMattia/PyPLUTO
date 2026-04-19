@@ -28,8 +28,6 @@ dependencies = [
     "pandas",
     "h5py",
     "inifix>=5.1.0",
-    "pytest-xdist>=3.8.0",
-    "ty>=0.0.17",
 ]
 
 [project.optional-dependencies]
@@ -48,7 +46,7 @@ test = [
     "pytest-mock",
     "coverage",
     "pytest-cov",
-    "pytest-xdist",
+    "pytest-xdist>=3.8.0",
     "approvaltests",
     "pillow"
 ] 
@@ -60,7 +58,7 @@ dev = [
     "pyright",
     "pyrefly",
     "ruff",
-    "ty",
+    "ty>=0.0.17",
     "radon",
     "pydata-sphinx-theme",
 ]

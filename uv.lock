@@ -1594,9 +1594,7 @@ dependencies = [
     { name = "numexpr" },
     { name = "numpy" },
     { name = "pandas" },
-    { name = "pytest-xdist" },
     { name = "scipy" },
-    { name = "ty" },
 ]
 
 [package.optional-dependencies]
@@ -1665,15 +1663,13 @@ requires-dist = [
     { name = "pytest-cov", marker = "extra == 'test'" },
     { name = "pytest-doctestplus", marker = "extra == 'test'" },
     { name = "pytest-mock", marker = "extra == 'test'" },
-    { name = "pytest-xdist", specifier = ">=3.8.0" },
-    { name = "pytest-xdist", marker = "extra == 'test'" },
+    { name = "pytest-xdist", marker = "extra == 'test'", specifier = ">=3.8.0" },
     { name = "radon", marker = "extra == 'dev'" },
     { name = "ruff", marker = "extra == 'dev'" },
     { name = "scipy" },
     { name = "sphinx", marker = "extra == 'docs'" },
     { name = "sphinx-automodapi", marker = "extra == 'docs'" },
-    { name = "ty", specifier = ">=0.0.17" },
-    { name = "ty", marker = "extra == 'dev'" },
+    { name = "ty", marker = "extra == 'dev'", specifier = ">=0.0.17" },
     { name = "uv", marker = "extra == 'dev'" },
 ]
 provides-extras = ["extras", "docs", "test", "dev", "notebook", "pasta"]

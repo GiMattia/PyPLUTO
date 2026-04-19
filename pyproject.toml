@@ -43,12 +43,9 @@ docs = [
 test = [
     "pytest",
     "pytest-doctestplus",
-    "pytest-mock",
     "coverage",
     "pytest-cov",
     "pytest-xdist",
-    "approvaltests",
-    "pillow"
 ] 
 dev = [
     "uv",
@@ -65,7 +62,6 @@ dev = [
 
 notebook = [
     "ipython",
-    "marimo",
 ]
 
 pasta = [
@@ -139,12 +135,6 @@ convention = "numpy"
 quote-style = "double"
 indent-style = "space"
 line-ending = "auto"
-
-[tool.ty.environment]
-python-version = "3.12"
-
-[tool.pyrefly]
-python-version = "3.12"
 
 [tool.pixi.workspace]
 channels = ["conda-forge"]

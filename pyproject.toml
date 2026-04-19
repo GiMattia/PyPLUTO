@@ -20,13 +20,13 @@ authors = [
     { name = "B. Vaidya" }
 ]
 dependencies = [
-    "contourpy",
-    "numpy",
-    "matplotlib",
-    "scipy",
-    "numexpr",
-    "pandas",
-    "h5py",
+    "contourpy>=1.2.1",
+    "numpy>=2.0.0",
+    "matplotlib>=3.8.4",
+    "scipy>=1.13.0",
+    "numexpr>=2.10.0",
+    "pandas>=2.2.2",
+    "h5py>=3.11.0",
     "inifix>=5.1.0",
 ]
 
@@ -36,15 +36,15 @@ extras = [
 ]
 
 docs = [
-    "sphinx",
-    "sphinx-automodapi",
-    "numpydoc"
+    "sphinx>=9.0.0",
+    "sphinx-automodapi>=0.20.0",
+    "numpydoc>=1.0.0"
 ]
 test = [
-    "pytest",
-    "pytest-doctestplus",
-    "coverage",
-    "pytest-cov",
+    "pytest>=9.0.0",
+    "pytest-doctestplus>=1.5.0",
+    "coverage>=7.3.0",
+    "pytest-cov>=7.0.0",
     "pytest-xdist>=3.8.0",
 ] 
 dev = [
@@ -61,7 +61,7 @@ dev = [
 ]
 
 notebook = [
-    "ipython",
+    "ipython>=9.0.0",
 ]
 
 pasta = [
@@ -135,6 +135,38 @@ convention = "numpy"
 quote-style = "double"
 indent-style = "space"
 line-ending = "auto"
+
+[tool.uv]
+no-build-package = [
+    # mandatory deps
+    "contourpy",
+    "coverage",
+    "h5py",
+    "kiwisolver",
+    "matplotlib",
+    "numexpr",
+    "numpy",
+    "pandas",
+    "pillow",
+    "scipy",
+
+    # dev deps
+    "ruff",
+    "pre-commit",
+
+
+    # transitive deps
+    "decorator",
+    "docutils",
+    "markupsafe",
+    "jinja2",
+    "setuptools",
+    "simplejson",
+]
+constraint-dependencies = [
+    "jsonschema>=0.3",
+    "pillow>=10.0.0",
+]
 
 [tool.pixi.workspace]
 channels = ["conda-forge"]

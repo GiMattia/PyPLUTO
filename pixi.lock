@@ -2450,7 +2450,7 @@ packages:
 - pypi: ./
   name: py-pluto
   version: 1.1.3
-  sha256: e75e01dd0f341072b614550e16eb6f76c495dca08f90af9bfd09f7009ad16a96
+  sha256: 7d2604df74cabf5295897dd32aa562bc98e9bc1b824f0ca95778e1e65a4ad325
   requires_dist:
   - contourpy>=1.2.1
   - numpy>=2.0.0

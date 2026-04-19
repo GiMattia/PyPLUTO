@@ -2926,6 +2926,45 @@ packages:
   sha256: 1db8e35b67b3d218d818ae653e27f06c3aa420901fa7b081ca98cbedc874e0d0
   requires_dist:
   - pytest ; extra == 'tests'
+- pypi: ./
+  name: py-pluto
+  version: 1.1.3
+  sha256: 3851c90f50ea2e7d63199377432bf787a3b130eea923c7175a7875df7ceb9e03
+  requires_dist:
+  - contourpy
+  - numpy
+  - matplotlib
+  - scipy
+  - numexpr
+  - pandas
+  - h5py
+  - inifix>=5.1.0
+  - pyside6 ; extra == 'extras'
+  - sphinx ; extra == 'docs'
+  - sphinx-automodapi ; extra == 'docs'
+  - numpydoc ; extra == 'docs'
+  - pytest ; extra == 'test'
+  - pytest-doctestplus ; extra == 'test'
+  - pytest-mock ; extra == 'test'
+  - coverage ; extra == 'test'
+  - pytest-cov ; extra == 'test'
+  - pytest-xdist ; extra == 'test'
+  - approvaltests ; extra == 'test'
+  - pillow ; extra == 'test'
+  - uv ; extra == 'dev'
+  - pandas-stubs ; extra == 'dev'
+  - h5py-stubs ; extra == 'dev'
+  - pre-commit ; extra == 'dev'
+  - pyright ; extra == 'dev'
+  - pyrefly ; extra == 'dev'
+  - ruff ; extra == 'dev'
+  - ty>=0.0.17 ; extra == 'dev'
+  - radon ; extra == 'dev'
+  - pydata-sphinx-theme ; extra == 'dev'
+  - ipython ; extra == 'notebook'
+  - marimo ; extra == 'notebook'
+  - pastamarkers ; extra == 'pasta'
+  requires_python: '>=3.12'
 - pypi: https://files.pythonhosted.org/packages/9d/b7/a2bae25aae3568fe9f17040b31f9c190b4c5d86856d8869d0a30364a2567/pydata_sphinx_theme-0.17.0-py3-none-any.whl
   name: pydata-sphinx-theme
   version: 0.17.0
@@ -3009,45 +3048,6 @@ packages:
   name: pyperclip
   version: 1.11.0
   sha256: 299403e9ff44581cb9ba2ffeed69c7aa96a008622ad0c46cb575ca75b5b84273
-- pypi: ./
-  name: pypluto
-  version: 1.1.1
-  sha256: ac62fc3f35202cc454eb18231704df78f487c278c0220885228d3b67bf3a67b1
-  requires_dist:
-  - contourpy
-  - numpy
-  - matplotlib
-  - scipy
-  - numexpr
-  - pandas
-  - h5py
-  - inifix>=5.1.0
-  - pyside6 ; extra == 'extras'
-  - sphinx ; extra == 'docs'
-  - sphinx-automodapi ; extra == 'docs'
-  - numpydoc ; extra == 'docs'
-  - pytest ; extra == 'test'
-  - pytest-doctestplus ; extra == 'test'
-  - pytest-mock ; extra == 'test'
-  - coverage ; extra == 'test'
-  - pytest-cov ; extra == 'test'
-  - pytest-xdist ; extra == 'test'
-  - approvaltests ; extra == 'test'
-  - pillow ; extra == 'test'
-  - uv ; extra == 'dev'
-  - pandas-stubs ; extra == 'dev'
-  - h5py-stubs ; extra == 'dev'
-  - pre-commit ; extra == 'dev'
-  - pyright ; extra == 'dev'
-  - pyrefly ; extra == 'dev'
-  - ruff ; extra == 'dev'
-  - ty>=0.0.17 ; extra == 'dev'
-  - radon ; extra == 'dev'
-  - pydata-sphinx-theme ; extra == 'dev'
-  - ipython ; extra == 'notebook'
-  - marimo ; extra == 'notebook'
-  - pastamarkers ; extra == 'pasta'
-  requires_python: '>=3.12'
 - pypi: https://files.pythonhosted.org/packages/18/8c/0ff67041c88c28f48b10ce15758831d1e4e60f11db5bfc09dcffd5edb6ba/pyrefly-0.61.1-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
   name: pyrefly
   version: 0.61.1

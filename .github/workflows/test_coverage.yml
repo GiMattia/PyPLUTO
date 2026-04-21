@@ -39,7 +39,7 @@ jobs:
 
       # Non-negotiable: exact env from uv.lock (+ test deps)
       - name: Sync (locked)
-        run: uv sync --locked --extra test
+        run: uv sync --locked --group test --extra gui
 
       - name: Build coverage file
         shell: bash

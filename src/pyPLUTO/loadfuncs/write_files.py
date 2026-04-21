@@ -91,13 +91,13 @@ def write_vtk(self):
     """
     raise NotImplementedError("write_vtk() is not yet implemented.")
     # Create the path to the VTK file
-    self._pathvtk = self.pathdir / (self.format + ".vtk")
+    self._pathvtk = self.pathdir / (self.datatype + ".vtk")
 
     # Open the VTK file
     with open(self._pathvtk, "w") as f:
         # Write the header to the VTK file
         f.write("# vtk DataFile Version 3.0\n")
-        f.write("VTK file for " + self.format + "\n")
+        f.write("VTK file for " + self.datatype + "\n")
         f.write("ASCII\n")
         f.write("DATASET STRUCTURED_POINTS\n")
         f.write(
@@ -168,12 +168,12 @@ def write_tab(self):
     raise NotImplementedError("write_tab() is not yet implemented.")
 
     # Create the path to the tab-separated file
-    self._pathtab = self.pathdir / (self.format + ".tab")
+    self._pathtab = self.pathdir / (self.datatype + ".tab")
 
     # Open the tab-separated file
     with open(self._pathtab, "w") as f:
         # Write the header to the tab-separated file
-        f.write("# " + self.format + "\n")
+        f.write("# " + self.datatype + "\n")
 
         # Write the data to the tab-separated file
         for key in self.data.keys():
@@ -210,7 +210,7 @@ def write_bin(self):
     raise NotImplementedError("write_bin() is not yet implemented.")
 
     # Create the path to the binary file
-    self._pathbin = self.pathdir / (self.format + ".bin")
+    self._pathbin = self.pathdir / (self.datatype + ".bin")
 
     # Open the binary file
     with open(self._pathbin, "wb") as f:

@@ -78,7 +78,7 @@ def _load_variables(
     # or compute the offset and shape
     if self._d_info["typefile"][i] == "single_file":
         self._compute_offset(i, endian, exout, None)
-    if self.format == "hdf5":
+    if self.datatype == "hdf5":
         return None
 
     # Check if only specific variables should be loaded
@@ -96,7 +96,7 @@ def _load_variables(
 
     # If the format is tab, the data have been already loaded, so
     # the function returns None
-    if self.format == "tab":
+    if self.datatype == "tab":
         return None
 
     # ERROR: TOO MANY OPEN FILES!!!
@@ -398,7 +398,7 @@ def _findfiles(self, nout: int | str | list[int | str]) -> None:
         # Check if the particles file is present
         if "particles" not in self.set_vars:
             raise FileNotFoundError(
-                f"file particles.*.{self.format} \
+                f"file particles.*.{self.datatype} \
                                     not found!"
             )
 
@@ -433,10 +433,10 @@ def _findfiles(self, nout: int | str | list[int | str]) -> None:
     # Compute the endpath
     if self.nfile_lp is None:
         # If the number of LP files is not given, the format is standard
-        format_string = f".%04d.{self.format}"
+        format_string = f".%04d.{self.datatype}"
     else:
         # If the number of LP files is given, the format is different
-        format_string = f".%04d_ch{self.nfile_lp:02d}.{self.format}"
+        format_string = f".%04d_ch{self.nfile_lp:02d}.{self.datatype}"
     self._d_info["endpath"] = np.char.mod(format_string, self.nout)
 
     # End of the function

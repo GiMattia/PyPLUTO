@@ -55,7 +55,7 @@ Replace <your-user> with your own GitHub username (your fork of the repository).
 Create a reproducible environment from the lockfile:
 
 ```bash
-uv sync --all-extras
+uv sync --all-extras --all-groups
 ```
 
 Run commands inside the synced environment with `uv run`, for example:
@@ -70,7 +70,7 @@ uv run pytest -v ./Tests
 Install the `all` environment declared in `pyproject.toml`:
 
 ```bash
-pixi install -e all
+pixi install -e full
 ```
 
 Run tools in that environment:

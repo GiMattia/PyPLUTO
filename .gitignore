@@ -24,6 +24,7 @@ Utils/
 .idea/
 .ipynb_checkpoints
 .*_cache/
+.pixi/
 .venv/
 .vscode/
 .codex

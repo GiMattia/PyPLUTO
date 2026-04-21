@@ -26,7 +26,11 @@ class Configure:
     greeted = False
 
     def __init__(
-        self, colorerr: bool = True, colorwarn: bool = True, greet: bool = True
+        self,
+        version: str = "Unknown",
+        colorerr: bool = True,
+        colorwarn: bool = True,
+        greet: bool = True,
     ) -> None:
         """Initialize the Configure class.
 
@@ -44,7 +48,7 @@ class Configure:
         - None
 
         """
-        self.version: str = "1.1.1"
+        self.version: str = version
         self.colorerr: bool = colorerr
         self.colorwarn: bool = colorwarn
         self.session: str = self._find_session()

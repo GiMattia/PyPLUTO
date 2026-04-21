@@ -25,9 +25,9 @@ class BaseLoadState:
     code: str = "gPLUTO"
     d_info: dict[str, Any] = field(init=False)
     d_vars: dict[str, Any] = field(default_factory=dict)
+    datatype: str = "Unknown"
     endian: str | None = None
     filepath: Path = field(init=False)
-    format: str = "Unknown"
     infogrid: bool = True
     lennout: int = field(init=False)
     lennoutlist: int = field(init=False)

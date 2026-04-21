@@ -68,7 +68,7 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
             self.GridFileManager.read_gridfile()
             self.infogrid = False
 
-        fmt = "h5" if self.format in {"dbl.h5", "flt.h5"} else self.format
+        fmt = "h5" if self.datatype in {"dbl.h5", "flt.h5"} else self.datatype
         fmt = "bin" if fmt in {"dbl", "flt"} else fmt
 
         if isinstance(self.state, LoadState):

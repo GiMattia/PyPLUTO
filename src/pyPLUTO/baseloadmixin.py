@@ -78,6 +78,16 @@ class BaseLoadMixin[S: BaseLoadState]:
         self.state.d_vars = value
 
     @property
+    def datatype(self) -> str:
+        """Get the datatype attribute of the load state."""
+        return self.state.datatype
+
+    @datatype.setter
+    def datatype(self, value: str) -> None:
+        """Set the datatype attribute of the load state."""
+        self.state.datatype = value
+
+    @property
     def endian(self) -> str | None:
         """Get the endian attribute of the load state."""
         return self.state.endian
@@ -96,16 +106,6 @@ class BaseLoadMixin[S: BaseLoadState]:
     def filepath(self, value: Path) -> None:
         """Set the filepath attribute of the load state."""
         self.state.filepath = value
-
-    @property
-    def format(self) -> str:
-        """Get the format attribute of the load state."""
-        return self.state.format
-
-    @format.setter
-    def format(self, value: str) -> None:
-        """Set the format attribute of the load state."""
-        self.state.format = value
 
     @property
     def infogrid(self) -> bool:

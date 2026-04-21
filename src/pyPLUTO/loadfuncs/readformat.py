@@ -166,9 +166,9 @@ def _find_format(self, datatype: str | None, alone: bool | None) -> None:
         do_check(self, dict_func[do_check.__name__])
 
         # Check if the format has been found
-        if self.format is not None:
+        if self.datatype is not None:
             # Store the charsize depending on the format
-            self._charsize = 8 if self.format in dbl else 4
+            self._charsize = 8 if self.datatype in dbl else 4
 
             # If the format is found, end the function
             return None
@@ -223,7 +223,7 @@ def _check_typeout(self, type_out: list[str]) -> None:
         # Check if the datatype.out file is present
         if self._pathdata.is_file() and self._pathgrid.is_file():
             # Store the format and set the flag alone to False
-            self.format = try_type
+            self.datatype = try_type
             self._alone = False
             # Format is found, break the loop
             break
@@ -269,7 +269,7 @@ def _check_typelon(self, type_lon: list[str]) -> None:
         # Check if the file is present
         if self._matching_files:
             # Store the format and set the flag alone to True
-            self.format = try_type
+            self.datatype = try_type
             self._alone = True
             # Format is found, break the loop
             break

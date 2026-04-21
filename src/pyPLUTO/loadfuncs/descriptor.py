@@ -56,11 +56,11 @@ class DescriptorManager(LoadMixin):
             >>> _read_outfile(0, "big")
 
         """
-        if self.format is None:
+        if self.datatype is None:
             raise ValueError("Format not defined. Cannot read descriptor file.")
 
         # Read and parse the 'filetype'.out file — pure Python split, no Pandas
-        pathdata = self.pathdir / Path(self.format + ".out")
+        pathdata = self.pathdir / Path(self.datatype + ".out")
         rows = [
             line.split()
             for line in pathdata.read_text().splitlines()
@@ -88,7 +88,7 @@ class DescriptorManager(LoadMixin):
         # Compute the endianess (vtk always big endian).
         # If endian is given, it is used instead of the one in the file.
         self.d_info["endianess"][:] = (
-            ">" if self.format == "vtk" else self.d_info["endianess"]
+            ">" if self.datatype == "vtk" else self.d_info["endianess"]
         )
         self.d_info["endianess"][:] = (
             self.endian if self.endian is not None else self.d_info["endianess"]
@@ -98,5 +98,5 @@ class DescriptorManager(LoadMixin):
         self.d_info["binformat"] = np.char.add(
             self.d_info["endianess"], "f" + str(self.charsize)
         )
-        format_string = f".%04d.{self.format}"
+        format_string = f".%04d.{self.datatype}"
         self.d_info["endpath"] = np.char.mod(format_string, self.outlist)

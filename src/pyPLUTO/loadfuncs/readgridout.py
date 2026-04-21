@@ -372,14 +372,14 @@ def _read_outfile(self, nout: int, endian: str) -> None:
     # Compute the endianess (vtk have always big endianess).
     # If endian is given, it is used instead of the one in the file.
     self._d_info["endianess"][:] = (
-        ">" if self.format == "vtk" else self._d_info["endianess"]
+        ">" if self.datatype == "vtk" else self._d_info["endianess"]
     )
     self._d_info["endianess"][:] = (
         self._d_end[endian] if endian is not None else self._d_info["endianess"]
     )
 
     # Store the variables list
-    if self.format not in {"dbl.h5", "flt.h5"}:
+    if self.datatype not in {"dbl.h5", "flt.h5"}:
         self._d_info["varslist"] = np.array(vfp.iloc[self.nout, 6:])
     else:
         self.varsh5 = np.array(vfp.iloc[self.nout, 6:])[0]
@@ -389,7 +389,7 @@ def _read_outfile(self, nout: int, endian: str) -> None:
     self._d_info["binformat"] = np.char.add(
         self._d_info["endianess"], "f" + str(self._charsize)
     )
-    format_string = f".%04d.{self.format}"
+    format_string = f".%04d.{self.datatype}"
     self._d_info["endpath"] = np.char.mod(format_string, self.nout)
 
 

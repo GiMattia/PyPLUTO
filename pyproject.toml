@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "py-pluto"
-version = "1.1.3"
+dynamic = ["version"]
 description = "PyPLUTO: Plotting routines for PLUTO"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -31,10 +31,15 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-extras = [
+gui = [
     "PySide6",
 ]
 
+pasta = [
+    "pastamarkers"
+]
+
+[dependency-groups]
 docs = [
     "sphinx>=9.0.0",
     "sphinx-automodapi>=0.20.0",
@@ -64,8 +69,21 @@ notebook = [
     "ipython>=9.0.0",
 ]
 
-pasta = [
-    "pastamarkers"
+dev-test = [
+    { include-group = "dev" },
+    { include-group = "test" },
+]
+
+dev-docs = [
+    { include-group = "dev" },
+    { include-group = "docs" },
+]
+
+local-dev = [
+    { include-group = "dev" },
+    { include-group = "test" },
+    { include-group = "docs" },
+    { include-group = "notebook" },
 ]
 
 [project.scripts]
@@ -83,7 +101,7 @@ omit = [
     "*/Tests/*",
     "*/Docs/*",
     "*/.venv/*",
-    "*/site-packages/*"
+    "*/site-packages/*",
 ]
 exclude_lines = [
     "pragma: no cover",
@@ -178,5 +196,25 @@ python = "3.12.*"
 [tool.pixi.pypi-dependencies]
 py-pluto = { path = ".", editable = true }
 
+[tool.pixi.feature.gui.pypi-dependencies]
+py-pluto = { path = ".", editable = true, extras = ["gui"] }
+
+[tool.pixi.feature.pasta.pypi-dependencies]
+py-pluto = { path = ".", editable = true, extras = ["pasta"] }
+
+[tool.pixi.feature.full.pypi-dependencies]
+py-pluto = { path = ".", editable = true, extras = ["gui", "pasta"] }
+
 [tool.pixi.environments]
-all = { features = ["test", "dev", "docs", "notebook", "extras", "pasta"] }
+default = { features = [] }
+gui = { features = ["gui"] }
+pasta = { features = ["pasta"] }
+full = { features = ["full"] }
+
+dev = { features = ["dev"] }
+test = { features = ["test"] }
+docs = { features = ["docs"] }
+notebook = { features = ["notebook"] }
+dev-test = { features = ["dev", "test"] }
+dev-docs = { features = ["dev", "docs"] }
+local-dev = { features = ["dev", "test", "docs", "notebook"] }

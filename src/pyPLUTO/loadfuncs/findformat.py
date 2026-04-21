@@ -32,7 +32,7 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         This checks whether outputs are fluid or particles and searches for
         available filetypes in the target directory. Depending on the requested
         datatype and whether files are standalone, it probes formats in order
-        and sets self.format, self._alone and self._charsize accordingly.
+        and sets self.datatype, self._alone and self._charsize accordingly.
         Supported types are dbl, flt, vtk, dbl.h5 and flt.h5; hdf5 and tab are
         not implemented.
 
@@ -139,9 +139,9 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         ):
             do_check([x for x in arg if x is not None])
             # Check if the format has been found
-            if self.format != "Unknown":
+            if self.datatype != "Unknown":
                 # Store the charsize depending on the format
-                self.charsize = 8 if self.format in dbl else 4
+                self.charsize = 8 if self.datatype in dbl else 4
                 # If the format is found, end the function
                 return None
 
@@ -191,7 +191,7 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
             # Check if the datatype.out file is present
             if pathdata.is_file() and pathgrid.is_file():
                 # Store the format and set the flag alone to False
-                self.format = try_type
+                self.datatype = try_type
                 self.alone = False
                 # Format is found, break the loop
                 break
@@ -237,7 +237,7 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
             # Check if the file is present
             if self.matching_files:
                 # Store the format and set the flag alone to True
-                self.format = try_type
+                self.datatype = try_type
                 self.alone = True
                 # Format is found, break the loop
                 break

@@ -14,20 +14,20 @@ path = repo_root / "Test_load/particles_cr"
 # Format not given finding dbl
 def test_notgivendbl():
     Data = pp.LoadPart(path=path, text=False)
-    assert Data.format == "dbl"
+    assert Data.datatype == "dbl"
 
 
 # Format not given (single file), finding vtk
 def test_notgivenvtk():
     Data = pp.LoadPart(path=path / "vtk", text=False)
-    assert Data.format == "vtk"
+    assert Data.datatype == "vtk"
 
 
 # Given format (single file)
 def test_formats():
     for format in ["dbl", "flt", "vtk"]:
         Data = pp.LoadPart(path=path, text=False, datatype=format)
-        assert Data.format == format
+        assert Data.datatype == format
 
 
 # Check if raises error if the format is wrong

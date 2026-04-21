@@ -96,7 +96,7 @@ def load_data(self):
 
 def select_folder(self):
     """Open a dialog to select the folder containing the data."""
-    format_name = self.format_selector.currentText()
+    format_name = self.datatype_selector.currentText()
     formats_list = {
         "dbl": "*.dbl",
         "flt": "*.flt",
@@ -156,7 +156,7 @@ def reload_data(self):
 def clearload(self):
     """Clear the loaded data and reset the GUI fields."""
     self.folder_path = "./"
-    self.format_selector.setCurrentIndex(0)
+    self.datatype_selector.setCurrentIndex(0)
     self.outtext.clear()
     self.varstext.clear()
 

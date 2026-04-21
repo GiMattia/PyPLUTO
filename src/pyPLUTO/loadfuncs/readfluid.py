@@ -327,7 +327,7 @@ def _inspect_h5(self, i: int, exout: int) -> None:
     h5file = h5py.File(self._filepath, "r")
 
     # Selects the binformat
-    self._d_info["binformat"][i] = "d" if self.format == "dbl.h5" else "f"
+    self._d_info["binformat"][i] = "d" if self.datatype == "dbl.h5" else "f"
 
     try:
         cellvs = h5file[f"Timestep_{exout}"]["vars"]
@@ -407,13 +407,13 @@ def _compute_offset(
         self._read_gridfile()
 
     # Depending on the file calls different routines
-    if self.format == "tab":
+    if self.datatype == "tab":
         self._read_tabfile(i)
-    elif self.format == "vtk":
+    elif self.datatype == "vtk":
         self._inspect_vtk(i, endian, var)
-    elif self.format in {"dbl.h5", "flt.h5"}:
+    elif self.datatype in {"dbl.h5", "flt.h5"}:
         self._inspect_h5(i, exout)
-    elif self.format == "hdf5":
+    elif self.datatype == "hdf5":
         self._inspect_hdf5(i, exout)
     else:
         self._offset_bin(i, var)

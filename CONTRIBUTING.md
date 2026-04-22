@@ -35,7 +35,7 @@ To keep PyPLUTO maintainable, autonomous agents must not contribute without huma
 
 ## Prerequisites
 
-- Python `>=3.12` (the CI matrix currently tests `3.12`, `3.13`, and `3.14`)
+- Python `>=3.11` (the CI matrix currently tests `3.12`, `3.13`, and `3.14`)
 - Git
 - A virtual environment tool (`uv`, `pixi`, `venv`, `conda`, etc.)
 
@@ -140,6 +140,26 @@ Docs are in `Docs/source`. To build locally:
 ```bash
 make -C Docs html
 ```
+
+## Publishing on conda-forge
+
+If you want to publish PyPLUTO on conda-forge, use the recipe template in this
+repository:
+
+- `conda-forge/recipe/meta.yaml`
+
+Suggested flow:
+
+1. Fork `conda-forge/staged-recipes` and create a new branch.
+2. Copy `conda-forge/recipe/meta.yaml` into
+   `staged-recipes/recipes/py-pluto/meta.yaml`.
+3. Replace `source.sha256` with the checksum of the corresponding PyPI sdist.
+4. Commit and open a PR against `conda-forge/staged-recipes`.
+5. Address CI/lint feedback from conda-forge reviewers.
+
+When the staged-recipes PR is merged, conda-forge will create
+`py-pluto-feedstock` automatically. Future version updates should then be done
+in that feedstock repository.
 
 ## Workflow for Pull Requests
 

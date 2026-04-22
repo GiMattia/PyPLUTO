@@ -7,7 +7,7 @@ name = "py-pluto"
 dynamic = ["version"]
 description = "PyPLUTO: Plotting routines for PLUTO"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 license = { text = "BSD-3-Clause" }
 authors = [
     { name = "G. Mattia", email = "mattia@mpia.de" },
@@ -113,7 +113,7 @@ exclude_lines = [
 ]
 
 [tool.ruff]
-target-version = "py312"
+target-version = "py311"
 line-length = 80
 respect-gitignore = true
 fix = true
@@ -191,7 +191,7 @@ channels = ["conda-forge"]
 platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 
 [tool.pixi.dependencies]
-python = "3.12.*"
+python = "3.11.*"
 
 [tool.pixi.pypi-dependencies]
 py-pluto = { path = ".", editable = true }

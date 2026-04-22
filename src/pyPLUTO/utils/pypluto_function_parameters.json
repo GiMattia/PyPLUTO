@@ -1,0 +1,2954 @@
+{
+  "all_args": [
+    "AMRLevel",
+    "D",
+    "R",
+    "Z",
+    "_file",
+    "_i",
+    "_line",
+    "_mm",
+    "_type",
+    "_var",
+    "a",
+    "alone",
+    "ascending",
+    "ax",
+    "axins",
+    "axis_length",
+    "axs",
+    "bbox",
+    "block",
+    "case",
+    "category",
+    "cax",
+    "center",
+    "check",
+    "class_name",
+    "close",
+    "code",
+    "colorerr",
+    "colorwarn",
+    "combo",
+    "cond",
+    "control_layout",
+    "conv_dict",
+    "cscale",
+    "custom",
+    "cval",
+    "data",
+    "dataname",
+    "datatype",
+    "diag",
+    "dirs",
+    "dpi",
+    "dx",
+    "edge_order",
+    "el",
+    "elem",
+    "endian",
+    "exout",
+    "expr",
+    "f",
+    "file_path",
+    "filename",
+    "filepath",
+    "fontweight",
+    "fp",
+    "frames",
+    "freq",
+    "fromplot",
+    "func",
+    "geom",
+    "gifname",
+    "greet",
+    "grid",
+    "grid_size",
+    "gridvars",
+    "height",
+    "i",
+    "idx",
+    "ilev",
+    "index",
+    "inner_func",
+    "interval",
+    "islice",
+    "jslice",
+    "kslice",
+    "label",
+    "labslider",
+    "length",
+    "limfix",
+    "lineno",
+    "lint",
+    "local",
+    "lrange",
+    "margin",
+    "message",
+    "method",
+    "minusone",
+    "mm",
+    "myvars",
+    "name",
+    "nax",
+    "ncol",
+    "new_r",
+    "new_t",
+    "newdims",
+    "nfile_lp",
+    "nmax",
+    "node",
+    "nout",
+    "nrow",
+    "numcolors",
+    "output_file",
+    "package_root",
+    "pairs",
+    "par",
+    "parent",
+    "path",
+    "pcm",
+    "pos",
+    "ratio",
+    "replace",
+    "scale",
+    "scrh",
+    "script_relative",
+    "set_outs",
+    "set_vars",
+    "share",
+    "slice_node",
+    "slice_val",
+    "sort",
+    "source",
+    "space",
+    "state",
+    "suptitle",
+    "suptitlesize",
+    "t",
+    "tb",
+    "tc",
+    "text",
+    "time",
+    "tl",
+    "tmp",
+    "transpose",
+    "tresh",
+    "txts",
+    "type_lon",
+    "type_out",
+    "typeaxis",
+    "updateslider",
+    "v1",
+    "v2",
+    "v3",
+    "value",
+    "var",
+    "var1",
+    "var2",
+    "variables",
+    "varmult",
+    "varname",
+    "vars",
+    "varx",
+    "vary",
+    "version",
+    "vmax",
+    "vmin",
+    "width",
+    "withblack",
+    "withwhite",
+    "x",
+    "x0",
+    "x1",
+    "x1slice",
+    "x2",
+    "x2slice",
+    "x3",
+    "x3slice",
+    "xL",
+    "xR",
+    "xax",
+    "xc",
+    "xgrid",
+    "xlim",
+    "xvalue",
+    "y",
+    "y0",
+    "yax",
+    "yc",
+    "ylim",
+    "ymax",
+    "ymin"
+  ],
+  "all_kwargs": [
+    "LaTeX",
+    "alone",
+    "alpha",
+    "arrowsize",
+    "arrowstyle",
+    "aspect",
+    "atol",
+    "ax",
+    "bbox",
+    "bins",
+    "bottom",
+    "brokenlines",
+    "c",
+    "check",
+    "clabel",
+    "close",
+    "cmap",
+    "code",
+    "cpad",
+    "cpos",
+    "cscale",
+    "cticks",
+    "ctickslabels",
+    "ctol",
+    "datatype",
+    "defh",
+    "dense",
+    "density",
+    "dx1",
+    "dx2",
+    "dx3",
+    "edgecolor",
+    "edgecolors",
+    "endian",
+    "extend",
+    "extendrect",
+    "fastvtk",
+    "fig",
+    "figsize",
+    "fillstyle",
+    "fontsize",
+    "fontweight",
+    "full3D",
+    "full3d",
+    "fullout",
+    "grid",
+    "height",
+    "horalign",
+    "integration_direction",
+    "kwargscheck",
+    "label",
+    "labelsize",
+    "left",
+    "legalpha",
+    "legcols",
+    "legpad",
+    "legpos",
+    "legsize",
+    "legspace",
+    "level",
+    "levels",
+    "levelscale",
+    "lint",
+    "ls",
+    "lw",
+    "marker",
+    "maxlength",
+    "maxstep",
+    "minlength",
+    "minorticks",
+    "minstep",
+    "ms",
+    "mscale",
+    "multiple",
+    "names",
+    "nbins",
+    "numcolors",
+    "numsteps",
+    "nwin",
+    "nx1",
+    "nx2",
+    "nx3",
+    "order",
+    "path",
+    "plini",
+    "pos",
+    "proj",
+    "replace",
+    "rtol",
+    "shading",
+    "sharex",
+    "sharey",
+    "skip",
+    "start_points",
+    "step",
+    "style",
+    "suptitle",
+    "suptitlesize",
+    "text",
+    "textsize",
+    "ticksdir",
+    "tickssize",
+    "tight",
+    "title",
+    "titlepad",
+    "titlesize",
+    "top",
+    "transpose",
+    "tresh",
+    "var",
+    "var1",
+    "var2",
+    "var3",
+    "vars",
+    "veralign",
+    "vmax",
+    "vmin",
+    "width",
+    "withblack",
+    "withwhite",
+    "x1",
+    "x2",
+    "x3",
+    "xlabelpad",
+    "xrange",
+    "xscale",
+    "xticks",
+    "xtickslabels",
+    "xtitle",
+    "xtresh",
+    "xycoords",
+    "ylabelpad",
+    "yrange",
+    "yscale",
+    "yticks",
+    "ytickslabels",
+    "ytitle",
+    "ytresh",
+    "zoomcolor",
+    "zoomlines"
+  ],
+  "functions": {
+    "pyPLUTO.amr._DataScanHDF5": {
+      "args": [
+        "fp",
+        "ilev",
+        "myvars"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.amr._inspect_hdf5": {
+      "args": [
+        "exout",
+        "i"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.amr._read_gridfile": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.amr._split_gridfile": {
+      "args": [
+        "i",
+        "nmax",
+        "xL",
+        "xR"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.amr.oplotbox": {
+      "args": [
+        "AMRLevel",
+        "ax",
+        "cval",
+        "geom",
+        "islice",
+        "jslice",
+        "kslice",
+        "lrange"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.alone": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.charsize": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.class_name": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.code": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.d_info": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.d_vars": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.datatype": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.endian": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.filepath": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.infogrid": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.lennout": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.lennoutlist": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.matching_files": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.multiple": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.nout": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.noutlist": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.ntime": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.ntimelist": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.outlist": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.pathdir": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.text": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.timelist": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.varoffset": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.baseloadmixin.varshape": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.codes.echo_load.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.codes.echo_load.echo_load_grid": {
+      "args": [
+        "conv_dict"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.codes.echo_load.echo_load_vars": {
+      "args": [
+        "conv_dict",
+        "tmp",
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.codes.echo_load.echo_set_grid_dims": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.codes.echo_load.load_echo": {
+      "args": [
+        "nout"
+      ],
+      "kwargs": [
+        "var",
+        "vars"
+      ]
+    },
+    "pyPLUTO.configure.__init__": {
+      "args": [
+        "colorerr",
+        "colorwarn",
+        "greet",
+        "version"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.configure._find_session": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.configure._setup_handlers": {
+      "args": [
+        "colorerr",
+        "colorwarn"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.configure.color_error": {
+      "args": [
+        "_type",
+        "tb",
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.configure.color_warning": {
+      "args": [
+        "_file",
+        "_line",
+        "category",
+        "filename",
+        "lineno",
+        "message"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.configure.get_ipython_wrapper": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.config._finalize_load_path": {
+      "args": [
+        "file_path"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.config.clearload": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.config.load_data": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.config.on_accept": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.config.reload_data": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.config.select_folder": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var.__init__": {
+      "args": [
+        "D",
+        "parent"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var._accept": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var._apply_grid_shaping": {
+      "args": [
+        "D",
+        "local"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var._build_locals": {
+      "args": [
+        "D"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var._frozen_var_names": {
+      "args": [
+        "D"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var._normalize_expr": {
+      "args": [
+        "expr"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var._on_activated": {
+      "args": [
+        "D",
+        "combo",
+        "idx"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var._parse_lines": {
+      "args": [
+        "text"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var._reapply_custom_vars": {
+      "args": [
+        "D",
+        "combo"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var._validate_lines_sequential": {
+      "args": [
+        "D",
+        "pairs"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var.evaluate_custom_var": {
+      "args": [
+        "D",
+        "expr",
+        "name"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var.setup_var_selector": {
+      "args": [
+        "D",
+        "combo"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.custom_var.values": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.main.main": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.main_window.__init__": {
+      "args": [
+        "code"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.panels.add_checkbox": {
+      "args": [
+        "control_layout",
+        "data",
+        "height",
+        "label",
+        "width"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.panels.add_combobox": {
+      "args": [
+        "control_layout",
+        "data",
+        "height",
+        "label",
+        "width"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.panels.add_label": {
+      "args": [
+        "control_layout",
+        "data",
+        "height",
+        "label",
+        "width"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.panels.add_line": {
+      "args": [
+        "control_layout"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.panels.add_lineedit": {
+      "args": [
+        "control_layout",
+        "data",
+        "height",
+        "label",
+        "width"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.panels.add_pushbutton": {
+      "args": [
+        "control_layout",
+        "data",
+        "label",
+        "width"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.utils.check_axisparam": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.utils.clear_labels": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.utils.create_new_figure": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.utils.get_slice": {
+      "args": [
+        "axis_length",
+        "text"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.utils.plot_data": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.utils.reload_canvas": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.utils.set_range": {
+      "args": [
+        "xlim",
+        "ylim"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.utils.update_axes": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.gui.utils.update_cmap_selector": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.h_pypluto.check_par": {
+      "args": [
+        "func",
+        "par"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.h_pypluto.makelist": {
+      "args": [
+        "el"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.image.__getattr__": {
+      "args": [
+        "name"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.image.__init__": {
+      "args": [
+        "check",
+        "text"
+      ],
+      "kwargs": [
+        "kwargscheck"
+      ]
+    },
+    "pyPLUTO.image.__setattr__": {
+      "args": [
+        "name",
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.image.__str__": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.animate": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.colorbar": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.contour": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.create_axes": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.display": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.interactive": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.legend": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.oplotbox": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.plot": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.savefig": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.scatter": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.set_axis": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.show": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.streamplot": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.text": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.image.zoom": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.colorbar.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.colorbar._find_ax": {
+      "args": [
+        "axs",
+        "pcm"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.colorbar.colorbar": {
+      "args": [
+        "axs",
+        "cax",
+        "check",
+        "pcm"
+      ],
+      "kwargs": [
+        "clabel",
+        "cpad",
+        "cpos",
+        "cticks",
+        "ctickslabels",
+        "extend",
+        "extendrect"
+      ]
+    },
+    "pyPLUTO.imagefuncs.contour.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.contour.contour": {
+      "args": [
+        "check",
+        "var"
+      ],
+      "kwargs": [
+        "alpha",
+        "ax",
+        "c",
+        "check",
+        "cmap",
+        "cpos",
+        "cscale",
+        "levels",
+        "lint",
+        "lw",
+        "transpose",
+        "tresh",
+        "vmax",
+        "vmin",
+        "x1",
+        "x2"
+      ]
+    },
+    "pyPLUTO.imagefuncs.create_axes.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.create_axes._check_rowcol": {
+      "args": [
+        "func",
+        "length",
+        "ratio",
+        "space"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.create_axes._check_shareaxis": {
+      "args": [
+        "i",
+        "share"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.create_axes._set_custom_axes": {
+      "args": [
+        "custom",
+        "ncol",
+        "nrow"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.create_axes.add_ax": {
+      "args": [
+        "ax",
+        "i"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.create_axes.create_axes": {
+      "args": [
+        "check",
+        "ncol",
+        "nrow"
+      ],
+      "kwargs": [
+        "check",
+        "figsize",
+        "fontsize",
+        "proj",
+        "sharex",
+        "sharey",
+        "suptitle",
+        "tight"
+      ]
+    },
+    "pyPLUTO.imagefuncs.display.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.display.display": {
+      "args": [
+        "check",
+        "var"
+      ],
+      "kwargs": [
+        "alpha",
+        "ax",
+        "check",
+        "cmap",
+        "cpos",
+        "cscale",
+        "lint",
+        "shading",
+        "transpose",
+        "tresh",
+        "vmax",
+        "vmin",
+        "x1",
+        "x2",
+        "xrange",
+        "yrange"
+      ]
+    },
+    "pyPLUTO.imagefuncs.figure.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": [
+        "LaTeX",
+        "close",
+        "fig",
+        "figsize",
+        "fontsize",
+        "fontweight",
+        "numcolors",
+        "nwin",
+        "replace",
+        "style",
+        "suptitle",
+        "suptitlesize",
+        "tight",
+        "withblack",
+        "withwhite"
+      ]
+    },
+    "pyPLUTO.imagefuncs.figure.assign_LaTeX": {
+      "args": [
+        "fontweight"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.figure.check_previous_fig": {
+      "args": [
+        "close"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.figure.choose_colorlines": {
+      "args": [
+        "numcolors",
+        "withblack",
+        "withwhite"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.figure.create_figure": {
+      "args": [
+        "replace",
+        "suptitle",
+        "suptitlesize"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.figure.setup_style": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.imagetools.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.imagetools.assign_ax": {
+      "args": [
+        "ax"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.imagetools.find_cmap": {
+      "args": [
+        "name"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.imagetools.hide_text": {
+      "args": [
+        "nax",
+        "txts"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.imagetools.savefig": {
+      "args": [
+        "bbox",
+        "dpi",
+        "filename",
+        "script_relative"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.imagetools.set_cscale": {
+      "args": [
+        "cscale",
+        "lint",
+        "tresh",
+        "vmax",
+        "vmin"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.imagetools.show": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.imagetools.text": {
+      "args": [
+        "ax",
+        "check",
+        "text",
+        "x",
+        "y"
+      ],
+      "kwargs": [
+        "bbox",
+        "c",
+        "check",
+        "horalign",
+        "textsize",
+        "veralign",
+        "xycoords"
+      ]
+    },
+    "pyPLUTO.imagefuncs.interactive.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.interactive.animate": {
+      "args": [
+        "frames",
+        "gifname",
+        "interval",
+        "script_relative",
+        "updateslider"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.interactive.interactive": {
+      "args": [
+        "check",
+        "labslider",
+        "limfix",
+        "varx",
+        "vary"
+      ],
+      "kwargs": [
+        "ax",
+        "check",
+        "vmax",
+        "vmin"
+      ]
+    },
+    "pyPLUTO.imagefuncs.interactive.update_both": {
+      "args": [
+        "i"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.interactive.update_slider": {
+      "args": [
+        "i"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.legend.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.legend.legend": {
+      "args": [
+        "ax",
+        "check",
+        "fromplot"
+      ],
+      "kwargs": [
+        "c",
+        "check",
+        "edgecolor",
+        "fillstyle",
+        "label",
+        "legalpha",
+        "legcols",
+        "legpad",
+        "legpos",
+        "legsize",
+        "legspace",
+        "ls",
+        "lw",
+        "marker",
+        "ms",
+        "mscale"
+      ]
+    },
+    "pyPLUTO.imagefuncs.legend.makelist": {
+      "args": [
+        "el"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.plot.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.plot.plot": {
+      "args": [
+        "check",
+        "x",
+        "y"
+      ],
+      "kwargs": [
+        "ax",
+        "c",
+        "check",
+        "fillstyle",
+        "label",
+        "legpos",
+        "ls",
+        "lw",
+        "marker",
+        "ms"
+      ]
+    },
+    "pyPLUTO.imagefuncs.range.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.range.range_offset": {
+      "args": [
+        "margin",
+        "scale",
+        "ymax",
+        "ymin"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.range.set_xrange": {
+      "args": [
+        "ax",
+        "case",
+        "nax",
+        "xlim"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.range.set_yrange": {
+      "args": [
+        "ax",
+        "case",
+        "data",
+        "nax",
+        "ylim"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.scatter.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.scatter.scatter": {
+      "args": [
+        "check",
+        "x",
+        "y"
+      ],
+      "kwargs": [
+        "alpha",
+        "ax",
+        "c",
+        "check",
+        "cmap",
+        "cpos",
+        "cscale",
+        "edgecolors",
+        "label",
+        "legpos",
+        "marker",
+        "ms",
+        "tresh",
+        "vmax",
+        "vmin",
+        "xrange",
+        "yrange"
+      ]
+    },
+    "pyPLUTO.imagefuncs.set_axis.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.set_axis.check_minorticks": {
+      "args": [
+        "ax",
+        "nax"
+      ],
+      "kwargs": [
+        "minorticks"
+      ]
+    },
+    "pyPLUTO.imagefuncs.set_axis.check_range": {
+      "args": [
+        "ax",
+        "nax"
+      ],
+      "kwargs": [
+        "xrange",
+        "yrange"
+      ]
+    },
+    "pyPLUTO.imagefuncs.set_axis.set_axis": {
+      "args": [
+        "ax",
+        "check"
+      ],
+      "kwargs": [
+        "alpha",
+        "aspect",
+        "check",
+        "fontsize",
+        "grid",
+        "ticksdir",
+        "tickssize",
+        "xticks",
+        "xtickslabels",
+        "yticks",
+        "ytickslabels"
+      ]
+    },
+    "pyPLUTO.imagefuncs.set_axis.set_scales": {
+      "args": [
+        "ax",
+        "nax"
+      ],
+      "kwargs": [
+        "xscale",
+        "xtresh",
+        "yscale",
+        "ytresh"
+      ]
+    },
+    "pyPLUTO.imagefuncs.set_axis.set_ticks": {
+      "args": [
+        "ax",
+        "tc",
+        "tl",
+        "typeaxis"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.set_axis.set_titles": {
+      "args": [
+        "ax"
+      ],
+      "kwargs": [
+        "labelsize",
+        "title",
+        "titlepad",
+        "titlesize",
+        "xlabelpad",
+        "xtitle",
+        "ylabelpad",
+        "ytitle"
+      ]
+    },
+    "pyPLUTO.imagefuncs.set_axis.share_axes": {
+      "args": [
+        "ax"
+      ],
+      "kwargs": [
+        "sharex",
+        "sharey"
+      ]
+    },
+    "pyPLUTO.imagefuncs.streamplot.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.streamplot.streamplot": {
+      "args": [
+        "check",
+        "var1",
+        "var2"
+      ],
+      "kwargs": [
+        "arrowsize",
+        "arrowstyle",
+        "ax",
+        "brokenlines",
+        "c",
+        "check",
+        "cmap",
+        "cpos",
+        "cscale",
+        "density",
+        "integration_direction",
+        "lint",
+        "lw",
+        "maxlength",
+        "minlength",
+        "start_points",
+        "transpose",
+        "tresh",
+        "vmax",
+        "vmin",
+        "x1",
+        "x2"
+      ]
+    },
+    "pyPLUTO.imagefuncs.zoom.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.zoom.place_inset_loc": {
+      "args": [
+        "ax"
+      ],
+      "kwargs": [
+        "bottom",
+        "height",
+        "left",
+        "top",
+        "width"
+      ]
+    },
+    "pyPLUTO.imagefuncs.zoom.place_inset_pos": {
+      "args": [
+        "ax",
+        "pos"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagefuncs.zoom.zoom": {
+      "args": [
+        "ax",
+        "check"
+      ],
+      "kwargs": [
+        "check",
+        "fontsize",
+        "pos",
+        "titlesize",
+        "xticks",
+        "yticks",
+        "zoomcolor",
+        "zoomlines"
+      ]
+    },
+    "pyPLUTO.imagefuncs.zoom.zoomdisplay": {
+      "args": [
+        "ax",
+        "axins",
+        "nax"
+      ],
+      "kwargs": [
+        "cmap",
+        "cscale",
+        "shading",
+        "tresh",
+        "var",
+        "vmax",
+        "vmin",
+        "x1",
+        "x2"
+      ]
+    },
+    "pyPLUTO.imagefuncs.zoom.zoomplot": {
+      "args": [
+        "ax",
+        "axins"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.LaTeX": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.ax": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.color": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.dictcol": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.fig": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.figsize": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.fontsize": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.legpar": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.legpos": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.ncol0": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.nline": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.nrow0": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.ntext": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.nwin": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.set_size": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.setax": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.setay": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.shade": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.style": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.tickspar": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.tight": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.vlims": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.xscale": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.imagemixin.yscale": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.load.__getattr__": {
+      "args": [
+        "name"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.load.__init__": {
+      "args": [
+        "check",
+        "datatype",
+        "nout",
+        "path",
+        "text",
+        "vars"
+      ],
+      "kwargs": [
+        "alone",
+        "defh",
+        "endian",
+        "fastvtk",
+        "full3d",
+        "level",
+        "multiple",
+        "plini"
+      ]
+    },
+    "pyPLUTO.load.__str__": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.baseloadtools.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.baseloadtools.check_nout": {
+      "args": [
+        "nout"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.codeselection.__init__": {
+      "args": [
+        "nout",
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.codeselection.select_code": {
+      "args": [
+        "nout"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.defpluto._convert_value": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.defpluto._read_defh": {
+      "args": [
+        "filepath"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.defpluto._read_plini": {
+      "args": [
+        "path"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.descriptor.__init__": {
+      "args": [
+        "nout",
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.descriptor.load_descriptor": {
+      "args": [
+        "nout"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.findfiles.__init__": {
+      "args": [
+        "nout",
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.findfiles.find_files": {
+      "args": [
+        "nout"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.findfiles.varsout": {
+      "args": [
+        "elem",
+        "set_outs",
+        "set_vars"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.findformat.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": [
+        "alone",
+        "datatype"
+      ]
+    },
+    "pyPLUTO.loadfuncs.findformat.check_format": {
+      "args": [
+        "alone",
+        "datatype"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.findformat.check_typelon": {
+      "args": [
+        "type_lon"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.findformat.check_typeout": {
+      "args": [
+        "type_out"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.initload.__init__": {
+      "args": [
+        "nout",
+        "state"
+      ],
+      "kwargs": [
+        "code",
+        "endian",
+        "multiple",
+        "path",
+        "var",
+        "vars"
+      ]
+    },
+    "pyPLUTO.loadfuncs.initload.check_endian": {
+      "args": [
+        "endian"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.initload.check_path": {
+      "args": [
+        "path"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.loadvars.__init__": {
+      "args": [
+        "exout",
+        "index",
+        "state",
+        "variables"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.loadvars.assign_var": {
+      "args": [
+        "scrh",
+        "time",
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.loadvars.init_vardict": {
+      "args": [
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.loadvars.load_variables": {
+      "args": [
+        "exout",
+        "i",
+        "variables"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.offsetdata.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.offsetdata.compute_offset": {
+      "args": [
+        "exout",
+        "i",
+        "mm",
+        "varname"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.offsetfluid.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.offsetfluid.offset_bin": {
+      "args": [
+        "_i",
+        "_mm",
+        "exout",
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.offsetfluid.offset_h5": {
+      "args": [
+        "_mm",
+        "_var",
+        "exout",
+        "i"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.offsetfluid.offset_hdf5": {
+      "args": [
+        "_mm",
+        "_var",
+        "exout",
+        "i"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.offsetfluid.offset_vtk": {
+      "args": [
+        "exout",
+        "i",
+        "mm",
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.read_files._read_dat": {
+      "args": [
+        "filename"
+      ],
+      "kwargs": [
+        "names",
+        "skip"
+      ]
+    },
+    "pyPLUTO.loadfuncs.read_files._read_h5": {
+      "args": [
+        "filename"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.read_files.read_bin": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.read_files.read_file": {
+      "args": [
+        "datatype",
+        "filename"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.read_files.read_tab": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.read_files.read_vtk": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdata._assign_var": {
+      "args": [
+        "scrh",
+        "time",
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdata._check_nout": {
+      "args": [
+        "nout"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdata._findfiles": {
+      "args": [
+        "nout"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdata._init_vardict": {
+      "args": [
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdata._load_variables": {
+      "args": [
+        "endian",
+        "exout",
+        "i",
+        "vars"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdata._varsouts": {
+      "args": [
+        "class_name",
+        "elem"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdata_old._assign_var": {
+      "args": [
+        "scrh",
+        "time",
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdata_old._check_nout": {
+      "args": [
+        "nout"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdata_old._findfiles": {
+      "args": [
+        "nout"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdata_old._init_vardict": {
+      "args": [
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdata_old._load_variables": {
+      "args": [
+        "endian",
+        "exout",
+        "i",
+        "vars"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdata_old._varsouts": {
+      "args": [
+        "class_name",
+        "elem"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdefplini.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": [
+        "defh",
+        "plini"
+      ]
+    },
+    "pyPLUTO.loadfuncs.readdefplini.convert_value": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readdefplini.read_defh": {
+      "args": [
+        "filepath"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readfluid._compute_offset": {
+      "args": [
+        "endian",
+        "exout",
+        "i",
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readfluid._inspect_h5": {
+      "args": [
+        "exout",
+        "i"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readfluid._inspect_vtk": {
+      "args": [
+        "endian",
+        "i",
+        "varmult"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readfluid._offset_bin": {
+      "args": [
+        "i",
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readfluid._read_tabfile": {
+      "args": [
+        "i"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readformat._check_pathformat": {
+      "args": [
+        "path"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readformat._check_typelon": {
+      "args": [
+        "type_lon"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readformat._check_typeout": {
+      "args": [
+        "type_out"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readformat._find_format": {
+      "args": [
+        "alone",
+        "datatype"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readgridalone.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readgridalone.readgridh5": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readgridalone.readgridvtk": {
+      "args": [
+        "gridvars"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readgridfile.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readgridfile.check_geometry": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readgridfile.read_gridfile": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readgridfile.split_gridfile": {
+      "args": [
+        "i",
+        "nmax",
+        "xL",
+        "xR"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readgridout._read_grid_h5": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readgridout._read_grid_vtk": {
+      "args": [
+        "gridvars"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readgridout._read_gridfile": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readgridout._read_outfile": {
+      "args": [
+        "endian",
+        "nout"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readgridout._split_gridfile": {
+      "args": [
+        "i",
+        "nmax",
+        "xL",
+        "xR"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readpart._compute_offset": {
+      "args": [
+        "endian",
+        "exout",
+        "i",
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readpart._inspect_bin": {
+      "args": [
+        "endian",
+        "i"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readpart._inspect_vtk": {
+      "args": [
+        "endian",
+        "i"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readpart._store_bin_particles": {
+      "args": [
+        "i"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readpart._store_vtk_particles": {
+      "args": [
+        "i"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readtab.__init__": {
+      "args": [
+        "state"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.readtab.read_tab": {
+      "args": [
+        "exout",
+        "i",
+        "mm",
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.write_files._write_h5": {
+      "args": [
+        "data",
+        "dataname",
+        "filename",
+        "grid"
+      ],
+      "kwargs": [
+        "dx1",
+        "dx2",
+        "dx3",
+        "nx1",
+        "nx2",
+        "nx3",
+        "x1",
+        "x2",
+        "x3"
+      ]
+    },
+    "pyPLUTO.loadfuncs.write_files.write_bin": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.write_files.write_file": {
+      "args": [
+        "data",
+        "dataname",
+        "datatype",
+        "filename",
+        "grid"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.write_files.write_tab": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.loadfuncs.write_files.write_vtk": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.defh": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.dim": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.dx1": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.dx2": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.dx3": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.full3D": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.geom": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.gridsize": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.gridsize_st1": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.gridsize_st2": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.gridsize_st3": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.level": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.nshp": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.nshp_st1": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.nshp_st2": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.nshp_st3": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.nx1": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.nx2": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.nx3": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.plini": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x1": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x1c": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x1p": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x1r": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x1rc": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x1rp": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x1rt": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x1t": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x2": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x2c": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x2p": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x2r": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x2rc": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x2rp": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x3": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x3c": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x3r": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x3rc": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x3rt": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadmixin.x3t": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadpart.__getattr__": {
+      "args": [
+        "name"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadpart.__init__": {
+      "args": [
+        "datatype",
+        "endian",
+        "nfile_lp",
+        "nout",
+        "path",
+        "text",
+        "vars"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.loadpart.__str__": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.newload.__getattr__": {
+      "args": [
+        "name"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.newload.__init__": {
+      "args": [
+        "check",
+        "nout"
+      ],
+      "kwargs": [
+        "full3D",
+        "kwargscheck",
+        "level",
+        "text"
+      ]
+    },
+    "pyPLUTO.newload.__setattr__": {
+      "args": [
+        "name",
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.pytools.find_example": {
+      "args": [
+        "name"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.pytools.ring": {
+      "args": [
+        "freq",
+        "length"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.pytools.savefig": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.pytools.show": {
+      "args": [
+        "block"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.findlines._check_var": {
+      "args": [
+        "transpose",
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.findlines._vector_field": {
+      "args": [
+        "t",
+        "var1",
+        "var2",
+        "xc",
+        "y",
+        "yc"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.findlines.close_to_start": {
+      "args": [
+        "t",
+        "y"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.findlines.find_contour": {
+      "args": [
+        "check",
+        "var"
+      ],
+      "kwargs": [
+        "cmap",
+        "levels",
+        "levelscale",
+        "transpose",
+        "vmax",
+        "vmin",
+        "x1",
+        "x2"
+      ]
+    },
+    "pyPLUTO.toolfuncs.findlines.find_fieldlines": {
+      "args": [
+        "check",
+        "text",
+        "var1",
+        "var2",
+        "x0",
+        "y0"
+      ],
+      "kwargs": [
+        "atol",
+        "close",
+        "ctol",
+        "dense",
+        "maxstep",
+        "minstep",
+        "numsteps",
+        "order",
+        "rtol",
+        "step",
+        "transpose",
+        "x1",
+        "x2"
+      ]
+    },
+    "pyPLUTO.toolfuncs.findlines.max_num_steps": {
+      "args": [
+        "t",
+        "y"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.findlines.outside_domain": {
+      "args": [
+        "t",
+        "y"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.findlines.system": {
+      "args": [
+        "t",
+        "y"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.fourier._fourier_spacing": {
+      "args": [
+        "dx"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.fourier.fourier": {
+      "args": [
+        "check",
+        "f"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.nabla._get_slice_indices": {
+      "args": [
+        "grid",
+        "grid_size",
+        "slice_val"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.nabla._is_number": {
+      "args": [
+        "value"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.nabla._islice_imin_imax": {
+      "args": [
+        "xgrid",
+        "xvalue"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.nabla._warning_cylindrical": {
+      "args": [],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.nabla.curl": {
+      "args": [
+        "edge_order",
+        "v1",
+        "v2",
+        "v3",
+        "x1slice",
+        "x2slice",
+        "x3slice"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.nabla.divergence": {
+      "args": [
+        "edge_order",
+        "v1",
+        "v2",
+        "v3",
+        "x1slice",
+        "x2slice",
+        "x3slice"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.nabla.gradient": {
+      "args": [
+        "edge_order",
+        "var",
+        "x1slice",
+        "x2slice",
+        "x3slice"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.parttools.select": {
+      "args": [
+        "ascending",
+        "cond",
+        "sort",
+        "var"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.parttools.spectrum": {
+      "args": [
+        "check",
+        "scale",
+        "var"
+      ],
+      "kwargs": [
+        "bins",
+        "density",
+        "nbins",
+        "vmax",
+        "vmin"
+      ]
+    },
+    "pyPLUTO.toolfuncs.transform._congrid": {
+      "args": [
+        "a",
+        "center",
+        "method",
+        "minusone",
+        "newdims"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.transform._convert2cartgrid": {
+      "args": [
+        "R",
+        "Z",
+        "new_r",
+        "new_t"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.transform.cartesian_vector": {
+      "args": [
+        "var"
+      ],
+      "kwargs": [
+        "fullout",
+        "transpose",
+        "var1",
+        "var2",
+        "var3",
+        "x2",
+        "x3"
+      ]
+    },
+    "pyPLUTO.toolfuncs.transform.mirror": {
+      "args": [
+        "dirs",
+        "var",
+        "xax",
+        "yax"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.transform.repeat": {
+      "args": [
+        "dirs",
+        "var",
+        "xax",
+        "yax"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.toolfuncs.transform.reshape_cartesian": {
+      "args": [],
+      "kwargs": [
+        "nx1",
+        "nx2",
+        "transpose",
+        "x1",
+        "x2"
+      ]
+    },
+    "pyPLUTO.toolfuncs.transform.reshape_uniform": {
+      "args": [
+        "x1",
+        "x2"
+      ],
+      "kwargs": [
+        "nx1",
+        "nx2"
+      ]
+    },
+    "pyPLUTO.toolfuncs.transform.slices": {
+      "args": [
+        "check",
+        "diag",
+        "var",
+        "x1",
+        "x2",
+        "x3"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.utils.inspector._find_kwargs_keys_from_source": {
+      "args": [
+        "source"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.utils.inspector._get_str_from_slice": {
+      "args": [
+        "slice_node"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.utils.inspector.decorator": {
+      "args": [
+        "inner_func"
+      ],
+      "kwargs": [
+        "check"
+      ]
+    },
+    "pyPLUTO.utils.inspector.find_kwargs_keys": {
+      "args": [
+        "func"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.utils.inspector.track_kwargs": {
+      "args": [
+        "func"
+      ],
+      "kwargs": [
+        "check"
+      ]
+    },
+    "pyPLUTO.utils.inspector.visit_Call": {
+      "args": [
+        "node"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.utils.inspector.visit_Subscript": {
+      "args": [
+        "node"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.utils.inspector.wrapper": {
+      "args": [],
+      "kwargs": [
+        "check"
+      ]
+    },
+    "pyPLUTO.utils.make_docstrings._collect_functions_from_file": {
+      "args": [
+        "file_path",
+        "package_root"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.utils.make_docstrings._get_positional_args_from_node": {
+      "args": [
+        "node"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.utils.make_docstrings._is_python_file": {
+      "args": [
+        "path"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.utils.make_docstrings._module_name_from_path": {
+      "args": [
+        "file_path",
+        "package_root"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.utils.make_docstrings.collect_package_parameters": {
+      "args": [
+        "package_root"
+      ],
+      "kwargs": []
+    },
+    "pyPLUTO.utils.make_docstrings.save_package_parameters_to_json": {
+      "args": [
+        "output_file"
+      ],
+      "kwargs": []
+    }
+  },
+  "package": "pyPLUTO"
+}

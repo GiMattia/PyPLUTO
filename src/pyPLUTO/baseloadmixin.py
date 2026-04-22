@@ -1,7 +1,7 @@
 """Mixin class for base load functionality."""
 
 from pathlib import Path
-from typing import Any, TypeVar
+from typing import Any, Generic, TypeVar
 
 from numpy.typing import NDArray
 
@@ -10,7 +10,7 @@ from pyPLUTO.baseloadstate import BaseLoadState
 S = TypeVar("S", bound=BaseLoadState)
 
 
-class BaseLoadMixin[S: BaseLoadState]:
+class BaseLoadMixin(Generic[S]):
     """Mixin class that provides base functionality for load state."""
 
     # pylint: disable=too-many-public-methods

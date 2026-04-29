@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QApplication
 from .main_window import PyPLUTOApp
 
 
-def main():
+def main() -> None:
     app = QApplication(sys.argv)
     window = PyPLUTOApp(code="PLUTO")
     window.resize(1150, 720)

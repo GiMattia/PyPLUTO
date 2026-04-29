@@ -197,7 +197,7 @@ class Load:
 
         # Initialization or declaration of variables (used in other files)
         self.pathdir: Path  # Path to the simulation directory
-        self.format: str | None = None  # The format of the files to be loaded
+        self.datatype: str | None = None  # The format of the files to be loaded
         self.outlist: NDArray  # The list of outputs to be loaded
         self.timelist: NDArray  # The list of times to be loaded
         self.ntime: NDArray  # The time array
@@ -353,7 +353,7 @@ class Load:
 
         File properties:
         - Current path loaded (pathdir)      {self.pathdir}
-        - Format loaded       (format)       {self.format}
+        - Format loaded       (format)       {self.datatype}
 
         Simulation properties
         - Dimensions    (dim)      {self.dim}

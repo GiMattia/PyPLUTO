@@ -116,10 +116,10 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
             raise ValueError(f"Unknown class name: {self.class_name}")
 
         # Sparse map indexed by output number
-        endpath = np.empty(d_info_size, dtype=f"<U{len(self.format) + 6}")
+        endpath = np.empty(d_info_size, dtype=f"<U{len(self.datatype) + 6}")
         endpath[:] = ""
         for out in self.outlist:
-            endpath[int(out)] = f".{int(out):04d}.{self.format}"
+            endpath[int(out)] = f".{int(out):04d}.{self.datatype}"
         self.d_info["endpath"] = endpath
 
     def varsout(

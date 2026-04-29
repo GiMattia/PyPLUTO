@@ -1,6 +1,6 @@
 """LegendManager class."""
 
-from typing import Any
+from typing import Any, TypeVar
 
 import matplotlib.lines as mlines
 from matplotlib.axes import Axes
@@ -9,6 +9,8 @@ from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
+
+T = TypeVar("T")
 
 
 class LegendManager(ImageMixin):
@@ -218,7 +220,7 @@ class LegendManager(ImageMixin):
         # End of the function
 
 
-def makelist[T](el: T | list[T]) -> list[T]:
+def makelist(el: T | list[T]) -> list[T]:
     """If the element is not a list, it converts it into a list.
 
     Returns

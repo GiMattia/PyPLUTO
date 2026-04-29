@@ -17,7 +17,7 @@ def reset_greeted_flag() -> None:
 def test_version_and_session() -> None:
     """Ensure that the version and session are as expected."""
     c = Configure(greet=False)
-    assert c.version == "1.1.1"
+    assert c.version == "Unknown"
     assert c.colorwarn is True
     assert c.colorerr is True
     assert isinstance(c.session, str)
@@ -115,7 +115,7 @@ def test_greeting_printed_only_on_first_initialization(
     """Ensure greeting is printed only on first initialization."""
     Configure()
     first = capsys.readouterr().out
-    assert "PyPLUTO version: 1.1.1" in first
+    assert "PyPLUTO version: Unknown" in first
     assert "session:" in first
 
     Configure()

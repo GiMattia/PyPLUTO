@@ -8,7 +8,13 @@ from pyPLUTO.newload import Load
 from pyPLUTO.pytools import find_example, ring, savefig, show
 
 # Define the version and additional environment variables
-Configure()
+__version__ = "1.1.5"
+
+colorerr: bool = True
+colorwarn: bool = True
+greet: bool = True
+
+Configure(__version__, colorerr, colorwarn, greet)
 
 __all__ = [
     "Image",

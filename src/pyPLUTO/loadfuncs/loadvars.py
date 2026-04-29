@@ -103,7 +103,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
                 #    kwargs["trackfd"] = False
                 mm = mmap.mmap(fd.fileno(), 0, **kwargs)
             self.offsetdata.compute_offset(i, exout, None, mm)
-            if self.format in ("hdf5", "tab"):
+            if self.datatype in ("hdf5", "tab"):
                 return None
 
         # Check if only specific variables should be loaded

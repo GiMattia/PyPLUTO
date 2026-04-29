@@ -15,26 +15,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      # Set up Python environment
-      - name: Set up Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      # Set up Python and uv
+      - name: Set up Python and uv
+        uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
         with:
           python-version: 3.12
-          
-      - name: Clear cache
-        run: rm -rf ~/.cache/pip
+          prune-cache: false
 
-      # Install dependencies
-      - name: Install pre-commit and dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pre-commit ruff
+      - name: Sync environment
+        run: uv sync --group dev
 
       - name: Install pixi
         uses: prefix-dev/setup-pixi@v0.9.5
 
       # Run pre-commit hooks
       - name: Run pre-commit
-        uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
-        with:
-          extra_args: --all-files
+        run: uv run --no-sync pre-commit run --all-files

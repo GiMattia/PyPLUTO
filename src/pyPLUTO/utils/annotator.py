@@ -1,4 +1,8 @@
-"""Docstring for pyPLUTO.annotator."""
+"""Docstring for the pyPLUTO.annotator.
+
+The aim is to provide a comprehensive annotation system for the pyPLUTO library,
+based on the absence of duplicate keywords across the entire module.
+"""
 
 from typing import TypedDict
 
@@ -6,7 +10,7 @@ from matplotlib.figure import Figure
 
 
 class AllKwargs(TypedDict, total=False):
-    """Docstring for AllKwargs."""
+    """Class for AllKwargs of PyPLUTO, properly annotated."""
 
     close: bool
     fig: Figure | None

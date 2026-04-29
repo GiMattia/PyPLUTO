@@ -2,12 +2,10 @@
 
 | Category | Badges |
 | --- | --- |
-| Package |  ![Python Versions](https://img.shields.io/badge/Python-3.12%20%7C%203.13%20%7C%203.14-3776AB.svg?style=flat&logo=python&logoColor=white) [![GitHub release](https://img.shields.io/github/v/release/GiMattia/PyPLUTO?include_prereleases&label=Release)](https://github.com/GiMattia/PyPLUTO/releases) |
+| Package |  ![Python Versions](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-3776AB.svg?style=flat&logo=python&logoColor=white) [![PyPI version](https://img.shields.io/pypi/v/py-pluto)](https://pypi.org/project/py-pluto/) |
 | Reliability | [![Windows Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_windows.yml) [![MacOS Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_macos.yml) [![Linux Tests](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml/badge.svg)](https://github.com/GiMattia/PyPLUTO/actions/workflows/test_linux.yml) ![Coverage Report](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/GiMattia/384b1f3a3a3b74cdbd65c4e3dce0632f/raw/pytest-coverage-comment__main.json) |
-| Docs & Community | [![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![Documentation](https://readthedocs.org/projects/pypluto/badge/?version=latest)](https://pypluto.readthedocs.io/en/latest/?badge=latest) [![Discord](https://img.shields.io/discord/YOUR_SERVER_ID?logo=discord&label=Discord)](https://discord.gg/YOUR_INVITE) [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
+| Docs & Community | [![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![Documentation](https://readthedocs.org/projects/pypluto/badge/?version=latest)](https://pypluto.readthedocs.io/en/latest/?badge=latest)  [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?logo=discord&logoColor=white)](https://discord.gg/63A3sM9UtX)  [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
 | Citation | [![DOI](https://joss.theoj.org/papers/10.21105/joss.08448/status.svg)](https://doi.org/10.21105/joss.08448) [![Arxiv](https://img.shields.io/badge/arXiv-2501.09748-8F1515?style=flat&logo=arxiv&logoColor=red)](https://doi.org/10.48550/arXiv.2501.09748) [![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.19650848.svg)](https://doi.org/10.5281/zenodo.19650848) |
-
-<!-- ![PyPI](https://img.shields.io/pypi/v/PyPLUTO) -->
 
 PyPLUTO is a Python library which loads and plots the data obtain from the
 PLUTO code simulations.
@@ -22,17 +20,20 @@ The package is structured as follow:
 - the Load class is used to load the data from the PLUTO simulation fluid files.
 - the LoadPart class is used to load the data from the PLUTO simulation particle files.
 - the Image class is used to visualize the loaded data.
-- additional functions (e.g., to save the images) are included in the package.
+- the GUI subpackage allows for a quic interactive script-free visualization.
+- additional functions (e.g., to show the images) are included in the package.
 
 The package includes a set of examples in the `Examples` directory.
 
-The package is tested on Python 3.10 (and newer versions) and with the following dependencies:
+The package is tested on Python 3.13 (and newer versions) and with the following dependencies:
 
 - `numpy`
+- `contourpy`
 - `matplotlib`
+- `numexpr`
 - `scipy`
-- `pandas`
 - `h5py`
+- `inifix`
 - `PySide6`
 
 The package is provided with a `LICENSE` file which contains the license terms.
@@ -43,16 +44,18 @@ The package is provided with an extensive documentation in the `Docs` directory.
 
 To install the PyPLUTO package, you can use the following methods:
 
-### Installation with pip
-
-The easiest way to install PyPLUTO is through pip. Open your terminal and run the following command:
+The easiest way to install PyPLUTO is through uv. Open your terminal and run the following command:
 
 ```bash
-pip install ./
+uv add py-pluto
 ```
 
-Ensure that you are using Python 3.10 or newer, as the package is compatible from this version onwards.
-Installation through pipenv or uv is also possible (see the documentation).
+Ensure that you are using Python 3.12 or newer, as the package is compatible from this version onwards.
+Installation through pip is also possible through the command:
+
+```bash
+pip install py-pluto
+```
 
 This method allows installation in a non-editable mode, and it is recommended to use a virtual environment to avoid conflicts with other packages.
 
@@ -99,7 +102,7 @@ how to exploit the package capabilities.
 ## The GUI
 
 A Graphical User Interface has been implemented in order to simplify and enhance the visualization and analysis of simulation data.
-The GUI is built with PyQt6 and allows users to load and visualize 1D and 2D fluid data (or slices) from PLUTO simulations.
+The GUI is built with PySide6 and allows users to load and visualize 1D and 2D fluid data (or slices) from PLUTO simulations.
 To run the GUI after the package installation, one should simply run the command
 
 ```bash
@@ -140,32 +143,4 @@ We recommend to put one the following expressions in your manuscript:
 
 If you have any questions, suggestions or find a bug, feel free to open an issue or fork the repository and create a pull request.
 Any contribution aimed at helping the PLUTO code community to have better plots with less efforts will be greatly appreciated.
-If you want to contribute to PyPLUTO please be sure to install it in the developer mode, through the command:
-
-```bash
-pip install -r requirements_dev.txt
-```
-
-### Rules for Contributing
-
-We use pre-commit to ensure that the code is consistent with the code guidelines, through uv, ruff, pyrefly and ty.
-You can either link the pre-commit to the repository through the command
-
-```bash
-pre-commit install
-```
-
-or by enforcing the guide styles manually through the command
-
-```bash
-pre-commit run --all-files
-```
-
-Before opening a pull request,there is the possibility to run a deeper series of checks, including tests with coverage, pylint check, docstring coverage and so through the command
-
-```bash
-pre-commit run --all-files --hook-stage manual
-```
-
-If one or more tests do not pass the automatic code checks anforced through github actions will not allow the pull request to pass, so is higly recommended to run the full pre-commit before every pull request.
-For any question or enquiry, please contact one of the administrators.
+If you want to contribute to PyPLUTO please follow the instruction present in the CONTRIBUTING.md file.

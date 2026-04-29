@@ -101,7 +101,7 @@ class LoadPart:
 
         # Initialization or declaration of variables (used in other files)
         self.pathdir: Path  # Path to the simulation directory
-        self.format: str | None = None  # The format of the files to be loaded
+        self.datatype: str | None = None  # The format of the files to be loaded
         self._charsize: int  # The data size in the files
         self.outlist: NDArray  # The list of outputs to be loaded
         self.timelist: NDArray  # The list of times to be loaded
@@ -162,7 +162,7 @@ class LoadPart:
         # them in the class
         for i, exout in enumerate(self.nout):
             self._load_variables(vars, i, exout, endian)
-            if self.format != "vtk":
+            if self.datatype != "vtk":
                 self._store_bin_particles(i)
             else:
                 self._store_vtk_particles(i)
@@ -172,7 +172,7 @@ class LoadPart:
             setattr(self, key, self._d_vars[key])
 
         # Change the id variable to int depending on the format loaded
-        if self.format != "vtk":
+        if self.datatype != "vtk":
             self.id = self.id.astype("int")
         else:
             self.id = self.id.view(">i4")
@@ -190,7 +190,7 @@ class LoadPart:
 
         File properties:
         - Current path loaded (pathdir)      {self.pathdir}
-        - Format loaded       (format)       {self.format}
+        - Format loaded       (format)       {self.datatype}
 
         Simulation properties
         - N. particles  (maxpart)  {self.maxpart}

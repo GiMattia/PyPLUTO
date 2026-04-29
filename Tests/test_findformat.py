@@ -14,20 +14,20 @@ path = repo_root / "Test_load"
 # Format not given (single file), finding dbl
 def test_single_finddbl():
     D = pp.Load(path=path / "single_file", text=False)
-    assert D.format == "dbl"
+    assert D.datatype == "dbl"
 
 
 # Format not given (single file), finding vtk
 def test_single_findvtk():
     D = pp.Load(path=path / "single_file/vtk", text=False)
-    assert D.format == "vtk"
+    assert D.datatype == "vtk"
 
 
 # Given format (single file), alone = False
 def test_find_singlegiven():
     for format in ["dbl", "flt", "vtk", "dbl.h5", "flt.h5"]:
         D = pp.Load(path=path / "single_file", text=False, datatype=format)
-        assert D.format == format
+        assert D.datatype == format
 
 
 # Given format (single file), alone = True
@@ -35,7 +35,7 @@ def test_alone_vtk():
     D = pp.Load(
         path=path / "single_file", text=False, datatype="vtk", alone=True
     )
-    assert D.format == "vtk"
+    assert D.datatype == "vtk"
 
 
 # dbl.h5 and flt.h5 should raise a warning
@@ -53,26 +53,26 @@ def test_find_alone_h5():
                 datatype=format,
                 alone=True,
             )
-            assert D.format == format
+            assert D.datatype == format
 
 
 # Format not given (multiple files), finding dbl
 def test_multiple_finddbl():
     D = pp.Load(path=path / "multiple_files", text=False)
-    assert D.format == "dbl"
+    assert D.datatype == "dbl"
 
 
 # Format not given (multiple files), finding vtk
 def test_multiple_findvtk():
     D = pp.Load(path=path / "multiple_files/vtk", text=False)
-    assert D.format == "vtk"
+    assert D.datatype == "vtk"
 
 
 # Given format (multiple files), alone = False
 def test_multiple_findformat():
     for format in ["dbl", "flt", "vtk"]:
         D = pp.Load(path=path / "multiple_files", text=False, datatype=format)
-        assert D.format == format
+        assert D.datatype == format
 
 
 # Given format (multiple files), alone = True
@@ -80,7 +80,7 @@ def test_multiple_alone():
     D = pp.Load(
         path=path / "multiple_files", text=False, datatype="vtk", alone=True
     )
-    assert D.format == "vtk"
+    assert D.datatype == "vtk"
 
 
 # Check if raises error if the format is wrong

@@ -413,7 +413,7 @@ def _compute_offset(
 
     """
     # Depending on the file calls different routines
-    if self.format == "vtk":
+    if self.datatype == "vtk":
         self._inspect_vtk(i, endian)
     else:
         self._inspect_bin(i, endian)

@@ -114,7 +114,7 @@ class OffsetFluid(LoadMixin):
 
         # Selects the binformat
         self.d_info["binformat"][exout] = (
-            "d" if self.format == "dbl.h5" else "f"
+            "d" if self.datatype == "dbl.h5" else "f"
         )
 
         # Safely access the timestep group and its sub-items to avoid

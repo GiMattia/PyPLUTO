@@ -14,12 +14,12 @@ jobs:
         os:
           - ubuntu-22.04
           - ubuntu-24.04
-        python-version: ["3.12", "3.13", "3.14"]
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
         sync-args: [""]
         include:
           - os: ubuntu-22.04
-            python-version: "3.12"
-            sync-args: --resolution=lowest
+            python-version: "3.11"
+            sync-args: --resolution=lowest-direct
 
     steps:
       - name: Checkout repository

@@ -154,7 +154,7 @@ convention = "numpy"
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
-"tests/*" = ["D", "PLR2004"]
+"Tests/*" = ["D", "PLR2004"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -210,10 +210,6 @@ py-pluto = { path = ".", editable = true, extras = ["pasta"] }
 
 [tool.pixi.feature.rust.pypi-dependencies]
 rustronomy = "*"
-
-[tool.pixi.feature.rust.dependencies]
-maturin = "*"
-rust = "*"
 
 [tool.pixi.feature.full.pypi-dependencies]
 py-pluto = { path = ".", editable = true, extras = ["gui", "pasta"] }

@@ -150,8 +150,7 @@ def select_folder(self):
     dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
 
     def on_accept():
-        selected = dialog.selectedFiles()
-        if selected:
+        if selected := dialog.selectedFiles():
             file_path = selected[0]
             self._finalize_load_path(file_path)
 

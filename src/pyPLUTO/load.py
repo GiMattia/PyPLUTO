@@ -321,8 +321,7 @@ class Load:
             print(f"Load: folder {path},     output {_nout_out}")
 
         # Try to read the file definitions.h
-        defh = kwargs.get("defh")
-        if defh is not False:
+        if (defh := kwargs.get("defh")) is not False:
             pathdefh = self.pathdir / "definitions.h"
             defhfile = "definitions.hpp"
             if not pathdefh.exists():
@@ -334,8 +333,7 @@ class Load:
                 print(f"No {defhfile} is read!") if defh is True else ...
 
         # Try to read the file pluto.ini
-        plini = kwargs.get("plini")
-        if plini is not False:
+        if (plini := kwargs.get("plini")) is not False:
             pathplini = self.pathdir / "pluto.ini"
             try:
                 self.plini = self._read_plini(pathplini)

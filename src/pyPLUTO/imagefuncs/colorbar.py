@@ -162,8 +162,7 @@ class ColorbarManager(ImageMixin):
         )
 
         # Set the tickslabels
-        ctkc = kwargs.get("ctickslabels", "Default")
-        if ctkc != "Default":
+        if (ctkc := kwargs.get("ctickslabels", "Default")) != "Default":
             cbar.ax.set_yticklabels(ctkc)
 
         # Ensure, if needed, the tight layout

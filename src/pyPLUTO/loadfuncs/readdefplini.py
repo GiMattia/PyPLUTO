@@ -16,8 +16,7 @@ class FiledefpliniManager(LoadMixin):
     def __init__(self, state: LoadState, **kwargs: Any) -> None:
         """Initialize the FiledefpliniManager."""
         self.state = state
-        defh = kwargs.get("defh")
-        if defh is not False:
+        if (defh := kwargs.get("defh")) is not False:
             pathdefh = self.state.pathdir / Path("definitions.h")
             defhfile = "definitions.hpp"
             if not pathdefh.exists():

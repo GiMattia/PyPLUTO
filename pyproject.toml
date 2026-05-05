@@ -66,7 +66,6 @@ dev = [
 ]
 
 rust = [
-    "maturin",
     "rustronomy",
 ]
 
@@ -192,9 +191,6 @@ constraint-dependencies = [
     "jsonschema>=0.3",
     "pillow>=10.0.0",
 ]
-[tool.uv.sources]
-rustronomy = { path = "../rustronomy"}
-
 [tool.pixi.workspace]
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
@@ -212,7 +208,7 @@ py-pluto = { path = ".", editable = true, extras = ["gui"] }
 py-pluto = { path = ".", editable = true, extras = ["pasta"] }
 
 [tool.pixi.feature.rust.pypi-dependencies]
-rustronomy = { path = "../rustronomy", editable = true }
+rustronomy = "*"
 
 [tool.pixi.feature.rust.dependencies]
 maturin = "*"

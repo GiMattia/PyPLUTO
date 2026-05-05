@@ -52,7 +52,7 @@ def ideal_solution(D, time=None):
 
 
 def load_and_check(case, dtype, path):
-    D = pp.Newload(*case, datatype=dtype, path=path, text=False)
+    D = pp.Load(*case, datatype=dtype, path=path, text=False)
     ex = ideal_solution(D)
     for var in D.d_info["varslist"][D.nout]:
         # print(f"Checking variable: {var}")

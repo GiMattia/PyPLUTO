@@ -61,14 +61,18 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
             >>> _compute_offset(0, 0, None)
         """
         if (
-            self.alone is not True
+            self.state.alone is not True
             and isinstance(self.state, LoadState)
-            and self.infogrid is True
+            and self.state.infogrid is True
         ):
             self.GridFileManager.read_gridfile()
-            self.infogrid = False
+            self.state.infogrid = False
 
-        fmt = "h5" if self.datatype in {"dbl.h5", "flt.h5"} else self.datatype
+        fmt = (
+            "h5"
+            if self.state.datatype in {"dbl.h5", "flt.h5"}
+            else self.state.datatype
+        )
         fmt = "bin" if fmt in {"dbl", "flt"} else fmt
 
         if isinstance(self.state, LoadState):

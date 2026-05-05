@@ -36,33 +36,33 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
             return
 
         # Check the endianess
-        self.check_endian(kwargs.get("endian", self.endian))
+        self.check_endian(kwargs.get("endian", self.state.endian))
 
         # Check the input multiple
-        self.multiple = kwargs.get("multiple", self.multiple)
-        if not isinstance(self.multiple, bool):
+        self.state.multiple = kwargs.get("multiple", self.state.multiple)
+        if not isinstance(self.state.multiple, bool):
             raise TypeError("Invalid data type. 'multiple' must be a boolean.")
 
         # Check the path
-        self.check_path(kwargs.get("path", self.pathdir))
+        self.check_path(kwargs.get("path", self.state.pathdir))
 
-        self.code = kwargs.get("code", self.code)
-        if self.code.lower() not in {"pluto", "gpluto"}:
+        self.state.code = kwargs.get("code", self.state.code)
+        if self.state.code.lower() not in {"pluto", "gpluto"}:
             self.CodeManager = CodeManager(state, nout, **kwargs)
             return
 
         self.FindFormat = FindFormat(state, **kwargs)
 
-        if isinstance(state, LoadState) and not self.alone:
+        if isinstance(state, LoadState) and not self.state.alone:
             try:
                 self.Descriptor = DescriptorManager(state, nout, **kwargs)
             except UserWarning:
                 warnings.warn(
                     "Failed to initialize descriptor manager.", stacklevel=2
                 )
-                self.alone = True
+                self.state.alone = True
 
-        if not isinstance(state, LoadState) or self.alone:
+        if not isinstance(state, LoadState) or self.state.alone:
             self.findfile = FindFilesManager(state, nout, **kwargs)
 
         loadvars = True
@@ -75,19 +75,22 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
             loadvars = kwargs.get("vars", loadvars)
         loadvars = kwargs.get("var", loadvars)
 
-        for i, exout in enumerate(self.noutlist):
+        for i, exout in enumerate(self.state.noutlist):
             LoadVariables(state, loadvars, i, exout)
 
-        for key, value in self.d_vars.items():
+        for key, value in self.state.d_vars.items():
             typed_value = cast(NDArray[Any], value)
             setattr(self.state, str(key), typed_value)
 
-        if isinstance(self.ntimelist, np.ndarray) and len(self.ntimelist) == 1:
-            self.ntime = self.ntimelist[0]
-            self.nout = self.noutlist[0]
+        if (
+            isinstance(self.state.ntimelist, np.ndarray)
+            and len(self.state.ntimelist) == 1
+        ):
+            self.state.ntime = self.state.ntimelist[0]
+            self.state.nout = self.state.noutlist[0]
         else:
-            self.ntime = self.ntimelist
-            self.nout = self.noutlist
+            self.state.ntime = self.state.ntimelist
+            self.state.nout = self.state.noutlist
 
     def check_endian(self, endian: str | None) -> None:
         """Check the endian format.
@@ -133,11 +136,11 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
             None: None,
         }
 
-        self.endian = endian
+        self.state.endian = endian
         if endian not in d_end:
             error = f"Invalid endianess. Valid values are {d_end.keys()}"
             raise ValueError(error)
-        self.endian = d_end[endian]
+        self.state.endian = d_end[endian]
 
     def check_path(self, path: str | Path) -> None:
         """Check if the given path is consistent.
@@ -191,15 +194,17 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
             raise ValueError("'path' cannot be an empty string.")
         # Convert the path to a Path object and store it
 
-        self.pathdir = Path(path)
+        self.state.pathdir = Path(path)
 
-        if not isinstance(self.pathdir, Path):
+        if not isinstance(self.state.pathdir, Path):
             raise TypeError(
                 "Invalid data type. 'path' must be or converted to Path object."
             )
 
         # Check that the path is a directory
-        if not self.pathdir.is_dir():
-            raise NotADirectoryError(f"Directory {self.pathdir} not found.")
+        if not self.state.pathdir.is_dir():
+            raise NotADirectoryError(
+                f"Directory {self.state.pathdir} not found."
+            )
 
         # End of the function

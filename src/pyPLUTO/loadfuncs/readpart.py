@@ -341,7 +341,7 @@ def _store_vtk_particles(self, i: int) -> None:
     vardict = {
         "points": ["x1", "x2", "x3"],
         "Velocity": ["vx1", "vx2", "vx3"],
-        "Four-Velocity": ["vx1", "vx2", "vx3"],
+        "Four-Velocity": ["ux1", "ux2", "ux3"],
     }
 
     # Store the position in the dictionary

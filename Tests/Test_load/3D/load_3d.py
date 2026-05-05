@@ -97,7 +97,7 @@ def ideal_solution(D, h5lone):
 
 
 def load_and_check(dtype, path):
-    D = pp.Newload(datatype=dtype, path=path, text=False)
+    D = pp.Load(datatype=dtype, path=path, text=False)
     h5lone = bool(D.datatype in {"dbl.h5", "flt.h5"} and D.alone)
     ex = ideal_solution(D, h5lone)
     for var in D.d_info["varslist"][D.nout]:

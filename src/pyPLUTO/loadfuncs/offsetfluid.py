@@ -22,7 +22,6 @@ class OffsetFluid(LoadMixin):
 
     def __init__(self, state: LoadState) -> None:
         self.state = state
-        self.varoffset, self.varshape = ({}, {})
         self.GridAloneManager = GridManager(state)
 
     def offset_bin(
@@ -56,26 +55,28 @@ class OffsetFluid(LoadMixin):
         off_start = 0
 
         grid_sizes: dict[str, tuple[int | tuple[int, ...] | None, int]] = {
-            "Bx1s": (self.nshp_st1, self.gridsize_st1),
-            "Ex1s": (self.nshp_st1, self.gridsize_st1),
-            "Bx2s": (self.nshp_st2, self.gridsize_st2),
-            "Ex2s": (self.nshp_st2, self.gridsize_st2),
-            "Bx3s": (self.nshp_st3, self.gridsize_st3),
-            "Ex3s": (self.nshp_st3, self.gridsize_st3),
+            "Bx1s": (self.state.nshp_st1, self.state.gridsize_st1),
+            "Ex1s": (self.state.nshp_st1, self.state.gridsize_st1),
+            "Bx2s": (self.state.nshp_st2, self.state.gridsize_st2),
+            "Ex2s": (self.state.nshp_st2, self.state.gridsize_st2),
+            "Bx3s": (self.state.nshp_st3, self.state.gridsize_st3),
+            "Ex3s": (self.state.nshp_st3, self.state.gridsize_st3),
         }
 
         # Loop over the variables to be loaded (None for single files)
-        varloop = self.d_info["varslist"][exout] if var is None else [var]
+        varloop = self.state.d_info["varslist"][exout] if var is None else [var]
 
         for eachvar in varloop:
             # Get the grid shape and size (centered or staggered)
-            grid_size = grid_sizes.get(eachvar, [self.nshp, self.gridsize])
-            self.varshape[eachvar] = grid_size[0]
+            grid_size = grid_sizes.get(
+                eachvar, [self.state.nshp, self.state.gridsize]
+            )
+            self.state.varshape[eachvar] = grid_size[0]
             # Assign the offset
-            self.varoffset[eachvar] = off_start
+            self.state.varoffset[eachvar] = off_start
             # Move to next variable
             if isinstance(grid_size[1], int):
-                off_start += grid_size[1] * self.charsize
+                off_start += grid_size[1] * self.state.charsize
             else:
                 raise ValueError("Grid size must be an integer.")
 
@@ -110,11 +111,11 @@ class OffsetFluid(LoadMixin):
 
         """
         # Open the file with the h5py library
-        h5file = h5py.File(str(self.filepath), "r")
+        h5file = h5py.File(str(self.state.filepath), "r")
 
         # Selects the binformat
-        self.d_info["binformat"][exout] = (
-            "d" if self.datatype == "dbl.h5" else "f"
+        self.state.d_info["binformat"][exout] = (
+            "d" if self.state.datatype == "dbl.h5" else "f"
         )
 
         # Safely access the timestep group and its sub-items to avoid
@@ -124,10 +125,10 @@ class OffsetFluid(LoadMixin):
 
         if isinstance(timestep, h5py.Group):
             timeattr = timestep.attrs["Time"]
-            idx = np.searchsorted(self.outlist, exout)
-            self.timelist[idx] = float(timeattr)
-            idx = np.searchsorted(self.noutlist, exout)
-            self.ntimelist[idx] = float(timeattr)
+            idx = np.searchsorted(self.state.outlist, exout)
+            self.state.timelist[idx] = float(timeattr)
+            idx = np.searchsorted(self.state.noutlist, exout)
+            self.state.ntimelist[idx] = float(timeattr)
             cellvs = timestep.get("vars", {})
             stagvs = timestep.get("stag_vars", {})
             cellvs = (
@@ -150,11 +151,11 @@ class OffsetFluid(LoadMixin):
         # remove variables in the .out file that are not present in the actual
         # file
         if (
-            self.alone is True
+            self.state.alone is True
             and isinstance(cellvs, h5py.Group | dict)
             and isinstance(stagvs, h5py.Group | dict)
         ):
-            self.d_info["varslist"][exout] = set(cellvs.keys()) | set(
+            self.state.d_info["varslist"][exout] = set(cellvs.keys()) | set(
                 stagvs.keys()
             )
         elif not isinstance(cellvs, h5py.Group | dict) or not isinstance(
@@ -165,7 +166,7 @@ class OffsetFluid(LoadMixin):
             )
 
         # Loop over the variables and store the offset and shape
-        for j in self.d_info["varslist"][exout]:
+        for j in self.state.d_info["varslist"][exout]:
             if j in cellvs:
                 obj = cellvs[j]
             elif j in stagvs:
@@ -179,22 +180,22 @@ class OffsetFluid(LoadMixin):
                 )
             # Only Dataset objects provide shape and a file offset
             if isinstance(obj, h5py.Dataset):
-                self.varoffset[j] = obj.id.get_offset()
-                self.varshape[j] = obj.shape
+                self.state.varoffset[j] = obj.id.get_offset()
+                self.state.varshape[j] = obj.shape
             elif obj is not None:
                 raise ValueError(
                     f"Error: Variable {j} in the HDF5 file is not a dataset."
                 )
 
-        if self.alone is True and self.infogrid is True:
-            self.x1 = h5file["cell_coords"]["X"][:].T
-            self.x2 = h5file["cell_coords"]["Y"][:].T
-            self.x3 = h5file["cell_coords"]["Z"][:].T
-            self.x1r = h5file["node_coords"]["X"][:].T
-            self.x2r = h5file["node_coords"]["Y"][:].T
-            self.x3r = h5file["node_coords"]["Z"][:].T
+        if self.state.alone is True and self.state.infogrid is True:
+            self.state.x1 = h5file["cell_coords"]["X"][:].T
+            self.state.x2 = h5file["cell_coords"]["Y"][:].T
+            self.state.x3 = h5file["cell_coords"]["Z"][:].T
+            self.state.x1r = h5file["node_coords"]["X"][:].T
+            self.state.x2r = h5file["node_coords"]["Y"][:].T
+            self.state.x3r = h5file["node_coords"]["Z"][:].T
             self.GridAloneManager.readgridh5()
-        self.infogrid = False
+        self.state.infogrid = False
 
         # Close the file
         h5file.close()
@@ -230,15 +231,17 @@ class OffsetFluid(LoadMixin):
         dir_map: dict[str, str] = {}
         gridvars: list[str] = []
 
-        self.d_info["endianess"][exout] = (
-            ">" if self.endian is None else self.d_info["endianess"][exout]
+        self.state.d_info["endianess"][exout] = (
+            ">"
+            if self.state.endian is None
+            else self.state.d_info["endianess"][exout]
         )
-        if self.d_info["endianess"][exout] is None:
+        if self.state.d_info["endianess"][exout] is None:
             raise ValueError("Error: Wrong endianess in vtk file.")
 
-        if self.alone is True:
-            self.d_info["binformat"][exout] = (
-                f"{self.d_info['endianess'][exout]}f{self.charsize}"
+        if self.state.alone is True:
+            self.state.d_info["binformat"][exout] = (
+                f"{self.state.d_info['endianess'][exout]}f{self.state.charsize}"
             )
         search_pos = 0
         while True:
@@ -255,12 +258,12 @@ class OffsetFluid(LoadMixin):
                 lookup_table_pos = mm.find(b"LOOKUP_TABLE default", line_end)
                 offset = mm.find(b"\n", lookup_table_pos) + 1
 
-                self.varoffset[namevar] = offset
-                self.varshape[namevar] = self.nshp
+                self.state.varoffset[namevar] = offset
+                self.state.varshape[namevar] = self.state.nshp
                 if var is not None:
                     break
 
-                search_pos = offset + self.gridsize * self.charsize
+                search_pos = offset + self.state.gridsize * self.state.charsize
 
             elif line.startswith(b"VECTORS"):
                 # Handle VECTORS data
@@ -270,53 +273,66 @@ class OffsetFluid(LoadMixin):
                     stacklevel=2,
                 )
                 search_pos = line_end + 1
-            elif line.startswith(b"DIMENSIONS") and self.infogrid is True:
-                self.nx1, self.nx2, self.nx3 = [
+            elif line.startswith(b"DIMENSIONS") and self.state.infogrid is True:
+                self.state.nx1, self.state.nx2, self.state.nx3 = [
                     max(int(i) - 1, 1) for i in line.split()[1:4]
                 ]
-                if self.nx3 == 1 and self.nx2 == 1:
-                    self.dim = 1
-                    self.nshp = self.nx1
-                    self.gridsize = self.nx1
-                    nshp_grid = self.nx1 + 1
+                if self.state.nx3 == 1 and self.state.nx2 == 1:
+                    self.state.dim = 1
+                    self.state.nshp = self.state.nx1
+                    self.state.gridsize = self.state.nx1
+                    nshp_grid = self.state.nx1 + 1
                     gridvars = ["x1r", "x2", "x3"]
-                elif self.nx3 == 1:
-                    self.dim = 2
-                    self.nshp = (self.nx2, self.nx1)
-                    self.gridsize = self.nx1 * self.nx2
-                    nshp_grid = (self.nx2 + 1, self.nx1 + 1)
+                elif self.state.nx3 == 1:
+                    self.state.dim = 2
+                    self.state.nshp = (self.state.nx2, self.state.nx1)
+                    self.state.gridsize = self.state.nx1 * self.state.nx2
+                    nshp_grid = (self.state.nx2 + 1, self.state.nx1 + 1)
                     gridvars = ["x1r", "x2r", "x3"]
                 else:
-                    self.dim = 3
-                    self.nshp = (self.nx3, self.nx2, self.nx1)
-                    self.gridsize = self.nx1 * self.nx2 * self.nx3
-                    nshp_grid = (self.nx3 + 1, self.nx2 + 1, self.nx1 + 1)
+                    self.state.dim = 3
+                    self.state.nshp = (
+                        self.state.nx3,
+                        self.state.nx2,
+                        self.state.nx1,
+                    )
+                    self.state.gridsize = (
+                        self.state.nx1 * self.state.nx2 * self.state.nx3
+                    )
+                    nshp_grid = (
+                        self.state.nx3 + 1,
+                        self.state.nx2 + 1,
+                        self.state.nx1 + 1,
+                    )
                     gridvars = ["x1r", "x2r", "x3r"]
                 dir_map = {"X": gridvars[0], "Y": gridvars[1], "Z": gridvars[2]}
                 search_pos = line_end + 1
-            elif line.startswith(b"TIME") and self.alone is True:
+            elif line.startswith(b"TIME") and self.state.alone is True:
                 try:
                     parts = line.split()
                     binf = 8 if parts[3].decode() == "double" else 4
                     raw = mm[line_end + 1 : line_end + 1 + binf]
                     scrh = struct.unpack(
-                        self.d_info["endianess"][exout] + "d", raw
+                        self.state.d_info["endianess"][exout] + "d", raw
                     )[0]
-                    self.timelist[exout] = scrh
-                    idx = np.searchsorted(self.noutlist, exout)
-                    self.ntimelist[idx] = scrh
+                    self.state.timelist[exout] = scrh
+                    idx = np.searchsorted(self.state.noutlist, exout)
+                    self.state.ntimelist[idx] = scrh
                 except Exception:
                     binf = 0
                 search_pos = line_end + 1 + binf
 
-            elif line[1:].startswith(b"_COORDINATES") and self.infogrid is True:
-                self.geom = "CARTESIAN"
+            elif (
+                line[1:].startswith(b"_COORDINATES")
+                and self.state.infogrid is True
+            ):
+                self.state.geom = "CARTESIAN"
                 linesplit = line.split()
                 var_sel = linesplit[0].decode()[0]
                 binf = (
-                    self.d_info["endianess"][exout] + "d"
+                    self.state.d_info["endianess"][exout] + "d"
                     if linesplit[2].decode() == "double"
-                    else self.d_info["endianess"][exout] + "f"
+                    else self.state.d_info["endianess"][exout] + "f"
                 )
                 scrh = np.ndarray(
                     shape=int(linesplit[1]),
@@ -325,19 +341,21 @@ class OffsetFluid(LoadMixin):
                     offset=line_end + 1,
                     order="C",
                 ).T
-                setattr(self, dir_map[var_sel], scrh)
+                setattr(self.state, dir_map[var_sel], scrh)
                 search_pos = line_end + 1
             else:
                 search_pos = line_end + 1
 
         if (
-            self.d_info["typefile"][exout] == "single_file"
-            and self.alone is True
+            self.state.d_info["typefile"][exout] == "single_file"
+            and self.state.alone is True
         ):
-            self.d_info["varslist"][exout] = list(self.varoffset.keys())
-        if self.infogrid is True:
+            self.state.d_info["varslist"][exout] = list(
+                self.state.varoffset.keys()
+            )
+        if self.state.infogrid is True:
             self.GridAloneManager.readgridvtk(gridvars)
-            self.infogrid = False
+            self.state.infogrid = False
 
     def offset_hdf5(
         self, i: int, _var: str | None, exout: int, _mm: mmap.mmap
@@ -347,8 +365,8 @@ class OffsetFluid(LoadMixin):
         This method is intentionally isolated from other formats.
         """
         # Bridge AMR helpers (legacy naming) to the Newload state fields.
-        self._filepath = self.filepath
-        self._pathgrid = self.pathdir / Path("grid.out")
+        self.filepath = self.filepath
+        self.pathgrid = self.pathdir / Path("grid.out")
         if not hasattr(self, "level"):
             self.level = 0
 

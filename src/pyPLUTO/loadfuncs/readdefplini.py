@@ -1,3 +1,5 @@
+"""Module for reading definitions and pluto.ini files."""
+
 import re
 from pathlib import Path
 from typing import Any
@@ -9,30 +11,33 @@ from pyPLUTO.loadstate import LoadState
 
 
 class FiledefpliniManager(LoadMixin):
+    """Manage loading of definitions headers and the pluto.ini file."""
+
     def __init__(self, state: LoadState, **kwargs: Any) -> None:
+        """Initialize the FiledefpliniManager."""
         self.state = state
         defh = kwargs.get("defh")
         if defh is not False:
-            pathdefh = self.pathdir / Path("definitions.h")
+            pathdefh = self.state.pathdir / Path("definitions.h")
             defhfile = "definitions.hpp"
             if not pathdefh.exists():
-                pathdefh = self.pathdir / Path("definitions.hpp")
+                pathdefh = self.state.pathdir / Path("definitions.hpp")
                 defhfile = "definitions.h"
             try:
-                self.defh = self.read_defh(pathdefh)
+                self.state.defh = self.read_defh(pathdefh)
             except FileNotFoundError:
                 print(f"No {defhfile} is read!") if defh is True else ...
 
         # Try to read the file pluto.ini
         plini = kwargs.get("plini")
         if isinstance(plini, str):
-            pathplini = self.pathdir / Path(plini)
+            pathplini = self.state.pathdir / Path(plini)
         elif plini is not False:
-            pathplini = self.pathdir / Path("pluto.ini")
-            try:
-                self.plini = inifix.load(pathplini, sections="require")
-            except FileNotFoundError:
-                print("No pluto.ini is read!") if plini is True else ...
+            pathplini = self.state.pathdir / Path("pluto.ini")
+        try:
+            self.state.plini = inifix.load(pathplini, sections="require")
+        except FileNotFoundError:
+            print("No pluto.ini is read!") if plini is True else ...
 
     def read_defh(self, filepath: Path) -> dict:
         """Read a header file and extract definitions.

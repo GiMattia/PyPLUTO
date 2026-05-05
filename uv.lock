@@ -1899,10 +1899,11 @@ wheels = [
 
 [[package]]
 name = "rustronomy"
-version = "0.1.1"
+version = "0.1.2"
 source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/3a/fc/bdc0eef7bee65f11f00ac6b72ec46fa3e9456a0fab84a273666b6f1423c5/rustronomy-0.1.2.tar.gz", hash = "sha256:b0500af1137b2ba1a9371970d50a9cc5e636444c68c79e5b2392eef2509b8d55", size = 7782, upload-time = "2026-05-05T08:45:35.932Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3b/c5/c94830121161f253809c5b131c2029f799b5b9deecaa22d1d7e845160f24/rustronomy-0.1.1-cp314-cp314-manylinux_2_34_x86_64.whl", hash = "sha256:219e474739107766076cdcee848bb50fbfa81074ed038d2c0d040ca6f03b6a93", size = 3193659, upload-time = "2026-05-02T00:02:47.112Z" },
+    { url = "https://files.pythonhosted.org/packages/a8/5c/32ca95698db8b7a9f3ffba96f4767b97fa4014fcad68ae93468b00e19164/rustronomy-0.1.2-cp312-cp312-manylinux_2_34_x86_64.whl", hash = "sha256:1333ee0c6e99450a32cba706c8ab36853289a367cd4c34825c53be73c61d5a87", size = 297867, upload-time = "2026-05-05T08:45:34.704Z" },
 ]
 
 [[package]]

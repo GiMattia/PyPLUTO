@@ -54,6 +54,7 @@ test = [
 ] 
 dev = [
     "uv",
+    "auto-walrus",
     "pandas-stubs",
     "h5py-stubs",
     "pre-commit",

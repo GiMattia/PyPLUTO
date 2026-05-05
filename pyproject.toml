@@ -65,6 +65,11 @@ dev = [
     "pydata-sphinx-theme",
 ]
 
+rust = [
+    "maturin",
+    "rustronomy",
+]
+
 notebook = [
     "ipython>=9.0.0",
 ]
@@ -76,11 +81,13 @@ dev-test = [
 
 dev-docs = [
     { include-group = "dev" },
+
     { include-group = "docs" },
 ]
 
 local-dev = [
     { include-group = "dev" },
+    { include-group = "rust" },
     { include-group = "test" },
     { include-group = "docs" },
     { include-group = "notebook" },
@@ -185,6 +192,8 @@ constraint-dependencies = [
     "jsonschema>=0.3",
     "pillow>=10.0.0",
 ]
+[tool.uv.sources]
+rustronomy = { path = "../rustronomy"}
 
 [tool.pixi.workspace]
 channels = ["conda-forge"]
@@ -202,6 +211,13 @@ py-pluto = { path = ".", editable = true, extras = ["gui"] }
 [tool.pixi.feature.pasta.pypi-dependencies]
 py-pluto = { path = ".", editable = true, extras = ["pasta"] }
 
+[tool.pixi.feature.rust.pypi-dependencies]
+rustronomy = { path = "../rustronomy", editable = true }
+
+[tool.pixi.feature.rust.dependencies]
+maturin = "*"
+rust = "*"
+
 [tool.pixi.feature.full.pypi-dependencies]
 py-pluto = { path = ".", editable = true, extras = ["gui", "pasta"] }
 
@@ -212,9 +228,10 @@ pasta = { features = ["pasta"] }
 full = { features = ["full"] }
 
 dev = { features = ["dev"] }
+rust = { features = ["rust"] }
 test = { features = ["test"] }
 docs = { features = ["docs"] }
 notebook = { features = ["notebook"] }
 dev-test = { features = ["dev", "test"] }
 dev-docs = { features = ["dev", "docs"] }
-local-dev = { features = ["dev", "test", "docs", "notebook"] }
+local-dev = { features = ["dev", "rust", "test", "docs", "notebook"] }

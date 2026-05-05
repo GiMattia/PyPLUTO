@@ -13,17 +13,6 @@ from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
 
-# class MyKwargs(TypedDict, total=False):
-#    """TypedDict for keyword arguments."""
-#
-#    clabel: str
-#    cpad: float
-#    cpos: str
-#    cticks: list[float] | None
-#    ctickslabels: list[str]
-#    extend: str
-#    extendrect: bool
-
 
 class ColorbarManager(ImageMixin):
     """Class to manage the colorbar in the image.

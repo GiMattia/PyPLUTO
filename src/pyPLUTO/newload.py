@@ -56,12 +56,12 @@ class Load(LoadMixin):
         if self.text is not False:
             print("Load: Load class initialized.")
 
-    def __getattr__(self, name: str) -> object:
-        """Get the attribute of the Image class."""
+    def __getattr__(self, name: str):  # noqa: ANN204
+        """Get the attribute of the Load class."""
         return getattr(self.state, name)
 
     def __setattr__(self, name: str, value: object) -> None:
-        """Set the attribute of the Image class."""
+        """Set the attribute of the Load class."""
         if name == "state" or not hasattr(self, "state"):
             return super().__setattr__(name, value)
         return setattr(self.state, name, value)

@@ -145,12 +145,22 @@ class LegendManager(ImageMixin):
         self.ImageToolsManager.hide_text(nax, ax.texts)
 
         # Finds the legend parameters (position, columns, size, spacing and pad)
-        self.legpos[nax] = kwargs.get("legpos", self.legpos[nax])
-        self.legpar[nax][0] = kwargs.get("legsize", self.legpar[nax][0])
-        self.legpar[nax][1] = kwargs.get("legcols", self.legpar[nax][1])
-        self.legpar[nax][2] = kwargs.get("legspace", self.legpar[nax][2])
-        self.legpar[nax][3] = kwargs.get("legpad", self.legpar[nax][3])
-        self.legpar[nax][4] = kwargs.get("legalpha", self.legpar[nax][4])
+        self.state.legpos[nax] = kwargs.get("legpos", self.state.legpos[nax])
+        self.state.legpar[nax][0] = kwargs.get(
+            "legsize", self.state.legpar[nax][0]
+        )
+        self.state.legpar[nax][1] = kwargs.get(
+            "legcols", self.state.legpar[nax][1]
+        )
+        self.state.legpar[nax][2] = kwargs.get(
+            "legspace", self.state.legpar[nax][2]
+        )
+        self.state.legpar[nax][3] = kwargs.get(
+            "legpad", self.state.legpar[nax][3]
+        )
+        self.state.legpar[nax][4] = kwargs.get(
+            "legalpha", self.state.legpar[nax][4]
+        )
 
         # Check if another unwanted legend is present and cancel it
         # (only when the legend is called from the plot function)
@@ -193,24 +203,24 @@ class LegendManager(ImageMixin):
             # Create the legend
             legg = ax.legend(
                 handles=lines,
-                loc=self.legpos[nax],
-                fontsize=self.legpar[nax][0],
-                ncol=self.legpar[nax][1],
-                columnspacing=self.legpar[nax][2],
-                handletextpad=self.legpar[nax][3],
-                framealpha=self.legpar[nax][4],
+                loc=self.state.legpos[nax],
+                fontsize=self.state.legpar[nax][0],
+                ncol=self.state.legpar[nax][1],
+                columnspacing=self.state.legpar[nax][2],
+                handletextpad=self.state.legpar[nax][3],
+                framealpha=self.state.legpar[nax][4],
             )
         else:
             # Set the markerscale
             mscale = kwargs.get("mscale", 1.0)
             # Create the legend
             legg = ax.legend(
-                loc=self.legpos[nax],
-                fontsize=self.legpar[nax][0],
-                ncol=self.legpar[nax][1],
-                columnspacing=self.legpar[nax][2],
-                handletextpad=self.legpar[nax][3],
-                framealpha=self.legpar[nax][4],
+                loc=self.state.legpos[nax],
+                fontsize=self.state.legpar[nax][0],
+                ncol=self.state.legpar[nax][1],
+                columnspacing=self.state.legpar[nax][2],
+                handletextpad=self.state.legpar[nax][3],
+                framealpha=self.state.legpar[nax][4],
                 markerscale=mscale,
             )
 

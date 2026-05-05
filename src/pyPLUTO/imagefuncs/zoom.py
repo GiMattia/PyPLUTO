@@ -243,12 +243,12 @@ class ZoomManager(ImageMixin):
         """
         kwargs.pop("check", check)
 
-        self.tight = False
+        self.state.tight = False
 
         # Set or create figure and axes
         ax, nax = self.ImageToolsManager.assign_ax(ax, **kwargs)
 
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -258,11 +258,11 @@ class ZoomManager(ImageMixin):
             axins = self.place_inset_pos(ax, kwargs["pos"])
         else:
             axins = self.place_inset_loc(ax, **kwargs)
-        kwargs["fontsize"] = kwargs.get("fontsize", self.fontsize)
-        kwargs["titlesize"] = kwargs.get("titlesize", self.fontsize)
+        kwargs["fontsize"] = kwargs.get("fontsize", self.state.fontsize)
+        kwargs["titlesize"] = kwargs.get("titlesize", self.state.fontsize)
 
-        self.ax.append(axins)
-        self.CreateAxesManager.add_ax(axins, len(self.ax))
+        self.state.ax.append(axins)
+        self.CreateAxesManager.add_ax(axins, len(self.state.ax))
 
         # Set ticks (None is the default value)
         if "xticks" not in kwargs:
@@ -355,9 +355,9 @@ class ZoomManager(ImageMixin):
                 "Please provide a variable to plot."
             )
         # pcm0 = kwargs.pop('var', pcm.reshape((lxc, lyc)).T)
-        kwargs["vmin"] = kwargs.pop("vmin", self.vlims[nax][0])
-        kwargs["vmax"] = kwargs.pop("vmax", self.vlims[nax][1])
-        kwargs["tresh"] = kwargs.pop("tresh", self.vlims[nax][2])
+        kwargs["vmin"] = kwargs.pop("vmin", self.state.vlims[nax][0])
+        kwargs["vmax"] = kwargs.pop("vmax", self.state.vlims[nax][1])
+        kwargs["tresh"] = kwargs.pop("tresh", self.state.vlims[nax][2])
 
         self.DisplayManager.display(
             pcm0, x1=xc, x2=yc, ax=axins, check=False, shading=psh, **kwargs

@@ -17,8 +17,6 @@ class ImageState:
     runtime.
     """
 
-    # pylint: disable=too-many-instance-attributes
-
     ax: list[Axes] = field(default_factory=list)
     color: list[str] = field(default_factory=list)
     dictcol: dict[int, str] = field(default_factory=dict)

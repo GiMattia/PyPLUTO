@@ -2,9 +2,10 @@
 
 import warnings
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
+from numpy.typing import NDArray
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
@@ -77,8 +78,9 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
         for i, exout in enumerate(self.noutlist):
             LoadVariables(state, loadvars, i, exout)
 
-        for key in self.d_vars:
-            setattr(self.state, str(key), self.d_vars[key])
+        for key, value in self.d_vars.items():
+            typed_value = cast(NDArray[Any], value)
+            setattr(self.state, str(key), typed_value)
 
         if isinstance(self.ntimelist, np.ndarray) and len(self.ntimelist) == 1:
             self.ntime = self.ntimelist[0]

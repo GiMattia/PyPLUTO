@@ -17,13 +17,11 @@ class BaseLoadState:
     loading at runtime.
     """
 
-    # pylint: disable=too-many-instance-attributes
-
     alone: bool = field(init=False)
     charsize: int = field(init=False)
     class_name: str = field(init=False)
     code: str = "gPLUTO"
-    d_info: dict[str, Any] = field(init=False)
+    d_info: dict[str, Any] = field(default_factory=dict)
     d_vars: dict[str, Any] = field(default_factory=dict)
     datatype: str = "Unknown"
     endian: str | None = None
@@ -41,5 +39,5 @@ class BaseLoadState:
     pathdir: str | Path = "./"
     text: bool | None = None
     timelist: NDArray[Any] = field(init=False)
-    varoffset: dict[str, Any] = field(init=False)
-    varshape: dict[str, Any] = field(init=False)
+    varoffset: dict[str, Any] = field(default_factory=dict)
+    varshape: dict[str, Any] = field(default_factory=dict)

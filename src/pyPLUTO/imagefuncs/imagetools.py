@@ -74,7 +74,7 @@ class ImageToolsManager(ImageMixin):
             >>> I.savefig("namefile.png")
 
         """
-        if not self.fig:
+        if not self.state.fig:
             raise ValueError("No figure to save. Please create a figure first.")
         out_path = Path(filename)
 
@@ -84,7 +84,7 @@ class ImageToolsManager(ImageMixin):
             base_dir = caller_file.parent
             out_path = base_dir / out_path
 
-        self.fig.savefig(out_path, bbox_inches=bbox, dpi=dpi)
+        self.state.fig.savefig(out_path, bbox_inches=bbox, dpi=dpi)
 
     def show(
         self,
@@ -176,7 +176,7 @@ class ImageToolsManager(ImageMixin):
         # Find figure and number of the axis
         ax, nax = self.assign_ax(ax, **kwargs)
 
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -185,7 +185,7 @@ class ImageToolsManager(ImageMixin):
         coordinates = {
             "fraction": ax.transAxes,
             "points": ax.transData,
-            "figure": self.fig.transFigure,
+            "figure": self.state.fig.transFigure,
         }
 
         # Set the 'xycoords' keyword
@@ -212,7 +212,7 @@ class ImageToolsManager(ImageMixin):
             text,
             c=kwargs.get("c", "k"),
             transform=coord,
-            fontsize=kwargs.get("textsize", self.fontsize),
+            fontsize=kwargs.get("textsize", self.state.fontsize),
             horizontalalignment=hortx,
             verticalalignment=vertx,
             bbox=kwargs.get("bbox", bbox),
@@ -260,12 +260,12 @@ class ImageToolsManager(ImageMixin):
             >>> _assign_ax([ax], **kwargs)
 
         """
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
         # Check if the axis is None and no axis is present (and create one)
-        if ax is None and len(self.ax) == 0:
+        if ax is None and len(self.state.ax) == 0:
             ax = self.CreateAxesManager.create_axes(
                 ncol=1, nrow=1, check=False, **kwargs
             )
@@ -273,17 +273,21 @@ class ImageToolsManager(ImageMixin):
         # Check if the axis is None and an axis is present (and select the last
         # one, the current axis if it belongs to the one saved in the figure or
         # the last one saved
-        elif ax is None and len(self.ax) > 0:
-            ax = self.fig.gca() if self.fig.gca() in self.ax else self.ax[-1]
+        elif ax is None and len(self.state.ax) > 0:
+            ax = (
+                self.state.fig.gca()
+                if self.state.fig.gca() in self.state.ax
+                else self.state.ax[-1]
+            )
 
         # Check if the axis is a list and select the first element
-        elif isinstance(ax, list):
+        elif isinstance(ax, list) and isinstance(ax[0], Axes):
             ax = ax[0]
 
         # Check if the axis is an int, and select the corresponding axis from
         # the list of axes
         elif isinstance(ax, int):
-            ax = self.ax[ax]
+            ax = self.state.ax[ax]
 
         # If none of the previous cases is satisfied assert that ax is an axis
         if not isinstance(ax, Axes):
@@ -293,12 +297,12 @@ class ImageToolsManager(ImageMixin):
         fig = ax.get_figure()
 
         # Check if the figure is the same as the one in the class
-        if fig != self.fig:
+        if fig != self.state.fig:
             text = "The provided axis does not belong to the expected figure."
             raise ValueError(text)
 
         # Find the number of the axes and return it
-        nax = self.ax.index(ax)
+        nax = self.state.ax.index(ax)
 
         # Return the axis and its index
         return ax, nax
@@ -327,12 +331,12 @@ class ImageToolsManager(ImageMixin):
 
         """
         # Check if the text has already been removed
-        if self.ntext[nax] is None and txts is not None:
+        if self.state.ntext[nax] is None and txts is not None:
             for txt in txts:
                 txt.set_visible(False)
 
             # Set the text as removed
-            self.ntext[nax] = 1
+            self.state.ntext[nax] = 1
 
         # End of the function
 

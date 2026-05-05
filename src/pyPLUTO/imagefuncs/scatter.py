@@ -196,14 +196,14 @@ class ScatterManager(ImageMixin):
             kwargs.pop("ax", None), **kwargs
         )
 
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
         # Keywords xrange and yrange
-        if not kwargs.get("xrange") and self.setax[nax] != 1:
+        if not kwargs.get("xrange") and self.state.setax[nax] != 1:
             kwargs["xrange"] = [x.min(), x.max()]
-        if not kwargs.get("yrange") and self.setay[nax] != 1:
+        if not kwargs.get("yrange") and self.state.setay[nax] != 1:
             kwargs["yrange"] = [y.min(), y.max()]
 
         # Set ax parameters
@@ -228,7 +228,7 @@ class ScatterManager(ImageMixin):
         cpos = kwargs.get("cpos")
         cscale = kwargs.get("cscale", "norm")
         tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
-        self.vlims[nax] = [vmin, vmax, tresh]
+        self.state.vlims[nax] = [vmin, vmax, tresh]
 
         # Set the colorbar scale
         if not isinstance(c, str) and c is not None:
@@ -252,8 +252,8 @@ class ScatterManager(ImageMixin):
         )
 
         # Creation of the legend
-        self.legpos[nax] = kwargs.get("legpos", self.legpos[nax])
-        if self.legpos[nax] is not None:
+        self.state.legpos[nax] = kwargs.get("legpos", self.state.legpos[nax])
+        if self.state.legpos[nax] is not None:
             copy_label = kwargs.get("label")
             kwargs["label"] = None
             self.LegendManager.legend(ax, check=False, fromplot=True, **kwargs)
@@ -264,7 +264,7 @@ class ScatterManager(ImageMixin):
             self.ColorbarManager.colorbar(pcm, check=False, **kwargs)
 
         # If tight_layout is enabled, is re-inforced
-        if self.tight:
-            self.fig.tight_layout()
+        if self.state.tight:
+            self.state.fig.tight_layout()
 
         return pcm

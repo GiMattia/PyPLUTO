@@ -37,12 +37,12 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
         }
 
         # If not code is provided (or the code is PLUTO/gPLUTO) just skip
-        if self.code.lower() in codedict:
-            if self.text is not False:
-                print(f"Loading data from code: {self.code}")
-            codedict[self.code.lower()](nout, **kwargs)
+        if self.state.code.lower() in codedict:
+            if self.state.text is not False:
+                print(f"Loading data from code: {self.state.code}")
+            codedict[self.state.code.lower()](nout, **kwargs)
 
         else:
             raise NotImplementedError(
-                f"{self.code} loading is not implemented!"
+                f"{self.state.code} loading is not implemented!"
             )

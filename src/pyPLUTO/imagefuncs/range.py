@@ -58,7 +58,7 @@ class RangeManager(ImageMixin):
             ax.set_xlim(xlim[0], xlim[1])
 
             # Case switched to 2 (previous limits are present now)
-            self.setax[nax] = 2
+            self.state.setax[nax] = 2
 
         # Case 1: limits are already set and they should not be changed
         #         (aka do nothing)
@@ -75,7 +75,7 @@ class RangeManager(ImageMixin):
             ax.set_xlim(xlim[0], xlim[1])
 
             # Case switched to 1 (no change unless stated explicitly otherwise)
-            self.setax[nax] = 1
+            self.state.setax[nax] = 1
 
         # End of the function
 
@@ -138,14 +138,14 @@ class RangeManager(ImageMixin):
 
             # Extend slightly the range
             ymin, ymax = self.range_offset(
-                smally.min(), smally.max(), self.yscale[nax]
+                smally.min(), smally.max(), self.state.yscale[nax]
             )
             # ymin   = smally.min() - 0.02*np.abs(smally.min())
             # ymax   = smally.max() + 0.02*np.abs(smally.max())
             ax.set_ylim(ymin, ymax)
 
             # Switch to case 2 (previous limits are present now)
-            self.setay[nax] = 2
+            self.state.setay[nax] = 2
 
         # Case 1: limits are already set and they should not be changed
         # (aka do nothing)
@@ -162,7 +162,7 @@ class RangeManager(ImageMixin):
 
             # Extend slightly the range (not perfect method)
             ymin, ymax = self.range_offset(
-                smally.min(), smally.max(), self.yscale[nax]
+                smally.min(), smally.max(), self.state.yscale[nax]
             )
             # ymin   = smally.min() - 0.02*np.abs(smally.min())
             # ymax   = smally.max() + 0.02*np.abs(smally.max())
@@ -177,7 +177,7 @@ class RangeManager(ImageMixin):
             ax.set_ylim(ylim[0], ylim[1])
 
             # Case switched to 1 (no change unless stated explicitly otherwise)
-            self.setay[nax] = 1
+            self.state.setay[nax] = 1
 
         # End of the function
 

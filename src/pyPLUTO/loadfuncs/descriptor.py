@@ -56,11 +56,8 @@ class DescriptorManager(LoadMixin):
             >>> _read_outfile(0, "big")
 
         """
-        if self.datatype is None:
-            raise ValueError("Format not defined. Cannot read descriptor file.")
-
         # Read and parse the 'filetype'.out file — pure Python split, no Pandas
-        pathdata = self.pathdir / Path(self.datatype + ".out")
+        pathdata = self.state.pathdir / Path(self.state.datatype + ".out")
         rows = [
             line.split()
             for line in pathdata.read_text().splitlines()
@@ -68,35 +65,46 @@ class DescriptorManager(LoadMixin):
         ]
 
         # Store the output and the time full list
-        self.outlist = np.array([r[0] for r in rows], dtype=np.int32)
-        self.timelist = np.array([r[1] for r in rows], dtype=np.float64)
-        self.lennoutlist = len(self.outlist)
+        self.state.outlist = np.array([r[0] for r in rows], dtype=np.int32)
+        self.state.timelist = np.array([r[1] for r in rows], dtype=np.float64)
+        self.state.lennoutlist = len(self.state.outlist)
 
         # Check the output lines
         self.LoadToolManager.check_nout(nout)
-        self.ntimelist = self.timelist[self.noutlist]
-        self.lennout = len(self.noutlist)
+        self.state.ntimelist = self.state.timelist[self.state.noutlist]
+        self.state.lennout = len(self.state.noutlist)
 
         # Initialize the info dictionary
-        self.d_info = {
-            "typefile": np.array([rows[k][4] for k in self.outlist]),
+        self.state.d_info = {
+            "typefile": np.array([rows[k][4] for k in self.state.outlist]),
             "endianess": np.array(
-                [">" if rows[k][5] == "big" else "<" for k in self.outlist]
+                [
+                    ">" if rows[k][5] == "big" else "<"
+                    for k in self.state.outlist
+                ]
             ),
         }
 
         # Compute the endianess (vtk always big endian).
         # If endian is given, it is used instead of the one in the file.
-        self.d_info["endianess"][:] = (
-            ">" if self.datatype == "vtk" else self.d_info["endianess"]
+        self.state.d_info["endianess"][:] = (
+            ">"
+            if self.state.datatype == "vtk"
+            else self.state.d_info["endianess"]
         )
-        self.d_info["endianess"][:] = (
-            self.endian if self.endian is not None else self.d_info["endianess"]
+        self.state.d_info["endianess"][:] = (
+            self.state.endian
+            if self.state.endian is not None
+            else self.state.d_info["endianess"]
         )
-        self.d_info["varslist"] = [rows[k][6:] for k in self.outlist]
+        self.state.d_info["varslist"] = [
+            rows[k][6:] for k in self.state.outlist
+        ]
 
-        self.d_info["binformat"] = np.char.add(
-            self.d_info["endianess"], "f" + str(self.charsize)
+        self.state.d_info["binformat"] = np.char.add(
+            self.state.d_info["endianess"], "f" + str(self.state.charsize)
         )
-        format_string = f".%04d.{self.datatype}"
-        self.d_info["endpath"] = np.char.mod(format_string, self.outlist)
+        format_string = f".%04d.{self.state.datatype}"
+        self.state.d_info["endpath"] = np.char.mod(
+            format_string, self.state.outlist
+        )

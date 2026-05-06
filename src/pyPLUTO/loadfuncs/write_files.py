@@ -1,283 +1,127 @@
+"""Module for writing external files."""
+
 import warnings
+from pathlib import Path
 from typing import Any
 
 import h5py
 from numpy.typing import NDArray
 
-
-def _write_h5(
-    self,
-    data: NDArray | dict,
-    filename: str,
-    dataname: str | None = None,
-    grid: bool = False,
-    **kwargs: Any,
-) -> None:
-    """Write the data to a HDF5 file.
-
-    Returns
-    -------
-    - None
-
-    Parameters
-    ----------
-    - data (not optional): NDArray | dict
-        the data to write to the HDF5 file
-    - dataname: str
-        the name of the data to write to the HDF5 file
-    - filename (not optional): str
-        the name of the HDF5 file
-    - grid: bool
-        if True, write the grid to the HDF5 file
-
-    ----
-
-    Examples
-    --------
-    - Example #1: Write the data to a HDF5 file
-
-        >>> write_h5("data.h5")
-
-    """
-    # Create the path to the HDF5 file
-    path_h5 = self.pathdir / filename
-    if not filename.endswith(".h5"):
-        path_h5 += ".h5"
-
-    # Open the HDF5 file
-    with h5py.File(path_h5, "w") as f:
-        # Write the data to the HDF5 file
-        if isinstance(data, dict):
-            for key in data.keys():
-                f.create_dataset(key, data=data[key])
-        else:
-            dataname = "data" if dataname is None else dataname
-            f.create_dataset(dataname, data=data)
-
-        # Write the grid to the HDF5 file
-        if grid is True:
-            f.create_dataset("nx1", data=kwargs.get("nx1", self.nx1))
-            f.create_dataset("nx2", data=kwargs.get("nx2", self.nx2))
-            f.create_dataset("nx3", data=kwargs.get("nx3", self.nx3))
-            f.create_dataset("x1", data=kwargs.get("x1", self.x1))
-            f.create_dataset("x2", data=kwargs.get("x2", self.x2))
-            f.create_dataset("x3", data=kwargs.get("x3", self.x3))
-            f.create_dataset("dx1", data=kwargs.get("dx1", self.dx1))
-            f.create_dataset("dx2", data=kwargs.get("dx2", self.dx2))
-            f.create_dataset("dx3", data=kwargs.get("dx3", self.dx3))
-
-    # End of the function
+from pyPLUTO.loadmixin import LoadMixin
+from pyPLUTO.loadstate import LoadState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
-def write_vtk(self):
-    """Write the data to a VTK file.
+class WriteFilesManager(LoadMixin):
+    """Class that manages writing data to external files."""
 
-    Returns
-    -------
-    - None
+    def __init__(self, state: LoadState) -> None:
+        self.state = state
 
-    Parameters
-    ----------
-    - None
+    @track_kwargs
+    def _write_h5(
+        self,
+        data: NDArray | dict,
+        filename: str,
+        dataname: str | None = None,
+        grid: bool = False,
+        **kwargs: Any,
+    ) -> None:
+        """Write data to an HDF5 file."""
+        path_h5 = self.state.pathdir / Path(filename)
+        if not filename.endswith(".h5"):
+            path_h5 = f"{path_h5}.h5"
 
-    ----
+        with h5py.File(str(path_h5), "w") as f:
+            if isinstance(data, dict):
+                for key in data:
+                    f.create_dataset(key, data=data[key])
+            else:
+                dataname = "data" if dataname is None else dataname
+                f.create_dataset(dataname, data=data)
 
-    Examples
-    --------
-    - Example #1: Write the data to a VTK file
+            if grid is True:
+                f.create_dataset("nx1", data=kwargs.get("nx1", self.state.nx1))
+                f.create_dataset("nx2", data=kwargs.get("nx2", self.state.nx2))
+                f.create_dataset("nx3", data=kwargs.get("nx3", self.state.nx3))
+                f.create_dataset("x1", data=kwargs.get("x1", self.state.x1))
+                f.create_dataset("x2", data=kwargs.get("x2", self.state.x2))
+                f.create_dataset("x3", data=kwargs.get("x3", self.state.x3))
+                f.create_dataset("dx1", data=kwargs.get("dx1", self.state.dx1))
+                f.create_dataset("dx2", data=kwargs.get("dx2", self.state.dx2))
+                f.create_dataset("dx3", data=kwargs.get("dx3", self.state.dx3))
 
-        >>> write_vtk()
+    @track_kwargs
+    def _write_vtk(
+        self,
+        data: NDArray | dict,
+        filename: str,
+        dataname: str | None = None,
+        grid: bool = False,
+        **kwargs: Any,
+    ) -> None:
+        """Write data to a VTK file."""
+        raise NotImplementedError("write_vtk() is not yet implemented.")
 
-    """
-    raise NotImplementedError("write_vtk() is not yet implemented.")
-    # Create the path to the VTK file
-    self._pathvtk = self.pathdir / (self.datatype + ".vtk")
+    @track_kwargs
+    def _write_tab(
+        self,
+        data: NDArray | dict,
+        filename: str,
+        dataname: str | None = None,
+        grid: bool = False,
+        **kwargs: Any,
+    ) -> None:
+        """Write data to a tab-separated file."""
+        raise NotImplementedError("write_tab() is not yet implemented.")
 
-    # Open the VTK file
-    with open(self._pathvtk, "w") as f:
-        # Write the header to the VTK file
-        f.write("# vtk DataFile Version 3.0\n")
-        f.write("VTK file for " + self.datatype + "\n")
-        f.write("ASCII\n")
-        f.write("DATASET STRUCTURED_POINTS\n")
-        f.write(
-            "DIMENSIONS "
-            + str(self.grid["nx1"])
-            + " "
-            + str(self.grid["nx2"])
-            + " "
-            + str(self.grid["nx3"])
-            + "\n"
-        )
-        f.write(
-            "ORIGIN "
-            + str(self.grid["x1"][0])
-            + " "
-            + str(self.grid["x2"][0])
-            + " "
-            + str(self.grid["x3"][0])
-            + "\n"
-        )
-        f.write(
-            "SPACING "
-            + str(self.grid["dx1"])
-            + " "
-            + str(self.grid["dx2"])
-            + " "
-            + str(self.grid["dx3"])
-            + "\n"
-        )
-        f.write(
-            "POINT_DATA "
-            + str(self.grid["nx1"] * self.grid["nx2"] * self.grid["nx3"])
-            + "\n"
-        )
+    @track_kwargs
+    def _write_bin(
+        self,
+        data: NDArray | dict,
+        filename: str,
+        dataname: str | None = None,
+        grid: bool = False,
+        **kwargs: Any,
+    ) -> None:
+        """Write data to a binary file."""
+        raise NotImplementedError("write_bin() is not yet implemented.")
 
-        # Write the data to the VTK file
-        for key in self.data.keys():
-            f.write("SCALARS " + key + " float\n")
-            f.write("LOOKUP_TABLE default\n")
-            for i in range(self.grid["nx1"]):
-                for j in range(self.grid["nx2"]):
-                    for k in range(self.grid["nx3"]):
-                        f.write(str(self.data[key][i, j, k]) + "\n")
+    @track_kwargs
+    def write_file(
+        self,
+        data: NDArray | dict,
+        filename: str,
+        datatype: str | None = None,
+        dataname: str | None = None,
+        grid: bool = False,
+        **kwargs: Any,
+    ) -> None:
+        """Write the input data to a file."""
+        if datatype is None:
+            datatype = filename.rsplit(".", maxsplit=1)[-1]
+        writers = {
+            "h5": self._write_h5,
+            "vtk": self._write_vtk,
+            "tab": self._write_tab,
+            "dbl": self._write_bin,
+            "flt": self._write_bin,
+        }
+        writer = writers.get(datatype)
 
-    # End of the function
+        if writer is None:
+            warn = f"Invalid datatype: {datatype}. Resetting to 'h5'"
+            warnings.warn(warn, UserWarning, stacklevel=2)
+            self._write_h5(data, filename, dataname, grid, **kwargs)
+            return
 
+        if datatype != "h5":
+            warn = (
+                f"Invalid datatype: {datatype}, not implemented yet! "
+                "Resetting to 'h5'"
+            )
+            warnings.warn(warn, UserWarning, stacklevel=2)
+            self._write_h5(data, filename, dataname, grid, **kwargs)
+            return
 
-def write_tab(self):
-    """Write the data to a tab-separated file.
-
-    Returns
-    -------
-    - None
-
-    Parameters
-    ----------
-    - None
-
-    ----
-
-    Examples
-    --------
-    - Example #1: Write the data to a tab-separated file
-
-        >>> write_tab()
-
-    """
-    raise NotImplementedError("write_tab() is not yet implemented.")
-
-    # Create the path to the tab-separated file
-    self._pathtab = self.pathdir / (self.datatype + ".tab")
-
-    # Open the tab-separated file
-    with open(self._pathtab, "w") as f:
-        # Write the header to the tab-separated file
-        f.write("# " + self.datatype + "\n")
-
-        # Write the data to the tab-separated file
-        for key in self.data.keys():
-            f.write("# " + key + "\n")
-            for i in range(self.grid["nx1"]):
-                for j in range(self.grid["nx2"]):
-                    for k in range(self.grid["nx3"]):
-                        f.write(str(self.data[key][i, j, k]) + "\t")
-                    f.write("\n")
-
-    # End of the function
-
-
-def write_bin(self):
-    """Write the data to a binary file.
-
-    Returns
-    -------
-    - None
-
-    Parameters
-    ----------
-    - None
-
-    ----
-
-    Examples
-    --------
-    - Example #1: Write the data to a binary file
-
-        >>> write_bin()
-
-    """
-    raise NotImplementedError("write_bin() is not yet implemented.")
-
-    # Create the path to the binary file
-    self._pathbin = self.pathdir / (self.datatype + ".bin")
-
-    # Open the binary file
-    with open(self._pathbin, "wb") as f:
-        # Write the data to the binary file
-        for key in self.data.keys():
-            f.write(self.data[key].tobytes())
-
-    # End of the function
-
-
-def write_file(
-    self,
-    data: NDArray | dict,
-    filename: str,
-    datatype: str | None = None,
-    dataname: str | None = None,
-    grid: bool = False,
-    **kwargs: Any,
-) -> None:
-    """Write the data to a file.
-
-    Returns
-    -------
-    - None
-
-    Parameters
-    ----------
-    - data (not optional): NDArray | dict
-        the data to write to the file
-    - datatype: str
-        the type of the file
-    - dataname: str
-        the name of the data to write to the file
-    - filename (not optional): str
-        the name of the file
-    - grid: bool
-        if True, write the grid to the file
-    - **kwargs: Any
-        additional keyword arguments
-
-    ----
-
-    Examples
-    --------
-    - Example #1: Write the data to a file
-
-            >>> write_file("data.h5")
-
-    """
-    # Check the datatype of the input data
-    if datatype is None:
-        datatype = filename.rsplit(".", maxsplit=1)[-1]
-    poss_types = {"dbl", "flt", "vtk", "h5", "tab"}
-    if datatype not in poss_types:
-        warn = f"Invalid datatype: {datatype}. Resetting to 'h5'"
-        warnings.warn(warn)
-        datatype = "h5"
-
-    # Check the format of the output files
-    if datatype == "h5":
-        _write_h5(self, data, filename, dataname, grid, **kwargs)
-    else:
-        warn = (
-            f"Invalid datatype: {datatype}, not implemented yet! "
-            "Resetting to 'h5'"
-        )
-        warnings.warn(warn)
-        pass
-
-    # End of the function
+        writer(data, filename, dataname, grid, **kwargs)

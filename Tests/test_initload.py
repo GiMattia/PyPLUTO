@@ -51,4 +51,5 @@ def test_wrongattr():
 def test_Image_prints_message(capfd):
     Data = pp.Load(path=path / "single_file")
     captured = capfd.readouterr()
-    assert "Load: Load class initialized." in captured.out
+    assert "Load: folder " in captured.out
+    assert "output " in captured.out

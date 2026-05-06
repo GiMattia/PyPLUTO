@@ -570,7 +570,7 @@ def _read_gridfile(self) -> None:
     nmax, xL, xR = [], [], []
 
     # Open and read the gridfile
-    with open(self._pathgrid) as gfp:
+    with open(self.pathgrid) as gfp:
         for i in gfp.readlines():
             self._split_gridfile(i, xL, xR, nmax)
 

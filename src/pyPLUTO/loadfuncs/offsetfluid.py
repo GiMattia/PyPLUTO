@@ -365,7 +365,7 @@ class OffsetFluid(LoadMixin):
         This method is intentionally isolated from other formats.
         """
         # Bridge AMR helpers (legacy naming) to the Newload state fields.
-        self.filepath = self.filepath
+        self._filepath = self.filepath
         self.pathgrid = self.pathdir / Path("grid.out")
         if not hasattr(self, "level"):
             self.level = 0

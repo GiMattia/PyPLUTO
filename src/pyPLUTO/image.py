@@ -2,8 +2,6 @@
 
 # ruff: noqa: ANN201  # noqa: RUF100
 
-from __future__ import annotations
-
 from typing import Unpack
 
 from pyPLUTO.amr import oplotbox

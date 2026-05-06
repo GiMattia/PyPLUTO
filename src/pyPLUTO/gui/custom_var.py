@@ -110,10 +110,25 @@ def evaluate_custom_var(D, name: str, expr: str, *, assign: bool = True):
     if name in _frozen_var_names(D):
         raise ValueError(f"protected name: {name}")
 
-    # Build locals from D (public, non-callable) + constants
+    # Build locals from D (public, non-callable) + constants.
+    # NOTE: with the new loader many arrays live in D.state and are exposed
+    # through properties/proxy __getattr__, so D.__dict__ alone is not enough.
     local = {"pi": float(np.pi), "e": float(np.e)}
     for k, v in D.__dict__.items():
         if not k.startswith("_") and not callable(v):
+            local[k] = v
+    if (state := getattr(D, "state", None)) is not None:
+        for k, v in state.__dict__.items():
+            if not k.startswith("_") and not callable(v):
+                local[k] = v
+    for k in ("x1", "x2", "x3", "dx1", "dx2", "dx3", "nx1", "nx2", "nx3"):
+        if k in local:
+            continue
+        try:
+            v = getattr(D, k)
+        except Exception:
+            continue
+        if not callable(v):
             local[k] = v
 
     _apply_grid_shaping(local, D)  # <<< add this
@@ -289,6 +304,19 @@ def _build_locals(D):
     local = {"pi": float(np.pi), "e": float(np.e)}
     for k, v in D.__dict__.items():
         if not k.startswith("_") and not callable(v):
+            local[k] = v
+    if (state := getattr(D, "state", None)) is not None:
+        for k, v in state.__dict__.items():
+            if not k.startswith("_") and not callable(v):
+                local[k] = v
+    for k in ("x1", "x2", "x3", "dx1", "dx2", "dx3", "nx1", "nx2", "nx3"):
+        if k in local:
+            continue
+        try:
+            v = getattr(D, k)
+        except Exception:
+            continue
+        if not callable(v):
             local[k] = v
     return local
 

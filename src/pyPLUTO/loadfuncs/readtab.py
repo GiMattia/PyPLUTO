@@ -41,8 +41,6 @@ class ReadtabManager(LoadMixin):
             >>> _read_tabfile(0)
 
         """
-        Dict_tab = {}
-
         # Read entire mmap in one call
         mm.seek(0)
         raw = mm.read()
@@ -100,6 +98,5 @@ class ReadtabManager(LoadMixin):
             col = data[:, j]
             if empty_lines > 0:
                 col = col.reshape(self.state.nx1, self.state.nx2)
-            Dict_tab[var] = col
             if var in self.load_vars:
                 setattr(self.state, var, col)

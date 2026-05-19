@@ -23,8 +23,6 @@ vtk      2.0   -1   single_file
 """
 
 # Loading the relevant packages
-import timeit
-
 import pyPLUTO
 
 # Set the relative path to the data folder
@@ -41,28 +39,6 @@ Image = pyPLUTO.Image(
 # Creating the subplots
 ax = Image.create_axes(ncol=2, top=0.91)
 
-try:
-    import rustronomy as rastro
-
-    t0 = timeit.default_timer()
-    lines2 = rastro.find_fieldlines(
-        Data,
-        Data.Bx1,
-        Data.Bx2,
-        x1=Data.x1,
-        x2=Data.x2,
-        x0=[0.1, 0.2, 0.3],
-        y0=[0.0, 0.0, 0.0],
-        order="RK45",
-        maxstep=0.1,
-        numsteps=50000,
-    )
-    t_rastro = timeit.default_timer() - t0
-    print(f"[test05] rustronomy find_fieldlines: {t_rastro:.6f} s")
-except ImportError:
-    print("[test05] rustronomy not available.")
-
-t0 = timeit.default_timer()
 lines = Data.find_fieldlines(
     Data.Bx1,
     Data.Bx2,
@@ -74,8 +50,6 @@ lines = Data.find_fieldlines(
     maxstep=0.1,
     numsteps=25000,
 )
-t_scipy = timeit.default_timer() - t0
-print(f"[test05] PyPLUTO find_fieldlines: {t_scipy:.6f} s")
 
 # Plotting the data
 Image.display(
@@ -112,21 +86,16 @@ Image.display(
 )
 
 # Plot the field lines in two different ways
-try:
-    Image.plot(lines2[0][0], lines2[0][1], ax=0, c="k", lw=1.5)
-    Image.plot(lines2[1][0], lines2[1][1], ax=0, c="k", lw=1.5)
-    Image.plot(lines2[2][0], lines2[2][1], ax=0, c="k", lw=1.5)
-except NotImplementedError:
-    Image.streamplot(
-        Data.Bx1,
-        Data.Bx2,
-        x1=Data.x1,
-        x2=Data.x2,
-        ax=0,
-        lw=1.5,
-        vmin=1.0e-4,
-        c="k",
-    )
+Image.streamplot(
+    Data.Bx1,
+    Data.Bx2,
+    x1=Data.x1,
+    x2=Data.x2,
+    ax=0,
+    lw=1.5,
+    vmin=1.0e-4,
+    c="k",
+)
 
 Image.plot(lines[0][0], lines[0][1], ax=1, c="k", lw=1.5)
 Image.plot(lines[1][0], lines[1][1], ax=1, c="k", lw=1.5)

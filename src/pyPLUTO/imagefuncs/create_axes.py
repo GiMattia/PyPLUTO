@@ -356,7 +356,6 @@ class CreateAxesManager(ImageMixin):
         # Fill the lists with the default values
         ratio = ratio + [1.0] * (length - len(ratio))
         space = space + [0.1] * (length - len(space) - 1)
-        print(ratio, length)
 
         # Check if the lists have the correct length
         if len(ratio) != length:

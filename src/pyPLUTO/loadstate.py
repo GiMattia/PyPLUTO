@@ -18,10 +18,7 @@ class LoadState(BaseLoadState):
     loading at runtime.
     """
 
-    # pylint: disable=too-many-instance-attributes
-
     defh: dict = field(init=False, repr=False)
-    dim: int = field(init=False)
     dx1: NDArray[Any] = field(init=False)
     dx2: NDArray[Any] = field(init=False)
     dx3: NDArray[Any] = field(init=False)
@@ -34,7 +31,6 @@ class LoadState(BaseLoadState):
     gridsize_st3: int = field(init=False)
     level: int = 0
 
-    nshp: int | tuple[int, ...] = field(init=False)
     nshp_st1: int | tuple[int, ...] | None = field(init=False)
     nshp_st2: tuple[int, ...] | None = field(init=False)
     nshp_st3: tuple[int, ...] | None = field(init=False)

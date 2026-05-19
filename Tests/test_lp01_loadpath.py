@@ -37,4 +37,4 @@ def test_wrongpath():
 def test_wrongattr():
     with pytest.raises(AttributeError):
         Data = pp.LoadPart(path=path, text=False)
-        Data.wrong
+        rep = Data.wrong

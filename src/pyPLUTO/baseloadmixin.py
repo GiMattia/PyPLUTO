@@ -88,6 +88,16 @@ class BaseLoadMixin(Generic[S]):
         self.state.datatype = value
 
     @property
+    def dim(self) -> int:
+        """Get the dim attribute of the load state."""
+        return self.state.dim
+
+    @dim.setter
+    def dim(self, value: int) -> None:
+        """Set the dim attribute of the load state."""
+        self.state.dim = value
+
+    @property
     def endian(self) -> str | None:
         """Get the endian attribute of the load state."""
         return self.state.endian
@@ -176,6 +186,16 @@ class BaseLoadMixin(Generic[S]):
     def noutlist(self, value: NDArray[Any]) -> None:
         """Set the nout attribute of the load state."""
         self.state.noutlist = value
+
+    @property
+    def nshp(self) -> int | tuple[int, ...]:
+        """Get the nshp attribute of the load state."""
+        return self.state.nshp
+
+    @nshp.setter
+    def nshp(self, value: int | tuple[int, ...]) -> None:
+        """Set the nshp attribute of the load state."""
+        self.state.nshp = value
 
     @property
     def ntime(self) -> int | NDArray[Any]:

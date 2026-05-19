@@ -472,9 +472,7 @@ class ImageToolsManager(ImageMixin):
             base_name = name[:-2]
             reverse = True
 
-        cmap = getattr(salsa, base_name, None)
-        print(cmap)
-        if cmap is not None:
+        if (cmap := getattr(salsa, base_name, None)) is not None:
             if reverse:
                 # Prefer .reversed() method if available
                 rev = getattr(cmap, "reversed", None)

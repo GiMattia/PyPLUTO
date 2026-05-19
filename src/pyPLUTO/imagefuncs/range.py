@@ -223,7 +223,6 @@ class RangeManager(ImageMixin):
         range_maxval = 10
         if np.log10(np.abs(data_range)) > range_maxval and scale != "linear":
             padding *= 2 * np.abs(np.log10(np.abs(data_range)))
-            print(padding)
 
         # Set the limits (additional check if the scale is logarithmic)
         if scale in ["linear", "symlog", "asinh"]:

@@ -161,10 +161,15 @@ class Load(LoadMixin):
 
         if self.state.text is not False:
             path = kwargs.get("path", self.state.pathdir)
-            if isinstance(self.state.nout, (int, np.integer)):
-                nout_out = int(self.state.nout)
+            if hasattr(self.state, "nout"):
+                if isinstance(self.state.nout, (int, np.integer)):
+                    nout_out = int(self.state.nout)
+                else:
+                    nout_out = (
+                        np.atleast_1d(self.state.nout).astype(int).tolist()
+                    )
             else:
-                nout_out = np.atleast_1d(self.state.nout).astype(int).tolist()
+                nout_out = None
             print(f"Load: folder {path},     output {nout_out}")
 
     def __str__(self) -> str:

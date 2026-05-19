@@ -66,10 +66,6 @@ dev = [
     "pydata-sphinx-theme",
 ]
 
-rust = [
-    "rustronomy",
-]
-
 notebook = [
     "ipython>=9.0.0",
 ]
@@ -87,7 +83,6 @@ dev-docs = [
 
 local-dev = [
     { include-group = "dev" },
-    { include-group = "rust" },
     { include-group = "test" },
     { include-group = "docs" },
     { include-group = "notebook" },
@@ -95,9 +90,14 @@ local-dev = [
 
 [project.scripts]
 pypluto-gui = "pyPLUTO.gui.main:main"
+pypluto-examples = "pyPLUTO.examples_cli:main"
 
 [tool.flit.module]
 name = "pyPLUTO"
+
+[project.urls]
+Homepage = "https://github.com/GiMattia/PyPLUTO"
+Examples = "https://github.com/GiMattia/PyPLUTO/tree/main/Examples"
 
 [tool.coverage.run]
 source = ["src"]
@@ -208,9 +208,6 @@ py-pluto = { path = ".", editable = true, extras = ["gui"] }
 [tool.pixi.feature.pasta.pypi-dependencies]
 py-pluto = { path = ".", editable = true, extras = ["pasta"] }
 
-[tool.pixi.feature.rust.pypi-dependencies]
-rustronomy = "*"
-
 [tool.pixi.feature.full.pypi-dependencies]
 py-pluto = { path = ".", editable = true, extras = ["gui", "pasta"] }
 
@@ -221,10 +218,9 @@ pasta = { features = ["pasta"] }
 full = { features = ["full"] }
 
 dev = { features = ["dev"] }
-rust = { features = ["rust"] }
 test = { features = ["test"] }
 docs = { features = ["docs"] }
 notebook = { features = ["notebook"] }
 dev-test = { features = ["dev", "test"] }
 dev-docs = { features = ["dev", "docs"] }
-local-dev = { features = ["dev", "rust", "test", "docs", "notebook"] }
+local-dev = { features = ["dev", "test", "docs", "notebook"] }

@@ -7,7 +7,7 @@ from typing import Any
 from numpy.typing import NDArray
 
 
-@dataclass(slots=True)
+@dataclass
 class BaseLoadState:
     """Class that stores the state of the Load class.
 
@@ -24,6 +24,7 @@ class BaseLoadState:
     d_info: dict[str, Any] = field(default_factory=dict)
     d_vars: dict[str, Any] = field(default_factory=dict)
     datatype: str = "Unknown"
+    dim: int = field(init=False)
     endian: str | None = None
     filepath: Path = field(init=False)
     infogrid: bool = True
@@ -31,9 +32,10 @@ class BaseLoadState:
     lennoutlist: int = field(init=False)
     matching_files: list[str] | None = None
     multiple: bool = False
-    nout: int | NDArray[Any] = field(init=False)
+    nout: int | NDArray[Any] = field(init=False, repr=False)
     noutlist: NDArray[Any] = field(init=False)
-    ntime: int | NDArray[Any] = field(init=False)
+    nshp: int | tuple[int, ...] = field(init=False)
+    ntime: int | NDArray[Any] = field(init=False, repr=False)
     ntimelist: NDArray[Any] = field(init=False)
     outlist: NDArray[Any] = field(init=False)
     pathdir: str | Path = "./"

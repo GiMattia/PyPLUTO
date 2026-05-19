@@ -367,6 +367,7 @@ def _findfiles(self, nout: int | str | list[int | str]) -> None:
 
     """
     # Initialization or declaration of variables
+
     class_name = self.__class__.__name__  # The class name
     self.set_vars = set()
     self.set_outs = set()

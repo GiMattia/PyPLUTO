@@ -20,8 +20,6 @@ grid. The image is then saved and shown on screen.
 """
 
 # Loading the relevant packages
-import timeit
-
 import numpy as np
 
 import pyPLUTO
@@ -79,46 +77,18 @@ Image.display(
 Bx, Bz, *others = Data.cartesian_vector("B")
 xc, yc, Bx, Bz = Data.reshape_cartesian(Bx, Bz, nx1=500)
 
-try:
-    t0 = timeit.default_timer()
-    import rustronomy as rastro
-
-    lines2 = rastro.find_fieldlines(
-        Data,
-        Bx,
-        Bz,
-        x1=xc,
-        x2=yc,
-        x0=[3.75, 4, 4.25],
-        y0=[0, 0, 0],
-        maxstep=0.07,
-        numsteps=25000,
-    )
-    t_rastro = timeit.default_timer() - t0
-    print(f"[test08] rustronomy find_fieldlines: {t_rastro:.6f} s")
-except ImportError:
-    print("[test08] rustronomy not available.")
-
-t0 = timeit.default_timer()
 lines = Data.find_fieldlines(
     Bx, Bz, x1=xc, x2=yc, x0=[3.75, 4, 4.25], y0=[0, 0, 0], maxstep=0.07
 )
-t_scipy = timeit.default_timer() - t0
-print(f"[test08] PyPLUTO    find_fieldlines: {t_scipy:.6f} s")
 
+# Plot the magnetic field lines in two different ways
 Image.plot(lines[0][0], lines[0][1], ax=1, c="gray")
 Image.plot(lines[1][0], lines[1][1], ax=1, c="gray")
 Image.plot(lines[2][0], lines[2][1], ax=1, c="gray")
 
-# Plot the magnetic field lines in two different ways
-try:
-    Image.plot(lines2[0][0], lines2[0][1], ax=0, c="gray")
-    Image.plot(lines2[1][0], lines2[1][1], ax=0, c="gray")
-    Image.plot(lines2[2][0], lines2[2][1], ax=0, c="gray")
-except NotImplementedError:
-    Image.streamplot(
-        Bx, Bz, x1=xc, x2=yc, ax=0, c="gray", lw=0.7, vmin=1.0e-5, density=5
-    )
+Image.streamplot(
+    Bx, Bz, x1=xc, x2=yc, ax=0, c="gray", lw=0.7, vmin=1.0e-5, density=5
+)
 
 # Saving the image and showing the plots
 Image.savefig("test08_torus.png", script_relative=True)

@@ -95,9 +95,17 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         self.state.d_info["endianess"] = np.empty(d_info_size, dtype="U20")
         self.state.d_info["binformat"] = np.empty(d_info_size, dtype="U20")
         if self.state.class_name == "LoadPart":
-            raise NotImplementedError(
-                "FindFilesManager for LoadPart is not implemented yet."
-            )
+            if "particles" not in set_vars:
+                raise FileNotFoundError(
+                    f"file particles.*.{self.datatype} \
+                                            not found!"
+                )
+
+            # Particles are always 'single_file', initialize additional vars
+            self.state.d_info["typefile"][:] = "single_file"
+            self.state.d_info["varslist"] = [[] for _ in range(d_info_size)]
+            self.state.d_info["varskeys"] = [[] for _ in range(d_info_size)]
+
         elif self.state.class_name == "Load":
             # Check if the fluid files are present as multiple files
             if "data" not in set_vars or self.state.multiple is True:

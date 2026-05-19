@@ -19,8 +19,6 @@ parameter in the pluto.ini should be changed to 0.05.
 """
 
 # Loading the relevant packages
-import timeit
-
 import pyPLUTO
 
 # Set the relative path to the data folder
@@ -52,29 +50,7 @@ Image.display(
     cpos="right",
 )
 
-try:
-    import rustronomy as rastro
-
-    t0 = timeit.default_timer()
-    lines2 = rastro.find_fieldlines(
-        Data,
-        Data.Bx1,
-        Data.Bx2,
-        x1=Data.x1,
-        x2=Data.x2,
-        y0=[0.0, 0.1, -0.1, 0.25, -0.25],
-        x0=[0.5, 0.5, 0.5, 0.5, 0.5],
-        order="RK45",
-        maxstep=0.001,
-        numsteps=10000,
-    )
-    t_rastro = timeit.default_timer() - t0
-    print(f"[test07] rustronomy find_fieldlines: {t_rastro:.6f} s")
-except ImportError:
-    print("[test07] rustronomy not available.")
-
 # Find and plot the field lines
-t0 = timeit.default_timer()
 lines = Data.find_fieldlines(
     Data.Bx1,
     Data.Bx2,
@@ -86,8 +62,6 @@ lines = Data.find_fieldlines(
     maxstep=0.001,
     numsteps=10000,
 )
-t_scipy = timeit.default_timer() - t0
-print(f"[test07] PyPLUTO    find_fieldlines: {t_scipy:.6f} s")
 
 for _, line in enumerate(lines):
     Image.plot(line[0], line[1], ax=0, c="k")

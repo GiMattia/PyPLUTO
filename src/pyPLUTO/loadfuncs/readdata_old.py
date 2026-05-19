@@ -342,6 +342,8 @@ def _findfiles(self, nout: int | str | list[int | str]) -> None:
     self._d_info["endianess"] = np.empty(self._lennout, dtype="U20")
     self._d_info["binformat"] = np.empty(self._lennout, dtype="U20")
 
+    print(self.set_vars)
+
     if class_name == "LoadPart":
         # Check if the particles file is present
         if "particles" not in self.set_vars:

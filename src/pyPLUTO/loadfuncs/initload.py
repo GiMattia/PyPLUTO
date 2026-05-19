@@ -14,6 +14,7 @@ from pyPLUTO.loadfuncs.descriptor import DescriptorManager
 from pyPLUTO.loadfuncs.findfiles import FindFilesManager
 from pyPLUTO.loadfuncs.findformat import FindFormat
 from pyPLUTO.loadfuncs.loadvars import LoadVariables
+from pyPLUTO.loadfuncs.storepart import StorePart
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.utils.inspector import track_kwargs
 
@@ -77,6 +78,9 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
 
         for i, exout in enumerate(self.state.noutlist):
             LoadVariables(state, loadvars, i, exout)
+
+        if not isinstance(state, LoadState):
+            StorePart(state).finalize()
 
         for key, value in self.state.d_vars.items():
             typed_value = cast(NDArray[Any], value)

@@ -20,6 +20,7 @@ authors = [
     { name = "B. Vaidya" }
 ]
 dependencies = [
+    "dask",
     "contourpy>=1.2.1",
     "numpy>=2.0.0",
     "matplotlib>=3.8.4",

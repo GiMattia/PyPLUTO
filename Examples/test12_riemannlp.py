@@ -26,7 +26,7 @@ data_path = pyPLUTO.find_example("Particles/LP/Riemann_2D")
 
 # Loading the data and the particle data into two pload objects
 Data_f = pyPLUTO.Load(path=data_path)
-Data_p = pyPLUTO.LoadPart(path=data_path, nfile_lp=0)
+Data_p = pyPLUTO.NewLoadPart(path=data_path, nfile_lp=0)
 
 # Creating the image and the axes
 Image = pyPLUTO.Image(figsize=[9.5, 8], nwin=12)

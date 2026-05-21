@@ -104,7 +104,3 @@ class DescriptorManager(LoadMixin):
         self.state.d_info["binformat"] = np.char.add(
             self.state.d_info["endianess"], "f" + str(self.state.charsize)
         )
-        format_string = f".%04d.{self.state.datatype}"
-        self.state.d_info["endpath"] = np.char.mod(
-            format_string, self.state.outlist
-        )

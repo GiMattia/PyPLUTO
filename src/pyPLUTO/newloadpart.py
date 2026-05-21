@@ -1,7 +1,7 @@
 """The Load class loads the data (fluid) from the output files."""
 
-# noqa: RUF100
-
+import contextlib
+import mmap as _mmap
 from typing import Any
 
 import numpy as np
@@ -10,6 +10,7 @@ from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.loadfuncs.initload import InitLoadManager
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.resolver import AttrResolver
 
 
 class LoadPart(BaseLoadMixin):
@@ -97,6 +98,7 @@ class LoadPart(BaseLoadMixin):
         kwargs.pop("kwargscheck", check)
 
         self.state: BaseLoadState = BaseLoadState()
+        self.cached_vars = set()
         self.state.text = kwargs.get("text", self.state.text)
         self.state.class_name = self.__class__.__name__
         InitLoadManager(self.state, nout, **kwargs)
@@ -138,7 +140,19 @@ class LoadPart(BaseLoadMixin):
 
     def __getattr__(self, name: str):  # noqa: ANN204
         """Get the attribute of the Load class."""
-        return getattr(self.state, name)
+        val = getattr(self.state, name)
+        return AttrResolver.resolve(self.state, name, val)
+
+    def compact(self) -> None:
+        """Evict file pages from the OS page cache.
+
+        After calling this, all previously accessed variables remain available
+        as heap arrays. Unaccessed variables are still readable — the OS will
+        re-fault their pages from disk on next access.
+        """
+        for mm in getattr(self.state, "_mmaps", []):
+            with contextlib.suppress(AttributeError, OSError):
+                mm.madvise(_mmap.MADV_DONTNEED)
 
     def __setattr__(self, name: str, value: object) -> None:
         """Set the attribute of the Load class."""

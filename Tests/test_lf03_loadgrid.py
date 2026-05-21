@@ -85,11 +85,11 @@ def test_alone_h5():
             datatype="dbl.h5",
             alone=True,
         )
-    npt.assert_allclose(Data.x1r, xr2D.T)
-    npt.assert_allclose(Data.x2r, yr2D.T)
+    npt.assert_allclose(Data.x1r, xr2D)
+    npt.assert_allclose(Data.x2r, yr2D)
 
-    npt.assert_allclose(Data.x1, xc2D.T)
-    npt.assert_allclose(Data.x2, yc2D.T)
+    npt.assert_allclose(Data.x1, xc2D)
+    npt.assert_allclose(Data.x2, yc2D)
 
     assert Data.dim == 2
     assert (Data.nx1, Data.nx2, Data.nx3) == (128, 128, 1)

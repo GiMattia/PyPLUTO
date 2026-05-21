@@ -9,10 +9,9 @@ import pyPLUTO as pp
 def ideal_solution(D, h5lone):
 
     if h5lone:
-        X, Y = D.x1, D.x2
-        print(X)
-        Yx = 0.5 * (D.x2r[:, 1:] + D.x2r[:, :-1])
-        Xy = 0.5 * (D.x1r[1:,] + D.x1r[:-1,])
+        X, Y = D.x1.T, D.x2.T
+        Yx = 0.5 * (D.x2r[1:, :] + D.x2r[:-1, :]).T
+        Xy = 0.5 * (D.x1r[:, 1:] + D.x1r[:, :-1]).T
     else:
         X, Y = np.meshgrid(D.x1, D.x2, indexing="ij")
         _, Yx = np.meshgrid(D.x1r, D.x2, indexing="ij")

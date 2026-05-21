@@ -68,12 +68,15 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         # Initialization or declaration of variables
         set_vars: set[str] = set()
         set_outs: set[str] = set()
+        set_chnk: dict = {}
 
+        # Check if matching files are actually present
         if self.state.matching_files is None:
             raise ValueError("No files are found! Cannot proceed.")
+
         # Find the files to be loaded
         for elem in self.state.matching_files:
-            self.varsout(elem, set_vars, set_outs)
+            self.varsout(elem, set_vars, set_outs, set_chnk)
 
         # Check if the files are present
         if len(set_vars) == 0 or len(set_outs) == 0:
@@ -105,6 +108,11 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
             self.state.d_info["typefile"][:] = "single_file"
             self.state.d_info["varslist"] = [[] for _ in range(d_info_size)]
             self.state.d_info["varskeys"] = [[] for _ in range(d_info_size)]
+            self.state.d_info["chnklist"] = [[] for _ in range(d_info_size)]
+            if len(set_chnk) > 0:
+                self.state.d_info["typefile"][:] = "multiple_files"
+                for out, chnks in set_chnk.items():
+                    self.state.d_info["chnklist"][out] = sorted(chnks)
 
         elif self.state.class_name == "Load":
             # Check if the fluid files are present as multiple files
@@ -124,20 +132,8 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         else:
             raise ValueError(f"Unknown class name: {self.state.class_name}")
 
-        # Sparse map indexed by output number
-        endpath = np.empty(
-            d_info_size, dtype=f"<U{len(self.state.datatype) + 6}"
-        )
-        endpath[:] = ""
-        for out in self.state.outlist:
-            endpath[int(out)] = f".{int(out):04d}.{self.state.datatype}"
-        self.state.d_info["endpath"] = endpath
-
     def varsout(
-        self,
-        elem: str,
-        set_vars: set,
-        set_outs: set,
+        self, elem: str, set_vars: set, set_outs: set, set_chnk: dict
     ) -> None:
         """Find the variables and the outputs for the fluid and particles files.
 
@@ -182,12 +178,15 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
             # Control variable set to True
             outc = True
         elif ispart and "_" in out:
-            pass
+            scrh = out.split("_")
+            out = int(scrh[0])
+            outc = int(scrh[1][2:])
+            set_chnk.setdefault(out, set()).add(outc)
         else:
             # Control variable set to False
             outc = False
 
-            # Add the variables and the outputs
-        if outc is True:
+        # Add the variables and the outputs
+        if outc is not False:
             set_vars.add(var)
             set_outs.add(int(out))

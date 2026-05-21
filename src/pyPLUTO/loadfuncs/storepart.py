@@ -34,18 +34,33 @@ class StorePart(BaseLoadMixin):
         var_keys_map = self.state.d_info.get("varskeys", [])
 
         tot_data = self.state.d_vars["tot"]
-        out_to_tot: dict[int, np.ndarray]
+        out_to_tot_chunks: dict[int, list[np.ndarray]]
 
         if isinstance(tot_data, dict):
-            out_to_tot = {
-                int(out): np.asarray(arr) for out, arr in tot_data.items()
-            }
+            out_to_tot_chunks = {}
+            for out, arr in tot_data.items():
+                out_i = int(out)
+                if isinstance(arr, list | tuple):
+                    out_to_tot_chunks[out_i] = [a for a in arr]
+                else:
+                    out_to_tot_chunks[out_i] = [arr]
         else:
-            # Single-output legacy layout.
-            out = int(np.atleast_1d(self.state.nout)[0])
-            out_to_tot = {out: np.asarray(tot_data)}
+            # Single-output layout: `nout` may be assigned after finalize().
+            if hasattr(self.state, "noutlist"):
+                out = int(np.atleast_1d(self.state.noutlist)[0])
+            elif hasattr(self.state, "nout"):
+                out = int(np.atleast_1d(self.state.nout)[0])
+            else:
+                raise AttributeError(
+                    "Cannot infer output index: neither 'noutlist' nor 'nout' "
+                    "is available in state."
+                )
+            if isinstance(tot_data, list | tuple):
+                out_to_tot_chunks = {out: [a for a in tot_data]}
+            else:
+                out_to_tot_chunks = {out: [tot_data]}
 
-        for out, arr in out_to_tot.items():
+        for out, chunks in out_to_tot_chunks.items():
             if out >= len(var_keys_map):
                 continue
 
@@ -64,7 +79,14 @@ class StorePart(BaseLoadMixin):
                 )
 
                 slc = ncol if ncomp == 1 else slice(ncol, ncol + ncomp)
-                part = arr[slc]
+                if len(chunks) == 1:
+                    # Single chunk: mmap-backed view, zero copy.
+                    part = chunks[0][slc]
+                else:
+                    # Multiple chunks: keep as a list of mmap-backed views.
+                    # Concatenation is deferred to first attribute access in
+                    # LoadPart.__getattr__ so no file pages are faulted here.
+                    part = [chunk[slc] for chunk in chunks]
 
                 if self.state.lennout != 1:
                     if var not in self.state.d_vars or not isinstance(
@@ -121,12 +143,29 @@ class StorePart(BaseLoadMixin):
         def _cast(arr: Any) -> np.ndarray:
             arr_np = np.asarray(arr)
             if self.state.datatype == "vtk":
+                # VTK stores id as int32 bits inside a float-typed field;
+                # view() reinterprets the bytes in-place — zero copy, no fault.
                 return arr_np.view(">i4")
-            return arr_np.astype("int")
+            # Binary: id is a float field whose VALUES are integer IDs (1.0,
+            # 2.0, …).  astype() would stride through every interleaved row and
+            # fault the entire file into RSS at load time.  Return the
+            # mmap-backed view as-is; callers can astype(int) on demand.
+            return arr_np
+
+        def _is_pending(val: object) -> bool:
+            return (
+                isinstance(val, list)
+                and bool(val)
+                and isinstance(val[0], np.ndarray)
+            )
 
         if isinstance(id_data, dict):
             self.state.d_vars["id"] = {
-                int(out): _cast(arr) for out, arr in id_data.items()
+                int(out): arr if _is_pending(arr) else _cast(arr)
+                for out, arr in id_data.items()
             }
+        elif _is_pending(id_data):
+            # Multi-chunk binary: list of mmap views — leave for lazy concat.
+            pass
         else:
             self.state.d_vars["id"] = _cast(id_data)

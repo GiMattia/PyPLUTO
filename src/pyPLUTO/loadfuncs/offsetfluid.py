@@ -188,12 +188,12 @@ class OffsetFluid(LoadMixin):
                 )
 
         if self.state.alone is True and self.state.infogrid is True:
-            self.state.x1 = h5file["cell_coords"]["X"][:].T
-            self.state.x2 = h5file["cell_coords"]["Y"][:].T
-            self.state.x3 = h5file["cell_coords"]["Z"][:].T
-            self.state.x1r = h5file["node_coords"]["X"][:].T
-            self.state.x2r = h5file["node_coords"]["Y"][:].T
-            self.state.x3r = h5file["node_coords"]["Z"][:].T
+            self.state.x1 = h5file["cell_coords"]["X"][:]
+            self.state.x2 = h5file["cell_coords"]["Y"][:]
+            self.state.x3 = h5file["cell_coords"]["Z"][:]
+            self.state.x1r = h5file["node_coords"]["X"][:]
+            self.state.x2r = h5file["node_coords"]["Y"][:]
+            self.state.x3r = h5file["node_coords"]["Z"][:]
             self.GridAloneManager.readgridh5()
         self.state.infogrid = False
 

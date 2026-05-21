@@ -13,6 +13,7 @@ from pyPLUTO.loadfuncs.write_files import WriteFilesManager
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.resolver import AttrResolver
 
 
 class Load(LoadMixin):
@@ -222,7 +223,8 @@ class Load(LoadMixin):
 
     def __getattr__(self, name: str):  # noqa: ANN204
         """Get the attribute of the Load class."""
-        return getattr(self.state, name)
+        val = getattr(self.state, name)
+        return AttrResolver.resolve(self.state, name, val)
 
     def __setattr__(self, name: str, value: object) -> None:
         """Set the attribute of the Load class."""

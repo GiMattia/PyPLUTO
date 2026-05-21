@@ -33,8 +33,8 @@ data_path = pyPLUTO.find_example("Particles/CR/Xpoint")
 
 # --- Load fluid and particle data ---
 Data = pyPLUTO.Load(path=data_path)
-Dp_f = pyPLUTO.LoadPart(path=data_path, datatype="vtk")
-Dp_i = pyPLUTO.LoadPart(0, path=data_path, datatype="vtk")
+Dp_f = pyPLUTO.NewLoadPart(path=data_path, datatype="vtk")
+Dp_i = pyPLUTO.NewLoadPart(0, path=data_path, datatype="vtk")
 
 
 gl_final = compute_gamma(Dp_f)

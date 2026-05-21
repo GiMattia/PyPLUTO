@@ -9,8 +9,7 @@ from pyPLUTO.examples_api import (
 )
 from pyPLUTO.image import Image
 from pyPLUTO.load import Load
-from pyPLUTO.loadpart import LoadPart
-from pyPLUTO.newloadpart import LoadPart as NewLoadPart
+from pyPLUTO.newloadpart import LoadPart
 from pyPLUTO.pytools import find_example, ring, savefig, show
 
 # Define the version and additional environment variables
@@ -26,7 +25,6 @@ __all__ = [
     "Image",
     "Load",
     "LoadPart",
-    "NewLoadPart",
     "copy_examples",
     "examples_path",
     "find_example",

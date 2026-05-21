@@ -21,17 +21,17 @@ offsets_vtk = {
 # Test CR particles, dbl output
 def test_offsetdbl():
     Data = pp.LoadPart(path=path, text=False)
-    assert Data._offset["tot"] == 390
+    assert Data.varoffset["tot"] == 390
 
 
 # Test CR particles, flt output
 def test_offsetflt():
     Data = pp.LoadPart(path=path, text=False, datatype="flt")
-    assert Data._offset["tot"] == 379
+    assert Data.varoffset["tot"] == 379
 
 
 # Test CR particles, vtk output
 def test_offsetvtk():
     Data = pp.LoadPart(path=path, text=False, datatype="vtk")
     for var in varslist:
-        assert Data._offset[var] == offsets_vtk[var]
+        assert Data.varoffset[var] == offsets_vtk[var]

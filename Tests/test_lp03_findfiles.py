@@ -18,12 +18,10 @@ def test_CRfindfiles():
     outlist = [0]
     typefile = ["single_file"]
     endianess = [">"]
-    endpath = [".0000.vtk"]
     varslist = ["points", "Identity", "tinj", "Color", "Four-Velocity"]
 
     npt.assert_array_equal(Data.outlist, outlist)
     assert Data.nout == 0
-    assert Data._d_info["typefile"] == typefile
-    assert Data._d_info["endianess"] == endianess
-    assert Data._d_info["endpath"] == endpath
-    npt.assert_array_equal(Data._d_info["varslist"], [varslist])
+    assert Data.d_info["typefile"] == typefile
+    assert Data.d_info["endianess"] == endianess
+    npt.assert_array_equal(Data.d_info["varslist"], [varslist])

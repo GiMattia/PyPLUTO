@@ -18,7 +18,6 @@ class OffsetFluid(LoadMixin):
 
     from pyPLUTO.amr import _DataScanHDF5, _inspect_hdf5, _read_gridfile
     from pyPLUTO.loadfuncs.readgridout import _split_gridfile
-    from pyPLUTO.toolfuncs.transform import _congrid
 
     def __init__(self, state: LoadState) -> None:
         self.state = state

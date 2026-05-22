@@ -12,6 +12,10 @@ from pyPLUTO.loadfuncs.readdefplini import FiledefpliniManager
 from pyPLUTO.loadfuncs.write_files import WriteFilesManager
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
+from pyPLUTO.toolfuncs.findlines import FindLinesManager
+from pyPLUTO.toolfuncs.fourier import FourierManager
+from pyPLUTO.toolfuncs.nabla import NablaManager
+from pyPLUTO.toolfuncs.transform import TransformManager
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.resolver import AttrResolver
 
@@ -159,6 +163,10 @@ class Load(LoadMixin):
 
         self.ReadFileManager = ReadFilesManager(self.state)
         self.WriteFileManager = WriteFilesManager(self.state)
+        self.FindLinesManager = FindLinesManager(self.state)
+        self.FourierManager = FourierManager(self.state)
+        self.NablaManager = NablaManager(self.state)
+        self.TransformManager = TransformManager(self.state)
 
         if self.state.text is not False:
             path = kwargs.get("path", self.state.pathdir)
@@ -242,14 +250,67 @@ class Load(LoadMixin):
         """Property for the read_file method."""
         return self.ReadFileManager.read_file
 
-    from .toolfuncs.findlines import _check_var, find_contour, find_fieldlines
-    from .toolfuncs.fourier import fourier
-    from .toolfuncs.nabla import curl, divergence, gradient
-    from .toolfuncs.transform import (
-        _congrid,
-        cartesian_vector,
-        mirror,
-        reshape_cartesian,
-        reshape_uniform,
-        slices,
-    )
+    @property
+    def gradient(self):
+        """Property for the gradient method."""
+        return self.NablaManager.gradient
+
+    @property
+    def divergence(self):
+        """Property for the divergence method."""
+        return self.NablaManager.divergence
+
+    @property
+    def curl(self):
+        """Property for the curl method."""
+        return self.NablaManager.curl
+
+    @property
+    def fourier(self):
+        """Property for the fourier method."""
+        return self.FourierManager.fourier
+
+    @property
+    def slices(self):
+        """Property for the slices method."""
+        return self.TransformManager.slices
+
+    @property
+    def mirror(self):
+        """Property for the mirror method."""
+        return self.TransformManager.mirror
+
+    @property
+    def repeat(self):
+        """Property for the repeat method."""
+        return self.TransformManager.repeat
+
+    @property
+    def cartesian_vector(self):
+        """Property for the cartesian_vector method."""
+        return self.TransformManager.cartesian_vector
+
+    @property
+    def reshape_cartesian(self):
+        """Property for the reshape_cartesian method."""
+        return self.TransformManager.reshape_cartesian
+
+    @property
+    def reshape_uniform(self):
+        """Property for the reshape_uniform method."""
+        return self.TransformManager.reshape_uniform
+
+    @property
+    def _check_var(self):
+        """Internal helper for resolving named variables."""
+        return self.FindLinesManager._check_var
+
+    @property
+    def find_fieldlines(self):
+        """Property for the find_fieldlines method."""
+        return self.FindLinesManager.find_fieldlines
+
+    @property
+    def find_contour(self):
+        """Property for the find_contour method."""
+        return self.FindLinesManager.find_contour

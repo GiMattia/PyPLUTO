@@ -9,7 +9,7 @@ from pyPLUTO.examples_api import (
 )
 from pyPLUTO.image import Image
 from pyPLUTO.load import Load
-from pyPLUTO.newloadpart import LoadPart
+from pyPLUTO.loadpart import LoadPart
 from pyPLUTO.pytools import find_example, ring, savefig, show
 
 # Define the version and additional environment variables

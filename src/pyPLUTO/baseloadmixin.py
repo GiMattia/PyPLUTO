@@ -1,5 +1,6 @@
 """Mixin class for base load functionality."""
 
+import mmap
 from pathlib import Path
 from typing import Any, Generic, TypeVar
 
@@ -156,6 +157,16 @@ class BaseLoadMixin(Generic[S]):
     def matching_files(self, value: list[str] | None) -> None:
         """Set the matching_files attribute of the load state."""
         self.state.matching_files = value
+
+    @property
+    def mmaps(self) -> list[mmap.mmap]:
+        """Get the mmaps attribute of the load state."""
+        return self.state.mmaps
+
+    @mmaps.setter
+    def mmaps(self, value: list[mmap.mmap]) -> None:
+        """Set the mmaps attribute of the load state."""
+        self.state.mmaps = value
 
     @property
     def multiple(self) -> bool:

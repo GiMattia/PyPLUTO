@@ -23,8 +23,6 @@ class DisplayManager(ImageMixin):
     colorbar, axes, and other properties.
     """
 
-    exposed_methods = ("display",)
-
     def __init__(self, state: ImageState) -> None:
         """Initialize the DisplayManager with the given state."""
         self.state = state

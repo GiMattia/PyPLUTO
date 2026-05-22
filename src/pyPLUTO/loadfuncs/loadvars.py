@@ -259,9 +259,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         """Store mmap reference on state so compact() can evict its pages."""
         if self.state.class_name != "LoadPart":
             return
-        if not hasattr(self.state, "_mmaps"):
-            self.state._mmaps: list[mmap.mmap] = []
-        self.state._mmaps.append(mm)
+        self.state.mmaps.append(mm)
 
     def init_vardict(self, var: str) -> None:
         """If not initialized, a new dictionary is created to store the vars.

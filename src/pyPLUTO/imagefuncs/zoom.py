@@ -25,8 +25,6 @@ class ZoomManager(ImageMixin):
     size, and various display options.
     """
 
-    exposed_methods = ("zoom",)
-
     def __init__(self, state: ImageState) -> None:
         """Initialize the ZoomManager with the given state."""
         self.state = state

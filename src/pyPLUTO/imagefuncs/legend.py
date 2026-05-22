@@ -24,8 +24,6 @@ class LegendManager(ImageMixin):
     the legends.
     """
 
-    exposed_methods = ("legend",)
-
     def __init__(self, state: ImageState) -> None:
         """Initialize the LegendManager with the given state."""
         self.state = state

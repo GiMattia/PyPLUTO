@@ -22,8 +22,6 @@ class ColorbarManager(ImageMixin):
     ticks, labels, and other properties.
     """
 
-    exposed_methods = ("colorbar",)
-
     def __init__(self, state: ImageState) -> None:
         """Initialize the ColorbarManager with the given state."""
         self.state = state

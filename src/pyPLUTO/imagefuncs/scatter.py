@@ -22,8 +22,6 @@ class ScatterManager(ImageMixin):
     A simple figure and a single axis can also be created.
     """
 
-    exposed_methods = ("scatter",)
-
     def __init__(self, state: ImageState) -> None:
         """Initialize the ScatterManager with the given state."""
         self.state = state

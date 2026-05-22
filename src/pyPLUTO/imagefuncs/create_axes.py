@@ -33,8 +33,6 @@ class CreateAxesManager(ImageMixin):
     properties.
     """
 
-    exposed_methods = ("create_axes",)
-
     def __init__(self, state: ImageState) -> None:
         """Initialize the CreateAxesManager class."""
         self.state: ImageState = state

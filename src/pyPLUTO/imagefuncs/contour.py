@@ -24,8 +24,6 @@ class ContourManager(ImageMixin):
     and other properties.
     """
 
-    exposed_methods = ("contour",)
-
     def __init__(self, state: ImageState) -> None:
         """Initialize the ContourManager with the given state."""
         self.state = state

@@ -1,7 +1,7 @@
 """Lazy mmap-backed attribute materialisation shared across Load classes."""
 
 import contextlib
-import mmap as _mmap
+import mmap as mmap
 from typing import cast
 
 import numpy as np
@@ -58,21 +58,21 @@ class AttrResolver:
         return result
 
     @staticmethod
-    def _get_mmap(arr: np.ndarray) -> "_mmap.mmap | None":
+    def _get_mmap(arr: np.ndarray) -> "mmap.mmap | None":
         """Walk the .base chain to find the underlying mmap.mmap, if any."""
         obj = arr
         base = getattr(obj, "base", None)
         while isinstance(base, np.ndarray):
             obj = base
             base = getattr(obj, "base", None)
-        return base if isinstance(base, _mmap.mmap) else None
+        return base if isinstance(base, mmap.mmap) else None
 
     @staticmethod
     def _dontneed(arr: np.ndarray) -> None:
         """Hint the OS to evict the page cache pages backing arr's mmap."""
         if (mm := AttrResolver._get_mmap(arr)) is not None:
             with contextlib.suppress(AttributeError, OSError):
-                mm.madvise(_mmap.MADV_DONTNEED)
+                mm.madvise(mmap.MADV_DONTNEED)
 
     @staticmethod
     def _copy_chunks(chunks: list[np.ndarray]) -> np.ndarray:

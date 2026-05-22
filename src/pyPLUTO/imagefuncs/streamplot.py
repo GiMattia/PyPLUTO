@@ -19,8 +19,6 @@ from pyPLUTO.utils.inspector import track_kwargs
 class StreamplotManager(ImageMixin):
     """Manages the streamplot function from matplotlib.pyplot."""
 
-    exposed_methods = ("streamplot",)
-
     def __init__(self, state: ImageState) -> None:
         """Initialize the StreamplotManager with the given state."""
         self.state = state

@@ -1,5 +1,6 @@
 """Module that contains the LoadState class."""
 
+import mmap
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -31,6 +32,7 @@ class BaseLoadState:
     lennout: int = field(init=False)
     lennoutlist: int = field(init=False)
     matching_files: list[str] | None = None
+    mmaps: list[mmap.mmap] = field(default_factory=list)
     multiple: bool = False
     nout: int | NDArray[Any] = field(init=False, repr=False)
     noutlist: NDArray[Any] = field(init=False)

@@ -21,8 +21,6 @@ class AxisManager(ImageMixin):
     aspect.
     """
 
-    exposed_methods = ("set_axis",)
-
     def __init__(self, state: ImageState) -> None:
         """Initialize the AxisManager with the given state."""
         self.state = state

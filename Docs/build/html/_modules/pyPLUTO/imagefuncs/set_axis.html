@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyPLUTO.imagefuncs.set_axis &#8212; PyPLUTO 1.1 documentation</title>
+    <title>pyPLUTO.imagefuncs.set_axis &#8212; PyPLUTO 1.1.1 documentation</title>
   
   
   
@@ -26,41 +26,48 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script src="../../../_static/documentation_options.js?v=56dcb7b8"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyPLUTO/imagefuncs/set_axis';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -86,7 +93,7 @@
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -108,7 +115,7 @@
   
   
   
-    <p class="title logo__title">PyPLUTO 1.1 documentation</p>
+    <p class="title logo__title">PyPLUTO 1.1.1 documentation</p>
   
 </a></div>
     
@@ -391,28 +398,33 @@
                 <article class="bd-article">
                   
   <h1>Source code for pyPLUTO.imagefuncs.set_axis</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span></span><span class="sd">&quot;&quot;&quot;Module to manage the axis of the image.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
-<span class="kn">from</span> <span class="nn">..imagemixin</span> <span class="kn">import</span> <span class="n">ImageMixin</span>
-<span class="kn">from</span> <span class="nn">..imagestate</span> <span class="kn">import</span> <span class="n">ImageState</span>
-<span class="kn">from</span> <span class="nn">..utils.inspector</span> <span class="kn">import</span> <span class="n">track_kwargs</span>
-<span class="kn">from</span> <span class="nn">.imagetools</span> <span class="kn">import</span> <span class="n">ImageToolsManager</span>
-<span class="kn">from</span> <span class="nn">.range</span> <span class="kn">import</span> <span class="n">RangeManager</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.axes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.imagetools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageToolsManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.range</span><span class="w"> </span><span class="kn">import</span> <span class="n">RangeManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagemixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagestate</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
 
 
-<span class="k">class</span> <span class="nc">AxisManager</span><span class="p">(</span><span class="n">ImageMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This class manages the axis of the image. It allows to customize the</span>
-<span class="sd">    axis of the image, such as the range, scale and aspect.&quot;&quot;&quot;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AxisManager</span><span class="p">(</span><span class="n">ImageMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manage the axis of the image.</span>
+
+<span class="sd">    It allows to customize the axis of the image, such as the range, scale and</span>
+<span class="sd">    aspect.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">exposed_methods</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;set_axis&quot;</span><span class="p">,)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the AxisManager with the given state.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the AxisManager with the given state.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span> <span class="o">=</span> <span class="n">RangeManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
@@ -420,11 +432,13 @@
 <div class="viewcode-block" id="AxisManager.set_axis">
 <a class="viewcode-back" href="../../../set_axis.html#pyPLUTO.imagefuncs.set_axis.AxisManager.set_axis">[docs]</a>
     <span class="nd">@track_kwargs</span>
-    <span class="k">def</span> <span class="nf">set_axis</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_axis</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Customization of a single subplot axis. Properties such as the</span>
-<span class="sd">        range, scale and aspect of each subplot should be customized here.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Customize a single subplot axis.</span>
+
+<span class="sd">        Properties such as the range, scale and aspect of each subplot should be</span>
+<span class="sd">        customized here.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -574,61 +588,31 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No axis can be set!&quot;</span><span class="p">)</span>
 
         <span class="c1"># Set fontsize</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fontsize</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fontsize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontsize</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontsize</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fontsize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">})</span>
 
         <span class="c1"># Set aspect ratio</span>
         <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aspect&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;aspect&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;aspect&quot;</span><span class="p">])</span>
 
         <span class="c1"># Set xrange and yrange</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xrange&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span><span class="o">.</span><span class="n">set_xrange</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nax</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xrange&quot;</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;yrange&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span><span class="o">.</span><span class="n">set_yrange</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nax</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;yrange&quot;</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_range</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># Set title and axes labels</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">],</span>
-                <span class="n">fontsize</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;titlesize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontsize</span><span class="p">),</span>
-                <span class="n">pad</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;titlepad&quot;</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">),</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xtitle&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xtitle&quot;</span><span class="p">],</span>
-                <span class="n">fontsize</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;labelsize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontsize</span><span class="p">),</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ytitle&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ytitle&quot;</span><span class="p">],</span>
-                <span class="n">fontsize</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;labelsize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontsize</span><span class="p">),</span>
-            <span class="p">)</span>
-        <span class="c1"># Set shareaxisx and shareaxisy (+ deprecated sharex and sharey)</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharex&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;sharexs is deprecated. Use shareaxisx instead.&quot;</span><span class="p">,</span>
-                <span class="ne">DeprecationWarning</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharey&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;sharey is deprecated. Use shareaxisy instead.&quot;</span><span class="p">,</span>
-                <span class="ne">DeprecationWarning</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;shareaxisx&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">sharex</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;shareaxisx&quot;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;shareaxisy&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">sharey</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;shareaxisy&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_titles</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Share axis if needed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">share_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># Set ticks size</span>
         <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tickssize&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tickssize&quot;</span><span class="p">])</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tickssize&quot;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fontsize</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">)</span>
 
         <span class="c1"># Set ticks direction</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ticksdir&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tickspar</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ticksdir&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tickspar</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">tckd</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ticksdir&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span>
                 <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
@@ -642,40 +626,13 @@
             <span class="p">)</span>
 
         <span class="c1"># Set minor ticks</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;minorticks&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tickspar</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">mintks</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;minorticks&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">mintks</span> <span class="o">!=</span> <span class="s2">&quot;off&quot;</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">minorticks_on</span><span class="p">()</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">minorticks_off</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_minorticks</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># Set parameter that fixes the minorticks and ticksdir</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tickspar</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-
-        <span class="n">spar</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;asinh&quot;</span><span class="p">:</span> <span class="s2">&quot;linear_width&quot;</span><span class="p">,</span> <span class="s2">&quot;symlog&quot;</span><span class="p">:</span> <span class="s2">&quot;linthresh&quot;</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tickspar</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 
         <span class="c1"># Scales and alpha</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xscale&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">xscale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xscale&quot;</span><span class="p">]</span>
-            <span class="n">xscale_param</span> <span class="o">=</span> <span class="n">spar</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">xscale</span><span class="p">)</span>
-            <span class="n">xscale_kwargs</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">xscale_param</span><span class="p">):</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xtresh&quot;</span><span class="p">)}</span>
-                <span class="k">if</span> <span class="s2">&quot;xtresh&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>
-                <span class="k">else</span> <span class="p">{}</span>
-            <span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">xscale</span><span class="p">,</span> <span class="o">**</span><span class="n">xscale_kwargs</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">xscale</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="n">xscale</span>
-
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;yscale&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">yscale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;yscale&quot;</span><span class="p">]</span>
-            <span class="n">yscale_param</span> <span class="o">=</span> <span class="n">spar</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
-            <span class="n">yscale_kwargs</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">yscale_param</span><span class="p">):</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ytresh&quot;</span><span class="p">)}</span>
-                <span class="k">if</span> <span class="s2">&quot;ytresh&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>
-                <span class="k">else</span> <span class="p">{}</span>
-            <span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">,</span> <span class="o">**</span><span class="n">yscale_kwargs</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">yscale</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="n">yscale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_scales</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">):</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">])</span>
@@ -697,21 +654,20 @@
             <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;grid&quot;</span><span class="p">])</span>
 
         <span class="c1"># Reinforces the tight_layout if needed</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
 
 
         <span class="c1"># End of the function</span>
 
-    <span class="k">def</span> <span class="nf">set_ticks</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_ticks</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span>
         <span class="n">tc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">tl</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">typeaxis</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the ticks and ticks labels on the x- or y-axis of a</span>
-<span class="sd">        selected axis.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setsthe ticks and ticks labels on the x-/y-axis of a selected axis.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -759,7 +715,7 @@
                     <span class="s2">&quot;Warning, tickslabels are defined with no&quot;</span>
                     <span class="s2">&quot;ticks!! (function setax)&quot;</span>
                 <span class="p">)</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
         <span class="c1"># Ticks are not None and tickslabels are custom</span>
         <span class="k">elif</span> <span class="n">tl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
@@ -773,7 +729,7 @@
                     <span class="s2">&quot;Warning, tickslabels should be fixed only&quot;</span>
                     <span class="s2">&quot;when ticks are fixed (function setax)&quot;</span>
                 <span class="p">)</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
             <span class="c1"># Ticks are set custom, then tickslabels are set</span>
             <span class="k">if</span> <span class="n">tl</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -790,6 +746,158 @@
             <span class="n">set_ticks</span><span class="p">[</span><span class="n">typeaxis</span><span class="p">](</span><span class="n">tc</span><span class="p">)</span>
 
         <span class="c1"># End of the function</span>
+
+    <span class="nd">@track_kwargs</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_titles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the title or axis labels of the plot.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - ax: ax</span>
+<span class="sd">            the selected set of axes</span>
+<span class="sd">        - title: str</span>
+<span class="sd">            the title or axis label to be set</span>
+<span class="sd">        - titlesize: str</span>
+<span class="sd">            the fontsize parameter for the title or axis label</span>
+<span class="sd">        - titlepad: str</span>
+<span class="sd">            the pad parameter for the title or axis label</span>
+<span class="sd">        - kwargs: dict</span>
+<span class="sd">            the keyword arguments passed to the set_axis function</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">],</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;titlesize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">),</span>
+                <span class="n">pad</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;titlepad&quot;</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xtitle&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xtitle&quot;</span><span class="p">],</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;labelsize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">),</span>
+                <span class="n">labelpad</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xlabelpad&quot;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ytitle&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ytitle&quot;</span><span class="p">],</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;labelsize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">),</span>
+                <span class="n">labelpad</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ylabelpad&quot;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">),</span>
+            <span class="p">)</span>
+
+    <span class="nd">@track_kwargs</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_scales</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span> <span class="n">nax</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the scales of the x- and y-axis of a selected axis.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - ax: ax</span>
+<span class="sd">            the selected set of axes</span>
+<span class="sd">        - nax: int</span>
+<span class="sd">            the index of the selected axis</span>
+<span class="sd">        - kwargs: dict</span>
+<span class="sd">            the keyword arguments passed to the set_axis function</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">spar</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;asinh&quot;</span><span class="p">:</span> <span class="s2">&quot;linear_width&quot;</span><span class="p">,</span> <span class="s2">&quot;symlog&quot;</span><span class="p">:</span> <span class="s2">&quot;linthresh&quot;</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xscale&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">xscale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xscale&quot;</span><span class="p">]</span>
+            <span class="n">xscale_param</span> <span class="o">=</span> <span class="n">spar</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">xscale</span><span class="p">)</span>
+            <span class="n">xscale_kwargs</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">xscale_param</span><span class="p">):</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xtresh&quot;</span><span class="p">)}</span>
+                <span class="k">if</span> <span class="s2">&quot;xtresh&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>
+                <span class="k">else</span> <span class="p">{}</span>
+            <span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">xscale</span><span class="p">,</span> <span class="o">**</span><span class="n">xscale_kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">xscale</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="n">xscale</span>
+
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;yscale&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">yscale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;yscale&quot;</span><span class="p">]</span>
+            <span class="n">yscale_param</span> <span class="o">=</span> <span class="n">spar</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+            <span class="n">yscale_kwargs</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">yscale_param</span><span class="p">):</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ytresh&quot;</span><span class="p">)}</span>
+                <span class="k">if</span> <span class="s2">&quot;ytresh&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>
+                <span class="k">else</span> <span class="p">{}</span>
+            <span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">,</span> <span class="o">**</span><span class="n">yscale_kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">yscale</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="n">yscale</span>
+
+    <span class="nd">@track_kwargs</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span> <span class="n">nax</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check and set the range of the x- and y-axis of a selected axis.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - ax: ax</span>
+<span class="sd">            the selected set of axes</span>
+<span class="sd">        - nax: int</span>
+<span class="sd">            the index of the selected axis</span>
+<span class="sd">        - kwargs: dict</span>
+<span class="sd">            the keyword arguments passed to the set_axis function</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xrange&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span><span class="o">.</span><span class="n">set_xrange</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nax</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xrange&quot;</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;yrange&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span><span class="o">.</span><span class="n">set_yrange</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nax</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;yrange&quot;</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="nd">@track_kwargs</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">share_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Share the x- and y-axis of a selected axis.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - ax: ax</span>
+<span class="sd">            the selected set of axes</span>
+<span class="sd">        - kwargs: dict</span>
+<span class="sd">            the keyword arguments passed to the set_axis function</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharex&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">sharex</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;sharex&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharey&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">sharey</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;sharey&quot;</span><span class="p">])</span>
+
+    <span class="nd">@track_kwargs</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_minorticks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span> <span class="n">nax</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check and set the minor ticks of the x- and y-axes.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - ax: ax</span>
+<span class="sd">            the selected set of axes</span>
+<span class="sd">        - nax: int</span>
+<span class="sd">            the index of the selected axis</span>
+<span class="sd">        - kwargs: dict</span>
+<span class="sd">            the keyword arguments passed to the set_axis function</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;minorticks&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tickspar</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">mintks</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;minorticks&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mintks</span> <span class="o">!=</span> <span class="s2">&quot;off&quot;</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">minorticks_on</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">minorticks_off</span><span class="p">()</span>
 </pre></div>
 
                 </article>
@@ -819,8 +927,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -840,7 +948,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -854,7 +962,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
 </p></div>
       
     </div>

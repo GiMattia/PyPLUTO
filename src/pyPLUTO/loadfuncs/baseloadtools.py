@@ -46,26 +46,29 @@ class BaseLoadTools(BaseLoadMixin[BaseLoadState]):
             >>> _check_nout([0, 1, 2, 3])
         """
         # Assign the last possible output file
-        last = self.outlist.tolist()[-1]
+        last = self.state.outlist.tolist()[-1]
 
         # Check if nout is a list and change the keywords
         if not isinstance(nout, list):
             # If nout is a string, get the keywords
-            Dnout = {nout: nout, "last": last, -1: last, "all": self.outlist}[
-                nout
-            ]
+            Dnout = {
+                nout: nout,
+                "last": last,
+                -1: last,
+                "all": self.state.outlist,
+            }[nout]
         else:
             # If nout is a list, replace the keywords
             Dnout = [last if i in {"last", -1} else i for i in nout]
 
         # Sort the list, compute the corresponding time and store its length
-        self.noutlist = np.sort(np.unique(np.atleast_1d(Dnout)))
+        self.state.noutlist = np.sort(np.unique(np.atleast_1d(Dnout)))
 
         # Check if the output files are in the list
-        if np.any(~np.isin(self.noutlist, self.outlist)):
+        if np.any(~np.isin(self.state.noutlist, self.state.outlist)):
             raise ValueError(
-                f"Error: Wrong output file(s) {self.noutlist} \
-                            in path {self.pathdir}."
+                f"Error: Wrong output file(s) {self.state.noutlist} \
+                            in path {self.state.pathdir}."
             )
 
         # End of the function

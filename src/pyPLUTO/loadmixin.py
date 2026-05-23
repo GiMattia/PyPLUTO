@@ -16,8 +16,6 @@ class LoadMixin(BaseLoadMixin[LoadState]):
 
     state: LoadState
 
-    # pylint: disable=too-many-public-methods
-
     @property
     def defh(self) -> dict:
         """Get the defh attribute of the load state."""
@@ -37,16 +35,6 @@ class LoadMixin(BaseLoadMixin[LoadState]):
     def level(self, value: int) -> None:
         """Set the AMR refinement level."""
         self.state.level = value
-
-    @property
-    def dim(self) -> int:
-        """Get the dim attribute of the load state."""
-        return self.state.dim
-
-    @dim.setter
-    def dim(self, value: int) -> None:
-        """Set the dim attribute of the load state."""
-        self.state.dim = value
 
     @property
     def dx1(self) -> NDArray[Any]:
@@ -137,16 +125,6 @@ class LoadMixin(BaseLoadMixin[LoadState]):
     def gridsize_st3(self, value: int) -> None:
         """Set the gridsize_st3 attribute of the load state."""
         self.state.gridsize_st3 = value
-
-    @property
-    def nshp(self) -> int | tuple[int, ...]:
-        """Get the nshp attribute of the load state."""
-        return self.state.nshp
-
-    @nshp.setter
-    def nshp(self, value: int | tuple[int, ...]) -> None:
-        """Set the nshp attribute of the load state."""
-        self.state.nshp = value
 
     @property
     def nshp_st1(self) -> int | tuple[int, ...] | None:

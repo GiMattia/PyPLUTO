@@ -1,11 +1,23 @@
-from pathlib import Path
+"""The Load class loads the data (fluid) from the output files."""
+
+# ruff: noqa: ANN201  # noqa: RUF100
+
 from typing import Any
 
-from numpy.typing import NDArray
+import numpy as np
+
+from pyPLUTO.baseloadmixin import BaseLoadMixin
+from pyPLUTO.baseloadstate import BaseLoadState
+from pyPLUTO.loadfuncs.initload import InitLoadManager
+from pyPLUTO.toolfuncs.parttools import PartToolsManager
+from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.resolver import AttrResolver
 
 
-class LoadPart:
-    """Load the particles from the simulation. The class is used to load
+class LoadPart(BaseLoadMixin):
+    """Load the particles from the simulation.
+
+    The class is used to load
     the particles from the simulation and store the data in the class
     attributes. The data are loaded in a memory mapped numpy
     multidimensional array. Such approach does not load the full data
@@ -74,131 +86,50 @@ class LoadPart:
         file number for the lp methods
 
         >>> LoadPart(nfile_lp=1)
-
     """
 
+    @track_kwargs
     def __init__(
         self,
-        nout: int | str | None = "last",
-        path: str | Path = "./",
-        datatype: str | None = None,
-        vars: str | list[str] | bool | None = True,
-        text: bool = True,
-        endian: str | None = None,
-        nfile_lp: int | None = None,
+        nout: int | str | list[int | str] | None = "last",
+        check: bool = True,
+        **kwargs: Any,
     ) -> None:
-        # Check if the user wants to load the data
-        if nout is None:
-            return
+        """Initialize the Load class."""
+        kwargs.pop("kwargscheck", check)
 
-        # Initialization or declaration of variables (used in this file)
-        self.nout: NDArray  # Output to be loaded
-        self._d_end: dict[str | None, str | None]  # Endianess dictionary
-        self._multiple: bool  # Bool for single or multiple files
-        self._alone: bool = True  # Bool for standalone files
-        self._info: bool  # Bool for info (linked to alone)
-        self._d_vars: dict = {}  # The dictionary of variables
+        self.state: BaseLoadState = BaseLoadState()
+        self.cached_vars = set()
+        self.state.text = kwargs.get("text", self.state.text)
+        self.state.class_name = self.__class__.__name__
+        InitLoadManager(self.state, nout, **kwargs)
+        self.PartToolsManager = PartToolsManager(self.state)
 
-        # Initialization or declaration of variables (used in other files)
-        self.pathdir: Path  # Path to the simulation directory
-        self.datatype: str | None = None  # The format of the files to be loaded
-        self._charsize: int  # The data size in the files
-        self.outlist: NDArray  # The list of outputs to be loaded
-        self.timelist: NDArray  # The list of times to be loaded
-        self._lennout: int  # The number of outputs to be loaded
-        self.ntime: NDArray  # The time array
-        self._d_info: dict[str, Any]  # Info dictionary
-        self.set_vars: set[str]  # The set of variables to be loaded
-        self.set_outs: set[int]  # The set of outputs to be loaded
-        self._matching_files: list[str]  # The list of files to be loaded
-        self._pathgrid: Path  # Path to the grid file
-        self._pathdata: Path | None = (
-            None  # Path to the data files to be loaded
-        )
-        self._filepath: Path  # The filepath to be loaded
-        self._load_vars: list[str]  # The list of variables to be loaded
-        self._offset: dict[str, int]  # The offset of the variables
-        self._shape: dict[str, tuple[int, ...]]  # The shape of the variables
-        self.geom: str  # The geometry of the simulation
-        self.dim: int  # The dimension of the simulation
-        self.nshp: int | tuple[int, ...]  # The shape of the grid
-        self._dictdim: dict  # The dictionary of dimensions
-        self.nfile_lp: int | None = nfile_lp  # File number for the lp methods
-        self.maxpart: int = 0  # Max number of particles in the simulation
-        self._vardim: NDArray  # The dimension of the variables
-
-        # Check the input endianess
-        self._d_end = {
-            "big": ">",
-            "little": "<",
-            ">": ">",
-            "<": "<",
-            None: None,
-        }  # Endianess dictionary
-
-        if endian not in self._d_end.keys():
-            raise ValueError(
-                f"Invalid endianess. \
-                             Valid values are {self._d_end.keys()}"
-            )
-
-        if not isinstance(nfile_lp, int) and nfile_lp is not None:
-            raise ValueError(
-                "Invalid value for nfile_lp. \
-                             Valid values are int or None"
-            )
-
-        # Check the path and verify that it is a folder
-        self._check_pathformat(path)
-
-        # Find the format of the data files
-        self._find_format(datatype, True)
-
-        # Find relevant informations without opening the files (e.g.
-        # the number of files to be loaded)
-        self._findfiles(nout)
-
-        # For every output, load the desired variables and store
-        # them in the class
-        for i, exout in enumerate(self.nout):
-            self._load_variables(vars, i, exout, endian)
-            if self.datatype != "vtk":
-                self._store_bin_particles(i)
+        if self.state.text is not False:
+            path = kwargs.get("path", self.state.pathdir)
+            if isinstance(self.state.nout, (int, np.integer)):
+                nout_out = int(self.state.nout)
             else:
-                self._store_vtk_particles(i)
+                nout_out = np.atleast_1d(self.state.nout).astype(int).tolist()
+            print(f"Load: folder {path},     output {nout_out}")
 
-        # Assign the variables to the class
-        for key in self._d_vars:
-            setattr(self, key, self._d_vars[key])
-
-        # Change the id variable to int depending on the format loaded
-        if self.datatype != "vtk":
-            self.id = self.id.astype("int")
-        else:
-            self.id = self.id.view(">i4")
-
-        # Print loaded folder and output
-        if text is not False:
-            _nout_out = self.nout[0] if len(self.nout) == 1 else list(self.nout)
-            print(f"LoadPart: folder {path},     output {_nout_out}")
-        return
-
-    def __str__(self):
+    def __str__(self) -> str:
+        """Return the string representation of the LoadPart class."""
         text = f"""
         LoadPart class.
         It loads the particles.
 
         File properties:
-        - Current path loaded (pathdir)      {self.pathdir}
-        - Format loaded       (format)       {self.datatype}
+        - Simulation path     (pathdir)      {self.state.pathdir}
+        - File format         (datatype)     {self.state.datatype}
 
         Simulation properties
-        - N. particles  (maxpart)  {self.maxpart}
-        - Output loaded (nout)     {self.nout}
-        - Time loaded   (ntime)    {self.ntime}
+        - N. particles in loaded output (nshp)  {self.state.nshp}
+        - Loaded output index/indices (nout)    {self.state.nout}
+        - Loaded simulation time(s) (ntime)     {self.state.ntime}
 
         Variables loaded:
-        {self._d_vars.keys()}
+        {list(self.state.d_vars.keys())}
 
         Public methods available:
 
@@ -209,25 +140,23 @@ class LoadPart:
         """
         return text
 
-    def __getattr__(self, name):
-        try:
-            return object.__getattribute__(self, f"_{name}")
-        except AttributeError:
-            raise AttributeError(f"'LoadPart' object has no attribute '{name}'")
+    def __getattr__(self, name: str):  # noqa: ANN204
+        """Get the attribute of the Load class."""
+        val = getattr(self.state, name)
+        return AttrResolver.resolve(self.state, name, val)
 
-    from .loadfuncs.readdata_old import (
-        _assign_var,
-        _check_nout,
-        _findfiles,
-        _init_vardict,
-        _load_variables,
-    )
-    from .loadfuncs.readformat import _check_pathformat, _find_format
-    from .loadfuncs.readpart import (
-        _compute_offset,
-        _inspect_bin,
-        _inspect_vtk,
-        _store_bin_particles,
-        _store_vtk_particles,
-    )
-    from .toolfuncs.parttools import select, spectrum
+    def __setattr__(self, name: str, value: object) -> None:
+        """Set the attribute of the Load class."""
+        if name == "state" or not hasattr(self, "state"):
+            return super().__setattr__(name, value)
+        return setattr(self.state, name, value)
+
+    @property
+    def select(self):
+        """Proxy to particle selection manager."""
+        return self.PartToolsManager.select
+
+    @property
+    def spectrum(self):
+        """Proxy to particle spectrum manager."""
+        return self.PartToolsManager.spectrum

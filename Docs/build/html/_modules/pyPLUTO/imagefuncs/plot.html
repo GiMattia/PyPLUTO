@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyPLUTO.imagefuncs.plot &#8212; PyPLUTO 1.1 documentation</title>
+    <title>pyPLUTO.imagefuncs.plot &#8212; PyPLUTO 1.1.1 documentation</title>
   
   
   
@@ -26,41 +26,48 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script src="../../../_static/documentation_options.js?v=56dcb7b8"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyPLUTO/imagefuncs/plot';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -86,7 +93,7 @@
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -108,7 +115,7 @@
   
   
   
-    <p class="title logo__title">PyPLUTO 1.1 documentation</p>
+    <p class="title logo__title">PyPLUTO 1.1.1 documentation</p>
   
 </a></div>
     
@@ -391,30 +398,35 @@
                 <article class="bd-article">
                   
   <h1>Source code for pyPLUTO.imagefuncs.plot</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span></span><span class="sd">&quot;&quot;&quot;PlotManager class.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
-<span class="kn">from</span> <span class="nn">..imagemixin</span> <span class="kn">import</span> <span class="n">ImageMixin</span>
-<span class="kn">from</span> <span class="nn">..imagestate</span> <span class="kn">import</span> <span class="n">ImageState</span>
-<span class="kn">from</span> <span class="nn">..utils.inspector</span> <span class="kn">import</span> <span class="n">track_kwargs</span>
-<span class="kn">from</span> <span class="nn">.imagetools</span> <span class="kn">import</span> <span class="n">ImageToolsManager</span>
-<span class="kn">from</span> <span class="nn">.legend</span> <span class="kn">import</span> <span class="n">LegendManager</span>
-<span class="kn">from</span> <span class="nn">.range</span> <span class="kn">import</span> <span class="n">RangeManager</span>
-<span class="kn">from</span> <span class="nn">.set_axis</span> <span class="kn">import</span> <span class="n">AxisManager</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayLike</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.imagetools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageToolsManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.legend</span><span class="w"> </span><span class="kn">import</span> <span class="n">LegendManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.range</span><span class="w"> </span><span class="kn">import</span> <span class="n">RangeManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.set_axis</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxisManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagemixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagestate</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
 
 
-<span class="k">class</span> <span class="nc">PlotManager</span><span class="p">(</span><span class="n">ImageMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;PlotManager class. It provides methods to create and manage plots in the</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlotManager</span><span class="p">(</span><span class="n">ImageMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;PlotManager class.</span>
+
+<span class="sd">    It provides methods to create and manage plots in the</span>
 <span class="sd">    image. It is designed to work with the Image class and allows for dynamic</span>
 <span class="sd">    creation of plots based on the current state of the image. The class uses</span>
 <span class="sd">    the AxisManager, ImageToolsManager, LegendManager, and RangeManager to</span>
 <span class="sd">    handle the display and plotting of the images, axes, legends, and ranges,</span>
-<span class="sd">    respectively.&quot;&quot;&quot;</span>
+<span class="sd">    respectively.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the PlotManager with the given state.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the PlotManager with the given state.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span> <span class="o">=</span> <span class="n">AxisManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
@@ -424,14 +436,16 @@
 <div class="viewcode-block" id="PlotManager.plot">
 <a class="viewcode-back" href="../../../plot.html#pyPLUTO.imagefuncs.plot.PlotManager.plot">[docs]</a>
     <span class="nd">@track_kwargs</span>
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
         <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creation of a 1D function plot (or a 1D slice plot). It creates a</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creation of a 1D function plot (or a 1D slice plot).</span>
+
+<span class="sd">        This function plots a 1D function or a 1D slice. It creates a</span>
 <span class="sd">        simple figure and a single axis if none are given prior. If a single</span>
 <span class="sd">        function argument is given, it plots the graph of that function using</span>
 <span class="sd">        a linear variable as x parameter. However, if a pair of arrays is</span>
@@ -486,7 +500,7 @@
 <span class="sd">        - legcols: int, default 1</span>
 <span class="sd">            Sets the number of columns that the legend should have.</span>
 <span class="sd">        - legpad: float, default 0.8</span>
-<span class="sd">            Sets the space between the lines (or symbols) and the correspondibg</span>
+<span class="sd">            Sets the space between the lines (or symbols) and the corresponding</span>
 <span class="sd">            text in the legend.</span>
 <span class="sd">        - legpos: int | str, default None</span>
 <span class="sd">            If enabled, creates a legend. This keyword selects the legend</span>
@@ -633,7 +647,7 @@
             <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span>
             <span class="p">)</span>
@@ -652,23 +666,24 @@
             <span class="n">ax</span><span class="p">,</span>
             <span class="n">nax</span><span class="p">,</span>
             <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">x</span><span class="p">)],</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">setax</span><span class="p">[</span><span class="n">nax</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">setax</span><span class="p">[</span><span class="n">nax</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span><span class="o">.</span><span class="n">set_yrange</span><span class="p">(</span>
             <span class="n">ax</span><span class="p">,</span>
             <span class="n">nax</span><span class="p">,</span>
             <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">y</span><span class="p">)],</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">setay</span><span class="p">[</span><span class="n">nax</span><span class="p">],</span>
-            <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
-            <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">setay</span><span class="p">[</span><span class="n">nax</span><span class="p">],</span>
+            <span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span>
+            <span class="c1">#    x=x.astype(np.float64),</span>
+            <span class="c1">#    y=y,</span>
         <span class="p">)</span>
 
         <span class="c1"># Set color line and increase the number of lines (if default color)</span>
         <span class="n">col_line</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)]</span>
+            <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">color</span><span class="p">)]</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
 
         <span class="c1"># Start plotting procedure</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
@@ -684,16 +699,16 @@
         <span class="p">)</span>
 
         <span class="c1"># Creation of the legend</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;legpos&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">])</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;legpos&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">copy_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">LegendManager</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fromplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy_label</span>
 
         <span class="c1"># If tight_layout is enabled, is re-inforced</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tight</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tight</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
 
 
         <span class="c1"># End of the function</span>
@@ -726,8 +741,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -747,7 +762,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
@@ -761,7 +776,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
 </p></div>
       
     </div>

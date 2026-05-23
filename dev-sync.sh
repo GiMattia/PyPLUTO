@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Sync or upgrade the project for both uv and pixi.
+# Sync or upgrade the project for uv and pixi.
 #
 # Usage:
-#   ./update_all.sh           # sync/install existing lockfiles
-#   ./update_all.sh upgrade   # upgrade, lock, and sync everything
+#   ./dev-sync.sh                # sync/install existing lockfiles
+#   ./dev-sync.sh upgrade        # upgrade, lock, and sync everything
 #
-# Run from the project root.
+# Run from the PyPLUTO project root.
 
 if [[ ! -f "pyproject.toml" ]]; then
   echo "Error: run script from the project root (pyproject.toml not found)." >&2
@@ -15,8 +15,9 @@ if [[ ! -f "pyproject.toml" ]]; then
 fi
 
 mode="sync"
-if [[ $# -gt 0 ]]; then
-  case "$1" in
+
+for arg in "$@"; do
+  case "$arg" in
     upgrade)
       mode="upgrade"
       ;;
@@ -25,7 +26,7 @@ if [[ $# -gt 0 ]]; then
       exit 2
       ;;
   esac
-fi
+done
 
 have_cmd() {
   command -v "$1" >/dev/null 2>&1
@@ -55,15 +56,19 @@ run_pixi_sync() {
   if [[ "$mode" == "upgrade" ]]; then
     echo ">>> pixi: updating lockfile"
     pixi update
-    echo ">>> pixi: installing full environment"
-    pixi install -e full
-  else
-    echo ">>> pixi: installing full environment"
-    pixi install -e full
+  fi
+
+  echo ">>> pixi: installing full environment"
+  pixi install -e full
+
+  if pixi project environment list >/dev/null 2>&1; then
+    echo ">>> pixi: installing local-dev environment"
+    pixi install -e local-dev || true
   fi
 }
 
 echo ">>> Mode: $mode"
+
 run_uv_sync
 run_pixi_sync
 

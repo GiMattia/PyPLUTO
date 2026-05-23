@@ -140,7 +140,7 @@ class InteractiveManager(ImageMixin):
             kwargs.pop("ax", None), **kwargs, tight=False
         )
 
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -164,7 +164,7 @@ class InteractiveManager(ImageMixin):
             # Apply the new position
             ax.set_position(new_pos)
 
-        sliderax = self.fig.add_axes((pos_x0, 0.02, pos_x1, 0.04))
+        sliderax = self.state.fig.add_axes((pos_x0, 0.02, pos_x1, 0.04))
 
         # Create the slider
         if labslider is not None:
@@ -188,12 +188,18 @@ class InteractiveManager(ImageMixin):
         if splt == self.two_dim:
             self.limfix = limfix
             vmin = (
-                min(np.nanmin(array) for array in self.anim_var.values())
+                min(
+                    float(np.nanmin(np.asarray(array)))
+                    for array in self.anim_var.values()
+                )
                 if limfix is True
                 else np.nanmin(self.anim_var[self.animkeys[0]])
             )
             vmax = (
-                max(np.nanmax(array) for array in self.anim_var.values())
+                max(
+                    float(np.nanmax(np.asarray(array)))
+                    for array in self.anim_var.values()
+                )
                 if limfix is True
                 else np.nanmax(self.anim_var[self.animkeys[0]])
             )
@@ -289,11 +295,11 @@ class InteractiveManager(ImageMixin):
             )
 
         # Update the plot
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
-        self.fig.canvas.draw()
+        self.state.fig.canvas.draw()
 
         # End of the function
         return ()
@@ -374,14 +380,14 @@ class InteractiveManager(ImageMixin):
 
         update = self.update_both if updateslider else self.update_slider
 
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
 
         # Create the animation
         ani = animation.FuncAnimation(
-            self.fig, update, frames=frames, interval=interval
+            self.state.fig, update, frames=frames, interval=interval
         )
 
         if gifname is not None:
@@ -396,7 +402,7 @@ class InteractiveManager(ImageMixin):
             # Save as GIF
             ani.save(out_path)
 
-            plt.close(self.fig)
+            plt.close(self.state.fig)
 
         else:
             # Display the animation

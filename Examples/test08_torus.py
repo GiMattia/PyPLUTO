@@ -77,18 +77,18 @@ Image.display(
 Bx, Bz, *others = Data.cartesian_vector("B")
 xc, yc, Bx, Bz = Data.reshape_cartesian(Bx, Bz, nx1=500)
 
-# Plot the magnetic field lines in two different ways
-Image.streamplot(
-    Bx, Bz, x1=xc, x2=yc, ax=0, c="gray", lw=0.7, vmin=1.0e-5, density=5
-)
-
 lines = Data.find_fieldlines(
     Bx, Bz, x1=xc, x2=yc, x0=[3.75, 4, 4.25], y0=[0, 0, 0], maxstep=0.07
 )
 
+# Plot the magnetic field lines in two different ways
 Image.plot(lines[0][0], lines[0][1], ax=1, c="gray")
 Image.plot(lines[1][0], lines[1][1], ax=1, c="gray")
 Image.plot(lines[2][0], lines[2][1], ax=1, c="gray")
+
+Image.streamplot(
+    Bx, Bz, x1=xc, x2=yc, ax=0, c="gray", lw=0.7, vmin=1.0e-5, density=5
+)
 
 # Saving the image and showing the plots
 Image.savefig("test08_torus.png", script_relative=True)

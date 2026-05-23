@@ -20,6 +20,7 @@ authors = [
     { name = "B. Vaidya" }
 ]
 dependencies = [
+    "dask",
     "contourpy>=1.2.1",
     "numpy>=2.0.0",
     "matplotlib>=3.8.4",
@@ -54,6 +55,7 @@ test = [
 ] 
 dev = [
     "uv",
+    "auto-walrus",
     "pandas-stubs",
     "h5py-stubs",
     "pre-commit",
@@ -76,6 +78,7 @@ dev-test = [
 
 dev-docs = [
     { include-group = "dev" },
+
     { include-group = "docs" },
 ]
 
@@ -88,9 +91,14 @@ local-dev = [
 
 [project.scripts]
 pypluto-gui = "pyPLUTO.gui.main:main"
+pypluto-examples = "pyPLUTO.examples_cli:main"
 
 [tool.flit.module]
 name = "pyPLUTO"
+
+[project.urls]
+Homepage = "https://github.com/GiMattia/PyPLUTO"
+Examples = "https://github.com/GiMattia/PyPLUTO/tree/main/Examples"
 
 [tool.coverage.run]
 source = ["src"]
@@ -147,7 +155,7 @@ convention = "numpy"
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
-"tests/*" = ["D", "PLR2004"]
+"Tests/*" = ["D", "PLR2004"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -185,7 +193,6 @@ constraint-dependencies = [
     "jsonschema>=0.3",
     "pillow>=10.0.0",
 ]
-
 [tool.pixi.workspace]
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]

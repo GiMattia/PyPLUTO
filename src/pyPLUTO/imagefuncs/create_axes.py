@@ -33,8 +33,6 @@ class CreateAxesManager(ImageMixin):
     properties.
     """
 
-    exposed_methods = ("create_axes",)
-
     def __init__(self, state: ImageState) -> None:
         """Initialize the CreateAxesManager class."""
         self.state: ImageState = state
@@ -161,16 +159,16 @@ class CreateAxesManager(ImageMixin):
             wplot, hplot = None, None
 
         # Set figure size
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "You need to create a figure before creating axes."
             )
 
         if figsize := kwargs.get("figsize"):
-            self.fig.set_size_inches(*figsize)
-            self.figsize = figsize
-        elif not (custom_plot or self.set_size):
-            self.fig.set_size_inches(6 * np.sqrt(ncol), 5 * np.sqrt(nrow))
+            self.state.fig.set_size_inches(*figsize)
+            self.state.figsize = figsize
+        elif not (custom_plot or self.state.set_size):
+            self.state.fig.set_size_inches(6 * np.sqrt(ncol), 5 * np.sqrt(nrow))
 
         # Set the projection if requested
         proj = kwargs.get("proj")
@@ -183,33 +181,33 @@ class CreateAxesManager(ImageMixin):
             sharex_ref = self._check_shareaxis(i, sharex)
             # Interpret True as: share with the first axis
             # if sharex is True:
-            #     sharex_ref = self.ax[0] if i > 0 else None
+            #     sharex_ref = self.state.ax[0] if i > 0 else None
             # elif isinstance(sharex, int):
-            #     sharex_ref = self.ax[sharex]
+            #     sharex_ref = self.state.ax[sharex]
             # else:
             #     sharex_ref = sharex  # None or an Axes reference
 
             # Same for sharey
             sharey_ref = self._check_shareaxis(i, sharey)
             # if sharey is True:
-            #     sharey_ref = self.ax[0] if i > 0 else None
+            #     sharey_ref = self.state.ax[0] if i > 0 else None
             # elif isinstance(sharey, int):
-            #     sharey_ref = self.ax[sharey]
+            #     sharey_ref = self.state.ax[sharey]
             # else:
             #     sharey_ref = sharey
 
             self.add_ax(
-                axis := self.fig.add_subplot(
-                    nrow + self.nrow0,
-                    ncol + self.ncol0,
+                axis := self.state.fig.add_subplot(
+                    nrow + self.state.nrow0,
+                    ncol + self.state.ncol0,
                     i + 1,
                     projection=proj,
                     sharex=sharex_ref,
                     sharey=sharey_ref,
                 ),
-                len(self.ax),
+                len(self.state.ax),
             )
-            self.ax.append(axis)
+            self.state.ax.append(axis)
 
             # Compute row and column
             row = int(i / ncol)
@@ -217,7 +215,7 @@ class CreateAxesManager(ImageMixin):
 
             # Set position if custom axes
             if wplot is not None and hplot is not None:
-                self.ax[-1].set_position(
+                self.state.ax[-1].set_position(
                     pos=(
                         wplot[col][0],
                         hplot[row][0],
@@ -227,18 +225,20 @@ class CreateAxesManager(ImageMixin):
                 )
 
         # Updates rows and columns
-        self.nrow0 = self.nrow0 + nrow
-        self.ncol0 = self.ncol0 + ncol
+        self.state.nrow0 = self.state.nrow0 + nrow
+        self.state.ncol0 = self.state.ncol0 + ncol
 
         # Set figure title if requested
         if "suptitle" in kwargs:
-            self.fig.suptitle(kwargs["suptitle"])
+            self.state.fig.suptitle(kwargs["suptitle"])
 
         # Tight layout (depending on the subplot creation)
-        self.tight = kwargs.get("tight", self.tight)
-        self.fig.set_layout_engine(None if not self.tight else "tight")
+        self.state.tight = kwargs.get("tight", self.state.tight)
+        self.state.fig.set_layout_engine(
+            None if not self.state.tight else "tight"
+        )
 
-        ret_ax = self.ax[0] if len(self.ax) == 1 else self.ax
+        ret_ax = self.state.ax[0] if len(self.state.ax) == 1 else self.state.ax
 
         # if not isinstance(ret_ax, list | Axes):
         #    raise TypeError("The returned axis is neither a list nor an Axes.")
@@ -354,7 +354,6 @@ class CreateAxesManager(ImageMixin):
         # Fill the lists with the default values
         ratio = ratio + [1.0] * (length - len(ratio))
         space = space + [0.1] * (length - len(space) - 1)
-        print(ratio, length)
 
         # Check if the lists have the correct length
         if len(ratio) != length:
@@ -395,7 +394,7 @@ class CreateAxesManager(ImageMixin):
         ax_pars = {
             #      "ax": ax,
             "legpos": None,
-            "legpar": [self.fontsize, 1, 2, 0.8, 0.8],
+            "legpar": [self.state.fontsize, 1, 2, 0.8, 0.8],
             "nline": 0,
             "ntext": None,
             "setax": 0,
@@ -409,7 +408,7 @@ class CreateAxesManager(ImageMixin):
 
         # Append the axis to the list of axes
         for attr, default in ax_pars.items():
-            getattr(self, attr).append(copy.copy(default))
+            getattr(self.state, attr).append(copy.copy(default))
 
         # Position the axis index in the middle of the axis
         ax.annotate(str(i), (0.47, 0.47), xycoords="axes fraction")
@@ -453,9 +452,9 @@ class CreateAxesManager(ImageMixin):
 
         """
         if share is True:
-            share_ref = self.ax[0] if i > 0 else None
+            share_ref = self.state.ax[0] if i > 0 else None
         elif isinstance(share, int):
-            share_ref = self.ax[share]
+            share_ref = self.state.ax[share]
         else:
             share_ref = share
 

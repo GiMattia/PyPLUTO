@@ -54,7 +54,7 @@ class EchoLoadManager(LoadMixin):
         print("load, echo")
 
         # Geometry is set to CARTESIAN by default
-        self.geom = "CARTESIAN"
+        self.state.geom = "CARTESIAN"
 
         # Dictionary to convert the keys from ECHO to PLUTO
         conv_dict = {
@@ -83,20 +83,20 @@ class EchoLoadManager(LoadMixin):
                 "Please specify the output or it will be set to 0.",
                 stacklevel=2,
             )
-            self.nout = 0
+            self.state.nout = 0
         elif isinstance(nout, list):
             if isinstance(nout[0], int):
-                self.nout = nout[0]
+                self.state.nout = nout[0]
             else:
                 warnings.warn(
                     "Please specify the output or it will be set to 0.",
                     stacklevel=2,
                 )
-                self.nout = 0
+                self.state.nout = 0
         else:
-            self.nout = nout
+            self.state.nout = nout
 
-        file = self.pathdir / Path(f"out{self.nout:03d}.h5")
+        file = self.state.pathdir / Path(f"out{self.state.nout:03d}.h5")
 
         loadvars = True
         if kwargs.get("vars") is not None:
@@ -109,13 +109,13 @@ class EchoLoadManager(LoadMixin):
         loadvars = kwargs.get("var", loadvars)
 
         with h5py.File(str(file), "r") as tmp:
-            self.ntime = cast(h5py.Dataset, tmp["time"])[()][0]
+            self.state.ntime = cast(h5py.Dataset, tmp["time"])[()][0]
             var = list(tmp.keys()) if loadvars is True else loadvars or []
             self.echo_load_vars(tmp, conv_dict, var)
 
     def echo_load_grid(self, conv_dict: dict[str, str]) -> None:
         """Load grid.h5 and set attributes."""
-        with h5py.File(str(self.pathdir / Path("grid.h5")), "r") as grid:
+        with h5py.File(str(self.state.pathdir / Path("grid.h5")), "r") as grid:
             for key, obj in grid.items():
                 if not isinstance(obj, h5py.Dataset):
                     continue
@@ -130,14 +130,16 @@ class EchoLoadManager(LoadMixin):
             n = len(getattr(self, dim)) if hasattr(self, dim) else 1
             setattr(self, f"n{dim}", n)
 
-        self.dim = (self.nx1 > 1) + (self.nx2 > 1) + (self.nx3 > 1)
-        self.gridsize = self.nx1 * self.nx2 * self.nx3
+        self.state.dim = (
+            (self.state.nx1 > 1) + (self.state.nx2 > 1) + (self.state.nx3 > 1)
+        )
+        self.state.gridsize = self.state.nx1 * self.state.nx2 * self.state.nx3
         dim_dict = {
-            1: self.nx1,
-            2: (self.nx1, self.nx2),
-            3: (self.nx1, self.nx2, self.nx3),
+            1: self.state.nx1,
+            2: (self.state.nx1, self.state.nx2),
+            3: (self.state.nx1, self.state.nx2, self.state.nx3),
         }
-        self.nshp = dim_dict[self.dim]
+        self.state.nshp = dim_dict[self.state.dim]
 
     def echo_load_vars(
         self, tmp: h5py.File, conv_dict: dict[str, str], var: list[str]
@@ -155,7 +157,7 @@ class EchoLoadManager(LoadMixin):
                 )
                 continue
             loadvar = obj[()]
-            for dim in [self.nx3, self.nx2, self.nx1]:
+            for dim in [self.state.nx3, self.state.nx2, self.state.nx1]:
                 if dim == 1:
                     loadvar = loadvar[0]
             setattr(self.state, conv_dict.get(valkey, valkey), loadvar.T)

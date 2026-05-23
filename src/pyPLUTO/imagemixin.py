@@ -14,8 +14,6 @@ class ImageMixin:
     It provides properties and methods related to the image state and axes.
     """
 
-    # pylint: disable=too-many-public-methods
-
     state: ImageState
 
     @property

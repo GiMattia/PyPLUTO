@@ -75,14 +75,14 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         dbl = {"dbl", "dbl.h5"}  # The set of double filetypes
 
         # Define the possible filetypes and set the keyword "alone" accordingly
-        if self.class_name == "Load":
+        if self.state.class_name == "Load":
             # Divide the formats between standalone and not standalone
             type_out = ["dbl", "flt", "vtk", "dbl.h5", "flt.h5", "tab"]
             type_lon = ["vtk", "dbl.h5", "flt.h5", "tab", "hdf5"]
             # If datatype is dbl or flt the files are not standalone
             if datatype in {"dbl", "flt"}:
                 alone = False
-        elif self.class_name == "LoadPart":
+        elif self.state.class_name == "LoadPart":
             # Particle files are always standalone
             alone = True
             type_out = []
@@ -93,18 +93,18 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
 
         # Check if the given datatype is valid, if not raise an error
         if datatype not in type_out + type_lon + [None]:
-            if self.class_name == "Load":
+            if self.state.class_name == "Load":
                 err = (
                     f"Invalid datatype {datatype}.\n"
                     f"Possible formats are: dbl, flt, vtk, dbl.h5, flt.h5, tab"
                 )
-            elif self.class_name == "LoadPart":
+            elif self.state.class_name == "LoadPart":
                 err = (
                     f"Invalid datatype {datatype}.\n"
                     f"Possible formats are: dbl, flt, vtk"
                 )
             else:
-                err = f"Invalid class name: {self.class_name}"
+                err = f"Invalid class name: {self.state.class_name}"
             raise ValueError(err)
 
         # Create the list of types to iterate over. If the datatype is None
@@ -139,16 +139,16 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         ):
             do_check([x for x in arg if x is not None])
             # Check if the format has been found
-            if self.datatype != "Unknown":
+            if self.state.datatype != "Unknown":
                 # Store the charsize depending on the format
-                self.charsize = 8 if self.datatype in dbl else 4
+                self.state.charsize = 8 if self.state.datatype in dbl else 4
                 # If the format is found, end the function
                 return None
 
         # No file has been found, so raise an error depending on the case.
         # If the datatype is None, raise a general error, otherwise raise
         # an error for the specific datatype.
-        scrh = f"No available type has been found in {self.pathdir}."
+        scrh = f"No available type has been found in {self.state.pathdir}."
 
         if datatype is not None:
             scrh = f"Type {datatype} not found."
@@ -185,14 +185,14 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         # Loop over the possible formats
         for try_type in type_out:
             # Create the path to the grid.out and datatype.out files
-            pathgrid = self.pathdir / Path("grid.out")
-            pathdata = self.pathdir / Path(try_type + ".out")
+            pathgrid = self.state.pathdir / Path("grid.out")
+            pathdata = self.state.pathdir / Path(try_type + ".out")
 
             # Check if the datatype.out file is present
             if pathdata.is_file() and pathgrid.is_file():
                 # Store the format and set the flag alone to False
-                self.datatype = try_type
-                self.alone = False
+                self.state.datatype = try_type
+                self.state.alone = False
                 # Format is found, break the loop
                 break
 
@@ -229,16 +229,16 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         # Loop over the possible formats
         for try_type in type_lon:
             # Create the pattern to be searched
-            pattern = self.pathdir / Path("*.*." + try_type)
+            pattern = self.state.pathdir / Path("*.*." + try_type)
 
             # Find the files matching the pattern
-            self.matching_files = glob.glob(str(pattern))
+            self.state.matching_files = glob.glob(str(pattern))
 
             # Check if the file is present
-            if self.matching_files:
+            if self.state.matching_files:
                 # Store the format and set the flag alone to True
-                self.datatype = try_type
-                self.alone = True
+                self.state.datatype = try_type
+                self.state.alone = True
                 # Format is found, break the loop
                 break
 

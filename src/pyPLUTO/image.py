@@ -2,8 +2,6 @@
 
 # ruff: noqa: ANN201  # noqa: RUF100
 
-from __future__ import annotations
-
 from typing import Unpack
 
 from pyPLUTO.amr import oplotbox
@@ -25,6 +23,7 @@ from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.annotator import AllKwargs
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.resolver import AttrResolver
 
 
 class Image(ImageMixin):
@@ -214,7 +213,8 @@ class Image(ImageMixin):
 
     def __getattr__(self, name: str) -> object:
         """Get the attribute of the Image class."""
-        return getattr(self.state, name)
+        val = getattr(self.state, name)
+        return AttrResolver.resolve(self.state, name, val)
 
     def __setattr__(self, name: str, value: object) -> None:
         """Set the attribute of the Image class."""

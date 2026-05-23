@@ -99,6 +99,36 @@ In this way, PyPLUTO can be explored without any knowledge of the PLUTO code.
 All the tests are located in the `Examples` directory and are aimed at showing
 how to exploit the package capabilities.
 
+From an installed package, examples are available through:
+
+```bash
+pypluto-examples list
+pypluto-examples copy
+pypluto-examples run test01_sod
+```
+
+Equivalent Python API:
+
+```python
+import pyPLUTO as pp
+
+print(pp.examples_path())        # installed examples directory
+pp.copy_examples()               # creates ./pypluto_examples
+pp.run_example("test01_sod")     # runs one example script
+```
+
+### Maintainer notes for examples
+
+- Canonical sources stay in `Examples/` (repo root).
+- Installed users fetch a cached copy from GitHub (matching package version tag when available).
+- Before release, keep `Examples/` in sync with the release tag and verify CLI:
+
+```bash
+python3 -m build
+pip install dist/py_pluto-*.whl
+pypluto-examples list
+```
+
 ## The GUI
 
 A Graphical User Interface has been implemented in order to simplify and enhance the visualization and analysis of simulation data.

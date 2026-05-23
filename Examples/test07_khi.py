@@ -50,19 +50,17 @@ Image.display(
     cpos="right",
 )
 
-# Image.colorbar(axs=0, cax=1)
-
 # Find and plot the field lines
 lines = Data.find_fieldlines(
     Data.Bx1,
     Data.Bx2,
     x1=Data.x1,
     x2=Data.x2,
-    y0=[0.0, 0.1, -0.1, 0.2, -0.2],
-    x0=[0.55, 0.0, 0.0, 0.0, 0.0],
+    y0=[0.0, 0.1, -0.1, 0.25, -0.25],
+    x0=[0.5, 0.5, 0.5, 0.5, 0.5],
     order="RK45",
-    maxstep=0.01,
-    numsteps=25000,
+    maxstep=0.001,
+    numsteps=10000,
 )
 
 for _, line in enumerate(lines):

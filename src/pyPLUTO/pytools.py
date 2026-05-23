@@ -27,8 +27,7 @@ def find_example(name: str) -> Path:
         return local_path
 
     # Check if the test problem exists in the PLUTO directory
-    env_path = os.environ.get("PLUTO_DIR")
-    if env_path:
+    if env_path := os.environ.get("PLUTO_DIR"):
         fallback = Path(env_path) / "Test_Problems" / name
         if fallback.exists():
             return fallback

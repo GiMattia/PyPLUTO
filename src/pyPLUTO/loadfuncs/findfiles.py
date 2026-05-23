@@ -68,65 +68,72 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         # Initialization or declaration of variables
         set_vars: set[str] = set()
         set_outs: set[str] = set()
-        self.d_info = {}
+        set_chnk: dict = {}
 
-        if self.matching_files is None:
+        # Check if matching files are actually present
+        if self.state.matching_files is None:
             raise ValueError("No files are found! Cannot proceed.")
+
         # Find the files to be loaded
-        for elem in self.matching_files:
-            self.varsout(elem, set_vars, set_outs)
+        for elem in self.state.matching_files:
+            self.varsout(elem, set_vars, set_outs, set_chnk)
 
         # Check if the files are present
         if len(set_vars) == 0 or len(set_outs) == 0:
-            raise FileNotFoundError(f"No files found in {self.pathdir}!")
+            raise FileNotFoundError(f"No files found in {self.state.pathdir}!")
 
-        self.outlist = np.array(sorted(set_outs))
-        self.lennoutlist = len(self.outlist)
+        self.state.outlist = np.array(sorted(set_outs))
+        self.state.lennoutlist = len(self.state.outlist)
         self.LoadToolManager.check_nout(nout)
-        self.lennout = len(self.noutlist)
-        self.ntimelist = np.full(self.lennout, np.nan)
-        self.timelist = np.full(len(self.outlist), np.nan)
+        self.state.lennout = len(self.state.noutlist)
+        self.state.ntimelist = np.full(self.state.lennout, np.nan)
+        self.state.timelist = np.full(len(self.state.outlist), np.nan)
 
         # Find the max size of the output numbers to allow for loading if some
         # files are missing
-        d_info_size = int(np.max(self.outlist)) + 1
+        d_info_size = int(np.max(self.state.outlist)) + 1
 
         # Initialize the info dictionary and initialize some relevant variables
-        self.d_info["typefile"] = np.empty(d_info_size, dtype="U20")
-        self.d_info["endianess"] = np.empty(d_info_size, dtype="U20")
-        self.d_info["binformat"] = np.empty(d_info_size, dtype="U20")
-        if self.class_name == "LoadPart":
-            raise NotImplementedError(
-                "FindFilesManager for LoadPart is not implemented yet."
-            )
-        elif self.class_name == "Load":
+        self.state.d_info["typefile"] = np.empty(d_info_size, dtype="U20")
+        self.state.d_info["endianess"] = np.empty(d_info_size, dtype="U20")
+        self.state.d_info["binformat"] = np.empty(d_info_size, dtype="U20")
+        if self.state.class_name == "LoadPart":
+            if "particles" not in set_vars:
+                raise FileNotFoundError(
+                    f"file particles.*.{self.datatype} \
+                                            not found!"
+                )
+
+            # Particles are always 'single_file', initialize additional vars
+            self.state.d_info["typefile"][:] = "single_file"
+            self.state.d_info["varslist"] = [[] for _ in range(d_info_size)]
+            self.state.d_info["varskeys"] = [[] for _ in range(d_info_size)]
+            self.state.d_info["chnklist"] = [[] for _ in range(d_info_size)]
+            if len(set_chnk) > 0:
+                self.state.d_info["typefile"][:] = "multiple_files"
+                for out, chnks in set_chnk.items():
+                    self.state.d_info["chnklist"][out] = sorted(chnks)
+
+        elif self.state.class_name == "Load":
             # Check if the fluid files are present as multiple files
-            if "data" not in set_vars or self.multiple is True:
+            if "data" not in set_vars or self.state.multiple is True:
                 # If the files are multiple, the typefile is set accordingly
-                self.d_info["typefile"][:] = "multiple_files"
-                self.d_info["varslist"] = [[] for _ in range(d_info_size)]
-                for elem in self.matching_files:
+                self.state.d_info["typefile"][:] = "multiple_files"
+                self.state.d_info["varslist"] = [[] for _ in range(d_info_size)]
+                for elem in self.state.matching_files:
                     raw_str = Path(elem).name.split(".")
-                    self.d_info["varslist"][int(raw_str[1])].append(raw_str[0])
+                    self.state.d_info["varslist"][int(raw_str[1])].append(
+                        raw_str[0]
+                    )
             else:
                 # If the files are single, the typefile is set to 'single_file'
-                self.d_info["typefile"][:] = "single_file"
-                self.d_info["varslist"] = [[] for _ in range(d_info_size)]
+                self.state.d_info["typefile"][:] = "single_file"
+                self.state.d_info["varslist"] = [[] for _ in range(d_info_size)]
         else:
-            raise ValueError(f"Unknown class name: {self.class_name}")
-
-        # Sparse map indexed by output number
-        endpath = np.empty(d_info_size, dtype=f"<U{len(self.datatype) + 6}")
-        endpath[:] = ""
-        for out in self.outlist:
-            endpath[int(out)] = f".{int(out):04d}.{self.datatype}"
-        self.d_info["endpath"] = endpath
+            raise ValueError(f"Unknown class name: {self.state.class_name}")
 
     def varsout(
-        self,
-        elem: str,
-        set_vars: set,
-        set_outs: set,
+        self, elem: str, set_vars: set, set_outs: set, set_chnk: dict
     ) -> None:
         """Find the variables and the outputs for the fluid and particles files.
 
@@ -164,19 +171,22 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         out = raw_str[1]
 
         # Set the conditions if the file is fluid or particles
-        isfluid = var != "particles" and self.class_name == "Load"
-        ispart = var == "particles" and self.class_name == "LoadPart"
+        isfluid = var != "particles" and self.state.class_name == "Load"
+        ispart = var == "particles" and self.state.class_name == "LoadPart"
 
         if isfluid or (ispart and "_" not in out):
             # Control variable set to True
             outc = True
         elif ispart and "_" in out:
-            pass
+            scrh = out.split("_")
+            out = int(scrh[0])
+            outc = int(scrh[1][2:])
+            set_chnk.setdefault(out, set()).add(outc)
         else:
             # Control variable set to False
             outc = False
 
-            # Add the variables and the outputs
-        if outc is True:
+        # Add the variables and the outputs
+        if outc is not False:
             set_vars.add(var)
             set_outs.add(int(out))

@@ -19,8 +19,6 @@ from pyPLUTO.utils.inspector import track_kwargs
 class StreamplotManager(ImageMixin):
     """Manages the streamplot function from matplotlib.pyplot."""
 
-    exposed_methods = ("streamplot",)
-
     def __init__(self, state: ImageState) -> None:
         """Initialize the StreamplotManager with the given state."""
         self.state = state
@@ -208,7 +206,7 @@ class StreamplotManager(ImageMixin):
             kwargs.pop("ax", None), **kwargs
         )
 
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -289,8 +287,8 @@ class StreamplotManager(ImageMixin):
             self.ColorbarManager.colorbar(strm.lines, check=False, **kwargs)
 
         # If tight_layout is enabled, is re-inforced
-        if self.tight:
-            self.fig.tight_layout()
+        if self.state.tight:
+            self.state.fig.tight_layout()
 
         del varx, vary
 

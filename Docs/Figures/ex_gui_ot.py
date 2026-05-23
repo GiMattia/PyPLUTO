@@ -139,8 +139,7 @@ def automate_gui():
         QTimer.singleShot(1000, wait_for_dialog)
 
     def wait_for_dialog(retries=20):
-        dialog = getattr(window, "_file_dialog", None)
-        if dialog is not None:
+        if (dialog := getattr(window, "_file_dialog", None)) is not None:
             test_path = pyPLUTO.find_example("")
             QTimer.singleShot(1000, lambda: go_to_mhd(test_path, dialog))
         elif retries > 0:

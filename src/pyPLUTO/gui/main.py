@@ -1,3 +1,5 @@
+"""Main GUI module."""
+
 import sys
 
 from PySide6.QtWidgets import QApplication
@@ -6,6 +8,7 @@ from .main_window import PyPLUTOApp
 
 
 def main() -> None:
+    """Launch the PyPLUTO GUI application."""
     app = QApplication(sys.argv)
     window = PyPLUTOApp(code="PLUTO")
     window.resize(1150, 720)

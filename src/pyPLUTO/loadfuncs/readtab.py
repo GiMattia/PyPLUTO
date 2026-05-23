@@ -41,8 +41,6 @@ class ReadtabManager(LoadMixin):
             >>> _read_tabfile(0)
 
         """
-        Dict_tab = {}
-
         # Read entire mmap in one call
         mm.seek(0)
         raw = mm.read()
@@ -70,36 +68,35 @@ class ReadtabManager(LoadMixin):
         # Grid detection
         if empty_lines > 0:
             if not hasattr(self, "dim"):
-                self.nx1 = empty_lines
-                self.nx2 = num_rows // empty_lines
-                self.dim = 2
-                self.nshp = (self.nx1, self.nx2)
+                self.state.nx1 = empty_lines
+                self.state.nx2 = num_rows // empty_lines
+                self.state.dim = 2
+                self.state.nshp = (self.state.nx1, self.state.nx2)
         elif not hasattr(self, "dim"):
-            self.nx1 = num_rows
-            self.nx2 = 1
-            self.dim = 1
-            self.nshp = self.nx1
+            self.state.nx1 = num_rows
+            self.state.nx2 = 1
+            self.state.dim = 1
+            self.state.nshp = self.state.nx1
 
-        if self.infogrid is True:
-            self.x1 = data[:, 1].reshape(self.nx1, self.nx2)
-            self.x2 = data[:, 0].reshape(self.nx1, self.nx2)
-            # if self.nx2 == 1:
-            #    self.x1 = self.x2[0]
+        if self.state.infogrid is True:
+            self.state.x1 = data[:, 1].reshape(self.state.nx1, self.state.nx2)
+            self.state.x2 = data[:, 0].reshape(self.state.nx1, self.state.nx2)
+            # if self.state.nx2 == 1:
+            #    self.state.x1 = self.state.x2[0]
 
         # Variable names
-        if len(self.d_info["varslist"][exout]) == 0:
-            self.d_info["varslist"][exout] = [
+        if len(self.state.d_info["varslist"][exout]) == 0:
+            self.state.d_info["varslist"][exout] = [
                 f"var{k + 1}" for k in range(num_cols - 2)
             ]
-        self.load_vars = self.d_info["varslist"][exout]
+        self.load_vars = self.state.d_info["varslist"][exout]
 
         # Store variables — pure numpy column slices (views, zero-copy)
         num_cols_iter = num_cols
         for j in range(2, num_cols_iter):
-            var = self.d_info["varslist"][exout][j - 2]
+            var = self.state.d_info["varslist"][exout][j - 2]
             col = data[:, j]
             if empty_lines > 0:
-                col = col.reshape(self.nx1, self.nx2)
-            Dict_tab[var] = col
+                col = col.reshape(self.state.nx1, self.state.nx2)
             if var in self.load_vars:
                 setattr(self.state, var, col)

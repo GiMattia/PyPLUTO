@@ -21,8 +21,6 @@ class AxisManager(ImageMixin):
     aspect.
     """
 
-    exposed_methods = ("set_axis",)
-
     def __init__(self, state: ImageState) -> None:
         """Initialize the AxisManager with the given state."""
         self.state = state
@@ -186,12 +184,12 @@ class AxisManager(ImageMixin):
             raise ValueError("No axis can be set!")
 
         # Set fontsize
-        self.fontsize = kwargs.get("fontsize", self.fontsize)
-        plt.rcParams.update({"font.size": self.fontsize})
+        self.state.fontsize = kwargs.get("fontsize", self.state.fontsize)
+        plt.rcParams.update({"font.size": self.state.fontsize})
 
         # Set aspect ratio
         if kwargs.get("aspect", True) is not True:
-            self.ax[nax].set_aspect(kwargs["aspect"])
+            self.state.ax[nax].set_aspect(kwargs["aspect"])
 
         # Set xrange and yrange
         self.check_range(ax, nax, **kwargs)
@@ -207,10 +205,10 @@ class AxisManager(ImageMixin):
             ax.tick_params(axis="x", labelsize=kwargs["tickssize"])
             ax.tick_params(axis="y", labelsize=kwargs["tickssize"])
         else:
-            ax.tick_params(axis="both", labelsize=self.fontsize)
+            ax.tick_params(axis="both", labelsize=self.state.fontsize)
 
         # Set ticks direction
-        if kwargs.get("ticksdir") or self.tickspar[nax] == 0:
+        if kwargs.get("ticksdir") or self.state.tickspar[nax] == 0:
             tckd = kwargs.get("ticksdir", "in")
             ax.tick_params(
                 axis="both",
@@ -227,7 +225,7 @@ class AxisManager(ImageMixin):
         self.check_minorticks(ax, nax, **kwargs)
 
         # Set parameter that fixes the minorticks and ticksdir
-        self.tickspar[nax] = 1
+        self.state.tickspar[nax] = 1
 
         # Scales and alpha
         self.set_scales(ax, nax, **kwargs)
@@ -252,8 +250,8 @@ class AxisManager(ImageMixin):
             ax.grid(True, axis=kwargs["grid"])
 
         # Reinforces the tight_layout if needed
-        if self.tight is not False and self.fig is not None:
-            self.fig.tight_layout()
+        if self.state.tight is not False and self.state.fig is not None:
+            self.state.fig.tight_layout()
 
         # End of the function
 
@@ -369,19 +367,19 @@ class AxisManager(ImageMixin):
         if kwargs.get("title") is not None:
             ax.set_title(
                 kwargs["title"],
-                fontsize=kwargs.get("titlesize", self.fontsize),
+                fontsize=kwargs.get("titlesize", self.state.fontsize),
                 pad=kwargs.get("titlepad", 8.0),
             )
         if kwargs.get("xtitle") is not None:
             ax.set_xlabel(
                 kwargs["xtitle"],
-                fontsize=kwargs.get("labelsize", self.fontsize),
+                fontsize=kwargs.get("labelsize", self.state.fontsize),
                 labelpad=kwargs.get("xlabelpad", 4.0),
             )
         if kwargs.get("ytitle") is not None:
             ax.set_ylabel(
                 kwargs["ytitle"],
-                fontsize=kwargs.get("labelsize", self.fontsize),
+                fontsize=kwargs.get("labelsize", self.state.fontsize),
                 labelpad=kwargs.get("ylabelpad", 4.0),
             )
 
@@ -414,7 +412,7 @@ class AxisManager(ImageMixin):
                 else {}
             )
             ax.set_xscale(xscale, **xscale_kwargs)
-            self.xscale[nax] = xscale
+            self.state.xscale[nax] = xscale
 
         if kwargs.get("yscale", True) is not True:
             yscale = kwargs["yscale"]
@@ -425,7 +423,7 @@ class AxisManager(ImageMixin):
                 else {}
             )
             ax.set_yscale(yscale, **yscale_kwargs)
-            self.yscale[nax] = yscale
+            self.state.yscale[nax] = yscale
 
     @track_kwargs
     def check_range(self, ax: Axes, nax: int, **kwargs: Any) -> None:
@@ -489,7 +487,7 @@ class AxisManager(ImageMixin):
             the keyword arguments passed to the set_axis function
 
         """
-        if kwargs.get("minorticks") or self.tickspar[nax] == 0:
+        if kwargs.get("minorticks") or self.state.tickspar[nax] == 0:
             mintks = kwargs.get("minorticks", "on")
             if mintks != "off":
                 ax.minorticks_on()

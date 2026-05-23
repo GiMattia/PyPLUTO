@@ -1,25 +1,69 @@
+from __future__ import annotations
+
+from typing import Any
+
 from PySide6.QtWidgets import (
+    QCheckBox,
+    QComboBox,
     QHBoxLayout,
+    QLineEdit,
     QMainWindow,
     QTextEdit,
     QVBoxLayout,
     QWidget,
 )
 
+from .app_state import AppState
 from .globals import cmaps_avail, cmaps_divided, format_avail, scales, vscales
+from .load_controller import LoadController
+from .panels import PanelsMixin
+from .plot_controller import PlotController
+from .state_accessors import StateAccessorsMixin
 
 
-class PyPLUTOApp(QMainWindow):
+class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
+    datatype_selector: QComboBox
+    format_selector: QComboBox
+    outtext: QLineEdit
+    varstext: QLineEdit
+    var_selector: QComboBox
+    xaxis_selector: QComboBox
+    yaxis_selector: QComboBox
+    xslicetext: QLineEdit
+    yslicetext: QLineEdit
+    zslicetext: QLineEdit
+    plot_title: QLineEdit
+    xrange_min: QLineEdit
+    xrange_max: QLineEdit
+    yrange_min: QLineEdit
+    yrange_max: QLineEdit
+    vrange_min: QLineEdit
+    vrange_max: QLineEdit
+    xscale_selector: QComboBox
+    yscale_selector: QComboBox
+    vscale_selector: QComboBox
+    xscale_tresh: QLineEdit
+    yscale_tresh: QLineEdit
+    vscale_tresh: QLineEdit
+    typecmap_selector: QComboBox
+    cmap_selector: QComboBox
+    transpose_checkbox: QCheckBox
+    ratio_checkbox: QCheckBox
+    reverse_checkbox: QCheckBox
+    overplot_checkbox: QCheckBox
+    info_label: QTextEdit
+    firstplot: bool
+    vardim: int
+    Image: Any
+
     def __init__(self, code: str):
         super().__init__()
+        self.state = AppState()
+        self.code: str
         codestr = f" ({self.code:= code})" if code != "PLUTO" else ""
         self.setWindowTitle(f"PyPLUTO GUI{codestr}")
         if code != "PLUTO":
             raise NotImplementedError(f"Code {code} not yet implemented")
-
-        self.folder_path = None
-        self.datatype = None
-        self.data_loaded = False
 
         main_widget = QWidget()
         self.setCentralWidget(main_widget)
@@ -27,106 +71,113 @@ class PyPLUTOApp(QMainWindow):
 
         # Left control panel
         button_layout = QVBoxLayout()
+        self.load_controller = LoadController(self)
+        self.plot_controller = PlotController(self)
 
         layout = QHBoxLayout()
-        self.add_combobox(
-            "datatype_selector",
+        self.datatype_selector = self.add_combobox(
             layout,
             ["PLUTO fluid", "PLUTO particles", "ECHO"],
         )
         self.add_label("Preferred format:", layout)
-        self.add_combobox("format_selector", layout, format_avail)
+        self.format_selector = self.add_combobox(layout, format_avail)
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
         self.add_label("nout:", layout)
-        self.add_lineedit("outtext", layout, "nout")
+        self.outtext = self.add_lineedit(layout, "nout")
         self.add_label("vars:", layout)
-        self.add_lineedit("varstext", layout, "vars")
+        self.varstext = self.add_lineedit(layout, "vars")
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
         self.add_pushbutton("Select File", layout, self.select_folder)
-        self.add_pushbutton("Clear", layout, self.clearload)
-        self.add_pushbutton("Reload Folder", layout, self.reload_data)
+        self.add_pushbutton("Clear", layout, self.load_controller.clearload)
+        self.add_pushbutton(
+            "Reload Folder", layout, self.load_controller.reload_data
+        )
         button_layout.addLayout(layout)
 
         self.add_line(button_layout)
 
         layout = QHBoxLayout()
         self.add_label("Select the variable to plot:", layout)
-        self.add_combobox("var_selector", layout, [])
-        self.add_checkbox("Transpose", layout, "transpose_checkbox")
+        self.var_selector = self.add_combobox(layout, [])
+        self.transpose_checkbox = self.add_checkbox("Transpose", layout)
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
         self.add_label("Select the x-axis:", layout)
-        self.add_combobox("xaxis_selector", layout, [], 100)
+        self.xaxis_selector = self.add_combobox(layout, [], 100)
         self.add_label("y-axis:", layout)
-        self.add_combobox("yaxis_selector", layout, [], 100)
+        self.yaxis_selector = self.add_combobox(layout, [], 100)
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
         self.add_label("Slices: x", layout)
-        self.add_lineedit("xslicetext", layout, "x-slice")
+        self.xslicetext = self.add_lineedit(layout, "x-slice")
         self.add_label("y", layout)
-        self.add_lineedit("yslicetext", layout, "y-slice")
+        self.yslicetext = self.add_lineedit(layout, "y-slice")
         self.add_label("z", layout)
-        self.add_lineedit("zslicetext", layout, "z-slice")
+        self.zslicetext = self.add_lineedit(layout, "z-slice")
         button_layout.addLayout(layout)
 
         self.add_line(button_layout)
 
         layout = QHBoxLayout()
         self.add_label("Insert Title:", layout)
-        self.add_lineedit("plot_title", layout, "title")
-        self.add_checkbox("Auto-ratio", layout, "ratio_checkbox")
-        self.ratio_checkbox.setChecked(True)  # type: ignore
+        self.plot_title = self.add_lineedit(layout, "title")
+        self.ratio_checkbox = self.add_checkbox("Auto-ratio", layout)
+        self.ratio_checkbox.setChecked(True)
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
         self.add_label("xrange:", layout)
-        self.add_lineedit("xrange_min", layout, "xmin")
-        self.add_lineedit("xrange_max", layout, "xmax")
+        self.xrange_min = self.add_lineedit(layout, "xmin")
+        self.xrange_max = self.add_lineedit(layout, "xmax")
         self.add_label("x-scale:", layout)
-        self.add_combobox("xscale_selector", layout, scales)
-        self.add_lineedit("xscale_tresh", layout, "x-tresh")
+        self.xscale_selector = self.add_combobox(layout, scales)
+        self.xscale_tresh = self.add_lineedit(layout, "x-tresh")
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
         self.add_label("yrange:", layout)
-        self.add_lineedit("yrange_min", layout, "ymin")
-        self.add_lineedit("yrange_max", layout, "ymax")
+        self.yrange_min = self.add_lineedit(layout, "ymin")
+        self.yrange_max = self.add_lineedit(layout, "ymax")
         self.add_label("y-scale:", layout)
-        self.add_combobox("yscale_selector", layout, scales)
-        self.add_lineedit("yscale_tresh", layout, "y-tresh")
+        self.yscale_selector = self.add_combobox(layout, scales)
+        self.yscale_tresh = self.add_lineedit(layout, "y-tresh")
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
         self.add_label("vrange:", layout)
-        self.add_lineedit("vrange_min", layout, "vmin")
-        self.add_lineedit("vrange_max", layout, "vmax")
+        self.vrange_min = self.add_lineedit(layout, "vmin")
+        self.vrange_max = self.add_lineedit(layout, "vmax")
         self.add_label("v-scale:", layout)
-        self.add_combobox("vscale_selector", layout, vscales)
-        self.add_lineedit("vscale_tresh", layout, "v-tresh")
+        self.vscale_selector = self.add_combobox(layout, vscales)
+        self.vscale_tresh = self.add_lineedit(layout, "v-tresh")
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
         self.add_label("cmap:", layout)
-        self.add_combobox("typecmap_selector", layout, cmaps_divided.keys())
-        self.add_combobox("cmap_selector", layout, cmaps_avail)
-        self.add_checkbox("reverse", layout, "reverse_checkbox")
+        self.typecmap_selector = self.add_combobox(layout, cmaps_divided.keys())
+        self.cmap_selector = self.add_combobox(layout, cmaps_avail)
+        self.reverse_checkbox = self.add_checkbox("reverse", layout)
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
-        self.add_pushbutton("Plot", layout, self.plot_data)
-        self.add_checkbox("Overplot       ", layout, "overplot_checkbox")
+        self.add_pushbutton("Plot", layout, self.plot_controller.plot_data)
+        self.overplot_checkbox = self.add_checkbox("Overplot       ", layout)
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
-        self.add_pushbutton("Update plot", layout, self.update_axes)
-        self.add_pushbutton("Clear", layout, self.clear_labels)
-        self.add_pushbutton("Reload Canvas", layout, self.reload_canvas)
+        self.add_pushbutton(
+            "Update plot", layout, self.plot_controller.update_axes
+        )
+        self.add_pushbutton("Clear", layout, self.plot_controller.clear_labels)
+        self.add_pushbutton(
+            "Reload Canvas", layout, self.plot_controller.reload_canvas
+        )
         button_layout.addLayout(layout)
 
         self.add_line(button_layout)
@@ -143,35 +194,12 @@ class PyPLUTOApp(QMainWindow):
         main_layout.addLayout(button_layout)
 
         self.typecmap_selector.currentIndexChanged.connect(
-            self.update_cmap_selector
-        )  # type: ignore
+            self.plot_controller.update_cmap_selector
+        )
 
         self.canvas_layout = QVBoxLayout()
-        self.create_new_figure()
+        self.plot_controller.create_new_figure()
         main_layout.addLayout(self.canvas_layout)
 
-    from .config import (
-        _finalize_load_path,
-        clearload,
-        load_data,
-        reload_data,
-        select_folder,
-    )
-    from .panels import (
-        add_checkbox,
-        add_combobox,
-        add_label,
-        add_line,
-        add_lineedit,
-        add_pushbutton,
-    )
-    from .utils import (
-        check_axisparam,
-        clear_labels,
-        create_new_figure,
-        plot_data,
-        reload_canvas,
-        set_range,
-        update_axes,
-        update_cmap_selector,
-    )
+    def select_folder(self) -> None:
+        self.load_controller.select_folder()

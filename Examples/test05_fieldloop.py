@@ -39,7 +39,6 @@ Image = pyPLUTO.Image(
 # Creating the subplots
 ax = Image.create_axes(ncol=2, top=0.91)
 
-# Integrate the field line
 lines = Data.find_fieldlines(
     Data.Bx1,
     Data.Bx2,
@@ -88,7 +87,14 @@ Image.display(
 
 # Plot the field lines in two different ways
 Image.streamplot(
-    Data.Bx1, Data.Bx2, x1=Data.x1, x2=Data.x2, ax=0, lw=1.5, vmin=1.0e-4, c="k"
+    Data.Bx1,
+    Data.Bx2,
+    x1=Data.x1,
+    x2=Data.x2,
+    ax=0,
+    lw=1.5,
+    vmin=1.0e-4,
+    c="k",
 )
 
 Image.plot(lines[0][0], lines[0][1], ax=1, c="k", lw=1.5)

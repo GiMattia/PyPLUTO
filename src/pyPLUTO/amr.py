@@ -1,6 +1,8 @@
 import h5py
 import numpy as np
 
+from pyPLUTO.toolfuncs.loadtools import LoadToolsManager
+
 
 def _inspect_hdf5(self, i: int, exout: int) -> None:
     """Routine to inspect the hdf5 file from chombo.
@@ -385,12 +387,16 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
                         jb0 - jbeg : je0 - jbeg + 1,
                         kb0 - kbeg : ke0 - kbeg + 1,
                         iv,
-                    ] = self._congrid(
-                        q1[:, :, :, iv].squeeze(),
-                        new_shape,
-                        method="linear",
-                        minusone=True,
-                    ).reshape((ie0 - ib0 + 1, je0 - jb0 + 1, ke0 - kb0 + 1))
+                    ] = (
+                        LoadToolsManager(self.state)
+                        .congrid(
+                            q1[:, :, :, iv].squeeze(),
+                            new_shape,
+                            method="linear",
+                            minusone=True,
+                        )
+                        .reshape((ie0 - ib0 + 1, je0 - jb0 + 1, ke0 - kb0 + 1))
+                    )
                 ncount = ncount + szb
 
     h5vardict = {}
@@ -570,7 +576,7 @@ def _read_gridfile(self) -> None:
     nmax, xL, xR = [], [], []
 
     # Open and read the gridfile
-    with open(self._pathgrid) as gfp:
+    with open(self.pathgrid) as gfp:
         for i in gfp.readlines():
             self._split_gridfile(i, xL, xR, nmax)
 

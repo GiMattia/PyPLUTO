@@ -5,6 +5,7 @@ import mmap
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.loadfuncs.offsetfluid import OffsetFluid
+from pyPLUTO.loadfuncs.offsetpart import OffsetPart
 from pyPLUTO.loadfuncs.readgridfile import GridFileManager
 from pyPLUTO.loadfuncs.readtab import ReadtabManager
 from pyPLUTO.loadstate import LoadState
@@ -17,8 +18,10 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
         self.state = state
         if isinstance(state, LoadState):
             self.GridFileManager = GridFileManager(state)
-            self.Offsetclass = OffsetFluid(state)
+            self.FluidOffsetclass = OffsetFluid(state)
             self.ReadtabManager = ReadtabManager(state)
+        else:
+            self.PartOffsetclass = OffsetPart(state)
 
     def compute_offset(
         self,
@@ -61,27 +64,27 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
             >>> _compute_offset(0, 0, None)
         """
         if (
-            self.alone is not True
+            self.state.alone is not True
             and isinstance(self.state, LoadState)
-            and self.infogrid is True
+            and self.state.infogrid is True
         ):
             self.GridFileManager.read_gridfile()
-            self.infogrid = False
+            self.state.infogrid = False
 
-        fmt = "h5" if self.datatype in {"dbl.h5", "flt.h5"} else self.datatype
+        fmt = (
+            "h5"
+            if self.state.datatype in {"dbl.h5", "flt.h5"}
+            else self.state.datatype
+        )
         fmt = "bin" if fmt in {"dbl", "flt"} else fmt
 
-        if isinstance(self.state, LoadState):
-            handlers = {
-                "tab": self.ReadtabManager.read_tab,
-                "bin": self.Offsetclass.offset_bin,
-                "vtk": self.Offsetclass.offset_vtk,
-                "h5": self.Offsetclass.offset_h5,
-                "hdf5": self.Offsetclass.offset_hdf5,
-            }
+        cls = (
+            self.FluidOffsetclass
+            if isinstance(self.state, LoadState)
+            else self.PartOffsetclass
+        )
+
+        if fmt == "tab":
+            self.ReadtabManager.read_tab(i, varname, exout, mm)
         else:
-            raise TypeError(
-                "OffsetData requires LoadState for now "
-                "(particles still not implemented)."
-            )
-        handlers.get(fmt, self.Offsetclass.offset_bin)(i, varname, exout, mm)
+            getattr(cls, f"offset_{fmt}", cls.offset_bin)(i, varname, exout, mm)

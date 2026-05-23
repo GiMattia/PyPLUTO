@@ -58,32 +58,34 @@ class FigureManager(ImageMixin):
         withblack = kwargs.pop("withblack", False)
         withwhite = kwargs.pop("withwhite", False)
 
-        self.fig = kwargs.get("fig", self.fig)
-        self.figsize = kwargs.get("figsize", self.figsize)
-        self.fontsize = kwargs.get("fontsize", self.fontsize)
-        self.LaTeX = kwargs.get("LaTeX", self.LaTeX)
-        self.nwin = kwargs.get("nwin", self.nwin)
-        self.style = kwargs.get("style", self.style)
-        self.tight = kwargs.get("tight", self.tight)
+        self.state.fig = kwargs.get("fig", self.state.fig)
+        self.state.figsize = kwargs.get("figsize", self.state.figsize)
+        self.state.fontsize = kwargs.get("fontsize", self.state.fontsize)
+        self.state.LaTeX = kwargs.get("LaTeX", self.state.LaTeX)
+        self.state.nwin = kwargs.get("nwin", self.state.nwin)
+        self.state.style = kwargs.get("style", self.state.style)
+        self.state.tight = kwargs.get("tight", self.state.tight)
 
         self.check_previous_fig(close)
         if "figsize" in kwargs:
-            self.set_size = True
+            self.state.set_size = True
 
         self.setup_style()
-        self.color = self.choose_colorlines(numcolors, withblack, withwhite)
+        self.state.color = self.choose_colorlines(
+            numcolors, withblack, withwhite
+        )
         self.assign_LaTeX(fontweight)
         self.create_figure(replace, suptitle, suptitlesize)
 
     def setup_style(self) -> None:
         """Set the matplotlib style."""
         try:
-            plt.style.use(self.style)
+            plt.style.use(self.state.style)
         except OSError:
-            warn = f"Warning: Style '{self.style}' not found. \
+            warn = f"Warning: Style '{self.state.style}' not found. \
                 Switching to 'default'"
             warnings.warn(warn, UserWarning, stacklevel=2)
-            self.style = "default"
+            self.state.style = "default"
 
     def choose_colorlines(
         self, numcolors: int, withblack: bool, withwhite: bool
@@ -121,7 +123,7 @@ class FigureManager(ImageMixin):
 
         """
         # New colors dictionary (black and white included)
-        self.dictcol = {
+        self.state.dictcol = {
             0: "#ffffff",
             1: "#e8ecfb",
             2: "#d9cce3",
@@ -189,7 +191,7 @@ class FigureManager(ImageMixin):
         lstc = [0, *lstc] if withwhite else [31, *lstc] if withblack else lstc
 
         # End of function, return the colors
-        return [self.dictcol[lstc[i]] for i in range(numcolors)]
+        return [self.state.dictcol[lstc[i]] for i in range(numcolors)]
 
     def assign_LaTeX(self, fontweight: str) -> None:
         """Set the LaTeX conditions.
@@ -224,12 +226,12 @@ class FigureManager(ImageMixin):
 
         """
         # LaTeX option 'pgf' (requires XeLaTeX)
-        if self.LaTeX == "pgf" and not shutil.which("latex"):
+        if self.state.LaTeX == "pgf" and not shutil.which("latex"):
             warn = "LaTeX not installed, switching to LaTeX = True"
             warnings.warn(warn, UserWarning, stacklevel=2)
-            self.LaTeX = True
+            self.state.LaTeX = True
 
-        if self.LaTeX == "pgf":
+        if self.state.LaTeX == "pgf":
             # Set the pgf backend
             try:
                 plt.switch_backend("pgf")
@@ -259,10 +261,10 @@ class FigureManager(ImageMixin):
             except ImportError:
                 warn = "The pgf backend is not available, reverting to True\n"
                 warnings.warn(warn, UserWarning, stacklevel=2)
-                self.LaTeX = True
+                self.state.LaTeX = True
 
         # LaTeX option True: default LaTeX font
-        if self.LaTeX is True:
+        if self.state.LaTeX is True:
             try:
                 mpl.rcParams["mathtext.fontset"] = "stix"
                 mpl.rcParams["font.family"] = "STIXGeneral"
@@ -295,14 +297,14 @@ class FigureManager(ImageMixin):
             >>> _check_previous_fig(True)
 
         """
-        if isinstance(self.fig, Figure):
-            self.figsize = [
-                self.fig.get_figwidth(),
-                self.fig.get_figheight(),
+        if isinstance(self.state.fig, Figure):
+            self.state.figsize = [
+                self.state.fig.get_figwidth(),
+                self.state.fig.get_figheight(),
             ]
-            self.fontsize = plt.rcParams["font.size"]
+            self.state.fontsize = plt.rcParams["font.size"]
             try:
-                fignum = self.fig.number
+                fignum = self.state.fig.number
                 if isinstance(fignum, int):
                     self.state.nwin = fignum
             except AttributeError:
@@ -311,15 +313,15 @@ class FigureManager(ImageMixin):
                     UserWarning,
                     stacklevel=2,
                 )
-                self.nwin = 1
-            self.tight = self.fig.get_tight_layout()
+                self.state.nwin = 1
+            self.state.tight = self.state.fig.get_tight_layout()
 
         # Close the existing figure if it exists (and 'close' is enabled).
         # `clf()` releases artists/axes payloads immediately, which prevents
         # stale Image instances (still holding axes/text refs) from retaining
         # heavy plot data in memory.
-        if plt.fignum_exists(self.nwin) and close is True:
-            existing_fig = plt.figure(self.nwin)
+        if plt.fignum_exists(self.state.nwin) and close is True:
+            existing_fig = plt.figure(self.state.nwin)
             existing_fig.clf()
             plt.close(existing_fig)
 
@@ -376,20 +378,20 @@ class FigureManager(ImageMixin):
 
         """
         # Create a new figure instance with the provided window number
-        if self.fig is None or replace is True:
-            self.fig = plt.figure(
-                self.nwin,
-                figsize=(self.figsize[0], self.figsize[1]),
+        if self.state.fig is None or replace is True:
+            self.state.fig = plt.figure(
+                self.state.nwin,
+                figsize=(self.state.figsize[0], self.state.figsize[1]),
             )
-        plt.rcParams.update({"font.size": self.fontsize})
+        plt.rcParams.update({"font.size": self.state.fontsize})
 
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError("The figure could not be created.")
 
         # Suptitle
         if suptitle is not None:
-            self.fig.suptitle(suptitle, fontsize=suptitlesize)
+            self.state.fig.suptitle(suptitle, fontsize=suptitlesize)
 
         # Tight layout
-        if self.tight is True:
-            self.fig.tight_layout()
+        if self.state.tight is True:
+            self.state.fig.tight_layout()

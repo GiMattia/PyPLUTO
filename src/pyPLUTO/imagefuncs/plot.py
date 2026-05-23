@@ -98,7 +98,7 @@ class PlotManager(ImageMixin):
         - legcols: int, default 1
             Sets the number of columns that the legend should have.
         - legpad: float, default 0.8
-            Sets the space between the lines (or symbols) and the correspondibg
+            Sets the space between the lines (or symbols) and the corresponding
             text in the legend.
         - legpos: int | str, default None
             If enabled, creates a legend. This keyword selects the legend
@@ -245,7 +245,7 @@ class PlotManager(ImageMixin):
             x = np.asarray(x, dtype=float)
             y = np.asarray(y, dtype=float)
 
-        if self.fig is None:
+        if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first."
             )
@@ -264,13 +264,13 @@ class PlotManager(ImageMixin):
             ax,
             nax,
             [np.nanmin(x), np.nanmax(x)],
-            self.setax[nax],
+            self.state.setax[nax],
         )
         self.RangeManager.set_yrange(
             ax,
             nax,
             [np.nanmin(y), np.nanmax(y)],
-            self.setay[nax],
+            self.state.setay[nax],
             data=(x.astype(np.float64), y),
             #    x=x.astype(np.float64),
             #    y=y,
@@ -278,10 +278,10 @@ class PlotManager(ImageMixin):
 
         # Set color line and increase the number of lines (if default color)
         col_line = kwargs.get(
-            "c", self.color[self.nline[nax] % len(self.color)]
+            "c", self.state.color[self.state.nline[nax] % len(self.state.color)]
         )
         if not kwargs.get("c"):
-            self.nline[nax] = self.nline[nax] + 1
+            self.state.nline[nax] = self.state.nline[nax] + 1
 
         # Start plotting procedure
         ax.plot(
@@ -297,15 +297,15 @@ class PlotManager(ImageMixin):
         )
 
         # Creation of the legend
-        self.legpos[nax] = kwargs.get("legpos", self.legpos[nax])
-        if self.legpos[nax] is not None:
+        self.state.legpos[nax] = kwargs.get("legpos", self.state.legpos[nax])
+        if self.state.legpos[nax] is not None:
             copy_label: str | None = kwargs.get("label")
             kwargs["label"] = None
             self.LegendManager.legend(ax, check=False, fromplot=True, **kwargs)
             kwargs["label"] = copy_label
 
         # If tight_layout is enabled, is re-inforced
-        if self.tight:
-            self.fig.tight_layout()
+        if self.state.tight:
+            self.state.fig.tight_layout()
 
         # End of the function

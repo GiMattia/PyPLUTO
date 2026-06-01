@@ -139,26 +139,6 @@ Docs are in `Docs/source`. To build locally:
 make -C Docs html
 ```
 
-## Publishing on conda-forge
-
-If you want to publish PyPLUTO on conda-forge, use the recipe template in this
-repository:
-
-- `conda-forge/recipe/meta.yaml`
-
-Suggested flow:
-
-1. Fork `conda-forge/staged-recipes` and create a new branch.
-2. Copy `conda-forge/recipe/meta.yaml` into
-   `staged-recipes/recipes/py-pluto/meta.yaml`.
-3. Replace `source.sha256` with the checksum of the corresponding PyPI sdist.
-4. Commit and open a PR against `conda-forge/staged-recipes`.
-5. Address CI/lint feedback from conda-forge reviewers.
-
-When the staged-recipes PR is merged, conda-forge will create
-`py-pluto-feedstock` automatically. Future version updates should then be done
-in that feedstock repository.
-
 ## Workflow for Pull Requests
 
 1. Create a branch from `master`.
@@ -176,10 +156,26 @@ CI runs style checks and tests across multiple OSes and Python versions. A PR is
 
 ## Project Structure (Quick Guide)
 
-- `pyPLUTO/`: main package code
+Top-level layout:
+
+- `src/pyPLUTO/`: main package code
 - `Tests/`: test suite and test data
 - `Examples/`: runnable examples and sample outputs
 - `Docs/`: Sphinx documentation
+
+Package subfolders inside `src/pyPLUTO/`:
+
+- `gui/`: GUI panels, widgets, and main window logic
+- `imagefuncs/`: image/plot manager classes
+- `loadfuncs/`: data loading and parsing
+- `toolfuncs/`: analysis tools (derivatives, transforms, units, etc.)
+- `utils/`: shared utilities
+
+`Load`, `LoadPart`, and `Image` follow the same architecture: a state class
+(`LoadState` / `BaseLoadState` / `ImageState`) holds all data; a mixin class
+(`LoadMixin` / `BaseLoadMixin` / `ImageMixin`) exposes the public interface;
+manager classes in the subfolders implement individual operations and receive
+the state object at construction time.
 
 ## Questions
 

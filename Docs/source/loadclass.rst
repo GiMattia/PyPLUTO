@@ -27,7 +27,7 @@ formats  available are dbl, vtk, flt, dbl.h5, flt.h5 hdf5 and tab.
    read_file
    write_file
 
-The vtk and h5 filed can be loaded as standalone (i.e. without the .out files).
+The vtk and h5 files can be loaded as standalone (i.e. without the .out files).
 However, we highly discourage the users to do so, especially if the simulation
 is run in non-cartesian coordinates.
 

@@ -1,114 +1,97 @@
+.. _installation:
+
 Install
 =======
 
-The latest version of the *PyPLUTO* code is officially distributed with the
-*gPLUTO* code. This can be downloaded from gPlutoDownload_.
+PyPLUTO requires **Python 3.11 or newer** and is tested on 3.12, 3.13, and 3.14.
 
-.. _gPlutoDownload: https://gitlab.com/PLUTO-code/gPLUTO
+Core dependencies installed automatically:
 
-The current version of *PyPLUTO* has been updated to support Python version 3.10
-or newer.
-Additional packages that are required are numpy, matplotlib, scipy, pandas, 
-Pyqt6 and h5py.
+- ``astropy``
+- ``contourpy``
+- ``h5py``
+- ``inifix``
+- ``matplotlib``
+- ``numexpr``
+- ``numpy``
+- ``scipy``
 
-All the relevant files are stored in the PyPLUTO directory, which can be 
-accessed by typing:
+The GUI requires the optional dependency ``PySide6``, which must be requested
+explicitly (see below).
+
+|
+
+----
+
+From PyPI
+---------
+
+The recommended way to install PyPLUTO for end users:
 
 .. code-block:: console
 
-   $ cd $PLUTO_DIR/Tools/PyPLUTO
+   $ pip install py-pluto
 
-Alternatively, the PyPLUTO directory can be cloned from the GitHub repository:
+To include the GUI:
+
+.. code-block:: console
+
+   $ pip install py-pluto[gui]
+
+|
+
+----
+
+With ``uv``
+-----------
+
+`uv <https://github.com/astral-sh/uv>`_ is a fast, modern package manager.
+To add PyPLUTO to a project:
+
+.. code-block:: console
+
+   $ uv add py-pluto
+
+To include the GUI:
+
+.. code-block:: console
+
+   $ uv add py-pluto[gui]
+
+|
+
+----
+
+With ``conda``
+--------------
+
+Create and activate a dedicated environment, then install via pip:
+
+.. code-block:: console
+
+   $ conda create -n pypluto python=3.12
+   $ conda activate pypluto
+   $ pip install py-pluto
+
+|
+
+----
+
+From Source
+-----------
+
+For development or to work with the latest code, clone the repository and
+install in editable mode:
 
 .. code-block:: console
 
    $ git clone https://github.com/GiMattia/PyPLUTO.git
+   $ cd PyPLUTO
+   $ pip install -e .
 
-For the sake of simplicity, we will assume to be in the PyPLUTO directory from
-now until the end of the installation process.
-
-|
-
-----
-
-Creating a Conda Environment
-----------------------------
-
-If you use conda, you can set up a dedicated environment using
-`conda <https://docs.conda.io/en/latest/>`_:
-
-1. Create the environment:
-
-   .. code-block:: console
-
-      $ conda create -n pypluto python=3.10
-
-2. Activate the environment:
-
-   .. code-block:: console
-
-      $ conda activate pypluto
-
-|
-
-----
-
-
-Installation with pip
----------------------
-
-The recommended installation method is using `pip`, directly from the root of 
-the PyPLUTO project. Make sure you are in a clean virtual environment:
-
-.. code-block:: console
-
-   (.venv) $ pip install -e .
-
-This installs *PyPLUTO* in **editable mode**, meaning local changes to the 
-source files are immediately reflected without reinstalling.
-
-|
-
-----
-
-Installing with `pipenv`
-------------------------
-
-If you use `pipenv` as your dependency manager, you can install *PyPLUTO* from a
-local path using:
-
-.. code-block:: console
-
-   $ pipenv install -e .
-
-To enter the virtual environment:
-
-.. code-block:: console
-
-   $ pipenv shell
-
-|
-
-----
-
-Installing with `uv`
---------------------
-
-If you prefer a fast, modern alternative, you can use 
-[`uv`](https://github.com/astral-sh/uv):
-
-1. Create and activate a virtual environment:
-
-   .. code-block:: console
-
-      $ uv venv
-      $ source .venv/bin/activate  # or .venv\Scripts\activate on Windows
-
-2. Install *PyPLUTO* in editable mode:
-
-   .. code-block:: console
-
-      (.venv) $ uv pip install -e .
+For a fully reproducible development environment including all optional extras
+and development tools, prefer ``uv`` or ``pixi`` (see
+:ref:`contributing <contributing>` for details).
 
 |
 
@@ -117,14 +100,15 @@ If you prefer a fast, modern alternative, you can use
 Issues
 ------
 
-If you encounter any issues during the installation, please check that you have
-the required dependencies installed, and run the command
+If you encounter any issues during installation, make sure ``pip`` is up to
+date:
 
 .. code-block:: console
 
-    (.venv) $ pip install --upgrade pip setuptools wheel
+   $ pip install --upgrade pip
 
-If the problem persists, feel free to open an issue on the GitHub repository
+If the problem persists, open an issue on the
+`GitHub repository <https://github.com/GiMattia/PyPLUTO>`_
 or contact the maintainers.
 
 .. This is a comment to prevent the document from ending with a transition.

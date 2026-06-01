@@ -94,7 +94,7 @@ Field and contour lines
 The :ref:`Image <image>` class contains a :ref:`contour <contour>` and a
 :ref:`streamplot <streamplot>` methods, which can be used for a quick
 visualization of contour and field lines. Such methods are based on the contour
-and streamplot maptlotlib methods. Note that field and contour lines can be also
+and streamplot matplotlib methods. Note that field and contour lines can be also
 produced in the Load class for a more accurate computation. Nonetheless, these
 methods require a limited computational time, favoring a quick visualization in
 absence of complex structures.

@@ -442,6 +442,30 @@
                   
   <section id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h1>
+<p>The following benchmark problems showcase PyPLUTO’s capabilities using data
+from standard PLUTO test problems. All necessary data is bundled with the
+package, so no PLUTO installation is required.</p>
+<p>After installing PyPLUTO (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">py-pluto</span></code>), examples are accessible
+via the command-line interface:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pypluto-examples<span class="w"> </span>list<span class="w">          </span><span class="c1"># list all available examples</span>
+<span class="gp">$ </span>pypluto-examples<span class="w"> </span>copy<span class="w">          </span><span class="c1"># copy example scripts to ./pypluto_examples/</span>
+<span class="gp">$ </span>pypluto-examples<span class="w"> </span>run<span class="w"> </span>test01_sod<span class="w">  </span><span class="c1"># run one example directly</span>
+</pre></div>
+</div>
+<p>or through the Python API:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyPLUTO</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pp</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">pp</span><span class="o">.</span><span class="n">examples_path</span><span class="p">())</span>        <span class="c1"># path to the installed examples directory</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">copy_examples</span><span class="p">()</span>               <span class="c1"># copies scripts to ./pypluto_examples/</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">run_example</span><span class="p">(</span><span class="s2">&quot;test01_sod&quot;</span><span class="p">)</span>     <span class="c1"># runs one example script</span>
+</pre></div>
+</div>
+<p>The example scripts themselves load data via <code class="docutils literal notranslate"><span class="pre">pyPLUTO.find_example()</span></code>, which
+resolves the bundled data path regardless of the installation method.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="test01_sod.html">Test 01 - HD Sod shock tube</a></li>

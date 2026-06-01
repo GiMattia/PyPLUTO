@@ -7,7 +7,7 @@
 | Docs & Community | [![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![Documentation](https://readthedocs.org/projects/pypluto/badge/?version=latest)](https://pypluto.readthedocs.io/en/latest/?badge=latest)  [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?logo=discord&logoColor=white)](https://discord.gg/63A3sM9UtX)  [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
 | Citation | [![DOI](https://joss.theoj.org/papers/10.21105/joss.08448/status.svg)](https://doi.org/10.21105/joss.08448) [![Arxiv](https://img.shields.io/badge/arXiv-2501.09748-8F1515?style=flat&logo=arxiv&logoColor=red)](https://doi.org/10.48550/arXiv.2501.09748) [![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.19650848.svg)](https://doi.org/10.5281/zenodo.19650848) |
 
-PyPLUTO is a Python library which loads and plots the data obtain from the
+PyPLUTO is a Python library which loads and plots the data obtained from the
 PLUTO code simulations.
 The aim of this package is to simplify some non-trivial python routines in order
 to quickly recover effective plots that are suited for scientific publications.
@@ -20,21 +20,26 @@ The package is structured as follow:
 - the Load class is used to load the data from the PLUTO simulation fluid files.
 - the LoadPart class is used to load the data from the PLUTO simulation particle files.
 - the Image class is used to visualize the loaded data.
-- the GUI subpackage allows for a quic interactive script-free visualization.
+- the GUI subpackage allows for a quick interactive script-free visualization.
+- physical units can be attached to loaded variables via the `astropy` library.
 - additional functions (e.g., to show the images) are included in the package.
 
 The package includes a set of examples in the `Examples` directory.
 
-The package is tested on Python 3.13 (and newer versions) and with the following dependencies:
+The package requires Python 3.11 or newer (CI tests 3.12, 3.13, and 3.14)
+and the following core dependencies:
 
-- `numpy`
+- `astropy`
 - `contourpy`
-- `matplotlib`
-- `numexpr`
-- `scipy`
 - `h5py`
 - `inifix`
-- `PySide6`
+- `matplotlib`
+- `numexpr`
+- `numpy`
+- `scipy`
+
+The GUI requires the optional dependency `PySide6`, installable via
+`pip install py-pluto[gui]`.
 
 The package is provided with a `LICENSE` file which contains the license terms.
 
@@ -50,7 +55,7 @@ The easiest way to install PyPLUTO is through uv. Open your terminal and run the
 uv add py-pluto
 ```
 
-Ensure that you are using Python 3.12 or newer, as the package is compatible from this version onwards.
+Ensure that you are using Python 3.11 or newer, as the package is compatible from this version onwards.
 Installation through pip is also possible through the command:
 
 ```bash
@@ -74,7 +79,7 @@ print(D)
 ```
 
 Relevant simulations attributes (such as the computational grid, the geometry and the variables to load) are found automatically.
-The data can be plotted through the Image class, which acts as a simplified maptlotlib wrapper.
+The data can be plotted through the Image class, which acts as a simplified matplotlib wrapper.
 An example of 1D plot of the density can be:
 
 ```python

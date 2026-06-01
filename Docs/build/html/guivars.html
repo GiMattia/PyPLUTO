@@ -384,6 +384,7 @@
 
 
 
+
 <li class="toctree-l1"><a class="reference internal" href="guiplot.html">GUI plot panel</a></li>
 
 
@@ -466,15 +467,22 @@ user to select and manipulate the loaded variables.</p>
 </a>
 </div></blockquote>
 <p>The user can select the variable to be plotted by choosing from the loaded
-variables. Note that custom variables are not available yet, but they will
-be implemented in the future.</p>
+variables.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 </section>
+<hr class="docutils" />
 <section id="option-transpose">
 <h1>Option: transpose<a class="headerlink" href="#option-transpose" title="Link to this heading">#</a></h1>
 <p>The transpose button allows the user to transpose the selected variable.
-Although this is not a strictly essential, it will enhance the visualization
+Although this is not strictly essential, it will enhance the visualization
 of the data, especially for 2D plots involving different codes.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 </section>
+<hr class="docutils" />
 <section id="option-axes">
 <h1>Option: axes<a class="headerlink" href="#option-axes" title="Link to this heading">#</a></h1>
 <p>The x- and y-axes (in case of 2D plots) can also be selected here. The user
@@ -482,14 +490,61 @@ can choose the x- and y-axes from the loaded variables, allowing for a
 flexible visualization of the data. This is particularly useful when the user
 wants to plot variables from a non-cartesian geometry, such as spherical
 or cylindrical coordinates.
-The naming convention is the same as in the Load class, where the “p” or “c”
-suffixes indicate polar or cartesian mesh transformation, respectively.</p>
+The naming convention is the same as in the Load class, where the <code class="docutils literal notranslate"><span class="pre">p</span></code> or
+<code class="docutils literal notranslate"><span class="pre">c</span></code> suffixes indicate polar or cartesian mesh transformation, respectively.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 </section>
+<hr class="docutils" />
 <section id="option-slices">
 <h1>Option: slices<a class="headerlink" href="#option-slices" title="Link to this heading">#</a></h1>
-<p>In presence of 3D data, or in case the user wants to visualize a 1D slice of 2D
-data, the user can select the desired slice by choosing from the available
+<p>In presence of 3D data, or in case the user wants to visualize a 1D slice of
+2D data, the user can select the desired slice by choosing from the available
 slices. The slices are automatically generated based on the loaded data.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="option-custom-variables">
+<h1>Option: custom variables<a class="headerlink" href="#option-custom-variables" title="Link to this heading">#</a></h1>
+<p>The variable selector includes a <strong>“Custom var…”</strong> entry that opens a dialog
+to define new variables from mathematical expressions built from the loaded
+data.</p>
+<p>Each line in the dialog follows the syntax:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NAME</span> <span class="o">=</span> <span class="n">EXPR</span>
+</pre></div>
+</div>
+<p>Multiple variables can be defined at once (one per line). Expressions support
+standard arithmetic, NumPy-style operations (via <code class="docutils literal notranslate"><span class="pre">numexpr</span></code>), and the
+following convenience aliases:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">D.</span></code> or <code class="docutils literal notranslate"><span class="pre">Data.</span></code> prefixes are stripped automatically, so <code class="docutils literal notranslate"><span class="pre">D.rho</span></code> and
+<code class="docutils literal notranslate"><span class="pre">rho</span></code> are equivalent.</p></li>
+<li><p>Grid coordinates are available as <code class="docutils literal notranslate"><span class="pre">x1</span></code>, <code class="docutils literal notranslate"><span class="pre">x2</span></code>, <code class="docutils literal notranslate"><span class="pre">x3</span></code> and, depending on
+geometry:</p>
+<ul>
+<li><p><em>Cartesian</em>: <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, <code class="docutils literal notranslate"><span class="pre">z</span></code></p></li>
+<li><p><em>Polar</em>: <code class="docutils literal notranslate"><span class="pre">R</span></code>, <code class="docutils literal notranslate"><span class="pre">phi</span></code>, <code class="docutils literal notranslate"><span class="pre">z</span></code>, <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code></p></li>
+<li><p><em>Spherical</em>: <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">theta</span></code>, <code class="docutils literal notranslate"><span class="pre">phi</span></code>, <code class="docutils literal notranslate"><span class="pre">R</span></code>, <code class="docutils literal notranslate"><span class="pre">z</span></code></p></li>
+</ul>
+</li>
+<li><p>Constants <code class="docutils literal notranslate"><span class="pre">pi</span></code> and <code class="docutils literal notranslate"><span class="pre">e</span></code> are available.</p></li>
+<li><p>Inline comments are supported: anything after <code class="docutils literal notranslate"><span class="pre">#</span></code> is ignored during
+evaluation but preserved in the session log.</p></li>
+</ul>
+<p>A variable prefixed with <code class="docutils literal notranslate"><span class="pre">!</span></code> is computed and assigned to the data object but
+<strong>not</strong> added to the selector dropdown — useful for intermediate quantities:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!B2 = Bx1**2 + Bx2**2 + Bx3**2
+beta = 2 * prs / B2
+</pre></div>
+</div>
+<p>Protected names (base loaded variables such as <code class="docutils literal notranslate"><span class="pre">rho</span></code>, <code class="docutils literal notranslate"><span class="pre">vx1</span></code>, grid
+coordinates, etc.) cannot be overridden.</p>
+<p>Custom variables are <strong>persistent within the session</strong>: they are automatically
+re-evaluated whenever a new output is loaded, so time-evolution plots work
+without redefining expressions.</p>
 </section>
 
 
@@ -543,6 +598,7 @@ slices. The slices are automatically generated based on the loaded data.</p>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#option-transpose">Option: transpose</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#option-axes">Option: axes</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#option-slices">Option: slices</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#option-custom-variables">Option: custom variables</a></li>
 </ul>
 
   </nav></div>

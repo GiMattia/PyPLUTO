@@ -384,6 +384,7 @@
 
 
 
+
 <li class="toctree-l1"><a class="reference internal" href="guiplot.html">GUI plot panel</a></li>
 
 
@@ -468,14 +469,17 @@ loading section the setting section and the plotting section.</p>
 <div class="line"><br /></div>
 </div>
 <hr class="docutils" />
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
-<p>The GUI is directly installed with the PyPLUTO package, so no additional
-installation is required. However, it is recommended to install the package in
-an editable mode, so that any changes made to the source code are immediately
-reflected in the GUI. This can be done by using <cite>pip</cite> or <cite>pipenv</cite> as
-described in the <a class="reference internal" href="install.html#install"><span class="std std-ref">Install</span></a> section of the documentation.</p>
-<p>To run the GUI, simply execute the following command in the terminal:</p>
+<section id="gui-installation">
+<h2>GUI Installation<a class="headerlink" href="#gui-installation" title="Link to this heading">#</a></h2>
+<p>The GUI requires the optional <code class="docutils literal notranslate"><span class="pre">PySide6</span></code> dependency. Install it with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>py-pluto<span class="o">[</span>gui<span class="o">]</span>
+</pre></div>
+</div>
+<p>or with <code class="docutils literal notranslate"><span class="pre">uv</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>uv<span class="w"> </span>add<span class="w"> </span>py-pluto<span class="o">[</span>gui<span class="o">]</span>
+</pre></div>
+</div>
+<p>To run the GUI after installation:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pypluto-gui
 </pre></div>
 </div>
@@ -506,9 +510,9 @@ Further information can be found in the
 <section id="selecting-the-variable-with-the-gui">
 <h2>Selecting the variable with the GUI<a class="headerlink" href="#selecting-the-variable-with-the-gui" title="Link to this heading">#</a></h2>
 <p>The setting section is used to select the variable to be plotted. The user can
-select the variable by choosing from the loaded variables. The user can also
-slice the variables by selecting the desired slice.
-The x- and the y-axes (in case of 2D plots) can also be selected here.
+select the variable by choosing from the loaded variables, or define new
+<strong>custom variables</strong> from mathematical expressions using the loaded data.
+Slices and axis selection for 2D plots are also available here.
 Further information can be found in the
 <a class="reference internal" href="guivars.html#guivars"><span class="std std-ref">GUI vars panel</span></a> section of the documentation.</p>
 <div class="line-block">
@@ -606,7 +610,7 @@ selected two examples to show how the GUI can be used to visualize the data:</p>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gui-installation">GUI Installation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data-with-the-gui">Load the data with the GUI</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-the-variable-with-the-gui">Selecting the variable with the GUI</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-data-with-the-gui">Plotting the data with the GUI</a></li>

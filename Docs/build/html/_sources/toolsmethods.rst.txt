@@ -32,11 +32,14 @@ method is used. Such method converts a stretched grid into a uniform one, and
 can be used also for cartesian grids since it does not alter the geometry of
 the grid but only its spacing.
 
-Variables can also be slices through one or more axes and through the major and
+Variables can also be sliced through one or more axes and through the major and
 minor diagonal by using the :ref:`slices <slices>` method.
-The domain can be mirrored along a selected axis with the
-:ref:`mirror <mirror>` method, or tiled multiple times with the
-:ref:`repeat <repeat>` method.
+A variable (and optionally its grid axes) can be reflected in one or more
+directions (left, right, top, bottom) through the :ref:`mirror <mirror>` method.
+
+.. note::
+   The :ref:`repeat <repeat>` method (domain tiling) is under active development
+   and not yet available.
 
 |
 

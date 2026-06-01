@@ -47,7 +47,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Load.cartesian_vector" href="cartesian_vector.html" />
-    <link rel="prev" title="Load.to_code_units" href="to_code_units.html" />
+    <link rel="prev" title="to_code_units" href="to_code_units.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -478,11 +478,15 @@ In order to reshape the domain, the <a class="reference internal" href="reshape_
 method is used. Such method converts a stretched grid into a uniform one, and
 can be used also for cartesian grids since it does not alter the geometry of
 the grid but only its spacing.</p>
-<p>Variables can also be slices through one or more axes and through the major and
+<p>Variables can also be sliced through one or more axes and through the major and
 minor diagonal by using the <a class="reference internal" href="slices.html#slices"><span class="std std-ref">slices</span></a> method.
-The domain can be mirrored along a selected axis with the
-<a class="reference internal" href="mirror.html#mirror"><span class="std std-ref">mirror</span></a> method, or tiled multiple times with the
-<a class="reference internal" href="repeat.html#repeat"><span class="std std-ref">repeat</span></a> method.</p>
+A variable (and optionally its grid axes) can be reflected in one or more
+directions (left, right, top, bottom) through the <a class="reference internal" href="mirror.html#mirror"><span class="std std-ref">mirror</span></a> method.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <a class="reference internal" href="repeat.html#repeat"><span class="std std-ref">repeat</span></a> method (domain tiling) is under active development
+and not yet available.</p>
+</div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -578,7 +582,7 @@ function)</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Load.to_code_units</p>
+        <p class="prev-next-title">to_code_units</p>
       </div>
     </a>
     <a class="right-next"

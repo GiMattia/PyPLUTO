@@ -1,7 +1,9 @@
-.. _to_code_units:
+to_code_units
+=============
 
-Load.to_code_units
-==================
+.. note::
+   This method is available on both :ref:`Load <load>` and
+   :ref:`LoadPart <loadpart>`.
 
 .. automethod:: pyPLUTO.toolfuncs.set_units.SetUnitsManager.to_code_units
    :noindex:

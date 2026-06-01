@@ -392,10 +392,12 @@
                   
   <section id="welcome-to-pypluto-s-documentation">
 <h1>Welcome to PyPLUTO’s documentation!<a class="headerlink" href="#welcome-to-pypluto-s-documentation" title="Link to this heading">#</a></h1>
-<p><strong>PyPLUTO</strong> is a Python library which loads and plots the data obtain from the
+<p><strong>PyPLUTO</strong> is a Python library which loads and plots the data obtained from the
 PLUTO code simulations.
-The aim of this package is to simplify some non-trivial python routines in order
-to quickly recover effective plots that are suited for scientific publications.</p>
+The aim of this package is to simplify some non-trivial Python routines in order
+to quickly recover effective plots that are suited for scientific publications.
+Physical units can be attached to loaded variables via the
+<a class="reference external" href="https://www.astropy.org/">astropy</a> library.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This project is under active development.</p>
@@ -409,10 +411,10 @@ to quickly recover effective plots that are suited for scientific publications.<
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="install.html#creating-a-conda-environment">Creating a Conda Environment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#installation-with-pip">Installation with pip</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#installing-with-pipenv">Installing with <cite>pipenv</cite></a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#installing-with-uv">Installing with <cite>uv</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#from-pypi">From PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#with-uv">With <code class="docutils literal notranslate"><span class="pre">uv</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#with-conda">With <code class="docutils literal notranslate"><span class="pre">conda</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#from-source">From Source</a></li>
 <li class="toctree-l2"><a class="reference internal" href="install.html#issues">Issues</a></li>
 </ul>
 </li>
@@ -443,7 +445,7 @@ to quickly recover effective plots that are suited for scientific publications.<
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="gui.html">GUI</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="gui.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gui.html#gui-installation">GUI Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html#load-the-data-with-the-gui">Load the data with the GUI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html#selecting-the-variable-with-the-gui">Selecting the variable with the GUI</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html#plotting-the-data-with-the-gui">Plotting the data with the GUI</a></li>
@@ -482,17 +484,31 @@ to quickly recover effective plots that are suited for scientific publications.<
 </li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQs</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="faq.html#how-do-i-install-pypluto">How do I install PyPLUTO?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="faq.html#can-i-use-pypluto-with-python-3-9">Can I use PyPLUTO with Python 3.9?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#can-i-use-pypluto-with-python-3-9-or-3-10">Can I use PyPLUTO with Python 3.9 or 3.10?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#what-file-formats-does-pypluto-support">What file formats does PyPLUTO support?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#what-is-the-difference-between-load-and-loadpart">What is the difference between <code class="docutils literal notranslate"><span class="pre">Load</span></code> and <code class="docutils literal notranslate"><span class="pre">LoadPart</span></code>?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#can-i-use-pypluto-without-having-the-pluto-code-installed">Can I use PyPLUTO without having the PLUTO code installed?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#how-do-i-attach-physical-units-to-loaded-variables">How do I attach physical units to loaded variables?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#how-do-i-define-custom-variables-in-the-gui">How do I define custom variables in the GUI?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#can-i-use-pypluto-with-simulation-codes-other-than-pluto">Can I use PyPLUTO with simulation codes other than PLUTO?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#how-do-i-create-1d-and-2d-plots-with-the-image-class">How do I create 1D and 2D plots with the Image class?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#how-do-i-create-a-figure-with-multiple-subplots">How do I create a figure with multiple subplots?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#how-do-i-create-interactive-or-animated-plots">How do I create interactive or animated plots?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#how-do-i-plot-field-lines-and-contour-lines">How do I plot field lines and contour lines?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#how-do-i-report-a-bug-or-request-a-feature">How do I report a bug or request a feature?</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribute</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#getting-started">Getting Started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#installation-guidelines">Installation guidelines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#testing">Testing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#pre-commit-hooks">Pre-commit Hooks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#code-style">Code style</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#code-structure">Code Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html#questions-or-suggestions">Questions or Suggestions?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#code-of-conduct">Code of Conduct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#use-of-ai">Use of AI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#local-setup">Local Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pre-commit-and-quality-checks">Pre-commit and Quality Checks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#workflow-for-pull-requests">Workflow for Pull Requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#project-structure">Project Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#questions">Questions</a></li>
 </ul>
 </li>
 </ul>

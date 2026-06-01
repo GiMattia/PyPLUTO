@@ -1,6 +1,6 @@
-# # Main Features
+# Main Features
 
-PyPLUTO is a package written in Python (version $\geq$ 3.10) with the additions of NumPy [@NUMPY2020], Matplotlib [@MATPLOTLIB_2007], SciPy [@SCIPY_2020], pandas [@PANDAS2020], h5py [@H5PY_2013] and [PyQT6](https://www.riverbankcomputing.com/software/pyqt/intro) (although the last two are optional). The package, which can be installed through pip, is made of mainly 3 classes:
+PyPLUTO is a package written in Python (version $\geq$ 3.11) with the additions of NumPy [@NUMPY2020], Matplotlib [@MATPLOTLIB_2007], SciPy [@SCIPY_2020], Astropy [@ASTROPY2022], h5py [@H5PY_2013] and [PySide6](https://wiki.qt.io/Qt_for_Python) (the last one is optional, required only for the GUI). The package, which can be installed through pip, is made of mainly 3 classes:
 
 • The `Load` class loads and manipulates the PLUTO output files containing fluid-related quantities.
 
@@ -33,6 +33,8 @@ Here we report some of the most relevant methods and tools present in PyPLUTO co
 
 • The `spectrum` method is designed to compute histograms of particle variables (e.g., the spectral energy), supporting linear and logarithmic spacing and customizable binning. In addition, the `select` method provides an efficient and flexible way to filter or sort particle indices based on user-defined conditions.
 
+• Physical (CGS) units can be attached to loaded variables through the `to_astropy_units` method, which uses the `astropy.units` module. Unit scales are resolved automatically from the PLUTO log file, the `definitions.h` values, or user-supplied overrides, following a well-defined priority chain. Units can be stripped back to code units via the `to_code_units` method. Both methods are available on the `Load` and `LoadPart` classes.
+
 ### Visualizing the Data
 The `Image` class has been implemented to efficiently visualize the data by encompassing some of the most relevant methods present in Matplotlib. Each `Image` class has a 1-1 correspondence with a Matplotlib `Figure` class, which is always a public class attribute. As for the `Load` class, we report some of the most relevant methods and tools present in the `Image` class (thus concerning the visualization of data).
 
@@ -55,7 +57,7 @@ The `Image` class has been implemented to efficiently visualize the data by enco
 [^1]: [The palette has been tested for all the color vision deficiencies accessible on a [color blindness simulator](https://www.color-blindness.com/coblis-color-blindness-simulator/)]
 
 ### GUI
-The PyPLUTO package includes a GUI (shown in Fig. \ref{fig1}) designed to simplify and enhance the visualization and analysis of simulation data. The GUI is built with PyQt6 and allows users to load and visualize 1D and 2D data (or slices) from PLUTO simulations. The GUI supports real-time updates of loaded data, enabling dynamic visualization as new information becomes available or as existing datasets are modified. Users can adjust axes properties such as range and scale, providing precise control over the visualization. Additionally, color map and color scale adjustments can be made interactively, allowing for immediate feedback and enhanced clarity in data interpretation. The GUI also includes options to clear the canvas and reset the interface, ensuring a clean workspace for subsequent analysis without the need to restart the application. The possibility of saving and further customizing the plots through the interactive Matplotlib toolbar makes the GUI a powerful and flexible tool for both preliminary data analysis and the creation of high-quality publication-ready figures.
+The PyPLUTO package includes a GUI (shown in Fig. \ref{fig1}) designed to simplify and enhance the visualization and analysis of simulation data. The GUI is built with PySide6 and allows users to load and visualize 1D and 2D data (or slices) from PLUTO simulations. The GUI supports real-time updates of loaded data, enabling dynamic visualization as new information becomes available or as existing datasets are modified. Users can adjust axes properties such as range and scale, providing precise control over the visualization. Additionally, color map and color scale adjustments can be made interactively, allowing for immediate feedback and enhanced clarity in data interpretation. The GUI also includes options to clear the canvas and reset the interface, ensuring a clean workspace for subsequent analysis without the need to restart the application. The possibility of saving and further customizing the plots through the interactive Matplotlib toolbar makes the GUI a powerful and flexible tool for both preliminary data analysis and the creation of high-quality publication-ready figures.
 
 ![Interactive visualization of shock tube test results (i.e., density, pressure, and velocity profiles) with the GUI. \label{fig1}](Paper/pyplutogui.png)
 

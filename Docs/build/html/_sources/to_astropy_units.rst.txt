@@ -1,7 +1,9 @@
-.. _to_astropy_units:
+to_astropy_units
+================
 
-Load.to_astropy_units
-=====================
+.. note::
+   This method is available on both :ref:`Load <load>` and
+   :ref:`LoadPart <loadpart>`.
 
 .. automethod:: pyPLUTO.toolfuncs.set_units.SetUnitsManager.to_astropy_units
    :noindex:

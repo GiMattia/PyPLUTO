@@ -8,11 +8,13 @@ import numpy as np
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.loadfuncs.baseloadtools import BaseLoadTools
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FindFilesManager(BaseLoadMixin[BaseLoadState]):
     """Class that manages file finding operations."""
 
+    @track_kwargs
     def __init__(
         self,
         state: BaseLoadState,
@@ -24,6 +26,7 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         self.LoadToolManager = BaseLoadTools(self.state)
         self.find_files(nout, **kwargs)
 
+    @track_kwargs
     def find_files(
         self, nout: int | str | list[int | str], **kwargs: Any
     ) -> None:

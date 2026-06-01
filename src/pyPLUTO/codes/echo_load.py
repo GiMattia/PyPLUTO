@@ -20,6 +20,7 @@ class EchoLoadManager(LoadMixin):
         """Initialize the EchoLoadManager."""
         self.state = state
 
+    @track_kwargs
     def load_echo(
         self, nout: int | str | list[int | str] | None, **kwargs: Any
     ) -> None:

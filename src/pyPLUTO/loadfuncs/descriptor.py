@@ -8,11 +8,13 @@ import numpy as np
 from pyPLUTO.loadfuncs.baseloadtools import BaseLoadTools
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class DescriptorManager(LoadMixin):
     """Class that manages the descriptor files for loading data."""
 
+    @track_kwargs
     def __init__(
         self,
         state: LoadState,
@@ -24,6 +26,7 @@ class DescriptorManager(LoadMixin):
         self.LoadToolManager = BaseLoadTools(self.state)
         self.load_descriptor(nout, **kwargs)
 
+    @track_kwargs
     def load_descriptor(
         self, nout: int | str | list[int | str], **kwargs: Any
     ) -> None:

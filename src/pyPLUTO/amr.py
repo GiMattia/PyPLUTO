@@ -2,6 +2,7 @@ import h5py
 import numpy as np
 
 from pyPLUTO.toolfuncs.loadtools import LoadToolsManager
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 def _inspect_hdf5(self, i: int, exout: int) -> None:
@@ -412,6 +413,7 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
     return OutDict
 
 
+@track_kwargs
 def oplotbox(
     self,
     AMRLevel,

@@ -9,10 +9,11 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.integrate import solve_ivp
 
-from pyPLUTO.h_pypluto import check_par, makelist
+from pyPLUTO.h_pypluto import makelist
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.toolfuncs.loadtools import LoadToolsManager
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FindLinesManager(LoadMixin):
@@ -53,6 +54,7 @@ class FindLinesManager(LoadMixin):
 
         return [qx, qy]
 
+    @track_kwargs
     def find_fieldlines(
         self,
         var1: str | np.ndarray,
@@ -60,28 +62,9 @@ class FindLinesManager(LoadMixin):
         x0: list | float | None = None,
         y0: list | float | None = None,
         text: bool = False,
-        check: bool = True,
         **kwargs: Any,
     ) -> list:
         """Find field lines from two vector components."""
-        param = {
-            "atol",
-            "close",
-            "ctol",
-            "dense",
-            "maxstep",
-            "minstep",
-            "numsteps",
-            "order",
-            "rtol",
-            "step",
-            "transpose",
-            "x1",
-            "x2",
-        }
-        if check is True:
-            check_par(param, "find_fieldlines", **kwargs)
-
         varx = self._check_var(var1, kwargs.get("transpose", False))
         vary = self._check_var(var2, kwargs.get("transpose", False))
 
@@ -225,23 +208,9 @@ class FindLinesManager(LoadMixin):
 
         return lines_list
 
-    def find_contour(
-        self, var: str | np.ndarray, check: bool = True, **kwargs: Any
-    ) -> list:
+    @track_kwargs
+    def find_contour(self, var: str | np.ndarray, **kwargs: Any) -> list:
         """Generate contour lines for a given variable."""
-        param = {
-            "cmap",
-            "levels",
-            "levelscale",
-            "transpose",
-            "vmax",
-            "vmin",
-            "x1",
-            "x2",
-        }
-        if check is True:
-            check_par(param, "find_contour", **kwargs)
-
         var = self._check_var(var, kwargs.get("transpose", False)).T
 
         if self.geom == "SPHERICAL":

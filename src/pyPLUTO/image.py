@@ -297,6 +297,7 @@ class Image(ImageMixin):
         """Property for the zoom method."""
         return self.ZoomManager.zoom
 
+    @track_kwargs
     def oplotbox(self, *args: object, **kwargs: object) -> None:
         """Plot a box in the figure (AMR, WIP)."""
         oplotbox(self, *args, **kwargs)

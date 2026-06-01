@@ -8,11 +8,13 @@ import inifix
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FiledefpliniManager(LoadMixin):
     """Manage loading of definitions headers and the pluto.ini file."""
 
+    @track_kwargs
     def __init__(self, state: LoadState, **kwargs: Any) -> None:
         """Initialize the FiledefpliniManager."""
         self.state = state

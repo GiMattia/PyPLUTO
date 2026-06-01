@@ -220,6 +220,7 @@ class ImageToolsManager(ImageMixin):
 
     # End of the function
 
+    @track_kwargs
     def assign_ax(
         self, ax: Axes | list[Axes] | int | None, **kwargs: Any
     ) -> tuple[Axes, int]:

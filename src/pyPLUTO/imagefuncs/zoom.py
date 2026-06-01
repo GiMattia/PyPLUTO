@@ -383,6 +383,7 @@ class ZoomManager(ImageMixin):
         height = pos[3] - pos[2]
         return ax.inset_axes((left, bottom, width, height))
 
+    @track_kwargs
     def place_inset_loc(self, ax: Axes, **kwargs: Any) -> Axes:
         """Place an inset axes given different keywords.
 

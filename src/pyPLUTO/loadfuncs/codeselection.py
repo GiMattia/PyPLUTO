@@ -26,6 +26,7 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
 
         self.select_code(nout, **kwargs)
 
+    @track_kwargs
     def select_code(
         self, nout: int | str | list[int | str] | None, **kwargs: Any
     ) -> None:

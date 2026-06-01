@@ -9,6 +9,7 @@ import numpy as np
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class ReadFilesManager(LoadMixin):
@@ -17,10 +18,12 @@ class ReadFilesManager(LoadMixin):
     def __init__(self, state: LoadState) -> None:
         self.state = state
 
+    @track_kwargs
     def _read_vtk(self, filename: str, **kwargs: Any) -> None:
         """Read data from a VTK file."""
         raise NotImplementedError("read_vtk() is not yet implemented.")
 
+    @track_kwargs
     def _read_h5(self, filename: str, **kwargs: Any) -> dict[str, Any]:
         """Read data from an HDF5 file."""
         try:
@@ -35,14 +38,17 @@ class ReadFilesManager(LoadMixin):
 
         return data_dict
 
+    @track_kwargs
     def _read_tab(self, filename: str, **kwargs: Any) -> None:
         """Read data from a tab file."""
         raise NotImplementedError("read_tab() is not yet implemented.")
 
+    @track_kwargs
     def _read_bin(self, filename: str, **kwargs: Any) -> None:
         """Read data from a binary file."""
         raise NotImplementedError("read_bin() is not yet implemented.")
 
+    @track_kwargs
     def _read_dat(self, filename: str, **kwargs: Any) -> dict[str, Any]:
         """Read data from a dat file."""
         try:
@@ -65,6 +71,7 @@ class ReadFilesManager(LoadMixin):
 
         return analysis
 
+    @track_kwargs
     def read_file(
         self, filename: str, datatype: str | None = None, **kwargs: Any
     ) -> Any:

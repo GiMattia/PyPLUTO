@@ -27,17 +27,17 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
     <script src="_static/documentation_options.js?v=58fbf978"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
@@ -147,7 +147,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="tools.html">
+  <a class="nav-link nav-internal" href="toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -218,11 +218,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
     </div>
     
@@ -285,7 +292,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="tools.html">
+  <a class="nav-link nav-internal" href="toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -337,11 +344,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
       </div>
     
@@ -366,6 +380,10 @@
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="loadpart.html">LoadPart class</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="to_astropy_units.html">Load.to_astropy_units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="to_code_units.html">Load.to_code_units</a></li>
 </ul>
 </div>
 </nav></div>
@@ -430,13 +448,154 @@
 <span id="load"></span><h1>Load class<a class="headerlink" href="#load-class" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pyPLUTO.Load">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pyPLUTO.</span></span><span class="sig-name descname"><span class="pre">Load</span></span><a class="reference internal" href="_modules/pyPLUTO/newload.html#Load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyPLUTO.Load" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pyPLUTO.</span></span><span class="sig-name descname"><span class="pre">Load</span></span><a class="reference internal" href="_modules/pyPLUTO/load.html#Load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyPLUTO.Load" title="Link to this definition">#</a></dt>
 <dd><p>The Load class loads the data (fluid) from the output files.</p>
 <p>The initialization corresponds to the loading, if wanted, of one or more
 datafiles for the fluid. The data are loaded in a memory mapped numpy
 multidimensional array. Such approach does not load the full data
 until needed. Basic operations (i.e. no numpy) are possible, as well
 as slicing the arrays, without fully loading the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- alone: bool | None, default False</strong></dt><dd><p>If the files are standalone. If False, the code will look for the
+grid file in the folder. If True, the code will look for the grid
+information within the data files. Should be used only for non-binary
+files.</p>
+</dd>
+<dt><strong>- code: str | None, default None</strong></dt><dd><p>The code from which the data are loaded. If None, the code assumes
+PLUTO/gPLUTO. If a different code is provided, the corresponding
+loading method is used (if implemented).</p>
+</dd>
+<dt><strong>- datatype: str | None, default None</strong></dt><dd><p>The format of the data file. If not specified, the code will look for
+the format from the list of possible formats. HDF5 (AMR) formats have
+not been implemented yet.</p>
+</dd>
+<dt><strong>- endian: str | None, default None</strong></dt><dd><p>Endianess of the datafiles. Should be used only if specific
+architectures are used, since the code computes it by itself. Valid
+values are ‘big’ and ‘little’ (or ‘&lt;’ and ‘&gt;’).</p>
+</dd>
+<dt><strong>- full3d: bool, default True</strong></dt><dd><p>If disabled, the 3D meshgrids for the grid in non-cartesian coordinates
+are not used. Instead, a combination of an external loop and2D meshgrid
+is employed. The aim is to allow for cartesian meshes from non-cartesian
+geometries without saturating the computer memory (suited for laptops).</p>
+</dd>
+<dt><strong>- level: int, default 0</strong></dt><dd><p>The refinement level of the grid. Should be used only if the grid is
+refined through AMR.</p>
+</dd>
+<dt><strong>- multiple: bool, default False</strong></dt><dd><p>If the files are multiple. If False, the code will look for the single
+files, otherwise for the multiple files each corresponding to the loaded
+variables. Should be used only if both single files and multiple files
+are present in the same format for the same datatype.</p>
+</dd>
+<dt><strong>- nout: int | str | list | None, default ‘last’</strong></dt><dd><p>The files to be loaded. Possible choices are int values (which
+correspond to the number of the output file), strings (‘last’, which
+corresponds to the last file, ‘all’, which corresponds to all files) or
+a list of the aforementioned types. Note that the ‘all’ value should be
+used carefully, e.g. only when the data need to be shown interactively.</p>
+</dd>
+<dt><strong>- path: str, default ‘./’</strong></dt><dd><p>The path of the folder where the files should be loaded.</p>
+</dd>
+<dt><strong>- text: bool, default True</strong></dt><dd><p>If True, the folder and output are printed. In case the user needs a
+more detailed information of the structure and attributes loaded from
+the class, the __str__ method provides a easy display of all the
+important information.</p>
+</dd>
+<dt><strong>- vars: str | list | bool | None, default True</strong></dt><dd><p>The variables to be loaded. The default value, True, corresponds to all
+the variables.</p>
+</dd>
+<dt><strong>—-</strong></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<ul>
+<li><p>Example #1: Load the data from the default folder and output</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">()</span>
+<span class="go">Loading folder ./,     output [0]</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #2: Load the data from the default folder but output 0</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">Loading folder ./,     output [0]</span>
+</pre></div>
+</div>
+</li>
+<li><dl>
+<dt>Example #3: Load the data from the default folder but last output is</dt><dd><p>specified</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="s2">&quot;last&quot;</span><span class="p">)</span>
+<span class="go">Loading folder ./,     output [1]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p>Example #4: Load the data from the default folder and all outputs</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+<span class="go">Loading folder ./,     output [0, 1, 2, 3, 4]</span>
+</pre></div>
+</div>
+</li>
+<li><dl>
+<dt>Example #5: Load the data from the default folder and multiple</dt><dd><p>selected outputs</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="go">Loading folder ./,     output [0, 1, 2]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Example #6: Load the data from the default folder and multiple selected</dt><dd><p>outputs and variables</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="s2">&quot;vel1&quot;</span><span class="p">])</span>
+<span class="go">Loading folder ./,     output [0, 1, 2]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Example #7: Load the data from the default folder, multiple selected</dt><dd><p>outputs and variables, without text</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="s2">&quot;vel1&quot;</span><span class="p">],</span> <span class="n">text</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Example #8: Load the data from the default format with selected output</dt><dd><p>and format</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;vtk&quot;</span><span class="p">,</span> <span class="n">nout</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">Loading folder ./,     output [0]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Example #9: Load the data from the default folder with selected output,</dt><dd><p>variables and format</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;vtk&quot;</span><span class="p">,</span> <span class="n">nout</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="s2">&quot;vel1&quot;</span><span class="p">])</span>
+<span class="go">Loading folder ./,     output [0]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p>Example #10: Load the data from a specific folder with selected output</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;./data/&quot;</span><span class="p">,</span> <span class="n">nout</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">Loading folder ./data/,     output [0]</span>
+</pre></div>
+</div>
+</li>
+</ul>
 <p>Initialize the Load class.</p>
 </dd></dl>
 
@@ -510,8 +669,8 @@ as slicing the arrays, without fully loading the data.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -545,7 +704,7 @@ as slicing the arrays, without fully loading the data.</p>
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
 </p></div>
       
     </div>

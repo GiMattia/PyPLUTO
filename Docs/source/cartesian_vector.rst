@@ -3,7 +3,8 @@
 Load.cartesian_vector
 =====================
 
-.. autofunction:: pyPLUTO.Load.cartesian_vector
+.. automethod:: pyPLUTO.toolfuncs.transform.TransformManager.cartesian_vector
+   :noindex:
 
 |
 

@@ -26,17 +26,17 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
     <script src="../../../_static/documentation_options.js?v=58fbf978"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -144,7 +144,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tools.html">
+  <a class="nav-link nav-internal" href="../../../toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -215,11 +215,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
     </div>
     
@@ -280,7 +287,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tools.html">
+  <a class="nav-link nav-internal" href="../../../toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -332,11 +339,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
       </div>
     
@@ -398,656 +412,308 @@
                 <article class="bd-article">
                   
   <h1>Source code for pyPLUTO.toolfuncs.transform</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span></span><span class="sd">&quot;&quot;&quot;Transform utilities manager.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">RectBivariateSpline</span><span class="p">,</span> <span class="n">RegularGridInterpolator</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.ndimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">map_coordinates</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">..h_pypluto</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_par</span>
-
-
-<div class="viewcode-block" id="slices">
-<a class="viewcode-back" href="../../../slices.html#pyPLUTO.Load.slices">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">slices</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span>
-    <span class="n">var</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span>
-    <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">diag</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">x1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">x2</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">x3</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function that slices the variable in the 3 directions. Also, it</span>
-<span class="sd">    can slice the diagonal of the variable.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - newvar: NDArray</span>
-<span class="sd">        The sliced variable.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - axis1: int | None, default None</span>
-<span class="sd">        Axis to be used as the first axis of the 2-D sub-arrays from which the</span>
-<span class="sd">        diagonals should be taken. Defaults to first axis (0).</span>
-<span class="sd">    - axis2: int | None, default None</span>
-<span class="sd">        Axis to be used as the second axis of the 2-D sub-arrays from which the</span>
-<span class="sd">        diagonals should be taken. Defaults to second axis (1).</span>
-<span class="sd">    - diag: bool | None, default None</span>
-<span class="sd">        If not None (or &#39;min&#39;), slice the main diagonal of the variable.</span>
-<span class="sd">        If &#39;min&#39;, slice the opposite diagonal.</span>
-<span class="sd">    - offset: int | None, default None</span>
-<span class="sd">        Offset of the diagonal from the main diagonal. Can be positive or</span>
-<span class="sd">        negative. Defaults to main diagonal (0).</span>
-<span class="sd">    - var: np.ndarray</span>
-<span class="sd">        The variable to slice.</span>
-<span class="sd">    - x1: int | list | None, default None</span>
-<span class="sd">        The slice in the 1st direction.</span>
-<span class="sd">    - x2: int | list | None, default None</span>
-<span class="sd">        The slice in the 2nd direction.</span>
-<span class="sd">    - x3: int | list | None, default None</span>
-<span class="sd">        The slice in the 3rd direction.</span>
-
-<span class="sd">    ----</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Slice the variable in the 3 directions</span>
-
-<span class="sd">        &gt;&gt;&gt; slices(var, x1=0, x2=0, x3=0)</span>
-
-<span class="sd">    - Example #2: Slice the variable in the diagonal</span>
-
-<span class="sd">        &gt;&gt;&gt; slices(var, diag=True)</span>
-
-<span class="sd">    - Example #3: Slice the variable in the opposite diagonal</span>
-
-<span class="sd">        &gt;&gt;&gt; slices(var, diag=&quot;min&quot;)</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Check the kwargs parameters</span>
-    <span class="n">param</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;axis1&quot;</span><span class="p">,</span> <span class="s2">&quot;axis2&quot;</span><span class="p">,</span> <span class="s2">&quot;offset&quot;</span><span class="p">}</span>
-    <span class="k">if</span> <span class="n">check</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">check_par</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;slice&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="c1"># Make a copy to not modify the variable</span>
-    <span class="n">newvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-
-    <span class="c1"># Slice the diagonal</span>
-    <span class="k">if</span> <span class="n">diag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">diag</span> <span class="o">==</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span>
-            <span class="n">newvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">newvar</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">newvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">newvar</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="c1"># Slice 3rd direction</span>
-    <span class="k">if</span> <span class="n">x3</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">newvar</span> <span class="o">=</span> <span class="n">newvar</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">x3</span><span class="p">]</span>
-
-    <span class="c1"># Slice 2nd direction</span>
-    <span class="k">if</span> <span class="n">x2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">newvar</span> <span class="o">=</span> <span class="n">newvar</span><span class="p">[:,</span> <span class="n">x2</span><span class="p">]</span>
-
-    <span class="c1"># Slice 1st direction</span>
-    <span class="k">if</span> <span class="n">x1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">newvar</span> <span class="o">=</span> <span class="n">newvar</span><span class="p">[</span><span class="n">x1</span><span class="p">]</span>
-
-    <span class="c1"># End of the function, return the sliced array</span>
-    <span class="k">return</span> <span class="n">newvar</span></div>
-
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">mirror</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">dirs</span><span class="o">=</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="n">xax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yax</span><span class="o">=</span><span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function that mirrors the variable in the specified directions.</span>
-<span class="sd">    Multiple directions can be specified.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - newvar: np.ndarray</span>
-<span class="sd">        The mirrored variable.</span>
-<span class="sd">    - xax: np.ndarray</span>
-<span class="sd">        The mirrored x-axis.</span>
-<span class="sd">    - yax: np.ndarray</span>
-<span class="sd">        The mirrored y-axis.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - dirs: str | list, default &#39;l&#39;</span>
-<span class="sd">        The directions to mirror the variable. Can be &#39;l&#39;, &#39;r&#39;, &#39;t&#39;, &#39;b&#39; or a</span>
-<span class="sd">        list or combination of them.</span>
-<span class="sd">    - var: np.ndarray</span>
-<span class="sd">        The variable to mirror.</span>
-<span class="sd">    - xax: np.ndarray | None, default None</span>
-<span class="sd">        The x-axis to mirror.</span>
-<span class="sd">    - yax: np.ndarray | None, default None</span>
-<span class="sd">        The y-axis to mirror.</span>
-
-<span class="sd">    ----</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Mirror the variable in the left direction</span>
-
-<span class="sd">        &gt;&gt;&gt; mirror(var, dirs=&quot;l&quot;)</span>
-
-<span class="sd">    - Example #2: Mirror the variable in the right direction with axis</span>
-
-<span class="sd">        &gt;&gt;&gt; mirror(var, dirs=&quot;r&quot;, xax=xax)</span>
-
-<span class="sd">    - Example #3: Mirror the variable in the top and left directions</span>
-
-<span class="sd">        &gt;&gt;&gt; mirror(var, dirs=[&quot;t&quot;, &quot;l&quot;])</span>
-
-<span class="sd">    - Example #4: Mirror the variable in the top and left directions (no list)</span>
-
-<span class="sd">        &gt;&gt;&gt; mirror(var, dirs=&quot;tl&quot;)</span>
-
-<span class="sd">    - Example #5: Mirror the variable in the left direction three times</span>
-
-<span class="sd">        &gt;&gt;&gt; mirror(var, dirs=&quot;lll&quot;)</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">spp</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">dirs</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dirs</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">dirs</span>
-    <span class="n">newvar</span><span class="p">,</span> <span class="n">axx</span><span class="p">,</span> <span class="n">axy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">var</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">xax</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">yax</span><span class="p">)</span>
-    <span class="n">dim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">var</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="n">dim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Mirror function does not works for 3D arrays&quot;</span><span class="p">)</span>
-    <span class="n">nax</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="nb">dir</span> <span class="ow">in</span> <span class="n">spp</span><span class="p">:</span>
-        <span class="n">lvx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">newvar</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-        <span class="n">lvy</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">newvar</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span> <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-        <span class="n">choices</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;l&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="n">lvx</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">((</span><span class="n">lvx</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))],</span>
-            <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lvx</span><span class="p">),</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">lvx</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))],</span>
-            <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lvy</span><span class="p">),</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lvy</span><span class="p">))],</span>
-            <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="n">lvy</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">lvy</span><span class="p">,</span> <span class="mi">0</span><span class="p">))],</span>
-        <span class="p">}</span>
-        <span class="n">newvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">newvar</span><span class="p">,</span> <span class="n">choices</span><span class="p">[</span><span class="nb">dir</span><span class="p">][</span><span class="n">dim</span><span class="p">],</span> <span class="s2">&quot;symmetric&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">xax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">dir</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">}:</span>
-            <span class="n">axx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">axx</span><span class="p">,</span> <span class="n">choices</span><span class="p">[</span><span class="nb">dir</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;reflect&quot;</span><span class="p">,</span> <span class="n">reflect_type</span><span class="o">=</span><span class="s2">&quot;odd&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">yax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">dir</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">}:</span>
-            <span class="n">axy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">axy</span><span class="p">,</span> <span class="n">choices</span><span class="p">[</span><span class="nb">dir</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;reflect&quot;</span><span class="p">,</span> <span class="n">reflect_type</span><span class="o">=</span><span class="s2">&quot;odd&quot;</span><span class="p">)</span>
-    <span class="n">xax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">nax</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">axx</span><span class="p">)</span>
-    <span class="n">yax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">nax</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">axy</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nax</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">newvar</span><span class="p">,</span> <span class="n">nax</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">nax</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">newvar</span><span class="p">,</span> <span class="n">nax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">newvar</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span>
-    <span class="n">var</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span>
-    <span class="n">dirs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">,</span>
-    <span class="n">xax</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">yax</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function that repeats the variable in the specified directions.</span>
-<span class="sd">    Multiple directions can be specified.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - newvar: np.ndarray</span>
-<span class="sd">        The repeated variable.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - dirs: str | list</span>
-<span class="sd">        The directions to repeat the variable. Can be &#39;l&#39;, &#39;r&#39;, &#39;t&#39;, &#39;b&#39; or a</span>
-<span class="sd">        list or combination of them.</span>
-<span class="sd">    - var: np.ndarray</span>
-<span class="sd">        The variable to repeat.</span>
-<span class="sd">    - xax: np.ndarray | None, default None</span>
-<span class="sd">        The x-axis to repeat.</span>
-<span class="sd">    - yax: np.ndarray | None, default None</span>
-<span class="sd">        The y-axis to repeat.</span>
-
-<span class="sd">    ----</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Repeat the variable in the left direction</span>
-
-<span class="sd">        &gt;&gt;&gt; repeat(var, dirs=&quot;l&quot;)</span>
-
-<span class="sd">    - Example #2: Repeat the variable in the right direction with axis</span>
-
-<span class="sd">        &gt;&gt;&gt; repeat(var, dirs=&quot;r&quot;, xax=xax)</span>
-
-<span class="sd">    - Example #3: Repeat the variable in the top and left directions</span>
-
-<span class="sd">        &gt;&gt;&gt; repeat(var, dirs=[&quot;t&quot;, &quot;l&quot;])</span>
-
-<span class="sd">    - Example #4: Repeat the variable in the top and left directions (no list)</span>
-
-<span class="sd">        &gt;&gt;&gt; repeat(var, dirs=&quot;tl&quot;)</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Function repeat not implemented yet&quot;</span><span class="p">)</span>
-
-    <span class="n">spp</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">dirs</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dirs</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">dirs</span>
-    <span class="n">newvar</span><span class="p">,</span> <span class="n">axx</span><span class="p">,</span> <span class="n">axy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">var</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">xax</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">yax</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="nb">dir</span> <span class="ow">in</span> <span class="n">spp</span><span class="p">:</span>
-        <span class="n">lvx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">newvar</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
-        <span class="n">lvy</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">newvar</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span>
-        <span class="n">choices</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;l&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="n">lvx</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">((</span><span class="n">lvx</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))],</span>
-            <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lvx</span><span class="p">),</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">lvx</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))],</span>
-            <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lvy</span><span class="p">),</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lvy</span><span class="p">))],</span>
-            <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="n">lvy</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">lvy</span><span class="p">,</span> <span class="mi">0</span><span class="p">))],</span>
-        <span class="p">}</span>
-        <span class="n">newvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">newvar</span><span class="p">,</span> <span class="n">choices</span><span class="p">[</span><span class="nb">dir</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;wrap&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">xax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">dir</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">}:</span>
-            <span class="n">axx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">axx</span><span class="p">,</span> <span class="n">choices</span><span class="p">[</span><span class="nb">dir</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;wrap&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">yax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">dir</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">}:</span>
-            <span class="n">axy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">axy</span><span class="p">,</span> <span class="n">choices</span><span class="p">[</span><span class="nb">dir</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;wrap&quot;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">xax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">yax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">newvar</span><span class="p">,</span> <span class="n">axx</span><span class="p">,</span> <span class="n">axy</span>
-    <span class="k">elif</span> <span class="n">xax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">newvar</span><span class="p">,</span> <span class="n">axx</span>
-    <span class="k">elif</span> <span class="n">yax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">newvar</span><span class="p">,</span> <span class="n">axy</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">newvar</span>
-
-
-<div class="viewcode-block" id="cartesian_vector">
-<a class="viewcode-back" href="../../../cartesian_vector.html#pyPLUTO.Load.cartesian_vector">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">cartesian_vector</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function that converts a vector from spherical or polar</span>
-<span class="sd">    components to cartesian components.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - newvar: tuple(np.ndarray)</span>
-<span class="sd">        The converted vector components.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - transpose: bool, default False</span>
-<span class="sd">        If True, the variable is transposed.</span>
-<span class="sd">    - var: np.ndarray</span>
-<span class="sd">        The variable to convert.</span>
-<span class="sd">    - var1: np.ndarray</span>
-<span class="sd">        The first variable to convert if var is not used.</span>
-<span class="sd">    - var2: np.ndarray</span>
-<span class="sd">        The second variable to convert if var is not used.</span>
-<span class="sd">    - var3: np.ndarray</span>
-<span class="sd">        The third variable to convert if var is not used.</span>
-<span class="sd">    - x1: int</span>
-<span class="sd">        The first index of the variable.</span>
-<span class="sd">    - x2: int</span>
-<span class="sd">        The second index of the variable.</span>
-
-<span class="sd">    ----</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Convert the vector from spherical to cartesian components</span>
-
-<span class="sd">        &gt;&gt;&gt; Bx, By, Bz = cartesian_vector(var=&quot;B&quot;)</span>
-
-<span class="sd">    - Example #2: Convert the vector from polar to cartesian components</span>
-
-<span class="sd">        &gt;&gt;&gt; Bx, By = cartesian_vector(var1=D.Bx1, var2=D.Bx2)</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">vars</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Bx1&quot;</span><span class="p">,</span> <span class="s2">&quot;Bx2&quot;</span><span class="p">,</span> <span class="s2">&quot;Bx3&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Ex1&quot;</span><span class="p">,</span> <span class="s2">&quot;Ex2&quot;</span><span class="p">,</span> <span class="s2">&quot;Ex3&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;vx1&quot;</span><span class="p">,</span> <span class="s2">&quot;vx2&quot;</span><span class="p">,</span> <span class="s2">&quot;vx3&quot;</span><span class="p">],</span>
-    <span class="p">}</span>
-
-    <span class="k">if</span> <span class="n">var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">var_0</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
-            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
-        <span class="p">]</span>
-    <span class="k">elif</span> <span class="s2">&quot;var1&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s2">&quot;var2&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-        <span class="n">var_0</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;var1&quot;</span><span class="p">],</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;var2&quot;</span><span class="p">],</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)),</span>
-        <span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either var or var1 and var2 must be specified.&quot;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="s2">&quot;var3&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-        <span class="n">var_0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;var3&quot;</span><span class="p">],</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
-        <span class="p">)</span>
-
-    <span class="c1"># x1 = kwargs.get(&quot;x1&quot;, self.x1)</span>
-    <span class="n">x2</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span>
-    <span class="n">x3</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x3&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
-        <span class="n">varr</span> <span class="o">=</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">+</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-        <span class="n">varz</span> <span class="o">=</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">-</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">varx</span> <span class="o">=</span> <span class="n">varr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x3</span><span class="p">)</span> <span class="o">-</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x3</span><span class="p">)</span>
-            <span class="n">vary</span> <span class="o">=</span> <span class="n">varr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x3</span><span class="p">)</span> <span class="o">+</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x3</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fullout&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">varx</span><span class="p">,</span> <span class="n">vary</span><span class="p">,</span> <span class="n">varz</span><span class="p">,</span> <span class="n">varr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">RectBivariateSpline</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.h_pypluto</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_par</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadmixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.findlines</span><span class="w"> </span><span class="kn">import</span> <span class="n">FindLinesManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.loadtools</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadToolsManager</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TransformManager</span><span class="p">(</span><span class="n">LoadMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manager for transform and slicing helpers.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">LoadState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LoadToolsManager</span> <span class="o">=</span> <span class="n">LoadToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span> <span class="o">=</span> <span class="n">FindLinesManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TransformManager.slices">
+<a class="viewcode-back" href="../../../slices.html#pyPLUTO.toolfuncs.transform.TransformManager.slices">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">slices</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span>
+        <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">diag</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x2</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x3</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Slice a variable along axes and optionally along a diagonal.&quot;&quot;&quot;</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;axis1&quot;</span><span class="p">,</span> <span class="s2">&quot;axis2&quot;</span><span class="p">,</span> <span class="s2">&quot;offset&quot;</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">check</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">check_par</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;slice&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">newvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">diag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">diag</span> <span class="o">==</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span>
+                <span class="n">newvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">newvar</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">varx</span><span class="p">,</span> <span class="n">vary</span><span class="p">,</span> <span class="n">varz</span>
+                <span class="n">newvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">newvar</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">x3</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">newvar</span> <span class="o">=</span> <span class="n">newvar</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">x3</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">x2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">newvar</span> <span class="o">=</span> <span class="n">newvar</span><span class="p">[:,</span> <span class="n">x2</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">x1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">newvar</span> <span class="o">=</span> <span class="n">newvar</span><span class="p">[</span><span class="n">x1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">newvar</span></div>
+
+
+<div class="viewcode-block" id="TransformManager.mirror">
+<a class="viewcode-back" href="../../../mirror.html#pyPLUTO.toolfuncs.transform.TransformManager.mirror">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mirror</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">dirs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">=</span> <span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="n">xax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">yax</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mirror a variable in one or more directions.&quot;&quot;&quot;</span>
+        <span class="n">spp</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">dirs</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dirs</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">dirs</span>
+        <span class="n">newvar</span><span class="p">,</span> <span class="n">axx</span><span class="p">,</span> <span class="n">axy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">var</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">xax</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">yax</span><span class="p">)</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">var</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Mirror function does not works for 3D arrays&quot;</span><span class="p">)</span>
+        <span class="n">nax</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">direction</span> <span class="ow">in</span> <span class="n">spp</span><span class="p">:</span>
+            <span class="n">lvx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">newvar</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="n">lvy</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">newvar</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span> <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="n">choices</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;l&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="n">lvx</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">((</span><span class="n">lvx</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))],</span>
+                <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lvx</span><span class="p">),</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">lvx</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))],</span>
+                <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lvy</span><span class="p">),</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lvy</span><span class="p">))],</span>
+                <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="n">lvy</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">lvy</span><span class="p">,</span> <span class="mi">0</span><span class="p">))],</span>
+            <span class="p">}</span>
+            <span class="n">newvar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">newvar</span><span class="p">,</span> <span class="n">choices</span><span class="p">[</span><span class="n">direction</span><span class="p">][</span><span class="n">dim</span><span class="p">],</span> <span class="s2">&quot;symmetric&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">xax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">}:</span>
+                <span class="n">axx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span>
+                    <span class="n">axx</span><span class="p">,</span> <span class="n">choices</span><span class="p">[</span><span class="n">direction</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;reflect&quot;</span><span class="p">,</span> <span class="n">reflect_type</span><span class="o">=</span><span class="s2">&quot;odd&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">yax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">}:</span>
+                <span class="n">axy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span>
+                    <span class="n">axy</span><span class="p">,</span> <span class="n">choices</span><span class="p">[</span><span class="n">direction</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;reflect&quot;</span><span class="p">,</span> <span class="n">reflect_type</span><span class="o">=</span><span class="s2">&quot;odd&quot;</span>
+                <span class="p">)</span>
+        <span class="n">xax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">nax</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">axx</span><span class="p">)</span>
+        <span class="n">yax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">nax</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">axy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nax</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">newvar</span><span class="p">,</span> <span class="n">nax</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">nax</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">newvar</span><span class="p">,</span> <span class="n">nax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">varr</span><span class="p">,</span> <span class="n">varz</span>
-
-    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
-        <span class="n">varx</span> <span class="o">=</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">-</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-        <span class="n">vary</span> <span class="o">=</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">+</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">varx</span><span class="p">,</span> <span class="n">vary</span></div>
+            <span class="k">return</span> <span class="n">newvar</span></div>
 
 
-
-<div class="viewcode-block" id="reshape_cartesian">
-<a class="viewcode-back" href="../../../reshape_cartesian.html#pyPLUTO.Load.reshape_cartesian">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">reshape_cartesian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function that reshapes a variable from a cylindrical or spherical</span>
-<span class="sd">    grid into a cartesian grid. Zones not covered by the original domain</span>
-<span class="sd">    (e.g. the very inner radial regions) are also interpolated. At the</span>
-<span class="sd">    current stage, the transformation is only in 2D.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - newvar: tuple(np.ndarray)</span>
-<span class="sd">        The converted variable.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - nx1: int, default len(x1)</span>
-<span class="sd">        The number of grid points in the first direction.</span>
-<span class="sd">    - nx2: int, default len(x2)</span>
-<span class="sd">        The number of grid points in the second direction.</span>
-<span class="sd">    - transpose: bool, default False</span>
-<span class="sd">        If True, the variable is transposed.</span>
-<span class="sd">    - var: np.ndarray</span>
-<span class="sd">        The variable to convert.</span>
-<span class="sd">    - x1: int</span>
-<span class="sd">        The first index of the variable.</span>
-<span class="sd">    - x2: int</span>
-<span class="sd">        The second index of the variable.</span>
-
-<span class="sd">    ----</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Convert the vector from spherical to cartesian components</span>
-
-<span class="sd">        &gt;&gt;&gt; Bx, By, Bz = cartesian_vector(var=&quot;B&quot;)</span>
-
-<span class="sd">    - Example #2: Convert the vector from polar to cartesian components</span>
-
-<span class="sd">        &gt;&gt;&gt; Bx, By = cartesian_vector(var1=D.Bx1, var2=D.Bx2)</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Get the variable, if it is a string, get the variable from the dataset.</span>
-    <span class="c1"># The .T is used to transpose the variable to the correct shape.</span>
-    <span class="nb">vars</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">newv</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
-        <span class="nb">vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)))</span>
-
-    <span class="c1"># Get the grid information</span>
-    <span class="n">x1</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span>
-    <span class="n">x2</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span>
-
-    <span class="c1"># Get the grid limits</span>
-    <span class="n">xx</span> <span class="o">=</span> <span class="n">x1</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-    <span class="n">yy</span> <span class="o">=</span> <span class="n">x1</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-
-    <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">xx</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">xx</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-    <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">yy</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-
-    <span class="k">del</span> <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span>
-
-    <span class="c1"># Get the number of grid points of the new grid</span>
-    <span class="n">nx1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nx1&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)))</span>
-    <span class="n">nx2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nx2&quot;</span><span class="p">,</span> <span class="n">nx1</span> <span class="o">*</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)))</span>
-    <span class="c1"># nx2 = int(kwargs.get(&#39;nx2&#39;, nx1*(ymax-ymin)//(xmax-xmin)))</span>
-
-    <span class="c1"># Get the cartesian grid</span>
-
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
-        <span class="n">xc0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">nx2</span><span class="p">)</span>
-        <span class="n">yc0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">nx1</span><span class="p">)</span>
-        <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xc0</span><span class="p">,</span> <span class="n">yc0</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">xc0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">nx1</span><span class="p">)</span>
-        <span class="n">yc0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">nx2</span><span class="p">)</span>
-        <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xc0</span><span class="p">,</span> <span class="n">yc0</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
-
-    <span class="c1"># Create the new grid</span>
-    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="nb">vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reshape_uniform</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="o">*</span><span class="nb">vars</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="c1"># Convert grid</span>
-    <span class="n">ww</span><span class="p">,</span> <span class="n">nn</span> <span class="o">=</span> <span class="n">_convert2cartgrid</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
-
-    <span class="n">xcong</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_congrid</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="p">(</span><span class="n">nx1</span><span class="p">,</span> <span class="n">nx2</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
-    <span class="n">ycong</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_congrid</span><span class="p">(</span><span class="n">yc</span><span class="p">,</span> <span class="p">(</span><span class="n">nx1</span><span class="p">,</span> <span class="n">nx2</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">vars</span><span class="p">):</span>
-        <span class="n">newv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">ww</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">var</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="n">nn</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-        <span class="n">newv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_congrid</span><span class="p">(</span><span class="n">newv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="n">nx1</span><span class="p">,</span> <span class="n">nx2</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ycong</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">xcong</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">newv</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">xcong</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">ycong</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">newv</span></div>
+<div class="viewcode-block" id="TransformManager.repeat">
+<a class="viewcode-back" href="../../../repeat.html#pyPLUTO.toolfuncs.transform.TransformManager.repeat">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span>
+        <span class="n">dirs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">,</span>
+        <span class="n">xax</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">yax</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Repeat a variable in one or more directions.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Function repeat not implemented yet&quot;</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="TransformManager.cartesian_vector">
+<a class="viewcode-back" href="../../../cartesian_vector.html#pyPLUTO.toolfuncs.transform.TransformManager.cartesian_vector">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cartesian_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert vector components to Cartesian coordinates.&quot;&quot;&quot;</span>
+        <span class="nb">vars</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Bx1&quot;</span><span class="p">,</span> <span class="s2">&quot;Bx2&quot;</span><span class="p">,</span> <span class="s2">&quot;Bx3&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Ex1&quot;</span><span class="p">,</span> <span class="s2">&quot;Ex2&quot;</span><span class="p">,</span> <span class="s2">&quot;Ex3&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;vx1&quot;</span><span class="p">,</span> <span class="s2">&quot;vx2&quot;</span><span class="p">,</span> <span class="s2">&quot;vx3&quot;</span><span class="p">],</span>
+        <span class="p">}</span>
 
-<div class="viewcode-block" id="reshape_uniform">
-<a class="viewcode-back" href="../../../reshape_uniform.html#pyPLUTO.Load.reshape_uniform">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">reshape_uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reshapes a non-uniform (cartesian) 2D grid into a uniform grid.</span>
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">var_0</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span>
+                    <span class="n">v</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="k">elif</span> <span class="s2">&quot;var1&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s2">&quot;var2&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">var_0</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;var1&quot;</span><span class="p">],</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;var2&quot;</span><span class="p">],</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="p">),</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either var or var1 and var2 must be specified.&quot;</span><span class="p">)</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    tuple: A tuple containing the reshaped x1, x2, varx, and vary.</span>
+        <span class="k">if</span> <span class="s2">&quot;var3&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">var_0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;var3&quot;</span><span class="p">],</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - nx1: int, default len(x1)</span>
-<span class="sd">        The number of grid points in the first direction.</span>
-<span class="sd">    - nx2: int, default len(x2)</span>
-<span class="sd">        The number of grid points in the second direction.</span>
-<span class="sd">    - transpose: bool, default False</span>
-<span class="sd">        If True, the variable is transposed.</span>
-<span class="sd">    - var: np.ndarray</span>
-<span class="sd">        The variable to convert.</span>
-<span class="sd">    - x1: int</span>
-<span class="sd">        The first index of the variable.</span>
-<span class="sd">    - x2: int</span>
-<span class="sd">        The second index of the variable.</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x3&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">)</span>
 
-<span class="sd">    ----</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+            <span class="n">varr</span> <span class="o">=</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">+</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+            <span class="n">varz</span> <span class="o">=</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">-</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">varx</span> <span class="o">=</span> <span class="n">varr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x3</span><span class="p">)</span> <span class="o">-</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x3</span><span class="p">)</span>
+                <span class="n">vary</span> <span class="o">=</span> <span class="n">varr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x3</span><span class="p">)</span> <span class="o">+</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x3</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fullout&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">varx</span><span class="p">,</span> <span class="n">vary</span><span class="p">,</span> <span class="n">varz</span><span class="p">,</span> <span class="n">varr</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">varx</span><span class="p">,</span> <span class="n">vary</span><span class="p">,</span> <span class="n">varz</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">varr</span><span class="p">,</span> <span class="n">varz</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Reshape the grid into a uniform grid</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+            <span class="n">varx</span> <span class="o">=</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">-</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+            <span class="n">vary</span> <span class="o">=</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">+</span> <span class="n">var_0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">varx</span><span class="p">,</span> <span class="n">vary</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Geometry </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">geom</span><span class="si">}</span><span class="s2"> not supported&quot;</span><span class="p">)</span></div>
 
-<span class="sd">        &gt;&gt;&gt; x1new, x2new, varx = reshape_uniform(x1, x2, var)</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">uniform_x</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">uniform_y</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x2</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-
-    <span class="n">nx1new</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nx1&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span>
-    <span class="n">nx2new</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nx2&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x2</span><span class="p">))</span>
-
-    <span class="n">uniform_x</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">nx1new</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="k">else</span> <span class="n">uniform_x</span>
-    <span class="n">uniform_y</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">nx2new</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="k">else</span> <span class="n">uniform_y</span>
-
-    <span class="n">newvars</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">uniform_x</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">uniform_y</span><span class="p">:</span>
-        <span class="n">x1new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x1</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x1</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">nx1new</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">uniform_x</span> <span class="k">else</span> <span class="n">x1</span>
-        <span class="n">x2new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x2</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x2</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">nx2new</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">uniform_y</span> <span class="k">else</span> <span class="n">x2</span>
-
+<div class="viewcode-block" id="TransformManager.reshape_cartesian">
+<a class="viewcode-back" href="../../../reshape_cartesian.html#pyPLUTO.toolfuncs.transform.TransformManager.reshape_cartesian">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reshape_cartesian</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reshape cylindrical/spherical data onto a Cartesian grid.&quot;&quot;&quot;</span>
+        <span class="nb">vars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">newv</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
-            <span class="n">interp</span> <span class="o">=</span> <span class="n">RectBivariateSpline</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-            <span class="n">newvars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interp</span><span class="p">(</span><span class="n">x2new</span><span class="p">,</span> <span class="n">x1new</span><span class="p">))</span>
+            <span class="nb">vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span>
+                    <span class="n">i</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">x1new</span> <span class="o">=</span> <span class="n">x1</span>
-        <span class="n">x2new</span> <span class="o">=</span> <span class="n">x2</span>
-        <span class="n">newvars</span> <span class="o">=</span> <span class="p">[</span><span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">x1new</span><span class="p">,</span> <span class="n">x2new</span><span class="p">,</span> <span class="n">newvars</span></div>
+        <span class="n">xx</span> <span class="o">=</span> <span class="n">x1</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+        <span class="n">yy</span> <span class="o">=</span> <span class="n">x1</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
 
+        <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">xx</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">xx</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">yy</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
 
+        <span class="k">del</span> <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_convert2cartgrid</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">new_r</span><span class="p">,</span> <span class="n">new_t</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function that converts a grid from spherical to cartesian</span>
-<span class="sd">    coordinates.</span>
+        <span class="n">nx1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nx1&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)))</span>
+        <span class="n">nx2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nx2&quot;</span><span class="p">,</span> <span class="n">nx1</span> <span class="o">*</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)))</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - newvar: tuple(np.ndarray)</span>
-<span class="sd">        The new grid.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+            <span class="n">xc0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">nx2</span><span class="p">)</span>
+            <span class="n">yc0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">nx1</span><span class="p">)</span>
+            <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xc0</span><span class="p">,</span> <span class="n">yc0</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">xc0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">nx1</span><span class="p">)</span>
+            <span class="n">yc0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">nx2</span><span class="p">)</span>
+            <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xc0</span><span class="p">,</span> <span class="n">yc0</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - R: np.ndarray</span>
-<span class="sd">        The radial grid.</span>
-<span class="sd">    - Z: np.ndarray</span>
-<span class="sd">        The vertical grid.</span>
-<span class="sd">    - new_r: np.ndarray</span>
-<span class="sd">        The new radial grid.</span>
-<span class="sd">    - new_t: np.ndarray</span>
-<span class="sd">        The new vertical grid.</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="nb">vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reshape_uniform</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="o">*</span><span class="nb">vars</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<span class="sd">    ----</span>
+        <span class="n">ww</span><span class="p">,</span> <span class="n">nn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert2cartgrid</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Convert the grid from spherical to cartesian coordinates</span>
+        <span class="n">xcong</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LoadToolsManager</span><span class="o">.</span><span class="n">congrid</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="p">(</span><span class="n">nx1</span><span class="p">,</span> <span class="n">nx2</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+        <span class="n">ycong</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LoadToolsManager</span><span class="o">.</span><span class="n">congrid</span><span class="p">(</span><span class="n">yc</span><span class="p">,</span> <span class="p">(</span><span class="n">nx1</span><span class="p">,</span> <span class="n">nx2</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
 
-<span class="sd">        &gt;&gt;&gt; new_r, new_t, newvar = _convert2cartgrid(R, Z, new_r, new_t)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">vars</span><span class="p">):</span>
+            <span class="n">newv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">ww</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">var</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="n">nn</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">newv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LoadToolsManager</span><span class="o">.</span><span class="n">congrid</span><span class="p">(</span>
+                <span class="n">newv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="n">nx1</span><span class="p">,</span> <span class="n">nx2</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span>
+            <span class="p">)</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Convert Cartesian coordinates (R, Z) to polar (Rs, Th)</span>
-    <span class="n">Rs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">R</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="n">Th</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
-    <span class="n">Th</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Th</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Th</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">Th</span><span class="p">)</span>  <span class="c1"># Ensure Th is in [0, 2pi]</span>
-
-    <span class="c1"># Clip Rs and Th to the range of the new grid</span>
-    <span class="n">Rs_clipped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">Rs</span><span class="p">,</span> <span class="n">new_r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new_r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">Th_clipped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">Th</span><span class="p">,</span> <span class="n">new_t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new_t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-
-    <span class="c1"># Normalize Rs and Th to the new grid indices</span>
-    <span class="n">ra</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_r</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Rs_clipped</span> <span class="o">-</span> <span class="n">new_r</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">new_r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">new_r</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">tha</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Th_clipped</span> <span class="o">-</span> <span class="n">new_t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">new_t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">new_t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-
-    <span class="c1"># Get the integer and fractional parts of the grid indices</span>
-    <span class="n">rn</span><span class="p">,</span> <span class="n">dra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divmod</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">thn</span><span class="p">,</span> <span class="n">dtha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divmod</span><span class="p">(</span><span class="n">tha</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">rn</span><span class="p">,</span> <span class="n">thn</span> <span class="o">=</span> <span class="n">rn</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">thn</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-
-    <span class="c1"># Ensure indices are within bounds</span>
-    <span class="n">rn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">rn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_r</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">thn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">thn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
-
-    <span class="c1"># Bilinear interpolation</span>
-    <span class="n">lrx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_r</span><span class="p">)</span>
-    <span class="n">NN1</span> <span class="o">=</span> <span class="n">rn</span> <span class="o">+</span> <span class="n">thn</span> <span class="o">*</span> <span class="n">lrx</span>
-    <span class="n">NN2</span> <span class="o">=</span> <span class="p">(</span><span class="n">rn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">thn</span> <span class="o">*</span> <span class="n">lrx</span>
-    <span class="n">NN3</span> <span class="o">=</span> <span class="n">rn</span> <span class="o">+</span> <span class="p">(</span><span class="n">thn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">lrx</span>
-    <span class="n">NN4</span> <span class="o">=</span> <span class="p">(</span><span class="n">rn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">thn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">lrx</span>
-
-    <span class="n">w1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dra</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dtha</span><span class="p">)</span>
-    <span class="n">w2</span> <span class="o">=</span> <span class="n">dra</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dtha</span><span class="p">)</span>
-    <span class="n">w3</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dra</span><span class="p">)</span> <span class="o">*</span> <span class="n">dtha</span>
-    <span class="n">w4</span> <span class="o">=</span> <span class="n">dra</span> <span class="o">*</span> <span class="n">dtha</span>
-
-    <span class="k">return</span> <span class="p">[</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w3</span><span class="p">,</span> <span class="n">w4</span><span class="p">],</span> <span class="p">[</span><span class="n">NN1</span><span class="p">,</span> <span class="n">NN2</span><span class="p">,</span> <span class="n">NN3</span><span class="p">,</span> <span class="n">NN4</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ycong</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">xcong</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">newv</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">xcong</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">ycong</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">newv</span></div>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_congrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">newdims</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">minusone</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Arbitrary resampling of source array to new dimension sizes.</span>
+<div class="viewcode-block" id="TransformManager.reshape_uniform">
+<a class="viewcode-back" href="../../../reshape_uniform.html#pyPLUTO.toolfuncs.transform.TransformManager.reshape_uniform">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reshape_uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reshape a non-uniform 2D grid into a uniform one.&quot;&quot;&quot;</span>
+        <span class="n">uniform_x</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">uniform_y</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x2</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - The resampled array.</span>
+        <span class="n">nx1new</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nx1&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span>
+        <span class="n">nx2new</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nx2&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x2</span><span class="p">))</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - a: np.ndarray</span>
-<span class="sd">        The array to be resampled.</span>
-<span class="sd">    - newdims: tuple</span>
-<span class="sd">        The new dimension sizes.</span>
-<span class="sd">    - method: str, default &#39;linear&#39;</span>
-<span class="sd">        The interpolation method to be used.</span>
-<span class="sd">    - center: bool, default False</span>
-<span class="sd">        If True, centers the resampled array at the new dimensions.</span>
-<span class="sd">    - minusone: bool, default False</span>
-<span class="sd">        If True, the new dimensions should be larger by 1 in each dimension.</span>
+        <span class="n">uniform_x</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">nx1new</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="k">else</span> <span class="n">uniform_x</span>
+        <span class="n">uniform_y</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">nx2new</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="k">else</span> <span class="n">uniform_y</span>
 
-<span class="sd">    ----</span>
+        <span class="n">newvars</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Resample the grid</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">uniform_x</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">uniform_y</span><span class="p">:</span>
+            <span class="n">x1new</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x1</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x1</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">nx1new</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">uniform_x</span> <span class="k">else</span> <span class="n">x1</span>
+            <span class="p">)</span>
+            <span class="n">x2new</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x2</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x2</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">nx2new</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">uniform_y</span> <span class="k">else</span> <span class="n">x2</span>
+            <span class="p">)</span>
 
-<span class="sd">        &gt;&gt;&gt; newvar = _congrid(newvar, (10, 10))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+                <span class="n">interp</span> <span class="o">=</span> <span class="n">RectBivariateSpline</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+                <span class="n">newvars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interp</span><span class="p">(</span><span class="n">x2new</span><span class="p">,</span> <span class="n">x1new</span><span class="p">))</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Based on IDL&#39;s congrid routine</span>
-    <span class="c1"># Ensure input is a floating-point array for interpolation</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x1new</span> <span class="o">=</span> <span class="n">x1</span>
+            <span class="n">x2new</span> <span class="o">=</span> <span class="n">x2</span>
+            <span class="n">newvars</span> <span class="o">=</span> <span class="p">[</span><span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
 
-    <span class="n">olddims</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-    <span class="n">newdims</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">newdims</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x1new</span><span class="p">,</span> <span class="n">x2new</span><span class="p">,</span> <span class="n">newvars</span></div>
 
-    <span class="k">if</span> <span class="n">olddims</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">newdims</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Dimension mismatch: newdims must have the same number </span><span class="se">\</span>
-<span class="s2">                          of dimensions as the input array.&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_convert2cartgrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">new_r</span><span class="p">,</span> <span class="n">new_t</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a spherical/polar grid to Cartesian helper weights.&quot;&quot;&quot;</span>
+        <span class="n">Rs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">R</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">Th</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+        <span class="n">Th</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Th</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Th</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">Th</span><span class="p">)</span>
+
+        <span class="n">Rs_clipped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">Rs</span><span class="p">,</span> <span class="n">new_r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new_r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">Th_clipped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">Th</span><span class="p">,</span> <span class="n">new_t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new_t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">ra</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_r</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Rs_clipped</span> <span class="o">-</span> <span class="n">new_r</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">new_r</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">new_r</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">tha</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Th_clipped</span> <span class="o">-</span> <span class="n">new_t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">new_t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">new_t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="p">)</span>
 
-    <span class="n">m1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">minusone</span><span class="p">)</span>
-    <span class="n">ofs</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="k">if</span> <span class="n">center</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="n">rn</span><span class="p">,</span> <span class="n">dra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divmod</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">thn</span><span class="p">,</span> <span class="n">dtha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divmod</span><span class="p">(</span><span class="n">tha</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">rn</span><span class="p">,</span> <span class="n">thn</span> <span class="o">=</span> <span class="n">rn</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">thn</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
-    <span class="c1"># Generate the original grid</span>
-    <span class="n">old_grid</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">olddims</span><span class="p">]</span>
+        <span class="n">rn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">rn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_r</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">thn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">thn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
 
-    <span class="c1"># Generate the new grid, scaled to match the new dimensions</span>
-    <span class="n">new_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
-        <span class="o">*</span><span class="p">[</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ofs</span><span class="p">,</span> <span class="n">olddims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">ofs</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">newdims</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">olddims</span><span class="p">))</span>
-        <span class="p">],</span>
-        <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
+        <span class="n">lrx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_r</span><span class="p">)</span>
+        <span class="n">NN1</span> <span class="o">=</span> <span class="n">rn</span> <span class="o">+</span> <span class="n">thn</span> <span class="o">*</span> <span class="n">lrx</span>
+        <span class="n">NN2</span> <span class="o">=</span> <span class="p">(</span><span class="n">rn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">thn</span> <span class="o">*</span> <span class="n">lrx</span>
+        <span class="n">NN3</span> <span class="o">=</span> <span class="n">rn</span> <span class="o">+</span> <span class="p">(</span><span class="n">thn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">lrx</span>
+        <span class="n">NN4</span> <span class="o">=</span> <span class="p">(</span><span class="n">rn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">thn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">lrx</span>
 
-    <span class="c1"># Stack the coordinates for RegularGridInterpolator</span>
-    <span class="n">new_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">new_grid</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">w1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dra</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dtha</span><span class="p">)</span>
+        <span class="n">w2</span> <span class="o">=</span> <span class="n">dra</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dtha</span><span class="p">)</span>
+        <span class="n">w3</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dra</span><span class="p">)</span> <span class="o">*</span> <span class="n">dtha</span>
+        <span class="n">w4</span> <span class="o">=</span> <span class="n">dra</span> <span class="o">*</span> <span class="n">dtha</span>
 
-    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;spline&quot;</span><span class="p">:</span>
-        <span class="c1"># Use spline interpolation with map_coordinates</span>
-        <span class="n">scale</span> <span class="o">=</span> <span class="p">(</span><span class="n">olddims</span> <span class="o">-</span> <span class="n">m1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">newdims</span> <span class="o">-</span> <span class="n">m1</span><span class="p">)</span>
-        <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_grid</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">map_coordinates</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
-
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># Use RegularGridInterpolator for &#39;linear&#39; and &#39;nearest&#39; methods</span>
-        <span class="n">interpolator</span> <span class="o">=</span> <span class="n">RegularGridInterpolator</span><span class="p">(</span>
-            <span class="n">old_grid</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="kc">None</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">interpolator</span><span class="p">(</span><span class="n">new_coords</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w3</span><span class="p">,</span> <span class="n">w4</span><span class="p">],</span> <span class="p">[</span><span class="n">NN1</span><span class="p">,</span> <span class="n">NN2</span><span class="p">,</span> <span class="n">NN3</span><span class="p">,</span> <span class="n">NN4</span><span class="p">]</span>
 </pre></div>
 
                 </article>
@@ -1077,8 +743,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1112,7 +778,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
 </p></div>
       
     </div>

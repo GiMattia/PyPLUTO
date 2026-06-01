@@ -26,17 +26,17 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
     <script src="../../../_static/documentation_options.js?v=58fbf978"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -144,7 +144,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tools.html">
+  <a class="nav-link nav-internal" href="../../../toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -215,11 +215,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
     </div>
     
@@ -280,7 +287,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tools.html">
+  <a class="nav-link nav-internal" href="../../../toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -332,11 +339,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
       </div>
     
@@ -398,7 +412,9 @@
                 <article class="bd-article">
                   
   <h1>Source code for pyPLUTO.toolfuncs.findlines</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span></span><span class="sd">&quot;&quot;&quot;Find-lines utilities manager.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">contourpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cp</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcol</span>
@@ -407,553 +423,303 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_ivp</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">..h_pypluto</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_par</span><span class="p">,</span> <span class="n">makelist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.h_pypluto</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_par</span><span class="p">,</span> <span class="n">makelist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadmixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.loadtools</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadToolsManager</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_check_var</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">transpose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function that checks returns a variable. If the variable is a</span>
-<span class="sd">    numpy array, it is simply returned (and the transpose is taken into</span>
-<span class="sd">    account). If the variable is a string, the variable is retrieved</span>
-<span class="sd">    from the dataset. If the variable is not found, an error is raised.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FindLinesManager</span><span class="p">(</span><span class="n">LoadMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manager for field-line and contour helpers.&quot;&quot;&quot;</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - var: np.ndarray</span>
-<span class="sd">        The variable.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">LoadState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LoadToolsManager</span> <span class="o">=</span> <span class="n">LoadToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - var (not optional): str | np.ndarray</span>
-<span class="sd">        The variable to be checked.</span>
-<span class="sd">    - transpose: bool, default False</span>
-<span class="sd">        If True, the variable is transposed.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_var</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">transpose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a variable from input array or dataset key.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">LoadToolsManager</span><span class="o">.</span><span class="n">check_var</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">transpose</span><span class="p">)</span>
 
-<span class="sd">    ----</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_vector_field</span><span class="p">(</span>
+        <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">var1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">var2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">xc</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">yc</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute vector field interpolation at position y.&quot;&quot;&quot;</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: var is a numpy array</span>
+        <span class="n">i0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xc</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+        <span class="n">j0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">yc</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
 
-<span class="sd">        &gt;&gt;&gt; var = np.array([1, 2, 3])</span>
-<span class="sd">        &gt;&gt;&gt; D._check_var(var, False)</span>
-<span class="sd">        array([1, 2, 3])</span>
+        <span class="n">scrh_ux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">var1</span><span class="p">[:,</span> <span class="n">j0</span><span class="p">])</span>
+        <span class="n">scrh_uy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">var1</span><span class="p">[</span><span class="n">i0</span><span class="p">])</span>
+        <span class="n">scrh_vx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">var2</span><span class="p">[:,</span> <span class="n">j0</span><span class="p">])</span>
+        <span class="n">scrh_vy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">var2</span><span class="p">[</span><span class="n">i0</span><span class="p">])</span>
 
-<span class="sd">    - Example #2: var is a string</span>
+        <span class="n">qx</span> <span class="o">=</span> <span class="n">scrh_ux</span> <span class="o">+</span> <span class="n">scrh_uy</span> <span class="o">-</span> <span class="n">var1</span><span class="p">[</span><span class="n">i0</span><span class="p">,</span> <span class="n">j0</span><span class="p">]</span>
+        <span class="n">qy</span> <span class="o">=</span> <span class="n">scrh_vx</span> <span class="o">+</span> <span class="n">scrh_vy</span> <span class="o">-</span> <span class="n">var2</span><span class="p">[</span><span class="n">i0</span><span class="p">,</span> <span class="n">j0</span><span class="p">]</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load()</span>
-<span class="sd">        &gt;&gt;&gt; D._check_var(&quot;Bx1&quot;, False)</span>
-<span class="sd">        D.Bx1</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">qx</span><span class="p">,</span> <span class="n">qy</span><span class="p">]</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># If var is a string the code tries to recover it from the class attributes,</span>
-    <span class="c1"># if failed it raises an error</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">var</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> not found in the dataset.&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="FindLinesManager.find_fieldlines">
+<a class="viewcode-back" href="../../../find_fieldlines.html#pyPLUTO.toolfuncs.findlines.FindLinesManager.find_fieldlines">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_fieldlines</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var1</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">var2</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">x0</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">y0</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find field lines from two vector components.&quot;&quot;&quot;</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;atol&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;close&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ctol&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dense&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;maxstep&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;minstep&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;numsteps&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;order&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rtol&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;step&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;transpose&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x2&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">check</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">check_par</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;find_fieldlines&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="c1"># If the transpose keyword is True, the variable is transposed.</span>
-    <span class="k">if</span> <span class="n">transpose</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">var</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">varx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+        <span class="n">vary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span><span class="n">var2</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
 
-    <span class="c1"># Return the variable</span>
-    <span class="k">return</span> <span class="n">var</span>
+        <span class="n">xc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span>
+        <span class="n">yc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="n">x0</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">y0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Footpoints not provided. Please provide footpoints!&quot;</span>
+            <span class="p">)</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_vector_field</span><span class="p">(</span>
-    <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">var1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">var2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">xc</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">yc</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the vector field at the given time and coordinates by</span>
-<span class="sd">    interpolating the variables var1 and var2 at the given coordinates.</span>
-<span class="sd">    The interpolation is made through the routine np.interpolate.</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+        <span class="n">y0</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="n">y0</span><span class="p">)</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - [qx, qy]: list[np.ndarray]</span>
-<span class="sd">        The x1 and x2 vector field components, within a list</span>
+        <span class="n">xbeg</span> <span class="o">=</span> <span class="n">xc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.51</span> <span class="o">*</span> <span class="p">(</span><span class="n">xc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">xend</span> <span class="o">=</span> <span class="n">xc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.51</span> <span class="o">*</span> <span class="p">(</span><span class="n">xc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xc</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">ybeg</span> <span class="o">=</span> <span class="n">yc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.51</span> <span class="o">*</span> <span class="p">(</span><span class="n">yc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">yc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">yend</span> <span class="o">=</span> <span class="n">yc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.51</span> <span class="o">*</span> <span class="p">(</span><span class="n">yc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">yc</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - t (not optional): float</span>
-<span class="sd">        The time variable (not used here).</span>
-<span class="sd">    - var1 (not optional): np.ndarray</span>
-<span class="sd">        The first variable to be interpolated.</span>
-<span class="sd">    - var2 (not optional): np.ndarray</span>
-<span class="sd">        The second variable to be interpolated.</span>
-<span class="sd">    - xc (not optional): np.ndarray</span>
-<span class="sd">        The x coordinates of the grid.</span>
-<span class="sd">    - y (not optional): np.ndarray</span>
-<span class="sd">        The coordinates. The first and second dimension are x and y.</span>
-<span class="sd">    - yc (not optional): np.ndarray</span>
-<span class="sd">        The y coordinates of the grid.</span>
+        <span class="n">rtol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rtol&quot;</span><span class="p">,</span> <span class="mf">1.0e-3</span><span class="p">)</span>
+        <span class="n">atol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;atol&quot;</span><span class="p">,</span> <span class="mf">1.0e-6</span><span class="p">)</span>
+        <span class="n">ctol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ctol&quot;</span><span class="p">,</span> <span class="mf">1.0e-6</span><span class="p">)</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="s2">&quot;RK45&quot;</span><span class="p">)</span>
+        <span class="n">dense</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dense&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
-<span class="sd">    ----</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Compute the vector field at the given time and coordinates</span>
-
-<span class="sd">        &gt;&gt;&gt; vector_field(t, y, var1, var2, xc, yc)</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Get the coordinates</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
-
-    <span class="c1"># Compute indices for closest grid points in xc and yc</span>
-    <span class="n">i0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">xc</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
-    <span class="n">j0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">yc</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
-
-    <span class="c1"># Interpolate U and V at the given coordinates</span>
-    <span class="n">scrhUx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">var1</span><span class="p">[:,</span> <span class="n">j0</span><span class="p">])</span>
-    <span class="n">scrhUy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">var1</span><span class="p">[</span><span class="n">i0</span><span class="p">])</span>
-    <span class="n">scrhVx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">var2</span><span class="p">[:,</span> <span class="n">j0</span><span class="p">])</span>
-    <span class="n">scrhVy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">var2</span><span class="p">[</span><span class="n">i0</span><span class="p">])</span>
-
-    <span class="c1"># Compute the resulting vector field components</span>
-    <span class="n">qx</span> <span class="o">=</span> <span class="n">scrhUx</span> <span class="o">+</span> <span class="n">scrhUy</span> <span class="o">-</span> <span class="n">var1</span><span class="p">[</span><span class="n">i0</span><span class="p">,</span> <span class="n">j0</span><span class="p">]</span>
-    <span class="n">qy</span> <span class="o">=</span> <span class="n">scrhVx</span> <span class="o">+</span> <span class="n">scrhVy</span> <span class="o">-</span> <span class="n">var2</span><span class="p">[</span><span class="n">i0</span><span class="p">,</span> <span class="n">j0</span><span class="p">]</span>
-
-    <span class="c1"># Return the vector field</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">qx</span><span class="p">,</span> <span class="n">qy</span><span class="p">]</span>
-
-
-<div class="viewcode-block" id="find_fieldlines">
-<a class="viewcode-back" href="../../../find_fieldlines.html#pyPLUTO.Load.find_fieldlines">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">find_fieldlines</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span>
-    <span class="n">var1</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">var2</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">x0</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">y0</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find field lines using the vector field. The field lines are</span>
-<span class="sd">    computed by interpolating the variables var1 and var2 at the</span>
-<span class="sd">    footpoints x0 and y0. Different integration algorithms are</span>
-<span class="sd">    available, based on the method solve_ivp of the scipy package.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - linelist: list</span>
-<span class="sd">        A list of lists containing the coordinates of the field lines.</span>
-<span class="sd">        The strcuture of the list is [[x1, y1], [x2, y2], ...] where</span>
-<span class="sd">        x1, y1, x2, y2 are numpy arrays representing the coordinates of</span>
-<span class="sd">        the field lines.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - atol: float, default 1e-6</span>
-<span class="sd">        The absolute tolerance for the integration.</span>
-<span class="sd">    - close: bool, default True</span>
-<span class="sd">        If True, it checks if the line is closed on itself.</span>
-<span class="sd">    - ctol: float, default 1e-6</span>
-<span class="sd">        The absolute tolerance for line closing on itself.</span>
-<span class="sd">    - dense: bool, default False</span>
-<span class="sd">        If True, the grid is dense (dense=True) or sparse (dense=False).</span>
-<span class="sd">    - maxstep: float, default 100*step</span>
-<span class="sd">        The maximum step size for the integration.</span>
-<span class="sd">    - minstep: float, default 0.05*step</span>
-<span class="sd">        The minimum step size for the integration (only used if order is LSODA).</span>
-<span class="sd">    - numsteps: int, default 16384</span>
-<span class="sd">        The maximum number of steps for the integration.</span>
-<span class="sd">    - order: str, default &#39;RK45&#39;</span>
-<span class="sd">        The integration method. Available options are: &#39;RK45&#39;, &#39;RK23&#39;, &#39;DOP853&#39;,</span>
-<span class="sd">        &#39;Radau&#39;, &#39;BDF&#39;, &#39;LSODA&#39;.</span>
-<span class="sd">    - rtol: float, default 1e-6</span>
-<span class="sd">        The relative tolerance for the integration.</span>
-<span class="sd">    - step: float, default abs(min((xend-xbeg)/self.nx1, (yend-ybeg)/self.nx2))</span>
-<span class="sd">        The initial step size for the integration.</span>
-<span class="sd">    - text: bool, default False</span>
-<span class="sd">        If True some additional information is printed.</span>
-<span class="sd">    - transpose: bool, default False</span>
-<span class="sd">        If True, the variables are transposed.</span>
-<span class="sd">    - var1 (not optional): str | NDArray</span>
-<span class="sd">        The first variable to be interpolated.</span>
-<span class="sd">    - var2 (not optional): str | NDArray</span>
-<span class="sd">        The second variable to be interpolated.</span>
-<span class="sd">    - x0: list</span>
-<span class="sd">        The x coordinates of the footpoints.</span>
-<span class="sd">    - x1: NDArray | list | None, default self.x1</span>
-<span class="sd">        The x coordinates of the grid.</span>
-<span class="sd">    - x2: NDArray | list | None, default self.x2</span>
-<span class="sd">        The y coordinates of the grid.</span>
-<span class="sd">    - y0: list</span>
-<span class="sd">        The y coordinates of the footpoints.</span>
-
-<span class="sd">    ----</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Find field lines using the vector field</span>
-
-<span class="sd">        &gt;&gt;&gt; find_fieldlines(var1, var2, x0, y0)</span>
-
-<span class="sd">    - Example #2: Find field lines using two strings &#39;Bx1&#39; and &#39;Bx2&#39;</span>
-
-<span class="sd">        &gt;&gt;&gt; find_fieldlines(&quot;Bx1&quot;, &quot;Bx2&quot;, x0, y0)</span>
-
-<span class="sd">    - Example #3: Find field lines using two variables and two footpoints</span>
-
-<span class="sd">        &gt;&gt;&gt; find_fieldlines(var1, var2, [x1, x2], [y1, y2])</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Check parameters</span>
-    <span class="n">param</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;atol&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;close&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ctol&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;dense&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;maxstep&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;minstep&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;numsteps&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;order&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;rtol&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;step&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;transpose&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;x1&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;x2&quot;</span><span class="p">,</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="n">check</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">check_par</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;find_fieldlines&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="c1"># Get the variable, if it is a string, get the variable from the dataset.</span>
-    <span class="c1"># The .T is used to transpose the variable to the correct shape.</span>
-    <span class="n">varx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
-    <span class="n">vary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span><span class="n">var2</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
-
-    <span class="c1"># Get the grid information</span>
-    <span class="n">xc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span>
-    <span class="n">yc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span>
-
-    <span class="c1"># Check if the grid is uniform</span>
-
-    <span class="c1"># if not np.all(np.diff(xc) == np.diff(xc)[0]):</span>
-    <span class="c1">#   err = &quot;The grid is not uniform. Only uniform grids are supported.&quot;</span>
-    <span class="c1">#    raise ValueError(err)</span>
-
-    <span class="c1"># Get the footpoints</span>
-    <span class="k">if</span> <span class="n">x0</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">y0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Footpoints not provided. Please provide footpoints!&quot;</span><span class="p">)</span>
-
-    <span class="c1"># Make sure x0 and y0 are lists</span>
-    <span class="n">x0</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
-    <span class="n">y0</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="n">y0</span><span class="p">)</span>
-
-    <span class="c1"># Get the domain size (Take the initial and final coordinates</span>
-    <span class="c1"># slightly larger to allow a seed to be specified on the boundary).</span>
-    <span class="n">xbeg</span> <span class="o">=</span> <span class="n">xc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.51</span> <span class="o">*</span> <span class="p">(</span><span class="n">xc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">xend</span> <span class="o">=</span> <span class="n">xc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.51</span> <span class="o">*</span> <span class="p">(</span><span class="n">xc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xc</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
-
-    <span class="n">ybeg</span> <span class="o">=</span> <span class="n">yc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.51</span> <span class="o">*</span> <span class="p">(</span><span class="n">yc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">yc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">yend</span> <span class="o">=</span> <span class="n">yc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.51</span> <span class="o">*</span> <span class="p">(</span><span class="n">yc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">yc</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
-
-    <span class="c1"># Set the keywords</span>
-    <span class="n">rtol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rtol&quot;</span><span class="p">,</span> <span class="mf">1.0e-3</span><span class="p">)</span>
-    <span class="n">atol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;atol&quot;</span><span class="p">,</span> <span class="mf">1.0e-6</span><span class="p">)</span>
-    <span class="n">ctol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ctol&quot;</span><span class="p">,</span> <span class="mf">1.0e-6</span><span class="p">)</span>
-    <span class="n">order</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="s2">&quot;RK45&quot;</span><span class="p">)</span>
-    <span class="n">dense</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dense&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-
-    <span class="c1"># Set the initial step size and maximum number of steps</span>
-    <span class="n">step</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;step&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="p">((</span><span class="n">xend</span> <span class="o">-</span> <span class="n">xbeg</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx1</span><span class="p">,</span> <span class="p">(</span><span class="n">yend</span> <span class="o">-</span> <span class="n">ybeg</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span><span class="p">)</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="n">maxstep</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;maxstep&quot;</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">step</span><span class="p">)</span>
-    <span class="n">numstep</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;numsteps&quot;</span><span class="p">,</span> <span class="mi">16384</span><span class="p">))</span>
-    <span class="n">tfin</span> <span class="o">=</span> <span class="n">maxstep</span> <span class="o">*</span> <span class="n">numstep</span>
-
-    <span class="c1"># Define the system of differential equations</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">system</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;System of differential equations for the field lines.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_vector_field</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">varx</span><span class="p">,</span> <span class="n">vary</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">)</span>
-
-    <span class="c1"># Event to detect if the field line exits the domain</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">outside_domain</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Event to detect if the field line exits the domain.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">xbeg</span> <span class="ow">or</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">xend</span> <span class="ow">or</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">ybeg</span> <span class="ow">or</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">yend</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># Trigger event (exiting the domain)</span>
-        <span class="k">return</span> <span class="mi">1</span>  <span class="c1"># Do not trigger event (still within the domain)</span>
-
-    <span class="c1"># Event to detect if the field line closes on itself</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">close_to_start</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Event to detect if the field line closes on itself.&quot;&quot;&quot;</span>
-        <span class="n">dist_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_pos</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">dist_0</span> <span class="o">&lt;</span> <span class="n">ctol</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="n">maxstep</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">loop_dom</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># Trigger event (closing on itself)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">oldpos</span> <span class="o">=</span> <span class="n">y</span>
-        <span class="k">return</span> <span class="mi">1</span>  <span class="c1"># Do not trigger event (open line)</span>
-
-    <span class="c1"># Event to detect if the maximum number of steps is reached</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">max_num_steps</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Event to detect if the maximum number of steps is reached.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span> <span class="o">&gt;</span> <span class="n">numstep</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># Trigger event (maximum number of steps reached)</span>
-        <span class="k">return</span> <span class="mi">1</span>  <span class="c1"># Do not trigger event (still below maximum step number)</span>
-
-    <span class="c1"># Set the events to be triggered</span>
-    <span class="n">close_to_start</span><span class="o">.</span><span class="n">terminal</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="kc">True</span> <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="kc">False</span>
-    <span class="p">)</span>
-    <span class="n">close_to_start</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="n">outside_domain</span><span class="o">.</span><span class="n">terminal</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">outside_domain</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="n">max_num_steps</span><span class="o">.</span><span class="n">terminal</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">max_num_steps</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="c1"># Initilaize the list of lines and set the keywords</span>
-    <span class="n">lines_list</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">linekwargs</span> <span class="o">=</span> <span class="p">{}</span>
-
-    <span class="k">if</span> <span class="n">order</span> <span class="o">==</span> <span class="s2">&quot;LSODA&quot;</span><span class="p">:</span>
-        <span class="n">linekwargs</span><span class="p">[</span><span class="s2">&quot;minstep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;minstep&quot;</span><span class="p">,</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">step</span><span class="p">)</span>
-
-    <span class="c1"># Iterate on the footpoints</span>
-    <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">xp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x0</span><span class="p">):</span>
-        <span class="c1"># Set the initial conditions</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loop_dom</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">yp</span> <span class="o">=</span> <span class="n">y0</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">init_pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">oldpos</span> <span class="o">=</span> <span class="p">[</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">t_span</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tfin</span><span class="p">)</span>
-
-        <span class="c1"># Integrate forward</span>
-        <span class="n">sol_forward</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span>
-            <span class="n">system</span><span class="p">,</span>
-            <span class="n">t_span</span><span class="p">,</span>
-            <span class="p">[</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">],</span>
-            <span class="n">method</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
-            <span class="n">events</span><span class="o">=</span><span class="p">[</span><span class="n">outside_domain</span><span class="p">,</span> <span class="n">max_num_steps</span><span class="p">,</span> <span class="n">close_to_start</span><span class="p">],</span>
-            <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span>
-            <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">,</span>
-            <span class="n">max_step</span><span class="o">=</span><span class="n">maxstep</span><span class="p">,</span>
-            <span class="n">first_step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
-            <span class="n">dense_output</span><span class="o">=</span><span class="n">dense</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">linekwargs</span><span class="p">,</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;step&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="p">((</span><span class="n">xend</span> <span class="o">-</span> <span class="n">xbeg</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx1</span><span class="p">,</span> <span class="p">(</span><span class="n">yend</span> <span class="o">-</span> <span class="n">ybeg</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="p">)</span>
 
-        <span class="c1"># If the line did not close on itself, integrate backward</span>
-        <span class="n">numstep</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop_dom</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="n">numstep</span>
+        <span class="n">maxstep</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;maxstep&quot;</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">step</span><span class="p">)</span>
+        <span class="n">numstep</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;numsteps&quot;</span><span class="p">,</span> <span class="mi">16384</span><span class="p">))</span>
+        <span class="n">tfin</span> <span class="o">=</span> <span class="n">maxstep</span> <span class="o">*</span> <span class="n">numstep</span>
 
-        <span class="c1"># Set the new conditions</span>
-        <span class="n">forw_steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">init_pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">sol_forward</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sol_forward</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">t_span</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">tfin</span><span class="p">)</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">system</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector_field</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">varx</span><span class="p">,</span> <span class="n">vary</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">)</span>
 
-        <span class="c1"># Integrate backward</span>
-        <span class="n">sol_backward</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span>
-            <span class="n">system</span><span class="p">,</span>
-            <span class="n">t_span</span><span class="p">,</span>
-            <span class="p">[</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">],</span>
-            <span class="n">method</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
-            <span class="n">events</span><span class="o">=</span><span class="p">[</span><span class="n">outside_domain</span><span class="p">,</span> <span class="n">max_num_steps</span><span class="p">,</span> <span class="n">close_to_start</span><span class="p">],</span>
-            <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span>
-            <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">,</span>
-            <span class="n">max_step</span><span class="o">=</span><span class="n">maxstep</span><span class="p">,</span>
-            <span class="n">first_step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
-            <span class="n">dense_output</span><span class="o">=</span><span class="n">dense</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">linekwargs</span><span class="p">,</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">outside_domain</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">xbeg</span> <span class="ow">or</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">xend</span> <span class="ow">or</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">ybeg</span> <span class="ow">or</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">yend</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="k">return</span> <span class="mi">1</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">close_to_start</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <span class="n">dist_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_pos</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">dist_0</span> <span class="o">&lt;</span> <span class="n">ctol</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="n">maxstep</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">loop_dom</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oldpos</span> <span class="o">=</span> <span class="n">y</span>
+            <span class="k">return</span> <span class="mi">1</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">max_num_steps</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span> <span class="o">&gt;</span> <span class="n">numstep</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="k">return</span> <span class="mi">1</span>
+
+        <span class="n">close_to_start</span><span class="o">.</span><span class="n">terminal</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="kc">True</span> <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="kc">False</span>
         <span class="p">)</span>
+        <span class="n">close_to_start</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="c1"># Concatenate the solutions (backward and forward)</span>
-        <span class="n">x_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">sol_backward</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sol_forward</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">))[:,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">y_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">sol_backward</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sol_forward</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">))[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">outside_domain</span><span class="o">.</span><span class="n">terminal</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">outside_domain</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="c1"># If the line is closed on itself, close the line</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop_dom</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">x_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_line</span><span class="p">,</span> <span class="n">x_line</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">y_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_line</span><span class="p">,</span> <span class="n">y_line</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">max_num_steps</span><span class="o">.</span><span class="n">terminal</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">max_num_steps</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="c1"># Print the time of the integration</span>
-        <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Line with footpoint at x = &quot;</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="s2">&quot; and y = &quot;</span><span class="p">,</span> <span class="n">yp</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final integration time forward:  &quot;</span><span class="p">,</span> <span class="n">sol_forward</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final integration time backward: &quot;</span><span class="p">,</span> <span class="n">sol_backward</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final step number forward:       &quot;</span><span class="p">,</span> <span class="n">forw_steps</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final step number backward:      &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span><span class="p">)</span>
+        <span class="n">lines_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">linekwargs</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="c1"># Add the line to the list (if it has more than one point)</span>
-        <span class="n">lines_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x_line</span><span class="p">,</span> <span class="n">y_line</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">order</span> <span class="o">==</span> <span class="s2">&quot;LSODA&quot;</span><span class="p">:</span>
+            <span class="n">linekwargs</span><span class="p">[</span><span class="s2">&quot;minstep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;minstep&quot;</span><span class="p">,</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">step</span><span class="p">)</span>
 
-    <span class="c1"># Delete the methods that are not needed</span>
-    <span class="k">for</span> <span class="n">method_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;init_pos&quot;</span><span class="p">,</span> <span class="s2">&quot;stepnum&quot;</span><span class="p">,</span> <span class="s2">&quot;out_dom&quot;</span><span class="p">,</span> <span class="s2">&quot;oldpos&quot;</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="n">method_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
-            <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">method_name</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">xp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x0</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loop_dom</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">yp</span> <span class="o">=</span> <span class="n">y0</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">init_pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oldpos</span> <span class="o">=</span> <span class="p">[</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">t_span</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tfin</span><span class="p">)</span>
 
-    <span class="c1"># Return the list of lines</span>
-    <span class="k">return</span> <span class="n">lines_list</span></div>
+            <span class="n">sol_forward</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span>
+                <span class="n">system</span><span class="p">,</span>
+                <span class="n">t_span</span><span class="p">,</span>
+                <span class="p">[</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">],</span>
+                <span class="n">method</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+                <span class="n">events</span><span class="o">=</span><span class="p">[</span><span class="n">outside_domain</span><span class="p">,</span> <span class="n">max_num_steps</span><span class="p">,</span> <span class="n">close_to_start</span><span class="p">],</span>
+                <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span>
+                <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">,</span>
+                <span class="n">max_step</span><span class="o">=</span><span class="n">maxstep</span><span class="p">,</span>
+                <span class="n">first_step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
+                <span class="n">dense_output</span><span class="o">=</span><span class="n">dense</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">linekwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">numstep</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop_dom</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="n">numstep</span>
+
+            <span class="n">forw_steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">init_pos</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">sol_forward</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">sol_forward</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">t_span</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">tfin</span><span class="p">)</span>
+
+            <span class="n">sol_backward</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span>
+                <span class="n">system</span><span class="p">,</span>
+                <span class="n">t_span</span><span class="p">,</span>
+                <span class="p">[</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">],</span>
+                <span class="n">method</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+                <span class="n">events</span><span class="o">=</span><span class="p">[</span><span class="n">outside_domain</span><span class="p">,</span> <span class="n">max_num_steps</span><span class="p">,</span> <span class="n">close_to_start</span><span class="p">],</span>
+                <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span>
+                <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">,</span>
+                <span class="n">max_step</span><span class="o">=</span><span class="n">maxstep</span><span class="p">,</span>
+                <span class="n">first_step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
+                <span class="n">dense_output</span><span class="o">=</span><span class="n">dense</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">linekwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">x_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">sol_backward</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sol_forward</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">))[:,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">y_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">sol_backward</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sol_forward</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">))[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop_dom</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">x_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_line</span><span class="p">,</span> <span class="n">x_line</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">y_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_line</span><span class="p">,</span> <span class="n">y_line</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Line with footpoint at x = &quot;</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="s2">&quot; and y = &quot;</span><span class="p">,</span> <span class="n">yp</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final integration time forward:  &quot;</span><span class="p">,</span> <span class="n">sol_forward</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final integration time backward: &quot;</span><span class="p">,</span> <span class="n">sol_backward</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final step number forward:       &quot;</span><span class="p">,</span> <span class="n">forw_steps</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final step number backward:      &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">lines_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x_line</span><span class="p">,</span> <span class="n">y_line</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">method_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;init_pos&quot;</span><span class="p">,</span> <span class="s2">&quot;stepnum&quot;</span><span class="p">,</span> <span class="s2">&quot;out_dom&quot;</span><span class="p">,</span> <span class="s2">&quot;oldpos&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">method_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+                <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">method_name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">lines_list</span></div>
 
 
+<div class="viewcode-block" id="FindLinesManager.find_contour">
+<a class="viewcode-back" href="../../../find_contour.html#pyPLUTO.toolfuncs.findlines.FindLinesManager.find_contour">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_contour</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate contour lines for a given variable.&quot;&quot;&quot;</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;cmap&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;levels&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;levelscale&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;transpose&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vmax&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vmin&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;x2&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">check</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">check_par</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;find_contour&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="find_contour">
-<a class="viewcode-back" href="../../../find_contour.html#pyPLUTO.Load.find_contour">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">find_contour</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate contour lines for a given variable.</span>
+        <span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - lines_list: list</span>
-<span class="sd">        List of contour lines. The strcuture of the list is</span>
-<span class="sd">        [[x1, y1], [x2, y2], ...] where x1, y1, x2, y2 are numpy arrays</span>
-<span class="sd">        representing the coordinates of the field lines.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1p</span>
+            <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2p</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span>
+            <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1c</span>
+            <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2c</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span>
+            <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - cmap: str, default &#39;k&#39;</span>
-<span class="sd">        The colormap to use to associate each level with a color.</span>
-<span class="sd">        The colormap can also be a color, which is used for all the levels.</span>
-<span class="sd">        If not provided, all the lines are associated with the color black.</span>
-<span class="sd">    - levels: int | np.ndarray, default 10</span>
-<span class="sd">        The levels of number of levels or the list of levels for the contours.</span>
-<span class="sd">        If an integer is provided, the levels are generated using a linear or</span>
-<span class="sd">        logarithmic scale. If an array is provided, the levels are taken from</span>
-<span class="sd">        the array.</span>
-<span class="sd">    - levelscale: str, default &#39;linear&#39;</span>
-<span class="sd">        The scale of the levels. Available options are &#39;linear&#39; and</span>
-<span class="sd">        &#39;logarithmic&#39;.</span>
-<span class="sd">    - transpose: bool, default False</span>
-<span class="sd">        If True, the variable is transposed.</span>
-<span class="sd">    - var (not optional): str | np.ndarray</span>
-<span class="sd">        The variable to plot. If a string is provided, the variable is taken</span>
-<span class="sd">        from the dataset.</span>
-<span class="sd">    - vmax: float, default np.max(var)</span>
-<span class="sd">        The maximum value of the variable.</span>
-<span class="sd">    - vmin: float, default np.min(var)</span>
-<span class="sd">        The minimum value of the variable.</span>
-<span class="sd">    - x1: np.ndarray, default self.x1</span>
-<span class="sd">        The x1 coordinates. If the geometry is non-Cartesian, the x1 cartesian</span>
-<span class="sd">        coordinates are taken from the dataset.</span>
-<span class="sd">    - x2: np.ndarray, default self.x2</span>
-<span class="sd">        The x2 coordinates. If the geometry is non-Cartesian, the x2 cartesian</span>
-<span class="sd">        coordinates are taken from the dataset.</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">x1</span><span class="p">)</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
 
-<span class="sd">    ----</span>
+        <span class="n">vmin</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmin&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+        <span class="n">vmax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmax&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Generate contour lines for a given variable.</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;levels&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">levelscale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;levelscale&quot;</span><span class="p">,</span> <span class="s2">&quot;linear&quot;</span><span class="p">)</span>
 
-<span class="sd">        &gt;&gt;&gt; lines_list = find_contour(var)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">levels</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">levelscale</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span>
+                <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">vmin</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">vmax</span><span class="p">),</span> <span class="n">levels</span><span class="p">)</span>
+            <span class="p">)</span>
 
-<span class="sd">    - Example #2: Generate contour lines for a given variable and coordinates.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">levels</span> <span class="o">=</span> <span class="p">[</span><span class="n">levels</span><span class="p">]</span>
 
-<span class="sd">        &gt;&gt;&gt; lines_list = find_contour(var, x1=x1, x2=x2)</span>
+        <span class="k">if</span> <span class="s2">&quot;cmap&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">cmap_val</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">cmap_val</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+                <span class="n">cmap</span> <span class="o">=</span> <span class="n">mcol</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">cmap_val</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cmap</span> <span class="o">=</span> <span class="n">mcol</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">([</span><span class="s2">&quot;k&quot;</span><span class="p">])</span>
 
-<span class="sd">    - Example #3: Generate contour lines for a given variable and coordinates</span>
-<span class="sd">        with a logarithmic scale.</span>
+        <span class="n">lines_list</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="sd">        &gt;&gt;&gt; lines_list = find_contour(var, x1=x1, x2=x2,</span>
-<span class="sd">        &gt;&gt;&gt; ... levelscale=&#39;logarithmic&#39;)</span>
+        <span class="n">cont_gen</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">contour_generator</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;serial&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">indx</span><span class="p">,</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">levels</span><span class="p">):</span>
+            <span class="n">contour</span> <span class="o">=</span> <span class="n">cont_gen</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">contour</span><span class="p">:</span>
+                <span class="n">x_c</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">y_c</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">cmap</span><span class="p">(</span><span class="n">indx</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">levels</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="k">if</span> <span class="s2">&quot;cmap&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="s2">&quot;k&quot;</span>
+                <span class="p">)</span>
 
-<span class="sd">    - Example #4: Generate contour lines for a given variable and coordinates</span>
-<span class="sd">        with a logarithmic scale and a colormap.</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">lines_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x_c</span><span class="p">,</span> <span class="n">y_c</span><span class="p">,</span> <span class="n">col</span><span class="p">])</span>
 
-<span class="sd">        &gt;&gt;&gt; lines_list = find_contour(var, x1=x1, x2=x2,</span>
-<span class="sd">        &gt;&gt;&gt; ... levelscale=&#39;logarithmic&#39;, cmap=&#39;jet&#39;)</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Check parameters</span>
-    <span class="n">param</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;cmap&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;levels&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;levelscale&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;transpose&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;vmax&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;vmin&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;x1&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;x2&quot;</span><span class="p">,</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="n">check</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">check_par</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;find_contour&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="c1"># Get the variable, if it is a string, get the variable from the dataset.</span>
-    <span class="c1"># The .T is used to transpose the variable to the correct shape.</span>
-    <span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_var</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
-
-    <span class="c1"># Get the grid information and provide a default value for the coordinates</span>
-    <span class="c1"># if they are not provided depending on the geometry.</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1p</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2p</span>
-    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span>
-    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1c</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2c</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span>
-
-    <span class="c1"># Get the coordinates from the keyword arguments (if provided)</span>
-    <span class="n">x1</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">x1</span><span class="p">)</span>
-    <span class="n">x2</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
-
-    <span class="c1"># Get the variable information (minimum and maximum values)</span>
-    <span class="n">vmin</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmin&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
-    <span class="n">vmax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmax&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
-
-    <span class="c1"># Compute the levels of the contours, in linear or logarithmic scale</span>
-    <span class="n">levels</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;levels&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="n">levelscale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;levelscale&quot;</span><span class="p">,</span> <span class="s2">&quot;linear&quot;</span><span class="p">)</span>
-
-    <span class="c1"># If levels is an integer, the levels are computed in lin or log scale</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="n">levels</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">levelscale</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span>
-            <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">vmin</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">vmax</span><span class="p">),</span> <span class="n">levels</span><span class="p">)</span>
-        <span class="p">)</span>
-
-    <span class="c1"># If levels is a float, convert it to a list</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="n">levels</span> <span class="o">=</span> <span class="p">[</span><span class="n">levels</span><span class="p">]</span>
-
-    <span class="c1"># Set colormap (try to get it from the colormap list, if not then use</span>
-    <span class="c1"># the color provided), if not provided use black.</span>
-    <span class="k">if</span> <span class="s2">&quot;cmap&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-        <span class="n">cmap_val</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">cmap_val</span><span class="p">)</span>
-        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
-            <span class="n">cmap</span> <span class="o">=</span> <span class="n">mcol</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">cmap_val</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">cmap</span> <span class="o">=</span> <span class="n">mcol</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">([</span><span class="s2">&quot;k&quot;</span><span class="p">])</span>
-
-    <span class="c1"># Initialize the list of lines</span>
-    <span class="n">lines_list</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="c1"># Get the contour generator and the lines for every level</span>
-    <span class="n">cont_gen</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">contour_generator</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;serial&quot;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">indx</span><span class="p">,</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">levels</span><span class="p">):</span>
-        <span class="n">contour</span> <span class="o">=</span> <span class="n">cont_gen</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">contour</span><span class="p">:</span>
-            <span class="n">x_c</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
-            <span class="n">y_c</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="n">col</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">(</span><span class="n">indx</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">levels</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="k">if</span> <span class="s2">&quot;cmap&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="s2">&quot;k&quot;</span>
-
-            <span class="n">lines_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x_c</span><span class="p">,</span> <span class="n">y_c</span><span class="p">,</span> <span class="n">col</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span>
-
-    <span class="c1"># Return the list of lines</span>
-    <span class="k">return</span> <span class="n">lines_list</span></div>
+        <span class="k">return</span> <span class="n">lines_list</span></div>
 
 </pre></div>
 
@@ -984,8 +750,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1019,7 +785,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
 </p></div>
       
     </div>

@@ -26,7 +26,7 @@ Contents
 
    install
    loadclass
-   tools
+   toolsmethods
    imageclass
    gui
    examples

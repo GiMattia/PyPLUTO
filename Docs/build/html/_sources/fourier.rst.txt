@@ -3,7 +3,8 @@
 Load.fourier
 ============
 
-.. autofunction:: pyPLUTO.Load.fourier
+.. automethod:: pyPLUTO.toolfuncs.fourier.FourierManager.fourier
+   :noindex:
 
 |
 

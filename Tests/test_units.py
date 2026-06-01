@@ -4,9 +4,9 @@ from types import SimpleNamespace
 
 import numpy as np
 import pytest
-from pyPLUTO.toolfuncs.units import UnitManager
 
 import pyPLUTO as pp
+from pyPLUTO.toolfuncs.compute_units import UnitManager
 
 repo_root = Path(os.getcwd())
 repo_root = repo_root if repo_root.name == "Tests" else repo_root / "Tests"

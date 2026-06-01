@@ -3,7 +3,8 @@
 Load.slices
 ===========
 
-.. autofunction:: pyPLUTO.Load.slices
+.. automethod:: pyPLUTO.toolfuncs.transform.TransformManager.slices
+   :noindex:
 
 |
 

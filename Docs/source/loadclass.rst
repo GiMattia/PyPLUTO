@@ -116,6 +116,33 @@ all variables into a single output file.
      - single file only
      - no
 
+Physical units
+--------------
+
+Both :ref:`Load <load>` and :ref:`LoadPart <loadpart>` support attaching
+physical (CGS) units to loaded variables through the
+`astropy <https://www.astropy.org/>`_ library.
+Unit scales are resolved automatically via a priority chain:
+user-defined overrides → PLUTO log file → ``definitions.h`` values →
+physics-module defaults → classical MHD fallback.
+The three base scales (density, length, velocity) are used to derive all
+remaining ones (pressure, time, magnetic field).
+
+Variables are left in code units by default. Units can be attached at load
+time via the ``units`` keyword, or later with the
+:ref:`to_astropy_units <to_astropy_units>` method.
+They can be stripped back with :ref:`to_code_units <to_code_units>`.
+
+.. toctree::
+   :hidden:
+
+   to_astropy_units
+   to_code_units
+
+|
+
+----
+
 What about other codes?
 -----------------------
 

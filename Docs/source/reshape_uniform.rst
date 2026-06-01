@@ -3,7 +3,8 @@
 Load.reshape_uniform
 ====================
 
-.. autofunction:: pyPLUTO.Load.reshape_uniform
+.. automethod:: pyPLUTO.toolfuncs.transform.TransformManager.reshape_uniform
+   :noindex:
 
 |
 

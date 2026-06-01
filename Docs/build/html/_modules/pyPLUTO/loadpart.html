@@ -26,17 +26,17 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
     <script src="../../_static/documentation_options.js?v=58fbf978"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -144,7 +144,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../tools.html">
+  <a class="nav-link nav-internal" href="../../toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -215,11 +215,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
     </div>
     
@@ -280,7 +287,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../tools.html">
+  <a class="nav-link nav-internal" href="../../toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -332,11 +339,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
       </div>
     
@@ -398,16 +412,30 @@
                 <article class="bd-article">
                   
   <h1>Source code for pyPLUTO.loadpart</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span></span><span class="sd">&quot;&quot;&quot;The Load class loads the data (fluid) from the output files.&quot;&quot;&quot;</span>
+
+<span class="c1"># ruff: noqa: ANN201  # noqa: RUF100</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.baseloadmixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseLoadMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.baseloadstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseLoadState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadfuncs.initload</span><span class="w"> </span><span class="kn">import</span> <span class="n">InitLoadManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.compute_units</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnitManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.parttools</span><span class="w"> </span><span class="kn">import</span> <span class="n">PartToolsManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.set_units</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetUnitsManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.resolver</span><span class="w"> </span><span class="kn">import</span> <span class="n">AttrResolver</span>
 
 
 <div class="viewcode-block" id="LoadPart">
 <a class="viewcode-back" href="../../loadpart.html#pyPLUTO.LoadPart">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">LoadPart</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the particles from the simulation. The class is used to load</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LoadPart</span><span class="p">(</span><span class="n">BaseLoadMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the particles from the simulation.</span>
+
+<span class="sd">    The class is used to load</span>
 <span class="sd">    the particles from the simulation and store the data in the class</span>
 <span class="sd">    attributes. The data are loaded in a memory mapped numpy</span>
 <span class="sd">    multidimensional array. Such approach does not load the full data</span>
@@ -476,131 +504,61 @@
 <span class="sd">        file number for the lp methods</span>
 
 <span class="sd">        &gt;&gt;&gt; LoadPart(nfile_lp=1)</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="nd">@track_kwargs</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">nout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;last&quot;</span><span class="p">,</span>
-        <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span><span class="p">,</span>
-        <span class="n">datatype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="nb">vars</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">endian</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">nfile_lp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">nout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;last&quot;</span><span class="p">,</span>
+        <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># Check if the user wants to load the data</span>
-        <span class="k">if</span> <span class="n">nout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Load class.&quot;&quot;&quot;</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;kwargscheck&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
 
-        <span class="c1"># Initialization or declaration of variables (used in this file)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># Output to be loaded</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_d_end</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span>  <span class="c1"># Endianess dictionary</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_multiple</span><span class="p">:</span> <span class="nb">bool</span>  <span class="c1"># Bool for single or multiple files</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_alone</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Bool for standalone files</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">:</span> <span class="nb">bool</span>  <span class="c1"># Bool for info (linked to alone)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_d_vars</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># The dictionary of variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span> <span class="n">BaseLoadState</span> <span class="o">=</span> <span class="n">BaseLoadState</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cached_vars</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">InitLoadManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">nout</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">PartToolsManager</span> <span class="o">=</span> <span class="n">PartToolsManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">UnitManager</span> <span class="o">=</span> <span class="n">UnitManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetUnitsManager</span> <span class="o">=</span> <span class="n">SetUnitsManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
-        <span class="c1"># Initialization or declaration of variables (used in other files)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pathdir</span><span class="p">:</span> <span class="n">Path</span>  <span class="c1"># Path to the simulation directory</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">datatype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># The format of the files to be loaded</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_charsize</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># The data size in the files</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">outlist</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># The list of outputs to be loaded</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">timelist</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># The list of times to be loaded</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_lennout</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># The number of outputs to be loaded</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ntime</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># The time array</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_d_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>  <span class="c1"># Info dictionary</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_vars</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>  <span class="c1"># The set of variables to be loaded</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_outs</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>  <span class="c1"># The set of outputs to be loaded</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_matching_files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>  <span class="c1"># The list of files to be loaded</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pathgrid</span><span class="p">:</span> <span class="n">Path</span>  <span class="c1"># Path to the grid file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pathdata</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="kc">None</span>  <span class="c1"># Path to the data files to be loaded</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_filepath</span><span class="p">:</span> <span class="n">Path</span>  <span class="c1"># The filepath to be loaded</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_load_vars</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>  <span class="c1"># The list of variables to be loaded</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>  <span class="c1"># The offset of the variables</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span>  <span class="c1"># The shape of the variables</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">geom</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># The geometry of the simulation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># The dimension of the simulation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nshp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>  <span class="c1"># The shape of the grid</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_dictdim</span><span class="p">:</span> <span class="nb">dict</span>  <span class="c1"># The dictionary of dimensions</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nfile_lp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">nfile_lp</span>  <span class="c1"># File number for the lp methods</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">maxpart</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Max number of particles in the simulation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_vardim</span><span class="p">:</span> <span class="n">NDArray</span>  <span class="c1"># The dimension of the variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">unit_userdef</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;user_units&quot;</span><span class="p">,</span> <span class="p">{})</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">UnitManager</span><span class="o">.</span><span class="n">_make_units_dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unit_attached</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
-        <span class="c1"># Check the input endianess</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_d_end</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;big&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;little&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;&gt;&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;&lt;&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&quot;</span><span class="p">,</span>
-            <span class="kc">None</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="p">}</span>  <span class="c1"># Endianess dictionary</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">skip_units</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;skip_units&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">units</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">to_astropy_units</span><span class="p">(</span><span class="n">var</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="n">skip_units</span><span class="o">=</span><span class="n">skip_units</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">endian</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_end</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid endianess. </span><span class="se">\</span>
-<span class="s2">                             Valid values are </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_end</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nfile_lp</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nfile_lp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Invalid value for nfile_lp. </span><span class="se">\</span>
-<span class="s2">                             Valid values are int or None&quot;</span>
-            <span class="p">)</span>
-
-        <span class="c1"># Check the path and verify that it is a folder</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_check_pathformat</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-
-        <span class="c1"># Find the format of the data files</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_find_format</span><span class="p">(</span><span class="n">datatype</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-
-        <span class="c1"># Find relevant informations without opening the files (e.g.</span>
-        <span class="c1"># the number of files to be loaded)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_findfiles</span><span class="p">(</span><span class="n">nout</span><span class="p">)</span>
-
-        <span class="c1"># For every output, load the desired variables and store</span>
-        <span class="c1"># them in the class</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">exout</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_load_variables</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">exout</span><span class="p">,</span> <span class="n">endian</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">datatype</span> <span class="o">!=</span> <span class="s2">&quot;vtk&quot;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_store_bin_particles</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">pathdir</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nout</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)):</span>
+                <span class="n">nout_out</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nout</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_store_vtk_particles</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">nout_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nout</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Load: folder </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">,     output </span><span class="si">{</span><span class="n">nout_out</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="c1"># Assign the variables to the class</span>
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_vars</span><span class="p">:</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d_vars</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
-
-        <span class="c1"># Change the id variable to int depending on the format loaded</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">datatype</span> <span class="o">!=</span> <span class="s2">&quot;vtk&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
-
-        <span class="c1"># Print loaded folder and output</span>
-        <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
-            <span class="n">_nout_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LoadPart: folder </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">,     output </span><span class="si">{</span><span class="n">_nout_out</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the string representation of the LoadPart class.&quot;&quot;&quot;</span>
         <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        LoadPart class.</span>
 <span class="s2">        It loads the particles.</span>
 
 <span class="s2">        File properties:</span>
-<span class="s2">        - Current path loaded (pathdir)      </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pathdir</span><span class="si">}</span>
-<span class="s2">        - Format loaded       (format)       </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datatype</span><span class="si">}</span>
+<span class="s2">        - Simulation path     (pathdir)      </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">pathdir</span><span class="si">}</span>
+<span class="s2">        - File format         (datatype)     </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">datatype</span><span class="si">}</span>
 
 <span class="s2">        Simulation properties</span>
-<span class="s2">        - N. particles  (maxpart)  </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">maxpart</span><span class="si">}</span>
-<span class="s2">        - Output loaded (nout)     </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nout</span><span class="si">}</span>
-<span class="s2">        - Time loaded   (ntime)    </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ntime</span><span class="si">}</span>
+<span class="s2">        - N. particles in loaded output (nshp)  </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nshp</span><span class="si">}</span>
+<span class="s2">        - Loaded output index/indices (nout)    </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nout</span><span class="si">}</span>
+<span class="s2">        - Loaded simulation time(s) (ntime)     </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ntime</span><span class="si">}</span>
 
 <span class="s2">        Variables loaded:</span>
-<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_d_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">d_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span>
 
 <span class="s2">        Public methods available:</span>
 
@@ -611,28 +569,36 @@
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">text</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;LoadPart&#39; object has no attribute &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># noqa: ANN204</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the attribute of the Load class.&quot;&quot;&quot;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">AttrResolver</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
 
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.loadfuncs.readdata_old</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-        <span class="n">_assign_var</span><span class="p">,</span>
-        <span class="n">_check_nout</span><span class="p">,</span>
-        <span class="n">_findfiles</span><span class="p">,</span>
-        <span class="n">_init_vardict</span><span class="p">,</span>
-        <span class="n">_load_variables</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.loadfuncs.readformat</span><span class="w"> </span><span class="kn">import</span> <span class="n">_check_pathformat</span><span class="p">,</span> <span class="n">_find_format</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.loadfuncs.readpart</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-        <span class="n">_compute_offset</span><span class="p">,</span>
-        <span class="n">_inspect_bin</span><span class="p">,</span>
-        <span class="n">_inspect_vtk</span><span class="p">,</span>
-        <span class="n">_store_bin_particles</span><span class="p">,</span>
-        <span class="n">_store_vtk_particles</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.toolfuncs.parttools</span><span class="w"> </span><span class="kn">import</span> <span class="n">select</span><span class="p">,</span> <span class="n">spectrum</span></div>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the attribute of the Load class.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;state&quot;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Proxy to particle selection manager.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PartToolsManager</span><span class="o">.</span><span class="n">select</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Proxy to particle spectrum manager.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PartToolsManager</span><span class="o">.</span><span class="n">spectrum</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_astropy_units</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the to_astropy_units method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">SetUnitsManager</span><span class="o">.</span><span class="n">to_astropy_units</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_code_units</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the to_code_units method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">SetUnitsManager</span><span class="o">.</span><span class="n">to_code_units</span></div>
 
 </pre></div>
 
@@ -663,8 +629,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -698,7 +664,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
 </p></div>
       
     </div>

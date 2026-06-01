@@ -3,7 +3,8 @@
 Load.read_file
 ==============
 
-.. autofunction:: pyPLUTO.Load.read_file
+.. automethod:: pyPLUTO.loadfuncs.read_files.ReadFilesManager.read_file
+   :noindex:
 
 |
 

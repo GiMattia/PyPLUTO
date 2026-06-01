@@ -5,8 +5,6 @@ import re
 from pathlib import Path
 from typing import Any
 
-import astropy.units as u
-
 from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.loadmixin import BaseLoadMixin
 
@@ -16,6 +14,15 @@ class UnitManager(BaseLoadMixin):
 
     def __init__(self, state: BaseLoadState) -> None:
         self.state = state
+
+    def _get_astropy_units(self):
+        """Import and return the astropy.units module (monkeypatchable)."""
+        try:
+            import astropy.units as u
+
+            return u
+        except ImportError:
+            raise ImportError("Astropy is required for unit-aware operations.")
 
     def _units_from_log(self) -> dict[str, float]:
         """Read normalization scales from PLUTO log text headers.
@@ -37,7 +44,7 @@ class UnitManager(BaseLoadMixin):
         }
         parsed: dict[str, float] = {}
         num_re = re.compile(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?")
-        section_re = re.compile(r"^\s*>\s*Normalization\s+Units\s*:\s*$")
+        section_re = re.compile(r"^\s*(?:>)?\s*Normalization\s+Units\s*:\s*$")
         row_re = re.compile(r"^\s*\[(?P<name>[^\]]+)\]\s*:\s*(?P<rest>.+)$")
 
         for filepath in candidates:
@@ -100,19 +107,34 @@ class UnitManager(BaseLoadMixin):
             if key not in userdef:
                 continue
             val = userdef[key]
-            if isinstance(val, u.Quantity):
-                units[key] = float(val.cgs.value)
-            else:
-                units[key] = float(val)
+            try:
+                import astropy.units as _u
+
+                if isinstance(val, _u.Quantity):
+                    units[key] = float(val.cgs.value)
+                    continue
+            except ImportError:
+                pass
+            units[key] = float(val)
         return units
+
+    def _units_from_defh(self) -> dict[str, float]:
+        """Read unit scales stored directly in state.defh as UNIT_* keys."""
+        defh = getattr(self.state, "defh", {}) or {}
+        all_keys = (
+            "UNIT_DENSITY",
+            "UNIT_LENGTH",
+            "UNIT_VELOCITY",
+            "UNIT_PRESSURE",
+            "UNIT_TIME",
+            "UNIT_TEMPERATURE",
+            "UNIT_MAGFIELD",
+        )
+        return {key: float(defh[key]) for key in all_keys if key in defh}
 
     def _physics_defaults(self, physics: str) -> dict[str, float]:
         """Return placeholder base scales for the given PHYSICS module."""
-        # TODO: fill in physics-specific defaults per module
-        _dispatch: dict[str, dict[str, float]] = {
-            # "MHD": {...},
-            # "HD": {...},
-        }
+        _dispatch: dict[str, dict[str, float]] = {}
         _fallback: dict[str, float] = {
             "UNIT_DENSITY": 1.0,
             "UNIT_LENGTH": 1.0,
@@ -122,7 +144,6 @@ class UnitManager(BaseLoadMixin):
 
     def _classical_mhd_defaults(self) -> dict[str, float]:
         """Return placeholder base scales as last-resort fallback."""
-        # TODO: fill in classical MHD defaults
         return {
             "UNIT_DENSITY": 1.0,
             "UNIT_LENGTH": 1.0,
@@ -147,19 +168,19 @@ class UnitManager(BaseLoadMixin):
             scales["UNIT_PRESSURE"] = rho0 * v0**2
         if "UNIT_MAGFIELD" not in scales:
             scales["UNIT_MAGFIELD"] = math.sqrt(4.0 * math.pi * rho0) * v0
-        # UNIT_TEMPERATURE: TODO — implement compute_temperature(mu=...) method
 
         return scales
 
     def _resolve_base_scales(self) -> dict[str, float]:
         """Build the full set of unit scales via the priority chain.
 
-        Priority: user-defined → log → physics module → classical MHD.
+        Priority: user-defined → log → defh → physics module → classical MHD.
         Any units not supplied by higher-priority sources are derived from the
         three base scales (rho0, l0, v0).
         """
         user_units = self._units_from_userdef()
         log_units = self._units_from_log()
+        defh_units = self._units_from_defh()
 
         physics = str(
             (getattr(self.state, "defh", {}) or {}).get("PHYSICS", "")
@@ -167,7 +188,7 @@ class UnitManager(BaseLoadMixin):
         physics_units = self._physics_defaults(physics) if physics else {}
 
         resolved: dict[str, float] = {}
-        for source in (user_units, log_units, physics_units):
+        for source in (user_units, log_units, defh_units, physics_units):
             for key, val in source.items():
                 if key not in resolved:
                     resolved[key] = val
@@ -180,6 +201,8 @@ class UnitManager(BaseLoadMixin):
 
     def _make_units_dict(self) -> dict[str, Any]:
         """Build a mapping from variable names to pre-computed astropy units."""
+        u = self._get_astropy_units()
+
         scales = self._resolve_base_scales()
         self.state.unit_base = dict(scales)
 

@@ -3,7 +3,8 @@
 Load.find_fieldlines
 ====================
 
-.. autofunction:: pyPLUTO.Load.find_fieldlines
+.. automethod:: pyPLUTO.toolfuncs.findlines.FindLinesManager.find_fieldlines
+   :noindex:
 
 |
 

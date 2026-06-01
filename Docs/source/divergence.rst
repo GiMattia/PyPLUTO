@@ -3,7 +3,8 @@
 Load.divergence
 ===============
 
-.. autofunction:: pyPLUTO.Load.divergence
+.. automethod:: pyPLUTO.toolfuncs.nabla.NablaManager.divergence
+   :noindex:
 
 |
 

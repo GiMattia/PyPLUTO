@@ -3,7 +3,8 @@
 Load.gradient
 =============
 
-.. autofunction:: pyPLUTO.Load.gradient
+.. automethod:: pyPLUTO.toolfuncs.nabla.NablaManager.gradient
+   :noindex:
 
 |
 

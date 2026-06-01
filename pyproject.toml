@@ -26,12 +26,15 @@ dependencies = [
     "scipy>=1.13.0",
     "numexpr>=2.10.0",
     "h5py>=3.11.0",
-    "inifix>=5.1.0",
+    "inifix>=7.0.0",
 ]
 
 [project.optional-dependencies]
 gui = [
     "PySide6",
+]
+units = [
+    "astropy",
 ]
 
 pasta = [
@@ -188,8 +191,8 @@ no-build-package = [
     "simplejson",
 ]
 constraint-dependencies = [
-    "jsonschema>=0.3",
-    "pillow>=10.0.0",
+    "jsonschema>=4.26.0",
+    "pillow>=12.2.0",
 ]
 [tool.pixi.workspace]
 channels = ["conda-forge"]

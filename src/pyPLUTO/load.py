@@ -12,9 +12,11 @@ from pyPLUTO.loadfuncs.readdefplini import FiledefpliniManager
 from pyPLUTO.loadfuncs.write_files import WriteFilesManager
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
+from pyPLUTO.toolfuncs.compute_units import UnitManager
 from pyPLUTO.toolfuncs.findlines import FindLinesManager
 from pyPLUTO.toolfuncs.fourier import FourierManager
 from pyPLUTO.toolfuncs.nabla import NablaManager
+from pyPLUTO.toolfuncs.set_units import SetUnitsManager
 from pyPLUTO.toolfuncs.transform import TransformManager
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.resolver import AttrResolver
@@ -167,6 +169,17 @@ class Load(LoadMixin):
         self.FourierManager = FourierManager(self.state)
         self.NablaManager = NablaManager(self.state)
         self.TransformManager = TransformManager(self.state)
+        self.UnitManager = UnitManager(self.state)
+        self.SetUnitsManager = SetUnitsManager(self.state)
+
+        self.state.unit_userdef = kwargs.get("user_units", {}) or {}
+        self.units = self.UnitManager._make_units_dict()
+        self.unit_attached.clear()
+
+        units = kwargs.get("units", False)
+        skip_units = kwargs.get("skip_units")
+        if units is not False:
+            self.to_astropy_units(var=units, skip_units=skip_units)
 
         if self.state.text is not False:
             path = kwargs.get("path", self.state.pathdir)
@@ -301,11 +314,6 @@ class Load(LoadMixin):
         return self.TransformManager.reshape_uniform
 
     @property
-    def _check_var(self):
-        """Internal helper for resolving named variables."""
-        return self.FindLinesManager._check_var
-
-    @property
     def find_fieldlines(self):
         """Property for the find_fieldlines method."""
         return self.FindLinesManager.find_fieldlines
@@ -314,3 +322,13 @@ class Load(LoadMixin):
     def find_contour(self):
         """Property for the find_contour method."""
         return self.FindLinesManager.find_contour
+
+    @property
+    def to_astropy_units(self):
+        """Property for the to_astropy_units method."""
+        return self.SetUnitsManager.to_astropy_units
+
+    @property
+    def to_code_units(self):
+        """Property for the to_code_units method."""
+        return self.SetUnitsManager.to_code_units

@@ -19,6 +19,9 @@ class AttrResolver:
     @staticmethod
     def resolve(state: object, name: str, val: object) -> object:
         """Dispatch val to the appropriate materialisation strategy."""
+        # Keep unit-aware arrays untouched (e.g., astropy Quantity).
+        if hasattr(val, "unit"):
+            return val
         if isinstance(val, list) and val and isinstance(val[0], np.ndarray):
             return AttrResolver._chunk_list(
                 state, name, cast("list[np.ndarray]", val)

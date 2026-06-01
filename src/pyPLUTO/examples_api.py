@@ -13,7 +13,7 @@ from pathlib import Path
 
 _REPO_OWNER = "GiMattia"
 _REPO_NAME = "PyPLUTO"
-_DEFAULT_BRANCH = "main"
+_DEFAULT_BRANCH = "master"
 
 
 def _repo_examples_path() -> Path | None:

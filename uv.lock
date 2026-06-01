@@ -8,8 +8,8 @@ resolution-markers = [
 
 [manifest]
 constraints = [
-    { name = "jsonschema", specifier = ">=0.3" },
-    { name = "pillow", specifier = ">=10.0.0" },
+    { name = "jsonschema", specifier = ">=4.26.0" },
+    { name = "pillow", specifier = ">=12.2.0" },
 ]
 
 [[package]]
@@ -31,6 +31,38 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/a6/f8/d9c74d0daf3f742840fd818d69cfae176fa332022fd44e3469487d5a9420/alabaster-1.0.0.tar.gz", hash = "sha256:c00dca57bca26fa62a6d7d0a9fcce65f3e026e9bfe33e9c538fd3fbb2144fd9e", size = 24210, upload-time = "2024-07-26T18:15:03.762Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7e/b3/6b4067be973ae96ba0d615946e314c5ae35f9f993eca561b356540bb0c2b/alabaster-1.0.0-py3-none-any.whl", hash = "sha256:fc6786402dc3fcb2de3cabd5fe455a2db534b371124f1f21de8731783dec828b", size = 13929, upload-time = "2024-07-26T18:15:02.05Z" },
+]
+
+[[package]]
+name = "astropy"
+version = "7.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "astropy-iers-data" },
+    { name = "numpy" },
+    { name = "packaging" },
+    { name = "pyerfa" },
+    { name = "pyyaml" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/7b/92/2dce2d48347efc3346d08ca7995b152d242ebd170c571f7c9346468d8427/astropy-7.2.0.tar.gz", hash = "sha256:ae48bc26b1feaeb603cd94bd1fa1aa39137a115fe931b7f13787ab420e8c3070", size = 7057774, upload-time = "2025-11-25T22:36:41.916Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b4/6d/6330a844bad8dfc4875e0f2fa1db1fee87837ba9805aa8a8d048c071363a/astropy-7.2.0-cp311-abi3-macosx_10_9_x86_64.whl", hash = "sha256:efac04df4cc488efe630c2fff1992d6516dfb16a06e197fb68bc9e8e3b85def1", size = 6442332, upload-time = "2025-11-25T22:36:23.6Z" },
+    { url = "https://files.pythonhosted.org/packages/a6/ba/3418133ba144dfcd1530bca5a6b695f4cdd21a8abaaa2ac4e5450d11b028/astropy-7.2.0-cp311-abi3-macosx_11_0_arm64.whl", hash = "sha256:52e9a7d9c86b21f1af911a2930cd0c4a275fb302d455c89e11eedaffef6f2ad0", size = 6413656, upload-time = "2025-11-25T22:36:26.548Z" },
+    { url = "https://files.pythonhosted.org/packages/be/ba/05e43b5a7d738316a097fa78524d3eaaff5986294b4a052d4adb3c45e7c0/astropy-7.2.0-cp311-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:97c370421b9bb13d4c762c7af06d172bad7c01bd5bcf88314f6913c3c235b770", size = 9758867, upload-time = "2025-11-25T22:36:28.661Z" },
+    { url = "https://files.pythonhosted.org/packages/c3/1c/f06ad85180e7dd9855aa5ede901bfc2be858d7bee17d4e978a14c0ecec14/astropy-7.2.0-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:2f39ce2c80211fbceb005d377a5478cd0d66c42aa1498d252f2239fe5a025c24", size = 9789007, upload-time = "2025-11-25T22:36:31.063Z" },
+    { url = "https://files.pythonhosted.org/packages/f8/fb/e4d35194a5009d7a73333079481a4ef1380a255d67b9c1db578151a5fb50/astropy-7.2.0-cp311-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:ad4d71db994d45f046a1a5449000cf0f88ab6367cb67658500654a0586d6ab19", size = 9748547, upload-time = "2025-11-25T22:36:33.154Z" },
+    { url = "https://files.pythonhosted.org/packages/36/ea/f990730978ae0a7a34705f885d2f3806928c5f0bc22eefd6a1a23539cc32/astropy-7.2.0-cp311-abi3-win32.whl", hash = "sha256:95161f26602433176483e8bde8ab1a8ca09148f5b4bf5190569a26d381091598", size = 6237228, upload-time = "2025-11-25T22:36:35.236Z" },
+    { url = "https://files.pythonhosted.org/packages/ec/bc/f4378f586dd63902c37d16f68f35f7d555b3b32e08ac6b1d633eb0a48805/astropy-7.2.0-cp311-abi3-win_amd64.whl", hash = "sha256:dc7c340ba1713e55c93071b32033f3153470a0f663a4d539c03a7c9b44020790", size = 6362868, upload-time = "2025-11-25T22:36:37.784Z" },
+    { url = "https://files.pythonhosted.org/packages/77/79/b6d4bf01913cfd4ce0cd4c1be5916beccdb92b2970bab8c827984231eae6/astropy-7.2.0-cp311-abi3-win_arm64.whl", hash = "sha256:0c428735a3f15b05c2095bc6ccb5f98a64bc99fb7015866af19ff8492420ddaf", size = 6221756, upload-time = "2025-11-25T22:36:39.852Z" },
+]
+
+[[package]]
+name = "astropy-iers-data"
+version = "0.2026.5.25.1.14.13"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/4f/35/13bc06eb74a65f2aae2b74f9a813db464c6b35666947431115c5b8a9fc6e/astropy_iers_data-0.2026.5.25.1.14.13.tar.gz", hash = "sha256:928eee767c743ee3d510e44f7d29b6f3bd57556b56e42cd2436bd5d9f22cc00e", size = 1934842, upload-time = "2026-05-25T01:14:54.669Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9e/81/05126142b678332f5e0238519607b23fec2bbdeb5e4051981c90111b4984/astropy_iers_data-0.2026.5.25.1.14.13-py3-none-any.whl", hash = "sha256:6cf42bbe05299378d6b109493de136e0bb07f4b39d7051f8d34f84e5f996c9e0", size = 1991597, upload-time = "2026-05-25T01:14:53.233Z" },
 ]
 
 [[package]]
@@ -1338,6 +1370,9 @@ gui = [
 pasta = [
     { name = "pastamarkers" },
 ]
+units = [
+    { name = "astropy" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -1430,9 +1465,10 @@ test = [
 
 [package.metadata]
 requires-dist = [
+    { name = "astropy", marker = "extra == 'units'" },
     { name = "contourpy", specifier = ">=1.2.1" },
     { name = "h5py", specifier = ">=3.11.0" },
-    { name = "inifix", specifier = ">=5.1.0" },
+    { name = "inifix", specifier = ">=7.0.0" },
     { name = "matplotlib", specifier = ">=3.8.4" },
     { name = "numexpr", specifier = ">=2.10.0" },
     { name = "numpy", specifier = ">=2.0.0" },
@@ -1440,7 +1476,7 @@ requires-dist = [
     { name = "pyside6", marker = "extra == 'gui'" },
     { name = "scipy", specifier = ">=1.13.0" },
 ]
-provides-extras = ["gui", "pasta"]
+provides-extras = ["gui", "pasta", "units"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -1543,6 +1579,24 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ad/81/b3fdc8b74d0cfed9e623a0fef9932376800da5daa1a85d1224cac4c131a3/pydata_sphinx_theme-0.18.0.tar.gz", hash = "sha256:b4abc95ab02600872e060db07c79e056e87b7ea653ab1ffd0e0b1fa75a3003d4", size = 5004260, upload-time = "2026-05-20T08:32:28.897Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a9/cd/e0eda602060f9dc99068f8e54490812d9d34ebb134043ff0ae594cf721a4/pydata_sphinx_theme-0.18.0-py3-none-any.whl", hash = "sha256:fbe5401f26642d487e3c5b6dfcbf69b3b1d579e80dcc479a429632abe0a13929", size = 6200747, upload-time = "2026-05-20T08:32:26.646Z" },
+]
+
+[[package]]
+name = "pyerfa"
+version = "2.0.1.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/71/39/63cc8291b0cf324ae710df41527faf7d331bce573899199d926b3e492260/pyerfa-2.0.1.5.tar.gz", hash = "sha256:17d6b24fe4846c65d5e7d8c362dcb08199dc63b30a236aedd73875cc83e1f6c0", size = 818430, upload-time = "2024-11-11T15:22:30.852Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7d/d9/3448a57cb5bd19950de6d6ab08bd8fbb3df60baa71726de91d73d76c481b/pyerfa-2.0.1.5-cp39-abi3-macosx_10_9_x86_64.whl", hash = "sha256:b282d7c60c4c47cf629c484c17ac504fcb04abd7b3f4dfcf53ee042afc3a5944", size = 341818, upload-time = "2024-11-11T15:22:16.467Z" },
+    { url = "https://files.pythonhosted.org/packages/11/4a/31a363370478b63c6289a34743f2ba2d3ae1bd8223e004d18ab28fb92385/pyerfa-2.0.1.5-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:be1aeb70390dd03a34faf96749d5cabc58437410b4aab7213c512323932427df", size = 329370, upload-time = "2024-11-11T15:22:17.829Z" },
+    { url = "https://files.pythonhosted.org/packages/cb/96/b6210fc624123c8ae13e1eecb68fb75e3f3adff216d95eee1c7b05843e3e/pyerfa-2.0.1.5-cp39-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b0603e8e1b839327d586c8a627cdc634b795e18b007d84f0cda5500a0908254e", size = 692794, upload-time = "2024-11-11T15:22:19.429Z" },
+    { url = "https://files.pythonhosted.org/packages/e5/e0/050018d855d26d3c0b4a7d1b2ed692be758ce276d8289e2a2b44ba1014a5/pyerfa-2.0.1.5-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0e43c7194e3242083f2350b46c09fd4bf8ba1bcc0ebd1460b98fc47fe2389906", size = 738711, upload-time = "2024-11-11T15:22:20.661Z" },
+    { url = "https://files.pythonhosted.org/packages/b9/f5/ff91ee77308793ae32fa1e1de95e9edd4551456dd888b4e87c5938657ca5/pyerfa-2.0.1.5-cp39-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:07b80cd70701f5d066b1ac8cce406682cfcd667a1186ec7d7ade597239a6021d", size = 722966, upload-time = "2024-11-11T15:22:21.905Z" },
+    { url = "https://files.pythonhosted.org/packages/2c/56/b22b35c8551d2228ff8d445e63787112927ca13f6dc9e2c04f69d742c95b/pyerfa-2.0.1.5-cp39-abi3-win32.whl", hash = "sha256:d30b9b0df588ed5467e529d851ea324a67239096dd44703125072fd11b351ea2", size = 339955, upload-time = "2024-11-11T15:22:23.087Z" },
+    { url = "https://files.pythonhosted.org/packages/b4/11/97233cf23ad5411ac6f13b1d6ee3888f90ace4f974d9bf9db887aa428912/pyerfa-2.0.1.5-cp39-abi3-win_amd64.whl", hash = "sha256:66292d437dcf75925b694977aa06eb697126e7b86553e620371ed3e48b5e0ad0", size = 349410, upload-time = "2024-11-11T15:22:24.817Z" },
 ]
 
 [[package]]
@@ -1933,20 +1987,20 @@ wheels = [
 
 [[package]]
 name = "snowballstemmer"
-version = "3.0.1"
+version = "3.1.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/75/a7/9810d872919697c9d01295633f5d574fb416d47e535f258272ca1f01f447/snowballstemmer-3.0.1.tar.gz", hash = "sha256:6d5eeeec8e9f84d4d56b847692bacf79bc2c8e90c7f80ca4444ff8b6f2e52895", size = 105575, upload-time = "2025-05-09T16:34:51.843Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/63/ee/67eef9600338e245ad7838230969a34c823ddbdbccc5e1fc43cd75b55bc9/snowballstemmer-3.1.0.tar.gz", hash = "sha256:fd9e34526b23340cd23ffea6c9f9760974ecc2c2ac9e1d81401443ccdb2a801f", size = 122523, upload-time = "2026-05-24T19:04:19.691Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c8/78/3565d011c61f5a43488987ee32b6f3f656e7f107ac2782dd57bdd7d91d9a/snowballstemmer-3.0.1-py3-none-any.whl", hash = "sha256:6cd7b3897da8d6c9ffb968a6781fa6532dce9c3618a4b127d920dab764a19064", size = 103274, upload-time = "2025-05-09T16:34:50.371Z" },
+    { url = "https://files.pythonhosted.org/packages/49/83/ddbf4533c62dd32667ef1238952abef155f3d3391f5be69a352ad1638a42/snowballstemmer-3.1.0-py3-none-any.whl", hash = "sha256:17e6d1da216aa07db6dad37139ea70cf13c4b2e9a096f6e64a9648fc657d3154", size = 104550, upload-time = "2026-05-24T19:04:18.026Z" },
 ]
 
 [[package]]
 name = "soupsieve"
-version = "2.8.3"
+version = "2.8.4"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/7b/ae/2d9c981590ed9999a0d91755b47fc74f74de286b0f5cee14c9269041e6c4/soupsieve-2.8.3.tar.gz", hash = "sha256:3267f1eeea4251fb42728b6dfb746edc9acaffc4a45b27e19450b676586e8349", size = 118627, upload-time = "2026-01-20T04:27:02.457Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/47/2c/0a5f6f8ee0d5589e48c7640213ed5175d52cf540a06725b628cc1a45d6ce/soupsieve-2.8.4.tar.gz", hash = "sha256:e121fd02e975c695e4e9e8774a5ee35d74714b59307868dcc5319ad2d9e3328e", size = 121110, upload-time = "2026-05-24T13:55:57.154Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/46/2c/1462b1d0a634697ae9e55b3cecdcb64788e8b7d63f54d923fcd0bb140aed/soupsieve-2.8.3-py3-none-any.whl", hash = "sha256:ed64f2ba4eebeab06cc4962affce381647455978ffc1e36bb79a545b91f45a95", size = 37016, upload-time = "2026-01-20T04:27:01.012Z" },
+    { url = "https://files.pythonhosted.org/packages/5e/f5/0c41cb68dcae6b7de4fac4188a3a9589e21fb31df21ea3a2e888db95e6c9/soupsieve-2.8.4-py3-none-any.whl", hash = "sha256:e7e6b0769c8f51ed59acab6e994b00621096cfb1c640a7509295987388fbaf65", size = 37304, upload-time = "2026-05-24T13:55:55.406Z" },
 ]
 
 [[package]]

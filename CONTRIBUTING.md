@@ -44,11 +44,9 @@ To keep PyPLUTO maintainable, autonomous agents must not contribute without huma
 1. Fork and clone:
 
 ```bash
-git clone https://github.com/<your-user>/PyPLUTO.git
+git clone https://github.com/GiMattia/PyPLUTO.git
 cd PyPLUTO
 ```
-
-Replace <your-user> with your own GitHub username (your fork of the repository).
 
 ### Option A: `uv` (recommended)
 
@@ -185,4 +183,4 @@ CI runs style checks and tests across multiple OSes and Python versions. A PR is
 
 ## Questions
 
-For questions or suggestions, open an issue in this repository.
+For questions or suggestions, open an issue in this repository or directly contact the developers.

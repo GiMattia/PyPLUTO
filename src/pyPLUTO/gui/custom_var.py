@@ -13,14 +13,14 @@ from PySide6.QtWidgets import (
     QPlainTextEdit,
     QTextEdit,
     QVBoxLayout,
+    QWidget,
 )
 
-from .custom_var_engine import (
+from pyPLUTO.gui.custom_var_engine import (
     evaluate_custom_var,
+    validate_lines_sequential,
 )
-from .custom_var_engine import (
-    validate_lines_sequential as _validate_lines_sequential,
-)
+from pyPLUTO.load import Load
 
 SENTINEL = "Custom var..."
 
@@ -30,7 +30,19 @@ _LINE_RE = re.compile(r"^\s*(!?[A-Za-z_]\w*)\s*=\s*(.+?)\s*$")
 
 
 class CustomVarDialog(QDialog):
-    def __init__(self, Data, parent=None):
+    """Dialog for defining one or more custom variables from expressions."""
+
+    def __init__(self, Data: Load, parent: QWidget | None = None) -> None:
+        """Initialize the custom-variable dialog.
+
+        Parameters
+        ----------
+        - Data: Load
+            Dataset instance used to validate and evaluate custom-variable
+            expressions entered in the dialog.
+        - parent: QWidget | None, default None
+            Parent widget for the dialog.
+        """
         super().__init__(parent)
         self.Data = Data
         self.setWindowTitle("Add Custom Variables")
@@ -59,21 +71,23 @@ class CustomVarDialog(QDialog):
         lay.addWidget(self.err)
         lay.addWidget(btns)
 
-        self._pairs: list[tuple[str, str]] = []
+        self._pairs: list[tuple[str, str, bool, str, str]] = []
         self.exprs.textChanged.connect(lambda: self.err.setText(""))
 
-    def _parse_lines(self, text: str):
-        """Return a list of tuples.
+    def _parse_lines(self, text: str) -> list[tuple[str, str, bool, str, str]]:
+        """Parse text lines into (display_name, expr_display, hidden, clean_name, expr_clean) tuples.
 
-        (display_name, expr_display, hidden, clean_name, expr_clean)
-        - display_name: what the user typed for the name (may start with '!')
-        - expr_display: right-hand side exactly as typed (keeps '# comment')
-        - hidden: True if name starts with '!'
-        - clean_name: display_name without leading '!' (actual Python attribute)
-        - expr_clean: expr_display with trailing comment stripped (before evaluation)
+        Parameters
+        ----------
+        - text: str
+            Raw text with one or more ``NAME = EXPR`` lines to parse.
+
+        Returns
+        -------
+        - list[tuple[str, str, bool, str, str]]
 
         """
-        pairs = []
+        pairs: list[tuple[str, str, bool, str, str]] = []
         for raw in text.splitlines():
             if not raw.strip():
                 continue
@@ -97,13 +111,14 @@ class CustomVarDialog(QDialog):
             raise ValueError("Please enter at least one 'NAME = EXPR' line.")
         return pairs
 
-    def _accept(self):
+    def _accept(self) -> None:
+        """Parse, validate, store custom variable definitions, then close."""
         text = self.exprs.toPlainText()
         try:
             pairs = self._parse_lines(text)
             # validate sequentially using clean_name / expr_clean
             seq = [(p[3], p[4]) for p in pairs]  # (clean_name, expr_clean)
-            _validate_lines_sequential(self.Data, seq)
+            validate_lines_sequential(self.Data, seq)
         except Exception as ex:
             self.err.setText(f"Invalid definitions: {ex}")
             return
@@ -111,12 +126,12 @@ class CustomVarDialog(QDialog):
         self.accept()
 
     @property
-    def values(self):
-        # Backwards-compatible name (used by _on_activated)
+    def values(self) -> list[tuple[str, str, bool, str, str]]:
+        """Return parsed custom-variable definitions in compatible format."""
         return self._pairs
 
 
-def setup_var_selector(combo: QComboBox, Data):
+def setup_var_selector(combo: QComboBox, Data: Load) -> None:
     """Set up a QComboBox to handle custom variable creation and re-apply."""
     if combo.property("_cv_connected"):
         # still re-apply on each load
@@ -130,9 +145,11 @@ def setup_var_selector(combo: QComboBox, Data):
     _reapply_custom_vars(combo, Data)
 
 
-def _on_activated(combo: QComboBox, idx: int, Data):
+def _on_activated(combo: QComboBox, idx: int, Data: Load) -> None:
+    """Handle combo activation and create/apply custom variables."""
     # Always use the live Data from the main window if available
     Data = getattr(combo.window(), "Data", Data)
+    threed = 3
 
     if combo.itemText(idx) != SENTINEL:
         combo.setProperty("_last", idx)
@@ -181,7 +198,8 @@ def _on_activated(combo: QComboBox, idx: int, Data):
                 combo.setCurrentIndex(pos)
                 combo.setProperty("_last", pos)
 
-        # store triple so we can reapply (expr_clean) and display comments (expr_display)
+        # store triple so we can reapply (expr_clean) and display comments
+        # (expr_display)
         stored.append((display_name, expr_clean, expr_display))
 
     combo.setProperty("_cv_defs", stored)
@@ -192,7 +210,7 @@ def _on_activated(combo: QComboBox, idx: int, Data):
         info = cast(QTextEdit, top.info_label)
         lines = []
         for tup in stored:
-            if len(tup) == 3:
+            if len(tup) == threed:
                 disp_name, _clean, disp_expr = tup
                 lines.append(f"{disp_name} = {disp_expr}")
             else:
@@ -204,14 +222,19 @@ def _on_activated(combo: QComboBox, idx: int, Data):
         info.setPlainText(f"{base}\n\nCustom variables:\n" + "\n".join(lines))
 
 
-def _reapply_custom_vars(combo: QComboBox, Data):
-    """Recreate previously defined session custom vars on new Data, silently skipping failures."""
+def _reapply_custom_vars(combo: QComboBox, Data: Load) -> None:
+    """Recreate previously defined session custom vars on new Data.
+
+    The function is designed to silently skip failures.
+    """
     defs = list(combo.property("_cv_defs") or [])
+    threed = 3
     if not defs:
         return
     for item in defs:
-        # Support both (name, expr) legacy pairs and (display_name, expr_clean, expr_display) triples
-        if len(item) == 3:
+        # Support both (name, expr) legacy pairs and (display_name, expr_clean,
+        # expr_display) triples
+        if len(item) == threed:
             display_name, expr_clean, _expr_display = item
         else:
             display_name, expr_clean = item

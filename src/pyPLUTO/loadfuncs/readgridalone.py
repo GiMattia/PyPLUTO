@@ -18,14 +18,14 @@ class GridManager(LoadMixin):
     def readgridvtk(self, gridvars: list[str]) -> None:
         """Read the grid from a .vtk file.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - gridvars (not optional): list[str]
             The list of grid variables.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -137,12 +137,12 @@ class GridManager(LoadMixin):
     def readgridh5(self) -> None:
         """Read the grid from a .h5 file.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
+        - None
+
+        Returns
+        -------
         - None
 
         ----

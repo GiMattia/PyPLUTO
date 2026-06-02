@@ -24,12 +24,12 @@ class GridFileManager(LoadMixin):
         coordinates, the transformed cartesian coordinates (only 2D for now).
         The full non-cartesian 3D transformations have not been implemented yet.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
+        - None
+
+        Returns
+        -------
         - None
 
         ----
@@ -138,11 +138,6 @@ class GridFileManager(LoadMixin):
 
         Dimensions and geometry are stored in the class.
 
-        Return
-        ------
-
-        - None
-
         Parameters
         ----------
         - i (not optional): str
@@ -153,6 +148,10 @@ class GridFileManager(LoadMixin):
             The list of the left cell boundaries values.
         - xR (not optional): list[float]
             The list of the right cell boundaries values.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -196,12 +195,12 @@ class GridFileManager(LoadMixin):
         True. If the geometry is cylindrical or spherical, full3D is set to
         False.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
+        - None
+
+        Returns
+        -------
         - None
 
         ----

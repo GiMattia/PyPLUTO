@@ -37,10 +37,6 @@ class DescriptorManager(LoadMixin):
         format. All these information are relevant in order to open the output
         files and access the data.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - endian (not optional): str
@@ -49,6 +45,10 @@ class DescriptorManager(LoadMixin):
             The output file to be opened. If default ('last'), the code assumes
             the last file should be opened. Other options available are 'last'
             (all the files should be opened) and -1 (same as 'last').
+
+        Returns
+        -------
+        - None
 
         ----
 

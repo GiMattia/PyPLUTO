@@ -13,6 +13,18 @@ class OffsetPart(BaseLoadMixin):
     """Class that computes the fluid offsets in single_file format."""
 
     def __init__(self, state: BaseLoadState) -> None:
+        """Initialize the particle offset manager with the given load state.
+
+        Parameters
+        ----------
+        - state: BaseLoadState
+            The load state object carrying particle metadata and file information.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
 
     def offset_bin(
@@ -23,16 +35,16 @@ class OffsetPart(BaseLoadMixin):
         The routine, knowing the grid shape, computes the offset and stores the
         shape dependng on wether the variable is staggered or not.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - i (not optional): int
             The index of the file to be loaded.
         - var (not optional): str
             The variable to be loaded.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -114,16 +126,16 @@ class OffsetPart(BaseLoadMixin):
         The routine, knowing the grid shape, computes the offset and stores the
         shape dependng on wether the variable is staggered or not.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - i (not optional): int
             The index of the file to be loaded.
         - var (not optional): str
             The variable to be loaded.
+
+        Returns
+        -------
+        - None
 
         ----
 

@@ -14,6 +14,18 @@ class PartToolsManager:
     """Manager for particle analysis helpers."""
 
     def __init__(self, state: BaseLoadState) -> None:
+        """Initialize the particle tools manager with the given load state.
+
+        Parameters
+        ----------
+        - state: BaseLoadState
+            The load state object carrying particle variable data.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
 
     @track_kwargs
@@ -21,32 +33,32 @@ class PartToolsManager:
         self,
         var: np.ndarray,
         scale: str = "lin",
+        vmin: float | None = None,
+        vmax: float | None = None,
+        density: bool = True,
         check: bool = True,
         **kwargs: Any,
     ) -> tuple[np.ndarray, np.ndarray]:
         """Compute the spectrum of a given particle variable.
 
-        Returns
-        -------
-        - bins: np.ndarray
-            The x1 array of the histogram.
-        - hist: np.ndarray
-            The x2 array of the histogram.
-
         Parameters
         ----------
-        - density: bool, default False
+        - var: np.ndarray
+            The chosen variable for the histogram.
+        - scale: {'lin','log'}, default 'lin'
+            The scale of the histogram, linear or logarithmic.
+        - vmin: float, default min(var)
+            The minimum value of the chosen variable.
+        - vmax: float, default max(var)
+            The maximum value of the chosen variable.
+        - density: bool, default True
             If True, the histogram is normalized.
         - nbins: int
             The number of bins wanted for the histogram.
-        - scale: {'lin','log'}, default 'lin'
-            The scale of the histogram, linear or logarithmic.
-        - var: np.ndarray
-            The chosen variable for the histogram.
-        - vmin: float
-            The minimum value of the chosen variable.
-        - vmax: float
-            The maximum value of the chosen variable.
+
+        Returns
+        -------
+        - tuple[np.ndarray, np.ndarray]
 
         ----
 
@@ -63,8 +75,8 @@ class PartToolsManager:
         kwargs.pop("check", check)
 
         # Set limits
-        vmin = kwargs.get("vmin", np.nanmin(var))
-        vmax = kwargs.get("vmax", np.nanmax(var))
+        vmin = vmin if vmin is not None else np.nanmin(var)
+        vmax = vmax if vmax is not None else np.nanmax(var)
 
         # Set the number of bins
         nbins = kwargs.get("nbins", 100)
@@ -82,7 +94,7 @@ class PartToolsManager:
             var,
             bins=bins,
             range=(vmin, vmax),
-            density=kwargs.get("density", True),
+            density=density,
         )
 
         # Compute the bin centers
@@ -100,20 +112,20 @@ class PartToolsManager:
     ) -> np.ndarray:
         """Select or sort particle indices matching a condition.
 
-        Returns
-        -------
-        - indx: np.ndarray
-
         Parameters
         ----------
-        - ascending: bool, default True
-            If True, the indices are sorted in ascending order.
+        - var (not optional): np.ndarray
+            The chosen variable for the selection.
         - cond (not optional): str | Callable
             The condition to be satisfied.
         - sort: bool, default False
             If True, the indices are sorted in descending (or ascending) order.
-        - var (not optional): np.ndarray
-            The chosen variable for the selection.
+        - ascending: bool, default True
+            If True, the indices are sorted in ascending order.
+
+        Returns
+        -------
+        - np.ndarray
 
         ----
 

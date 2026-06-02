@@ -13,6 +13,18 @@ class UnitManager(BaseLoadMixin):
     """Resolve normalization scales and build the variable→astropy-unit map."""
 
     def __init__(self, state: BaseLoadState) -> None:
+        """Initialize the unit manager with the given load state.
+
+        Parameters
+        ----------
+        - state: BaseLoadState
+            The load state object providing unit-definition headers and overrides.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
 
     def _get_astropy_units(self):

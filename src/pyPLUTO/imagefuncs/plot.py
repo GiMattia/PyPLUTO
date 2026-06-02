@@ -49,70 +49,69 @@ class PlotManager(ImageMixin):
         a linear variable as x parameter. However, if a pair of arrays is
         provided, it plots the second as a function of the first one.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - alpha: float, default 1.0
-            Sets the opacity of the plot, where 1.0 means total opaque and 0.0
-            means total transparent.
+            Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is
+            fully transparent.
         - aspect: 'auto' | 'equal' | float, default 'auto'
-            Sets the aspect ratio of the plot.
-            The 'auto' keyword is the default option (most likely the plot will
-            be squared). The 'equal' keyword will set the same scaling for x and
-            y. A float will fix the ratio between the y-scale and the x-scale
-            (1.0 is the same as 'equal').
+            Sets the aspect ratio of the plot. The 'auto' keyword is the
+            default option. The 'equal' keyword sets the same scaling for x and
+            y. A float fixes the ratio between the y-scale and the x-scale (1.0
+            is the same as 'equal').
         - ax: ax | int | None, default None
-            The axis where to plot the lines. If None, a new axis is created or
-            the last axis is selected.
-        - bottom: float, default 0.1
-            The space from the bottom border to the last row of plots.
+            The axis where to plot. If None, the last considered axis will be used.
+        - bottom: float, default varies
+            The bottom limit of the axis / axes set. For the figure layout it
+            is the space from the bottom border to the plot (default 0.1); for
+            an inset zoom it is the bottom position of the inset (default 0.6 +
+            height).
         - c: str, default self.color
-            Determines the line color. If not defined, the program will loop
-            over an array of 10 color which are different for the most common
+            Determines the color. If not defined, the program will loop
+            over an array of 6 colors which are different for the most common
             vision deficiencies.
-        - figsize: [float, float], default [8,5]
-            Sets the figure size. The default value is computed from the number
-            of rows and columns.
+        - figsize: list[float], default varies
+            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+            computed from the number of rows and columns (or [8,5] for a single
+            plot).
         - fillstyle: {'full', 'left', 'right', 'bottom', 'top', 'none'},
             default 'full'
             Sets the marker filling. The default value is the fully filled
             marker ('full').
         - fontsize: float, default 17.0
-            Sets the fontsize for all the axes.
-        - grid: bool, default False
-            If enabled, creates a grid on the plot.
+            Sets the fontsize for all the axis components.
+        - grid: bool | string, default False
+            Enables/disables the grid on the plot. If True it enables both axes
+            grids. If 'x' or 'y' it enables only the x- or y-axis grid.
         - label: str, default None
-            Associates a label to each line. Such labels will be used for the
-            creation of the legend.
+            Associates a label to the plot, used for the creation of the
+            legend.
         - labelsize: float, default fontsize
-            Sets the labels fontþsize (which is the same for both labels).
-            The default value corresponds to the value of the keyword
-            'fontsize'.
+            Sets the labels fontsize (which is the same for both labels). The
+            default value corresponds to the value of the keyword 'fontsize'.
         - legalpha: float, default 0.8
             Sets the opacity of the legend.
-        - left: float, default 0.125
-            The space from the left border to the leftmost column of plots.
+        - left: float, default varies
+            The left limit of the axis / axes set. For the figure layout it is
+            the space from the left border to the plot (default 0.125); for an
+            inset zoom it is the left position of the inset (default 0.6).
         - legcols: int, default 1
             Sets the number of columns that the legend should have.
         - legpad: float, default 0.8
             Sets the space between the lines (or symbols) and the corresponding
             text in the legend.
         - legpos: int | str, default None
-            If enabled, creates a legend. This keyword selects the legend
-            location.
+            If defined, creates a legend at the specified location.
         - legsize: float, default fontsize
             Sets the fontsize of the legend. The default value is the default
             fontsize value.
         - legspace: float, default 2
             Sets the space between the legend columns, in font-size units.
-        - ls: {'-', '--', '-.', ':', ' ', ect.}, default '-'
+        - ls: {'-', '--', '-.', ':', ' ', etc.}, default '-'
             Sets the linestyle. The choices available are the ones defined in
-            the matplotlib package. Here are reported the most common ones.
+            the matplotlib package.
         - lw: float, default 1.3
-            Sets the linewidth of each line.
+            Sets the linewidth.
         - marker: {'o', 'v', '^', '<', '>', 'X', ' ', etc.}, default ' '
             Sets an optional symbol for every point. The default value is no
             marker (' ').
@@ -121,76 +120,117 @@ class PlotManager(ImageMixin):
             axes).
         - ms: float, default 3
             Sets the marker size.
-        - mscale: fload, default 1.0
-            Sets the marker size scale in the legend.
+        - mscale: float, default 1.0
+            Sets the marker scale. The default value is 1.0.
         - proj: str, default None
             Custom projection for the plot (e.g. 3D). Recommended only if
-            needed. This keyword should be used only if the axis is created.
-            WARNING: pyPLUTO does not support 3D plotting for now, only 3D axes.
-            The 3D plot feature will be available in future releases.
+            needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+            3D axes. The 3D plot feature will be available in future releases.
         - right: float, default 0.9
-            The space from the right border to the rightmost column of plots.
+            The right limit of the axis / axes set. For the figure layout it is
+            the space from the right border to the plot; for an inset zoom it
+            is the right position of the inset.
         - ticksdir: {'in', 'out'}, default 'in'
             Sets the ticks direction. The default option is 'in'.
-        - tickssize: float, default fontsize
-            Sets the ticks fontsize (which is the same for both grid axes).
-            The default value corresponds to the value of the keyword
-            'fontsize'.
+        - tickssize: float | bool, default True
+            Sets the ticks fontsize (which is the same for both grid axes). The
+            default value corresponds to the value of the keyword 'fontsize'.
         - title: str, default None
             Places the title of the plot on top of it.
         - titlesize: float, default fontsize
             Sets the title fontsize. The default value corresponds to the value
             of the keyword 'fontsize'.
-        - top: float, default 0.9
-            The space from the top border to the first row of plots.
+        - top: float, default varies
+            The top limit of the axis / axes set. For the figure layout it is
+            the space from the top border to the plot (default 0.9); for an
+            inset zoom it is the top position of the inset (default bottom +
+            height).
         - x (not optional): 1D array
             This is the x-axis variable. If y is not defined, then this becomes
             the y-axis variable.
         - xrange: [float, float], default 'Default'
-            Sets the range in the x-direction. If not defined or set to
-            'Default', the code will compute the range while plotting the data
-            by taking the minimum and the maximum values of the x-array. In case
-            of multiple lines, the code will also adapt to the previous ranges.
+            Sets the range in the x-direction. If not defined, the range is
+            computed automatically from the x-array.
         - xscale: {'linear','log'}, default 'linear'
-            If enabled (and different from default), sets automatically the
+            If enabled (and different from 'Default'), sets automatically the
             scale on the x-axis. Data in log scale should be used with the
             keyword 'log', while data in linear scale should be used with the
             keyword 'linear'.
-        - xticks: [float] | None | bool, default True
-            If enabled (and different from True), sets manually ticks on
+        - xticks: list[float] | None | bool, default True
+            If enabled (and different from True), sets manually ticks on the
             x-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - xtickslabels: [str] | None | bool, default True
+        - xtickslabels: list[str] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the x-axis. In order to completely remove the ticks the
-            keyword should be used with None. Note that fixed tickslabels should
-            always correspond to fixed ticks.
+            keyword should be used with None. Note that fixed tickslabels
+            should always correspond to fixed ticks.
         - xtitle: str, default None
             Sets and places the label of the x-axis.
         - y: 1D array, default [None]
             The y-axis variable.
         - yrange: [float, float], default 'Default'
-            Sets the range in the y-direction. If not defined or set to
-            'Default' the code will compute the range while plotting the data by
-            taking the minimum and the maximum values of the y-array. In case of
-            multiple lines, the code will also adapt to the previous ranges. It
-            also adds a small offset.
+            Sets the range in the y-direction. If not defined, the range is
+            computed automatically from the y-array.
         - yscale: {'linear','log'}, default 'linear'
-            If enabled (and different from True), sets automatically the scale
-            on the y-axis. Data in log scale should be used with the keyword
-            'log', while data in linear scale should be used with the keyword
-            'linear'.
-        - yticks: [float] | None | bool, default True
-            If enabled (and different from True), sets manually ticks on
+            If enabled (and different from 'Default'), sets automatically the
+            scale on the y-axis. Data in log scale should be used with the
+            keyword 'log', while data in linear scale should be used with the
+            keyword 'linear'.
+        - yticks: list[float] | None | bool, default True
+            If enabled (and different from True), sets manually ticks on the
             y-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - ytickslabels: [str] | None | bool, default True
+        - ytickslabels: list[str] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the y-axis. In order to completely remove the ticks the
-            keyword should be used with None. Note that fixed tickslabels should
-            always correspond to fixed ticks.
+            keyword should be used with None. Note that fixed tickslabels
+            should always correspond to fixed ticks.
         - ytitle: str, default None
             Sets and places the label of the y-axis.
+
+        - edgecolor: list[str], default [None]
+            Sets the edge color of the legend. The default value is black
+            ('k').
+        - hratio: [float], default [1.0]
+            Ratio between the rows of the plot. The default is that every plot
+            row has the same height.
+        - hspace: [float], default []
+            The space between plot rows (in figure units). If not enough or too
+            many spaces are considered, the program will remove the excess and
+            fill the lacks with [0.1].
+        - sharex: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the x-axis between the subplots.
+        - sharey: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the y-axis between the subplots.
+        - suptitle: str, default None
+            Creates a figure title over all the subplots.
+        - tight: bool, default True
+            Enables/disables tight layout options for the figure. In case of a
+            highly customized plot (e.g. ratios or space between rows and
+            columns) the option is set by default to False since that option
+            would not be available for standard matplotlib functions.
+        - titlepad: float, default 8.0
+            Sets the distance between the title and the top of the plot.
+        - wratio: [float], default [1.0]
+            Ratio between the columns of the plot. The default is that every
+            plot column has the same width.
+        - wspace: [float], default []
+            The space between plot columns (in figure units). If not enough or
+            too many spaces are considered, the program will remove the excess
+            and fill the lacks with [0.1].
+        - xlabelpad: float, default 4.0
+            The padding between the x-axis label and the axis.
+        - xtresh: float
+            The threshold parameter for the x-axis symlog/asinh scale.
+        - ylabelpad: float, default 4.0
+            The padding between the y-axis label and the axis.
+        - ytresh: float
+            The threshold parameter for the y-axis symlog/asinh scale.
+
+        Returns
+        -------
+        - None
 
         ----
 

@@ -36,90 +36,143 @@ class AxisManager(ImageMixin):
         Properties such as the range, scale and aspect of each subplot should be
         customized here.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - alpha: float, default 1.0
-            Sets the opacity of the plot, where 1.0 means total opaque and 0.0
-            means total transparent.
-        - aspect: {'auto', 'equal', float}, default 'auto'
-            Sets the aspect ratio of the plot. The 'auto' keyword is the default
-            option (most likely the plot will be squared). The 'equal' keyword
-            will set the same scaling for x and y. A float will fix the ratio
-            between the y-scale and the x-scale (1.0 is the same as 'equal').
+            Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is
+            fully transparent.
+        - aspect: 'auto' | 'equal' | float, default 'auto'
+            Sets the aspect ratio of the plot. The 'auto' keyword is the
+            default option. The 'equal' keyword sets the same scaling for x and
+            y. A float fixes the ratio between the y-scale and the x-scale (1.0
+            is the same as 'equal').
         - ax: ax object, default None
             The axis to customize. If None the current axis will be selected.
         - fontsize: float, default 17.0
-            Sets the fontsize for all the axis components (only for the current
-            axis).
+            Sets the fontsize for all the axis components.
         - grid: bool | string, default False
             Enables/disables the grid on the plot. If True it enables both axes
             grids. If 'x' or 'y' it enables only the x- or y-axis grid.
         - labelsize: float, default fontsize
-            Sets the labels fontsize (which is the same for both labels).
-            The default value corresponds to the value of the keyword
-            'fontsize'.
+            Sets the labels fontsize (which is the same for both labels). The
+            default value corresponds to the value of the keyword 'fontsize'.
         - minorticks: str, default None
             If not None enables the minor ticks on the plot (for both grid
             axes).
-        - sharex: Matplotlib axis | False, default False
-            Shares the x-axis with another axis.
-        - sharey: Matplotlib axis | False, default False
-            Shares the y-axis with another axis.
+        - sharex: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the x-axis between the subplots.
+        - sharey: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the y-axis between the subplots.
         - ticksdir: {'in', 'out'}, default 'in'
             Sets the ticks direction. The default option is 'in'.
         - tickssize: float | bool, default True
-            Sets the ticks fontsize (which is the same for both grid axes).
-            The default value corresponds to the value of the keyword
-            'fontsize'.
+            Sets the ticks fontsize (which is the same for both grid axes). The
+            default value corresponds to the value of the keyword 'fontsize'.
         - title: str, default None
             Places the title of the plot on top of it.
         - titlepad: float, default 8.0
-            Sets the distance between the title and the top of the plot
+            Sets the distance between the title and the top of the plot.
         - titlesize: float, default fontsize
             Sets the title fontsize. The default value corresponds to the value
             of the keyword 'fontsize'.
-        - xrange: [float, float], default [0,1]
-            Sets the range in the x-direction. If not defined the code will
-            compute the range while plotting the data.
+        - xrange: [float, float], default 'Default'
+            Sets the range in the x-direction. If not defined, the range is
+            computed automatically from the x-array.
         - xscale: {'linear','log'}, default 'linear'
-            If enabled (and different from True), sets automatically the scale
-            on the x-axis. Data in log scale should be used with the keyword
-            'log', while data in linear scale should be used with the keyword
-            'linear'.
-        - xticks: {[float], None, True}, default True
-            If enabled (and different from True), sets manually ticks on
+            If enabled (and different from 'Default'), sets automatically the
+            scale on the x-axis. Data in log scale should be used with the
+            keyword 'log', while data in linear scale should be used with the
+            keyword 'linear'.
+        - xticks: list[float] | None | bool, default True
+            If enabled (and different from True), sets manually ticks on the
             x-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - xtickslabels: {[str], None, True}, default True
+        - xtickslabels: list[str] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the x-axis. In order to completely remove the ticks the
-            keyword should be used with None. Note that fixed tickslabels should
-            always correspond to fixed ticks.
+            keyword should be used with None. Note that fixed tickslabels
+            should always correspond to fixed ticks.
         - xtitle: str, default None
             Sets and places the label of the x-axis.
-        - yrange: [float, float], default [0,1]
-            Sets the range in the y-direction. If not defined the code will
-            compute the range while plotting the data.
+        - yrange: [float, float], default 'Default'
+            Sets the range in the y-direction. If not defined, the range is
+            computed automatically from the y-array.
         - yscale: {'linear','log'}, default 'linear'
-            If enabled (and different from True), sets automatically the scale
-            on the y-axis. Data in log scale should be used with the keyword
-            'log', while data in linear scale should be used with the keyword
-            'linear'.
-        - yticks: {[float], None, True}, default True
-            If enabled (and different from True), sets manually ticks on
+            If enabled (and different from 'Default'), sets automatically the
+            scale on the y-axis. Data in log scale should be used with the
+            keyword 'log', while data in linear scale should be used with the
+            keyword 'linear'.
+        - yticks: list[float] | None | bool, default True
+            If enabled (and different from True), sets manually ticks on the
             y-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - ytickslabels: {[str], None, True}, default True
+        - ytickslabels: list[str] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the y-axis. In order to completely remove the ticks the
-            keyword should be used with None. Note that fixed tickslabels should
-            always correspond to fixed ticks.
+            keyword should be used with None. Note that fixed tickslabels
+            should always correspond to fixed ticks.
         - ytitle: str, default None
             Sets and places the label of the y-axis.
+
+        - bottom: float, default varies
+            The bottom limit of the axis / axes set. For the figure layout it
+            is the space from the bottom border to the plot (default 0.1); for
+            an inset zoom it is the bottom position of the inset (default 0.6 +
+            height).
+        - figsize: list[float], default varies
+            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+            computed from the number of rows and columns (or [8,5] for a single
+            plot).
+        - hratio: [float], default [1.0]
+            Ratio between the rows of the plot. The default is that every plot
+            row has the same height.
+        - hspace: [float], default []
+            The space between plot rows (in figure units). If not enough or too
+            many spaces are considered, the program will remove the excess and
+            fill the lacks with [0.1].
+        - left: float, default varies
+            The left limit of the axis / axes set. For the figure layout it is
+            the space from the left border to the plot (default 0.125); for an
+            inset zoom it is the left position of the inset (default 0.6).
+        - proj: str, default None
+            Custom projection for the plot (e.g. 3D). Recommended only if
+            needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+            3D axes. The 3D plot feature will be available in future releases.
+        - right: float, default 0.9
+            The right limit of the axis / axes set. For the figure layout it is
+            the space from the right border to the plot; for an inset zoom it
+            is the right position of the inset.
+        - suptitle: str, default None
+            Creates a figure title over all the subplots.
+        - tight: bool, default True
+            Enables/disables tight layout options for the figure. In case of a
+            highly customized plot (e.g. ratios or space between rows and
+            columns) the option is set by default to False since that option
+            would not be available for standard matplotlib functions.
+        - top: float, default varies
+            The top limit of the axis / axes set. For the figure layout it is
+            the space from the top border to the plot (default 0.9); for an
+            inset zoom it is the top position of the inset (default bottom +
+            height).
+        - wratio: [float], default [1.0]
+            Ratio between the columns of the plot. The default is that every
+            plot column has the same width.
+        - wspace: [float], default []
+            The space between plot columns (in figure units). If not enough or
+            too many spaces are considered, the program will remove the excess
+            and fill the lacks with [0.1].
+        - xlabelpad: float, default 4.0
+            The padding between the x-axis label and the axis.
+        - xtresh: float
+            The threshold parameter for the x-axis symlog/asinh scale.
+        - ylabelpad: float, default 4.0
+            The padding between the y-axis label and the axis.
+        - ytresh: float
+            The threshold parameter for the y-axis symlog/asinh scale.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -264,10 +317,6 @@ class AxisManager(ImageMixin):
     ) -> None:
         """Setsthe ticks and ticks labels on the x-/y-axis of a selected axis.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - ax: ax
@@ -278,6 +327,10 @@ class AxisManager(ImageMixin):
             the ticks labels of the x-axis
         - typeaxis: str
             the type of axis (x or y)
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -346,22 +399,21 @@ class AxisManager(ImageMixin):
     def set_titles(self, ax: Axes, **kwargs: Any) -> None:
         """Set the title or axis labels of the plot.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - ax: ax
             the selected set of axes
-        - title: str
-            the title or axis label to be set
-        - titlesize: str
-            the fontsize parameter for the title or axis label
-        - titlepad: str
-            the pad parameter for the title or axis label
-        - kwargs: dict
-            the keyword arguments passed to the set_axis function
+        - title: str, default None
+            Places the title of the plot on top of it.
+        - titlesize: float, default fontsize
+            Sets the title fontsize. The default value corresponds to the value
+            of the keyword 'fontsize'.
+        - titlepad: float, default 8.0
+            Sets the distance between the title and the top of the plot.
+
+        Returns
+        -------
+        - None
 
         """
         if kwargs.get("title") is not None:
@@ -387,18 +439,16 @@ class AxisManager(ImageMixin):
     def set_scales(self, ax: Axes, nax: int, **kwargs: Any) -> None:
         """Set the scales of the x- and y-axis of a selected axis.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - ax: ax
             the selected set of axes
         - nax: int
             the index of the selected axis
-        - kwargs: dict
-            the keyword arguments passed to the set_axis function
+
+        Returns
+        -------
+        - None
 
         """
         spar = {"asinh": "linear_width", "symlog": "linthresh"}
@@ -429,18 +479,16 @@ class AxisManager(ImageMixin):
     def check_range(self, ax: Axes, nax: int, **kwargs: Any) -> None:
         """Check and set the range of the x- and y-axis of a selected axis.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - ax: ax
             the selected set of axes
         - nax: int
             the index of the selected axis
-        - kwargs: dict
-            the keyword arguments passed to the set_axis function
+
+        Returns
+        -------
+        - None
 
         """
         if kwargs.get("xrange") is not None:
@@ -452,16 +500,14 @@ class AxisManager(ImageMixin):
     def share_axes(self, ax: Axes, **kwargs: Any) -> None:
         """Share the x- and y-axis of a selected axis.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - ax: ax
             the selected set of axes
-        - kwargs: dict
-            the keyword arguments passed to the set_axis function
+
+        Returns
+        -------
+        - None
 
         """
         if kwargs.get("sharex", False) is not False:
@@ -473,18 +519,16 @@ class AxisManager(ImageMixin):
     def check_minorticks(self, ax: Axes, nax: int, **kwargs: Any) -> None:
         """Check and set the minor ticks of the x- and y-axes.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - ax: ax
             the selected set of axes
         - nax: int
             the index of the selected axis
-        - kwargs: dict
-            the keyword arguments passed to the set_axis function
+
+        Returns
+        -------
+        - None
 
         """
         if kwargs.get("minorticks") or self.state.tickspar[nax] == 0:

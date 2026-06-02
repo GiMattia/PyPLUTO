@@ -1,8 +1,8 @@
 """The Load class loads the data (fluid) from the output files."""
 
-# ruff: noqa: ANN201  # noqa: RUF100
+# ruff: noqa: ANN201
 
-from typing import Any
+from typing import Unpack
 
 import numpy as np
 
@@ -18,6 +18,7 @@ from pyPLUTO.toolfuncs.fourier import FourierManager
 from pyPLUTO.toolfuncs.nabla import NablaManager
 from pyPLUTO.toolfuncs.set_units import SetUnitsManager
 from pyPLUTO.toolfuncs.transform import TransformManager
+from pyPLUTO.utils.annotator import AllKwargs
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.resolver import AttrResolver
 
@@ -30,10 +31,6 @@ class Load(LoadMixin):
     multidimensional array. Such approach does not load the full data
     until needed. Basic operations (i.e. no numpy) are possible, as well
     as slicing the arrays, without fully loading the data.
-
-    Returns
-    -------
-    - None
 
     Parameters
     ----------
@@ -80,9 +77,13 @@ class Load(LoadMixin):
         more detailed information of the structure and attributes loaded from
         the class, the __str__ method provides a easy display of all the
         important information.
-    - vars: str | list | bool | None, default True
+    - var: str | list[str] | bool | None, default True
         The variables to be loaded. The default value, True, corresponds to all
         the variables.
+
+    Returns
+    -------
+    - None
 
     ----
 
@@ -118,7 +119,7 @@ class Load(LoadMixin):
     - Example #6: Load the data from the default folder and multiple selected
         outputs and variables
 
-        >>> D = pp.Load(nout=[0, 1, 2], vars=["rho", "vel1"])
+        >>> D = pp.Load(nout=[0, 1, 2], var=["rho", "vel1"])
         Loading folder ./,     output [0, 1, 2]
 
     - Example #7: Load the data from the default folder, multiple selected
@@ -150,7 +151,7 @@ class Load(LoadMixin):
         self,
         nout: int | str | list[int | str] | None = "last",
         check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[AllKwargs],
     ) -> None:
         """Initialize the Load class."""
         kwargs.pop("kwargscheck", check)

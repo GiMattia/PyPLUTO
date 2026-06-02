@@ -17,6 +17,18 @@ class TransformManager(LoadMixin):
     """Manager for transform and slicing helpers."""
 
     def __init__(self, state: LoadState) -> None:
+        """Initialize the transform manager and its helper sub-managers.
+
+        Parameters
+        ----------
+        - state: LoadState
+            The load state object providing grid arrays and dataset variables.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
         self.LoadToolsManager = LoadToolsManager(state)
         self.FindLinesManager = FindLinesManager(state)

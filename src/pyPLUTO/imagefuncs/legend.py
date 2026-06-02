@@ -42,57 +42,109 @@ class LegendManager(ImageMixin):
         If no labels are given, it shows the labels of all the plots in the
         figure, ordered by entry. If specific labels are given, it shows those.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - ax: ax | int | None, default None
             The axis where to insert the legend. If None, the last considered
             axis will be used.
         - c: str, default self.color
-            Determines the line color. If not defined, the program will loop
-            over an array of 6 color which are different for the most common
+            Determines the color. If not defined, the program will loop
+            over an array of 6 colors which are different for the most common
             vision deficiencies.
         - edgecolor: list[str], default [None]
-            Sets the edge color of the legend. The default value is black ('k').
+            Sets the edge color of the legend. The default value is black
+            ('k').
         - fillstyle: {'full', 'left', 'right', 'bottom', 'top', 'none'},
             default 'full'
             Sets the marker filling. The default value is the fully filled
             marker ('full').
-        - label: [str], default None
-            Associates a label to each line. If not specified, the program will
-            take the label which are already associated with the plot.
+        - label: str, default None
+            Associates a label to the plot, used for the creation of the
+            legend.
         - legalpha: float, default 0.8
             Sets the opacity of the legend.
         - legcols: int, default 1
             Sets the number of columns that the legend should have.
         - legpad: float, default 0.8
-            Sets the space between the lines (or symbols) and the correspondibg
+            Sets the space between the lines (or symbols) and the corresponding
             text in the legend.
-        - legpos: int | str, default 0
-            Selects the legend location. If not specified the standard
-            matplotlib legend function will find the most suitable location.
+        - legpos: int | str, default None
+            If defined, creates a legend at the specified location.
         - legsize: float, default fontsize
             Sets the fontsize of the legend. The default value is the default
             fontsize value.
         - legspace: float, default 2
             Sets the space between the legend columns, in font-size units.
-        - ls: {'-', '--', '-.', ':', ' ', ect.}, default '-'
+        - ls: {'-', '--', '-.', ':', ' ', etc.}, default '-'
             Sets the linestyle. The choices available are the ones defined in
-            the matplotlib package. Here are reported the most common ones.
+            the matplotlib package.
         - lw: float, default 1.3
-            Sets the linewidth of each line.
+            Sets the linewidth.
         - marker: {'o', 'v', '^', '<', '>', 'X', ' ', etc.}, default ' '
             Sets an optional symbol for every point. The default value is no
             marker (' ').
-        - ms: float, default 5 (if label) or 1 (if not label)
-            Sets the marker size from the default value of 5.0 (if label is
-            given) or the marker scale from the default value of 1.0 (if not
-            label).
+        - ms: float, default 3
+            Sets the marker size.
         - mscale: float, default 1.0
             Sets the marker scale. The default value is 1.0.
+
+        - bottom: float, default varies
+            The bottom limit of the axis / axes set. For the figure layout it
+            is the space from the bottom border to the plot (default 0.1); for
+            an inset zoom it is the bottom position of the inset (default 0.6 +
+            height).
+        - figsize: list[float], default varies
+            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+            computed from the number of rows and columns (or [8,5] for a single
+            plot).
+        - fontsize: float, default 17.0
+            Sets the fontsize for all the axis components.
+        - hratio: [float], default [1.0]
+            Ratio between the rows of the plot. The default is that every plot
+            row has the same height.
+        - hspace: [float], default []
+            The space between plot rows (in figure units). If not enough or too
+            many spaces are considered, the program will remove the excess and
+            fill the lacks with [0.1].
+        - left: float, default varies
+            The left limit of the axis / axes set. For the figure layout it is
+            the space from the left border to the plot (default 0.125); for an
+            inset zoom it is the left position of the inset (default 0.6).
+        - proj: str, default None
+            Custom projection for the plot (e.g. 3D). Recommended only if
+            needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+            3D axes. The 3D plot feature will be available in future releases.
+        - right: float, default 0.9
+            The right limit of the axis / axes set. For the figure layout it is
+            the space from the right border to the plot; for an inset zoom it
+            is the right position of the inset.
+        - sharex: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the x-axis between the subplots.
+        - sharey: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the y-axis between the subplots.
+        - suptitle: str, default None
+            Creates a figure title over all the subplots.
+        - tight: bool, default True
+            Enables/disables tight layout options for the figure. In case of a
+            highly customized plot (e.g. ratios or space between rows and
+            columns) the option is set by default to False since that option
+            would not be available for standard matplotlib functions.
+        - top: float, default varies
+            The top limit of the axis / axes set. For the figure layout it is
+            the space from the top border to the plot (default 0.9); for an
+            inset zoom it is the top position of the inset (default bottom +
+            height).
+        - wratio: [float], default [1.0]
+            Ratio between the columns of the plot. The default is that every
+            plot column has the same width.
+        - wspace: [float], default []
+            The space between plot columns (in figure units). If not enough or
+            too many spaces are considered, the program will remove the excess
+            and fill the lacks with [0.1].
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -231,15 +283,14 @@ class LegendManager(ImageMixin):
 def makelist(el: T | list[T]) -> list[T]:
     """If the element is not a list, it converts it into a list.
 
-    Returns
-    -------
-    - list[Any]
-        The list of chosen elements.
-
     Parameters
     ----------
     - el (not optional): Any
         The element to be converted into a list.
+
+    Returns
+    -------
+    - list[Any]
 
     ----
 

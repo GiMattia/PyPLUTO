@@ -27,10 +27,6 @@ class LoadPart(BaseLoadMixin):
     as slicing the arrays, without fully loading the data. At the
     moment, only one output can be loaded at a time.
 
-    Returns
-    -------
-    - None
-
     Parameters
     ----------
     - datatype: str, default None
@@ -55,6 +51,10 @@ class LoadPart(BaseLoadMixin):
     - vars: str | list | bool | None, default True
         The variables to be loaded. If True, all the variables are loaded.
         If None, the data are not loaded.
+
+    Returns
+    -------
+    - None
 
     ----
 

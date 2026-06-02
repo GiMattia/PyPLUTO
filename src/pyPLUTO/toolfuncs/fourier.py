@@ -13,6 +13,18 @@ class FourierManager(LoadMixin):
     """Manager for Fourier transforms on loaded data."""
 
     def __init__(self, state: LoadState) -> None:
+        """Initialize the Fourier manager with the given load state.
+
+        Parameters
+        ----------
+        - state: LoadState
+            The load state object providing grid spacing attributes.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
 
     @track_kwargs(extra_keys={"dx", "dy", "dz"})

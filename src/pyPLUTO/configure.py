@@ -62,12 +62,7 @@ class Configure:
 
         Returns
         -------
-        - session: str
-            The name of the session.
-
-        Parameters
-        ----------
-        - None
+        - str
 
         ----
 

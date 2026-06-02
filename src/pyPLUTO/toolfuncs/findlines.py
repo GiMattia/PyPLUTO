@@ -20,6 +20,18 @@ class FindLinesManager(LoadMixin):
     """Manager for field-line and contour helpers."""
 
     def __init__(self, state: LoadState) -> None:
+        """Initialize the field-line manager and the underlying tools manager.
+
+        Parameters
+        ----------
+        - state: LoadState
+            The load state object providing grid arrays and dataset variables.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
         self.LoadToolsManager = LoadToolsManager(state)
 
@@ -61,6 +73,8 @@ class FindLinesManager(LoadMixin):
         var2: str | np.ndarray,
         x0: list | float | None = None,
         y0: list | float | None = None,
+        x1: np.ndarray | None = None,
+        x2: np.ndarray | None = None,
         text: bool = False,
         **kwargs: Any,
     ) -> list:
@@ -68,8 +82,8 @@ class FindLinesManager(LoadMixin):
         varx = self._check_var(var1, kwargs.get("transpose", False))
         vary = self._check_var(var2, kwargs.get("transpose", False))
 
-        xc = kwargs.get("x1", self.x1)
-        yc = kwargs.get("x2", self.x2)
+        xc = x1 if x1 is not None else self.x1
+        yc = x2 if x2 is not None else self.x2
 
         if x0 is None or y0 is None:
             raise ValueError(
@@ -101,14 +115,17 @@ class FindLinesManager(LoadMixin):
         tfin = maxstep * numstep
 
         def system(t, y):
+            """Evaluate the ODE right-hand side by interpolating the vector field."""
             return self._vector_field(t, y, varx, vary, xc, yc)
 
         def outside_domain(t, y):
+            """Return 0 (terminal) when the integrator leaves the domain."""
             if y[0] < xbeg or y[0] > xend or y[1] < ybeg or y[1] > yend:
                 return 0
             return 1
 
         def close_to_start(t, y):
+            """Return 0 (terminal) when the integrator returns near the seed point."""
             dist_0 = np.linalg.norm(y - np.asarray(self.init_pos))
             if dist_0 < ctol and t > maxstep:
                 self.loop_dom = True
@@ -117,6 +134,7 @@ class FindLinesManager(LoadMixin):
             return 1
 
         def max_num_steps(t, y):
+            """Return 0 (terminal) when the allowed step count is exceeded."""
             self.stepnum += 1
             if self.stepnum > numstep:
                 return 0

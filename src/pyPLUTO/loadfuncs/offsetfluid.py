@@ -19,6 +19,18 @@ class OffsetFluid(LoadMixin):
     from pyPLUTO.amr import _DataScanHDF5, _inspect_hdf5, _read_gridfile
 
     def __init__(self, state: LoadState) -> None:
+        """Initialize the fluid offset manager with the given load state.
+
+        Parameters
+        ----------
+        - state: LoadState
+            The load state object carrying grid metadata and file information.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
         self.GridAloneManager = GridManager(state)
 
@@ -30,16 +42,16 @@ class OffsetFluid(LoadMixin):
         The routine, knowing the grid shape, computes the offset and stores the
         shape dependng on wether the variable is staggered or not.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - i (not optional): int
             The index of the file to be loaded.
         - var (not optional): str
             The variable to be loaded.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -88,16 +100,16 @@ class OffsetFluid(LoadMixin):
         The routine, knowing the grid shape, computes the offset and stores the
         shape dependng on wether the variable is staggered or not.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - i (not optional): int
             The index of the file to be loaded.
         - var (not optional): str
             The variable to be loaded.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -206,16 +218,16 @@ class OffsetFluid(LoadMixin):
         The routine, knowing the grid shape, computes the offset and stores the
         shape dependng on wether the variable is staggered or not.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - i (not optional): int
             The index of the file to be loaded.
         - var (not optional): str
             The variable to be loaded.
+
+        Returns
+        -------
+        - None
 
         ----
 

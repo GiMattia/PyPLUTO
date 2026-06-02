@@ -16,6 +16,18 @@ class ReadFilesManager(LoadMixin):
     """Class that manages reading external files."""
 
     def __init__(self, state: LoadState) -> None:
+        """Initialize the file-reading manager with the given load state.
+
+        Parameters
+        ----------
+        - state: LoadState
+            The load state object providing the working directory path.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
 
     @track_kwargs

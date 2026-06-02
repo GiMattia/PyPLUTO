@@ -15,6 +15,18 @@ class SetUnitsManager(BaseLoadMixin):
     """Attach and detach astropy units on variables stored in state."""
 
     def __init__(self, state: BaseLoadState) -> None:
+        """Initialize the unit-attachment manager with the given load state.
+
+        Parameters
+        ----------
+        - state: BaseLoadState
+            The load state object carrying variable data and unit mappings.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
 
     def _resolve_unit_vars(
@@ -25,6 +37,7 @@ class SetUnitsManager(BaseLoadMixin):
         """Resolve variable selection for unit attach/detach operations."""
 
         def _to_list(value: str | Iterable[str] | bool | None) -> list[str]:
+            """Coerce a variable selector to a flat list of name strings."""
             if value is None or value is True:
                 return []
             if isinstance(value, str):

@@ -44,10 +44,6 @@ class ColorbarManager(ImageMixin):
         enabled the colorbar is located in a specific axis, otherwise an axis
         will be shrunk in order to place the colorbar.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - axs: axis object, default None
@@ -59,13 +55,14 @@ class ColorbarManager(ImageMixin):
         - clabel: str, default None
             Sets the label of the colorbar.
         - cpad: float, default 0.07
-            Fraction of original axes between colorbar and the axes (in case cax
-            is not defined).
-        - cpos: {'top','bottom','left','right'}, default 'right'
-            Sets the position of the colorbar.
+            Fraction of original axes between colorbar and the axes (in axes
+            units).
+        - cpos: {'top','bottom','left','right'}, default None
+            Enables the colorbar and sets its position. If not defined, no
+            colorbar is shown.
         - cticks: {[float], None}, default None
-            If enabled (and different from None), sets manually ticks on the
-            colorbar.
+            If enabled (and different from None), sets manually the ticks on
+            the colorbar.
         - ctickslabels: str, default None
             If enabled, sets manually ticks labels on the colorbar.
         - extend: {'neither','both','min','max'}, default 'neither'
@@ -75,6 +72,64 @@ class ColorbarManager(ImageMixin):
         - pcm: QuadMesh | PathCollection | None, default None
             The collection to be used for the colorbar. If None, the axs will be
             used. If both pcm and axs are not None, pcm will be used.
+
+        - bottom: float, default varies
+            The bottom limit of the axis / axes set. For the figure layout it
+            is the space from the bottom border to the plot (default 0.1); for
+            an inset zoom it is the bottom position of the inset (default 0.6 +
+            height).
+        - figsize: list[float], default varies
+            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+            computed from the number of rows and columns (or [8,5] for a single
+            plot).
+        - fontsize: float, default 17.0
+            Sets the fontsize for all the axis components.
+        - hratio: [float], default [1.0]
+            Ratio between the rows of the plot. The default is that every plot
+            row has the same height.
+        - hspace: [float], default []
+            The space between plot rows (in figure units). If not enough or too
+            many spaces are considered, the program will remove the excess and
+            fill the lacks with [0.1].
+        - left: float, default varies
+            The left limit of the axis / axes set. For the figure layout it is
+            the space from the left border to the plot (default 0.125); for an
+            inset zoom it is the left position of the inset (default 0.6).
+        - proj: str, default None
+            Custom projection for the plot (e.g. 3D). Recommended only if
+            needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+            3D axes. The 3D plot feature will be available in future releases.
+        - right: float, default 0.9
+            The right limit of the axis / axes set. For the figure layout it is
+            the space from the right border to the plot; for an inset zoom it
+            is the right position of the inset.
+        - sharex: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the x-axis between the subplots.
+        - sharey: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the y-axis between the subplots.
+        - suptitle: str, default None
+            Creates a figure title over all the subplots.
+        - tight: bool, default True
+            Enables/disables tight layout options for the figure. In case of a
+            highly customized plot (e.g. ratios or space between rows and
+            columns) the option is set by default to False since that option
+            would not be available for standard matplotlib functions.
+        - top: float, default varies
+            The top limit of the axis / axes set. For the figure layout it is
+            the space from the top border to the plot (default 0.9); for an
+            inset zoom it is the top position of the inset (default bottom +
+            height).
+        - wratio: [float], default [1.0]
+            Ratio between the columns of the plot. The default is that every
+            plot column has the same width.
+        - wspace: [float], default []
+            The space between plot columns (in figure units). If not enough or
+            too many spaces are considered, the program will remove the excess
+            and fill the lacks with [0.1].
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -189,7 +244,6 @@ class ColorbarManager(ImageMixin):
         Returns
         -------
         - Axes
-            The found axis object.
 
         Raises
         ------

@@ -76,6 +76,17 @@ class DocItem:
 
 
 def _classify(raw: str | None) -> str:
+    """Return a docstring status label for the given raw docstring text.
+
+    Parameters
+    ----------
+    - raw: str | None
+        The raw docstring extracted from the AST node, or None if absent.
+
+    Returns
+    -------
+    - str: one of ``"MISSING"``, ``"EMPTY"``, ``"ONE-LINER"``, or ``"OK"``.
+    """
     if raw is None:
         return "MISSING"
     stripped = raw.strip()
@@ -171,6 +182,21 @@ def _find_kwargs_forwards(
 
 
 def _call_name(func_node: ast.expr) -> str:
+    """Return a human-readable dotted name for an AST call-target node.
+
+    Handles simple ``Name`` nodes (e.g. ``foo``) and ``Attribute`` chains
+    (e.g. ``self.bar.baz``).  Anything more complex (subscripts, calls, …)
+    returns the placeholder ``"<expr>"``.
+
+    Parameters
+    ----------
+    - func_node: ast.expr
+        The ``func`` field of an ``ast.Call`` node.
+
+    Returns
+    -------
+    - str: dotted name string, or ``"<expr>"`` if not resolvable.
+    """
     if isinstance(func_node, ast.Name):
         return func_node.id
     if isinstance(func_node, ast.Attribute):
@@ -194,12 +220,38 @@ class _DocstringVisitor(ast.NodeVisitor):
     """Collect DocItem entries from a single parsed module."""
 
     def __init__(self, module: str, rel_file: str) -> None:
+        """Initialize the visitor with the module name and relative file path.
+
+        Parameters
+        ----------
+        - module: str
+            Dotted module name derived from the file path (e.g. ``pyPLUTO.load``).
+        - rel_file: str
+            File path relative to the package root, used in reported items.
+
+        Returns
+        -------
+        - None
+
+        """
         self.module = module
         self.rel_file = rel_file
         self.items: list[DocItem] = []
         self._class_stack: list[str] = []
 
     def visit_ClassDef(self, node: ast.ClassDef) -> None:
+        """Visit a class definition, record its docstring, and recurse into it.
+
+        Private classes (names starting with ``_``) are skipped entirely.
+        The class name is pushed onto the stack before visiting its body so
+        that nested methods receive the correct qualified name prefix, then
+        popped afterwards.
+
+        Parameters
+        ----------
+        - node: ast.ClassDef
+            The class definition AST node to process.
+        """
         if node.name.startswith("_"):
             return
 
@@ -221,12 +273,52 @@ class _DocstringVisitor(ast.NodeVisitor):
         self._class_stack.pop()
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
+        """Dispatch a synchronous function or method node to ``_visit_func``.
+
+        Parameters
+        ----------
+        - node: ast.FunctionDef
+            The synchronous function definition AST node to process.
+
+        Returns
+        -------
+        - None
+
+        """
         self._visit_func(node)
 
     def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
+        """Dispatch an async function or method node to ``_visit_func``.
+
+        Parameters
+        ----------
+        - node: ast.AsyncFunctionDef
+            The async function definition AST node to process.
+
+        Returns
+        -------
+        - None
+
+        """
         self._visit_func(node)
 
     def _visit_func(self, node: ast.FunctionDef | ast.AsyncFunctionDef) -> None:
+        """Record a DocItem for a function or method node if it is public.
+
+        Private names (prefixed with ``_``) are skipped unless they appear in
+        ``_INCLUDE_DUNDER``.  Kwargs keys and forwarding targets are extracted
+        from the AST body and stored alongside the docstring status.
+
+        Parameters
+        ----------
+        - node: ast.FunctionDef | ast.AsyncFunctionDef
+            The function or async-function definition AST node to inspect.
+
+        Returns
+        -------
+        - None
+
+        """
         name = node.name
         if not (not name.startswith("_") or name in _INCLUDE_DUNDER):
             return
@@ -440,6 +532,22 @@ _RESET = "\033[0m"
 
 
 def _colour(status: str, text: str, use_colour: bool) -> str:
+    """Wrap *text* in the ANSI colour code corresponding to *status*.
+
+    Parameters
+    ----------
+    - status: str
+        One of the recognised status labels (``"MISSING"``, ``"EMPTY"``,
+        ``"ONE-LINER"``, ``"OK"``).
+    - text: str
+        The string to colourise.
+    - use_colour: bool
+        When ``False`` the original *text* is returned unchanged.
+
+    Returns
+    -------
+    - str: ANSI-coloured string, or the original *text* if colour is disabled.
+    """
     if not use_colour:
         return text
     return f"{_STATUS_COLOUR.get(status, '')}{text}{_RESET}"
@@ -529,6 +637,15 @@ def print_json(
 
 
 def main() -> None:
+    """Parse CLI arguments and run the docstring audit, then print results.
+
+    Recognised flags (passed as ``sys.argv`` arguments):
+
+    - ``--json``       — emit a JSON report instead of human-readable text.
+    - ``--missing``    — show only items with ``MISSING`` or ``EMPTY`` status.
+    - ``--kwargs``     — show only items that accept ``**kwargs``.
+    - ``--no-colour``  — disable ANSI colour codes in the text report.
+    """
     args = sys.argv[1:]
     as_json = "--json" in args
     missing_only = "--missing" in args

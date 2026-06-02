@@ -14,6 +14,18 @@ class StorePart(BaseLoadMixin):
     """Normalize particle variables after raw loading."""
 
     def __init__(self, state: BaseLoadState) -> None:
+        """Initialize the particle storage manager with the given load state.
+
+        Parameters
+        ----------
+        - state: BaseLoadState
+            The load state object carrying raw particle data and variable maps.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
 
     def finalize(self) -> None:
@@ -141,6 +153,7 @@ class StorePart(BaseLoadMixin):
         id_data = self.state.d_vars["id"]
 
         def _cast(arr: Any) -> np.ndarray:
+            """Reinterpret or pass through a particle id array to its correct dtype."""
             arr_np = np.asarray(arr)
             if self.state.datatype == "vtk":
                 # VTK stores id as int32 bits inside a float-typed field;
@@ -153,6 +166,7 @@ class StorePart(BaseLoadMixin):
             return arr_np
 
         def _is_pending(val: object) -> bool:
+            """Return True when val is a list of mmap-backed chunks awaiting concat."""
             return (
                 isinstance(val, list)
                 and bool(val)

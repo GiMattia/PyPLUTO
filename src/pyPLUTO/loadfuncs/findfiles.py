@@ -38,14 +38,14 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         If nout is 'all', the function finds all the files. Then, the function
         stores the relevant information in a dictionary d_info.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - nout (not optional): int | str | list[int|str]
             The output file to be loaded
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -140,16 +140,16 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
     ) -> None:
         """Find the variables and the outputs for the fluid and particles files.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - class_name (not optional): str
             The name of the class. Supported classes are 'Load' or 'LoadPart'.
         - elem (not optional): str
             The matching file.
+
+        Returns
+        -------
+        - None
 
         ----
 

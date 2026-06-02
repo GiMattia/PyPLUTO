@@ -9,7 +9,9 @@ import numpy as np
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.loadfuncs.initload import InitLoadManager
+from pyPLUTO.toolfuncs.compute_units import UnitManager
 from pyPLUTO.toolfuncs.parttools import PartToolsManager
+from pyPLUTO.toolfuncs.set_units import SetUnitsManager
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.resolver import AttrResolver
 
@@ -24,10 +26,6 @@ class LoadPart(BaseLoadMixin):
     until needed. Basic operations (i.e. no numpy) are possible, as well
     as slicing the arrays, without fully loading the data. At the
     moment, only one output can be loaded at a time.
-
-    Returns
-    -------
-    - None
 
     Parameters
     ----------
@@ -53,6 +51,10 @@ class LoadPart(BaseLoadMixin):
     - vars: str | list | bool | None, default True
         The variables to be loaded. If True, all the variables are loaded.
         If None, the data are not loaded.
+
+    Returns
+    -------
+    - None
 
     ----
 
@@ -104,6 +106,17 @@ class LoadPart(BaseLoadMixin):
         self.state.class_name = self.__class__.__name__
         InitLoadManager(self.state, nout, **kwargs)
         self.PartToolsManager = PartToolsManager(self.state)
+        self.UnitManager = UnitManager(self.state)
+        self.SetUnitsManager = SetUnitsManager(self.state)
+
+        self.state.unit_userdef = kwargs.get("user_units", {}) or {}
+        self.units = self.UnitManager._make_units_dict()
+        self.unit_attached.clear()
+
+        units = kwargs.get("units", False)
+        skip_units = kwargs.get("skip_units")
+        if units is not False:
+            self.to_astropy_units(var=units, skip_units=skip_units)
 
         if self.state.text is not False:
             path = kwargs.get("path", self.state.pathdir)
@@ -160,3 +173,13 @@ class LoadPart(BaseLoadMixin):
     def spectrum(self):
         """Proxy to particle spectrum manager."""
         return self.PartToolsManager.spectrum
+
+    @property
+    def to_astropy_units(self):
+        """Property for the to_astropy_units method."""
+        return self.SetUnitsManager.to_astropy_units
+
+    @property
+    def to_code_units(self):
+        """Property for the to_code_units method."""
+        return self.SetUnitsManager.to_code_units

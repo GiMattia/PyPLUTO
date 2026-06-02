@@ -38,10 +38,6 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         the format and typefile characteristics. In case the files are
         standalone, the relevand time and grid information is loaded.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - endian (not optional): bool
@@ -54,6 +50,10 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         - vars (not optional): str | list[str] | bool | None, default True
             If True all the variables are loaded, otherwise just a selection is
             loaded.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -202,10 +202,6 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         The function assigns the data to the class variable. The variable name
         is constructed based on the variable name and the output index.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - exout (not optional): int
@@ -214,6 +210,10 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             The variable name.
         - data (not optional): np.ndarray
             The data to be assigned to the variable.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -267,14 +267,14 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         The dictionary is stored in the class. The shape of the dictionary is
         computed depending on the number of outputs and the variable shape.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - var (not optional): str
             The variable to be loaded.
+
+        Returns
+        -------
+        - None
 
         ----
 

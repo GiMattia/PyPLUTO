@@ -38,19 +38,21 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
 
         Parameters
         ----------
-        alone: bool | None
+        - alone: bool | None
             If the output files are standalone or they require a .out
             file to be loaded. Only suggested for fluid files, .vtk
             format and standalone files, otherwise the code finds
             the alone property by itself.
-        datatype: str | None
+        - datatype: str | None
             The file format. If None the format is recovered between
             (in order) dbl, flt, vtk, dbl.h5 and flt.h5.
             Formats hdf5 (AMR) and tab have not been implemented yet.
 
         Returns
         -------
-        None
+        - None
+
+        ----
 
         Examples
         --------
@@ -68,7 +70,7 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
 
         - Example #4: Find the format of the particles files
 
-            >>> find_format("dbl", True)        --------
+            >>> find_format("dbl", True)
 
         """
         # Initialization or declaration of variables
@@ -160,14 +162,14 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         If the datatype.out file is found, the file format is selected and the
         flag alone is set to False.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - type_out (not optional): list[str]
             The list of possible formats for the output file.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -204,14 +206,14 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         If the file is found, the file format is selected and the flag alone is
         set to True.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - type_lon (not optional): list[str]
             The list of possible formats for the output file.
+
+        Returns
+        -------
+        - None
 
         ----
 

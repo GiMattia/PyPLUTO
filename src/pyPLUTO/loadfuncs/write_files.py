@@ -16,6 +16,18 @@ class WriteFilesManager(LoadMixin):
     """Class that manages writing data to external files."""
 
     def __init__(self, state: LoadState) -> None:
+        """Initialize the file-writing manager with the given load state.
+
+        Parameters
+        ----------
+        - state: LoadState
+            The load state object providing the working directory path.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
 
     @track_kwargs

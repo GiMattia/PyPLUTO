@@ -65,28 +65,241 @@ class InteractiveManager(ImageMixin):
 
         Warning: it works only with the fluid variables.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - varx (not optional): array_like
             The x-axis variable.
         - vary: array_like, default None
             The y-axis variable.
-        - ax: Axes, default None
-            The axes instance.
+        - ax: ax | int | None, default None
+            The axis where to plot. If None, the last considered axis will be used.
         - labslider: str, default None
             The label of the slider.
         - limfix: bool, default True
-            If True, the colorbar limits are fixed through the entire animation.
-        - **kwargs: Any
-            Other parameters to pass used in the plot or display functions.
-        - vmin: float, default None
-            The minimum value of the data.
-        - vmax: float, default None
-            The maximum value of the data.
+            If True, the colorbar limits are fixed through the entire
+            animation.
+        - vmin: float
+            The minimum value of the colormap.
+        - vmax: float
+            The maximum value of the colormap.
+
+        - alpha: float, default 1.0
+            Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is
+            fully transparent.
+        - aspect: 'auto' | 'equal' | float, default 'auto'
+            Sets the aspect ratio of the plot. The 'auto' keyword is the
+            default option. The 'equal' keyword sets the same scaling for x and
+            y. A float fixes the ratio between the y-scale and the x-scale (1.0
+            is the same as 'equal').
+        - bottom: float, default varies
+            The bottom limit of the axis / axes set. For the figure layout it
+            is the space from the bottom border to the plot (default 0.1); for
+            an inset zoom it is the bottom position of the inset (default 0.6 +
+            height).
+        - c: str, default self.color
+            Determines the color. If not defined, the program will loop over an
+            array of 6 colors which are different for the most common vision
+            deficiencies.
+        - clabel: str, default None
+            Sets the label of the colorbar.
+        - cmap: str, default 'hot'
+            Selects the colormap. Some useful colormaps are: plasma, magma,
+            seismic. Please avoid colormaps like jet or rainbow, which are not
+            perceptively uniform and not suited for people with vision
+            deficiencies.
+        - cpad: float, default 0.07
+            Fraction of original axes between colorbar and the axes (in axes
+            units).
+        - cpos: {'top','bottom','left','right'}, default None
+            Enables the colorbar and sets its position. If not defined, no
+            colorbar is shown.
+        - cscale: {'linear','log','symlog','twoslope'}, default 'linear'
+            Sets the colorbar scale. Default is the linear ('norm') scale.
+        - cticks: {[float], None}, default None
+            If enabled (and different from None), sets manually the ticks on
+            the colorbar.
+        - ctickslabels: str, default None
+            If enabled, sets manually ticks labels on the colorbar.
+        - edgecolor: list[str], default [None]
+            Sets the edge color of the legend. The default value is black
+            ('k').
+        - extend: {'neither','both','min','max'}, default 'neither'
+            Sets the extension of the triangular colorbar extension.
+        - extendrect: bool, default False
+            If True, the colorbar extension will be rectangular.
+        - figsize: list[float], default varies
+            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+            computed from the number of rows and columns (or [8,5] for a single
+            plot).
+        - fillstyle: {'full', 'left', 'right', 'bottom', 'top', 'none'},
+            default 'full'
+            Sets the marker filling. The default value is the fully filled
+            marker ('full').
+        - fontsize: float, default 17.0
+            Sets the fontsize for all the axis components.
+        - grid: bool | string, default False
+            Enables/disables the grid on the plot. If True it enables both axes
+            grids. If 'x' or 'y' it enables only the x- or y-axis grid.
+        - hratio: [float], default [1.0]
+            Ratio between the rows of the plot. The default is that every plot
+            row has the same height.
+        - hspace: [float], default []
+            The space between plot rows (in figure units). If not enough or too
+            many spaces are considered, the program will remove the excess and
+            fill the lacks with [0.1].
+        - label: str, default None
+            Associates a label to the plot, used for the creation of the
+            legend.
+        - labelsize: float, default fontsize
+            Sets the labels fontsize (which is the same for both labels). The
+            default value corresponds to the value of the keyword 'fontsize'.
+        - left: float, default varies
+            The left limit of the axis / axes set. For the figure layout it is
+            the space from the left border to the plot (default 0.125); for an
+            inset zoom it is the left position of the inset (default 0.6).
+        - legalpha: float, default 0.8
+            Sets the opacity of the legend.
+        - legcols: int, default 1
+            Sets the number of columns that the legend should have.
+        - legpad: float, default 0.8
+            Sets the space between the lines (or symbols) and the corresponding
+            text in the legend.
+        - legpos: int | str, default None
+            If defined, creates a legend at the specified location.
+        - legsize: float, default fontsize
+            Sets the fontsize of the legend. The default value is the default
+            fontsize value.
+        - legspace: float, default 2
+            Sets the space between the legend columns, in font-size units.
+        - lint: bool, default None
+            If True, enables linear interpolation between frames in the
+            interactive plot.
+        - ls: {'-', '--', '-.', ':', ' ', etc.}, default '-'
+            Sets the linestyle. The choices available are the ones defined in
+            the matplotlib package.
+        - lw: float, default 1.3
+            Sets the linewidth.
+        - marker: {'o', 'v', '^', '<', '>', 'X', ' ', etc.}, default ' '
+            Sets an optional symbol for every point. The default value is no
+            marker (' ').
+        - minorticks: str, default None
+            If not None enables the minor ticks on the plot (for both grid
+            axes).
+        - ms: float, default 3
+            Sets the marker size.
+        - mscale: float, default 1.0
+            Sets the marker scale. The default value is 1.0.
+        - proj: str, default None
+            Custom projection for the plot (e.g. 3D). Recommended only if
+            needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+            3D axes. The 3D plot feature will be available in future releases.
+        - right: float, default 0.9
+            The right limit of the axis / axes set. For the figure layout it is
+            the space from the right border to the plot; for an inset zoom it
+            is the right position of the inset.
+        - shading: {'flat', 'nearest', 'auto', 'gouraud'}, default 'auto'
+            The shading between the grid points. If not defined, the shading
+            will be one between 'flat' and 'nearest' depending on the size of
+            the x, y and z arrays. The 'flat' shading works only if, given a
+            NxM z-array, the x- and y-arrays have sizes of, respectively, N+1
+            and M+1. All the other shadings require a N x-array and a M
+            y-array.
+        - sharex: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the x-axis between the subplots.
+        - sharey: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the y-axis between the subplots.
+        - suptitle: str, default None
+            Creates a figure title over all the subplots.
+        - ticksdir: {'in', 'out'}, default 'in'
+            Sets the ticks direction. The default option is 'in'.
+        - tickssize: float | bool, default True
+            Sets the ticks fontsize (which is the same for both grid axes). The
+            default value corresponds to the value of the keyword 'fontsize'.
+        - tight: bool, default True
+            Enables/disables tight layout options for the figure. In case of a
+            highly customized plot (e.g. ratios or space between rows and
+            columns) the option is set by default to False since that option
+            would not be available for standard matplotlib functions.
+        - title: str, default None
+            Places the title of the plot on top of it.
+        - titlepad: float, default 8.0
+            Sets the distance between the title and the top of the plot.
+        - titlesize: float, default fontsize
+            Sets the title fontsize. The default value corresponds to the value
+            of the keyword 'fontsize'.
+        - top: float, default varies
+            The top limit of the axis / axes set. For the figure layout it is
+            the space from the top border to the plot (default 0.9); for an
+            inset zoom it is the top position of the inset (default bottom +
+            height).
+        - transpose: True/False, default False
+            Transposes the variable matrix. Use is not recommended if not
+            really necessary (e.g. in case of highly customized variables and
+            plots).
+        - tresh: float, default max(abs(vmin),vmax)*0.01
+            Sets the threshold for the colormap (used with composite
+            colorscales such as twoslope or symlog).
+        - wratio: [float], default [1.0]
+            Ratio between the columns of the plot. The default is that every
+            plot column has the same width.
+        - wspace: [float], default []
+            The space between plot columns (in figure units). If not enough or
+            too many spaces are considered, the program will remove the excess
+            and fill the lacks with [0.1].
+        - x1: np.ndarray, default 'Default'
+            The x-axis array. If not defined, a default array will be
+            generated.
+        - x2: np.ndarray, default 'Default'
+            The y-axis array. If not defined, a default array will be
+            generated.
+        - xlabelpad: float, default 4.0
+            The padding between the x-axis label and the axis.
+        - xrange: [float, float], default 'Default'
+            Sets the range in the x-direction. If not defined, the range is
+            computed automatically from the x-array.
+        - xscale: {'linear','log'}, default 'linear'
+            If enabled (and different from 'Default'), sets automatically the
+            scale on the x-axis. Data in log scale should be used with the
+            keyword 'log', while data in linear scale should be used with the
+            keyword 'linear'.
+        - xticks: list[float] | None | bool, default True
+            If enabled (and different from True), sets manually ticks on the
+            x-axis. In order to completely remove the ticks the keyword should
+            be used with None.
+        - xtickslabels: list[str] | None | bool, default True
+            If enabled (and different from True), sets manually the ticks
+            labels on the x-axis. In order to completely remove the ticks the
+            keyword should be used with None. Note that fixed tickslabels
+            should always correspond to fixed ticks.
+        - xtresh: float
+            The threshold parameter for the x-axis symlog/asinh scale.
+        - ylabelpad: float, default 4.0
+            The padding between the y-axis label and the axis.
+        - yrange: [float, float], default 'Default'
+            Sets the range in the y-direction. If not defined, the range is
+            computed automatically from the y-array.
+        - yscale: {'linear','log'}, default 'linear'
+            If enabled (and different from 'Default'), sets automatically the
+            scale on the y-axis. Data in log scale should be used with the
+            keyword 'log', while data in linear scale should be used with the
+            keyword 'linear'.
+        - yticks: list[float] | None | bool, default True
+            If enabled (and different from True), sets manually ticks on the
+            y-axis. In order to completely remove the ticks the keyword should
+            be used with None.
+        - ytickslabels: list[str] | None | bool, default True
+            If enabled (and different from True), sets manually the ticks
+            labels on the y-axis. In order to completely remove the ticks the
+            keyword should be used with None. Note that fixed tickslabels
+            should always correspond to fixed ticks.
+        - ytitle: str, default None
+            Sets and places the label of the y-axis.
+        - ytresh: float
+            The threshold parameter for the y-axis symlog/asinh scale.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -232,14 +445,14 @@ class InteractiveManager(ImageMixin):
     def update_slider(self, i: float) -> Iterable[Artist]:
         """Update the data in the interactive plot.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - i  (not optional): int
             The slider index.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -307,15 +520,14 @@ class InteractiveManager(ImageMixin):
     def update_both(self, i: float) -> Iterable[Artist]:
         """Update both the plot and the slider value during animation.
 
-        Returns
-        -------
-        - None
-
-
         Parameters
         ----------
         - i (not optional): int
             The current frame index.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -349,10 +561,6 @@ class InteractiveManager(ImageMixin):
     ) -> None:
         """Display the animation interactively.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - frames: int, default None
@@ -364,15 +572,21 @@ class InteractiveManager(ImageMixin):
         - updateslider: bool, default True
             If True, the slider is shown and updated with each frame.
 
+        Returns
+        -------
+        - None
+
+        ----
+
         Examples
         --------
         - Example #1: Display the animation
 
-                >>> animate()
+            >>> animate()
 
         - Example #2: Display the animation with a specific number of frames
 
-                >>> animate(frames=[0, 1, 2], interval=300)
+            >>> animate(frames=[0, 1, 2], interval=300)
 
         """
         # Choose the frames

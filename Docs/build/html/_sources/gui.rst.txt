@@ -14,16 +14,22 @@ loading section the setting section and the plotting section.
 
 ----
 
-Installation
-------------
+GUI Installation
+----------------
 
-The GUI is directly installed with the PyPLUTO package, so no additional
-installation is required. However, it is recommended to install the package in
-an editable mode, so that any changes made to the source code are immediately
-reflected in the GUI. This can be done by using `pip` or `pipenv` as
-described in the :ref:`install` section of the documentation.
+The GUI requires the optional ``PySide6`` dependency. Install it with:
 
-To run the GUI, simply execute the following command in the terminal:
+.. code-block:: console
+
+   $ pip install py-pluto[gui]
+
+or with ``uv``:
+
+.. code-block:: console
+
+   $ uv add py-pluto[gui]
+
+To run the GUI after installation:
 
 .. code-block:: console
 
@@ -63,9 +69,9 @@ Selecting the variable with the GUI
 -----------------------------------
 
 The setting section is used to select the variable to be plotted. The user can
-select the variable by choosing from the loaded variables. The user can also
-slice the variables by selecting the desired slice.
-The x- and the y-axes (in case of 2D plots) can also be selected here.
+select the variable by choosing from the loaded variables, or define new
+**custom variables** from mathematical expressions using the loaded data.
+Slices and axis selection for 2D plots are also available here.
 Further information can be found in the
 :ref:`guivars` section of the documentation.
 

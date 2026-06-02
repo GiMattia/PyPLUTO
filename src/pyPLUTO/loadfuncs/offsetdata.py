@@ -15,6 +15,18 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
     """Class that computes the offset of variables in single_file format."""
 
     def __init__(self, state: BaseLoadState) -> None:
+        """Initialize the offset manager and delegate sub-managers by state type.
+
+        Parameters
+        ----------
+        - state: BaseLoadState
+            The load state object carrying grid metadata and file information.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
         if isinstance(state, LoadState):
             self.GridFileManager = GridFileManager(state)
@@ -37,10 +49,6 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
         output index, and file index. The shape is computed based on the
         variable characteristics and the grid information.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - i (not optional): int
@@ -50,6 +58,10 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
         - varname (not optional): str | None
             The name of the variable to be loaded. If None, all variables are
             considered.
+
+        Returns
+        -------
+        - None
 
         ----
 

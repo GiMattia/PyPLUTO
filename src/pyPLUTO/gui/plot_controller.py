@@ -12,10 +12,35 @@ from .services import apply_slices, convert_axis_map
 
 
 class PlotController:
+    """Orchestrate GUI plotting actions and canvas lifecycle."""
+
     def __init__(self, app):
+        """Bind the controller to the main application window.
+
+        Parameters
+        ----------
+        - app: PyPLUTOApp
+            The main application window instance that owns this controller.
+
+        Returns
+        -------
+        - None
+
+        """
         self.app = app
 
     def update_cmap_selector(self) -> None:
+        """Repopulate the colormap selector based on the chosen colormap type.
+
+        Reads the current colormap-type combo box and replaces the items in the
+        colormap combo box with the matching subset from the global ``cmaps_divided``
+        registry.
+
+        Returns
+        -------
+        - None
+
+        """
         app = self.app
         from .globals import cmaps_divided as cmaps
 
@@ -24,6 +49,17 @@ class PlotController:
         app.cmap_selector.addItems(cmaps.get(selected_type, []))
 
     def plot_data(self) -> None:
+        """Read the current GUI state, slice the selected variable, and render it.
+
+        Dispatches to ``Image.plot`` for 1-D data and ``Image.display`` for 2-D
+        data. When the *overplot* checkbox is active and the variable is 1-D the
+        existing canvas is reused; otherwise the canvas is rebuilt from scratch.
+
+        Returns
+        -------
+        - None
+
+        """
         app = self.app
         if not app.data_loaded:
             print("ERROR: No data loaded.")
@@ -87,6 +123,16 @@ class PlotController:
         app.canvas.draw()
 
     def update_axes(self) -> None:
+        """Apply colormap, normalisation, and axis-range changes without re-plotting.
+
+        Updates every ``AxesImage`` and ``QuadMesh`` artist on the current axes in
+        place, then calls ``set_axis`` to propagate scale and range settings.
+
+        Returns
+        -------
+        - None
+
+        """
         app = self.app
         self._check_axisparam()
         cmap = app.datadict.pop("cmap")
@@ -109,6 +155,16 @@ class PlotController:
         app.canvas.draw()
 
     def create_new_figure(self) -> None:
+        """Instantiate a fresh ``pp.Image``, canvas, and toolbar and attach them to the layout.
+
+        Creates a new ``FigureCanvasQTAgg`` and ``NavigationToolbar2QT`` from the
+        new figure and appends both to ``app.canvas_layout``.
+
+        Returns
+        -------
+        - None
+
+        """
         app = self.app
         from matplotlib.backends.backend_qtagg import (
             FigureCanvasQTAgg as FigureCanvas,
@@ -128,6 +184,16 @@ class PlotController:
         app.canvas_layout.addWidget(app.canvas)
 
     def reload_canvas(self) -> None:
+        """Destroy the current canvas and toolbar, then create a fresh figure.
+
+        Removes the existing toolbar and canvas widgets from the layout, schedules
+        them for deletion, and delegates to ``create_new_figure`` to rebuild them.
+
+        Returns
+        -------
+        - None
+
+        """
         app = self.app
         app.canvas_layout.removeWidget(app.toolbar)
         app.toolbar.deleteLater()
@@ -136,6 +202,16 @@ class PlotController:
         self.create_new_figure()
 
     def clear_labels(self) -> None:
+        """Reset every plot-panel widget to its default state.
+
+        Clears text inputs, resets combo box selections to index 0, and unchecks
+        all checkboxes except *ratio* which is restored to its checked default.
+
+        Returns
+        -------
+        - None
+
+        """
         app = self.app
         app.var_selector.setCurrentIndex(0)
         app.ratio_checkbox.setChecked(True)
@@ -164,6 +240,18 @@ class PlotController:
         app.overplot_checkbox.setChecked(False)
 
     def _check_axisparam(self) -> None:
+        """Rebuild ``app.datadict`` from the current plot-panel widget values.
+
+        Reads every relevant GUI field (value/color-scale range, aspect ratio,
+        colormap, axis scales, and their symmetry thresholds) and stores the
+        results in the ``app.datadict`` mapping, which is forwarded to the
+        ``Image`` rendering calls.
+
+        Returns
+        -------
+        - None
+
+        """
         app = self.app
         app.datadict = {}
         if app.vrange_min.text():
@@ -194,6 +282,25 @@ class PlotController:
             app.datadict["tresh"] = float(app.vscale_tresh.text())
 
     def _set_range(self, xlim, ylim) -> None:
+        """Update the cumulative axis extents and write them into ``app.datadict``.
+
+        On the first plot the stored limits are initialised from ``xlim``/``ylim``.
+        On subsequent calls the stored limits are grown to encompass the new data.
+        Any user-supplied range overrides in the text fields take precedence over
+        the computed limits when writing ``xrange`` and ``yrange``.
+
+        Parameters
+        ----------
+        - xlim: list[float] or None
+            [xmin, xmax] for the current data; ``None`` reuses the stored values.
+        - ylim: list[float] or None
+            [ymin, ymax] for the current data; ``None`` reuses the stored values.
+
+        Returns
+        -------
+        - None
+
+        """
         app = self.app
         if xlim is None:
             xlim = [app.xmin, app.xmax]

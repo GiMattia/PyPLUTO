@@ -53,14 +53,14 @@ def savefig(**_kwargs: object) -> None:
 def show(block: bool = True) -> None:
     """Show the figures created.
 
-    Returns
-    -------
-    - None
-
     Parameters
     ----------
     - block: bool, default True
         If True, the function blocks until the figure is closed.
+
+    Returns
+    -------
+    - None
 
     ----
 

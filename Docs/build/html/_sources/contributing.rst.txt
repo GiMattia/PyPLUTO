@@ -1,155 +1,240 @@
+.. _contributing:
+
 Contribute
 ==========
 
-Thank you for considering contributing to **PyPLUTO**!
+Thank you for considering a contribution to **PyPLUTO**!
 
-We welcome contributions of all kinds, including bug reports, feature requests,
-documentation improvements, and code contributions.
+We welcome:
 
-Getting Started
+- bug reports
+- feature requests
+- documentation improvements
+- tests
+- code contributions
+
+If you find a bug or have an idea, open an issue first (or go straight to a pull
+request if you already have a fix).
+
+|
+
+----
+
+Code of Conduct
 ---------------
 
-To contribute:
+Please follow our community guidelines in the ``CODE_OF_CONDUCT.md`` file at
+the root of the repository.
 
-1. Fork the repository: https://github.com/GiMattia/PyPLUTO
-2. Create a feature branch:
+|
+
+----
+
+Use of AI
+---------
+
+The use of AI (for example, LLMs) is allowed if used responsibly.
+
+Every contributor remains responsible for what they submit: all generated code
+and text must be reviewed by a human before being published.
+
+This also applies to communication (issues, pull requests, and emails).
+AI-assisted translation is acceptable, but please make sure the final text
+matches your intent.
+
+To keep PyPLUTO maintainable, autonomous agents must not contribute without
+human supervision.
+
+|
+
+----
+
+Prerequisites
+-------------
+
+- Python ``>=3.11`` (the CI matrix currently tests ``3.12``, ``3.13``, and ``3.14``)
+- Git
+- A virtual environment tool (``uv``, ``pixi``, ``venv``, ``conda``, etc.)
+
+|
+
+----
+
+Local Setup
+-----------
+
+Fork and clone the repository:
 
 .. code-block:: console
 
-   $ git checkout -b feature/your-feature-name
+   $ git clone https://github.com/GiMattia/PyPLUTO.git
+   $ cd PyPLUTO
 
-3. Make your changes and write tests.
-4. Ensure your code adheres to the project's coding standards.
-5. Commit with a descriptive message.
-6. Push and open a pull request.
+**Option A: uv (recommended)**
 
-Installation guidelines
------------------------
-
-In order to install the project, you can use the following command:
+Create a reproducible environment from the lockfile:
 
 .. code-block:: console
 
-    $ pip install -r requirements_dev.txt
+   $ uv sync --all-extras --all-groups
 
-In order to ensure that the pre-commit hooks are installed, run:
-
-.. code-block:: console
-
-    $ pre-commit install
-
-You should see this (or similar) output:
+Run commands inside the synced environment with ``uv run``, for example:
 
 .. code-block:: console
 
-    pre-commit installed at .git/hooks/pre-commit
+   $ uv run pre-commit run --all-files
+   $ uv run pytest -v ./Tests
 
-Testing
--------
+**Option B: pixi**
 
-The core functionality of PyPLUTO is tested through a set of pytest benchmarks 
-present in the `Tests` folder. To run the tests, you can use:
+Install the ``full`` environment declared in ``pyproject.toml``:
 
 .. code-block:: console
 
-   $ pytest --cov=pyPLUTO --cov-report=term-missing
+   $ pixi install -e full
 
-This will run all tests and provide a coverage report in the terminal.
-Please ensure that all tests pass before submitting a pull request.
+Run tools in that environment:
 
-Pre-commit Hooks
-----------------
+.. code-block:: console
 
-PyPLUTO uses pre-commit hooks to ensure code quality and consistency.
-These hooks will automatically format your code and check for common issues 
-before committing.
-In order to use them, make sure you have `pre-commit` installed and run:
+   $ pixi run -e all pre-commit run --all-files
+   $ pixi run -e all pytest -v ./Tests
+
+**Option C: pip fallback (not lockfile-based)**
+
+.. code-block:: console
+
+   $ pip install -r requirements_dev.txt
+
+``requirements_dev.txt`` installs the project in editable mode with development
+extras.
+
+|
+
+----
+
+Pre-commit and Quality Checks
+------------------------------
+
+Install hooks:
+
+.. code-block:: console
+
+   $ pre-commit install
+   $ pre-commit install --hook-type pre-push
+
+Run all standard checks locally:
 
 .. code-block:: console
 
    $ pre-commit run --all-files
 
-The following pre-commit hooks are active and run automatically before every 
-commit:
-
-1. **official pre-commit hooks** checks for common issues like trailing 
-   whitespace, end-of-file newlines, case conflict and more.
-
-2. **docformatter** automatically reformats Python docstrings in-place using 
-   Black-style formatting with enforced blank lines.
-
-3. **blacken-docs** formats code blocks inside docstrings using Black with a 
-   line length of 80 characters.
-
-4. **ruff** lints and fixes Python code, catching both stylistic and logical 
-   issues. Runs with --fix enabled to apply auto-fixes.
-
-5. **black** automatically formats all Python files according to Black's style 
-   guide for consistent code formatting.
-
-The code undergoes a strict series of checks during every pull request.
-In order to avoid rejections, is convenient to run the full set of checks
-through the command
+Run manual-stage checks before opening a PR:
 
 .. code-block:: console
 
    $ pre-commit run --all-files --hook-stage manual
 
-In addition to all the previous pre-commit checks, the code also runs the 
-following tools:
+Current checks include:
 
-6. **pytest** runs automatically all the tests (see Testing section above)  
-   ensuring a minimum coverage of 45% (will be increased in the near future).
+- standard ``pre-commit-hooks`` sanity checks
+- ``ruff`` lint/format
+- lock consistency checks (``uv lock --check``, ``pixi lock --check``)
+- ``ty`` type checking (``pre-push`` and ``manual`` stages)
+- ``pytest`` with coverage threshold (``manual``, fail-under 45 %)
 
-7. **interrogate** ensures a docstring coverage above 70%  
-   (will also be increased in the near future).
+|
 
-We aim at also adding checking tools such as mypy and pylint, although they have
-not been included yet.
+----
 
-Code style
-----------
+Running Tests
+-------------
 
-During every pre-commit the code is automatically formatted to adhere with the
-**black** codestyle.
-In order to format automatically the code at every saving in VsCode, you can 
-do the following:
+Run the full suite:
 
-1. Search the VS Code Marketplace fot the formatter extension "Black formatter"
+.. code-block:: console
 
-2. Go to File -> Preferences -> Settings
+   $ pytest -v ./Tests
 
-3. Search "format"
+Run with coverage:
 
-4. In the "Editor: Default formatter" panel select "Black formatter"
+.. code-block:: console
 
-5. Check the "Format on save" box
+   $ pytest --cov=pyPLUTO --cov-report=term-missing Tests/
 
-Code Structure
---------------
+Please ensure that all tests pass before submitting a pull request.
 
-The code is mainly structured in the following way:
+|
 
-- **gui**: Contains the GUI code, including panels, widgets, and main window logic
-- **imagefuncs**: Contains image processing functions and utilities
-- **loadfuncs**: Contains functions for loading and processing data files
-- **toolsfuncs**: Contains various utility functions and classes for data manipulation
-- **utils**: Contains utility functions and classes used across the project
+----
 
-Note that the Image relies on a series of Manager classes (located in the 
-imagefuncs folder) that handle the image processing and plotting functionalities.
-In order to share the relevant methods and attributes across the Managers and 
-the Image class, two classes (ImageState and ImageMixin) are used.
+Documentation
+-------------
 
-Questions or Suggestions?
--------------------------
+Docs are in ``Docs/source``. To build locally:
 
-For any question, suggestion or comment please send an e-mail to G. Mattia 
-(mail: `mattia@mpia.de <mailto:mattia@mpia.de>`_).
+.. code-block:: console
 
-Feel also free to open an issue or discuss in the GitHub repo.
+   $ make -C Docs html
 
-Happy coding!
+|
+
+----
+
+Workflow for Pull Requests
+--------------------------
+
+1. Create a branch from ``master``.
+2. Keep changes focused and small when possible.
+3. Add or update tests for behavioral changes.
+4. Run pre-commit checks (see above).
+5. Push and open a pull request with:
+
+   - a clear summary of changes
+   - why the change is needed
+   - notes on tests performed
+
+CI runs style checks and tests across multiple OSes and Python versions.
+A PR is expected to pass all checks.
+
+|
+
+----
+
+Project Structure
+-----------------
+
+Top-level layout:
+
+- ``src/pyPLUTO/``: main package code
+- ``Tests/``: test suite and test data
+- ``Examples/``: runnable examples and sample outputs
+- ``Docs/``: Sphinx documentation
+
+Package subfolders inside ``src/pyPLUTO/``:
+
+- ``gui/``: GUI panels, widgets, and main window logic
+- ``imagefuncs/``: image/plot manager classes
+- ``loadfuncs/``: data loading and parsing
+- ``toolfuncs/``: analysis tools (derivatives, transforms, units, etc.)
+- ``utils/``: shared utilities
+
+``Load``, ``LoadPart``, and ``Image`` follow the same architecture: a state
+class (``LoadState`` / ``BaseLoadState`` / ``ImageState``) holds all data; a
+mixin class (``LoadMixin`` / ``BaseLoadMixin`` / ``ImageMixin``) exposes the
+public interface; manager classes in the subfolders implement individual
+operations and receive the state object at construction time.
+
+|
+
+----
+
+Questions
+---------
+
+For questions or suggestions, open an issue in the
+`GitHub repository <https://github.com/GiMattia/PyPLUTO>`_ or contact the
+developers directly.
 
 |
 

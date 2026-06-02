@@ -24,25 +24,33 @@ class BaseLoadTools(BaseLoadMixin[BaseLoadState]):
         containing the integer. If nout is 'all', the function returns a
         list containing all the file numbers.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - nout (not optional): int | str | list[int|str]
             The output file to be loaded.
+
+        Returns
+        -------
+        - None
+
         ----
 
         Examples
         --------
         - Example #1: Load the last file
+
             >>> _check_nout("last")
+
         - Example #2: Load the first file
+
             >>> _check_nout(0)
+
         - Example #3: Load all the files
+
             >>> _check_nout("all")
+
         - Example #4: Load multiple specific files
+
             >>> _check_nout([0, 1, 2, 3])
         """
         # Assign the last possible output file

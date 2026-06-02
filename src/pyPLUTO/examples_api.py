@@ -13,7 +13,7 @@ from pathlib import Path
 
 _REPO_OWNER = "GiMattia"
 _REPO_NAME = "PyPLUTO"
-_DEFAULT_BRANCH = "main"
+_DEFAULT_BRANCH = "master"
 
 
 def _repo_examples_path() -> Path | None:
@@ -27,6 +27,7 @@ def _repo_examples_path() -> Path | None:
 
 
 def _package_version() -> str:
+    """Return the installed ``py-pluto`` version string, or ``'main'`` if not found."""
     try:
         return version("py-pluto")
     except PackageNotFoundError:
@@ -34,6 +35,7 @@ def _package_version() -> str:
 
 
 def _cached_examples_dir() -> Path:
+    """Return the per-version cache directory used for downloaded examples."""
     ver = _package_version()
     safe_ver = ver.replace("/", "_")
     return Path.home() / ".cache" / "pypluto" / "examples" / safe_ver
@@ -55,10 +57,11 @@ def _download_examples() -> Path:
     candidates.append(_DEFAULT_BRANCH)
 
     last_error: Exception | None = None
+    base_url = f"https://github.com/{_REPO_OWNER}/{_REPO_NAME}/archive/"
     for ref in candidates:
-        archive_url = f"https://github.com/{_REPO_OWNER}/{_REPO_NAME}/archive/refs/heads/{ref}.zip"
+        archive_url = f"{base_url}refs/heads/{ref}.zip"
         if ref != _DEFAULT_BRANCH:
-            archive_url = f"https://github.com/{_REPO_OWNER}/{_REPO_NAME}/archive/refs/tags/{ref}.zip"
+            archive_url = f"{base_url}refs/tags/{ref}.zip"
 
         with tempfile.TemporaryDirectory() as tmp:
             zip_path = Path(tmp) / "pypluto_examples.zip"

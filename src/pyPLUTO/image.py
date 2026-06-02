@@ -54,10 +54,6 @@ class Image(ImageMixin):
         one in order to avoid confusion between images and figures. If you want
         to create multiple figures, you have to create multiple Image objects.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - close: bool, default True
@@ -65,10 +61,12 @@ class Image(ImageMixin):
         - fig: Figure | None, default None
             The figure instance. If not None, the figure is used (only
             if we need to associate an Image to an existing figure).
-        - figsize: list[float], default [8,5]
-            The figure size.
-        - fontsize: int, default 17
-            The font size.
+        - figsize: list[float], default varies
+            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+            computed from the number of rows and columns (or [8,5] for a single
+            plot).
+        - fontsize: float, default 17.0
+            Sets the fontsize for all the axis components.
         - LaTeX: bool | str, default False
             The LaTeX option. Is True is selected, the default LaTeX font
             is used. If 'pgf' is selected, the pgf backend is used to save pdf
@@ -87,15 +85,22 @@ class Image(ImageMixin):
             'fivethirtyeight', 'bmh', 'grayscale', 'dark_background', 'classic',
             etc.
         - suptitle: str, default None
-            The super title of the figure.
+            Creates a figure title over all the subplots.
         - suptitlesize: str | int, default 'large'
             The figure title size.
         - tight: bool, default True
-            If True, the tight layout is used.
+            Enables/disables tight layout options for the figure. In case of a
+            highly customized plot (e.g. ratios or space between rows and
+            columns) the option is set by default to False since that option
+            would not be available for standard matplotlib functions.
         - withblack: bool, default False
             If True, the black color is used as first color.
         - withwhite: bool, default False
             If True, the white color is used as first color.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -297,6 +302,7 @@ class Image(ImageMixin):
         """Property for the zoom method."""
         return self.ZoomManager.zoom
 
+    @track_kwargs
     def oplotbox(self, *args: object, **kwargs: object) -> None:
         """Plot a box in the figure (AMR, WIP)."""
         oplotbox(self, *args, **kwargs)

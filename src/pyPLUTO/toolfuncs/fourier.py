@@ -4,25 +4,34 @@ from typing import Any
 
 import numpy as np
 
-from pyPLUTO.h_pypluto import check_par
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FourierManager(LoadMixin):
     """Manager for Fourier transforms on loaded data."""
 
     def __init__(self, state: LoadState) -> None:
+        """Initialize the Fourier manager with the given load state.
+
+        Parameters
+        ----------
+        - state: LoadState
+            The load state object providing grid spacing attributes.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
 
+    @track_kwargs(extra_keys={"dx", "dy", "dz"})
     def fourier(
-        self, f: np.ndarray, check: bool = True, **kwargs: Any
+        self, f: np.ndarray, **kwargs: Any
     ) -> tuple[list[np.ndarray], np.ndarray]:
         """Compute Fourier transform and return frequencies + amplitude."""
-        param = {"dx", "dy", "dz", "xdir", "ydir", "zdir"}
-        if check is True:
-            check_par(param, "fourier", **kwargs)
-
         f = np.asarray(f)
         dim = f.ndim
         shp = f.shape

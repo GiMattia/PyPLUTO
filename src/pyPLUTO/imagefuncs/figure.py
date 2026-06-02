@@ -31,18 +31,15 @@ class FigureManager(ImageMixin):
         want to create multiple figures, you have to create multiple
         Image objects.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - state: ImageState
             The state of the image, which contains the figure and other
             properties.
-        - kwargs: dict[str, Any]
-            Additional keyword arguments to customize the figure, such as
-            `figsize`, `fontsize`, `nwin`, `suptitle`, etc.
+
+        Returns
+        -------
+        - None
 
         """
         # needed because the __init__ is longer than simply self.state = state
@@ -95,11 +92,6 @@ class FigureManager(ImageMixin):
         The colors are taken from a list of colors that are suitable for all
         types of color vision deficiencies.
 
-        Returns
-        -------
-        - colors: list[str]
-            The list of colors for the lines.
-
         Parameters
         ----------
         - numcolors: int, default 10
@@ -108,6 +100,10 @@ class FigureManager(ImageMixin):
             If True, the black color is used as first color.
         - withwhite: bool default False
             If True, the white color is used as first color.
+
+        Returns
+        -------
+        - list[str]
 
         ----
 
@@ -199,10 +195,6 @@ class FigureManager(ImageMixin):
         The option 'pgf' requires XeLaTeX and should be used only to get
         vectorial figures with minimal file size.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - LaTeX (not optional): bool | str
@@ -211,6 +203,10 @@ class FigureManager(ImageMixin):
             figures with minimal file size. If XeLaTeX is not installed and the
             'pgf' option is selected, the LaTeX option True is used as backup
             strategy.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -279,14 +275,14 @@ class FigureManager(ImageMixin):
 
         If it exists, the code will check if it is closed or not.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - close: bool, default True
             If True, the existing figure with the same window number is closed.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -332,10 +328,6 @@ class FigureManager(ImageMixin):
 
         It is called by default when the Image class is instantiated.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - close: bool, default True
@@ -343,18 +335,27 @@ class FigureManager(ImageMixin):
         - fig (not optional): Figure | None, default None
             The figure instance. If not None, the figure is used (only if we
             need to associate an Image to an existing figure).
-        - figsize: list[float], default [8,5]
-            The figure size.
-        - fontsize: int, default 17
-            The font size.
+        - figsize: list[float], default varies
+            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+            computed from the number of rows and columns (or [8,5] for a single
+            plot).
+        - fontsize: float, default 17.0
+            Sets the fontsize for all the axis components.
         - nwin: int, default 1
             The window number.
-        - suptitle: str | None, default None
-            The super title of the figure.
+        - suptitle: str, default None
+            Creates a figure title over all the subplots.
         - suptitlesize: int | str, default 'large'
             The figure title size.
         - tight: bool, default True
-            If True, the tight layout is used.
+            Enables/disables tight layout options for the figure. In case of a
+            highly customized plot (e.g. ratios or space between rows and
+            columns) the option is set by default to False since that option
+            would not be available for standard matplotlib functions.
+
+        Returns
+        -------
+        - None
 
         ----
 

@@ -8,11 +8,13 @@ import inifix
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FiledefpliniManager(LoadMixin):
     """Manage loading of definitions headers and the pluto.ini file."""
 
+    @track_kwargs
     def __init__(self, state: LoadState, **kwargs: Any) -> None:
         """Initialize the FiledefpliniManager."""
         self.state = state
@@ -45,16 +47,14 @@ class FiledefpliniManager(LoadMixin):
         '#define', and converts the values to their appropriate types (boolean,
         integer, float, or string).
 
-        Returns
-        -------
-        dict
-            A dictionary where keys are the defined names and values are the
-            converted values.
-
         Parameters
         ----------
-        filepath : str
+        - filepath: str
             The path to the header file to read.
+
+        Returns
+        -------
+        - dict
 
         """
         # Read the file, check if a line starts with '#define',
@@ -77,16 +77,14 @@ class FiledefpliniManager(LoadMixin):
         This function attempts to convert a string value into a boolean,
         integer, float, or leave it as a string if it cannot be converted.
 
-        Returns
-        -------
-        bool | int | float | str
-            The converted value, which can be a boolean, integer, float, or the
-            original string if conversion is not possible.
-
         Parameters
         ----------
-        value : str
+        - value: str
             The string value to convert.
+
+        Returns
+        -------
+        - bool | int | float | str
 
         """
         # Convert the value to uppercase to handle case-insensitive comparisons

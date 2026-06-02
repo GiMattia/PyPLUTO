@@ -27,7 +27,7 @@ formats  available are dbl, vtk, flt, dbl.h5, flt.h5 hdf5 and tab.
    read_file
    write_file
 
-The vtk and h5 filed can be loaded as standalone (i.e. without the .out files).
+The vtk and h5 files can be loaded as standalone (i.e. without the .out files).
 However, we highly discourage the users to do so, especially if the simulation
 is run in non-cartesian coordinates.
 
@@ -115,6 +115,33 @@ all variables into a single output file.
      - optional
      - single file only
      - no
+
+Physical units
+--------------
+
+Both :ref:`Load <load>` and :ref:`LoadPart <loadpart>` support attaching
+physical (CGS) units to loaded variables through the
+`astropy <https://www.astropy.org/>`_ library.
+Unit scales are resolved automatically via a priority chain:
+user-defined overrides → PLUTO log file → ``definitions.h`` values →
+physics-module defaults → classical MHD fallback.
+The three base scales (density, length, velocity) are used to derive all
+remaining ones (pressure, time, magnetic field).
+
+Variables are left in code units by default. Units can be attached at load
+time via the ``units`` keyword, or later with the
+:ref:`to_astropy_units <to_astropy_units>` method.
+They can be stripped back with :ref:`to_code_units <to_code_units>`.
+
+.. toctree::
+   :hidden:
+
+   to_astropy_units
+   to_code_units
+
+|
+
+----
 
 What about other codes?
 -----------------------

@@ -26,17 +26,17 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
     <script src="_static/documentation_options.js?v=58fbf978"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
@@ -144,7 +144,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="tools.html">
+  <a class="nav-link nav-internal" href="toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -215,11 +215,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
     </div>
     
@@ -280,7 +287,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="tools.html">
+  <a class="nav-link nav-internal" href="toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -332,11 +339,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
       </div>
     
@@ -377,16 +391,12 @@
  <a href="#A"><strong>A</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
- | <a href="#F"><strong>F</strong></a>
- | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
- | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
- | <a href="#W"><strong>W</strong></a>
  | <a href="#Z"><strong>Z</strong></a>
  
 </div>
@@ -401,8 +411,6 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cartesian_vector.html#pyPLUTO.Load.cartesian_vector">cartesian_vector() (in module pyPLUTO.Load)</a>
-</li>
       <li><a href="colorbar.html#pyPLUTO.imagefuncs.colorbar.ColorbarManager.colorbar">colorbar() (pyPLUTO.imagefuncs.colorbar.ColorbarManager method)</a>
 </li>
   </ul></td>
@@ -411,8 +419,6 @@
 </li>
       <li><a href="create_axes.html#pyPLUTO.imagefuncs.create_axes.CreateAxesManager.create_axes">create_axes() (pyPLUTO.imagefuncs.create_axes.CreateAxesManager method)</a>
 </li>
-      <li><a href="curl.html#pyPLUTO.Load.curl">curl() (in module pyPLUTO.Load)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -420,32 +426,6 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="display.html#pyPLUTO.imagefuncs.display.DisplayManager.display">display() (pyPLUTO.imagefuncs.display.DisplayManager method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="divergence.html#pyPLUTO.Load.divergence">divergence() (in module pyPLUTO.Load)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="F">F</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="find_contour.html#pyPLUTO.Load.find_contour">find_contour() (in module pyPLUTO.Load)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="find_fieldlines.html#pyPLUTO.Load.find_fieldlines">find_fieldlines() (in module pyPLUTO.Load)</a>
-</li>
-      <li><a href="fourier.html#pyPLUTO.Load.fourier">fourier() (in module pyPLUTO.Load)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="G">G</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="gradient.html#pyPLUTO.Load.gradient">gradient() (in module pyPLUTO.Load)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -492,20 +472,6 @@
   </ul></td>
 </tr></table>
 
-<h2 id="R">R</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="read_file.html#pyPLUTO.Load.read_file">read_file() (in module pyPLUTO.Load)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reshape_cartesian.html#pyPLUTO.Load.reshape_cartesian">reshape_cartesian() (in module pyPLUTO.Load)</a>
-</li>
-      <li><a href="reshape_uniform.html#pyPLUTO.Load.reshape_uniform">reshape_uniform() (in module pyPLUTO.Load)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -513,17 +479,11 @@
 </li>
       <li><a href="scatter.html#pyPLUTO.imagefuncs.scatter.ScatterManager.scatter">scatter() (pyPLUTO.imagefuncs.scatter.ScatterManager method)</a>
 </li>
-      <li><a href="select.html#pyPLUTO.LoadPart.select">select() (in module pyPLUTO.LoadPart)</a>
-</li>
-      <li><a href="set_axis.html#pyPLUTO.imagefuncs.set_axis.AxisManager.set_axis">set_axis() (pyPLUTO.imagefuncs.set_axis.AxisManager method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="show.html#pyPLUTO.imagefuncs.imagetools.ImageToolsManager.show">show() (in module pyPLUTO.imagefuncs.imagetools.ImageToolsManager)</a>
+      <li><a href="set_axis.html#pyPLUTO.imagefuncs.set_axis.AxisManager.set_axis">set_axis() (pyPLUTO.imagefuncs.set_axis.AxisManager method)</a>
 </li>
-      <li><a href="slices.html#pyPLUTO.Load.slices">slices() (in module pyPLUTO.Load)</a>
-</li>
-      <li><a href="spectrum.html#pyPLUTO.LoadPart.spectrum">spectrum() (in module pyPLUTO.LoadPart)</a>
+      <li><a href="show.html#pyPLUTO.pytools.show">show() (in module pyPLUTO.pytools)</a>
 </li>
       <li><a href="streamplot.html#pyPLUTO.imagefuncs.streamplot.StreamplotManager.streamplot">streamplot() (pyPLUTO.imagefuncs.streamplot.StreamplotManager method)</a>
 </li>
@@ -534,14 +494,6 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="text.html#pyPLUTO.imagefuncs.imagetools.ImageToolsManager.text">text() (pyPLUTO.imagefuncs.imagetools.ImageToolsManager method)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="W">W</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="write_file.html#pyPLUTO.Load.write_file">write_file() (in module pyPLUTO.Load)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -583,8 +535,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -618,7 +570,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
 </p></div>
       
     </div>

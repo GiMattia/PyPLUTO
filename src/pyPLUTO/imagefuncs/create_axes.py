@@ -3,7 +3,7 @@
 import copy
 import warnings
 from itertools import islice
-from typing import Any
+from typing import Any, Unpack
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,6 +11,7 @@ from matplotlib.axes import Axes
 
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.annotator import AllKwargs
 from pyPLUTO.utils.inspector import track_kwargs
 
 defaults: dict[str, Any] = {
@@ -39,7 +40,9 @@ class CreateAxesManager(ImageMixin):
 
     @track_kwargs(extra_keys=set(defaults.keys()))
     def create_axes(
-        self, ncol: int = 1, nrow: int = 1, check: bool = True, **kwargs: Any
+        self,
+        check: bool = True,
+        **kwargs: Unpack[AllKwargs],
     ) -> Axes | list[Axes]:
         """Creation of a set of axes using add_subplot from matplotlib.
 
@@ -53,40 +56,42 @@ class CreateAxesManager(ImageMixin):
         If more axes are created in the figure, the list of all axes is
         returned, otherwise the single axis is returned.
 
-        Returns
-        -------
-        - The list of axes (if more axes are in the figure) or the axis
-        (if only one axis is present)
-
         Parameters
         ----------
-        - bottom: float, default 0.1
-            The space from the bottom border to the last row of plots.
-        - figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]
-            Sets the figure size. The default value is computed from the number
-            of rows and columns.
+        - bottom: float, default varies
+            The bottom limit of the axis / axes set. For the figure layout it
+            is the space from the bottom border to the plot (default 0.1); for
+            an inset zoom it is the bottom position of the inset (default 0.6 +
+            height).
+        - figsize: list[float], default varies
+            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+            computed from the number of rows and columns (or [8,5] for a single
+            plot).
         - fontsize: float, default 17.0
-            Sets the fontsize for all the axes.
+            Sets the fontsize for all the axis components.
         - hratio: [float], default [1.0]
             Ratio between the rows of the plot. The default is that every plot
             row has the same height.
         - hspace: [float], default []
-            The space between plot rows (in figure units). If not enough or
-            too many spaces are considered, the program will remove the excess
-            and fill the lacks with [0.1].
-        - left: float, default 0.125
-            The space from the left border to the leftmost column of plots.
+            The space between plot rows (in figure units). If not enough or too
+            many spaces are considered, the program will remove the excess and
+            fill the lacks with [0.1].
+        - left: float, default varies
+            The left limit of the axis / axes set. For the figure layout it is
+            the space from the left border to the plot (default 0.125); for an
+            inset zoom it is the left position of the inset (default 0.6).
         - ncol: int, default 1
             The number of columns of subplots.
         - nrow: int, default 1
             The number of rows of subplots.
         - proj: str, default None
             Custom projection for the plot (e.g. 3D). Recommended only if
-            needed.
-            WARNING: pyPLUTO does not support 3D plotting for now, only 3D axes.
-            The 3D plot feature will be available in future releases.
+            needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+            3D axes. The 3D plot feature will be available in future releases.
         - right: float, default 0.9
-            The space from the right border to the rightmost column of plots.
+            The right limit of the axis / axes set. For the figure layout it is
+            the space from the right border to the plot; for an inset zoom it
+            is the right position of the inset.
         - sharex: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the x-axis between the subplots.
         - sharey: bool | str | Matplotlib axis, default False
@@ -98,8 +103,11 @@ class CreateAxesManager(ImageMixin):
             highly customized plot (e.g. ratios or space between rows and
             columns) the option is set by default to False since that option
             would not be available for standard matplotlib functions.
-        - top: float, default 0.9
-            The space from the top border to the first row of plots.
+        - top: float, default varies
+            The top limit of the axis / axes set. For the figure layout it is
+            the space from the top border to the plot (default 0.9); for an
+            inset zoom it is the top position of the inset (default bottom +
+            height).
         - wratio: [float], default [1.0]
             Ratio between the columns of the plot. The default is that every
             plot column has the same width.
@@ -107,6 +115,10 @@ class CreateAxesManager(ImageMixin):
             The space between plot columns (in figure units). If not enough or
             too many spaces are considered, the program will remove the excess
             and fill the lacks with [0.1].
+
+        Returns
+        -------
+        - Axes | list[Axes]
 
         ----
 
@@ -141,11 +153,14 @@ class CreateAxesManager(ImageMixin):
             >>> ax = I.create_axes(left=0.75)
 
         """
-        kwargs.pop("check", check)
+        kwargs.pop("kwargscheck", check)
 
         # Change fontsize if requested
         if "fontsize" in kwargs:
             plt.rcParams.update({"font.size": kwargs["fontsize"]})
+
+        nrow = kwargs.get("nrow", 1)
+        ncol = kwargs.get("ncol", 1)
 
         custom_plot = bool(defaults.keys() & kwargs.keys())
 
@@ -165,7 +180,7 @@ class CreateAxesManager(ImageMixin):
             )
 
         if figsize := kwargs.get("figsize"):
-            self.state.fig.set_size_inches(*figsize)
+            self.state.fig.set_size_inches(figsize[0], figsize[1])
             self.state.figsize = figsize
         elif not (custom_plot or self.state.set_size):
             self.state.fig.set_size_inches(6 * np.sqrt(ncol), 5 * np.sqrt(nrow))
@@ -229,8 +244,8 @@ class CreateAxesManager(ImageMixin):
         self.state.ncol0 = self.state.ncol0 + ncol
 
         # Set figure title if requested
-        if "suptitle" in kwargs:
-            self.state.fig.suptitle(kwargs["suptitle"])
+        if (suptitle := kwargs.get("suptitle")) is not None:
+            self.state.fig.suptitle(suptitle)
 
         # Tight layout (depending on the subplot creation)
         self.state.tight = kwargs.get("tight", self.state.tight)
@@ -250,13 +265,6 @@ class CreateAxesManager(ImageMixin):
     ) -> tuple[list[list[float]], list[list[float]]]:
         """Set the axes position and spacing according to the parameters.
 
-        Returns
-        -------
-        - wplot: list[list[float]]
-            List of the left and right position of the axes.
-        - hplot: list[list[float]]
-            List of the top and bottom position of the axes.
-
         Parameters
         ----------
         - custom: dict[str, Any]
@@ -265,6 +273,10 @@ class CreateAxesManager(ImageMixin):
             Number of rows in the axes.
         - ncol: int
             Number of columns in the axes.
+
+        Returns
+        -------
+        - tuple[list[list[float]], list[list[float]]]
 
         """
         hspace, hratio = self._check_rowcol(
@@ -309,13 +321,6 @@ class CreateAxesManager(ImageMixin):
     ) -> tuple[list[float | int], list[float | int]]:
         """Check the width and spacing of the plots on a single row or column.
 
-        Returns
-        -------
-        - space: list[float]
-            the space between the rows or columns
-        - ratio: list[float]
-            the ratio of the rows or columns
-
         Parameters
         ----------
         - ratio: list[float]
@@ -326,6 +331,10 @@ class CreateAxesManager(ImageMixin):
             the number of rows or columns in the single row or column
         - func: str
             the function to check (rows or cols)
+
+        Returns
+        -------
+        - tuple[list[float], list[float]]
 
         ----
 
@@ -371,16 +380,16 @@ class CreateAxesManager(ImageMixin):
 
         The corresponding axis is appended to the list of axes.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - ax (not optional): ax
             The axis to be added.
         - i (not optional): int
             The index of the axis in the list.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -418,17 +427,16 @@ class CreateAxesManager(ImageMixin):
     ) -> Axes | str | None:
         """Check the sharing of the x or y axis.
 
-        Returns
-        -------
-        - share_ref: Axes | str | None
-            The reference axis for sharing.
-
         Parameters
         ----------
         - i: int
             The index of the current axis.
         - share: bool | str | Axes | int | None
             The sharing option.
+
+        Returns
+        -------
+        - Axes | str | None
 
         ----
 

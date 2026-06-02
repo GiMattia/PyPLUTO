@@ -6,25 +6,37 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.interpolate import RectBivariateSpline
 
-from pyPLUTO.h_pypluto import check_par
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.toolfuncs.findlines import FindLinesManager
 from pyPLUTO.toolfuncs.loadtools import LoadToolsManager
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class TransformManager(LoadMixin):
     """Manager for transform and slicing helpers."""
 
     def __init__(self, state: LoadState) -> None:
+        """Initialize the transform manager and its helper sub-managers.
+
+        Parameters
+        ----------
+        - state: LoadState
+            The load state object providing grid arrays and dataset variables.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
         self.LoadToolsManager = LoadToolsManager(state)
         self.FindLinesManager = FindLinesManager(state)
 
+    @track_kwargs(extra_keys={"axis1", "axis2", "offset"})
     def slices(
         self,
         var: NDArray,
-        check: bool = True,
         diag: bool | None = None,
         x1: int | list | None = None,
         x2: int | list | None = None,
@@ -32,10 +44,6 @@ class TransformManager(LoadMixin):
         **kwargs: Any,
     ) -> np.ndarray:
         """Slice a variable along axes and optionally along a diagonal."""
-        param = {"axis1", "axis2", "offset"}
-        if check is True:
-            check_par(param, "slice", **kwargs)
-
         newvar = np.copy(var)
 
         if diag is not None:
@@ -102,6 +110,7 @@ class TransformManager(LoadMixin):
         """Repeat a variable in one or more directions."""
         raise NotImplementedError("Function repeat not implemented yet")
 
+    @track_kwargs
     def cartesian_vector(
         self, var: str | None = None, **kwargs: Any
     ) -> tuple[NDArray, ...]:
@@ -160,6 +169,7 @@ class TransformManager(LoadMixin):
             return varx, vary
         raise ValueError(f"Geometry {self.geom} not supported")
 
+    @track_kwargs
     def reshape_cartesian(
         self, *args: Any, **kwargs: Any
     ) -> tuple[NDArray, ...]:
@@ -216,6 +226,7 @@ class TransformManager(LoadMixin):
         else:
             return xcong[:, 0], ycong[0], *newv
 
+    @track_kwargs
     def reshape_uniform(self, x1, x2, *args, **kwargs):
         """Reshape a non-uniform 2D grid into a uniform one."""
         uniform_x = all(np.diff(x1) == np.diff(x1)[0])

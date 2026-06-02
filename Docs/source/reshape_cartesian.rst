@@ -3,7 +3,8 @@
 Load.reshape_cartesian
 ======================
 
-.. autofunction:: pyPLUTO.Load.reshape_cartesian
+.. automethod:: pyPLUTO.toolfuncs.transform.TransformManager.reshape_cartesian
+   :noindex:
 
 |
 

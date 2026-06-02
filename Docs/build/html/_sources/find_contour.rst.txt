@@ -3,7 +3,8 @@
 Load.find_contour
 =================
 
-.. autofunction:: pyPLUTO.Load.find_contour
+.. automethod:: pyPLUTO.toolfuncs.findlines.FindLinesManager.find_contour
+   :noindex:
 
 |
 

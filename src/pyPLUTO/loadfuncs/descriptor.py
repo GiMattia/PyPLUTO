@@ -8,11 +8,13 @@ import numpy as np
 from pyPLUTO.loadfuncs.baseloadtools import BaseLoadTools
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class DescriptorManager(LoadMixin):
     """Class that manages the descriptor files for loading data."""
 
+    @track_kwargs
     def __init__(
         self,
         state: LoadState,
@@ -24,6 +26,7 @@ class DescriptorManager(LoadMixin):
         self.LoadToolManager = BaseLoadTools(self.state)
         self.load_descriptor(nout, **kwargs)
 
+    @track_kwargs
     def load_descriptor(
         self, nout: int | str | list[int | str], **kwargs: Any
     ) -> None:
@@ -34,10 +37,6 @@ class DescriptorManager(LoadMixin):
         format. All these information are relevant in order to open the output
         files and access the data.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - endian (not optional): str
@@ -46,6 +45,10 @@ class DescriptorManager(LoadMixin):
             The output file to be opened. If default ('last'), the code assumes
             the last file should be opened. Other options available are 'last'
             (all the files should be opened) and -1 (same as 'last').
+
+        Returns
+        -------
+        - None
 
         ----
 

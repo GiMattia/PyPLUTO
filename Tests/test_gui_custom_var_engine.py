@@ -9,18 +9,23 @@ from pyPLUTO.gui.custom_var_engine import (
 
 class _DummyState:
     def __init__(self):
+        self.d_vars = ["rho"]
         self.x1 = np.linspace(0.0, 1.0, 4)
         self.x2 = np.linspace(0.0, 1.0, 3)
         self.x3 = np.array([0.0])
+        self.geom = "CARTESIAN"
+        self.dim = 2
+        self.nshp = (4, 3)
 
 
 class _DummyLoad:
     def __init__(self):
-        self._load_vars = ["rho"]
-        self.geom = "CARTESIAN"
-        self.dim = 2
-        self.nshp = (4, 3)
         self.state = _DummyState()
+        self.d_vars = self.state.d_vars
+        self.geom = self.state.geom
+        self.dim = self.state.dim
+        self.nshp = self.state.nshp
+
         self.rho = np.ones((4, 3))
         self.x1 = self.state.x1
         self.x2 = self.state.x2

@@ -43,5 +43,9 @@ class BaseLoadState:
     pathdir: str | Path = "./"
     text: bool | None = None
     timelist: NDArray[Any] = field(init=False)
+    unit_attached: set[str] = field(default_factory=set)
+    unit_base: dict[str, float | str] = field(default_factory=dict)
+    unit_userdef: dict[str, float] = field(default_factory=dict)
+    units: dict[str, Any] = field(default_factory=dict)
     varoffset: dict[str, Any] = field(default_factory=dict)
     varshape: dict[str, Any] = field(default_factory=dict)

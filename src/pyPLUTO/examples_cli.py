@@ -14,6 +14,7 @@ from pyPLUTO.examples_api import (
 
 
 def _build_parser() -> argparse.ArgumentParser:
+    """Build and return the argument parser for the ``pypluto-examples`` CLI."""
     parser = argparse.ArgumentParser(
         prog="pypluto-examples",
         description="Inspect, copy, or run packaged PyPLUTO examples.",

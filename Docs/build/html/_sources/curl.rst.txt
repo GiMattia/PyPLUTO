@@ -3,7 +3,8 @@
 Load.curl
 =========
 
-.. autofunction:: pyPLUTO.Load.curl
+.. automethod:: pyPLUTO.toolfuncs.nabla.NablaManager.curl
+   :noindex:
 
 |
 

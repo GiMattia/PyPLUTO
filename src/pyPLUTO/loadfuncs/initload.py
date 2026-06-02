@@ -2,7 +2,7 @@
 
 import warnings
 from pathlib import Path
-from typing import Any, cast
+from typing import Any, Unpack, cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -16,18 +16,19 @@ from pyPLUTO.loadfuncs.findformat import FindFormat
 from pyPLUTO.loadfuncs.loadvars import LoadVariables
 from pyPLUTO.loadfuncs.storepart import StorePart
 from pyPLUTO.loadstate import LoadState
+from pyPLUTO.utils.annotator import AllKwargs
 from pyPLUTO.utils.inspector import track_kwargs
 
 
-@track_kwargs
 class InitLoadManager(BaseLoadMixin[BaseLoadState]):
     """Class that handles the initialization loading process."""
 
+    @track_kwargs
     def __init__(
         self,
         state: BaseLoadState,
         nout: int | str | list[int | str] | None,
-        **kwargs: Any,  # Unpack[MyKwargs]
+        **kwargs: Unpack[AllKwargs],
     ) -> None:
         """Initialize the InitLoadManager class."""
         self.state = state
@@ -104,12 +105,14 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
 
         Parameters
         ----------
-        endian: str | None
+        - endian: str | None
             The endian format. If None, it is set to 'little' by default.
 
         Returns
         -------
-        None
+        - None
+
+        ----
 
         Examples
         --------
@@ -154,14 +157,14 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
         Then, a check is performed to see if the path is a directory. The path
         is stored in the class as a Path object self.pathdir.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - path (not optional): str | Path
             The path to the simulation directory.
+
+        Returns
+        -------
+        - None
 
         ----
 

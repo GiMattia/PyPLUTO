@@ -1,3 +1,5 @@
+"""Main window and UI wiring for the PyPLUTO GUI application."""
+
 from __future__ import annotations
 
 from typing import Any
@@ -5,6 +7,7 @@ from typing import Any
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
+    QFileDialog,
     QHBoxLayout,
     QLineEdit,
     QMainWindow,
@@ -22,6 +25,8 @@ from .state_accessors import StateAccessorsMixin
 
 
 class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
+    """Main application window for loading data and controlling plots."""
+
     datatype_selector: QComboBox
     format_selector: QComboBox
     outtext: QLineEdit
@@ -55,8 +60,16 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
     firstplot: bool
     vardim: int
     Image: Any
+    _file_dialog: QFileDialog | None
 
-    def __init__(self, code: str):
+    def __init__(self, code: str) -> None:
+        """Initialize the main application window.
+
+        Parameters
+        ----------
+        - code: str
+            The code identifier for the application.
+        """
         super().__init__()
         self.state = AppState()
         self.code: str
@@ -202,4 +215,5 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         main_layout.addLayout(self.canvas_layout)
 
     def select_folder(self) -> None:
+        """Open a file dialog to select a folder containing data files."""
         self.load_controller.select_folder()

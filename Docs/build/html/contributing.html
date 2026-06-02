@@ -27,17 +27,17 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
     <script src="_static/documentation_options.js?v=58fbf978"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
@@ -146,7 +146,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="tools.html">
+  <a class="nav-link nav-internal" href="toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -217,11 +217,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
     </div>
     
@@ -284,7 +291,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="tools.html">
+  <a class="nav-link nav-internal" href="toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -336,11 +343,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
       </div>
     
@@ -415,127 +429,205 @@
                 <article class="bd-article">
                   
   <section id="contribute">
-<h1>Contribute<a class="headerlink" href="#contribute" title="Link to this heading">#</a></h1>
-<p>Thank you for considering contributing to <strong>PyPLUTO</strong>!</p>
-<p>We welcome contributions of all kinds, including bug reports, feature requests,
-documentation improvements, and code contributions.</p>
-<section id="getting-started">
-<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h2>
-<p>To contribute:</p>
-<ol class="arabic simple">
-<li><p>Fork the repository: <a class="github reference external" href="https://github.com/GiMattia/PyPLUTO">GiMattia/PyPLUTO</a></p></li>
-<li><p>Create a feature branch:</p></li>
-</ol>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/your-feature-name
+<span id="contributing"></span><h1>Contribute<a class="headerlink" href="#contribute" title="Link to this heading">#</a></h1>
+<p>Thank you for considering a contribution to <strong>PyPLUTO</strong>!</p>
+<p>We welcome:</p>
+<ul class="simple">
+<li><p>bug reports</p></li>
+<li><p>feature requests</p></li>
+<li><p>documentation improvements</p></li>
+<li><p>tests</p></li>
+<li><p>code contributions</p></li>
+</ul>
+<p>If you find a bug or have an idea, open an issue first (or go straight to a pull
+request if you already have a fix).</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="docutils" />
+<section id="code-of-conduct">
+<h2>Code of Conduct<a class="headerlink" href="#code-of-conduct" title="Link to this heading">#</a></h2>
+<p>Please follow our community guidelines in the <code class="docutils literal notranslate"><span class="pre">CODE_OF_CONDUCT.md</span></code> file at
+the root of the repository.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="use-of-ai">
+<h2>Use of AI<a class="headerlink" href="#use-of-ai" title="Link to this heading">#</a></h2>
+<p>The use of AI (for example, LLMs) is allowed if used responsibly.</p>
+<p>Every contributor remains responsible for what they submit: all generated code
+and text must be reviewed by a human before being published.</p>
+<p>This also applies to communication (issues, pull requests, and emails).
+AI-assisted translation is acceptable, but please make sure the final text
+matches your intent.</p>
+<p>To keep PyPLUTO maintainable, autonomous agents must not contribute without
+human supervision.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Python <code class="docutils literal notranslate"><span class="pre">&gt;=3.11</span></code> (the CI matrix currently tests <code class="docutils literal notranslate"><span class="pre">3.12</span></code>, <code class="docutils literal notranslate"><span class="pre">3.13</span></code>, and <code class="docutils literal notranslate"><span class="pre">3.14</span></code>)</p></li>
+<li><p>Git</p></li>
+<li><p>A virtual environment tool (<code class="docutils literal notranslate"><span class="pre">uv</span></code>, <code class="docutils literal notranslate"><span class="pre">pixi</span></code>, <code class="docutils literal notranslate"><span class="pre">venv</span></code>, <code class="docutils literal notranslate"><span class="pre">conda</span></code>, etc.)</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="local-setup">
+<h2>Local Setup<a class="headerlink" href="#local-setup" title="Link to this heading">#</a></h2>
+<p>Fork and clone the repository:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/GiMattia/PyPLUTO.git
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>PyPLUTO
 </pre></div>
 </div>
-<ol class="arabic simple" start="3">
-<li><p>Make your changes and write tests.</p></li>
-<li><p>Ensure your code adheres to the project’s coding standards.</p></li>
-<li><p>Commit with a descriptive message.</p></li>
-<li><p>Push and open a pull request.</p></li>
-</ol>
-</section>
-<section id="installation-guidelines">
-<h2>Installation guidelines<a class="headerlink" href="#installation-guidelines" title="Link to this heading">#</a></h2>
-<p>In order to install the project, you can use the following command:</p>
+<p><strong>Option A: uv (recommended)</strong></p>
+<p>Create a reproducible environment from the lockfile:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>uv<span class="w"> </span>sync<span class="w"> </span>--all-extras<span class="w"> </span>--all-groups
+</pre></div>
+</div>
+<p>Run commands inside the synced environment with <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">run</span></code>, for example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>uv<span class="w"> </span>run<span class="w"> </span>pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
+<span class="gp">$ </span>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-v<span class="w"> </span>./Tests
+</pre></div>
+</div>
+<p><strong>Option B: pixi</strong></p>
+<p>Install the <code class="docutils literal notranslate"><span class="pre">full</span></code> environment declared in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pixi<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>full
+</pre></div>
+</div>
+<p>Run tools in that environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pixi<span class="w"> </span>run<span class="w"> </span>-e<span class="w"> </span>all<span class="w"> </span>pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
+<span class="gp">$ </span>pixi<span class="w"> </span>run<span class="w"> </span>-e<span class="w"> </span>all<span class="w"> </span>pytest<span class="w"> </span>-v<span class="w"> </span>./Tests
+</pre></div>
+</div>
+<p><strong>Option C: pip fallback (not lockfile-based)</strong></p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements_dev.txt
 </pre></div>
 </div>
-<p>In order to ensure that the pre-commit hooks are installed, run:</p>
+<p><code class="docutils literal notranslate"><span class="pre">requirements_dev.txt</span></code> installs the project in editable mode with development
+extras.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="pre-commit-and-quality-checks">
+<h2>Pre-commit and Quality Checks<a class="headerlink" href="#pre-commit-and-quality-checks" title="Link to this heading">#</a></h2>
+<p>Install hooks:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pre-commit<span class="w"> </span>install
+<span class="gp">$ </span>pre-commit<span class="w"> </span>install<span class="w"> </span>--hook-type<span class="w"> </span>pre-push
 </pre></div>
 </div>
-<p>You should see this (or similar) output:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pre-commit installed at .git/hooks/pre-commit</span>
-</pre></div>
-</div>
-</section>
-<section id="testing">
-<h2>Testing<a class="headerlink" href="#testing" title="Link to this heading">#</a></h2>
-<p>The core functionality of PyPLUTO is tested through a set of pytest benchmarks
-present in the <cite>Tests</cite> folder. To run the tests, you can use:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pytest<span class="w"> </span>--cov<span class="o">=</span>pyPLUTO<span class="w"> </span>--cov-report<span class="o">=</span>term-missing
-</pre></div>
-</div>
-<p>This will run all tests and provide a coverage report in the terminal.
-Please ensure that all tests pass before submitting a pull request.</p>
-</section>
-<section id="pre-commit-hooks">
-<h2>Pre-commit Hooks<a class="headerlink" href="#pre-commit-hooks" title="Link to this heading">#</a></h2>
-<p>PyPLUTO uses pre-commit hooks to ensure code quality and consistency.
-These hooks will automatically format your code and check for common issues
-before committing.
-In order to use them, make sure you have <cite>pre-commit</cite> installed and run:</p>
+<p>Run all standard checks locally:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
 </pre></div>
 </div>
-<p>The following pre-commit hooks are active and run automatically before every
-commit:</p>
-<ol class="arabic simple">
-<li><p><strong>official pre-commit hooks</strong> checks for common issues like trailing
-whitespace, end-of-file newlines, case conflict and more.</p></li>
-<li><p><strong>docformatter</strong> automatically reformats Python docstrings in-place using
-Black-style formatting with enforced blank lines.</p></li>
-<li><p><strong>blacken-docs</strong> formats code blocks inside docstrings using Black with a
-line length of 80 characters.</p></li>
-<li><p><strong>ruff</strong> lints and fixes Python code, catching both stylistic and logical
-issues. Runs with –fix enabled to apply auto-fixes.</p></li>
-<li><p><strong>black</strong> automatically formats all Python files according to Black’s style
-guide for consistent code formatting.</p></li>
-</ol>
-<p>The code undergoes a strict series of checks during every pull request.
-In order to avoid rejections, is convenient to run the full set of checks
-through the command</p>
+<p>Run manual-stage checks before opening a PR:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files<span class="w"> </span>--hook-stage<span class="w"> </span>manual
 </pre></div>
 </div>
-<p>In addition to all the previous pre-commit checks, the code also runs the
-following tools:</p>
-<ol class="arabic simple" start="6">
-<li><p><strong>pytest</strong> runs automatically all the tests (see Testing section above)
-ensuring a minimum coverage of 45% (will be increased in the near future).</p></li>
-<li><p><strong>interrogate</strong> ensures a docstring coverage above 70%
-(will also be increased in the near future).</p></li>
-</ol>
-<p>We aim at also adding checking tools such as mypy and pylint, although they have
-not been included yet.</p>
-</section>
-<section id="code-style">
-<h2>Code style<a class="headerlink" href="#code-style" title="Link to this heading">#</a></h2>
-<p>During every pre-commit the code is automatically formatted to adhere with the
-<strong>black</strong> codestyle.
-In order to format automatically the code at every saving in VsCode, you can
-do the following:</p>
-<ol class="arabic simple">
-<li><p>Search the VS Code Marketplace fot the formatter extension “Black formatter”</p></li>
-<li><p>Go to File -&gt; Preferences -&gt; Settings</p></li>
-<li><p>Search “format”</p></li>
-<li><p>In the “Editor: Default formatter” panel select “Black formatter”</p></li>
-<li><p>Check the “Format on save” box</p></li>
-</ol>
-</section>
-<section id="code-structure">
-<h2>Code Structure<a class="headerlink" href="#code-structure" title="Link to this heading">#</a></h2>
-<p>The code is mainly structured in the following way:</p>
+<p>Current checks include:</p>
 <ul class="simple">
-<li><p><strong>gui</strong>: Contains the GUI code, including panels, widgets, and main window logic</p></li>
-<li><p><strong>imagefuncs</strong>: Contains image processing functions and utilities</p></li>
-<li><p><strong>loadfuncs</strong>: Contains functions for loading and processing data files</p></li>
-<li><p><strong>toolsfuncs</strong>: Contains various utility functions and classes for data manipulation</p></li>
-<li><p><strong>utils</strong>: Contains utility functions and classes used across the project</p></li>
+<li><p>standard <code class="docutils literal notranslate"><span class="pre">pre-commit-hooks</span></code> sanity checks</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ruff</span></code> lint/format</p></li>
+<li><p>lock consistency checks (<code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">lock</span> <span class="pre">--check</span></code>, <code class="docutils literal notranslate"><span class="pre">pixi</span> <span class="pre">lock</span> <span class="pre">--check</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ty</span></code> type checking (<code class="docutils literal notranslate"><span class="pre">pre-push</span></code> and <code class="docutils literal notranslate"><span class="pre">manual</span></code> stages)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytest</span></code> with coverage threshold (<code class="docutils literal notranslate"><span class="pre">manual</span></code>, fail-under 45 %)</p></li>
 </ul>
-<p>Note that the Image relies on a series of Manager classes (located in the
-imagefuncs folder) that handle the image processing and plotting functionalities.
-In order to share the relevant methods and attributes across the Managers and
-the Image class, two classes (ImageState and ImageMixin) are used.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 </section>
-<section id="questions-or-suggestions">
-<h2>Questions or Suggestions?<a class="headerlink" href="#questions-or-suggestions" title="Link to this heading">#</a></h2>
-<p>For any question, suggestion or comment please send an e-mail to G. Mattia
-(mail: <a class="reference external" href="mailto:mattia&#37;&#52;&#48;mpia&#46;de">mattia<span>&#64;</span>mpia<span>&#46;</span>de</a>).</p>
-<p>Feel also free to open an issue or discuss in the GitHub repo.</p>
-<p>Happy coding!</p>
+<hr class="docutils" />
+<section id="running-tests">
+<h2>Running Tests<a class="headerlink" href="#running-tests" title="Link to this heading">#</a></h2>
+<p>Run the full suite:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pytest<span class="w"> </span>-v<span class="w"> </span>./Tests
+</pre></div>
+</div>
+<p>Run with coverage:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pytest<span class="w"> </span>--cov<span class="o">=</span>pyPLUTO<span class="w"> </span>--cov-report<span class="o">=</span>term-missing<span class="w"> </span>Tests/
+</pre></div>
+</div>
+<p>Please ensure that all tests pass before submitting a pull request.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>
+<p>Docs are in <code class="docutils literal notranslate"><span class="pre">Docs/source</span></code>. To build locally:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>-C<span class="w"> </span>Docs<span class="w"> </span>html
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="workflow-for-pull-requests">
+<h2>Workflow for Pull Requests<a class="headerlink" href="#workflow-for-pull-requests" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Create a branch from <code class="docutils literal notranslate"><span class="pre">master</span></code>.</p></li>
+<li><p>Keep changes focused and small when possible.</p></li>
+<li><p>Add or update tests for behavioral changes.</p></li>
+<li><p>Run pre-commit checks (see above).</p></li>
+<li><p>Push and open a pull request with:</p>
+<ul class="simple">
+<li><p>a clear summary of changes</p></li>
+<li><p>why the change is needed</p></li>
+<li><p>notes on tests performed</p></li>
+</ul>
+</li>
+</ol>
+<p>CI runs style checks and tests across multiple OSes and Python versions.
+A PR is expected to pass all checks.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="project-structure">
+<h2>Project Structure<a class="headerlink" href="#project-structure" title="Link to this heading">#</a></h2>
+<p>Top-level layout:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">src/pyPLUTO/</span></code>: main package code</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Tests/</span></code>: test suite and test data</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Examples/</span></code>: runnable examples and sample outputs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Docs/</span></code>: Sphinx documentation</p></li>
+</ul>
+<p>Package subfolders inside <code class="docutils literal notranslate"><span class="pre">src/pyPLUTO/</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gui/</span></code>: GUI panels, widgets, and main window logic</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">imagefuncs/</span></code>: image/plot manager classes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loadfuncs/</span></code>: data loading and parsing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">toolfuncs/</span></code>: analysis tools (derivatives, transforms, units, etc.)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">utils/</span></code>: shared utilities</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">Load</span></code>, <code class="docutils literal notranslate"><span class="pre">LoadPart</span></code>, and <code class="docutils literal notranslate"><span class="pre">Image</span></code> follow the same architecture: a state
+class (<code class="docutils literal notranslate"><span class="pre">LoadState</span></code> / <code class="docutils literal notranslate"><span class="pre">BaseLoadState</span></code> / <code class="docutils literal notranslate"><span class="pre">ImageState</span></code>) holds all data; a
+mixin class (<code class="docutils literal notranslate"><span class="pre">LoadMixin</span></code> / <code class="docutils literal notranslate"><span class="pre">BaseLoadMixin</span></code> / <code class="docutils literal notranslate"><span class="pre">ImageMixin</span></code>) exposes the
+public interface; manager classes in the subfolders implement individual
+operations and receive the state object at construction time.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="questions">
+<h2>Questions<a class="headerlink" href="#questions" title="Link to this heading">#</a></h2>
+<p>For questions or suggestions, open an issue in the
+<a class="reference external" href="https://github.com/GiMattia/PyPLUTO">GitHub repository</a> or contact the
+developers directly.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -581,13 +673,16 @@ the Image class, two classes (ImageState and ImageMixin) are used.</p>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started">Getting Started</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-guidelines">Installation guidelines</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-commit-hooks">Pre-commit Hooks</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-style">Code style</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-structure">Code Structure</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#questions-or-suggestions">Questions or Suggestions?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-of-conduct">Code of Conduct</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-of-ai">Use of AI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-setup">Local Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-commit-and-quality-checks">Pre-commit and Quality Checks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-tests">Running Tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-for-pull-requests">Workflow for Pull Requests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-structure">Project Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#questions">Questions</a></li>
 </ul>
   </nav></div>
 
@@ -604,8 +699,8 @@ the Image class, two classes (ImageState and ImageMixin) are used.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -639,7 +734,7 @@ the Image class, two classes (ImageState and ImageMixin) are used.</p>
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
 </p></div>
       
     </div>

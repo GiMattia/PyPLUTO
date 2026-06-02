@@ -13,20 +13,31 @@ class NablaManager(LoadMixin):
     """Manager for gradient, divergence and curl utilities."""
 
     def __init__(self, state: LoadState) -> None:
+        """Initialize the nabla manager with the given load state.
+
+        Parameters
+        ----------
+        - state: LoadState
+            The load state object providing grid arrays and geometry information.
+
+        Returns
+        -------
+        - None
+
+        """
         self.state = state
 
     def _is_number(self, value: Any) -> bool:
         """Check if value is a number.
 
-        Returns
-        -------
-        - bool
-            True if value is a number, False otherwise.
-
         Parameters
         ----------
         - value (not optional): Any
             The value to check.
+
+        Returns
+        -------
+        - bool
 
         ----
 
@@ -54,15 +65,6 @@ class NablaManager(LoadMixin):
         If the grid is too small, imin and imax are set to 0 and N,
         respectively.
 
-        Returns
-        -------
-        - i: int
-            The central index of the stencil, counting from the minimum.
-        - imin: int
-            The minimum index of the stencil.
-        - imax: int
-            The maximum index of the stencil.
-
         Parameters
         ----------
         - xvalue (not optional): float
@@ -70,11 +72,15 @@ class NablaManager(LoadMixin):
         - xgrid (not optional): numpy.ndarray
             The grid to check.
 
+        Returns
+        -------
+        - list[int]
+
         ----
 
         Examples
         --------
-        - Example # 1: Compute the indices for the stencil of 3 cells
+        - Example #1: Compute the indices for the stencil of 3 cells
 
             >>> _islice_imin_imax(0.5, np.linspace(0, 1, 11))
 
@@ -102,15 +108,6 @@ class NablaManager(LoadMixin):
     def _get_slice_indices(self, slice_val, grid, grid_size):
         """Get the slice indices from the slice value.
 
-        Returns
-        -------
-        - idx (not optional): int
-            The index of the slice.
-        - idx_min (not optional): int
-            The minimum index of the slice.
-        - idx_max (not optional): int
-            The maximum index of the slice.
-
         Parameters
         ----------
         - slice_val: float
@@ -120,11 +117,15 @@ class NablaManager(LoadMixin):
         - grid_size: int
             The size of the grid.
 
+        Returns
+        -------
+        - tuple
+
         ----
 
         Examples
         --------
-        - Example # 1: Get the slice indices
+        - Example #1: Get the slice indices
 
             >>> _get_slice_indices(0.5, np.linspace(0, 1, 11), 11)
 
@@ -143,6 +144,7 @@ class NablaManager(LoadMixin):
             return slice(0, grid_size), slice(0, grid_size)
 
     def _warning_cylindrical(self):
+        """Emit a DeprecationWarning for the unsupported CYLINDRICAL geometry."""
         warning_message = """"""
         # CYLINDRICAL geometry has been deprecated since PLUTO v4.4.
         # POLAR may be used instead by excluding the phi-direction
@@ -168,19 +170,8 @@ class NablaManager(LoadMixin):
         corresponding x1, x2, or x3 values. N corresponds to the number of
         employed dimensions unless a slice is taken.
 
-        Returns
-        -------
-        - np.ndarray
-            Gradient of the input field 'var'. The shape of the array depends on
-            the number of used spatial dimensions. E.g.:
-            3D: (3, self.nx1, self.nx2, self.nx3)
-            3D, INCLUDE_JDIR == NO: (2, self.nx1, self.nx3)
-            3D, x2slice = constant: (3, self.nx1, self.nx3)
-
         Parameters
         ----------
-        - edge_order: int | None, default 2
-            The order of accuracy of derivatives at the domain boundaries.
         - var (not optional): np.ndarray
             The field whose gradient is calculated (e.g., 'rho', 'vx1'). Must
             have the same shape as self.rho.
@@ -190,12 +181,18 @@ class NablaManager(LoadMixin):
             If not None, specifies the constant value for the x2 axis.
         - x3slice: float | None, default None
             If not None, specifies the constant value for the x3 axis.
+        - edge_order: int | None, default 2
+            The order of accuracy of derivatives at the domain boundaries.
+
+        Returns
+        -------
+        - np.ndarray
 
         ----
 
         Examples
         --------
-        - Example # 1: Compute the gradient of the density field
+        - Example #1: Compute the gradient of the density field
 
             >>> import pyPLUTO as pp
             >>> D = pp.Load(0)
@@ -305,18 +302,8 @@ class NablaManager(LoadMixin):
         'x2slice', or 'x3slice' are specified, the divergence is only
         computed at the corresponding x1, x2, or x3 values.
 
-        Returns
-        -------
-        - np.ndarray
-            Array corresponding to the divergence of the input vector field. In 3D,
-            e.g., its shape is (self.nx1, self.nx2, self.nx3), while if
-            INCLUDE_JDIR == NO (or if x2slice = constant), its shape is
-            (self.nx1, self.nx3).
-
         Parameters
         ----------
-        - edge_order: int, default 2
-            The order of accuracy of derivatives at the domain boundaries.
         - v1: np.ndarray | None
             Field corresponding to the x1 vector component. Must have the same
             shape as self.rho. Can only be None is a given direction is not
@@ -335,6 +322,12 @@ class NablaManager(LoadMixin):
             If not None, specifies the constant value for the x2 axis.
         - x3slice: float | None
             If not None, specifies the constant value for the x3 axis.
+        - edge_order: int, default 2
+            The order of accuracy of derivatives at the domain boundaries.
+
+        Returns
+        -------
+        - np.ndarray
 
         ----
 
@@ -501,8 +494,9 @@ class NablaManager(LoadMixin):
         x3slice: float | int | None = None,
         edge_order: int = 2,
     ) -> np.ndarray:
-        """Calculates the curl of a specified vector field (v1, v2, v3)
-        using second-order accurate central differences via the NumPy
+        """Calculate the curl of a specified vector field (v1, v2, v3).
+
+        Uses second-order accurate central differences via the NumPy
         gradient() function. Unlike in divergence(), all three vector
         components must be specified. The resulting array has its first
         index representing the 3 curl components, while the remaining
@@ -510,17 +504,8 @@ class NablaManager(LoadMixin):
         'x3slice' are specified, the curl is only computed at the
         corresponding x1, x2, or x3 values.
 
-        Returns
-        -------
-        - np.ndarray
-            Curl of the specified vector field (v1, v2, v3). In 3D, e.g., its shape
-            is (3, self.nx1, self.nx2, self.nx3), while if INCLUDE_JDIR == NO (or if
-            x2slice = constant), its shape is (3, self.nx1, self.nx3).
-
         Parameters
         ----------
-        - edge_order: int, default 2
-            The order of accuracy of derivatives at the domain boundaries.
         - v1: np.ndarray | None
             Field corresponding to the x1 vector component. Must have the same shape
             as self.rho.
@@ -536,6 +521,12 @@ class NablaManager(LoadMixin):
             If not None, specifies the constant value for the x2 axis.
         - x3slice: float | None
             If not None, specifies the constant value for the x3 axis.
+        - edge_order: int, default 2
+            The order of accuracy of derivatives at the domain boundaries.
+
+        Returns
+        -------
+        - np.ndarray
 
         ----
 

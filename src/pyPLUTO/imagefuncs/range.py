@@ -29,10 +29,6 @@ class RangeManager(ImageMixin):
     ) -> None:
         """Set the lower and upper limits of the x-axis of a set of axes.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - ax (not optional): ax
@@ -43,6 +39,10 @@ class RangeManager(ImageMixin):
             The number of the selected set of axes.
         - xlim (not optional): list[float]
             The limits of the x-axis.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -97,10 +97,6 @@ class RangeManager(ImageMixin):
         Unlike the x-axis, the y-axis limits are recovered depending on both the
         x-data and the y-data.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - ax (not optional): ax
@@ -116,6 +112,9 @@ class RangeManager(ImageMixin):
         - ylim (not optional): list[float]
             The limits of the y-axis.
 
+        Returns
+        -------
+        - None
 
         ----
 
@@ -186,13 +185,6 @@ class RangeManager(ImageMixin):
     ) -> tuple[float, float]:
         """Return the offsetted data range for the y-axis limits.
 
-        Returns
-        -------
-        - ymin: float
-            The lower limit of the y-axis.
-        - ymax: float
-            The upper limit of the y-axis.
-
         Parameters
         ----------
         - ymin (not optional): float
@@ -203,6 +195,10 @@ class RangeManager(ImageMixin):
             The scale of the y-axis.
         - margin (optional): float
             The margin of the data range.
+
+        Returns
+        -------
+        - tuple[float, float]
 
         ----
 

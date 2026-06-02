@@ -1,7 +1,7 @@
 """Lazy mmap-backed attribute materialisation shared across Load classes."""
 
 import contextlib
-import mmap as mmap
+import mmap
 from typing import cast
 
 import numpy as np
@@ -19,6 +19,9 @@ class AttrResolver:
     @staticmethod
     def resolve(state: object, name: str, val: object) -> object:
         """Dispatch val to the appropriate materialisation strategy."""
+        # Keep unit-aware arrays untouched (e.g., astropy Quantity).
+        if hasattr(val, "unit"):
+            return val
         if isinstance(val, list) and val and isinstance(val[0], np.ndarray):
             return AttrResolver._chunk_list(
                 state, name, cast("list[np.ndarray]", val)
@@ -40,18 +43,71 @@ class AttrResolver:
     def _chunk_list(
         state: object, name: str, val: list[np.ndarray]
     ) -> np.ndarray:
+        """Concatenate a list of array chunks, cache the result, and return it.
+
+        Parameters
+        ----------
+        - state: object
+            The owner object on which the materialised array will be cached.
+        - name: str
+            Attribute name used to store the result back onto *state*.
+        - val: list[np.ndarray]
+            Ordered list of contiguous array chunks to concatenate.
+
+        Returns
+        -------
+        - np.ndarray
+        """
         result = AttrResolver._copy_chunks(val)
         setattr(state, name, result)
         return result
 
     @staticmethod
     def _chunk_dict(state: object, name: str, val: dict) -> dict:
+        """Concatenate chunk-lists for every value in a dict, cache, and return.
+
+        Each dictionary value is expected to be a list of array chunks (the
+        same structure accepted by ``_chunk_list``).  The resulting dict maps
+        the same keys to fully materialised arrays.
+
+        Parameters
+        ----------
+        - state: object
+            The owner object on which the materialised dict will be cached.
+        - name: str
+            Attribute name used to store the result back onto *state*.
+        - val: dict
+            Mapping whose values are ordered lists of array chunks.
+
+        Returns
+        -------
+        - dict
+        """
         result = {k: AttrResolver._copy_chunks(v) for k, v in val.items()}
         setattr(state, name, result)
         return result
 
     @staticmethod
     def _mmap_array(state: object, name: str, val: np.ndarray) -> np.ndarray:
+        """Copy an mmap-backed array into owned memory, release the mapping, and cache.
+
+        The copy is performed via ``np.array(val)`` which forces a full
+        read into a new allocation.  After copying, ``MADV_DONTNEED`` is
+        issued on the backing mmap so the OS can reclaim the page-cache pages.
+
+        Parameters
+        ----------
+        - state: object
+            The owner object on which the owned array will be cached.
+        - name: str
+            Attribute name used to store the result back onto *state*.
+        - val: np.ndarray
+            An array whose ``.base`` chain ultimately leads to an mmap object.
+
+        Returns
+        -------
+        - np.ndarray
+        """
         result = np.array(val)
         AttrResolver._dontneed(val)
         setattr(state, name, result)

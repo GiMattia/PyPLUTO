@@ -3,7 +3,8 @@
 LoadPart.spectrum
 =================
 
-.. autofunction:: pyPLUTO.LoadPart.spectrum
+.. automethod:: pyPLUTO.toolfuncs.parttools.PartToolsManager.spectrum
+   :noindex:
 
 |
 

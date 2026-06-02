@@ -26,17 +26,17 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
     <script src="../../../_static/documentation_options.js?v=58fbf978"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -144,7 +144,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tools.html">
+  <a class="nav-link nav-internal" href="../../../toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -215,11 +215,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
     </div>
     
@@ -280,7 +287,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tools.html">
+  <a class="nav-link nav-internal" href="../../../toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -332,11 +339,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
       </div>
     
@@ -398,163 +412,174 @@
                 <article class="bd-article">
                   
   <h1>Source code for pyPLUTO.toolfuncs.parttools</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span></span><span class="sd">&quot;&quot;&quot;Docstring for PartToolsManager.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">..h_pypluto</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_par</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.baseloadstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseLoadState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
 
 
-<div class="viewcode-block" id="spectrum">
-<a class="viewcode-back" href="../../../spectrum.html#pyPLUTO.LoadPart.spectrum">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">spectrum</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;lin&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the spectrum of a given particle variable.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PartToolsManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manager for particle analysis helpers.&quot;&quot;&quot;</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - bins: np.ndarray</span>
-<span class="sd">        The x1 array of the histogram.</span>
-<span class="sd">    - hist: np.ndarray</span>
-<span class="sd">        The x2 array of the histogram.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">BaseLoadState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - density: bool, default False</span>
-<span class="sd">        If True, the histogram is normalized.</span>
-<span class="sd">    - nbins: int</span>
-<span class="sd">        The number of bins wanted for the histogram.</span>
-<span class="sd">    - scale: {&#39;lin&#39;,&#39;log&#39;}, default &#39;lin&#39;</span>
-<span class="sd">        The scale of the histogram, linear or logarithmic.</span>
-<span class="sd">    - var: np.ndarray</span>
-<span class="sd">        The chosen variable for the histogram.</span>
-<span class="sd">    - vmin: float</span>
-<span class="sd">        The minimum value of the chosen variable.</span>
-<span class="sd">    - vmax: float</span>
-<span class="sd">        The maximum value of the chosen variable.</span>
+<div class="viewcode-block" id="PartToolsManager.spectrum">
+<a class="viewcode-back" href="../../../spectrum.html#pyPLUTO.toolfuncs.parttools.PartToolsManager.spectrum">[docs]</a>
+    <span class="nd">@track_kwargs</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spectrum</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">scale</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;lin&quot;</span><span class="p">,</span>
+        <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the spectrum of a given particle variable.</span>
 
-<span class="sd">    ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - bins: np.ndarray</span>
+<span class="sd">            The x1 array of the histogram.</span>
+<span class="sd">        - hist: np.ndarray</span>
+<span class="sd">            The x2 array of the histogram.</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Compute the spectrum of the particles velocity</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - density: bool, default False</span>
+<span class="sd">            If True, the histogram is normalized.</span>
+<span class="sd">        - nbins: int</span>
+<span class="sd">            The number of bins wanted for the histogram.</span>
+<span class="sd">        - scale: {&#39;lin&#39;,&#39;log&#39;}, default &#39;lin&#39;</span>
+<span class="sd">            The scale of the histogram, linear or logarithmic.</span>
+<span class="sd">        - var: np.ndarray</span>
+<span class="sd">            The chosen variable for the histogram.</span>
+<span class="sd">        - vmin: float</span>
+<span class="sd">            The minimum value of the chosen variable.</span>
+<span class="sd">        - vmax: float</span>
+<span class="sd">            The maximum value of the chosen variable.</span>
 
-<span class="sd">        &gt;&gt;&gt; import pyPLUTO as pp</span>
-<span class="sd">        &gt;&gt;&gt; D = pp.LoadPart(0)</span>
-<span class="sd">        &gt;&gt;&gt; v2 = D.vx1**2 + D.vx2**2 + D.vx3**2</span>
-<span class="sd">        &gt;&gt;&gt; pp.spectrum(v2, scale=&quot;log&quot;)</span>
+<span class="sd">        ----</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Check parameters</span>
-    <span class="n">param</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="s2">&quot;nbins&quot;</span><span class="p">,</span> <span class="s2">&quot;vmin&quot;</span><span class="p">,</span> <span class="s2">&quot;vmax&quot;</span><span class="p">}</span>
-    <span class="k">if</span> <span class="n">check</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">check_par</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;spectrum&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: Compute the spectrum of the particles velocity</span>
 
-    <span class="c1"># Set limits</span>
-    <span class="n">vmin</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmin&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
-    <span class="n">vmax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmax&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+<span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
+<span class="sd">            &gt;&gt;&gt; D = pp.LoadPart(0)</span>
+<span class="sd">            &gt;&gt;&gt; v2 = D.vx1**2 + D.vx2**2 + D.vx3**2</span>
+<span class="sd">            &gt;&gt;&gt; pp.spectrum(v2, scale=&quot;log&quot;)</span>
 
-    <span class="c1"># Set the number of bins</span>
-    <span class="n">nbins</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nbins&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
 
-    <span class="c1"># Set the bins</span>
-    <span class="n">bins</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">nbins</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">scale</span> <span class="o">==</span> <span class="s2">&quot;lin&quot;</span>
-        <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">vmin</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">vmax</span><span class="p">),</span> <span class="n">nbins</span><span class="p">)</span>
-    <span class="p">)</span>
+        <span class="c1"># Set limits</span>
+        <span class="n">vmin</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmin&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+        <span class="n">vmax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmax&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
 
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bins&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">bin</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="n">bins</span>
+        <span class="c1"># Set the number of bins</span>
+        <span class="n">nbins</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nbins&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 
-    <span class="c1"># Compute the histogram</span>
-    <span class="n">hist</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span>
-        <span class="n">var</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Compute the bin centers</span>
-    <span class="n">bins</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-
-    <span class="c1"># Return the histogram</span>
-    <span class="k">return</span> <span class="n">hist</span><span class="p">,</span> <span class="n">bins</span></div>
-
-
-
-<div class="viewcode-block" id="select">
-<a class="viewcode-back" href="../../../select.html#pyPLUTO.LoadPart.select">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span>
-    <span class="n">var</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="n">cond</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">,</span>
-    <span class="n">sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">ascending</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Selects or sorts the indices that satisfy a given condition for</span>
-<span class="sd">    the particles. The condition is given by a string or a callable</span>
-<span class="sd">    function.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - indx: np.ndarray</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - ascending: bool, default True</span>
-<span class="sd">        If True, the indices are sorted in ascending order.</span>
-<span class="sd">    - cond (not optional): str | Callable</span>
-<span class="sd">        The condition to be satisfied.</span>
-<span class="sd">    - sort: bool, default False</span>
-<span class="sd">        If True, the indices are sorted in descending (or ascending) order.</span>
-<span class="sd">    - var (not optional): np.ndarray</span>
-<span class="sd">        The chosen variable for the selection.</span>
-
-<span class="sd">    ----</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: Select the indices that satisfy a condition</span>
-
-<span class="sd">        &gt;&gt;&gt; import pyPLUTO as pp</span>
-<span class="sd">        &gt;&gt;&gt; D = pp.LoadPart(0)</span>
-<span class="sd">        &gt;&gt;&gt; indx = pp.select(D.vx1, &quot;vx1 &gt; 0.0&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; print(indx)</span>
-
-<span class="sd">    - Example #2: Sort the indices that satisfy a condition through a callable</span>
-
-<span class="sd">        &gt;&gt;&gt; import pyPLUTO as pp</span>
-<span class="sd">        &gt;&gt;&gt; D = pp.LoadPart(0)</span>
-<span class="sd">        &gt;&gt;&gt; indx = pp.select(D.vx1, lambda v: v &gt; 0 sort = True)</span>
-<span class="sd">        &gt;&gt;&gt; print(indx)</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Determine the indices that satisfy the condition</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cond</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">warn</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;The condition should be a callable function to &quot;</span>
-            <span class="s2">&quot;avoid security issues.&quot;</span>
+        <span class="c1"># Set the bins</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">nbins</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">scale</span> <span class="o">==</span> <span class="s2">&quot;lin&quot;</span>
+            <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">vmin</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">vmax</span><span class="p">),</span> <span class="n">nbins</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">)</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bins&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
 
-        <span class="n">condition</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;var </span><span class="si">{</span><span class="n">cond</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="n">indx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">condition</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-
-    <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">cond</span><span class="p">):</span>
-        <span class="n">indx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cond</span><span class="p">(</span><span class="n">var</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">err</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s2">&quot;Condition must be either a string or a callable &quot;</span>
-            <span class="s2">&quot;(e.g., a lambda function)&quot;</span>
+        <span class="c1"># Compute the histogram</span>
+        <span class="n">hist</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span>
+            <span class="n">var</span><span class="p">,</span>
+            <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span>
+            <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">),</span>
+            <span class="n">density</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
 
-    <span class="c1"># Sort the indices if requested</span>
-    <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
-        <span class="n">sort_order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">indx</span><span class="p">])</span>
-        <span class="n">sort_order</span> <span class="o">=</span> <span class="n">sort_order</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">ascending</span> <span class="k">else</span> <span class="n">sort_order</span>
-        <span class="n">indx</span> <span class="o">=</span> <span class="n">indx</span><span class="p">[</span><span class="n">sort_order</span><span class="p">]</span>
+        <span class="c1"># Compute the bin centers</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
-    <span class="k">return</span> <span class="n">indx</span></div>
+        <span class="c1"># Return the histogram</span>
+        <span class="k">return</span> <span class="n">hist</span><span class="p">,</span> <span class="n">bins</span></div>
+
+
+<div class="viewcode-block" id="PartToolsManager.select">
+<a class="viewcode-back" href="../../../select.html#pyPLUTO.toolfuncs.parttools.PartToolsManager.select">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">cond</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">ascending</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select or sort particle indices matching a condition.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - indx: np.ndarray</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - ascending: bool, default True</span>
+<span class="sd">            If True, the indices are sorted in ascending order.</span>
+<span class="sd">        - cond (not optional): str | Callable</span>
+<span class="sd">            The condition to be satisfied.</span>
+<span class="sd">        - sort: bool, default False</span>
+<span class="sd">            If True, the indices are sorted in descending (or ascending) order.</span>
+<span class="sd">        - var (not optional): np.ndarray</span>
+<span class="sd">            The chosen variable for the selection.</span>
+
+<span class="sd">        ----</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: Select the indices that satisfy a condition</span>
+
+<span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
+<span class="sd">            &gt;&gt;&gt; D = pp.LoadPart(0)</span>
+<span class="sd">            &gt;&gt;&gt; indx = pp.select(D.vx1, &quot;vx1 &gt; 0.0&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; print(indx)</span>
+
+<span class="sd">        - Example #2: Sort the indices through a callable</span>
+
+<span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
+<span class="sd">            &gt;&gt;&gt; D = pp.LoadPart(0)</span>
+<span class="sd">            &gt;&gt;&gt; indx = pp.select(D.vx1, lambda v: v &gt; 0, sort=True)</span>
+<span class="sd">            &gt;&gt;&gt; print(indx)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Determine the indices that satisfy the condition</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cond</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">warn</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;The condition should be a callable function to &quot;</span>
+                <span class="s2">&quot;avoid security issues.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+            <span class="n">condition</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;var </span><span class="si">{</span><span class="n">cond</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">indx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">condition</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">cond</span><span class="p">):</span>
+            <span class="n">indx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cond</span><span class="p">(</span><span class="n">var</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Condition must be either a string or a callable &quot;</span>
+                <span class="s2">&quot;(e.g., a lambda function)&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+
+        <span class="c1"># Sort the indices if requested</span>
+        <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
+            <span class="n">sort_order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">indx</span><span class="p">])</span>
+            <span class="n">sort_order</span> <span class="o">=</span> <span class="n">sort_order</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">ascending</span> <span class="k">else</span> <span class="n">sort_order</span>
+            <span class="n">indx</span> <span class="o">=</span> <span class="n">indx</span><span class="p">[</span><span class="n">sort_order</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">indx</span></div>
 
 </pre></div>
 
@@ -585,8 +610,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -620,7 +645,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
 </p></div>
       
     </div>

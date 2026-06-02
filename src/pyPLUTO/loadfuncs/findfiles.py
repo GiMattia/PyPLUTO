@@ -8,11 +8,13 @@ import numpy as np
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.loadfuncs.baseloadtools import BaseLoadTools
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FindFilesManager(BaseLoadMixin[BaseLoadState]):
     """Class that manages file finding operations."""
 
+    @track_kwargs
     def __init__(
         self,
         state: BaseLoadState,
@@ -24,6 +26,7 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         self.LoadToolManager = BaseLoadTools(self.state)
         self.find_files(nout, **kwargs)
 
+    @track_kwargs
     def find_files(
         self, nout: int | str | list[int | str], **kwargs: Any
     ) -> None:
@@ -35,14 +38,14 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         If nout is 'all', the function finds all the files. Then, the function
         stores the relevant information in a dictionary d_info.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - nout (not optional): int | str | list[int|str]
             The output file to be loaded
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -137,16 +140,16 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
     ) -> None:
         """Find the variables and the outputs for the fluid and particles files.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - class_name (not optional): str
             The name of the class. Supported classes are 'Load' or 'LoadPart'.
         - elem (not optional): str
             The matching file.
+
+        Returns
+        -------
+        - None
 
         ----
 

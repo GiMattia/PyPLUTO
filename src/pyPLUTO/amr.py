@@ -7,29 +7,29 @@ from pyPLUTO.toolfuncs.loadtools import LoadToolsManager
 def _inspect_hdf5(self, i: int, exout: int) -> None:
     """Routine to inspect the hdf5 file from chombo.
 
+    Parameters
+    ----------
+    - exout: int
+        The index of the output to be loaded.
+    - i: int
+        The index of the file to be loaded.
+
     Returns
     -------
     - None
 
-    Parameters
-    ----------
-        - exout (not optional): int
-        The index of the output to be loaded.
-    - i (not optional): int
-        The index of the file to be loaded.
-
     Notes
     -----
     - This routines will be optimize in the future, alongside a novel
-            implementation of the AMR in the PLUTO code.
+      implementation of the AMR in the PLUTO code.
 
     ----
 
     Examples
     --------
-        - Example #1: Inspect the hdf5 file
+    - Example #1: Inspect the hdf5 file
 
-                >>> _inspect_hdf5(0, 0)
+        >>> _inspect_hdf5(0, 0)
 
     """
     try:
@@ -63,11 +63,6 @@ def _inspect_hdf5(self, i: int, exout: int) -> None:
 def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
     """Scans the Chombo HDF5 data files for AMR in PLUTO.
 
-    Returns
-    -------
-    - OutDict: dictionary
-        The dictionary consisting of variable names as keys and its values.
-
     Parameters
     ----------
     - fp: pointer
@@ -76,6 +71,10 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
         The AMR level.
     - myvars: str
         The names of the variables to be read.
+
+    Returns
+    -------
+    - dict
 
     Notes
     -----
@@ -88,9 +87,9 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
 
     Examples
     --------
-    - Example #1:
+    - Example #1: Scan the Chombo HDF5 data file
 
-            >>> _DataScanHDF5(fp, myvars, ilev)
+        >>> _DataScanHDF5(fp, myvars, ilev)
 
     """
     # Read the grid information
@@ -426,39 +425,39 @@ def oplotbox(
 ) -> None:
     """This method overplots the AMR boxes up to the specified level.
 
-    Returns
-    -------
-      - None
-
     Parameters
     ----------
-      - AMRLevel: AMR object
-    AMR object loaded during the reading and stored in the pload object.
-      - ax: axis object
-          The axis object where to plot the AMR boxes.
-      - cval: str | None
-          List of colors for the levels to be overplotted.
-      - geom: str, default 'CARTESIAN'
-          The specified geometry. At the moment 'CARTESIAN' and 'POLAR' are the
-                      handled geometries.
-      - islice: int
-          The index of the 2D slice along x-axis direction.
-      - jslice: int
-          The index of the 2D slice along y-axis direction.
-      - kslice: int, default min(x3)
-          The index of the 2D slice along z-axis direction.
-      - kwargs: Any
-          The kwargs of the plot method.
-      - lrange: [level_min, level_max]
-          The range to be overplotted.
+    - AMRLevel: AMR object
+        AMR object loaded during the reading and stored in the pload object.
+    - ax: axis object
+        The axis object where to plot the AMR boxes.
+    - cval: str | None
+        List of colors for the levels to be overplotted.
+    - geom: str, default 'CARTESIAN'
+        The specified geometry. At the moment 'CARTESIAN' and 'POLAR' are the
+        handled geometries.
+    - islice: int
+        The index of the 2D slice along x-axis direction.
+    - jslice: int
+        The index of the 2D slice along y-axis direction.
+    - kslice: int, default min(x3)
+        The index of the 2D slice along z-axis direction.
+    - kwargs: Any
+        The kwargs of the plot method.
+    - lrange: list, default [0, 0]
+        The range to be overplotted.
 
-      ----
+    Returns
+    -------
+    - None
+
+    ----
 
     Examples
     --------
-      - Example #1: Overplot the AMR boxes up to the specified level
+    - Example #1: Overplot the AMR boxes up to the specified level
 
-              >>> oplotbox(AMRLevel, lrange=[0, 2])
+        >>> oplotbox(AMRLevel, lrange=[0, 2])
 
     """
     nlev = len(AMRLevel)
@@ -548,26 +547,23 @@ def oplotbox(
 
 
 def _read_gridfile(self) -> None:
-    """The file grid.out is read and all the grid information are stored
-    in the Load class. Such information are the dimensions, the
-    geometry, the center and edges of each cell, the grid shape and size
-    and, in case of non cartesian coordinates, the transformed cartesian
-    coordinates (only 2D for now).bThe full non-cartesian 3D
-    transformations have not been implemented yet.
+    """Read grid.out and store all grid information in the Load class.
+
+    The information stored are the dimensions, the geometry, the center
+    and edges of each cell, the grid shape and size and, in case of non
+    cartesian coordinates, the transformed cartesian coordinates (only
+    2D for now). The full non-cartesian 3D transformations have not been
+    implemented yet.
 
     Returns
     -------
-    - None
-
-    Parameters
-    ----------
     - None
 
     ----
 
     Examples
     --------
-    - Example #1: read the grid file
+    - Example #1: Read the grid file
 
         >>> _read_gridfile()
 
@@ -578,7 +574,7 @@ def _read_gridfile(self) -> None:
     # Open and read the gridfile
     with open(self.pathgrid) as gfp:
         for i in gfp.readlines():
-            self._split_gridfile(i, xL, xR, nmax)
+            _split_gridfile(self, i, xL, xR, nmax)
 
     # Compute nx1, nx2, nx3
     self.nx1, self.nx2, self.nx3 = nmax
@@ -696,25 +692,24 @@ def _read_gridfile(self) -> None:
 def _split_gridfile(
     self, i: str, xL: list[float], xR: list[float], nmax: list[int]
 ) -> None:
-    """Splits the gridfile, storing the information in the variables
-    passed by the function. Dimensions and geometry are stored in the
-    class.
+    """Split the gridfile, storing information in the variables passed.
 
-    Return
-    ------
-
-    - None
+    Dimensions and geometry are stored in the class.
 
     Parameters
     ----------
-    - i (not optional): str
+    - i: str
         The line of the gridfile.
-    - nmax (not optional): list[int]
+    - nmax: list[int]
         The number of the cells in the grid.
-    - xL (not optional): list[float]
+    - xL: list[float]
         The list of the left cell boundaries values.
-    - xR (not optional): list[float]
+    - xR: list[float]
         The list of the right cell boundaries values.
+
+    Returns
+    -------
+    - None
 
     ----
 

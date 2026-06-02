@@ -7,10 +7,12 @@ Welcome to PyPLUTO's documentation!
 ===================================
 
 
-**PyPLUTO** is a Python library which loads and plots the data obtain from the
+**PyPLUTO** is a Python library which loads and plots the data obtained from the
 PLUTO code simulations.
-The aim of this package is to simplify some non-trivial python routines in order
+The aim of this package is to simplify some non-trivial Python routines in order
 to quickly recover effective plots that are suited for scientific publications.
+Physical units can be attached to loaded variables via the
+`astropy <https://www.astropy.org/>`_ library.
 
 .. note::
    This project is under active development.
@@ -26,7 +28,7 @@ Contents
 
    install
    loadclass
-   tools
+   toolsmethods
    imageclass
    gui
    examples

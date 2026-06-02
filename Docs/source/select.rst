@@ -3,7 +3,8 @@
 LoadPart.select
 ===============
 
-.. autofunction:: pyPLUTO.LoadPart.select
+.. automethod:: pyPLUTO.toolfuncs.parttools.PartToolsManager.select
+   :noindex:
 
 |
 

@@ -27,17 +27,17 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
 
     <script src="_static/documentation_options.js?v=58fbf978"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
@@ -147,7 +147,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="tools.html">
+  <a class="nav-link nav-internal" href="toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -218,11 +218,18 @@
       
         <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
     </div>
     
@@ -285,7 +292,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="tools.html">
+  <a class="nav-link nav-internal" href="toolsmethods.html">
     Manipulating
   </a>
 </li>
@@ -337,11 +344,18 @@
         
           <div class="navbar-item">
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button></div>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
       </div>
     
@@ -426,18 +440,215 @@ installation of the PyPLUTO package and its use.</p>
 <section id="how-do-i-install-pypluto">
 <h2>How do I install PyPLUTO?<a class="headerlink" href="#how-do-i-install-pypluto" title="Link to this heading">#</a></h2>
 <p>To install PyPLUTO, you can use the procedure explained in the
-<a class="reference internal" href="gui.html#installation"><span class="std std-ref">Installation</span></a> section.</p>
+<a class="reference internal" href="install.html#installation"><span class="std std-ref">Install</span></a> section.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 </section>
 <hr class="docutils" />
-<section id="can-i-use-pypluto-with-python-3-9">
-<h2>Can I use PyPLUTO with Python 3.9?<a class="headerlink" href="#can-i-use-pypluto-with-python-3-9" title="Link to this heading">#</a></h2>
-<p>No, PyPLUTO is compatible only from Python 3.10 onwards.
+<section id="can-i-use-pypluto-with-python-3-9-or-3-10">
+<h2>Can I use PyPLUTO with Python 3.9 or 3.10?<a class="headerlink" href="#can-i-use-pypluto-with-python-3-9-or-3-10" title="Link to this heading">#</a></h2>
+<p>No, PyPLUTO is compatible only from Python 3.11 onwards.
 Although we do not expect to always update PyPLUTO to only the latest version
 possible, we will try to keep it up to date with the latest versions of Python
 to take advance to the most up-to-date features.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="what-file-formats-does-pypluto-support">
+<h2>What file formats does PyPLUTO support?<a class="headerlink" href="#what-file-formats-does-pypluto-support" title="Link to this heading">#</a></h2>
+<p>PyPLUTO supports all output formats produced by the PLUTO code:</p>
+<ul class="simple">
+<li><p><strong>Fluid data</strong>: <code class="docutils literal notranslate"><span class="pre">dbl</span></code>, <code class="docutils literal notranslate"><span class="pre">flt</span></code>, <code class="docutils literal notranslate"><span class="pre">vtk</span></code>, <code class="docutils literal notranslate"><span class="pre">dbl.h5</span></code>, <code class="docutils literal notranslate"><span class="pre">flt.h5</span></code>,
+<code class="docutils literal notranslate"><span class="pre">hdf5</span></code> (AMR via CHOMBO), and <code class="docutils literal notranslate"><span class="pre">tab</span></code> (serial, 1D/2D only).</p></li>
+<li><p><strong>Particle data</strong>: <code class="docutils literal notranslate"><span class="pre">dbl</span></code>, <code class="docutils literal notranslate"><span class="pre">flt</span></code>, <code class="docutils literal notranslate"><span class="pre">vtk</span></code>.</p></li>
+</ul>
+<p>Both single-file and multiple-file (one file per variable) layouts are
+supported for binary and VTK formats. Descriptor files (<code class="docutils literal notranslate"><span class="pre">.out</span></code>) are
+required for binary formats and recommended for all others.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="what-is-the-difference-between-load-and-loadpart">
+<h2>What is the difference between <code class="docutils literal notranslate"><span class="pre">Load</span></code> and <code class="docutils literal notranslate"><span class="pre">LoadPart</span></code>?<a class="headerlink" href="#what-is-the-difference-between-load-and-loadpart" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="load.html#load"><span class="std std-ref">Load</span></a> is used to load <strong>fluid</strong> output files (density, pressure,
+velocity, magnetic fields, etc.). <a class="reference internal" href="loadpart.html#loadpart"><span class="std std-ref">LoadPart</span></a> is used to load
+<strong>particle</strong> output files. Both classes share the same architecture and support
+the same unit attachment methods (<code class="docutils literal notranslate"><span class="pre">to_astropy_units</span></code>, <code class="docutils literal notranslate"><span class="pre">to_code_units</span></code>).</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="can-i-use-pypluto-without-having-the-pluto-code-installed">
+<h2>Can I use PyPLUTO without having the PLUTO code installed?<a class="headerlink" href="#can-i-use-pypluto-without-having-the-pluto-code-installed" title="Link to this heading">#</a></h2>
+<p>Yes. PyPLUTO ships with a set of bundled example datasets that can be used
+independently of the PLUTO code. After installing the package, run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pypluto-examples<span class="w"> </span>list
+<span class="gp">$ </span>pypluto-examples<span class="w"> </span>run<span class="w"> </span>test01_sod
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="examples.html#examples"><span class="std std-ref">examples</span></a> section for the full list.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="how-do-i-attach-physical-units-to-loaded-variables">
+<h2>How do I attach physical units to loaded variables?<a class="headerlink" href="#how-do-i-attach-physical-units-to-loaded-variables" title="Link to this heading">#</a></h2>
+<p>Pass <code class="docutils literal notranslate"><span class="pre">units=True</span></code> when loading to attach CGS units to all known variables:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To attach units to specific variables only:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="s2">&quot;prs&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Units can also be attached or removed after loading:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="o">.</span><span class="n">to_astropy_units</span><span class="p">(</span><span class="s2">&quot;rho&quot;</span><span class="p">)</span>   <span class="c1"># attach</span>
+<span class="n">D</span><span class="o">.</span><span class="n">to_code_units</span><span class="p">(</span><span class="s2">&quot;rho&quot;</span><span class="p">)</span>      <span class="c1"># remove</span>
+</pre></div>
+</div>
+<p>Unit scales are resolved automatically from the PLUTO log file or
+<code class="docutils literal notranslate"><span class="pre">definitions.h</span></code>. Custom scales can be supplied via the <code class="docutils literal notranslate"><span class="pre">user_units</span></code>
+keyword. See the <a class="reference internal" href="to_astropy_units.html#to-astropy-units"><span class="std std-ref">to_astropy_units</span></a> page for details.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="how-do-i-define-custom-variables-in-the-gui">
+<h2>How do I define custom variables in the GUI?<a class="headerlink" href="#how-do-i-define-custom-variables-in-the-gui" title="Link to this heading">#</a></h2>
+<p>In the variables panel, select <strong>“Custom var…”</strong> from the variable dropdown.
+A dialog opens where you can define one or more variables using the syntax:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NAME</span> <span class="o">=</span> <span class="n">EXPR</span>
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">prs</span> <span class="o">/</span> <span class="p">(</span><span class="n">Bx1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Bx2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Bx3</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Prefixing a name with <code class="docutils literal notranslate"><span class="pre">!</span></code> computes it silently without adding it to the
+dropdown (useful for intermediate quantities). Custom variables persist across
+output reloads within the same session.
+See the <a class="reference internal" href="guivars.html#guivars"><span class="std std-ref">GUI vars panel</span></a> section for the full syntax reference.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="can-i-use-pypluto-with-simulation-codes-other-than-pluto">
+<h2>Can I use PyPLUTO with simulation codes other than PLUTO?<a class="headerlink" href="#can-i-use-pypluto-with-simulation-codes-other-than-pluto" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="imageclass.html#imageclass"><span class="std std-ref">Image</span></a> class is entirely code-independent and can be
+used to visualize any data loaded into NumPy arrays.
+Additionally, native loading support is provided for:</p>
+<ul class="simple">
+<li><p><strong>ECHO</strong> (parameters: <code class="docutils literal notranslate"><span class="pre">nout</span></code>, <code class="docutils literal notranslate"><span class="pre">path</span></code>, <code class="docutils literal notranslate"><span class="pre">vars</span></code>)</p></li>
+<li><p><strong>IDEFIX</strong></p></li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="how-do-i-create-1d-and-2d-plots-with-the-image-class">
+<h2>How do I create 1D and 2D plots with the Image class?<a class="headerlink" href="#how-do-i-create-1d-and-2d-plots-with-the-image-class" title="Link to this heading">#</a></h2>
+<p>Create an <a class="reference internal" href="image.html#image"><span class="std std-ref">Image</span></a> instance and call <a class="reference internal" href="plot.html#plot"><span class="std std-ref">plot</span></a> for 1D or
+<a class="reference internal" href="display.html#display"><span class="std std-ref">display</span></a> for 2D:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">()</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">()</span>
+
+<span class="c1"># 1D</span>
+<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;density&quot;</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># 2D</span>
+<span class="n">I</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="n">cpos</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+
+<span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Both methods accept a wide range of keywords for labels, scales, colormaps, and
+axis ranges, and internally call <a class="reference internal" href="set_axis.html#set-axis"><span class="std std-ref">set_axis</span></a> for per-subplot
+customization.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="how-do-i-create-a-figure-with-multiple-subplots">
+<h2>How do I create a figure with multiple subplots?<a class="headerlink" href="#how-do-i-create-a-figure-with-multiple-subplots" title="Link to this heading">#</a></h2>
+<p>Use <a class="reference internal" href="create_axes.html#create-axes"><span class="std std-ref">create_axes</span></a> to define the subplot grid before plotting:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="n">I</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># two side-by-side panels</span>
+<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">nwin</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">prs</span><span class="p">,</span> <span class="n">nwin</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>For non-uniform layouts (different size ratios or overlapping axes),
+<code class="docutils literal notranslate"><span class="pre">create_axes</span></code> can be called multiple times on the same <code class="docutils literal notranslate"><span class="pre">Image</span></code>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="how-do-i-create-interactive-or-animated-plots">
+<h2>How do I create interactive or animated plots?<a class="headerlink" href="#how-do-i-create-interactive-or-animated-plots" title="Link to this heading">#</a></h2>
+<p>Load multiple outputs with <code class="docutils literal notranslate"><span class="pre">nout=&quot;all&quot;</span></code> and use
+<a class="reference internal" href="interactive.html#interactive"><span class="std std-ref">interactive</span></a> to navigate through them with a slider:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+<span class="n">I</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="s2">&quot;rho&quot;</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To save the evolution as a video, use <a class="reference internal" href="animate.html#animate"><span class="std std-ref">animate</span></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">I</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;rho_evolution.mp4&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="how-do-i-plot-field-lines-and-contour-lines">
+<h2>How do I plot field lines and contour lines?<a class="headerlink" href="#how-do-i-plot-field-lines-and-contour-lines" title="Link to this heading">#</a></h2>
+<p>PyPLUTO offers two approaches with different accuracy/speed trade-offs.</p>
+<p><strong>Quick visualization</strong> — use the <a class="reference internal" href="streamplot.html#streamplot"><span class="std std-ref">streamplot</span></a> and
+<a class="reference internal" href="contour.html#contour"><span class="std std-ref">contour</span></a> methods directly on the <code class="docutils literal notranslate"><span class="pre">Image</span></code> class. These wrap
+the corresponding Matplotlib routines and are fast but limited to Cartesian
+grids:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">I</span><span class="o">.</span><span class="n">streamplot</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">vx1</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">vx2</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span>
+<span class="n">I</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>High-accuracy computation</strong> — use <a class="reference internal" href="find_fieldlines.html#find-fieldlines"><span class="std std-ref">find_fieldlines</span></a>
+and <a class="reference internal" href="find_contour.html#find-contour"><span class="std std-ref">find_contour</span></a> on the <code class="docutils literal notranslate"><span class="pre">Load</span></code> object. These compute
+lines via high-order ODE integration (field lines) or the <code class="docutils literal notranslate"><span class="pre">contourpy</span></code>
+library (contour lines) and work in any geometry. For non-Cartesian grids,
+first convert to a Cartesian mesh with <code class="docutils literal notranslate"><span class="pre">reshape_cartesian</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="o">.</span><span class="n">reshape_cartesian</span><span class="p">()</span>
+<span class="n">lines</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">find_fieldlines</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">Bx1c</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">Bx2c</span><span class="p">,</span> <span class="n">footpoints</span><span class="o">=</span><span class="p">[(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)])</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="n">I</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="how-do-i-report-a-bug-or-request-a-feature">
+<h2>How do I report a bug or request a feature?<a class="headerlink" href="#how-do-i-report-a-bug-or-request-a-feature" title="Link to this heading">#</a></h2>
+<p>Please open an issue on the
+<a class="reference external" href="https://github.com/GiMattia/PyPLUTO">GitHub repository</a>.
+For contributing guidelines see the <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contribute</span></a> section.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -493,7 +704,18 @@ to take advance to the most up-to-date features.</p>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-install-pypluto">How do I install PyPLUTO?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#can-i-use-pypluto-with-python-3-9">Can I use PyPLUTO with Python 3.9?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#can-i-use-pypluto-with-python-3-9-or-3-10">Can I use PyPLUTO with Python 3.9 or 3.10?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-file-formats-does-pypluto-support">What file formats does PyPLUTO support?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-difference-between-load-and-loadpart">What is the difference between <code class="docutils literal notranslate"><span class="pre">Load</span></code> and <code class="docutils literal notranslate"><span class="pre">LoadPart</span></code>?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#can-i-use-pypluto-without-having-the-pluto-code-installed">Can I use PyPLUTO without having the PLUTO code installed?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-attach-physical-units-to-loaded-variables">How do I attach physical units to loaded variables?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-define-custom-variables-in-the-gui">How do I define custom variables in the GUI?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#can-i-use-pypluto-with-simulation-codes-other-than-pluto">Can I use PyPLUTO with simulation codes other than PLUTO?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-create-1d-and-2d-plots-with-the-image-class">How do I create 1D and 2D plots with the Image class?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-create-a-figure-with-multiple-subplots">How do I create a figure with multiple subplots?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-create-interactive-or-animated-plots">How do I create interactive or animated plots?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-plot-field-lines-and-contour-lines">How do I plot field lines and contour lines?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-report-a-bug-or-request-a-feature">How do I report a bug or request a feature?</a></li>
 </ul>
   </nav></div>
 
@@ -510,8 +732,8 @@ to take advance to the most up-to-date features.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -545,7 +767,7 @@ to take advance to the most up-to-date features.</p>
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
 </p></div>
       
     </div>

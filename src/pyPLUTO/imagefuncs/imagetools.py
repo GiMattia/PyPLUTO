@@ -45,10 +45,6 @@ class ImageToolsManager(ImageMixin):
     ) -> None:
         """Create a .png image file of the figure created with the Image class.
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - bbox: {'tight', None}, default 'tight'
@@ -62,6 +58,10 @@ class ImageToolsManager(ImageMixin):
             working directory.
         - dpi: int, default 300
             The resolution of the saved image in dots per inch (DPI).
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -105,14 +105,11 @@ class ImageToolsManager(ImageMixin):
         x: float = 0.85,
         y: float = 0.85,
         ax: Axes | int | None = None,
+        c: str = "k",
         check: bool = True,
         **kwargs: Any,
     ) -> None:
         """Insert a text box inside the figure created with Image class.
-
-        Returns
-        -------
-        - None
 
         Parameters
         ----------
@@ -120,7 +117,7 @@ class ImageToolsManager(ImageMixin):
             The axis where to insert the text box. If None, the last considered
             axis will be used.
         - c: str, default 'k'
-            Determines the text color.
+            The text color.
         - horalign: str, default 'left'
             The horizontal alignment. Possible values are 'left', 'center',
             'right'.
@@ -144,6 +141,64 @@ class ImageToolsManager(ImageMixin):
         - y: float, default 0.85
             The vertical starting position of the text box, in units of figure
             size.
+
+        - bottom: float, default varies
+            The bottom limit of the axis / axes set. For the figure layout it
+            is the space from the bottom border to the plot (default 0.1); for
+            an inset zoom it is the bottom position of the inset (default 0.6 +
+            height).
+        - figsize: list[float], default varies
+            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+            computed from the number of rows and columns (or [8,5] for a single
+            plot).
+        - fontsize: float, default 17.0
+            Sets the fontsize for all the axis components.
+        - hratio: [float], default [1.0]
+            Ratio between the rows of the plot. The default is that every plot
+            row has the same height.
+        - hspace: [float], default []
+            The space between plot rows (in figure units). If not enough or too
+            many spaces are considered, the program will remove the excess and
+            fill the lacks with [0.1].
+        - left: float, default varies
+            The left limit of the axis / axes set. For the figure layout it is
+            the space from the left border to the plot (default 0.125); for an
+            inset zoom it is the left position of the inset (default 0.6).
+        - proj: str, default None
+            Custom projection for the plot (e.g. 3D). Recommended only if
+            needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+            3D axes. The 3D plot feature will be available in future releases.
+        - right: float, default 0.9
+            The right limit of the axis / axes set. For the figure layout it is
+            the space from the right border to the plot; for an inset zoom it
+            is the right position of the inset.
+        - sharex: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the x-axis between the subplots.
+        - sharey: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the y-axis between the subplots.
+        - suptitle: str, default None
+            Creates a figure title over all the subplots.
+        - tight: bool, default True
+            Enables/disables tight layout options for the figure. In case of a
+            highly customized plot (e.g. ratios or space between rows and
+            columns) the option is set by default to False since that option
+            would not be available for standard matplotlib functions.
+        - top: float, default varies
+            The top limit of the axis / axes set. For the figure layout it is
+            the space from the top border to the plot (default 0.9); for an
+            inset zoom it is the top position of the inset (default bottom +
+            height).
+        - wratio: [float], default [1.0]
+            Ratio between the columns of the plot. The default is that every
+            plot column has the same width.
+        - wspace: [float], default []
+            The space between plot columns (in figure units). If not enough or
+            too many spaces are considered, the program will remove the excess
+            and fill the lacks with [0.1].
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -210,7 +265,7 @@ class ImageToolsManager(ImageMixin):
             x,
             y,
             text,
-            c=kwargs.get("c", "k"),
+            c=c,
             transform=coord,
             fontsize=kwargs.get("textsize", self.state.fontsize),
             horizontalalignment=hortx,
@@ -220,6 +275,7 @@ class ImageToolsManager(ImageMixin):
 
     # End of the function
 
+    @track_kwargs
     def assign_ax(
         self, ax: Axes | list[Axes] | int | None, **kwargs: Any
     ) -> tuple[Axes, int]:
@@ -228,20 +284,14 @@ class ImageToolsManager(ImageMixin):
         If no axis is present, an axis is created. If the axis is
         present but no axis is seletced, the last axis is selected.
 
-        Returns
-        -------
-        - ax: ax | list[ax] | int | None
-            The selected set of axes.
-        - nax: int
-            The number of the selected set of axes.
-
         Parameters
         ----------
         - ax (not optional): ax | int | list[ax] | None
             The selected set of axes.
-        - **kwargs: Any
-            The keyword arguments to be passed to the create_axes function
-            (not written here since is not public method).
+
+        Returns
+        -------
+        - tuple[Axes, int]
 
         ----
 
@@ -310,16 +360,16 @@ class ImageToolsManager(ImageMixin):
     def hide_text(self, nax: int, txts: Sequence[Text] | None) -> None:
         """Hide the text placed when an axis is created (the axis index).
 
-        Returns
-        -------
-        - None
-
         Parameters
         ----------
         - nax (not optional): int
             The number of the selected set of axes.
         - txts (not optional): str | None
             The text of the selected set of axes.
+
+        Returns
+        -------
+        - None
 
         ----
 
@@ -350,11 +400,6 @@ class ImageToolsManager(ImageMixin):
     ) -> Normalize:
         """Set the color scale and limits of a pcolormesh given the scale.
 
-        Returns
-        -------
-        - norm: Normalize
-            The normalization of the colormap
-
         Parameters
         ----------
         - cscale : {'linear','log','symlog','twoslope'}, default 'linear'
@@ -371,6 +416,10 @@ class ImageToolsManager(ImageMixin):
             The maximum value of the colormap.
         - vmin (not optional): float
             The minimum value of the colormap.
+
+        Returns
+        -------
+        - Normalize
 
         ----
 
@@ -424,15 +473,14 @@ class ImageToolsManager(ImageMixin):
     ) -> mcol.Colormap | None:
         """Find a colormap by name.
 
-        Returns
-        -------
-        - cmap: Colormap | None
-            The colormap found by name.
-
         Parameters
         ----------
         - name (not optional): str | Colormap | None
             The name of the colormap.
+
+        Returns
+        -------
+        - Colormap | None
 
         ----
 

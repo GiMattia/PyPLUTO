@@ -269,6 +269,36 @@ class BaseLoadMixin(Generic[S]):
         self.state.timelist = value
 
     @property
+    def unit_attached(self) -> set[str]:
+        """Get the unit_attached attribute of the load state."""
+        return self.state.unit_attached
+
+    @unit_attached.setter
+    def unit_attached(self, value: set[str]) -> None:
+        """Set the unit_attached attribute of the load state."""
+        self.state.unit_attached = value
+
+    @property
+    def unit_base(self) -> dict[str, float | str]:
+        """Get the unit_base attribute of the load state."""
+        return self.state.unit_base
+
+    @unit_base.setter
+    def unit_base(self, value: dict[str, float | str]) -> None:
+        """Set the unit_base attribute of the load state."""
+        self.state.unit_base = value
+
+    @property
+    def units(self) -> dict[str, Any]:
+        """Get the units attribute of the load state."""
+        return self.state.units
+
+    @units.setter
+    def units(self, value: dict[str, Any]) -> None:
+        """Set the units attribute of the load state."""
+        self.state.units = value
+
+    @property
     def varoffset(self) -> dict[str, Any]:
         """Get the varoffset attribute of the load state."""
         return self.state.varoffset

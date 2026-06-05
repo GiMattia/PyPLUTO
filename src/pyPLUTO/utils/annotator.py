@@ -148,7 +148,6 @@ class AllKwargs(TypedDict, total=False):
     datatype: str | None
     full3D: bool
     path: str | FilePath
-    var: str | list[str] | bool | None
     vars: str | list[str] | bool | None  # to be deprecated
 
     # --- Spectrum ---

@@ -1,34 +1,30 @@
 """Descriptor management utilities for reading PLUTO descriptor files."""
 
 from pathlib import Path
-from typing import Any
 
 import numpy as np
 
 from pyPLUTO.loadfuncs.baseloadtools import BaseLoadTools
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
-from pyPLUTO.utils.inspector import track_kwargs
 
 
 class DescriptorManager(LoadMixin):
     """Class that manages the descriptor files for loading data."""
 
-    @track_kwargs
     def __init__(
         self,
         state: LoadState,
         nout: int | str | list[int | str],
-        **kwargs: Any,
     ) -> None:
         """Initialize the DescriptorManager class."""
         self.state = state
         self.LoadToolManager = BaseLoadTools(self.state)
-        self.load_descriptor(nout, **kwargs)
+        self.load_descriptor(nout)
 
-    @track_kwargs
     def load_descriptor(
-        self, nout: int | str | list[int | str], **kwargs: Any
+        self,
+        nout: int | str | list[int | str],
     ) -> None:
         """Read the datatype.out file and stores the information.
 
@@ -39,8 +35,6 @@ class DescriptorManager(LoadMixin):
 
         Parameters
         ----------
-        - endian (not optional): str
-            The endianess of the files.
         - nout (not optional): int
             The output file to be opened. If default ('last'), the code assumes
             the last file should be opened. Other options available are 'last'

@@ -79,7 +79,7 @@ Image.create_axes(left=0.35, right=0.7, bottom=0.23, top=0.4)
 # --- Plot particle spectra ---
 for Dp, label in [(Dp_i, "t = 0"), (Dp_f, "t = 100")]:
     gl = compute_gamma(Dp)
-    hist, bins = Dp.spectrum(gl, density=False)
+    hist, bins = Dp.spectrum(gl, normalize=False)
 
     Image.plot(
         bins,

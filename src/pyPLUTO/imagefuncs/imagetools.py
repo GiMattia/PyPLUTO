@@ -116,43 +116,24 @@ class ImageToolsManager(ImageMixin):
         - ax: axis object, default None
             The axis where to insert the text box. If None, the last considered
             axis will be used.
-        - c: str, default 'k'
-            The text color.
-        - horalign: str, default 'left'
-            The horizontal alignment. Possible values are 'left', 'center',
-            'right'.
-        - text (not optional): str
-            The text that will appear on the text box
-        - textsize: float, default fontsize
-            Sets the text fontsize. The default value corresponds to the value
-            of the actual fontsize in the figure.
-        - veralign: str, default 'baseline'
-            The vertical alignment. Possible values are 'baseline', 'bottom',
-            'center', 'center_baseline', 'top'.
-        - x: float, default 0.85
-            The horizontal starting position of the text box, in units of figure
-            size.
-        - xycoords: str, default 'fraction'
-            The coordinate system used. Possible values are 'figure fraction',
-            which sets the position as a fraction of the axis (inside the axis
-            lie values between 0 and 1), 'points', which sets the position in
-            units of the x/y coordinate system, and 'figure', which sets the
-            position as a fraction of the figure.
-        - y: float, default 0.85
-            The vertical starting position of the text box, in units of figure
-            size.
-
+        - bbox: str | None, default None
+            The bounding box for the text.
         - bottom: float, default varies
             The bottom limit of the axis / axes set. For the figure layout it
             is the space from the bottom border to the plot (default 0.1); for
             an inset zoom it is the bottom position of the inset (default 0.6 +
             height).
+        - c: str, default 'k'
+            The text color.
         - figsize: list[float], default varies
             Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
             computed from the number of rows and columns (or [8,5] for a single
             plot).
         - fontsize: float, default 17.0
             Sets the fontsize for all the axis components.
+        - horalign: str, default 'left'
+            The horizontal alignment. Possible values are 'left', 'center',
+            'right'.
         - hratio: [float], default [1.0]
             Ratio between the rows of the plot. The default is that every plot
             row has the same height.
@@ -164,20 +145,30 @@ class ImageToolsManager(ImageMixin):
             The left limit of the axis / axes set. For the figure layout it is
             the space from the left border to the plot (default 0.125); for an
             inset zoom it is the left position of the inset (default 0.6).
+        - ncol: int, default 1
+            The number of columns of subplots.
+        - nrow: int, default 1
+            The number of rows of subplots.
         - proj: str, default None
             Custom projection for the plot (e.g. 3D). Recommended only if
             needed. WARNING: pyPLUTO does not support 3D plotting for now, only
             3D axes. The 3D plot feature will be available in future releases.
-        - right: float, default 0.9
+        - right: float, default varies
             The right limit of the axis / axes set. For the figure layout it is
-            the space from the right border to the plot; for an inset zoom it
-            is the right position of the inset.
+            the space from the right border to the plot (default 0.9); for an
+            inset zoom it is the right position of the inset (default left +
+            0.15).
         - sharex: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the x-axis between the subplots.
         - sharey: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the y-axis between the subplots.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
+        - text (not optional): str
+            The text that will appear on the text box
+        - textsize: float, default fontsize
+            Sets the text fontsize. The default value corresponds to the value
+            of the actual fontsize in the figure.
         - tight: bool, default True
             Enables/disables tight layout options for the figure. In case of a
             highly customized plot (e.g. ratios or space between rows and
@@ -188,6 +179,12 @@ class ImageToolsManager(ImageMixin):
             the space from the top border to the plot (default 0.9); for an
             inset zoom it is the top position of the inset (default bottom +
             height).
+        - veralign: str, default 'baseline'
+            The vertical alignment. Possible values are 'baseline', 'bottom',
+            'center', 'center_baseline', 'top'.
+        - x: float, default 0.85
+            The horizontal starting position of the text box, in units of figure
+            size.
         - wratio: [float], default [1.0]
             Ratio between the columns of the plot. The default is that every
             plot column has the same width.
@@ -195,6 +192,15 @@ class ImageToolsManager(ImageMixin):
             The space between plot columns (in figure units). If not enough or
             too many spaces are considered, the program will remove the excess
             and fill the lacks with [0.1].
+        - xycoords: str, default 'fraction'
+            The coordinate system used. Possible values are 'figure fraction',
+            which sets the position as a fraction of the axis (inside the axis
+            lie values between 0 and 1), 'points', which sets the position in
+            units of the x/y coordinate system, and 'figure', which sets the
+            position as a fraction of the figure.
+        - y: float, default 0.85
+            The vertical starting position of the text box, in units of figure
+            size.
 
         Returns
         -------
@@ -226,7 +232,7 @@ class ImageToolsManager(ImageMixin):
             >>> I.text("text", x=0.5, y=0.5, xycoords="points")
 
         """
-        kwargs.pop("check", check)
+        kwargs.pop("kwargscheck", check)
 
         # Find figure and number of the axis
         ax, nax = self.assign_ax(ax, **kwargs)
@@ -281,13 +287,71 @@ class ImageToolsManager(ImageMixin):
     ) -> tuple[Axes, int]:
         """Set the axes of the figure where the plot/feature should go.
 
-        If no axis is present, an axis is created. If the axis is
-        present but no axis is seletced, the last axis is selected.
+         If no axis is present, an axis is created. If the axis is
+         present but no axis is seletced, the last axis is selected.
 
         Parameters
         ----------
         - ax (not optional): ax | int | list[ax] | None
             The selected set of axes.
+        - bottom: float, default varies
+            The bottom limit of the axis / axes set. For the figure layout it
+            is the space from the bottom border to the plot (default 0.1); for
+            an inset zoom it is the bottom position of the inset (default 0.6 +
+            height).
+        - figsize: list[float], default varies
+            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+            computed from the number of rows and columns (or [8,5] for a single
+            plot).
+        - fontsize: float, default 17.0
+            Sets the fontsize for all the axis components.
+        - hratio: [float], default [1.0]
+            Ratio between the rows of the plot. The default is that every plot
+            row has the same height.
+        - hspace: [float], default []
+            The space between plot rows (in figure units). If not enough or too
+            many spaces are considered, the program will remove the excess and
+            fill the lacks with [0.1].
+        - left: float, default varies
+            The left limit of the axis / axes set. For the figure layout it is
+            the space from the left border to the plot (default 0.125); for an
+            inset zoom it is the left position of the inset (default 0.6).
+        - ncol: int, default 1
+            The number of columns of subplots.
+        - nrow: int, default 1
+            The number of rows of subplots.
+        - proj: str, default None
+            Custom projection for the plot (e.g. 3D). Recommended only if
+            needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+            3D axes. The 3D plot feature will be available in future releases.
+        - right: float, default varies
+            The right limit of the axis / axes set. For the figure layout it is
+            the space from the right border to the plot (default 0.9); for an
+            inset zoom it is the right position of the inset (default left +
+            0.15).
+        - sharex: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the x-axis between the subplots.
+        - sharey: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the y-axis between the subplots.
+        - suptitle: str, default None
+            Creates a figure title over all the subplots.
+        - tight: bool, default True
+            Enables/disables tight layout options for the figure. In case of a
+            highly customized plot (e.g. ratios or space between rows and
+            columns) the option is set by default to False since that option
+            would not be available for standard matplotlib functions.
+        - top: float, default varies
+            The top limit of the axis / axes set. For the figure layout it is
+            the space from the top border to the plot (default 0.9); for an
+            inset zoom it is the top position of the inset (default bottom +
+            height).
+        - wratio: [float], default [1.0]
+            Ratio between the columns of the plot. The default is that every
+            plot column has the same width.
+        - wspace: [float], default []
+            The space between plot columns (in figure units). If not enough or
+            too many spaces are considered, the program will remove the excess
+            and fill the lacks with [0.1].
 
         Returns
         -------
@@ -413,9 +477,9 @@ class ImageToolsManager(ImageMixin):
             - symlog: sets the limit between the logaitrhmic and the linear
             regime.
         - vmax (not optional): float
-            The maximum value of the colormap.
+            The maximum value of the variable to be computed / plotted.
         - vmin (not optional): float
-            The minimum value of the colormap.
+            The minimum value of the variable to be computed / plotted.
 
         Returns
         -------

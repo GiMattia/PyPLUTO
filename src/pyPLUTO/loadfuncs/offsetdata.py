@@ -15,18 +15,7 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
     """Class that computes the offset of variables in single_file format."""
 
     def __init__(self, state: BaseLoadState) -> None:
-        """Initialize the offset manager and delegate sub-managers by state type.
-
-        Parameters
-        ----------
-        - state: BaseLoadState
-            The load state object carrying grid metadata and file information.
-
-        Returns
-        -------
-        - None
-
-        """
+        """Initialize the offset manager and delegate sub-managers by state."""
         self.state = state
         if isinstance(state, LoadState):
             self.GridFileManager = GridFileManager(state)
@@ -55,6 +44,8 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
             The index of the file to be loaded.
         - exout (not optional): int
             The index of the output to be loaded.
+        - mm (not optional): mmap.mmap
+            The memory-mapped file object.
         - varname (not optional): str | None
             The name of the variable to be loaded. If None, all variables are
             considered.
@@ -69,11 +60,11 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
         --------
         - Example #1: Compute offset for a specific variable
 
-            >>> _compute_offset(0, 0, "rho")
+            >>> _compute_offset(0, 0, "rho", mm)
 
         - Example #2: Compute offset for all variables
 
-            >>> _compute_offset(0, 0, None)
+            >>> _compute_offset(0, 0, None, mm)
         """
         if (
             self.state.alone is not True

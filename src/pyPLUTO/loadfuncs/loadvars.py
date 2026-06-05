@@ -47,7 +47,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             The index of the output to be loaded.
         - i (not optional): int
             The index of the file to be loaded.
-        - vars (not optional): str | list[str] | bool | None, default True
+        - variables (not optional): str | list[str] | bool | None, default True
             If True all the variables are loaded, otherwise just a selection is
             loaded.
 
@@ -80,18 +80,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         mm = None
         endpath = f".{int(exout):04d}.{self.state.datatype}"
 
-        # Find the class name and find the single_file filepath
-        if self.state.class_name == "Load":
-            # If the class name is Load (single file), the filepath is data
-            self.state.filepath = Path(self.state.pathdir) / ("data" + endpath)
-        elif self.state.class_name == "LoadPart":
-            # If the class name is LoadPart, the filepath is particles
-            self.state.filepath = Path(self.state.pathdir) / (
-                "particles" + endpath
-            )
-        else:
-            # If the class name is not recognized, raise an error
-            raise NameError("Invalid class name.")
+        self.find_pathclass(endpath)
 
         # If files in single_file format, inspect the file
         # or compute the offset and shape
@@ -166,9 +155,6 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             if self.state.lennout != 1:
                 self.init_vardict(j)
 
-            if mm is None:
-                raise RuntimeError("memmap object not initialized")
-
             dtype = np.dtype(self.state.d_info["binformat"][exout])
             shape = self.state.varshape[offind]
             offset = self.state.varoffset[offind]
@@ -188,7 +174,30 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
                 int(j) if is_chunked_particles and offind == "tot" else None,
             )
 
-        # ... then after the variable loop ...
+    def find_pathclass(self, endpath: str) -> None:
+        """Set the data filepath based on the loader class and file suffix.
+
+        Parameters
+        ----------
+        - endpath (not optional): str
+            The file suffix.
+
+        Returns
+        -------
+        - None
+        """
+        # Find the class name and find the single_file filepath
+        if self.state.class_name == "Load":
+            # If the class name is Load (single file), the filepath is data
+            self.state.filepath = Path(self.state.pathdir) / ("data" + endpath)
+        elif self.state.class_name == "LoadPart":
+            # If the class name is LoadPart, the filepath is particles
+            self.state.filepath = Path(self.state.pathdir) / (
+                "particles" + endpath
+            )
+        else:
+            # If the class name is not recognized, raise an error
+            raise NameError("Invalid class name.")
 
     def assign_var(
         self,
@@ -204,12 +213,18 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
 
         Parameters
         ----------
-        - exout (not optional): int
-            The index of the output to be loaded.
-        - var (not optional): str
-            The variable name.
         - data (not optional): np.ndarray
             The data to be assigned to the variable.
+        - chunk_id: int | None
+            The ID of the chunk to which the variable belongs.
+        - exout (not optional): int
+            The index of the output to be loaded.
+        - scrh (not optional): np.ndarray
+            The data to be assigned to the variable.
+        - var (not optional): str
+            The variable name.
+
+
 
         Returns
         -------
@@ -256,7 +271,13 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         # End of the function
 
     def _track_mm(self, mm: mmap.mmap) -> None:
-        """Store mmap reference on state so compact() can evict its pages."""
+        """Store mmap reference on state so compact() can evict its pages.
+
+        Parameters
+        ----------
+        - mm: mmap.mmap
+            The memory-mapped file to be tracked.
+        """
         if self.state.class_name != "LoadPart":
             return
         self.state.mmaps.append(mm)

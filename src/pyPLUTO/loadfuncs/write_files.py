@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 
 import h5py
-from numpy.typing import NDArray
+import numpy as np
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
@@ -16,30 +16,53 @@ class WriteFilesManager(LoadMixin):
     """Class that manages writing data to external files."""
 
     def __init__(self, state: LoadState) -> None:
-        """Initialize the file-writing manager with the given load state.
-
-        Parameters
-        ----------
-        - state: LoadState
-            The load state object providing the working directory path.
-
-        Returns
-        -------
-        - None
-
-        """
+        """Initialize the file-writing manager with the given load state."""
         self.state = state
 
     @track_kwargs
     def _write_h5(
         self,
-        data: NDArray | dict,
+        data: np.ndarray | dict,
         filename: str,
         dataname: str | None = None,
         grid: bool = False,
         **kwargs: Any,
     ) -> None:
-        """Write data to an HDF5 file."""
+        """Write data to an HDF5 file.
+
+        Parameters
+        ----------
+        - data: np.ndarray | dict
+            The data to write.
+        - dx1: np.ndarray
+            The grid spacing in the x1 direction
+        - dx2: np.ndarray
+            The grid spacing in the x2 direction
+        - dx3: np.ndarray
+            The grid spacing in the x3 direction
+        - filename: str
+            The name of the file to write to.
+        - dataname: str | None
+            The name of the dataset to create.
+        - grid: bool
+            Whether to write grid data.
+        - nx1: int
+            The number of points in the x1 direction.
+        - nx2: int
+            The number of points in the x2 direction.
+        - nx3: int
+            The number of points in the x3 direction.
+        - x1: np.ndarray
+            The x1 grid points.
+        - x2: np.ndarray
+            The x2 grid points.
+        - x3: np.ndarray
+            The x3 grid points.
+
+        Returns
+        -------
+        - None
+        """
         path_h5 = self.state.pathdir / Path(filename)
         if not filename.endswith(".h5"):
             path_h5 = f"{path_h5}.h5"
@@ -66,7 +89,7 @@ class WriteFilesManager(LoadMixin):
     @track_kwargs
     def _write_vtk(
         self,
-        data: NDArray | dict,
+        data: np.ndarray | dict,
         filename: str,
         dataname: str | None = None,
         grid: bool = False,
@@ -78,7 +101,7 @@ class WriteFilesManager(LoadMixin):
     @track_kwargs
     def _write_tab(
         self,
-        data: NDArray | dict,
+        data: np.ndarray | dict,
         filename: str,
         dataname: str | None = None,
         grid: bool = False,
@@ -90,7 +113,7 @@ class WriteFilesManager(LoadMixin):
     @track_kwargs
     def _write_bin(
         self,
-        data: NDArray | dict,
+        data: np.ndarray | dict,
         filename: str,
         dataname: str | None = None,
         grid: bool = False,
@@ -102,7 +125,7 @@ class WriteFilesManager(LoadMixin):
     @track_kwargs
     def write_file(
         self,
-        data: NDArray | dict,
+        data: np.ndarray | dict,
         filename: str,
         datatype: str | None = None,
         dataname: str | None = None,

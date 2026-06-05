@@ -13,18 +13,7 @@ class ReadtabManager(LoadMixin):
     """Class that manages the reading of tabular data."""
 
     def __init__(self, state: LoadState) -> None:
-        """Initialize the tabular-data reading manager with the given load state.
-
-        Parameters
-        ----------
-        - state: LoadState
-            The load state object carrying grid metadata and output information.
-
-        Returns
-        -------
-        - None
-
-        """
+        """Initialize the tabular-data reading manager with the given state."""
         self.state = state
 
     def read_tab(
@@ -39,6 +28,12 @@ class ReadtabManager(LoadMixin):
         ----------
         - i (not optional): int
             The index of the file to be loaded.
+        - exout (not optional): int
+            The index of the output file to be loaded.
+        - mm (not optional): mmap.mmap
+            The memory-mapped file object.
+        - var (not optional): str
+            The variable to be loaded.
 
         Returns
         -------

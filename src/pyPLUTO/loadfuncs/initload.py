@@ -2,10 +2,9 @@
 
 import warnings
 from pathlib import Path
-from typing import Any, Unpack, cast
+from typing import Unpack, cast
 
 import numpy as np
-from numpy.typing import NDArray
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
@@ -21,13 +20,51 @@ from pyPLUTO.utils.inspector import track_kwargs
 
 
 class InitLoadManager(BaseLoadMixin[BaseLoadState]):
-    """Class that handles the initialization loading process."""
+    """Class that handles the initialization loading process.
+
+    Parameters
+    ----------
+    - alone: bool | None, default False
+        If the files are standalone. If False, the code will look for the
+        grid file in the folder. If True, the code will look for the grid
+        information within the data files. Should be used only for non-binary
+        files.
+    - code: str | None, default None
+        The code from which the data are loaded. If None, the code assumes
+        PLUTO/gPLUTO. If a different code is provided, the corresponding
+        loading method is used (if implemented).
+    - datatype: str | None, default None
+        The format of the data file. If not specified, the code will look for
+        the format from the list of possible formats. HDF5 (AMR) formats have
+        not been implemented yet.
+    - endian: str | None, default None
+        Endianess of the datafiles. Should be used only if specific
+        architectures are used, since the code computes it by itself. Valid
+        values are 'big' and 'little' (or '<' and '>').
+    - multiple: bool, default False
+        If the files are multiple. If False, the code will look for the single
+        files, otherwise for the multiple files each corresponding to the loaded
+        variables. Should be used only if both single files and multiple files
+        are present in the same format for the same datatype.
+    - nout: int | str | list | None, default 'last'
+        The files to be loaded. Possible choices are int values (which
+        correspond to the number of the output file), strings ('last', which
+        corresponds to the last file, 'all', which corresponds to all files) or
+        a list of the aforementioned types. Note that the 'all' value should be
+        used carefully, e.g. only when the data need to be shown interactively.
+    - path: str, default './'
+        The path of the folder where the files should be loaded.
+    - var: str | list[str] | bool | None, default True
+        The variables to be loaded. The default value, True, corresponds to all
+        the variables.
+    """
 
     @track_kwargs
     def __init__(
         self,
         state: BaseLoadState,
         nout: int | str | list[int | str] | None,
+        var: str | list[str] | bool | None,
         **kwargs: Unpack[AllKwargs],
     ) -> None:
         """Initialize the InitLoadManager class."""
@@ -50,14 +87,16 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
 
         self.state.code = kwargs.get("code", self.state.code)
         if self.state.code.lower() not in {"pluto", "gpluto"}:
-            self.CodeManager = CodeManager(state, nout, **kwargs)
+            self.CodeManager = CodeManager(state, nout, var, **kwargs)
             return
 
-        self.FindFormat = FindFormat(state, **kwargs)
+        self.FindFormat = FindFormat(
+            state, kwargs.get("datatype"), kwargs.get("alone")
+        )
 
         if isinstance(state, LoadState) and not self.state.alone:
             try:
-                self.Descriptor = DescriptorManager(state, nout, **kwargs)
+                self.Descriptor = DescriptorManager(state, nout)
             except UserWarning:
                 warnings.warn(
                     "Failed to initialize descriptor manager.", stacklevel=2
@@ -65,26 +104,23 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
                 self.state.alone = True
 
         if not isinstance(state, LoadState) or self.state.alone:
-            self.findfile = FindFilesManager(state, nout, **kwargs)
+            self.findfile = FindFilesManager(state, nout)
 
-        loadvars = True
         if kwargs.get("vars") is not None:
             warnings.warn(
                 "'vars' argument is deprecated. Use 'var' instead.",
                 DeprecationWarning,
                 stacklevel=2,
             )
-            loadvars = kwargs.get("vars", loadvars)
-        loadvars = kwargs.get("var", loadvars)
 
         for i, exout in enumerate(self.state.noutlist):
-            LoadVariables(state, loadvars, i, exout)
+            LoadVariables(state, var, i, exout)
 
         if not isinstance(state, LoadState):
             StorePart(state).finalize()
 
         for key, value in self.state.d_vars.items():
-            typed_value = cast(NDArray[Any], value)
+            typed_value = cast(np.ndarray, value)
             setattr(self.state, str(key), typed_value)
 
         if (

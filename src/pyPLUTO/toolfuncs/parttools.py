@@ -35,7 +35,6 @@ class PartToolsManager:
         scale: str = "lin",
         vmin: float | None = None,
         vmax: float | None = None,
-        density: bool = True,
         check: bool = True,
         **kwargs: Any,
     ) -> tuple[np.ndarray, np.ndarray]:
@@ -43,18 +42,20 @@ class PartToolsManager:
 
         Parameters
         ----------
-        - var: np.ndarray
-            The chosen variable for the histogram.
+        - bins: int | np.ndarray, default 100
+            The bin edges for the histogram.
+        - normalize: bool, default True
+            If True, the histogram is normalized.
+        - nbins: int
+            The number of bins wanted for the histogram.
         - scale: {'lin','log'}, default 'lin'
             The scale of the histogram, linear or logarithmic.
+        - var: np.ndarray
+            The chosen variable for the histogram.
         - vmin: float, default min(var)
             The minimum value of the chosen variable.
         - vmax: float, default max(var)
             The maximum value of the chosen variable.
-        - density: bool, default True
-            If True, the histogram is normalized.
-        - nbins: int
-            The number of bins wanted for the histogram.
 
         Returns
         -------
@@ -90,11 +91,17 @@ class PartToolsManager:
         bins = kwargs.get("bins", bins)
 
         # Compute the histogram
+        if kwargs.get("density") is not None:
+            warn = (
+                "The 'density' keyword is deprecated and will be removed "
+                "in a future version. Use 'normalize' instead."
+            )
+            warnings.warn(warn, DeprecationWarning, stacklevel=2)
         hist, bins = np.histogram(
             var,
             bins=bins,
             range=(vmin, vmax),
-            density=density,
+            density=kwargs.get("normalize", True),
         )
 
         # Compute the bin centers
@@ -114,14 +121,14 @@ class PartToolsManager:
 
         Parameters
         ----------
-        - var (not optional): np.ndarray
-            The chosen variable for the selection.
+        - ascending: bool, default True
+            If True, the indices are sorted in ascending order.
         - cond (not optional): str | Callable
             The condition to be satisfied.
         - sort: bool, default False
             If True, the indices are sorted in descending (or ascending) order.
-        - ascending: bool, default True
-            If True, the indices are sorted in ascending order.
+        - var (not optional): np.ndarray
+            The chosen variable for the selection.
 
         Returns
         -------

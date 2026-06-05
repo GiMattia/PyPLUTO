@@ -5,8 +5,8 @@ from pathlib import Path
 
 import numpy as np
 
-from ..loadmixin import LoadMixin
-from ..loadstate import LoadState
+from pyPLUTO.loadmixin import LoadMixin
+from pyPLUTO.loadstate import LoadState
 
 
 class GridFileManager(LoadMixin):

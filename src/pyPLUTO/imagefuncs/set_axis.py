@@ -48,26 +48,66 @@ class AxisManager(ImageMixin):
             is the same as 'equal').
         - ax: ax object, default None
             The axis to customize. If None the current axis will be selected.
+        - bottom: float, default varies
+            The bottom limit of the axis / axes set. For the figure layout it
+            is the space from the bottom border to the plot (default 0.1); for
+            an inset zoom it is the bottom position of the inset (default 0.6 +
+            height).
+        - figsize: list[float], default varies
+            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+            computed from the number of rows and columns (or [8,5] for a single
+            plot).
         - fontsize: float, default 17.0
             Sets the fontsize for all the axis components.
         - grid: bool | string, default False
             Enables/disables the grid on the plot. If True it enables both axes
             grids. If 'x' or 'y' it enables only the x- or y-axis grid.
+        - hratio: [float], default [1.0]
+            Ratio between the rows of the plot. The default is that every plot
+            row has the same height.
+        - hspace: [float], default []
+            The space between plot rows (in figure units). If not enough or too
+            many spaces are considered, the program will remove the excess and
+            fill the lacks with [0.1].
         - labelsize: float, default fontsize
             Sets the labels fontsize (which is the same for both labels). The
             default value corresponds to the value of the keyword 'fontsize'.
+        - left: float, default varies
+            The left limit of the axis / axes set. For the figure layout it is
+            the space from the left border to the plot (default 0.125); for an
+            inset zoom it is the left position of the inset (default 0.6).
         - minorticks: str, default None
             If not None enables the minor ticks on the plot (for both grid
             axes).
+        - ncol: int, default 1
+            The number of columns of subplots.
+        - nrow: int, default 1
+            The number of rows of subplots.
+        - proj: str, default None
+            Custom projection for the plot (e.g. 3D). Recommended only if
+            needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+            3D axes. The 3D plot feature will be available in future releases.
+        - right: float, default varies
+            The right limit of the axis / axes set. For the figure layout it is
+            the space from the right border to the plot (default 0.9); for an
+            inset zoom it is the right position of the inset (default left +
+            0.15).
         - sharex: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the x-axis between the subplots.
         - sharey: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the y-axis between the subplots.
+        - suptitle: str, default None
+            Creates a figure title over all the subplots.
         - ticksdir: {'in', 'out'}, default 'in'
             Sets the ticks direction. The default option is 'in'.
         - tickssize: float | bool, default True
             Sets the ticks fontsize (which is the same for both grid axes). The
             default value corresponds to the value of the keyword 'fontsize'.
+        - tight: bool, default True
+            Enables/disables tight layout options for the figure. In case of a
+            highly customized plot (e.g. ratios or space between rows and
+            columns) the option is set by default to False since that option
+            would not be available for standard matplotlib functions.
         - title: str, default None
             Places the title of the plot on top of it.
         - titlepad: float, default 8.0
@@ -75,6 +115,20 @@ class AxisManager(ImageMixin):
         - titlesize: float, default fontsize
             Sets the title fontsize. The default value corresponds to the value
             of the keyword 'fontsize'.
+        - top: float, default varies
+            The top limit of the axis / axes set. For the figure layout it is
+            the space from the top border to the plot (default 0.9); for an
+            inset zoom it is the top position of the inset (default bottom +
+            height).
+        - wratio: [float], default [1.0]
+            Ratio between the columns of the plot. The default is that every
+            plot column has the same width.
+        - wspace: [float], default []
+            The space between plot columns (in figure units). If not enough or
+            too many spaces are considered, the program will remove the excess
+            and fill the lacks with [0.1].
+        - xlabelpad: float, default 4.0
+            The padding between the x-axis label and the axis.
         - xrange: [float, float], default 'Default'
             Sets the range in the x-direction. If not defined, the range is
             computed automatically from the x-array.
@@ -94,6 +148,10 @@ class AxisManager(ImageMixin):
             should always correspond to fixed ticks.
         - xtitle: str, default None
             Sets and places the label of the x-axis.
+        - xtresh: float
+            The threshold parameter for the x-axis symlog/asinh scale.
+        - ylabelpad: float, default 4.0
+            The padding between the y-axis label and the axis.
         - yrange: [float, float], default 'Default'
             Sets the range in the y-direction. If not defined, the range is
             computed automatically from the y-array.
@@ -113,60 +171,6 @@ class AxisManager(ImageMixin):
             should always correspond to fixed ticks.
         - ytitle: str, default None
             Sets and places the label of the y-axis.
-
-        - bottom: float, default varies
-            The bottom limit of the axis / axes set. For the figure layout it
-            is the space from the bottom border to the plot (default 0.1); for
-            an inset zoom it is the bottom position of the inset (default 0.6 +
-            height).
-        - figsize: list[float], default varies
-            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
-            computed from the number of rows and columns (or [8,5] for a single
-            plot).
-        - hratio: [float], default [1.0]
-            Ratio between the rows of the plot. The default is that every plot
-            row has the same height.
-        - hspace: [float], default []
-            The space between plot rows (in figure units). If not enough or too
-            many spaces are considered, the program will remove the excess and
-            fill the lacks with [0.1].
-        - left: float, default varies
-            The left limit of the axis / axes set. For the figure layout it is
-            the space from the left border to the plot (default 0.125); for an
-            inset zoom it is the left position of the inset (default 0.6).
-        - proj: str, default None
-            Custom projection for the plot (e.g. 3D). Recommended only if
-            needed. WARNING: pyPLUTO does not support 3D plotting for now, only
-            3D axes. The 3D plot feature will be available in future releases.
-        - right: float, default 0.9
-            The right limit of the axis / axes set. For the figure layout it is
-            the space from the right border to the plot; for an inset zoom it
-            is the right position of the inset.
-        - suptitle: str, default None
-            Creates a figure title over all the subplots.
-        - tight: bool, default True
-            Enables/disables tight layout options for the figure. In case of a
-            highly customized plot (e.g. ratios or space between rows and
-            columns) the option is set by default to False since that option
-            would not be available for standard matplotlib functions.
-        - top: float, default varies
-            The top limit of the axis / axes set. For the figure layout it is
-            the space from the top border to the plot (default 0.9); for an
-            inset zoom it is the top position of the inset (default bottom +
-            height).
-        - wratio: [float], default [1.0]
-            Ratio between the columns of the plot. The default is that every
-            plot column has the same width.
-        - wspace: [float], default []
-            The space between plot columns (in figure units). If not enough or
-            too many spaces are considered, the program will remove the excess
-            and fill the lacks with [0.1].
-        - xlabelpad: float, default 4.0
-            The padding between the x-axis label and the axis.
-        - xtresh: float
-            The threshold parameter for the x-axis symlog/asinh scale.
-        - ylabelpad: float, default 4.0
-            The padding between the y-axis label and the axis.
         - ytresh: float
             The threshold parameter for the y-axis symlog/asinh scale.
 
@@ -403,13 +407,24 @@ class AxisManager(ImageMixin):
         ----------
         - ax: ax
             the selected set of axes
+        - labelsize: float, default fontsize
+            Sets the labels fontsize (which is the same for both labels). The
+            default value corresponds to the value of the keyword 'fontsize'.
         - title: str, default None
             Places the title of the plot on top of it.
+        - titlepad: float, default 8.0
+            Sets the distance between the title and the top of the plot.
         - titlesize: float, default fontsize
             Sets the title fontsize. The default value corresponds to the value
             of the keyword 'fontsize'.
-        - titlepad: float, default 8.0
-            Sets the distance between the title and the top of the plot.
+        - xlabelpad: float, default 4.0
+            The padding between the x-axis label and the axis.
+        - xtitle: str, default None
+            Sets and places the label of the x-axis.
+        - ylabelpad: float, default 4.0
+            The padding between the y-axis label and the axis.
+        - ytitle: str, default None
+            Sets and places the label of the y-axis.
 
         Returns
         -------
@@ -445,6 +460,20 @@ class AxisManager(ImageMixin):
             the selected set of axes
         - nax: int
             the index of the selected axis
+        - xscale: {'linear','log'}, default 'linear'
+            If enabled (and different from 'Default'), sets automatically the
+            scale on the x-axis. Data in log scale should be used with the
+            keyword 'log', while data in linear scale should be used with the
+            keyword 'linear'.
+        - xtresh: float
+            The threshold parameter for the x-axis symlog/asinh scale.
+        - yscale: {'linear','log'}, default 'linear'
+            If enabled (and different from 'Default'), sets automatically the
+            scale on the y-axis. Data in log scale should be used with the
+            keyword 'log', while data in linear scale should be used with the
+            keyword 'linear'.
+        - ytresh: float
+            The threshold parameter for the y-axis symlog/asinh scale.
 
         Returns
         -------
@@ -485,6 +514,12 @@ class AxisManager(ImageMixin):
             the selected set of axes
         - nax: int
             the index of the selected axis
+        - xrange: [float, float], default 'Default'
+            Sets the range in the x-direction. If not defined, the range is
+            computed automatically from the x-array.
+        - yrange: [float, float], default 'Default'
+            Sets the range in the y-direction. If not defined, the range is
+            computed automatically from the y-array.
 
         Returns
         -------
@@ -504,6 +539,10 @@ class AxisManager(ImageMixin):
         ----------
         - ax: ax
             the selected set of axes
+        - sharex: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the x-axis between the subplots.
+        - sharey: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the y-axis between the subplots.
 
         Returns
         -------
@@ -523,6 +562,9 @@ class AxisManager(ImageMixin):
         ----------
         - ax: ax
             the selected set of axes
+        - minorticks: str, default None
+            If not None enables the minor ticks on the plot (for both grid
+            axes).
         - nax: int
             the index of the selected axis
 

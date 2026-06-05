@@ -1,35 +1,28 @@
 """Docstring for findfiles.py."""
 
 from pathlib import Path
-from typing import Any
 
 import numpy as np
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.loadfuncs.baseloadtools import BaseLoadTools
-from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FindFilesManager(BaseLoadMixin[BaseLoadState]):
     """Class that manages file finding operations."""
 
-    @track_kwargs
     def __init__(
         self,
         state: BaseLoadState,
         nout: int | str | list[int | str],
-        **kwargs: Any,
     ) -> None:
         """Initialize the FindFilesManager class."""
         self.state = state
         self.LoadToolManager = BaseLoadTools(self.state)
-        self.find_files(nout, **kwargs)
+        self.find_files(nout)
 
-    @track_kwargs
-    def find_files(
-        self, nout: int | str | list[int | str], **kwargs: Any
-    ) -> None:
+    def find_files(self, nout: int | str | list[int | str]) -> None:
         """Find the files to be loaded.
 
         If nout is a list, the function loops over the list and finds the
@@ -142,10 +135,14 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
 
         Parameters
         ----------
-        - class_name (not optional): str
-            The name of the class. Supported classes are 'Load' or 'LoadPart'.
         - elem (not optional): str
             The matching file.
+        - set_vars (not optional): set
+            The set of variables.
+        - set_outs (not optional): set
+            The set of outputs.
+        - set_chnk (not optional): dict
+            The dictionary of chunks.
 
         Returns
         -------

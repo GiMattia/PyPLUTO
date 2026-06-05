@@ -1,5 +1,7 @@
 """Contains global variables for the GUI."""
 
+from __future__ import annotations
+
 import matplotlib.scale as mscale
 from matplotlib import colormaps as cmaps
 

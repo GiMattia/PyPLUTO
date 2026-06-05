@@ -3,23 +3,20 @@
 import glob
 from collections.abc import Callable
 from pathlib import Path
-from typing import Any
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
-from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FindFormat(BaseLoadMixin[BaseLoadState]):
     """Class to find the format of the PLUTO output files."""
 
-    @track_kwargs
-    def __init__(self, state: BaseLoadState, **kwargs: Any) -> None:
+    def __init__(
+        self, state: BaseLoadState, datatype: str | None, alone: bool | None
+    ) -> None:
         """Initialize the FindFormat class."""
         self.state = state
 
-        datatype = kwargs.get("datatype")
-        alone = kwargs.get("alone")
         self.check_format(datatype, alone)
 
     def check_format(

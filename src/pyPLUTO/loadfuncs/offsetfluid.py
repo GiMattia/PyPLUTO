@@ -16,21 +16,8 @@ from pyPLUTO.loadstate import LoadState
 class OffsetFluid(LoadMixin):
     """Class that computes the fluid offsets in single_file format."""
 
-    from pyPLUTO.amr import _DataScanHDF5, _inspect_hdf5, _read_gridfile
-
     def __init__(self, state: LoadState) -> None:
-        """Initialize the fluid offset manager with the given load state.
-
-        Parameters
-        ----------
-        - state: LoadState
-            The load state object carrying grid metadata and file information.
-
-        Returns
-        -------
-        - None
-
-        """
+        """Initialize the fluid offset manager with the given load state."""
         self.state = state
         self.GridAloneManager = GridManager(state)
 
@@ -46,6 +33,10 @@ class OffsetFluid(LoadMixin):
         ----------
         - i (not optional): int
             The index of the file to be loaded.
+        - exout (not optional): int
+            The index of the output file to be loaded.
+        - mm (not optional): mmap.mmap
+            The memory-mapped file object.
         - var (not optional): str
             The variable to be loaded.
 
@@ -104,6 +95,10 @@ class OffsetFluid(LoadMixin):
         ----------
         - i (not optional): int
             The index of the file to be loaded.
+        - exout (not optional): int
+            The index of the output file to be loaded.
+        - mm (not optional): mmap.mmap
+            The memory-mapped file object.
         - var (not optional): str
             The variable to be loaded.
 
@@ -222,6 +217,10 @@ class OffsetFluid(LoadMixin):
         ----------
         - i (not optional): int
             The index of the file to be loaded.
+        - exout (not optional): int
+            The index of the output file to be loaded.
+        - mm (not optional): mmap.mmap
+            The memory-mapped file object.
         - var (not optional): str
             The variable to be loaded.
 
@@ -291,13 +290,11 @@ class OffsetFluid(LoadMixin):
                     self.state.dim = 1
                     self.state.nshp = self.state.nx1
                     self.state.gridsize = self.state.nx1
-                    nshp_grid = self.state.nx1 + 1
                     gridvars = ["x1r", "x2", "x3"]
                 elif self.state.nx3 == 1:
                     self.state.dim = 2
                     self.state.nshp = (self.state.nx2, self.state.nx1)
                     self.state.gridsize = self.state.nx1 * self.state.nx2
-                    nshp_grid = (self.state.nx2 + 1, self.state.nx1 + 1)
                     gridvars = ["x1r", "x2r", "x3"]
                 else:
                     self.state.dim = 3
@@ -308,11 +305,6 @@ class OffsetFluid(LoadMixin):
                     )
                     self.state.gridsize = (
                         self.state.nx1 * self.state.nx2 * self.state.nx3
-                    )
-                    nshp_grid = (
-                        self.state.nx3 + 1,
-                        self.state.nx2 + 1,
-                        self.state.nx1 + 1,
                     )
                     gridvars = ["x1r", "x2r", "x3r"]
                 dir_map = {"X": gridvars[0], "Y": gridvars[1], "Z": gridvars[2]}
@@ -373,6 +365,21 @@ class OffsetFluid(LoadMixin):
         """Load AMR data from PLUTO/Chombo HDF5 files.
 
         This method is intentionally isolated from other formats.
+
+        Parameters
+        ----------
+        - i (not optional): int
+            The index of the file to be loaded.
+        - exout (not optional): int
+            The index of the output file to be loaded.
+        - mm (not optional): mmap.mmap
+            The memory-mapped file object.
+        - var (not optional): str
+            The variable to be loaded.
+
+        Returns
+        -------
+        - None
         """
         # Bridge AMR helpers (legacy naming) to the Newload state fields.
         self._filepath = self.filepath
@@ -434,3 +441,5 @@ class OffsetFluid(LoadMixin):
                 self.d_vars[varname] = data
 
         self.infogrid = False
+
+    from pyPLUTO.amr import _DataScanHDF5, _inspect_hdf5, _read_gridfile  # noqa: I001, PLC0415

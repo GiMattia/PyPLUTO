@@ -27,7 +27,10 @@ def _repo_examples_path() -> Path | None:
 
 
 def _package_version() -> str:
-    """Return the installed ``py-pluto`` version string, or ``'main'`` if not found."""
+    """Return the installed ``py-pluto`` version string.
+
+    If not found, return ``'main'``.
+    """
     try:
         return version("py-pluto")
     except PackageNotFoundError:
@@ -107,6 +110,16 @@ def examples_path(download: bool = True) -> Path:
 
     The function prefers a local repository checkout and falls back to a
     cached GitHub download for installed wheels.
+
+    Parameters
+    ----------
+    - download: bool, default True
+        If True, download examples from GitHub if not found locally.
+
+    Returns
+    -------
+    - Path
+        The path to the examples directory.
     """
     if (local := _repo_examples_path()) is not None:
         return local
@@ -120,7 +133,20 @@ def examples_path(download: bool = True) -> Path:
 def copy_examples(
     dst: str | Path = "pypluto_examples", overwrite: bool = False
 ) -> Path:
-    """Copy the full examples tree to a writable destination."""
+    """Copy the full examples tree to a writable destination.
+
+    Parameters
+    ----------
+    - dst: str | Path, default "pypluto_examples"
+        The destination directory.
+    - overwrite: bool, default False
+        If True, overwrite existing files.
+
+    Returns
+    -------
+    - Path
+        The path to the copied examples directory.
+    """
     destination = Path(dst).expanduser().resolve()
     src = examples_path(download=True)
 
@@ -148,9 +174,11 @@ def run_example(example: str, *args: str) -> int:
 
     if not script_path.exists():
         available = ", ".join(p.name for p in list_examples())
-        raise FileNotFoundError(
-            f"Example '{script}' not found in {src}. Available scripts: {available}"
+        err = (
+            f"Example '{script}' not found in {src}. "
+            f"Available scripts: {available}"
         )
+        raise FileNotFoundError(err)
 
     cmd = [sys.executable, str(script_path), *args]
     completed = subprocess.run(cmd, check=False)

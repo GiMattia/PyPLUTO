@@ -2,23 +2,35 @@
 
 import re
 from pathlib import Path
-from typing import Any
 
 import inifix
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
-from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FiledefpliniManager(LoadMixin):
-    """Manage loading of definitions headers and the pluto.ini file."""
+    """Manage loading of definitions headers and the pluto.ini file.
 
-    @track_kwargs
-    def __init__(self, state: LoadState, **kwargs: Any) -> None:
+    Parameters
+    ----------
+    - state: LoadState
+        The load state object.
+    - defh: bool | str | None
+        The path to the definitions header file.
+    - plini: bool | str | None
+        The path to the pluto.ini file.
+    """
+
+    def __init__(
+        self,
+        state: LoadState,
+        defh: bool | str | None,
+        plini: bool | str | None,
+    ) -> None:
         """Initialize the FiledefpliniManager."""
         self.state = state
-        if (defh := kwargs.get("defh")) is not False:
+        if defh is not False:
             pathdefh = self.state.pathdir / Path("definitions.h")
             defhfile = "definitions.hpp"
             if not pathdefh.exists():
@@ -30,7 +42,6 @@ class FiledefpliniManager(LoadMixin):
                 print(f"No {defhfile} is read!") if defh is True else ...
 
         # Try to read the file pluto.ini
-        plini = kwargs.get("plini")
         if isinstance(plini, str):
             pathplini = self.state.pathdir / Path(plini)
         elif plini is not False:

@@ -94,6 +94,7 @@ class LoadPart(BaseLoadMixin):
     def __init__(
         self,
         nout: int | str | list[int | str] | None = "last",
+        var: str | list[str] | bool | None = True,
         check: bool = True,
         **kwargs: Any,
     ) -> None:
@@ -104,7 +105,7 @@ class LoadPart(BaseLoadMixin):
         self.cached_vars = set()
         self.state.text = kwargs.get("text", self.state.text)
         self.state.class_name = self.__class__.__name__
-        InitLoadManager(self.state, nout, **kwargs)
+        InitLoadManager(self.state, nout, var, **kwargs)
         self.PartToolsManager = PartToolsManager(self.state)
         self.UnitManager = UnitManager(self.state)
         self.SetUnitsManager = SetUnitsManager(self.state)

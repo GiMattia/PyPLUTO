@@ -3,7 +3,6 @@
 from typing import Any
 
 import numpy as np
-from numpy.typing import NDArray
 from scipy.interpolate import RectBivariateSpline
 
 from pyPLUTO.loadmixin import LoadMixin
@@ -17,18 +16,7 @@ class TransformManager(LoadMixin):
     """Manager for transform and slicing helpers."""
 
     def __init__(self, state: LoadState) -> None:
-        """Initialize the transform manager and its helper sub-managers.
-
-        Parameters
-        ----------
-        - state: LoadState
-            The load state object providing grid arrays and dataset variables.
-
-        Returns
-        -------
-        - None
-
-        """
+        """Initialize the transform manager and its helper sub-managers."""
         self.state = state
         self.LoadToolsManager = LoadToolsManager(state)
         self.FindLinesManager = FindLinesManager(state)
@@ -36,14 +24,62 @@ class TransformManager(LoadMixin):
     @track_kwargs(extra_keys={"axis1", "axis2", "offset"})
     def slices(
         self,
-        var: NDArray,
+        var: np.ndarray,
         diag: bool | None = None,
         x1: int | list | None = None,
         x2: int | list | None = None,
         x3: int | list | None = None,
         **kwargs: Any,
     ) -> np.ndarray:
-        """Slice a variable along axes and optionally along a diagonal."""
+        """Slice the variable in the 3 directions.
+
+        Also, it can slice the diagonal of the variable.
+
+        Returns
+        -------
+        - newvar: np.ndarray
+            The sliced variable.
+
+        Parameters
+        ----------
+        - axis1: int | None, default None
+            Axis to be used as the first axis of the 2-D sub-arrays from which
+            the diagonals should be taken. Defaults to first axis (0).
+        - axis2: int | None, default None
+            Axis to be used as the second axis of the 2-D sub-arrays from which
+            the diagonals should be taken. Defaults to second axis (1).
+        - diag: bool | None, default None
+            If not None (or 'min'), slice the main diagonal of the variable.
+            If 'min', slice the opposite diagonal.
+        - offset: int | None, default None
+            Offset of the diagonal from the main diagonal. Can be positive or
+            negative. Defaults to main diagonal (0).
+        - var: np.ndarray
+            The variable to slice.
+        - x1: int | list | None, default None
+            The slice in the 1st direction.
+        - x2: int | list | None, default None
+            The slice in the 2nd direction.
+        - x3: int | list | None, default None
+            The slice in the 3rd direction.
+
+        ----
+
+        Examples
+        --------
+        - Example #1: Slice the variable in the 3 directions
+
+            >>> slices(var, x1=0, x2=0, x3=0)
+
+        - Example #2: Slice the variable in the diagonal
+
+            >>> slices(var, diag=True)
+
+        - Example #3: Slice the variable in the opposite diagonal
+
+            >>> slices(var, diag="min")
+
+        """
         newvar = np.copy(var)
 
         if diag is not None:
@@ -64,11 +100,67 @@ class TransformManager(LoadMixin):
         return newvar
 
     def mirror(
-        self, var: NDArray, dirs: str | list = "l", xax=None, yax=None
+        self,
+        var: np.ndarray,
+        dirs: str | list = "l",
+        xax: np.ndarray | None = None,
+        yax: np.ndarray | None = None,
     ) -> list[np.ndarray]:
-        """Mirror a variable in one or more directions."""
+        """Mirror the variable in the specified directions.
+
+        Multiple directions can be specified.
+
+        Returns
+        -------
+        - newvar: np.ndarray
+            The mirrored variable.
+        - xax: np.ndarray
+            The mirrored x-axis.
+        - yax: np.ndarray
+            The mirrored y-axis.
+
+        Parameters
+        ----------
+        - dirs: str | list, default 'l'
+            The directions to mirror the variable. Can be 'l', 'r', 't', 'b' or
+            a list or combination of them.
+        - var: np.ndarray
+            The variable to mirror.
+        - xax: np.ndarray | None, default None
+            The x-axis to mirror.
+        - yax: np.ndarray | None, default None
+            The y-axis to mirror.
+
+        ----
+
+        Examples
+        --------
+        - Example #1: Mirror the variable in the left direction
+
+            >>> mirror(var, dirs="l")
+
+        - Example #2: Mirror the variable in the right direction with axis
+
+            >>> mirror(var, dirs="r", xax=xax)
+
+        - Example #3: Mirror the variable in the top and left directions
+
+            >>> mirror(var, dirs=["t", "l"])
+
+        - Example #4: Mirror the variable in the top and left directions (no
+            list)
+
+            >>> mirror(var, dirs="tl")
+
+        - Example #5: Mirror the variable in the left direction three times
+
+            >>> mirror(var, dirs="lll")
+
+        """
         spp = [*dirs] if not isinstance(dirs, list) else dirs
-        newvar, axx, axy = np.copy(var), np.copy(xax), np.copy(yax)
+        newvar = np.copy(var)
+        axx = np.copy(xax) if xax is not None else None
+        axy = np.copy(yax) if yax is not None else None
         dim = np.ndim(var) - 1
         if dim > 1:
             raise ValueError("Mirror function does not works for 3D arrays")
@@ -83,29 +175,35 @@ class TransformManager(LoadMixin):
                 "b": [(lvy, 0), ((0, 0), (lvy, 0))],
             }
             newvar = np.pad(newvar, choices[direction][dim], "symmetric")
-            if xax is not None and direction in {"l", "r"}:
+            if axx is not None and direction in {"l", "r"}:
                 axx = np.pad(
-                    axx, choices[direction][0], "reflect", reflect_type="odd"
+                    axx,
+                    choices[direction][0],
+                    mode="reflect",
+                    reflect_type="odd",
                 )
-            if yax is not None and direction in {"t", "b"}:
+            if axy is not None and direction in {"t", "b"}:
                 axy = np.pad(
-                    axy, choices[direction][0], "reflect", reflect_type="odd"
+                    axy,
+                    choices[direction][0],
+                    mode="reflect",
+                    reflect_type="odd",
                 )
         xax is not None and nax.append(axx)
         yax is not None and nax.append(axy)
         if len(nax) > 1:
-            return newvar, nax
+            return [newvar, *nax]
         elif len(nax) > 0:
-            return newvar, nax[0]
+            return [newvar, nax[0]]
         else:
-            return newvar
+            return [newvar]
 
     def repeat(
         self,
-        var: NDArray,
+        var: np.ndarray,
         dirs: str | list,
-        xax: NDArray | None = None,
-        yax: NDArray | None = None,
+        xax: np.ndarray | None = None,
+        yax: np.ndarray | None = None,
     ) -> np.ndarray:
         """Repeat a variable in one or more directions."""
         raise NotImplementedError("Function repeat not implemented yet")
@@ -113,27 +211,68 @@ class TransformManager(LoadMixin):
     @track_kwargs
     def cartesian_vector(
         self, var: str | None = None, **kwargs: Any
-    ) -> tuple[NDArray, ...]:
-        """Convert vector components to Cartesian coordinates."""
-        vars = {
+    ) -> tuple[np.ndarray, ...]:
+        """Convert a vector from spherical or polar components to cartesian.
+
+        Returns
+        -------
+        - newvar: tuple(np.ndarray)
+            The converted vector components.
+
+        Parameters
+        ----------
+        - fullout: bool, default False
+            If True, all vector components are returned.
+        - transpose: True/False, default False
+            Transposes the variable matrix. Use is not recommended if not
+            really necessary (e.g. in case of highly customized variables and
+            plots).
+        - var: np.ndarray
+            The variable to convert.
+        - var1: np.ndarray
+            The first variable to convert if var is not used.
+        - var2: np.ndarray
+            The second variable to convert if var is not used.
+        - var3: np.ndarray
+            The third variable to convert if var is not used.
+        - x1: int
+            The first index of the variable.
+        - x2: int
+            The second index of the variable.
+
+        ----
+
+        Examples
+        --------
+        - Example #1: Convert the vector from spherical to cartesian components
+
+            >>> Bx, By, Bz = cartesian_vector(var="B")
+
+        - Example #2: Convert the vector from polar to cartesian components
+
+            >>> Bx, By = cartesian_vector(var1=D.Bx1, var2=D.Bx2)
+
+        """
+        vecvars = {
             "B": ["Bx1", "Bx2", "Bx3"],
             "E": ["Ex1", "Ex2", "Ex3"],
             "v": ["vx1", "vx2", "vx3"],
         }
+        threed = 3
 
         if var is not None:
             var_0 = [
-                self.FindLinesManager._check_var(
+                self.LoadToolsManager.check_var(
                     v, kwargs.get("transpose", False)
                 )
-                for v in vars[var]
+                for v in vecvars[var]
             ]
         elif "var1" in kwargs and "var2" in kwargs:
             var_0 = [
-                self.FindLinesManager._check_var(
+                self.LoadToolsManager.check_var(
                     kwargs["var1"], kwargs.get("transpose", False)
                 ),
-                self.FindLinesManager._check_var(
+                self.LoadToolsManager.check_var(
                     kwargs["var2"], kwargs.get("transpose", False)
                 ),
             ]
@@ -142,7 +281,7 @@ class TransformManager(LoadMixin):
 
         if "var3" in kwargs:
             var_0.append(
-                self.FindLinesManager._check_var(
+                self.LoadToolsManager.check_var(
                     kwargs["var3"], kwargs.get("transpose", False)
                 )
             )
@@ -153,7 +292,7 @@ class TransformManager(LoadMixin):
         if self.geom == "SPHERICAL":
             varr = var_0[0] * np.sin(x2) + var_0[1] * np.cos(x2)
             varz = var_0[0] * np.cos(x2) - var_0[1] * np.sin(x2)
-            if self.dim == 3:
+            if self.dim == threed:
                 varx = varr * np.cos(x3) - var_0[2] * np.sin(x3)
                 vary = varr * np.sin(x3) + var_0[2] * np.cos(x3)
                 if kwargs.get("fullout", False):
@@ -172,13 +311,53 @@ class TransformManager(LoadMixin):
     @track_kwargs
     def reshape_cartesian(
         self, *args: Any, **kwargs: Any
-    ) -> tuple[NDArray, ...]:
-        """Reshape cylindrical/spherical data onto a Cartesian grid."""
-        vars = []
+    ) -> tuple[np.ndarray, ...]:
+        """Reshape a variable into a cartesian grid.
+
+        Zones not covered by the original domain (e.g. the very inner radial
+        regions) are also interpolated. At the current stage, the transformation
+        is only in 2D.
+
+        Returns
+        -------
+        - newvar: tuple(np.ndarray)
+            The converted variable.
+
+        Parameters
+        ----------
+        - nx1: int, default len(x1)
+            The number of grid points in the first direction.
+        - nx2: int, default len(x2)
+            The number of grid points in the second direction.
+        - transpose: True/False, default False
+            Transposes the variable matrix. Use is not recommended if not
+            really necessary (e.g. in case of highly customized variables and
+            plots).
+        - var: np.ndarray
+            The variable to convert.
+        - x1: int
+            The first index of the variable.
+        - x2: int
+            The second index of the variable.
+
+        ----
+
+        Examples
+        --------
+        - Example #1: Convert the vector from spherical to cartesian components
+
+            >>> Bx, By, Bz = cartesian_vector(var="B")
+
+        - Example #2: Convert the vector from polar to cartesian components
+
+            >>> Bx, By = cartesian_vector(var1=D.Bx1, var2=D.Bx2)
+
+        """
+        var = []
         newv = []
         for i in args:
-            vars.append(
-                self.FindLinesManager._check_var(
+            var.append(
+                self.LoadToolsManager.check_var(
                     i, kwargs.get("transpose", False)
                 )
             )
@@ -206,16 +385,18 @@ class TransformManager(LoadMixin):
             yc0 = np.linspace(ymin, ymax, nx2)
             xc, yc = np.meshgrid(xc0, yc0, indexing="ij")
 
-        x1, x2, vars = self.reshape_uniform(x1, x2, *vars, **kwargs)
+        x1, x2, var = self.reshape_uniform(x1, x2, *var, **kwargs)
 
         ww, nn = self._convert2cartgrid(xc, yc, x1, x2)
 
         xcong = self.LoadToolsManager.congrid(xc, (nx1, nx2), method="linear")
         ycong = self.LoadToolsManager.congrid(yc, (nx1, nx2), method="linear")
 
-        for i, var in enumerate(vars):
+        for i, singlevar in enumerate(var):
             newv.append(
-                np.sum([ww[j] * var.flat[nn[j]] for j in range(4)], axis=0)
+                np.sum(
+                    [ww[j] * singlevar.flat[nn[j]] for j in range(4)], axis=0
+                )
             )
             newv[i] = self.LoadToolsManager.congrid(
                 newv[i], (nx1, nx2), method="linear"
@@ -227,8 +408,41 @@ class TransformManager(LoadMixin):
             return xcong[:, 0], ycong[0], *newv
 
     @track_kwargs
-    def reshape_uniform(self, x1, x2, *args, **kwargs):
-        """Reshape a non-uniform 2D grid into a uniform one."""
+    def reshape_uniform(
+        self, x1: np.ndarray, x2: np.ndarray, *args: Any, **kwargs: Any
+    ) -> tuple[np.ndarray, np.ndarray, list[np.ndarray]]:
+        """Reshape a non-uniform (cartesian) 2D grid into a uniform grid.
+
+        Returns
+        -------
+        tuple: A tuple containing the reshaped x1, x2, varx, and vary.
+
+        Parameters
+        ----------
+        - nx1: int, default len(x1)
+            The number of grid points in the first direction.
+        - nx2: int, default len(x2)
+            The number of grid points in the second direction.
+        - transpose: True/False, default False
+            Transposes the variable matrix. Use is not recommended if not
+            really necessary (e.g. in case of highly customized variables and
+            plots).
+        - var: np.ndarray
+            The variable to convert.
+        - x1: int
+            The first index of the variable.
+        - x2: int
+            The second index of the variable.
+
+        ----
+
+        Examples
+        --------
+        - Example #1: Reshape the grid into a uniform grid
+
+            >>> x1new, x2new, varx = reshape_uniform(x1, x2, var)
+
+        """
         uniform_x = all(np.diff(x1) == np.diff(x1)[0])
         uniform_y = all(np.diff(x2) == np.diff(x2)[0])
 
@@ -255,11 +469,13 @@ class TransformManager(LoadMixin):
         else:
             x1new = x1
             x2new = x2
-            newvars = [arg for arg in args]
+            newvars = list(args)
 
         return x1new, x2new, newvars
 
-    def _convert2cartgrid(self, R, Z, new_r, new_t):
+    def _convert2cartgrid(
+        self, R: np.ndarray, Z: np.ndarray, new_r: np.ndarray, new_t: np.ndarray
+    ) -> tuple[list[np.ndarray], list[np.ndarray]]:
         """Convert a spherical/polar grid to Cartesian helper weights."""
         Rs = np.sqrt(R**2 + Z**2)
 

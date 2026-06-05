@@ -89,7 +89,7 @@ class AttrResolver:
 
     @staticmethod
     def _mmap_array(state: object, name: str, val: np.ndarray) -> np.ndarray:
-        """Copy an mmap-backed array into owned memory, release the mapping, and cache.
+        """Copy an mmap-backed array into owned memory and release the mapping.
 
         The copy is performed via ``np.array(val)`` which forces a full
         read into a new allocation.  After copying, ``MADV_DONTNEED`` is

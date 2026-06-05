@@ -4,7 +4,7 @@ import mmap
 from pathlib import Path
 from typing import Any, Generic, TypeVar
 
-from numpy.typing import NDArray
+import numpy as np
 
 from pyPLUTO.baseloadstate import BaseLoadState
 
@@ -179,22 +179,22 @@ class BaseLoadMixin(Generic[S]):
         self.state.multiple = value
 
     @property
-    def nout(self) -> int | NDArray[Any]:
+    def nout(self) -> int | np.ndarray:
         """Get the nout attribute of the load state."""
         return self.state.nout
 
     @nout.setter
-    def nout(self, value: int | NDArray[Any]) -> None:
+    def nout(self, value: int | np.ndarray) -> None:
         """Set the nout attribute of the load state."""
         self.state.nout = value
 
     @property
-    def noutlist(self) -> NDArray[Any]:
+    def noutlist(self) -> np.ndarray:
         """Get the nout attribute of the load state."""
         return self.state.noutlist
 
     @noutlist.setter
-    def noutlist(self, value: NDArray[Any]) -> None:
+    def noutlist(self, value: np.ndarray) -> None:
         """Set the nout attribute of the load state."""
         self.state.noutlist = value
 
@@ -209,32 +209,32 @@ class BaseLoadMixin(Generic[S]):
         self.state.nshp = value
 
     @property
-    def ntime(self) -> int | NDArray[Any]:
+    def ntime(self) -> int | np.ndarray:
         """Get the ntime attribute of the load state."""
         return self.state.ntime
 
     @ntime.setter
-    def ntime(self, value: int | NDArray[Any]) -> None:
+    def ntime(self, value: int | np.ndarray) -> None:
         """Set the ntime attribute of the load state."""
         self.state.ntime = value
 
     @property
-    def ntimelist(self) -> NDArray[Any]:
+    def ntimelist(self) -> np.ndarray:
         """Get the ntime attribute of the load state."""
         return self.state.ntimelist
 
     @ntimelist.setter
-    def ntimelist(self, value: NDArray[Any]) -> None:
+    def ntimelist(self, value: np.ndarray) -> None:
         """Set the ntime attribute of the load state."""
         self.state.ntimelist = value
 
     @property
-    def outlist(self) -> NDArray[Any]:
+    def outlist(self) -> np.ndarray:
         """Get the outlist attribute of the load state."""
         return self.state.outlist
 
     @outlist.setter
-    def outlist(self, value: NDArray[Any]) -> None:
+    def outlist(self, value: np.ndarray) -> None:
         """Set the outlist attribute of the load state."""
         self.state.outlist = value
 
@@ -259,12 +259,12 @@ class BaseLoadMixin(Generic[S]):
         self.state.text = value
 
     @property
-    def timelist(self) -> NDArray[Any]:
+    def timelist(self) -> np.ndarray:
         """Get the timelist attribute of the load state."""
         return self.state.timelist
 
     @timelist.setter
-    def timelist(self, value: NDArray[Any]) -> None:
+    def timelist(self, value: np.ndarray) -> None:
         """Set the timelist attribute of the load state."""
         self.state.timelist = value
 

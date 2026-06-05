@@ -1,5 +1,7 @@
 """Custom variable GUI widgets and combo integration."""
 
+from __future__ import annotations
+
 import re
 from typing import cast
 
@@ -42,6 +44,14 @@ class CustomVarDialog(QDialog):
             expressions entered in the dialog.
         - parent: QWidget | None, default None
             Parent widget for the dialog.
+
+
+        Returns
+        -------
+        - None
+
+        ----
+
         """
         super().__init__(parent)
         self.Data = Data
@@ -75,7 +85,10 @@ class CustomVarDialog(QDialog):
         self.exprs.textChanged.connect(lambda: self.err.setText(""))
 
     def _parse_lines(self, text: str) -> list[tuple[str, str, bool, str, str]]:
-        """Parse text lines into (display_name, expr_display, hidden, clean_name, expr_clean) tuples.
+        """Parse text lines into tuples.
+
+        The full tuple expression is:
+        (display_name, expr_display, hidden, clean_name, expr_clean).
 
         Parameters
         ----------
@@ -145,9 +158,32 @@ def setup_var_selector(combo: QComboBox, Data: Load) -> None:
     _reapply_custom_vars(combo, Data)
 
 
+def _insert_or_select_combo_item(
+    combo: QComboBox, clean_name: str, expr_clean: str
+) -> None:
+    """Insert *clean_name* into *combo* before the sentinel.
+
+    If this is not possible, select it if already present.
+    """
+    for i in range(combo.count()):
+        if combo.itemText(i).lower() == clean_name.lower():
+            combo.setCurrentIndex(i)
+            combo.setProperty("_last", i)
+            return
+
+    sent = next(
+        (i for i in range(combo.count()) if combo.itemText(i) == SENTINEL),
+        -1,
+    )
+    pos = sent if sent != -1 else combo.count()
+    combo.insertItem(pos, clean_name)
+    combo.setItemData(pos, expr_clean, role=Qt.ItemDataRole.UserRole)
+    combo.setCurrentIndex(pos)
+    combo.setProperty("_last", pos)
+
+
 def _on_activated(combo: QComboBox, idx: int, Data: Load) -> None:
     """Handle combo activation and create/apply custom variables."""
-    # Always use the live Data from the main window if available
     Data = getattr(combo.window(), "Data", Data)
     threed = 3
 
@@ -157,69 +193,42 @@ def _on_activated(combo: QComboBox, idx: int, Data: Load) -> None:
     last = combo.property("_last")
     if last is not None and last >= 0:
         combo.setCurrentIndex(last)
+
     dlg = CustomVarDialog(Data, combo.window())
     if dlg.exec() != QDialog.DialogCode.Accepted:
         return
 
-    # tuples: (display_name, expr_display, hidden, clean_name, expr_clean)
     pairs = dlg.values or []
     stored = list(combo.property("_cv_defs") or [])
 
     for display_name, expr_display, hidden, clean_name, expr_clean in pairs:
-        # evaluate & assign on Data using clean values
         try:
             evaluate_custom_var(Data, clean_name, expr_clean, assign=True)
         except Exception:
-            continue  # silent skip per requirement
+            continue
 
-        # add to combo only if not hidden
         if not hidden:
-            # duplicate? select existing
-            for i in range(combo.count()):
-                if combo.itemText(i).lower() == clean_name.lower():
-                    combo.setCurrentIndex(i)
-                    combo.setProperty("_last", i)
-                    break
-            else:
-                # insert before sentinel
-                sent = next(
-                    (
-                        i
-                        for i in range(combo.count())
-                        if combo.itemText(i) == SENTINEL
-                    ),
-                    -1,
-                )
-                pos = sent if sent != -1 else combo.count()
-                combo.insertItem(pos, clean_name)
-                combo.setItemData(
-                    pos, expr_clean, role=Qt.ItemDataRole.UserRole
-                )
-                combo.setCurrentIndex(pos)
-                combo.setProperty("_last", pos)
+            _insert_or_select_combo_item(combo, clean_name, expr_clean)
 
-        # store triple so we can reapply (expr_clean) and display comments
-        # (expr_display)
         stored.append((display_name, expr_clean, expr_display))
 
     combo.setProperty("_cv_defs", stored)
 
-    # Refresh info panel if present (shows the display expr with comments)
     top = combo.window()
-    if hasattr(top, "info_label") and stored:
-        info = cast(QTextEdit, top.info_label)
-        lines = []
-        for tup in stored:
-            if len(tup) == threed:
-                disp_name, _clean, disp_expr = tup
-                lines.append(f"{disp_name} = {disp_expr}")
-            else:
-                # backward-compat if older pairs (name, expr)
-                n, e = tup
-                lines.append(f"{n} = {e}")
-        old_text = info.toPlainText()
-        base = old_text.split("\n\nCustom variables:")[0]
-        info.setPlainText(f"{base}\n\nCustom variables:\n" + "\n".join(lines))
+    if not (hasattr(top, "info_label") and stored):
+        return
+
+    info = cast(QTextEdit, top.info_label)
+    lines = []
+    for tup in stored:
+        if len(tup) == threed:
+            disp_name, _clean, disp_expr = tup
+            lines.append(f"{disp_name} = {disp_expr}")
+        else:
+            n, e = tup
+            lines.append(f"{n} = {e}")
+    base = info.toPlainText().split("\n\nCustom variables:")[0]
+    info.setPlainText(f"{base}\n\nCustom variables:\n" + "\n".join(lines))
 
 
 def _reapply_custom_vars(combo: QComboBox, Data: Load) -> None:

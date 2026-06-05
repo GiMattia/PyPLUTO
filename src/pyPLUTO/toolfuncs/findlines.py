@@ -6,10 +6,8 @@ import contourpy as cp
 import matplotlib.colors as mcol
 import matplotlib.pyplot as plt
 import numpy as np
-from numpy.typing import NDArray
 from scipy.integrate import solve_ivp
 
-from pyPLUTO.h_pypluto import makelist
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.toolfuncs.loadtools import LoadToolsManager
@@ -35,22 +33,38 @@ class FindLinesManager(LoadMixin):
         self.state = state
         self.LoadToolsManager = LoadToolsManager(state)
 
-    def _check_var(
-        self, var: str | NDArray, transpose: bool = False
-    ) -> np.ndarray:
-        """Return a variable from input array or dataset key."""
-        return self.LoadToolsManager.check_var(var, transpose)
-
     @staticmethod
     def _vector_field(
-        t: float,
+        _t: float,
         y: np.ndarray,
         var1: np.ndarray,
         var2: np.ndarray,
         xc: np.ndarray,
         yc: np.ndarray,
     ) -> list[np.ndarray]:
-        """Compute vector field interpolation at position y."""
+        """Compute vector field interpolation at position y.
+
+        Parameters
+        ----------
+        - _t: float
+            The time.
+        - y: np.ndarray
+            The position.
+        - var1: np.ndarray
+            The first vector component.
+        - var2: np.ndarray
+            The second vector component.
+        - xc: np.ndarray
+            The x-coordinates of the grid.
+        - yc: np.ndarray
+            The y-coordinates of the grid.
+
+        Returns
+        -------
+        - list[np.ndarray]
+            The interpolated vector field.
+
+        """
         x, y = y
 
         i0 = np.abs(x - xc).argmin()
@@ -78,9 +92,86 @@ class FindLinesManager(LoadMixin):
         text: bool = False,
         **kwargs: Any,
     ) -> list:
-        """Find field lines from two vector components."""
-        varx = self._check_var(var1, kwargs.get("transpose", False))
-        vary = self._check_var(var2, kwargs.get("transpose", False))
+        """Find field lines using the vector field.
+
+        The field lines are computed by interpolating the variables var1 and
+        var2 at the footpoints x0 and y0. Different integration algorithms are
+        available, based on the method solve_ivp of the scipy package.
+
+        Parameters
+        ----------
+        - atol: float, default 1e-6
+            The absolute tolerance for the integration.
+        - closed: bool, default True
+            If True, it checks if the line is closed on itself.
+        - ctol: float, default 1e-6
+            The absolute tolerance for line closing on itself.
+        - dense: bool, default False
+            If True, the grid is dense (dense=True) or sparse (dense=False).
+        - maxstep: float, default 100*step
+            The maximum step size for the integration.
+        - minstep: float, default 0.05*step
+            The minimum step size for the integration
+            (only used if order is LSODA).
+        - numsteps: int, default 16384
+            The maximum number of steps for the integration.
+        - order: str, default 'RK45'
+            The integration method. Available options are:
+            'RK45', 'RK23', 'DOP853', 'Radau', 'BDF', 'LSODA'.
+        - rtol: float, default 1e-6
+            The relative tolerance for the integration.
+        - step: float, default
+          abs(min((xend-xbeg)/self.nx1, (yend-ybeg)/self.nx2))
+            The initial step size for the integration.
+        - text: bool, default False
+            If True some additional information is printed.
+        - transpose: True/False, default False
+            Transposes the variable matrix. Use is not recommended if not
+            really necessary (e.g. in case of highly customized variables and
+            plots).
+        - var1 (not optional): str | np.ndarray
+            The first variable to be interpolated.
+        - var2 (not optional): str | np.ndarray
+            The second variable to be interpolated.
+        - x0: list
+            The x coordinates of the footpoints.
+        - x1: np.ndarray | list | None, default self.x1
+            The x coordinates of the grid.
+        - x2: np.ndarray | list | None, default self.x2
+            The y coordinates of the grid.
+        - y0: list
+            The y coordinates of the footpoints.
+
+        Returns
+        -------
+        - linelist: list
+            A list of lists containing the coordinates of the field lines.
+            The strcuture of the list is [[x1, y1], [x2, y2], ...] where
+            x1, y1, x2, y2 are numpy arrays representing the coordinates of
+            the field lines.
+        ----
+
+        Examples
+        --------
+        - Example #1: Find field lines using the vector field
+
+            >>> find_fieldlines(var1, var2, x0, y0)
+
+        - Example #2: Find field lines using two strings 'Bx1' and 'Bx2'
+
+            >>> find_fieldlines("Bx1", "Bx2", x0, y0)
+
+        - Example #3: Find field lines using two variables and two footpoints
+
+            >>> find_fieldlines(var1, var2, [x1, x2], [y1, y2])
+
+        """
+        varx = self.LoadToolsManager.check_var(
+            var1, kwargs.get("transpose", False)
+        )
+        vary = self.LoadToolsManager.check_var(
+            var2, kwargs.get("transpose", False)
+        )
 
         xc = x1 if x1 is not None else self.x1
         yc = x2 if x2 is not None else self.x2
@@ -90,8 +181,8 @@ class FindLinesManager(LoadMixin):
                 "Footpoints not provided. Please provide footpoints!"
             )
 
-        x0 = makelist(x0)
-        y0 = makelist(y0)
+        x0 = list(np.atleast_1d(x0))
+        y0 = list(np.atleast_1d(y0))
 
         xbeg = xc[0] - 0.51 * (xc[1] - xc[0])
         xend = xc[-1] + 0.51 * (xc[-1] - xc[-2])
@@ -114,42 +205,40 @@ class FindLinesManager(LoadMixin):
         numstep = int(kwargs.get("numsteps", 16384))
         tfin = maxstep * numstep
 
-        def system(t, y):
-            """Evaluate the ODE right-hand side by interpolating the vector field."""
+        def system(t: float, y: np.ndarray) -> list[np.ndarray]:
+            """Evaluate the ODE  rhs by interpolating the vector field."""
             return self._vector_field(t, y, varx, vary, xc, yc)
 
-        def outside_domain(t, y):
+        def outside_domain(t: float, y: np.ndarray) -> float:
             """Return 0 (terminal) when the integrator leaves the domain."""
             if y[0] < xbeg or y[0] > xend or y[1] < ybeg or y[1] > yend:
                 return 0
             return 1
 
-        def close_to_start(t, y):
-            """Return 0 (terminal) when the integrator returns near the seed point."""
+        def close_to_start(t: float, y: np.ndarray) -> float:
+            """Return 0 when the integrator returns near the seed point."""
             dist_0 = np.linalg.norm(y - np.asarray(self.init_pos))
             if dist_0 < ctol and t > maxstep:
                 self.loop_dom = True
                 return 0
-            self.oldpos = y
+            self.oldpos = list(y)
             return 1
 
-        def max_num_steps(t, y):
-            """Return 0 (terminal) when the allowed step count is exceeded."""
+        def max_num_steps(t: float, y: np.ndarray) -> float:
+            """Return 0 when the allowed step count is exceeded."""
             self.stepnum += 1
             if self.stepnum > numstep:
                 return 0
             return 1
 
-        close_to_start.terminal = (
-            True if kwargs.get("close", True) is True else False
-        )
-        close_to_start.direction = 0
+        close_to_start.terminal = kwargs.get("closed", True) is True  # type: ignore
+        close_to_start.direction = 0  # type: ignore
 
-        outside_domain.terminal = True
-        outside_domain.direction = 0
+        outside_domain.terminal = True  # type: ignore
+        outside_domain.direction = 0  # type: ignore
 
-        max_num_steps.terminal = True
-        max_num_steps.direction = 0
+        max_num_steps.terminal = True  # type: ignore
+        max_num_steps.direction = 0  # type: ignore
 
         lines_list = []
         linekwargs = {}
@@ -228,8 +317,75 @@ class FindLinesManager(LoadMixin):
 
     @track_kwargs
     def find_contour(self, var: str | np.ndarray, **kwargs: Any) -> list:
-        """Generate contour lines for a given variable."""
-        var = self._check_var(var, kwargs.get("transpose", False)).T
+        """Generate contour lines for a given variable.
+
+        Parameters
+        ----------
+        - levels: int | np.ndarray, default 10
+            The levels of number of levels or the list of levels for the
+            contours. If an integer is provided, the levels are generated using
+            a linear or logarithmic scale. If an array is provided, the levels
+            are taken from the array.
+        - levelscale: str, default 'linear'
+            The scale of the levels. Available options are 'linear' and
+            'logarithmic'.
+        - line_cmap: str, default 'k'
+            The colormap to use to associate each level with a color.
+            The colormap can also be a color, which is used for all the levels.
+            If not provided, all the lines are associated with the color black.
+        - transpose: True/False, default False
+            Transposes the variable matrix. Use is not recommended if not
+            really necessary (e.g. in case of highly customized variables and
+            plots).
+        - var (not optional): str | np.ndarray
+            The variable to plot. If a string is provided, the variable is taken
+            from the dataset.
+        - vmax: float
+            The maximum value of the variable to be computed / plotted.
+        - vmin: float
+            The minimum value of the variable to be computed / plotted.
+        - x1: np.ndarray, default self.x1
+            The x1 coordinates. If the geometry is non-Cartesian, the x1
+            cartesian coordinates are taken from the dataset.
+        - x2: np.ndarray, default self.x2
+            The x2 coordinates. If the geometry is non-Cartesian, the x2
+            cartesian coordinates are taken from the dataset.
+
+        Returns
+        -------
+        - lines_list: list
+            List of contour lines. The strcuture of the list is
+            [[x1, y1], [x2, y2], ...] where x1, y1, x2, y2 are numpy arrays
+            representing the coordinates of the field lines.
+        ----
+
+        Examples
+        --------
+        - Example #1: Generate contour lines for a given variable.
+
+            >>> lines_list = find_contour(var)
+
+        - Example #2: Generate contour lines for a given variable and
+            coordinates.
+
+            >>> lines_list = find_contour(var, x1=x1, x2=x2)
+
+        - Example #3: Generate contour lines for a given variable and
+            coordinates with a logarithmic scale.
+
+            >>> lines_list = find_contour(var, x1=x1, x2=x2,
+            >>> ... levelscale='logarithmic')
+
+        - Example #4: Generate contour lines for a given variable and
+            coordinates with a logarithmic scale and a colormap.
+
+            >>> lines_list = find_contour(var, x1=x1, x2=x2,
+            >>> ... levelscale='logarithmic', line_cmap='jet')
+
+        """
+        var = self.LoadToolsManager.check_var(
+            var, kwargs.get("transpose", False)
+        ).T
 
         if self.geom == "SPHERICAL":
             x1 = self.x1p
@@ -263,12 +419,15 @@ class FindLinesManager(LoadMixin):
         if isinstance(levels, float):
             levels = [levels]
 
-        if "cmap" in kwargs:
-            cmap_val = kwargs.get("cmap")
-            try:
-                cmap = plt.get_cmap(cmap_val)
-            except (ValueError, TypeError):
-                cmap = mcol.ListedColormap(cmap_val)
+        if "line_cmap" in kwargs:
+            cmap_val = kwargs.get("line_cmap")
+            if cmap_val is None:
+                cmap = mcol.ListedColormap(["k"])
+            else:
+                try:
+                    cmap = plt.get_cmap(cmap_val)
+                except (ValueError, TypeError):
+                    cmap = mcol.ListedColormap(cmap_val)
         else:
             cmap = mcol.ListedColormap(["k"])
 
@@ -278,13 +437,16 @@ class FindLinesManager(LoadMixin):
         for indx, level in enumerate(levels):
             contour = cont_gen.lines(level)
             for line in contour:
-                x_c = line[:, 0]
-                y_c = line[:, 1]
+                line_arr = np.asarray(line)
+                x_c = line_arr[:, 0]
+                y_c = line_arr[:, 1]
                 col = (
-                    cmap(indx / (len(levels) - 1)) if "cmap" in kwargs else "k"
+                    cmap(indx / (len(levels) - 1))
+                    if "line_cmap" in kwargs
+                    else "k"
                 )
 
-                if len(line) > 1:
+                if len(line_arr) > 1:
                     lines_list.append([x_c, y_c, col])
 
         return lines_list

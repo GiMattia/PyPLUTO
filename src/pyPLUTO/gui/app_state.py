@@ -6,7 +6,6 @@ from dataclasses import dataclass, field
 from typing import Any
 
 import numpy as np
-from numpy.typing import NDArray
 
 
 @dataclass(slots=True)
@@ -32,4 +31,4 @@ class AppState:
     # Runtime objects/data
     Data: Any = None
     Image: Any = None
-    var: NDArray[np.floating[Any]] | NDArray[np.integer[Any]] | None = None
+    var: np.ndarray | None = None

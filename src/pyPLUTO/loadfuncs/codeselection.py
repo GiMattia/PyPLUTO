@@ -10,13 +10,27 @@ from pyPLUTO.utils.inspector import track_kwargs
 
 
 class CodeManager(BaseLoadMixin[BaseLoadState]):
-    """Class that manages the code selection."""
+    """Class that manages the code selection.
+
+    Parameters
+    ----------
+    - nout: int | list | None
+        The output number to load.
+    - var: str | list[str] | np.ndarray | bool | None, default True
+            The variable to be loaded . When loading, it selects the variables
+            (True loads all, or pass a string or list for a subset).
+
+    Return
+    ------
+    - None
+    """
 
     @track_kwargs
     def __init__(
         self,
         state: BaseLoadState,
         nout: int | str | list[int | str] | None,
+        var: str | list[str] | bool | None,
         **kwargs: Any,
     ) -> None:
         """Initialize the CodeManager class."""
@@ -24,15 +38,29 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
         if isinstance(state, LoadState):
             self.echomanager = EchoLoadManager(state)
 
-        self.select_code(nout, **kwargs)
+        self.select_code(nout, var, **kwargs)
 
     @track_kwargs
     def select_code(
-        self, nout: int | str | list[int | str] | None, **kwargs: Any
+        self,
+        nout: int | str | list[int | str] | None,
+        var: str | list[str] | bool | None,
+        **kwargs: Any,
     ) -> None:
-        """Select the code based on the state."""
-        # If not code is provided (or the code is PLUTO/gPLUTO) just skip
+        """Select the code based on the state.
 
+        Parameters
+        ----------
+        - nout: int | list | None
+            The output number to load.
+        - var: str | list[str] | np.ndarray | bool | None, default True
+            The variable to be loaded . When loading, it selects the variables
+            (True loads all, or pass a string or list for a subset).
+
+        Return
+        ------
+        - None
+        """
         codedict = {
             "echo": self.echomanager.load_echo,
         }
@@ -41,7 +69,7 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
         if self.state.code.lower() in codedict:
             if self.state.text is not False:
                 print(f"Loading data from code: {self.state.code}")
-            codedict[self.state.code.lower()](nout, **kwargs)
+            codedict[self.state.code.lower()](nout, var, **kwargs)
 
         else:
             raise NotImplementedError(

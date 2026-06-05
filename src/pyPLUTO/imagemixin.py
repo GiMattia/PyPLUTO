@@ -67,12 +67,12 @@ class ImageMixin:
         self.state.figsize = value
 
     @property
-    def fontsize(self) -> int:
+    def fontsize(self) -> float:
         """Get the fontsize attribute of the image."""
         return self.state.fontsize
 
     @fontsize.setter
-    def fontsize(self, value: int) -> None:
+    def fontsize(self, value: float) -> None:
         """Set the fontsize attribute of the image."""
         self.state.fontsize = value
 

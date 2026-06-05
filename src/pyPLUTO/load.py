@@ -47,6 +47,11 @@ class Load(LoadMixin):
         The format of the data file. If not specified, the code will look for
         the format from the list of possible formats. HDF5 (AMR) formats have
         not been implemented yet.
+    - defh: bool | str | None, default None
+        The path to the definitions header file. If True, the code will look for
+        the default definitions header file. If a string is provided, it will be
+        used as the path to the definitions header file. If False, the code will
+        not attempt to read the definitions header file.
     - endian: str | None, default None
         Endianess of the datafiles. Should be used only if specific
         architectures are used, since the code computes it by itself. Valid
@@ -72,6 +77,11 @@ class Load(LoadMixin):
         used carefully, e.g. only when the data need to be shown interactively.
     - path: str, default './'
         The path of the folder where the files should be loaded.
+    - plini: bool | str | None, default None
+        The path to the pluto.ini file. If True, the code will look for the
+        default pluto.ini file. If a string is provided, it will be used as the
+        path to the pluto.ini file. If False, the code will not attempt to read
+        the pluto.ini file.
     - text: bool, default True
         If True, the folder and output are printed. In case the user needs a
         more detailed information of the structure and attributes loaded from
@@ -150,6 +160,7 @@ class Load(LoadMixin):
     def __init__(
         self,
         nout: int | str | list[int | str] | None = "last",
+        var: str | list[str] | bool | None = True,
         check: bool = True,
         **kwargs: Unpack[AllKwargs],
     ) -> None:
@@ -161,8 +172,8 @@ class Load(LoadMixin):
         self.state.class_name = self.__class__.__name__
         self.state.full3D = kwargs.get("full3D", self.state.full3D)
         self.state.level = kwargs.get("level", self.state.level)
-        InitLoadManager(self.state, nout, **kwargs)
-        FiledefpliniManager(self.state, **kwargs)
+        InitLoadManager(self.state, nout, var, **kwargs)
+        FiledefpliniManager(self.state, kwargs.get("defh"), kwargs.get("plini"))
 
         self.ReadFileManager = ReadFilesManager(self.state)
         self.WriteFileManager = WriteFilesManager(self.state)

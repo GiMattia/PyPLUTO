@@ -8,6 +8,8 @@ from typing import Any
 
 import numpy as np
 
+from pyPLUTO.load import Load
+
 
 def parse_vars_text(text: str) -> bool | list[str]:
     """Parse GUI vars text into Load-compatible value."""
@@ -17,7 +19,9 @@ def parse_vars_text(text: str) -> bool | list[str]:
     return vars_text.split(",")
 
 
-def grid_shape_candidates(raw_nshp: Any) -> set[tuple[int, ...]]:
+def grid_shape_candidates(
+    raw_nshp: int | tuple[int, ...],
+) -> set[tuple[int, ...]]:
     """Build candidate grid-shape tuples (including reversed layout)."""
     if isinstance(raw_nshp, tuple):
         grid_shape = raw_nshp
@@ -35,7 +39,7 @@ def grid_shape_candidates(raw_nshp: Any) -> set[tuple[int, ...]]:
     return candidates
 
 
-def filtered_loaded_vars(Data: Any) -> list[str]:
+def filtered_loaded_vars(Data: Load) -> list[str]:
     """Return best-effort loaded vars that match full-grid arrays."""
     loaded_vars = getattr(Data, "load_vars", getattr(Data, "_load_vars", []))
     if not loaded_vars:
@@ -75,7 +79,7 @@ def axis_labels_for_geom(geom: str) -> tuple[list[str], list[str]]:
     return ["x", "y", "z"], ["y", "z", "x"]
 
 
-def loaded_step_repr(nout: Any) -> int | list[int]:
+def loaded_step_repr(nout: int | np.ndarray) -> int | list[int]:
     """Normalize nout for GUI/info printing."""
     if isinstance(nout, (int, np.integer)):
         return int(nout)
@@ -86,8 +90,9 @@ def loaded_step_repr(nout: Any) -> int | list[int]:
 def custom_var_lines(defs: list[Any]) -> list[str]:
     """Render stored custom var tuples to info-box lines."""
     lines = []
+    threed = 3
     for tup in defs:
-        if len(tup) == 3:
+        if len(tup) == threed:
             name, _clean, disp = tup
             lines.append(f"{name} = {disp}")
         else:
@@ -96,7 +101,7 @@ def custom_var_lines(defs: list[Any]) -> list[str]:
     return lines
 
 
-def build_info_text(folder_path: str, Data: Any, defs: list[Any]) -> str:
+def build_info_text(folder_path: str, Data: Load, defs: list) -> str:
     """Build multiline info text for GUI."""
     base = (
         f"Loaded folder: {folder_path}\n"
@@ -114,6 +119,7 @@ def build_info_text(folder_path: str, Data: Any, defs: list[Any]) -> str:
 
 def parse_selected_file(file_path: str) -> tuple[str, str | None, int | str]:
     """Infer folder, datatype, and nout from selected file path."""
+    twod = 2
     folder_path = os.path.dirname(file_path)
     filename = os.path.basename(file_path)
     if filename.endswith(".dbl.h5"):
@@ -122,7 +128,7 @@ def parse_selected_file(file_path: str) -> tuple[str, str | None, int | str]:
         datatype = "flt.h5"
     else:
         parts = filename.rsplit(".", maxsplit=1)
-        datatype = parts[-1] if len(parts) == 2 else None
+        datatype = parts[-1] if len(parts) == twod else None
     try:
         match = re.search(r"\.(\d+)\.", filename)
         nout = int(match.group(1)) if match else "last"
@@ -170,8 +176,9 @@ def apply_slices(
     int | slice | tuple | None,
 ]:
     """Apply GUI x/y/z slicing strings to an array."""
+    threed = 3
     xslice = yslice = zslice = None
-    if zs and np.ndim(var) == 3:
+    if zs and np.ndim(var) == threed:
         zslice = parse_slice_expr(zs)
         var = var[:, :, zslice]
     if ys and np.ndim(var) > 1:

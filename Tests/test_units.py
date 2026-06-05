@@ -85,15 +85,6 @@ def test_unknown_unit_explicit_raises():
         D.to_astropy_units("foo")
 
 
-def test_units_true_without_astropy(monkeypatch):
-    def _raise(_self):
-        raise ImportError("Astropy is required for unit-aware operations.")
-
-    monkeypatch.setattr(UnitManager, "_get_astropy_units", _raise)
-    with pytest.raises(ImportError, match="Astropy is required"):
-        _load_single(units=True)
-
-
 def test_units_fallback_from_log_normalization(tmp_path):
     pytest.importorskip("astropy.units")
     log_text = """

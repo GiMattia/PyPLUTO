@@ -13,7 +13,6 @@ from matplotlib.axes import Axes
 from matplotlib.collections import Collection, QuadMesh
 from matplotlib.lines import Line2D
 from matplotlib.widgets import Slider
-from numpy.typing import NDArray
 
 from pyPLUTO.imagefuncs.display import DisplayManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
@@ -43,8 +42,8 @@ class InteractiveManager(ImageMixin):
         self.anim_pcm: Collection | Line2D | None = None
         self.labslider: list[str | float] | None = None
         self.anim_ax: Axes | None = None
-        self.anim_var: dict[str, NDArray[Any]] | NDArray[Any]
-        self.animkeys: NDArray[Any] | None = None
+        self.anim_var: dict[str, np.ndarray] | np.ndarray
+        self.animkeys: np.ndarray | None = None
         self.nsld: int = 0
         self.lenlab: int = 0
         self.limfix: bool = True
@@ -54,8 +53,8 @@ class InteractiveManager(ImageMixin):
     @track_kwargs
     def interactive(
         self,
-        varx: dict[str, NDArray[Any]] | NDArray[Any],
-        vary: dict[str, NDArray[Any]] | None = None,
+        varx: dict[str, np.ndarray] | np.ndarray,
+        vary: dict[str, np.ndarray] | None = None,
         check: bool = True,
         limfix: bool = True,
         labslider: list[str | float] | None = None,
@@ -67,22 +66,6 @@ class InteractiveManager(ImageMixin):
 
         Parameters
         ----------
-        - varx (not optional): array_like
-            The x-axis variable.
-        - vary: array_like, default None
-            The y-axis variable.
-        - ax: ax | int | None, default None
-            The axis where to plot. If None, the last considered axis will be used.
-        - labslider: str, default None
-            The label of the slider.
-        - limfix: bool, default True
-            If True, the colorbar limits are fixed through the entire
-            animation.
-        - vmin: float
-            The minimum value of the colormap.
-        - vmax: float
-            The maximum value of the colormap.
-
         - alpha: float, default 1.0
             Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is
             fully transparent.
@@ -91,6 +74,9 @@ class InteractiveManager(ImageMixin):
             default option. The 'equal' keyword sets the same scaling for x and
             y. A float fixes the ratio between the y-scale and the x-scale (1.0
             is the same as 'equal').
+        - ax: ax | int | None, default None
+            The axis where to plot. If None, the last considered axis will be
+            used.
         - bottom: float, default varies
             The bottom limit of the axis / axes set. For the figure layout it
             is the space from the bottom border to the plot (default 0.1); for
@@ -126,7 +112,7 @@ class InteractiveManager(ImageMixin):
         - extend: {'neither','both','min','max'}, default 'neither'
             Sets the extension of the triangular colorbar extension.
         - extendrect: bool, default False
-            If True, the colorbar extension will be rectangular.
+            If True, the colorbar extension will be triangular.
         - figsize: list[float], default varies
             Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
             computed from the number of rows and columns (or [8,5] for a single
@@ -153,6 +139,8 @@ class InteractiveManager(ImageMixin):
         - labelsize: float, default fontsize
             Sets the labels fontsize (which is the same for both labels). The
             default value corresponds to the value of the keyword 'fontsize'.
+        - labslider: str, default None
+            The label of the slider.
         - left: float, default varies
             The left limit of the axis / axes set. For the figure layout it is
             the space from the left border to the plot (default 0.125); for an
@@ -171,6 +159,9 @@ class InteractiveManager(ImageMixin):
             fontsize value.
         - legspace: float, default 2
             Sets the space between the legend columns, in font-size units.
+        - limfix: bool, default True
+            If True, the colorbar limits are fixed through the entire
+            animation.
         - lint: bool, default None
             If True, enables linear interpolation between frames in the
             interactive plot.
@@ -189,14 +180,19 @@ class InteractiveManager(ImageMixin):
             Sets the marker size.
         - mscale: float, default 1.0
             Sets the marker scale. The default value is 1.0.
+        - ncol: int, default 1
+            The number of columns of subplots.
+        - nrow: int, default 1
+            The number of rows of subplots.
         - proj: str, default None
             Custom projection for the plot (e.g. 3D). Recommended only if
             needed. WARNING: pyPLUTO does not support 3D plotting for now, only
             3D axes. The 3D plot feature will be available in future releases.
-        - right: float, default 0.9
+        - right: float, default varies
             The right limit of the axis / axes set. For the figure layout it is
-            the space from the right border to the plot; for an inset zoom it
-            is the right position of the inset.
+            the space from the right border to the plot (default 0.9); for an
+            inset zoom it is the right position of the inset (default left +
+            0.15).
         - shading: {'flat', 'nearest', 'auto', 'gouraud'}, default 'auto'
             The shading between the grid points. If not defined, the shading
             will be one between 'flat' and 'nearest' depending on the size of
@@ -239,6 +235,14 @@ class InteractiveManager(ImageMixin):
         - tresh: float, default max(abs(vmin),vmax)*0.01
             Sets the threshold for the colormap (used with composite
             colorscales such as twoslope or symlog).
+        - varx (not optional): array_like
+            The x-axis variable.
+        - vary: array_like, default None
+            The y-axis variable.
+        - vmax: float
+            The maximum value of the variable to be computed / plotted.
+        - vmin: float
+            The minimum value of the variable to be computed / plotted.
         - wratio: [float], default [1.0]
             Ratio between the columns of the plot. The default is that every
             plot column has the same width.
@@ -271,6 +275,8 @@ class InteractiveManager(ImageMixin):
             labels on the x-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
             should always correspond to fixed ticks.
+        - xtitle: str, default None
+            Sets and places the label of the x-axis.
         - xtresh: float
             The threshold parameter for the x-axis symlog/asinh scale.
         - ylabelpad: float, default 4.0
@@ -569,6 +575,10 @@ class InteractiveManager(ImageMixin):
             The name of the GIF file.
         - interval: int, default 500
             The interval between frames in milliseconds.
+        - script_relative: bool, default False
+            If True, the image is saved in the same directory as the script
+            calling this method. If False, the image is saved in the current
+            working directory.
         - updateslider: bool, default True
             If True, the slider is shown and updated with each frame.
 

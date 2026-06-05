@@ -13,18 +13,7 @@ class NablaManager(LoadMixin):
     """Manager for gradient, divergence and curl utilities."""
 
     def __init__(self, state: LoadState) -> None:
-        """Initialize the nabla manager with the given load state.
-
-        Parameters
-        ----------
-        - state: LoadState
-            The load state object providing grid arrays and geometry information.
-
-        Returns
-        -------
-        - None
-
-        """
+        """Initialize the nabla manager with the given load state."""
         self.state = state
 
     def _is_number(self, value: Any) -> bool:
@@ -56,7 +45,7 @@ class NablaManager(LoadMixin):
         """
         return isinstance(value, (int, float))
 
-    def _islice_imin_imax(self, xvalue, xgrid) -> list[int]:
+    def _islice_imin_imax(self, xvalue: float, xgrid: np.ndarray) -> list[int]:
         """Return i, imin, imax for xgrid.
 
         The computation is done such that xgrid[i] <= xvalue <=
@@ -103,9 +92,11 @@ class NablaManager(LoadMixin):
             i_max = 3 if i_min == 0 else i_max
 
         # Return i, imin, imax
-        return i - i_min, i_min, i_max
+        return [int(i - i_min), int(i_min), int(i_max)]
 
-    def _get_slice_indices(self, slice_val, grid, grid_size):
+    def _get_slice_indices(
+        self, slice_val: float, grid: np.ndarray, grid_size: int
+    ) -> tuple[int, slice]:
         """Get the slice indices from the slice value.
 
         Parameters
@@ -507,14 +498,14 @@ class NablaManager(LoadMixin):
         Parameters
         ----------
         - v1: np.ndarray | None
-            Field corresponding to the x1 vector component. Must have the same shape
-            as self.rho.
+            Field corresponding to the x1 vector component.
+            Must have the same shape as self.rho.
         - v2: np.ndarray | None
-            Field corresponding to the x2 vector component. Must have the same shape
-            as self.rho.
+            Field corresponding to the x2 vector component.
+            Must have the same shape as self.rho.
         - v3: np.ndarray | None
-            Field corresponding to the x3 vector component. Must have the same shape
-            as self.rho.
+            Field corresponding to the x3 vector component.
+            Must have the same shape as self.rho.
         - x1slice: float | None
             If not None, specifies the constant value for the x1 axis.
         - x2slice: float | None

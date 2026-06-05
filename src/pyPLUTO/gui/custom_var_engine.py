@@ -1,5 +1,7 @@
 """Pure custom-variable engine (no Qt dependencies)."""
 
+from __future__ import annotations
+
 import contextlib
 import os
 import re
@@ -37,6 +39,20 @@ def normalize_expr(expr: str) -> str:
     -------
     - str
 
+    -----
+
+    Examples
+    --------
+    - Example #1: Normalize a simple expression
+
+        >>> normalize_expr("D.rho")
+        'rho'
+
+    - Example #2: Normalize a numpy expression
+
+        >>> normalize_expr("np.sqrt(D.rho)")
+        'sqrt(rho)'
+
     """
     s = expr.strip()
     for pat, repl in _NORM_PATTERNS:
@@ -64,6 +80,15 @@ def frozen_var_names(Data: Load) -> set[str]:
     Returns
     -------
     - set[str]
+
+    -----
+
+    Examples
+    --------
+    - Example #1: Return the unchangable variables
+
+        >>> frozen_var_names(Data)
+        {'rho', 'vx1', 'vx2', 'vx3', 'x1', 'x2', 'x3'}
 
     """
     names = set(map(str, getattr(Data.state, "d_vars", [])))
@@ -100,6 +125,15 @@ def build_locals(Data: Load) -> dict[str, float | np.ndarray]:
     Returns
     -------
     - dict[str, float | np.ndarray]
+
+    -----
+
+    Examples
+    --------
+    - Example #1: Build the variable namespace
+
+        >>> build_locals(Data)
+        {'pi': 3.141592653589793, 'e': 2.718281828459045, 'rho': <array>, ...}
 
     """
     local: dict[str, float | np.ndarray] = {
@@ -159,6 +193,15 @@ def apply_grid_shaping(
     Returns
     -------
     - None
+
+
+    -----
+
+    Examples
+    --------
+    - Example #1: Reshape 1-D grid arrays
+
+        >>> apply_grid_shaping(local, Data)
 
     """
     nshp = (
@@ -254,6 +297,21 @@ def _evaluate_array_expr(
     -------
     - np.ndarray
 
+
+    -----
+
+    Examples
+    --------
+    - Example #1: Evaluate array expressions
+
+        >>> _evaluate_array_expr(
+        ...     "sqrt(rho)",
+        ...     local,
+        ...     "sqrt_rho",
+        ...     [local["rho"]],
+        ...     np.float64
+        ... )
+
     """
     out_shape = np.broadcast(*[np.empty(a.shape, dtype=[]) for a in arrs]).shape
 
@@ -310,6 +368,16 @@ def evaluate_custom_var(
     - ValueError
         If name is protected, the expression fails to compile, an unknown
         variable is referenced, or evaluation raises an error.
+
+
+
+    -----
+
+    Examples
+    --------
+    - Example #1: Evaluate a scalar expression
+
+        >>> evaluate_custom_var(Data, "sqrt_rho", "sqrt(rho)")
 
     """
     expr = normalize_expr(expr)
@@ -402,6 +470,14 @@ def validate_lines_sequential(Data: Load, pairs: list[tuple[str, str]]) -> None:
     - ValueError
         If any expression references an unknown variable, targets a protected
         name, or produces an error on the tiny namespace.
+
+
+    -----
+
+    Examples
+    --------
+    - Example #1: Validate a sequence of custom variable definitions
+        >>> validate_lines_sequential(Data, [("sqrt_rho", "sqrt(rho)")])
 
     """
     base = build_locals(Data)

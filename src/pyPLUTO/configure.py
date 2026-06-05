@@ -42,6 +42,8 @@ class Configure:
             If True, color the warnings in yellow.
         - greet: bool, default True
             If True, print a greeting message with the version and session.
+        - version: str, default "Unknown"
+            The version of the pyPLUTO package.
 
         Returns
         -------

@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any
-
 import numpy as np
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
@@ -53,7 +51,7 @@ class StorePart(BaseLoadMixin):
             for out, arr in tot_data.items():
                 out_i = int(out)
                 if isinstance(arr, list | tuple):
-                    out_to_tot_chunks[out_i] = [a for a in arr]
+                    out_to_tot_chunks[out_i] = list(arr)
                 else:
                     out_to_tot_chunks[out_i] = [arr]
         else:
@@ -68,7 +66,7 @@ class StorePart(BaseLoadMixin):
                     "is available in state."
                 )
             if isinstance(tot_data, list | tuple):
-                out_to_tot_chunks = {out: [a for a in tot_data]}
+                out_to_tot_chunks = {out: list(tot_data)}
             else:
                 out_to_tot_chunks = {out: [tot_data]}
 
@@ -152,8 +150,8 @@ class StorePart(BaseLoadMixin):
 
         id_data = self.state.d_vars["id"]
 
-        def _cast(arr: Any) -> np.ndarray:
-            """Reinterpret or pass through a particle id array to its correct dtype."""
+        def _cast(arr: np.ndarray) -> np.ndarray:
+            """Reinterpret a particle id array to its correct dtype."""
             arr_np = np.asarray(arr)
             if self.state.datatype == "vtk":
                 # VTK stores id as int32 bits inside a float-typed field;
@@ -166,7 +164,7 @@ class StorePart(BaseLoadMixin):
             return arr_np
 
         def _is_pending(val: object) -> bool:
-            """Return True when val is a list of mmap-backed chunks awaiting concat."""
+            """Return True when val is a list of chunks awaiting concat."""
             return (
                 isinstance(val, list)
                 and bool(val)

@@ -4,6 +4,10 @@ from __future__ import annotations
 
 from typing import Any
 
+from matplotlib.backends.backend_qtagg import (
+    NavigationToolbar2QT as NavigationToolbar,
+)
+from matplotlib.backends.backend_template import FigureCanvas
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -16,17 +20,24 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from .app_state import AppState
-from .globals import cmaps_avail, cmaps_divided, format_avail, scales, vscales
-from .load_controller import LoadController
-from .panels import PanelsMixin
-from .plot_controller import PlotController
-from .state_accessors import StateAccessorsMixin
+from pyPLUTO.gui.app_state import AppState
+from pyPLUTO.gui.globals import (
+    cmaps_avail,
+    cmaps_divided,
+    format_avail,
+    scales,
+    vscales,
+)
+from pyPLUTO.gui.load_controller import LoadController
+from pyPLUTO.gui.panels import PanelsMixin
+from pyPLUTO.gui.plot_controller import PlotController
+from pyPLUTO.gui.state_accessors import StateAccessorsMixin
 
 
 class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
     """Main application window for loading data and controlling plots."""
 
+    # --- Qt widgets (set in _build_* methods) ---
     datatype_selector: QComboBox
     format_selector: QComboBox
     outtext: QLineEdit
@@ -57,9 +68,29 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
     reverse_checkbox: QCheckBox
     overplot_checkbox: QCheckBox
     info_label: QTextEdit
+
+    # --- Canvas / figure (set by PlotController.create_new_figure) ---
+    canvas: FigureCanvas
+    toolbar: NavigationToolbar
+    canvas_layout: QVBoxLayout
+    figure: Any
+    Image: Any
+
+    # --- Plot state (set by PlotController) ---
     firstplot: bool
     vardim: int
-    Image: Any
+    var: Any
+    datadict: dict[str, Any]
+    xmin: float
+    xmax: float
+    ymin: float
+    ymax: float
+    numlines: int
+    xslice: Any
+    yslice: Any
+    zslice: Any
+
+    # --- File dialog ---
     _file_dialog: QFileDialog | None
 
     def __init__(self, code: str) -> None:
@@ -67,7 +98,7 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
 
         Parameters
         ----------
-        - code: str
+        code : str
             The code identifier for the application.
         """
         super().__init__()
@@ -82,16 +113,35 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         self.setCentralWidget(main_widget)
         main_layout = QHBoxLayout(main_widget)
 
-        # Left control panel
-        button_layout = QVBoxLayout()
         self.load_controller = LoadController(self)
         self.plot_controller = PlotController(self)
 
-        layout = QHBoxLayout()
-        self.datatype_selector = self.add_combobox(
-            layout,
-            ["PLUTO fluid", "PLUTO particles", "ECHO"],
+        button_layout = QVBoxLayout()
+        self._build_load_panel(button_layout)
+        self.add_line(button_layout)
+        self._build_variable_panel(button_layout)
+        self.add_line(button_layout)
+        self._build_plot_panel(button_layout)
+        self.add_line(button_layout)
+        self._build_info_box(button_layout)
+        self.add_line(button_layout)
+        main_layout.addLayout(button_layout)
+
+        self.typecmap_selector.currentIndexChanged.connect(
+            self.plot_controller.update_cmap_selector
         )
+
+        self.canvas_layout = QVBoxLayout()
+        self.plot_controller.create_new_figure()
+        main_layout.addLayout(self.canvas_layout)
+
+    def _build_load_panel(self, button_layout: QVBoxLayout) -> None:
+        """Add data-loading controls.
+
+        More specifically: datatype, format, nout/vars, and file buttons.
+        """
+        layout = QHBoxLayout()
+        self.datatype_selector = self.add_combobox(layout, ["PLUTO fluid"])
         self.add_label("Preferred format:", layout)
         self.format_selector = self.add_combobox(layout, format_avail)
         button_layout.addLayout(layout)
@@ -111,8 +161,8 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         )
         button_layout.addLayout(layout)
 
-        self.add_line(button_layout)
-
+    def _build_variable_panel(self, button_layout: QVBoxLayout) -> None:
+        """Add variable/axis/slice selectors."""
         layout = QHBoxLayout()
         self.add_label("Select the variable to plot:", layout)
         self.var_selector = self.add_combobox(layout, [])
@@ -135,8 +185,11 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         self.zslicetext = self.add_lineedit(layout, "z-slice")
         button_layout.addLayout(layout)
 
-        self.add_line(button_layout)
+    def _build_plot_panel(self, button_layout: QVBoxLayout) -> None:
+        """Add plot-options controls.
 
+        More specifically: title, ranges, scales, cmap, and plot buttons.
+        """
         layout = QHBoxLayout()
         self.add_label("Insert Title:", layout)
         self.plot_title = self.add_lineedit(layout, "title")
@@ -173,7 +226,9 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
 
         layout = QHBoxLayout()
         self.add_label("cmap:", layout)
-        self.typecmap_selector = self.add_combobox(layout, cmaps_divided.keys())
+        self.typecmap_selector = self.add_combobox(
+            layout, list(cmaps_divided.keys())
+        )
         self.cmap_selector = self.add_combobox(layout, cmaps_avail)
         self.reverse_checkbox = self.add_checkbox("reverse", layout)
         button_layout.addLayout(layout)
@@ -193,26 +248,14 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         )
         button_layout.addLayout(layout)
 
-        self.add_line(button_layout)
-
+    def _build_info_box(self, button_layout: QVBoxLayout) -> None:
+        """Add the read-only info/log text panel."""
         info_box = QTextEdit()
         info_box.setObjectName("info_label")
         info_box.setReadOnly(True)
-        info_box.setFixedSize(370, 200)  # keep your original fixed size
+        info_box.setFixedSize(370, 200)
         button_layout.addWidget(info_box)
         self.info_label = info_box
-
-        self.add_line(button_layout)
-
-        main_layout.addLayout(button_layout)
-
-        self.typecmap_selector.currentIndexChanged.connect(
-            self.plot_controller.update_cmap_selector
-        )
-
-        self.canvas_layout = QVBoxLayout()
-        self.plot_controller.create_new_figure()
-        main_layout.addLayout(self.canvas_layout)
 
     def select_folder(self) -> None:
         """Open a file dialog to select a folder containing data files."""

@@ -506,10 +506,8 @@ default pluto.ini file. If a string is provided, it will be used as the
 path to the pluto.ini file. If False, the code will not attempt to read
 the pluto.ini file.</p>
 </dd>
-<dt><strong>- text: bool, default True</strong></dt><dd><p>If True, the folder and output are printed. In case the user needs a
-more detailed information of the structure and attributes loaded from
-the class, the __str__ method provides a easy display of all the
-important information.</p>
+<dt><strong>- text: bool | None, default None</strong></dt><dd><p>Controls output verbosity. None (default) prints standard load info at
+INFO level. False silences all output. True enables full DEBUG logging.</p>
 </dd>
 <dt><strong>- var: str | list[str] | bool | None, default True</strong></dt><dd><p>The variables to be loaded. The default value, True, corresponds to all
 the variables.</p>

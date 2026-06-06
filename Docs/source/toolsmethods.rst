@@ -140,6 +140,24 @@ All the windows can be used through the :ref:`show <show>` function of PyPLUTO
 (notice that this function does not belong to any class and is just a module
 function)
 
+|
+
+----
+
+Controlling output verbosity
+-----------------------------
+
+.. toctree::
+   :hidden:
+
+   set_text
+
+The :ref:`set_text <set_text>` function controls the logging verbosity of the
+PyPLUTO package logger at any point during a session. It accepts ``None``
+(default INFO output), ``False`` (silent), or ``True`` (full DEBUG logging).
+It is also accepted as a ``text`` keyword argument by ``Load``, ``LoadPart``,
+and ``Image`` to configure verbosity at construction time.
+
 ----
 
 .. This is a comment to prevent the document from ending with a transition.

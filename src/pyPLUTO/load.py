@@ -89,11 +89,9 @@ class Load(LoadMixin, Generic[_VarT]):
         default pluto.ini file. If a string is provided, it will be used as the
         path to the pluto.ini file. If False, the code will not attempt to read
         the pluto.ini file.
-    - text: bool, default True
-        If True, the folder and output are printed. In case the user needs a
-        more detailed information of the structure and attributes loaded from
-        the class, the __str__ method provides a easy display of all the
-        important information.
+    - text: bool | None, default None
+        Controls output verbosity. None (default) prints standard load info at
+        INFO level. False silences all output. True enables full DEBUG logging.
     - var: str | list[str] | bool | None, default True
         The variables to be loaded. The default value, True, corresponds to all
         the variables.
@@ -166,7 +164,6 @@ class Load(LoadMixin, Generic[_VarT]):
         cls,
         nout: int | None = ...,
         var: str | list[str] | bool | None = ...,
-        _check: bool = ...,
         **kwargs: Unpack[AllKwargs],
     ) -> Load[np.ndarray]: ...
 
@@ -175,7 +172,6 @@ class Load(LoadMixin, Generic[_VarT]):
         cls,
         nout: list[int | str],
         var: str | list[str] | bool | None = ...,
-        _check: bool = ...,
         **kwargs: Unpack[AllKwargs],
     ) -> Load[dict[int, np.ndarray]]: ...
 
@@ -184,7 +180,6 @@ class Load(LoadMixin, Generic[_VarT]):
         cls,
         nout: str = ...,
         var: str | list[str] | bool | None = ...,
-        _check: bool = ...,
         **kwargs: Unpack[AllKwargs],
     ) -> Load[np.ndarray] | Load[dict[int, np.ndarray]]: ...
 
@@ -240,6 +235,14 @@ class Load(LoadMixin, Generic[_VarT]):
             else:
                 nout_out = None
             logger.info("Load: folder %s,     output %s", path, nout_out)
+
+    def __repr__(self) -> str:
+        """Return the repr of the Load class."""
+        return (
+            f"Load(nout={self.state.nout!r}, "
+            f"path={self.state.pathdir!r}, "
+            f"geom={self.state.geom!r})"
+        )
 
     def __str__(self) -> str:
         """Return the string representation of the Load class."""

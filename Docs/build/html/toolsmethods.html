@@ -400,6 +400,9 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="show.html">pyPLUTO.show</a></li>
 </ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="set_text.html">pyPLUTO.set_text</a></li>
+</ul>
 </div>
 </nav></div>
     </div>
@@ -562,6 +565,20 @@ Both a string and a lambda function can be adopted.</p>
 <p>All the windows can be used through the <a class="reference internal" href="show.html#show"><span class="std std-ref">show</span></a> function of PyPLUTO
 (notice that this function does not belong to any class and is just a module
 function)</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="controlling-output-verbosity">
+<h2>Controlling output verbosity<a class="headerlink" href="#controlling-output-verbosity" title="Link to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<p>The <a class="reference internal" href="set_text.html#set-text"><span class="std std-ref">set_text</span></a> function controls the logging verbosity of the
+PyPLUTO package logger at any point during a session. It accepts <code class="docutils literal notranslate"><span class="pre">None</span></code>
+(default INFO output), <code class="docutils literal notranslate"><span class="pre">False</span></code> (silent), or <code class="docutils literal notranslate"><span class="pre">True</span></code> (full DEBUG logging).
+It is also accepted as a <code class="docutils literal notranslate"><span class="pre">text</span></code> keyword argument by <code class="docutils literal notranslate"><span class="pre">Load</span></code>, <code class="docutils literal notranslate"><span class="pre">LoadPart</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">Image</span></code> to configure verbosity at construction time.</p>
 <hr class="docutils" />
 </section>
 </section>
@@ -619,6 +636,7 @@ function)</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derivatives">Derivatives</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spectrum-and-select-particles">Spectrum and select particles</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#showing-the-plot-windows">Showing the plot windows</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controlling-output-verbosity">Controlling output verbosity</a></li>
 </ul>
   </nav></div>
 

@@ -51,11 +51,9 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         If None, the data are not loaded.
     - path: str, default './'
         The path to the simulation directory.
-    - text: bool, default True
-        If True, the folder and output are printed.
-        In case the user needs a more detailed information of the structure
-        and attributes loaded from the class, the __str__ method provides a
-        easy display of all the important information.
+    - text: bool | None, default None
+        Controls output verbosity. None (default) prints standard load info at
+        INFO level. False silences all output. True enables full DEBUG logging.
     - vars: str | list | bool | None, default True
         The variables to be loaded. If True, all the variables are loaded.
         If None, the data are not loaded.
@@ -101,7 +99,6 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         cls,
         nout: int | None = ...,
         var: str | list[str] | bool | None = ...,
-        _check: bool = ...,
         **kwargs: Unpack[AllKwargs],
     ) -> LoadPart[np.ndarray]: ...
 
@@ -110,7 +107,6 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         cls,
         nout: list[int | str],
         var: str | list[str] | bool | None = ...,
-        _check: bool = ...,
         **kwargs: Unpack[AllKwargs],
     ) -> LoadPart[dict[int, np.ndarray]]: ...
 
@@ -119,7 +115,6 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         cls,
         nout: str = ...,
         var: str | list[str] | bool | None = ...,
-        _check: bool = ...,
         **kwargs: Unpack[AllKwargs],
     ) -> LoadPart[np.ndarray] | LoadPart[dict[int, np.ndarray]]: ...
 
@@ -162,6 +157,12 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
             else:
                 nout_out = np.atleast_1d(self.state.nout).astype(int).tolist()
             logger.info("Load: folder %s,     output %s", path, nout_out)
+
+    def __repr__(self) -> str:
+        """Return the repr of the LoadPart class."""
+        return (
+            f"LoadPart(nout={self.state.nout!r}, path={self.state.pathdir!r})"
+        )
 
     def __str__(self) -> str:
         """Return the string representation of the LoadPart class."""

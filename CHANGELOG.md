@@ -8,17 +8,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [1.2.0] — 2026-06-06
 
 ### Added
-- `@track_kwargs` decorator applied to all public `**kwargs` methods
+- `@track_kwargs` decorator applied to all public `**kwargs` methods; warns on unknown kwargs at call sites
 - `_check: bool = True` explicit parameter on every `**kwargs` function; internal calls pass `_check=False`
 - `from __future__ import annotations` in all package modules
 - Units support (first implementation)
 - Multiple-output chunk loading
+- `set_text(text)` public function to control logging verbosity at any point in a session
+- `__repr__` on `Load`, `LoadPart`, and `Image`
 
 ### Changed
 - Complete refactoring of `Load` and `LoadPart` into manager subclasses
 - GUI refactored to controller/service pattern
 - Removed `pandas`/`dask` and `gridout` dependencies
-- Replaced all library-level `print()` calls with `logging.getLogger(__name__)`
+- Replaced all library-level `print()` calls with `logging.getLogger(__name__)`; the package logger is wired to stdout automatically at import time
+- `text` parameter semantics unified across `Load`, `LoadPart`, and `Image`: `None` (default) → standard INFO output, `False` → silent, `True` → full DEBUG logging
+- `_kwargs_state` global mutable dict replaced with `contextvars.ContextVar` for thread- and async-safe kwargs tracking
+- `track_kwargs` precomputes signature metadata at decoration time instead of per call
+- `_check` hidden from public introspection (`help()`, IDE autocomplete, `@overload` stubs)
+- Version single source of truth moved to `pyproject.toml`; `__version__` reads from `importlib.metadata` at runtime
 
 ### Fixed
 - Custom variables bug in GUI

@@ -474,10 +474,8 @@ If None, the data are not loaded.</p>
 </dd>
 <dt><strong>- path: str, default ‘./’</strong></dt><dd><p>The path to the simulation directory.</p>
 </dd>
-<dt><strong>- text: bool, default True</strong></dt><dd><p>If True, the folder and output are printed.
-In case the user needs a more detailed information of the structure
-and attributes loaded from the class, the __str__ method provides a
-easy display of all the important information.</p>
+<dt><strong>- text: bool | None, default None</strong></dt><dd><p>Controls output verbosity. None (default) prints standard load info at
+INFO level. False silences all output. True enables full DEBUG logging.</p>
 </dd>
 <dt><strong>- vars: str | list | bool | None, default True</strong></dt><dd><p>The variables to be loaded. If True, all the variables are loaded.
 If None, the data are not loaded.</p>

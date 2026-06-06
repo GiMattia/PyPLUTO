@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as _version
+
 from pyPLUTO.configure import Configure, set_text
 from pyPLUTO.examples_api import (
     copy_examples,
@@ -14,8 +17,10 @@ from pyPLUTO.load import Load
 from pyPLUTO.loadpart import LoadPart
 from pyPLUTO.pytools import find_example, ring, savefig, show
 
-# Define the version and additional environment variables
-__version__ = "1.2.0"
+try:
+    __version__ = _version("py-pluto")
+except PackageNotFoundError:
+    __version__ = "unknown"
 
 colorerr: bool = True
 colorwarn: bool = True

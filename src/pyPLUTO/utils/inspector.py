@@ -9,7 +9,7 @@ import inspect
 import textwrap
 import warnings
 from collections.abc import Callable
-from typing import Any, ParamSpec, TypeVar, overload
+from typing import Any, ParamSpec, TypeVar, cast, overload
 
 
 @functools.cache
@@ -103,16 +103,26 @@ def track_kwargs(
         if extra_keys:
             used_keys |= extra_keys
 
+        sig = inspect.signature(inner_func)
+        param_keys = frozenset(sig.parameters.keys())
+        func_name = getattr(inner_func, "__name__", repr(inner_func))
+        mod_name = getattr(inner_func, "__module__", "<unknown>")
+        public_params = [
+            p for name, p in sig.parameters.items() if name != "_check"
+        ]
+        _check_default: bool = (
+            sig.parameters["_check"].default
+            if "_check" in sig.parameters
+            else False
+        )
+        _check_is_explicit = "_check" in sig.parameters
+
         @functools.wraps(inner_func)
         def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             """Track kwargs keys from source code."""
-            sig = inspect.signature(inner_func)
-            bound = sig.bind(*args, **kwargs)
-            bound.apply_defaults()
-            check = bound.arguments.get("_check", False)
-
-            if not bool(check) and "_check" in kwargs:
-                check = kwargs.pop("_check", False)
+            check = kwargs.get("_check", _check_default)  # type: ignore[call-overload]
+            if not _check_is_explicit:
+                cast(Any, kwargs).pop("_check", None)
 
             if bool(check):
                 _kwargs_remaining.set(set(kwargs))
@@ -120,13 +130,11 @@ def track_kwargs(
             current = _kwargs_remaining.get()
             if current is not None:
                 current -= used_keys
-                current -= set(sig.parameters.keys())
+                current -= param_keys
 
             result = inner_func(*args, **kwargs)
 
             if bool(check):
-                func_name = getattr(inner_func, "__name__", repr(inner_func))
-                mod_name = getattr(inner_func, "__module__", "<unknown>")
                 current = _kwargs_remaining.get()
                 if current:
                     warnings.warn(
@@ -140,6 +148,7 @@ def track_kwargs(
 
             return result
 
+        cast(Any, wrapper).__signature__ = sig.replace(parameters=public_params)
         return wrapper
 
     if func is not None and callable(func):

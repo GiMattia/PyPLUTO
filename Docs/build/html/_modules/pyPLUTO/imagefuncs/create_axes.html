@@ -414,6 +414,8 @@
   <h1>Source code for pyPLUTO.imagefuncs.create_axes</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module to create axes in the image class.&quot;&quot;&quot;</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">islice</span>
@@ -509,9 +511,9 @@
 <span class="sd">            the space from the right border to the plot (default 0.9); for an</span>
 <span class="sd">            inset zoom it is the right position of the inset (default left +</span>
 <span class="sd">            0.15).</span>
-<span class="sd">        - sharex: bool | str | Matplotlib axis, default False</span>
+<span class="sd">        - sharexaxes: bool | str | Matplotlib axis, default False</span>
 <span class="sd">            Enables/disables the sharing of the x-axis between the subplots.</span>
-<span class="sd">        - sharey: bool | str | Matplotlib axis, default False</span>
+<span class="sd">        - shareyaxes: bool | str | Matplotlib axis, default False</span>
 <span class="sd">            Enables/disables the sharing of the y-axis between the subplots.</span>
 <span class="sd">        - suptitle: str, default None</span>
 <span class="sd">            Creates a figure title over all the subplots.</span>
@@ -602,8 +604,8 @@
         <span class="n">proj</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;proj&quot;</span><span class="p">)</span>
 
         <span class="c1"># Set sharex and sharey</span>
-        <span class="n">sharex</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharex&quot;</span><span class="p">)</span>
-        <span class="n">sharey</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharey&quot;</span><span class="p">)</span>
+        <span class="n">sharex</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharexaxes&quot;</span><span class="p">)</span>
+        <span class="n">sharey</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;shareyaxes&quot;</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncol</span> <span class="o">*</span> <span class="n">nrow</span><span class="p">):</span>
             <span class="n">sharex_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_shareaxis</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">sharex</span><span class="p">)</span>

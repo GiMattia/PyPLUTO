@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "py-pluto"
-dynamic = ["version"]
+version = "1.2.0"
 description = "PyPLUTO: Plotting routines for PLUTO"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -97,6 +97,7 @@ name = "pyPLUTO"
 
 [project.urls]
 Homepage = "https://github.com/GiMattia/PyPLUTO"
+Changelog = "https://github.com/GiMattia/PyPLUTO/blob/main/CHANGELOG.md"
 Examples = "https://github.com/GiMattia/PyPLUTO/tree/main/Examples"
 
 [tool.coverage.run]

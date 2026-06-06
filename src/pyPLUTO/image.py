@@ -120,6 +120,10 @@ class Image(ImageMixin):
             highly customized plot (e.g. ratios or space between rows and
             columns) the option is set by default to False since that option
             would not be available for standard matplotlib functions.
+        - text: bool | None, default None
+            Controls output verbosity. None (default) logs the window number at
+            INFO level. False silences all output. True enables full DEBUG
+            logging.
         - withblack: bool, default False
             If True, the black color is used as first color.
         - withwhite: bool, default False
@@ -179,6 +183,10 @@ class Image(ImageMixin):
 
         if text is not False:
             logger.info("Image class created at nwin %s", self.nwin)
+
+    def __repr__(self) -> str:
+        """Return the repr of the Image class."""
+        return f"Image(nwin={self.nwin!r}, figsize={self.figsize!r})"
 
     def __str__(self) -> str:
         """Print the Image class."""
@@ -283,7 +291,7 @@ class Image(ImageMixin):
         **kwargs: Unpack[ContourKwargs],
     ):
         """Contour method."""
-        return self.ContourManager.contour(var, ax, _check, **kwargs)
+        return self.ContourManager.contour(var, ax, _check=_check, **kwargs)
 
     contour.__doc__ = ContourManager.contour.__doc__
 
@@ -394,7 +402,7 @@ class Image(ImageMixin):
     ):
         """Streamplot method."""
         return self.StreamplotManager.streamplot(
-            var1, var2, ax, _check, **kwargs
+            var1, var2, ax, _check=_check, **kwargs
         )
 
     streamplot.__doc__ = StreamplotManager.streamplot.__doc__

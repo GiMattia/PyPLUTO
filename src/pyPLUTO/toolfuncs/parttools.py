@@ -1,5 +1,7 @@
 """Docstring for PartToolsManager."""
 
+from __future__ import annotations
+
 import warnings
 from collections.abc import Callable
 from typing import Any
@@ -35,7 +37,7 @@ class PartToolsManager:
         scale: str = "lin",
         vmin: float | None = None,
         vmax: float | None = None,
-        check: bool = True,
+        _check: bool = True,
         **kwargs: Any,
     ) -> tuple[np.ndarray, np.ndarray]:
         """Compute the spectrum of a given particle variable.
@@ -61,8 +63,6 @@ class PartToolsManager:
         -------
         - tuple[np.ndarray, np.ndarray]
 
-        ----
-
         Examples
         --------
         - Example #1: Compute the spectrum of the particles velocity
@@ -73,8 +73,6 @@ class PartToolsManager:
             >>> pp.spectrum(v2, scale="log")
 
         """
-        kwargs.pop("check", check)
-
         # Set limits
         vmin = vmin if vmin is not None else np.nanmin(var)
         vmax = vmax if vmax is not None else np.nanmax(var)
@@ -133,8 +131,6 @@ class PartToolsManager:
         Returns
         -------
         - np.ndarray
-
-        ----
 
         Examples
         --------

@@ -1,5 +1,7 @@
 """Module to configure the pyPLUTO package."""
 
+from __future__ import annotations
+
 import importlib
 import sys
 import traceback
@@ -66,8 +68,6 @@ class Configure:
         -------
         - str
 
-        ----
-
         Examples
         --------
         - Example #1: Standard Python interpreter
@@ -95,7 +95,7 @@ class Configure:
         # Try to get IPython. If not available, it's not an IPython session.
         # Note the quotes around the return type of the get_ipython_wrapper
         # function. This is because pylint would throw an error.
-        def get_ipython_wrapper() -> "InteractiveShell | None":
+        def get_ipython_wrapper() -> InteractiveShell | None:
             """Return the IPython instance, or None if not available."""
             warnings.filterwarnings(
                 "ignore",

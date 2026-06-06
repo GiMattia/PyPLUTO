@@ -1,5 +1,7 @@
 """Figure Manager Module."""
 
+from __future__ import annotations
+
 import shutil
 import warnings
 from typing import Unpack
@@ -8,9 +10,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 
+from pyPLUTO.imagekwargs import FigureKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
-from pyPLUTO.utils.annotator import AllKwargs
 from pyPLUTO.utils.inspector import track_kwargs
 
 
@@ -29,7 +31,7 @@ class FigureManager(ImageMixin):
     - fig (not optional): Figure | None, default None
         The figure instance. If not None, the figure is used (only if we
         need to associate an Image to an existing figure).
-    - figsize: list[float], default varies
+    - figsize: Sequence[float], default varies
         Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
         computed from the number of rows and columns (or [8,5] for a single
         plot).
@@ -69,7 +71,8 @@ class FigureManager(ImageMixin):
     def __init__(
         self,
         state: ImageState,
-        **kwargs: Unpack[AllKwargs],
+        _check: bool = True,
+        **kwargs: Unpack[FigureKwargs],
     ) -> None:
         """Initialize the FigureManager class with a given state."""
         self.state = state
@@ -132,8 +135,6 @@ class FigureManager(ImageMixin):
         Returns
         -------
         - list[str]
-
-        ----
 
         Examples
         --------
@@ -238,8 +239,6 @@ class FigureManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: LaTeX option True
@@ -314,8 +313,6 @@ class FigureManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Check if there is an existing figure
@@ -371,8 +368,6 @@ class FigureManager(ImageMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

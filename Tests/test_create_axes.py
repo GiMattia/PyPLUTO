@@ -182,7 +182,7 @@ def test_warning_wrong_length() -> None:
 def test_share_true() -> None:
     """Ensure that sharex/y True works properly."""
     Image = pp.Image()
-    ax = Image.create_axes(ncol=1, nrow=2, sharex=True, sharey=True)
+    ax = Image.create_axes(ncol=1, nrow=2, sharexaxes=True, shareyaxes=True)
     assert isinstance(ax, list)
     assert ax[0].get_shared_x_axes().joined(ax[0], ax[1])
 
@@ -191,6 +191,6 @@ def test_share_ax() -> None:
     """Ensure that sharex/y with an axis reference works properly."""
     Image = pp.Image()
     ax = Image.create_axes(ncol=1, nrow=2)
-    ax = Image.create_axes(ncol=1, nrow=2, sharex=0)
+    ax = Image.create_axes(ncol=1, nrow=2, sharexaxes=0)
     assert isinstance(ax, list)
     assert ax[0].get_shared_x_axes().joined(ax[0], ax[2])

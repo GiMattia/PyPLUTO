@@ -1,5 +1,7 @@
 """Docstring for pyPLUTO.loadfuncs.offsetfluid module."""
 
+from __future__ import annotations
+
 import mmap
 import warnings
 
@@ -38,8 +40,6 @@ class OffsetPart(BaseLoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -134,8 +134,6 @@ class OffsetPart(BaseLoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

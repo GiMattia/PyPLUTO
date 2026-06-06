@@ -1,5 +1,7 @@
 """Lazy mmap-backed attribute materialisation shared across Load classes."""
 
+from __future__ import annotations
+
 import contextlib
 import mmap
 from typing import cast
@@ -114,7 +116,7 @@ class AttrResolver:
         return result
 
     @staticmethod
-    def _get_mmap(arr: np.ndarray) -> "mmap.mmap | None":
+    def _get_mmap(arr: np.ndarray) -> mmap.mmap | None:
         """Walk the .base chain to find the underlying mmap.mmap, if any."""
         obj = arr
         base = getattr(obj, "base", None)

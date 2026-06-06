@@ -107,11 +107,11 @@ def track_kwargs(
             sig = inspect.signature(inner_func)
             bound = sig.bind(*args, **kwargs)
             bound.apply_defaults()
-            check = bound.arguments.get("check", False)
+            check = bound.arguments.get("_check", False)
 
             # Be robust to "check" passed via kwargs even if not bound.
-            if not bool(check) and "check" in kwargs:
-                check = kwargs.pop("check", False)
+            if not bool(check) and "_check" in kwargs:
+                check = kwargs.pop("_check", False)
 
             if bool(check):
                 _kwargs_state["remaining"] = set(kwargs)

@@ -1,5 +1,7 @@
 """Mixin class for load fluid handling."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin

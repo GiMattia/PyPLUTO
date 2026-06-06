@@ -1,14 +1,30 @@
 """Module to manage the axis of the image."""
 
+from __future__ import annotations
+
 import warnings
 from collections.abc import Iterable
-from typing import Any
+from typing import Unpack
 
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
+from matplotlib.ticker import (
+    AutoMinorLocator,
+    FixedFormatter,
+    NullFormatter,
+    NullLocator,
+)
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
+from pyPLUTO.imagekwargs import (
+    CheckRangeKwargs,
+    MinorTicksKwargs,
+    SetAxisKwargs,
+    SetScalesKwargs,
+    SetTitleKwargs,
+    ShareAxesKwargs,
+)
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -29,7 +45,10 @@ class AxisManager(ImageMixin):
 
     @track_kwargs
     def set_axis(
-        self, ax: Axes | None = None, check: bool = True, **kwargs: Any
+        self,
+        ax: Axes | list[Axes] | int | None,
+        _check: bool = True,
+        **kwargs: Unpack[SetAxisKwargs],
     ) -> None:
         """Customize a single subplot axis.
 
@@ -92,9 +111,9 @@ class AxisManager(ImageMixin):
             the space from the right border to the plot (default 0.9); for an
             inset zoom it is the right position of the inset (default left +
             0.15).
-        - sharex: bool | str | Matplotlib axis, default False
+        - sharex: Matplotlib axis, default False
             Enables/disables the sharing of the x-axis between the subplots.
-        - sharey: bool | str | Matplotlib axis, default False
+        - sharey: Matplotlib axis, default False
             Enables/disables the sharing of the y-axis between the subplots.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
@@ -178,8 +197,6 @@ class AxisManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: create an axis and set title and labels on both axes
@@ -232,10 +249,10 @@ class AxisManager(ImageMixin):
             ...     )
 
         """
-        kwargs.pop("check", check)
-
         # Take last axis if not specified
-        ax, nax = self.ImageToolsManager.assign_ax(ax, **kwargs)
+        kwargs["ncol"] = 1
+        kwargs["nrow"] = 1
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         if ax is None:
             raise ValueError("No axis can be set!")
@@ -249,13 +266,13 @@ class AxisManager(ImageMixin):
             self.state.ax[nax].set_aspect(kwargs["aspect"])
 
         # Set xrange and yrange
-        self.check_range(ax, nax, **kwargs)
+        self.check_range(ax, nax, _check=False, **kwargs)
 
         # Set title and axes labels
-        self.set_titles(ax, **kwargs)
+        self.set_titles(ax, _check=False, **kwargs)
 
         # Share axis if needed
-        self.share_axes(ax, **kwargs)
+        self.share_axes(ax, _check=False, **kwargs)
 
         # Set ticks size
         if kwargs.get("tickssize", True) is not True:
@@ -279,13 +296,13 @@ class AxisManager(ImageMixin):
             )
 
         # Set minor ticks
-        self.check_minorticks(ax, nax, **kwargs)
+        self.check_minorticks(ax, nax, _check=False, **kwargs)
 
         # Set parameter that fixes the minorticks and ticksdir
         self.state.tickspar[nax] = 1
 
         # Scales and alpha
-        self.set_scales(ax, nax, **kwargs)
+        self.set_scales(ax, nax, _check=False, **kwargs)
 
         if kwargs.get("alpha"):
             ax.set_alpha(kwargs["alpha"])
@@ -295,16 +312,18 @@ class AxisManager(ImageMixin):
         ytc = kwargs.get("yticks", True)
         xtl = kwargs.get("xtickslabels", True)
         ytl = kwargs.get("ytickslabels", True)
+        minor = kwargs.get("minorticks", "on")
         if xtc is not True or xtl is not True:
-            self.set_ticks(ax, xtc, xtl, "x")
+            self.set_ticks(ax, xtc, xtl, "x", minor=minor)
         if ytc is not True or ytl is not True:
-            self.set_ticks(ax, ytc, ytl, "y")
+            self.set_ticks(ax, ytc, ytl, "y", minor=minor)
 
         # Sets grid on the axis
-        if kwargs.get("grid", False) is True:
+        grid = kwargs.get("grid", False)
+        if grid is True or grid == "both":
             ax.grid(True)
-        elif isinstance(kwargs.get("grid", False), str):
-            ax.grid(True, axis=kwargs["grid"])
+        elif grid in ("x", "y"):
+            ax.grid(True, axis=grid)
 
         # Reinforces the tight_layout if needed
         if self.state.tight is not False and self.state.fig is not None:
@@ -318,6 +337,7 @@ class AxisManager(ImageMixin):
         tc: str | list[float] | bool | None,
         tl: str | list[str] | bool | None,
         typeaxis: str,
+        minor: str | int | None = "on",
     ) -> None:
         """Setsthe ticks and ticks labels on the x-/y-axis of a selected axis.
 
@@ -335,8 +355,6 @@ class AxisManager(ImageMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -384,12 +402,30 @@ class AxisManager(ImageMixin):
                 warnings.warn(warn, UserWarning, stacklevel=2)
 
             # Ticks are set custom, then tickslabels are set
+            # Use formatters directly: set_xticklabels is reset by log scale
+            axis = getattr(ax, f"{typeaxis}axis")
             if tl is None:
-                set_label[typeaxis]([])
+                if tc is True:
+                    axis.set_major_formatter(NullFormatter())
+                    axis.set_minor_formatter(NullFormatter())
+                else:
+                    set_label[typeaxis]([])
             elif isinstance(tl, str):
-                set_label[typeaxis]([tl])  # Wrap single string
+                axis.set_major_formatter(FixedFormatter([tl]))
+                axis.set_minor_formatter(NullFormatter())
+                scale = getattr(ax, f"get_{typeaxis}scale")()
+                if minor == "off" or scale != "linear":
+                    axis.set_minor_locator(NullLocator())
+                else:
+                    axis.set_minor_locator(AutoMinorLocator(5))
             elif isinstance(tl, Iterable):
-                set_label[typeaxis](tl)
+                axis.set_major_formatter(FixedFormatter(list(tl)))
+                axis.set_minor_formatter(NullFormatter())
+                scale = getattr(ax, f"get_{typeaxis}scale")()
+                if minor == "off" or scale != "linear":
+                    axis.set_minor_locator(NullLocator())
+                else:
+                    axis.set_minor_locator(AutoMinorLocator(5))
             else:
                 raise TypeError(f"Invalid tick labels: {tl!r}")
 
@@ -400,7 +436,9 @@ class AxisManager(ImageMixin):
         # End of the function
 
     @track_kwargs
-    def set_titles(self, ax: Axes, **kwargs: Any) -> None:
+    def set_titles(
+        self, ax: Axes, _check: bool = True, **kwargs: Unpack[SetTitleKwargs]
+    ) -> None:
         """Set the title or axis labels of the plot.
 
         Parameters
@@ -431,27 +469,33 @@ class AxisManager(ImageMixin):
         - None
 
         """
-        if kwargs.get("title") is not None:
+        if isinstance(kwargs.get("title"), str):
             ax.set_title(
-                kwargs["title"],
+                str(kwargs.get("title")),
                 fontsize=kwargs.get("titlesize", self.state.fontsize),
                 pad=kwargs.get("titlepad", 8.0),
             )
-        if kwargs.get("xtitle") is not None:
+        if isinstance(kwargs.get("xtitle"), str):
             ax.set_xlabel(
-                kwargs["xtitle"],
+                str(kwargs.get("xtitle")),
                 fontsize=kwargs.get("labelsize", self.state.fontsize),
                 labelpad=kwargs.get("xlabelpad", 4.0),
             )
-        if kwargs.get("ytitle") is not None:
+        if isinstance(kwargs.get("ytitle"), str):
             ax.set_ylabel(
-                kwargs["ytitle"],
+                str(kwargs.get("ytitle")),
                 fontsize=kwargs.get("labelsize", self.state.fontsize),
                 labelpad=kwargs.get("ylabelpad", 4.0),
             )
 
     @track_kwargs
-    def set_scales(self, ax: Axes, nax: int, **kwargs: Any) -> None:
+    def set_scales(
+        self,
+        ax: Axes,
+        nax: int,
+        _check: bool = True,
+        **kwargs: Unpack[SetScalesKwargs],
+    ) -> None:
         """Set the scales of the x- and y-axis of a selected axis.
 
         Parameters
@@ -505,7 +549,13 @@ class AxisManager(ImageMixin):
             self.state.yscale[nax] = yscale
 
     @track_kwargs
-    def check_range(self, ax: Axes, nax: int, **kwargs: Any) -> None:
+    def check_range(
+        self,
+        ax: Axes,
+        nax: int,
+        _check: bool = True,
+        **kwargs: Unpack[CheckRangeKwargs],
+    ) -> None:
         """Check and set the range of the x- and y-axis of a selected axis.
 
         Parameters
@@ -532,7 +582,9 @@ class AxisManager(ImageMixin):
             self.RangeManager.set_yrange(ax, nax, kwargs["yrange"], 3)
 
     @track_kwargs
-    def share_axes(self, ax: Axes, **kwargs: Any) -> None:
+    def share_axes(
+        self, ax: Axes, _check: bool = True, **kwargs: Unpack[ShareAxesKwargs]
+    ) -> None:
         """Share the x- and y-axis of a selected axis.
 
         Parameters
@@ -555,7 +607,13 @@ class AxisManager(ImageMixin):
             ax.sharey(kwargs["sharey"])
 
     @track_kwargs
-    def check_minorticks(self, ax: Axes, nax: int, **kwargs: Any) -> None:
+    def check_minorticks(
+        self,
+        ax: Axes,
+        nax: int,
+        _check: bool = True,
+        **kwargs: Unpack[MinorTicksKwargs],
+    ) -> None:
         """Check and set the minor ticks of the x- and y-axes.
 
         Parameters

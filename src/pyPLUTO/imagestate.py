@@ -1,5 +1,8 @@
 """Module that contains the ImageState class."""
 
+from __future__ import annotations
+
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -21,7 +24,7 @@ class ImageState:
     color: list[str] = field(default_factory=list)
     dictcol: dict[int, str] = field(default_factory=dict)
     fig: Figure | None = None
-    figsize: list[float] = field(default_factory=lambda: [8.0, 5.0])
+    figsize: Sequence[float] = field(default_factory=lambda: [8.0, 5.0])
     fontsize: float = 17
     LaTeX: bool | str = True
     legpar: list[list[float]] = field(default_factory=list)

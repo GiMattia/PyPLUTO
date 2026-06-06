@@ -1,5 +1,7 @@
 """Fourier utilities manager."""
 
+from __future__ import annotations
+
 from typing import Any
 
 import numpy as np
@@ -18,7 +20,7 @@ class FourierManager(LoadMixin):
 
     @track_kwargs(extra_keys={"dx", "dy", "dz"})
     def fourier(
-        self, f: np.ndarray, **kwargs: Any
+        self, f: np.ndarray, _check: bool = True, **kwargs: Any
     ) -> tuple[list[np.ndarray], np.ndarray]:
         """Compute the Fourier transform of a given array.
 
@@ -51,8 +53,6 @@ class FourierManager(LoadMixin):
         - zdir: bool, default True
             If True, the z-direction is transformed.
 
-        ----
-
         Examples
         --------
         - Example #1: Compute the Fourier transform of a given array
@@ -60,12 +60,12 @@ class FourierManager(LoadMixin):
             >>> freqs, f = fourier(func)
 
         - Example #2: Compute the Fourier transform of a given array in 2D with
-        custom grid spacing
+          custom grid spacing
 
             >>> freqs, f = fourier(func, dx=1, dy=1)
 
         - Example #3: Compute the Fourier transform of a 3D without considering
-        the x-direction
+          the x-direction
 
             >>> freqs, f = fourier(func, xdir=False)
 
@@ -122,8 +122,6 @@ class FourierManager(LoadMixin):
         ----------
         - dx (not optional): float | int | list | np.ndarray
             The grid spacing.
-
-        ----
 
         Examples
         --------

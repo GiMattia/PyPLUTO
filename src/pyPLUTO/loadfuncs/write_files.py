@@ -1,5 +1,7 @@
 """Module for writing external files."""
 
+from __future__ import annotations
+
 import warnings
 from pathlib import Path
 from typing import Any
@@ -26,6 +28,7 @@ class WriteFilesManager(LoadMixin):
         filename: str,
         dataname: str | None = None,
         grid: bool = False,
+        _check: bool = True,
         **kwargs: Any,
     ) -> None:
         """Write data to an HDF5 file.
@@ -93,6 +96,7 @@ class WriteFilesManager(LoadMixin):
         filename: str,
         dataname: str | None = None,
         grid: bool = False,
+        _check: bool = True,
         **kwargs: Any,
     ) -> None:
         """Write data to a VTK file."""
@@ -105,6 +109,7 @@ class WriteFilesManager(LoadMixin):
         filename: str,
         dataname: str | None = None,
         grid: bool = False,
+        _check: bool = True,
         **kwargs: Any,
     ) -> None:
         """Write data to a tab-separated file."""
@@ -117,6 +122,7 @@ class WriteFilesManager(LoadMixin):
         filename: str,
         dataname: str | None = None,
         grid: bool = False,
+        _check: bool = True,
         **kwargs: Any,
     ) -> None:
         """Write data to a binary file."""
@@ -130,6 +136,7 @@ class WriteFilesManager(LoadMixin):
         datatype: str | None = None,
         dataname: str | None = None,
         grid: bool = False,
+        _check: bool = True,
         **kwargs: Any,
     ) -> None:
         """Write the input data to a file."""
@@ -147,7 +154,9 @@ class WriteFilesManager(LoadMixin):
         if writer is None:
             warn = f"Invalid datatype: {datatype}. Resetting to 'h5'"
             warnings.warn(warn, UserWarning, stacklevel=2)
-            self._write_h5(data, filename, dataname, grid, **kwargs)
+            self._write_h5(
+                data, filename, dataname, grid, _check=False, **kwargs
+            )
             return
 
         if datatype != "h5":
@@ -156,7 +165,9 @@ class WriteFilesManager(LoadMixin):
                 "Resetting to 'h5'"
             )
             warnings.warn(warn, UserWarning, stacklevel=2)
-            self._write_h5(data, filename, dataname, grid, **kwargs)
+            self._write_h5(
+                data, filename, dataname, grid, _check=False, **kwargs
+            )
             return
 
-        writer(data, filename, dataname, grid, **kwargs)
+        writer(data, filename, dataname, grid, _check=False, **kwargs)

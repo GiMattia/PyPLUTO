@@ -1,11 +1,13 @@
 """Module providing image tools for saving figures and adding text."""
 
+from __future__ import annotations
+
 import importlib
 import inspect
 import warnings
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Any, cast
+from typing import Unpack, cast
 
 import matplotlib.colors as mcol
 import matplotlib.pyplot as plt
@@ -14,6 +16,7 @@ from matplotlib.colors import Normalize
 from matplotlib.text import Text
 
 from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
+from pyPLUTO.imagekwargs import CreateAxesKwargs, TextKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -63,8 +66,6 @@ class ImageToolsManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: save an empty image
@@ -86,18 +87,6 @@ class ImageToolsManager(ImageMixin):
 
         self.state.fig.savefig(out_path, bbox_inches=bbox, dpi=dpi)
 
-    def show(
-        self,
-    ) -> None:
-        """Show the figure created with the Image class.
-
-        This method is deprecated and will be removed in future versions.
-        Please use pp.show instead.
-        """
-        raise NotImplementedError(
-            "Image show is deprecated, please use pp.show instead"
-        )
-
     @track_kwargs
     def text(
         self,
@@ -106,8 +95,8 @@ class ImageToolsManager(ImageMixin):
         y: float = 0.85,
         ax: Axes | int | None = None,
         c: str = "k",
-        check: bool = True,
-        **kwargs: Any,
+        _check: bool = True,
+        **kwargs: Unpack[TextKwargs],
     ) -> None:
         """Insert a text box inside the figure created with Image class.
 
@@ -206,8 +195,6 @@ class ImageToolsManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Insert text inside a specific axis
@@ -232,8 +219,6 @@ class ImageToolsManager(ImageMixin):
             >>> I.text("text", x=0.5, y=0.5, xycoords="points")
 
         """
-        kwargs.pop("kwargscheck", check)
-
         # Find figure and number of the axis
         ax, nax = self.assign_ax(ax, **kwargs)
 
@@ -283,7 +268,10 @@ class ImageToolsManager(ImageMixin):
 
     @track_kwargs
     def assign_ax(
-        self, ax: Axes | list[Axes] | int | None, **kwargs: Any
+        self,
+        ax: Axes | list[Axes] | int | None,
+        _check: bool = True,
+        **kwargs: Unpack[CreateAxesKwargs],
     ) -> tuple[Axes, int]:
         """Set the axes of the figure where the plot/feature should go.
 
@@ -357,8 +345,6 @@ class ImageToolsManager(ImageMixin):
         -------
         - tuple[Axes, int]
 
-        ----
-
         Examples
         --------
         - Example #1: Set the axes of the figure
@@ -380,9 +366,9 @@ class ImageToolsManager(ImageMixin):
             )
         # Check if the axis is None and no axis is present (and create one)
         if ax is None and len(self.state.ax) == 0:
-            ax = self.CreateAxesManager.create_axes(
-                ncol=1, nrow=1, check=False, **kwargs
-            )
+            kwargs["ncol"] = 1
+            kwargs["nrow"] = 1
+            ax = self.CreateAxesManager.create_axes(_check=False, **kwargs)
 
         # Check if the axis is None and an axis is present (and select the last
         # one, the current axis if it belongs to the one saved in the figure or
@@ -435,8 +421,6 @@ class ImageToolsManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Hide the text of the selected set of axes
@@ -460,7 +444,6 @@ class ImageToolsManager(ImageMixin):
         vmin: float,
         vmax: float,
         tresh: float,
-        lint: float | None = None,
     ) -> Normalize:
         """Set the color scale and limits of a pcolormesh given the scale.
 
@@ -485,8 +468,6 @@ class ImageToolsManager(ImageMixin):
         -------
         - Normalize
 
-        ----
-
         Examples
         --------
         - Example #1: set a linear colormap between 0 and 1
@@ -503,24 +484,12 @@ class ImageToolsManager(ImageMixin):
             >>> _set_cscale("twoslope", -1.0, 1.0, 0.1)
 
         """
-        if lint is not None:
-            warnings.warn(
-                "'lint' keyword is deprecated, please use \
-                        'tresh' instead",
-                UserWarning,
-                stacklevel=2,
-            )
-
         norm: Normalize
 
         if cscale == "log":
             norm = mcol.LogNorm(vmin=vmin, vmax=vmax)
         elif cscale == "symlog":
-            # Pylint wrong warning!!! Disabled cause not compatible with modern
-            # matplotlib versions
-            # pylint: disable=redundant-keyword-arg
             norm = mcol.SymLogNorm(tresh, vmin=vmin, vmax=vmax)
-            # pylint: enable=redundant-keyword-arg
         elif cscale in ("twoslope", "2slope"):
             norm = mcol.TwoSlopeNorm(vmin=vmin, vmax=vmax, vcenter=tresh)
         elif cscale == "power":
@@ -545,8 +514,6 @@ class ImageToolsManager(ImageMixin):
         Returns
         -------
         - Colormap | None
-
-        ----
 
         Examples
         --------

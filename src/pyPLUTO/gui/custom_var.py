@@ -50,8 +50,6 @@ class CustomVarDialog(QDialog):
         -------
         - None
 
-        ----
-
         """
         super().__init__(parent)
         self.Data = Data

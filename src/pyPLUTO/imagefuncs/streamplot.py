@@ -1,15 +1,19 @@
 """Module to manage the streamplot function from matplotlib.pyplot."""
 
+from __future__ import annotations
+
 import warnings
-from typing import Any
+from typing import Unpack
 
 import numpy as np
+from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
 
 from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagekwargs import StreamplotKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -32,8 +36,9 @@ class StreamplotManager(ImageMixin):
         self,
         var1: np.ndarray,
         var2: np.ndarray,
-        check: bool = True,
-        **kwargs: Any,
+        ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[StreamplotKwargs],
     ) -> LineCollection:
         """Plot a streamplot of a vector field.
 
@@ -253,8 +258,6 @@ class StreamplotManager(ImageMixin):
         -------
         - LineCollection
 
-        ----
-
         Examples
         --------
         - Example #1: Plot a streamplot of a vector field
@@ -262,15 +265,11 @@ class StreamplotManager(ImageMixin):
             >>> I.streamplot(D.Bx1, D.Bx2)
 
         """
-        kwargs.pop("check", check)
-
         if np.shape(var1) != np.shape(var2):
             raise ValueError("The shapes of the variables are different.")
 
         # Set or create figure and axes
-        ax, nax = self.ImageToolsManager.assign_ax(
-            kwargs.pop("ax", None), **kwargs
-        )
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         if self.state.fig is None:
             raise ValueError(
@@ -298,7 +297,7 @@ class StreamplotManager(ImageMixin):
         varx[mask] = vary[mask] = np.nan
 
         # Set ax parameters
-        self.AxisManager.set_axis(ax=ax, check=False, **kwargs)
+        self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)
 
         # Keyword for colorbar and colorscale
@@ -307,7 +306,6 @@ class StreamplotManager(ImageMixin):
         cpos = kwargs.get("cpos")
         cscale = kwargs.get("cscale", "norm")
         tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
-        lint = kwargs.get("lint")
 
         if "colors" in kwargs and "cmap" in kwargs:
             warn = "Both colors and cmap are defined. Using c."
@@ -325,9 +323,7 @@ class StreamplotManager(ImageMixin):
         broken_streamlines = kwargs.get("brokenlines", True)
 
         # Set the colorbar scale (put in function)
-        norm = self.ImageToolsManager.set_cscale(
-            cscale, vmin, vmax, tresh, lint
-        )
+        norm = self.ImageToolsManager.set_cscale(cscale, vmin, vmax, tresh)
 
         # Plot the streamplot
         strm = ax.streamplot(
@@ -350,7 +346,7 @@ class StreamplotManager(ImageMixin):
         )
 
         if cpos is not None:
-            self.ColorbarManager.colorbar(strm.lines, check=False, **kwargs)
+            self.ColorbarManager.colorbar(strm.lines, _check=False, **kwargs)
 
         # If tight_layout is enabled, is re-inforced
         if self.state.tight:

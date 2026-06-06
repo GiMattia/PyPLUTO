@@ -7,7 +7,7 @@ The data are the ones obtained from the PLUTO test problem
 $PLUTO_DIR/Test_Problems/MHD/Blast (configuration 9).
 
 The data is loaded twice into a pload object D and the Image class is
-created. The ´slices´ method is used to obtain a slice of the desired
+created. The 'slices' method is used to obtain a slice of the desired
 quantity along the diagonals of the domain. The plot method and the
 legend method are then used to plot a highly informative plot of density
 and pression with customized legend labels. The image is then saved and
@@ -26,10 +26,11 @@ Image.create_axes(ncol=2)
 
 
 # Helper function to plot a frame
-def plot_frame(Data, ax_idx: int, time_label: str):
+def plot_frame(Data: pyPLUTO.Load, ax_idx: int, time_label: str) -> None:
+    """Plot a frame of the simulation data."""
     x = Data.x1 * np.sqrt(2)
 
-    for idx, (var, label, color, yrange) in enumerate(
+    for _, (var, label, color, yrange) in enumerate(
         [
             (Data.rho, r"$\rho$", Image.color[0], [0.1, 200]),
             (Data.prs, r"$p$", Image.color[1], [0.1, 200]),

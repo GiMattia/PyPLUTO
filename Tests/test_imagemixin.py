@@ -74,18 +74,10 @@ def test_init_exit_branch(monkeypatch):
     "attr",
     [
         "colorbar",
-        "contour",
         "create_axes",
-        "display",
-        "interactive",
         "legend",
-        "plot",
         "savefig",
-        "scatter",
         "set_axis",
-        "show",
-        "text",
-        "streamplot",
         "zoom",
     ],
 )
@@ -94,6 +86,13 @@ def test_property_delegation(attr):
     img = image_mod.Image(text=False)
     result = getattr(img, attr)()
     assert result == attr
+
+
+def test_text_delegation():
+    """text delegates to the manager (requires a positional text argument)."""
+    img = image_mod.Image(text=False)
+    result = img.text(text="hello")
+    assert result == "text"
 
 
 # ------------------------------

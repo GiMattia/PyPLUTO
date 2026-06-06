@@ -36,6 +36,7 @@ class EchoLoadManager(LoadMixin):
         self,
         nout: int | str | list[int | str] | None,
         loadvars: str | list[str] | bool | None,
+        _check: bool = True,
         **kwargs: Unpack[EchoKwargs],
     ) -> None:
         """Load data from an ECHO HDF5 output file.
@@ -59,8 +60,6 @@ class EchoLoadManager(LoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -161,8 +160,6 @@ class EchoLoadManager(LoadMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Load grid coordinates
@@ -192,8 +189,6 @@ class EchoLoadManager(LoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -242,8 +237,6 @@ class EchoLoadManager(LoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

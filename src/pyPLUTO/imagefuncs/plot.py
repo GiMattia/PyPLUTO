@@ -1,14 +1,18 @@
 """PlotManager class."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import Unpack
 
 import numpy as np
+from matplotlib.axes import Axes
 from numpy.typing import ArrayLike
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.legend import LegendManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagekwargs import PlotKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -36,10 +40,11 @@ class PlotManager(ImageMixin):
     @track_kwargs
     def plot(
         self,
-        x: ArrayLike | list[float],
-        y: ArrayLike | list[float] | None = None,
-        check: bool = True,
-        **kwargs: Any,
+        x: ArrayLike,
+        y: ArrayLike | None = None,
+        ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[PlotKwargs],
     ) -> None:
         """Creation of a 1D function plot (or a 1D slice plot).
 
@@ -237,8 +242,6 @@ class PlotManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: create a simple plot of y as function of x
@@ -278,9 +281,6 @@ class PlotManager(ImageMixin):
             >>> I.plot(x, z, ax=I.ax[0])
 
         """
-        # Check parameters
-        kwargs.pop("check", check)
-
         # If only one argument is given, it is the y-axis
         if y is None:
             y = np.asarray(x, dtype=float)
@@ -296,12 +296,10 @@ class PlotManager(ImageMixin):
             )
 
         # Set or create figure and axes
-        ax, nax = self.ImageToolsManager.assign_ax(
-            kwargs.pop("ax", None), **kwargs
-        )
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         # Set ax parameters
-        self.AxisManager.set_axis(ax=ax, check=False, **kwargs)
+        self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)
 
         # Keyword xrange and yrange
@@ -344,9 +342,9 @@ class PlotManager(ImageMixin):
         # Creation of the legend
         self.state.legpos[nax] = kwargs.get("legpos", self.state.legpos[nax])
         if self.state.legpos[nax] is not None:
-            copy_label: str | None = kwargs.get("label")
+            copy_label = kwargs.get("label")
             kwargs["label"] = None
-            self.LegendManager.legend(ax, check=False, fromplot=True, **kwargs)
+            self.LegendManager.legend(ax, _check=False, fromplot=True, **kwargs)
             kwargs["label"] = copy_label
 
         # If tight_layout is enabled, is re-inforced

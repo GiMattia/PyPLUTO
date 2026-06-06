@@ -1,3 +1,8 @@
 {
-    "faq": 0.024
+    "animate": 1.032,
+    "cartesian_vector": 0.025,
+    "colorbar": 0.061,
+    "contour": 0.03,
+    "contributing": 0.015,
+    "create_axes": 0.023
 }

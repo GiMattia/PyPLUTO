@@ -1,5 +1,7 @@
 """Docstring for pyPLUTO.loadfuncs.loadvars module."""
 
+from __future__ import annotations
+
 import mmap
 import warnings
 from pathlib import Path
@@ -54,8 +56,6 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -230,8 +230,6 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Assign data to a variable
@@ -296,8 +294,6 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

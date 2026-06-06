@@ -1,5 +1,7 @@
 """Top-level package for pyPLUTO."""
 
+from __future__ import annotations
+
 from pyPLUTO.configure import Configure
 from pyPLUTO.examples_api import (
     copy_examples,
@@ -13,7 +15,7 @@ from pyPLUTO.loadpart import LoadPart
 from pyPLUTO.pytools import find_example, ring, savefig, show
 
 # Define the version and additional environment variables
-__version__ = "1.1.5"
+__version__ = "1.2.0"
 
 colorerr: bool = True
 colorwarn: bool = True

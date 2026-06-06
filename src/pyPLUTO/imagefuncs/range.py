@@ -1,5 +1,7 @@
 """RangeManager class."""
 
+from __future__ import annotations
+
 import warnings
 
 import numpy as np
@@ -42,8 +44,6 @@ class RangeManager(ImageMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -110,8 +110,6 @@ class RangeManager(ImageMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -190,8 +188,6 @@ class RangeManager(ImageMixin):
         Returns
         -------
         - tuple[float, float]
-
-        ----
 
         Examples
         --------

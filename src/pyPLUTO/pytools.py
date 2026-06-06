@@ -1,5 +1,7 @@
 """PyPLUTO general tools."""
 
+from __future__ import annotations
+
 import importlib.util
 import inspect
 import os
@@ -62,8 +64,6 @@ def show(block: bool = True) -> None:
     -------
     - None
 
-    ----
-
     Examples
     --------
     - Example #1: Shows the image created
@@ -89,8 +89,6 @@ def ring(length: float = 0.5, freq: int = 440) -> None:
     Returns
     -------
     - None
-
-    ----
 
     Examples
     --------

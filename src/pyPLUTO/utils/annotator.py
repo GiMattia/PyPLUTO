@@ -5,6 +5,9 @@ in the public API.  Functions annotate their **kwargs parameter as
 ``Unpack[AllKwargs]`` to get full static type-checking support.
 """
 
+from __future__ import annotations
+
+from collections.abc import Sequence
 from pathlib import Path as FilePath
 from typing import TypedDict
 
@@ -19,14 +22,13 @@ class AllKwargs(TypedDict, total=False):
     # --- Figure / window ---
     close: bool
     fig: Figure | None
-    figsize: list[float]
+    figsize: Sequence[float]
     fontsize: float | int
     fontweight: str
     kwargscheck: bool
     LaTeX: bool | str
     numcolors: int
     nwin: int
-    oldcolor: bool
     proj: str | None
     replace: bool
     style: str

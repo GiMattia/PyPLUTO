@@ -1,5 +1,7 @@
 """Docstring for pyPLUTO.loadfuncs.offsetdata."""
 
+from __future__ import annotations
+
 import mmap
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
@@ -53,8 +55,6 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

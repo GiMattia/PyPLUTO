@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 import warnings
-from typing import Any
+from typing import Unpack
 
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection, PathCollection, QuadMesh
 from matplotlib.contour import QuadContourSet
+from matplotlib.ticker import FixedFormatter, FixedLocator
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagekwargs import ColorbarKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -37,8 +39,8 @@ class ColorbarManager(ImageMixin):
         ) = None,
         axs: Axes | int | None = None,
         cax: Axes | int | None = None,
-        check: bool = True,
-        **kwargs: Any,
+        _check: bool = True,
+        **kwargs: Unpack[ColorbarKwargs],
     ) -> None:
         """Display a colorbar in a selected position.
 
@@ -137,8 +139,6 @@ class ColorbarManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: create a standard colorbar on the right
@@ -170,8 +170,8 @@ class ColorbarManager(ImageMixin):
 
         """
         # Check parameters
-        if not isinstance(check, bool):
-            raise TypeError("check must be a boolean value.")
+        if not isinstance(_check, bool):
+            raise TypeError("_check must be a boolean value.")
 
         # If pcm and a source axes are selected, raise a warning and use pcm
         if pcm is not None and axs is not None:
@@ -202,7 +202,9 @@ class ColorbarManager(ImageMixin):
             divider = make_axes_locatable(axs)
             cax = divider.append_axes(cpos, size="7%", pad=cpad)
         else:
-            cax, naxc = self.ImageToolsManager.assign_ax(cax, **kwargs)
+            cax, naxc = self.ImageToolsManager.assign_ax(
+                cax, _check=False, **kwargs
+            )
             self.ImageToolsManager.hide_text(naxc, cax.texts)
 
         # Check if the cax is an Axes instance
@@ -221,8 +223,13 @@ class ColorbarManager(ImageMixin):
         )
 
         # Set the tickslabels
-        if (ctkc := kwargs.get("ctickslabels", "Default")) != "Default":
-            cbar.ax.set_yticklabels(ctkc)
+        if isinstance(
+            (ctkc := kwargs.get("ctickslabels", "Default")), (list, tuple)
+        ):
+            axis = cbar.ax.yaxis if ccor == "vertical" else cbar.ax.xaxis
+            ticks = kwargs.get("cticks") or list(cbar.get_ticks())
+            axis.set_major_locator(FixedLocator(ticks))
+            axis.set_major_formatter(FixedFormatter(list(ctkc)))
 
         # Ensure, if needed, the tight layout
         if self.state.tight:
@@ -282,6 +289,7 @@ class ColorbarManager(ImageMixin):
             axs = gca
         axs, _ = self.ImageToolsManager.assign_ax(
             axs,
+            _check=False,
         )
         if self.state.fig is None:
             raise ValueError(

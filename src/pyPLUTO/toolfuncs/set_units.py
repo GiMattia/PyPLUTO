@@ -1,5 +1,7 @@
 """Attach and detach astropy units on loaded variables."""
 
+from __future__ import annotations
+
 from collections.abc import Iterable
 
 from pyPLUTO.baseloadstate import BaseLoadState

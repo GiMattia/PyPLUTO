@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING, cast
 
 import numpy as np
@@ -22,6 +23,8 @@ if TYPE_CHECKING:
 
 from pyPLUTO.gui.globals import cmaps_divided as cmaps
 from pyPLUTO.gui.services import apply_slices, convert_axis_map
+
+logger = logging.getLogger(__name__)
 
 
 class PlotController:
@@ -75,11 +78,11 @@ class PlotController:
         twod = 2
         app = self.app
         if not app.data_loaded:
-            print("ERROR: No data loaded.")
+            logger.error("No data loaded.")
             return
         var_name = app.var_selector.currentText()
         if not var_name:
-            print("ERROR: No variable selected.")
+            logger.error("No variable selected.")
             return
 
         app.var = getattr(app.Data, var_name)
@@ -184,7 +187,6 @@ class PlotController:
         app.Image = pp.Image(figsize=[10, 6])
         app.firstplot = True
         app.figure = app.Image.fig
-        print(app.Image.fontsize, app.Image.figsize)
         app.canvas = FigureCanvas(app.figure)
         app.toolbar = NavigationToolbar(app.canvas, app)
         app.canvas.setFixedWidth(800)

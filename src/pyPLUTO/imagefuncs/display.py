@@ -1,8 +1,11 @@
 """Module to manage the display of 2D plots in the image."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import Unpack
 
 import numpy as np
+from matplotlib.axes import Axes
 from matplotlib.collections import QuadMesh
 from numpy.typing import ArrayLike
 
@@ -10,6 +13,7 @@ from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagekwargs import DisplayKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -35,8 +39,9 @@ class DisplayManager(ImageMixin):
     def display(
         self,
         var: ArrayLike,
-        check: bool = True,
-        **kwargs: Any,
+        ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[DisplayKwargs],
     ) -> QuadMesh:
         """Plot for a 2D function using the matplotlib's pcolormesh function.
 
@@ -236,8 +241,6 @@ class DisplayManager(ImageMixin):
         -------
         - QuadMesh
 
-        ----
-
         Examples
         --------
         - Example #1: create a simple 2d plot with title and colorbar on the
@@ -272,12 +275,8 @@ class DisplayManager(ImageMixin):
                         cscale = 'symlog', tresh = 0.001, vmin = -1, vmax = 1)
 
         """
-        kwargs.pop("check", check)
-
         # Set or create figure and axes
-        ax, nax = self.ImageToolsManager.assign_ax(
-            kwargs.pop("ax", None), **kwargs
-        )
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         if self.fig is None:
             raise ValueError(
@@ -296,7 +295,7 @@ class DisplayManager(ImageMixin):
         if not kwargs.get("yrange") and self.setay[nax] != 1:
             kwargs["yrange"] = [y.min(), y.max()]
         # Set ax parameters
-        self.AxisManager.set_axis(ax=ax, check=False, **kwargs)
+        self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)
 
         # Keywords vmin and vmax
@@ -307,13 +306,10 @@ class DisplayManager(ImageMixin):
         cpos = kwargs.get("cpos")
         cscale = kwargs.get("cscale", "norm")
         tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
-        lint = kwargs.get("lint")
         self.vlims[nax] = [vmin, vmax, tresh]
 
         # Set the colorbar scale (put in function)
-        norm = self.ImageToolsManager.set_cscale(
-            cscale, vmin, vmax, tresh, lint
-        )
+        norm = self.ImageToolsManager.set_cscale(cscale, vmin, vmax, tresh)
 
         # Select shading
         shade = kwargs.get("shading", "auto")
@@ -336,7 +332,7 @@ class DisplayManager(ImageMixin):
 
         # Place the colorbar (use colorbar function)
         if cpos is not None:
-            self.ColorbarManager.colorbar(pcm, check=False, **kwargs)
+            self.ColorbarManager.colorbar(pcm, _check=False, **kwargs)
 
         # If tight_layout is enabled, is re-inforced
         if self.tight:

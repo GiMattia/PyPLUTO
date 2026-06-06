@@ -1,5 +1,7 @@
 """Module for grid management when reading files without descriptor."""
 
+from __future__ import annotations
+
 import warnings
 
 import numpy as np
@@ -26,8 +28,6 @@ class GridManager(LoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -144,8 +144,6 @@ class GridManager(LoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

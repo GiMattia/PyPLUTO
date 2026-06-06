@@ -1,5 +1,7 @@
 """Nabla utilities manager."""
 
+from __future__ import annotations
+
 import warnings
 from typing import Any
 
@@ -27,8 +29,6 @@ class NablaManager(LoadMixin):
         Returns
         -------
         - bool
-
-        ----
 
         Examples
         --------
@@ -64,8 +64,6 @@ class NablaManager(LoadMixin):
         Returns
         -------
         - list[int]
-
-        ----
 
         Examples
         --------
@@ -111,8 +109,6 @@ class NablaManager(LoadMixin):
         Returns
         -------
         - tuple
-
-        ----
 
         Examples
         --------
@@ -178,8 +174,6 @@ class NablaManager(LoadMixin):
         Returns
         -------
         - np.ndarray
-
-        ----
 
         Examples
         --------
@@ -319,8 +313,6 @@ class NablaManager(LoadMixin):
         Returns
         -------
         - np.ndarray
-
-        ----
 
         Examples
         --------
@@ -518,8 +510,6 @@ class NablaManager(LoadMixin):
         Returns
         -------
         - np.ndarray
-
-        ----
 
         Examples
         --------

@@ -418,27 +418,72 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.h_pypluto</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_par</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadmixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadMixin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">FourierManager</span><span class="p">(</span><span class="n">LoadMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Manager for Fourier transforms on loaded data.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">LoadState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Fourier manager with the given load state.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
 
 <div class="viewcode-block" id="FourierManager.fourier">
 <a class="viewcode-back" href="../../../fourier.html#pyPLUTO.toolfuncs.fourier.FourierManager.fourier">[docs]</a>
+    <span class="nd">@track_kwargs</span><span class="p">(</span><span class="n">extra_keys</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;dx&quot;</span><span class="p">,</span> <span class="s2">&quot;dy&quot;</span><span class="p">,</span> <span class="s2">&quot;dz&quot;</span><span class="p">})</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">fourier</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute Fourier transform and return frequencies + amplitude.&quot;&quot;&quot;</span>
-        <span class="n">param</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dx&quot;</span><span class="p">,</span> <span class="s2">&quot;dy&quot;</span><span class="p">,</span> <span class="s2">&quot;dz&quot;</span><span class="p">,</span> <span class="s2">&quot;xdir&quot;</span><span class="p">,</span> <span class="s2">&quot;ydir&quot;</span><span class="p">,</span> <span class="s2">&quot;zdir&quot;</span><span class="p">}</span>
-        <span class="k">if</span> <span class="n">check</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">check_par</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;fourier&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the Fourier transform of a given array.</span>
 
+<span class="sd">        The function uses the numpy.fft.fftn function. The function returns a</span>
+<span class="sd">        tuple containing the transformed array and the frequency array (which is</span>
+<span class="sd">        a list of arrays if the input is in 2D or 3D).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - f: np.ndarray</span>
+<span class="sd">            The transformed array.</span>
+<span class="sd">        - freqs: np.ndarray | list[np.ndarray]</span>
+<span class="sd">            The frequency array. It is a list of arrays if the input is in 2D or</span>
+<span class="sd">            3D.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - dx: float | int | list | np.ndarray | None, default None</span>
+<span class="sd">            The grid spacing. If None, the grid spacing is set to 1.</span>
+<span class="sd">        - dy: float | int | list | np.ndarray | None, default None</span>
+<span class="sd">            The grid spacing. If None, the grid spacing is set to 1.</span>
+<span class="sd">        - dz: float | int | list | np.ndarray | None, default None</span>
+<span class="sd">            The grid spacing. If None, the grid spacing is set to 1.</span>
+<span class="sd">        - f (not optional): np.ndarray</span>
+<span class="sd">            The array to be transformed.</span>
+<span class="sd">        - xdir: bool, default True</span>
+<span class="sd">            If True, the x-direction is transformed.</span>
+<span class="sd">        - ydir: bool, default True</span>
+<span class="sd">            If True, the y-direction is transformed.</span>
+<span class="sd">        - zdir: bool, default True</span>
+<span class="sd">            If True, the z-direction is transformed.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: Compute the Fourier transform of a given array</span>
+
+<span class="sd">            &gt;&gt;&gt; freqs, f = fourier(func)</span>
+
+<span class="sd">        - Example #2: Compute the Fourier transform of a given array in 2D with</span>
+<span class="sd">          custom grid spacing</span>
+
+<span class="sd">            &gt;&gt;&gt; freqs, f = fourier(func, dx=1, dy=1)</span>
+
+<span class="sd">        - Example #3: Compute the Fourier transform of a 3D without considering</span>
+<span class="sd">          the x-direction</span>
+
+<span class="sd">            &gt;&gt;&gt; freqs, f = fourier(func, xdir=False)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
         <span class="n">dim</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">ndim</span>
         <span class="n">shp</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span>
@@ -479,7 +524,27 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_fourier_spacing</span><span class="p">(</span><span class="n">dx</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check grid spacing and return scalar spacing.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the grid spacing and return the correct value.</span>
+
+<span class="sd">        If the grid spacing is not valid (negative), raise an error.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - scrh: float</span>
+<span class="sd">            The grid spacing.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - dx (not optional): float | int | list | np.ndarray</span>
+<span class="sd">            The grid spacing.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: Check the grid spacing and return the correct value</span>
+
+<span class="sd">            &gt;&gt;&gt; scrh = fourier_spacing(dx)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">scrh</span> <span class="o">=</span> <span class="n">dx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span> <span class="k">else</span> <span class="n">dx</span>
         <span class="k">if</span> <span class="n">scrh</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;the grid spacing must be positive!&quot;</span><span class="p">)</span>

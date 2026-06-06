@@ -1,5 +1,7 @@
 """Docstring for pyPLUTO.loadfuncs.baseloadtools module."""
 
+from __future__ import annotations
+
 import contextlib
 from pathlib import Path
 
@@ -31,8 +33,6 @@ class GridFileManager(LoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -153,8 +153,6 @@ class GridFileManager(LoadMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Split the gridfile
@@ -202,8 +200,6 @@ class GridFileManager(LoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

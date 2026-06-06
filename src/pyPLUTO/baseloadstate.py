@@ -1,5 +1,7 @@
 """Module that contains the LoadState class."""
 
+from __future__ import annotations
+
 import mmap
 from dataclasses import dataclass, field
 from pathlib import Path

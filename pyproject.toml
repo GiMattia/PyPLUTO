@@ -161,6 +161,9 @@ quote-style = "double"
 indent-style = "space"
 line-ending = "auto"
 
+[tool.setuptools.package-data]
+pyPLUTO = ["py.typed"]
+
 [tool.uv]
 no-build-package = [
     # mandatory deps
@@ -224,3 +227,15 @@ notebook = { features = ["notebook"] }
 dev-test = { features = ["dev", "test"] }
 dev-docs = { features = ["dev", "docs"] }
 local-dev = { features = ["dev", "test", "docs", "notebook"] }
+
+[tool.pyrefly]
+project-includes = [
+    "**/*.py*",
+    "**/*.ipynb",
+]
+project-excludes = [
+    "Tests/**/*.py*",
+    "Tests/**/*.ipynb",
+]
+python-version = "3.11"
+preset = "basic"

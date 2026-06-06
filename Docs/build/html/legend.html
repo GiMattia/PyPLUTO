@@ -464,49 +464,106 @@ figure, ordered by entry. If specific labels are given, it shows those.</p>
 <dt><strong>- ax: ax | int | None, default None</strong></dt><dd><p>The axis where to insert the legend. If None, the last considered
 axis will be used.</p>
 </dd>
-<dt><strong>- c: str, default self.color</strong></dt><dd><p>Determines the line color. If not defined, the program will loop
-over an array of 6 color which are different for the most common
+<dt><strong>- bottom: float, default varies</strong></dt><dd><p>The bottom limit of the axis / axes set. For the figure layout it
+is the space from the bottom border to the plot (default 0.1); for
+an inset zoom it is the bottom position of the inset (default 0.6 +
+height).</p>
+</dd>
+<dt><strong>- c: str, default self.color</strong></dt><dd><p>Determines the color. If not defined, the program will loop
+over an array of 6 colors which are different for the most common
 vision deficiencies.</p>
 </dd>
-<dt><strong>- edgecolor: list[str], default [None]</strong></dt><dd><p>Sets the edge color of the legend. The default value is black (‘k’).</p>
+<dt><strong>- edgecolor: list[str], default [None]</strong></dt><dd><p>Sets the edge color of the legend. The default value is black
+(‘k’).</p>
+</dd>
+<dt><strong>- figsize: list[float], default varies</strong></dt><dd><p>Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+computed from the number of rows and columns (or [8,5] for a single
+plot).</p>
 </dd>
 <dt><strong>- fillstyle: {‘full’, ‘left’, ‘right’, ‘bottom’, ‘top’, ‘none’},</strong></dt><dd><p>default ‘full’
 Sets the marker filling. The default value is the fully filled
 marker (‘full’).</p>
 </dd>
-<dt><strong>- label: [str], default None</strong></dt><dd><p>Associates a label to each line. If not specified, the program will
-take the label which are already associated with the plot.</p>
+<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components.</p>
+</dd>
+<dt><strong>- fromplot: bool, default False</strong></dt><dd><p>If True, the legend will be created from the plot elements.</p>
+</dd>
+<dt><strong>- hratio: [float], default [1.0]</strong></dt><dd><p>Ratio between the rows of the plot. The default is that every plot
+row has the same height.</p>
+</dd>
+<dt><strong>- hspace: [float], default []</strong></dt><dd><p>The space between plot rows (in figure units). If not enough or too
+many spaces are considered, the program will remove the excess and
+fill the lacks with [0.1].</p>
+</dd>
+<dt><strong>- label: str, default None</strong></dt><dd><p>Associates a label to the plot, used for the creation of the
+legend.</p>
+</dd>
+<dt><strong>- left: float, default varies</strong></dt><dd><p>The left limit of the axis / axes set. For the figure layout it is
+the space from the left border to the plot (default 0.125); for an
+inset zoom it is the left position of the inset (default 0.6).</p>
 </dd>
 <dt><strong>- legalpha: float, default 0.8</strong></dt><dd><p>Sets the opacity of the legend.</p>
 </dd>
 <dt><strong>- legcols: int, default 1</strong></dt><dd><p>Sets the number of columns that the legend should have.</p>
 </dd>
-<dt><strong>- legpad: float, default 0.8</strong></dt><dd><p>Sets the space between the lines (or symbols) and the correspondibg
+<dt><strong>- legpad: float, default 0.8</strong></dt><dd><p>Sets the space between the lines (or symbols) and the corresponding
 text in the legend.</p>
 </dd>
-<dt><strong>- legpos: int | str, default 0</strong></dt><dd><p>Selects the legend location. If not specified the standard
-matplotlib legend function will find the most suitable location.</p>
+<dt><strong>- legpos: int | str, default None</strong></dt><dd><p>If defined, creates a legend at the specified location.</p>
 </dd>
 <dt><strong>- legsize: float, default fontsize</strong></dt><dd><p>Sets the fontsize of the legend. The default value is the default
 fontsize value.</p>
 </dd>
 <dt><strong>- legspace: float, default 2</strong></dt><dd><p>Sets the space between the legend columns, in font-size units.</p>
 </dd>
-<dt><strong>- ls: {‘-’, ‘–’, ‘-.’, ‘:’, ‘ ‘, ect.}, default ‘-’</strong></dt><dd><p>Sets the linestyle. The choices available are the ones defined in
-the matplotlib package. Here are reported the most common ones.</p>
+<dt><strong>- ls: {‘-’, ‘–’, ‘-.’, ‘:’, ‘ ‘, etc.}, default ‘-’</strong></dt><dd><p>Sets the linestyle. The choices available are the ones defined in
+the matplotlib package.</p>
 </dd>
-<dt><strong>- lw: float, default 1.3</strong></dt><dd><p>Sets the linewidth of each line.</p>
+<dt><strong>- lw: float, default 1.3</strong></dt><dd><p>Sets the linewidth.</p>
 </dd>
 <dt><strong>- marker: {‘o’, ‘v’, ‘^’, ‘&lt;’, ‘&gt;’, ‘X’, ‘ ‘, etc.}, default ‘ ‘</strong></dt><dd><p>Sets an optional symbol for every point. The default value is no
 marker (’ ‘).</p>
 </dd>
-<dt><strong>- ms: float, default 5 (if label) or 1 (if not label)</strong></dt><dd><p>Sets the marker size from the default value of 5.0 (if label is
-given) or the marker scale from the default value of 1.0 (if not
-label).</p>
+<dt><strong>- ms: float, default 3</strong></dt><dd><p>Sets the marker size.</p>
 </dd>
 <dt><strong>- mscale: float, default 1.0</strong></dt><dd><p>Sets the marker scale. The default value is 1.0.</p>
 </dd>
-<dt><strong>—-</strong></dt><dd></dd>
+<dt><strong>- ncol: int, default 1</strong></dt><dd><p>The number of columns of subplots.</p>
+</dd>
+<dt><strong>- nrow: int, default 1</strong></dt><dd><p>The number of rows of subplots.</p>
+</dd>
+<dt><strong>- proj: str, default None</strong></dt><dd><p>Custom projection for the plot (e.g. 3D). Recommended only if
+needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+3D axes. The 3D plot feature will be available in future releases.</p>
+</dd>
+<dt><strong>- right: float, default varies</strong></dt><dd><p>The right limit of the axis / axes set. For the figure layout it is
+the space from the right border to the plot (default 0.9); for an
+inset zoom it is the right position of the inset (default left +
+0.15).</p>
+</dd>
+<dt><strong>- sharex: bool | str | Matplotlib axis, default False</strong></dt><dd><p>Enables/disables the sharing of the x-axis between the subplots.</p>
+</dd>
+<dt><strong>- sharey: bool | str | Matplotlib axis, default False</strong></dt><dd><p>Enables/disables the sharing of the y-axis between the subplots.</p>
+</dd>
+<dt><strong>- suptitle: str, default None</strong></dt><dd><p>Creates a figure title over all the subplots.</p>
+</dd>
+<dt><strong>- tight: bool, default True</strong></dt><dd><p>Enables/disables tight layout options for the figure. In case of a
+highly customized plot (e.g. ratios or space between rows and
+columns) the option is set by default to False since that option
+would not be available for standard matplotlib functions.</p>
+</dd>
+<dt><strong>- top: float, default varies</strong></dt><dd><p>The top limit of the axis / axes set. For the figure layout it is
+the space from the top border to the plot (default 0.9); for an
+inset zoom it is the top position of the inset (default bottom +
+height).</p>
+</dd>
+<dt><strong>- wratio: [float], default [1.0]</strong></dt><dd><p>Ratio between the columns of the plot. The default is that every
+plot column has the same width.</p>
+</dd>
+<dt><strong>- wspace: [float], default []</strong></dt><dd><p>The space between plot columns (in figure units). If not enough or
+too many spaces are considered, the program will remove the excess
+and fill the lacks with [0.1].</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

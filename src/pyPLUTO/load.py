@@ -1,8 +1,10 @@
 """The Load class loads the data (fluid) from the output files."""
 
-# ruff: noqa: ANN201
+from __future__ import annotations
 
-from typing import Unpack
+# ruff: noqa: ANN201
+import logging
+from typing import Any, Generic, TypeVar, Unpack, cast, overload
 
 import numpy as np
 
@@ -22,8 +24,12 @@ from pyPLUTO.utils.annotator import AllKwargs
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.resolver import AttrResolver
 
+logger = logging.getLogger(__name__)
 
-class Load(LoadMixin):
+_VarT = TypeVar("_VarT", bound="np.ndarray | dict[int, np.ndarray]")
+
+
+class Load(LoadMixin, Generic[_VarT]):
     """The Load class loads the data (fluid) from the output files.
 
     The initialization corresponds to the loading, if wanted, of one or more
@@ -95,8 +101,6 @@ class Load(LoadMixin):
     -------
     - None
 
-    ----
-
     Examples
     --------
     - Example #1: Load the data from the default folder and output
@@ -156,23 +160,52 @@ class Load(LoadMixin):
 
     """
 
+    @overload
+    def __new__(
+        cls,
+        nout: int | None = ...,
+        var: str | list[str] | bool | None = ...,
+        _check: bool = ...,
+        **kwargs: Unpack[AllKwargs],
+    ) -> Load[np.ndarray]: ...
+
+    @overload
+    def __new__(
+        cls,
+        nout: list[int | str],
+        var: str | list[str] | bool | None = ...,
+        _check: bool = ...,
+        **kwargs: Unpack[AllKwargs],
+    ) -> Load[dict[int, np.ndarray]]: ...
+
+    @overload
+    def __new__(
+        cls,
+        nout: str = ...,
+        var: str | list[str] | bool | None = ...,
+        _check: bool = ...,
+        **kwargs: Unpack[AllKwargs],
+    ) -> Load[np.ndarray] | Load[dict[int, np.ndarray]]: ...
+
+    def __new__(cls, *_args: Any, **_kwargs: Any) -> Load[Any]:
+        """Allocate a new Load instance."""
+        return super().__new__(cls)
+
     @track_kwargs
     def __init__(
         self,
         nout: int | str | list[int | str] | None = "last",
         var: str | list[str] | bool | None = True,
-        check: bool = True,
+        _check: bool = True,
         **kwargs: Unpack[AllKwargs],
     ) -> None:
         """Initialize the Load class."""
-        kwargs.pop("kwargscheck", check)
-
         self.state: LoadState = LoadState()
         self.state.text = kwargs.get("text", self.state.text)
         self.state.class_name = self.__class__.__name__
         self.state.full3D = kwargs.get("full3D", self.state.full3D)
         self.state.level = kwargs.get("level", self.state.level)
-        InitLoadManager(self.state, nout, var, **kwargs)
+        InitLoadManager(self.state, nout, var, _check=False, **kwargs)
         FiledefpliniManager(self.state, kwargs.get("defh"), kwargs.get("plini"))
 
         self.ReadFileManager = ReadFilesManager(self.state)
@@ -197,14 +230,14 @@ class Load(LoadMixin):
             path = kwargs.get("path", self.state.pathdir)
             if hasattr(self.state, "nout"):
                 if isinstance(self.state.nout, (int, np.integer)):
-                    nout_out = int(self.state.nout)
+                    nout_out = self.state.nout
                 else:
                     nout_out = (
                         np.atleast_1d(self.state.nout).astype(int).tolist()
                     )
             else:
                 nout_out = None
-            print(f"Load: folder {path},     output {nout_out}")
+            logger.info("Load: folder %s,     output %s", path, nout_out)
 
     def __str__(self) -> str:
         """Return the string representation of the Load class."""
@@ -254,10 +287,10 @@ class Load(LoadMixin):
         """
         return text
 
-    def __getattr__(self, name: str):  # noqa: ANN204
+    def __getattr__(self, name: str) -> _VarT:
         """Get the attribute of the Load class."""
         val = getattr(self.state, name)
-        return AttrResolver.resolve(self.state, name, val)
+        return cast(_VarT, AttrResolver.resolve(self.state, name, val))
 
     def __setattr__(self, name: str, value: object) -> None:
         """Set the attribute of the Load class."""

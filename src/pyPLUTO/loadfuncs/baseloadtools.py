@@ -1,5 +1,7 @@
 """Docstring for pyPLUTO.loadfuncs.baseloadtools module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
@@ -32,8 +34,6 @@ class BaseLoadTools(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

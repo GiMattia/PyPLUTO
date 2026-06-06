@@ -1,5 +1,7 @@
 """Docstring for pyPLUTO.loadfuncs.readtab."""
 
+from __future__ import annotations
+
 import io
 import mmap
 
@@ -38,8 +40,6 @@ class ReadtabManager(LoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

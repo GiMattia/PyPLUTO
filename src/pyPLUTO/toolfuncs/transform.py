@@ -1,5 +1,7 @@
 """Transform utilities manager."""
 
+from __future__ import annotations
+
 from typing import Any
 
 import numpy as np
@@ -29,6 +31,7 @@ class TransformManager(LoadMixin):
         x1: int | list | None = None,
         x2: int | list | None = None,
         x3: int | list | None = None,
+        _check: bool = True,
         **kwargs: Any,
     ) -> np.ndarray:
         """Slice the variable in the 3 directions.
@@ -62,8 +65,6 @@ class TransformManager(LoadMixin):
             The slice in the 2nd direction.
         - x3: int | list | None, default None
             The slice in the 3rd direction.
-
-        ----
 
         Examples
         --------
@@ -130,8 +131,6 @@ class TransformManager(LoadMixin):
             The x-axis to mirror.
         - yax: np.ndarray | None, default None
             The y-axis to mirror.
-
-        ----
 
         Examples
         --------
@@ -210,7 +209,7 @@ class TransformManager(LoadMixin):
 
     @track_kwargs
     def cartesian_vector(
-        self, var: str | None = None, **kwargs: Any
+        self, var: str | None = None, _check: bool = True, **kwargs: Any
     ) -> tuple[np.ndarray, ...]:
         """Convert a vector from spherical or polar components to cartesian.
 
@@ -239,8 +238,6 @@ class TransformManager(LoadMixin):
             The first index of the variable.
         - x2: int
             The second index of the variable.
-
-        ----
 
         Examples
         --------
@@ -310,7 +307,7 @@ class TransformManager(LoadMixin):
 
     @track_kwargs
     def reshape_cartesian(
-        self, *args: Any, **kwargs: Any
+        self, *args: Any, _check: bool = True, **kwargs: Any
     ) -> tuple[np.ndarray, ...]:
         """Reshape a variable into a cartesian grid.
 
@@ -339,8 +336,6 @@ class TransformManager(LoadMixin):
             The first index of the variable.
         - x2: int
             The second index of the variable.
-
-        ----
 
         Examples
         --------
@@ -409,7 +404,12 @@ class TransformManager(LoadMixin):
 
     @track_kwargs
     def reshape_uniform(
-        self, x1: np.ndarray, x2: np.ndarray, *args: Any, **kwargs: Any
+        self,
+        x1: np.ndarray,
+        x2: np.ndarray,
+        *args: Any,
+        _check: bool = True,
+        **kwargs: Any,
     ) -> tuple[np.ndarray, np.ndarray, list[np.ndarray]]:
         """Reshape a non-uniform (cartesian) 2D grid into a uniform grid.
 
@@ -433,8 +433,6 @@ class TransformManager(LoadMixin):
             The first index of the variable.
         - x2: int
             The second index of the variable.
-
-        ----
 
         Examples
         --------

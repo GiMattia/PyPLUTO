@@ -1,8 +1,10 @@
 """The Load class loads the data (fluid) from the output files."""
 
-# ruff: noqa: ANN201  # noqa: RUF100
+from __future__ import annotations
 
-from typing import Any
+# ruff: noqa: ANN201  # noqa: RUF100
+import logging
+from typing import Any, Generic, TypeVar, Unpack, cast, overload
 
 import numpy as np
 
@@ -12,11 +14,16 @@ from pyPLUTO.loadfuncs.initload import InitLoadManager
 from pyPLUTO.toolfuncs.compute_units import UnitManager
 from pyPLUTO.toolfuncs.parttools import PartToolsManager
 from pyPLUTO.toolfuncs.set_units import SetUnitsManager
+from pyPLUTO.utils.annotator import AllKwargs
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.resolver import AttrResolver
 
+logger = logging.getLogger(__name__)
 
-class LoadPart(BaseLoadMixin):
+_VarT = TypeVar("_VarT", bound="np.ndarray | dict[int, np.ndarray]")
+
+
+class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
     """Load the particles from the simulation.
 
     The class is used to load
@@ -56,8 +63,6 @@ class LoadPart(BaseLoadMixin):
     -------
     - None
 
-    ----
-
     Examples
     --------
     - Example #1: Load the last output from the simulation
@@ -90,22 +95,51 @@ class LoadPart(BaseLoadMixin):
         >>> LoadPart(nfile_lp=1)
     """
 
+    @overload
+    def __new__(
+        cls,
+        nout: int | None = ...,
+        var: str | list[str] | bool | None = ...,
+        _check: bool = ...,
+        **kwargs: Unpack[AllKwargs],
+    ) -> LoadPart[np.ndarray]: ...
+
+    @overload
+    def __new__(
+        cls,
+        nout: list[int | str],
+        var: str | list[str] | bool | None = ...,
+        _check: bool = ...,
+        **kwargs: Unpack[AllKwargs],
+    ) -> LoadPart[dict[int, np.ndarray]]: ...
+
+    @overload
+    def __new__(
+        cls,
+        nout: str = ...,
+        var: str | list[str] | bool | None = ...,
+        _check: bool = ...,
+        **kwargs: Unpack[AllKwargs],
+    ) -> LoadPart[np.ndarray] | LoadPart[dict[int, np.ndarray]]: ...
+
+    def __new__(cls, *_args: Any, **_kwargs: Any) -> LoadPart[Any]:
+        """Allocate a new LoadPart instance."""
+        return super().__new__(cls)
+
     @track_kwargs
     def __init__(
         self,
         nout: int | str | list[int | str] | None = "last",
         var: str | list[str] | bool | None = True,
-        check: bool = True,
-        **kwargs: Any,
+        _check: bool = True,
+        **kwargs: Unpack[AllKwargs],
     ) -> None:
         """Initialize the Load class."""
-        kwargs.pop("kwargscheck", check)
-
         self.state: BaseLoadState = BaseLoadState()
         self.cached_vars = set()
         self.state.text = kwargs.get("text", self.state.text)
         self.state.class_name = self.__class__.__name__
-        InitLoadManager(self.state, nout, var, **kwargs)
+        InitLoadManager(self.state, nout, var, _check=False, **kwargs)
         self.PartToolsManager = PartToolsManager(self.state)
         self.UnitManager = UnitManager(self.state)
         self.SetUnitsManager = SetUnitsManager(self.state)
@@ -122,10 +156,10 @@ class LoadPart(BaseLoadMixin):
         if self.state.text is not False:
             path = kwargs.get("path", self.state.pathdir)
             if isinstance(self.state.nout, (int, np.integer)):
-                nout_out = int(self.state.nout)
+                nout_out = self.state.nout
             else:
                 nout_out = np.atleast_1d(self.state.nout).astype(int).tolist()
-            print(f"Load: folder {path},     output {nout_out}")
+            logger.info("Load: folder %s,     output %s", path, nout_out)
 
     def __str__(self) -> str:
         """Return the string representation of the LoadPart class."""
@@ -154,10 +188,10 @@ class LoadPart(BaseLoadMixin):
         """
         return text
 
-    def __getattr__(self, name: str):  # noqa: ANN204
+    def __getattr__(self, name: str) -> _VarT:
         """Get the attribute of the Load class."""
         val = getattr(self.state, name)
-        return AttrResolver.resolve(self.state, name, val)
+        return cast(_VarT, AttrResolver.resolve(self.state, name, val))
 
     def __setattr__(self, name: str, value: object) -> None:
         """Set the attribute of the Load class."""

@@ -1,12 +1,15 @@
 """LegendManager class."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import Unpack
 
 import matplotlib.lines as mlines
 import numpy as np
 from matplotlib.axes import Axes
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagekwargs import LegendKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -32,9 +35,9 @@ class LegendManager(ImageMixin):
     def legend(
         self,
         ax: Axes | int | None = None,
-        check: bool = True,
         fromplot: bool = False,
-        **kwargs: Any,
+        _check: bool = True,
+        **kwargs: Unpack[LegendKwargs],
     ) -> None:
         """Creation of a legend referring to the current figure.
 
@@ -151,8 +154,6 @@ class LegendManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: create a standard legend
@@ -193,10 +194,8 @@ class LegendManager(ImageMixin):
             >>> pp.show()
 
         """
-        kwargs.pop("check", check)
-
         # Find figure and number of the axis
-        ax, nax = self.ImageToolsManager.assign_ax(ax, **kwargs)
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)
 
         # Finds the legend parameters (position, columns, size, spacing and pad)

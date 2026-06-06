@@ -1,5 +1,8 @@
 """Module for code selection functionality."""
 
+from __future__ import annotations
+
+import logging
 from typing import Any
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
@@ -7,6 +10,8 @@ from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.codes.echo_load import EchoLoadManager
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.utils.inspector import track_kwargs
+
+logger = logging.getLogger(__name__)
 
 
 class CodeManager(BaseLoadMixin[BaseLoadState]):
@@ -31,6 +36,7 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
         state: BaseLoadState,
         nout: int | str | list[int | str] | None,
         var: str | list[str] | bool | None,
+        _check: bool = True,
         **kwargs: Any,
     ) -> None:
         """Initialize the CodeManager class."""
@@ -38,13 +44,14 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
         if isinstance(state, LoadState):
             self.echomanager = EchoLoadManager(state)
 
-        self.select_code(nout, var, **kwargs)
+        self.select_code(nout, var, _check=False, **kwargs)
 
     @track_kwargs
     def select_code(
         self,
         nout: int | str | list[int | str] | None,
         var: str | list[str] | bool | None,
+        _check: bool = True,
         **kwargs: Any,
     ) -> None:
         """Select the code based on the state.
@@ -68,8 +75,8 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
         # If not code is provided (or the code is PLUTO/gPLUTO) just skip
         if self.state.code.lower() in codedict:
             if self.state.text is not False:
-                print(f"Loading data from code: {self.state.code}")
-            codedict[self.state.code.lower()](nout, var, **kwargs)
+                logger.info("Loading data from code: %s", self.state.code)
+            codedict[self.state.code.lower()](nout, var, _check=False, **kwargs)
 
         else:
             raise NotImplementedError(

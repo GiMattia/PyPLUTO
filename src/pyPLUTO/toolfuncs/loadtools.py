@@ -1,5 +1,7 @@
 """Load tools manager with shared utility methods."""
 
+from __future__ import annotations
+
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
 from scipy.ndimage import map_coordinates
@@ -37,8 +39,6 @@ class LoadToolsManager(LoadMixin):
             The variable to be checked.
         - transpose: bool, default False
             If True, the variable is transposed.
-
-        ----
 
         Examples
         --------
@@ -97,8 +97,6 @@ class LoadToolsManager(LoadMixin):
             If True, centers the resampled array at the new dimensions.
         - minusone: bool, default False
             If True, the new dimensions should be larger by 1 in each dimension.
-
-        ----
 
         Examples
         --------

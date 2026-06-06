@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import os
 from typing import TYPE_CHECKING, cast
 
@@ -19,6 +20,8 @@ from pyPLUTO.gui.services import (
     parse_selected_file,
     parse_vars_text,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class LoadController:
@@ -83,7 +86,7 @@ class LoadController:
                 build_info_text(str(app.folder_path or "./"), app.Data, defs)
             )
         except Exception as e:
-            print(f"Error loading data: {e}")
+            logger.error("Error loading data: %s", e)
             app.data_loaded = False
 
     def select_folder(self) -> None:

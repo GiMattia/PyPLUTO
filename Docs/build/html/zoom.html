@@ -463,166 +463,215 @@ plot or display, with all the necessary customization options.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>- alpha: float, default 1.0</strong></dt><dd><p>Sets the opacity of the plot, where 1.0 means total opaque and 0.0
-means total transparent.</p>
+<dt><strong>- alpha: float, default 1.0</strong></dt><dd><p>Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is
+fully transparent.</p>
 </dd>
-<dt><strong>- aspect: {‘auto’, ‘equal’, float}, default ‘auto’</strong></dt><dd><p>Sets the aspect ratio of the plot.
-The ‘auto’ keyword is the default option (most likely the plot will
-be squared). The ‘equal’ keyword will set the same scaling for
-x and y. A float will fix the ratio between the y-scale and the
-x-scale (1.0 is the same as ‘equal’).</p>
+<dt><strong>- aspect: ‘auto’ | ‘equal’ | float, default ‘auto’</strong></dt><dd><p>Sets the aspect ratio of the plot. The ‘auto’ keyword is the
+default option. The ‘equal’ keyword sets the same scaling for x and
+y. A float fixes the ratio between the y-scale and the x-scale (1.0
+is the same as ‘equal’).</p>
 </dd>
 <dt><strong>- ax: ax object, default None</strong></dt><dd><p>The axis to customize. If None the current axis will be selected.</p>
 </dd>
-<dt><strong>- bottom: float, default 0.6 + height</strong></dt><dd><p>Bottom position of the inset plot. If not defined the program will
-give a standard value.</p>
+<dt><strong>- bottom: float, default varies</strong></dt><dd><p>The bottom limit of the axis / axes set. For the figure layout it
+is the space from the bottom border to the plot (default 0.1); for
+an inset zoom it is the bottom position of the inset (default 0.6 +
+height).</p>
 </dd>
 <dt><strong>- clabel: str, default None</strong></dt><dd><p>Sets the label of the colorbar.</p>
 </dd>
-<dt><strong>- cmap: str, default ‘hot’</strong></dt><dd><p>Selects the colormap. If not defined, the colormap ‘hot’ will be
-adopted.
-Some useful colormaps are: plasma, magma, seismic. Please avoid
-using colorbars like jet or rainbow, which are not perceptively
-uniform and not suited for people with vision deficiencies.
-All the colormap available are listed in the following link:
-<a class="reference external" href="https://matplotlib.org/stable/tutorials/colors/colormaps.html">https://matplotlib.org/stable/tutorials/colors/colormaps.html</a></p>
+<dt><strong>- cmap: str, default ‘hot’</strong></dt><dd><p>Selects the colormap. Some useful colormaps are: plasma, magma,
+seismic. Please avoid colormaps like jet or rainbow, which are not
+perceptively uniform and not suited for people with vision
+deficiencies.</p>
 </dd>
-<dt><strong>- cpad: float, default 0.07</strong></dt><dd><p>Fraction of original axes between colorbar and the axes (in case cax
-is not defined).</p>
+<dt><strong>- cpad: float, default 0.07</strong></dt><dd><p>Fraction of original axes between colorbar and the axes (in axes
+units).</p>
 </dd>
-<dt><strong>- cpos: {‘top’,’bottom’,’left’,’right’}, default None</strong></dt><dd><p>Enables the colorbar (if defined), default position on the right.</p>
+<dt><strong>- cpos: {‘top’,’bottom’,’left’,’right’}, default None</strong></dt><dd><p>Enables the colorbar and sets its position. If not defined, no
+colorbar is shown.</p>
 </dd>
 <dt><strong>- cscale: {‘linear’,’log’,’symlog’,’twoslope’}, default ‘linear’</strong></dt><dd><p>Sets the colorbar scale. Default is the linear (‘norm’) scale.</p>
 </dd>
-<dt><strong>- cticks: {[float], None}, default None</strong></dt><dd><p>If enabled (and different from None), sets manually ticks on the
-colorbar.</p>
+<dt><strong>- cticks: {[float], None}, default None</strong></dt><dd><p>If enabled (and different from None), sets manually the ticks on
+the colorbar.</p>
 </dd>
 <dt><strong>- ctickslabels: str, default None</strong></dt><dd><p>If enabled, sets manually ticks labels on the colorbar.</p>
 </dd>
 <dt><strong>- extend: {‘neither’,’both’,’min’,’max’}, default ‘neither’</strong></dt><dd><p>Sets the extension of the triangular colorbar extension.</p>
 </dd>
-<dt><strong>- extendrect: bool, default False</strong></dt><dd><p>If True, the colorbar extension will be rectangular.</p>
+<dt><strong>- extendrect: bool, default False</strong></dt><dd><p>If True, the colorbar extension will be triangular.</p>
 </dd>
-<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components (only for the current
-axis).</p>
+<dt><strong>- figsize: list[float], default varies</strong></dt><dd><p>Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+computed from the number of rows and columns (or [8,5] for a single
+plot).</p>
 </dd>
-<dt><strong>- grid: bool, default False</strong></dt><dd><p>Enables the grid.</p>
+<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components.</p>
 </dd>
-<dt><strong>- height: float, default 0.15</strong></dt><dd><p>Height of the inset zoom. It is used to defind the top (if not
-previously defined).</p>
+<dt><strong>- grid: bool | string, default False</strong></dt><dd><p>Enables/disables the grid on the plot. If True it enables both axes
+grids. If ‘x’ or ‘y’ it enables only the x- or y-axis grid.</p>
 </dd>
-<dt><strong>- label: str, default None</strong></dt><dd><p>Associates a label to each line. Such labels will be used for the
-creation of the legend.</p>
+<dt><strong>- height: float, default 0.15</strong></dt><dd><p>The height of the axis / axes set (used for an inset zoom).</p>
 </dd>
-<dt><strong>- labelsize: float, default fontsize</strong></dt><dd><p>Sets the labels fontsize (which is the same for both labels).
-The default value corresponds to the value of the keyword
-‘fontsize’.</p>
+<dt><strong>- hratio: [float], default [1.0]</strong></dt><dd><p>Ratio between the rows of the plot. The default is that every plot
+row has the same height.</p>
 </dd>
-<dt><strong>- left: float, default 0.6</strong></dt><dd><p>Left position of the inset plot.</p>
+<dt><strong>- hspace: [float], default []</strong></dt><dd><p>The space between plot rows (in figure units). If not enough or too
+many spaces are considered, the program will remove the excess and
+fill the lacks with [0.1].</p>
+</dd>
+<dt><strong>- label: str, default None</strong></dt><dd><p>Associates a label to the plot, used for the creation of the
+legend.</p>
+</dd>
+<dt><strong>- labelsize: float, default fontsize</strong></dt><dd><p>Sets the labels fontsize (which is the same for both labels). The
+default value corresponds to the value of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- left: float, default varies</strong></dt><dd><p>The left limit of the axis / axes set. For the figure layout it is
+the space from the left border to the plot (default 0.125); for an
+inset zoom it is the left position of the inset (default 0.6).</p>
 </dd>
 <dt><strong>- minorticks: str, default None</strong></dt><dd><p>If not None enables the minor ticks on the plot (for both grid
 axes).</p>
+</dd>
+<dt><strong>- ncol: int, default 1</strong></dt><dd><p>The number of columns of subplots.</p>
+</dd>
+<dt><strong>- nrow: int, default 1</strong></dt><dd><p>The number of rows of subplots.</p>
 </dd>
 <dt><strong>- pos: [float,float,float,float], default None</strong></dt><dd><p>Position of the inset plot (left, right, bottom, top).
 If missing the code will look for the single keywords
 (top/bottom, left, width, height).</p>
 </dd>
-<dt><strong>- shading: {‘flat,’nearest’,’auto’,’gouraud’}, default ‘auto’</strong></dt><dd><p>The shading between the grid points. If not defined, the shading
+<dt><strong>- proj: str, default None</strong></dt><dd><p>Custom projection for the plot (e.g. 3D). Recommended only if
+needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+3D axes. The 3D plot feature will be available in future releases.</p>
+</dd>
+<dt><strong>- right: float, default varies</strong></dt><dd><p>The right limit of the axis / axes set. For the figure layout it is
+the space from the right border to the plot (default 0.9); for an
+inset zoom it is the right position of the inset (default left +
+0.15).</p>
+</dd>
+<dt><strong>- shading: {‘flat’, ‘nearest’, ‘auto’, ‘gouraud’}, default ‘auto’</strong></dt><dd><p>The shading between the grid points. If not defined, the shading
 will be one between ‘flat’ and ‘nearest’ depending on the size of
-the x,y and z arrays. The ‘flat’ shading works only if, given a NxM
-z-array, the x- and y-arrays have sizes of, respectively, N+1 and
-M+1. All the other shadings require a N x-array and a M y-array.</p>
+the x, y and z arrays. The ‘flat’ shading works only if, given a
+NxM z-array, the x- and y-arrays have sizes of, respectively, N+1
+and M+1. All the other shadings require a N x-array and a M
+y-array.</p>
+</dd>
+<dt><strong>- sharex: bool | str | Matplotlib axis, default False</strong></dt><dd><p>Enables/disables the sharing of the x-axis between the subplots.</p>
+</dd>
+<dt><strong>- sharey: bool | str | Matplotlib axis, default False</strong></dt><dd><p>Enables/disables the sharing of the y-axis between the subplots.</p>
+</dd>
+<dt><strong>- suptitle: str, default None</strong></dt><dd><p>Creates a figure title over all the subplots.</p>
 </dd>
 <dt><strong>- ticksdir: {‘in’, ‘out’}, default ‘in’</strong></dt><dd><p>Sets the ticks direction. The default option is ‘in’.</p>
 </dd>
-<dt><strong>- tickssize: float, default fontsize</strong></dt><dd><p>Sets the ticks fontsize (which is the same for both grid axes).
-The default value corresponds to the value of the keyword
-‘fontsize’.</p>
+<dt><strong>- tickssize: float | bool, default True</strong></dt><dd><p>Sets the ticks fontsize (which is the same for both grid axes). The
+default value corresponds to the value of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- tight: bool, default True</strong></dt><dd><p>Enables/disables tight layout options for the figure. In case of a
+highly customized plot (e.g. ratios or space between rows and
+columns) the option is set by default to False since that option
+would not be available for standard matplotlib functions.</p>
 </dd>
 <dt><strong>- title: str, default None</strong></dt><dd><p>Places the title of the plot on top of it.</p>
+</dd>
+<dt><strong>- titlepad: float, default 8.0</strong></dt><dd><p>Sets the distance between the title and the top of the plot.</p>
 </dd>
 <dt><strong>- titlesize: float, default fontsize</strong></dt><dd><p>Sets the title fontsize. The default value corresponds to the value
 of the keyword ‘fontsize’.</p>
 </dd>
-<dt><strong>- top: float, default bottom + height</strong></dt><dd><p>Top position of the inset plot. If both top and bottom keywords are
-present the priority will go to the top keyword.</p>
+<dt><strong>- top: float, default varies</strong></dt><dd><p>The top limit of the axis / axes set. For the figure layout it is
+the space from the top border to the plot (default 0.9); for an
+inset zoom it is the top position of the inset (default bottom +
+height).</p>
 </dd>
-<dt><strong>- transpose: True/False, default False</strong></dt><dd><p>Transposes the variable matrix. Use is not recommended if not really
-necessary (e.g. in case of highly customized variables and plots)</p>
+<dt><strong>- transpose: True/False, default False</strong></dt><dd><p>Transposes the variable matrix. Use is not recommended if not
+really necessary (e.g. in case of highly customized variables and
+plots).</p>
 </dd>
-<dt><strong>- tresh: float, default max(abs(vmin),vmax)*0.01</strong></dt><dd><p>Additional parameter in presence of a composite colormap. The
-specific cases are the following:
-- twoslope colorscale: sets the limit between the two linear
-regimes.
-- symlog: sets the limit between the logarithmic and the linear
-regime.</p>
+<dt><strong>- tresh: float, default max(abs(vmin),vmax)*0.01</strong></dt><dd><p>Sets the threshold for the colormap (used with composite
+colorscales such as twoslope or symlog).</p>
 </dd>
-<dt><strong>- var: 2D array</strong></dt><dd><p>The array to be plotted.</p>
+<dt><strong>- var: str | list[str] | np.ndarray | bool | None, default True</strong></dt><dd><p>The variable to be loaded / plotted. When loading, it selects the
+variables (True loads all, or pass a string or list for a subset);
+when plotting, it is the array to display.</p>
 </dd>
-<dt><strong>- vmax: float, default max(z)</strong></dt><dd><p>The maximum value of the colormap. If not defined, the maximum value
-of z will be taken.</p>
+<dt><strong>- vmax: float</strong></dt><dd><p>The maximum value of the variable to be computed / plotted.</p>
 </dd>
-<dt><strong>- vmin: float, default min(z)</strong></dt><dd><p>The minimum value of the colormap. If not defined, the minimum value
-of z will be taken.</p>
+<dt><strong>- vmin: float</strong></dt><dd><p>The minimum value of the variable to be computed / plotted.</p>
 </dd>
-<dt><strong>- width: float, default 0.15</strong></dt><dd><p>Width of the inset zoom. It is used to define the right border.</p>
+<dt><strong>- width: float, default 0.15</strong></dt><dd><p>The width of the axis / axes set (used for an inset zoom).</p>
 </dd>
-<dt><strong>- x1: 1D/2D array, default ‘Default’</strong></dt><dd><p>the ‘x’ array. If not defined, a default array will be generated
-depending on the size of z.</p>
+<dt><strong>- wratio: [float], default [1.0]</strong></dt><dd><p>Ratio between the columns of the plot. The default is that every
+plot column has the same width.</p>
 </dd>
-<dt><strong>- x2: 1D/2D array, default ‘Default’</strong></dt><dd><p>the ‘y’ array. If not defined, a default array will be generated
-depending on the size of z.</p>
+<dt><strong>- wspace: [float], default []</strong></dt><dd><p>The space between plot columns (in figure units). If not enough or
+too many spaces are considered, the program will remove the excess
+and fill the lacks with [0.1].</p>
 </dd>
-<dt><strong>- xrange: [float, float], default [0,1]</strong></dt><dd><p>Sets the range in the x-direction. If not defined the code will
-compute the range while plotting the data.</p>
+<dt><strong>- x1: np.ndarray, default ‘Default’</strong></dt><dd><p>The x-axis array. If not defined, a default array will be
+generated.</p>
+</dd>
+<dt><strong>- x2: np.ndarray, default ‘Default’</strong></dt><dd><p>The y-axis array. If not defined, a default array will be
+generated.</p>
+</dd>
+<dt><strong>- xlabelpad: float, default 4.0</strong></dt><dd><p>The padding between the x-axis label and the axis.</p>
+</dd>
+<dt><strong>- xrange: [float, float], default ‘Default’</strong></dt><dd><p>Sets the range in the x-direction. If not defined, the range is
+computed automatically from the x-array.</p>
 </dd>
 <dt><strong>- xscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets automatically the
 scale on the x-axis. Data in log scale should be used with the
 keyword ‘log’, while data in linear scale should be used with the
 keyword ‘linear’.</p>
 </dd>
-<dt><strong>- xticks: {[float], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually ticks on
+<dt><strong>- xticks: list[float] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on the
 x-axis. In order to completely remove the ticks the keyword should
 be used with None.</p>
 </dd>
-<dt><strong>- xtickslabels: {[str], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually the ticks
+<dt><strong>- xtickslabels: list[str] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
 labels on the x-axis. In order to completely remove the ticks the
-keyword should be used with None. Note that fixed tickslabels should
-always correspond to fixed ticks.</p>
+keyword should be used with None. Note that fixed tickslabels
+should always correspond to fixed ticks.</p>
 </dd>
 <dt><strong>- xtitle: str, default None</strong></dt><dd><p>Sets and places the label of the x-axis.</p>
 </dd>
-<dt><strong>- yrange: [float, float], default [0,1]</strong></dt><dd><p>Sets the range in the y-direction. If not defined the code will
-compute the range while plotting the data.</p>
+<dt><strong>- xtresh: float</strong></dt><dd><p>The threshold parameter for the x-axis symlog/asinh scale.</p>
+</dd>
+<dt><strong>- ylabelpad: float, default 4.0</strong></dt><dd><p>The padding between the y-axis label and the axis.</p>
+</dd>
+<dt><strong>- yrange: [float, float], default ‘Default’</strong></dt><dd><p>Sets the range in the y-direction. If not defined, the range is
+computed automatically from the y-array.</p>
 </dd>
 <dt><strong>- yscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets automatically the
 scale on the y-axis. Data in log scale should be used with the
 keyword ‘log’, while data in linear scale should be used with the
 keyword ‘linear’.</p>
 </dd>
-<dt><strong>- yticks: {[float], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually ticks on
+<dt><strong>- yticks: list[float] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on the
 y-axis. In order to completely remove the ticks the keyword should
 be used with None.</p>
 </dd>
-<dt><strong>- ytickslabels: {[str], None, ‘Default’}, default ‘Default’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets manually the ticks
+<dt><strong>- ytickslabels: list[str] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
 labels on the y-axis. In order to completely remove the ticks the
-keyword should be used with None. Note that fixed tickslabels should
-always correspond to fixed ticks.</p>
+keyword should be used with None. Note that fixed tickslabels
+should always correspond to fixed ticks.</p>
 </dd>
 <dt><strong>- ytitle: str, default None</strong></dt><dd><p>Sets and places the label of the y-axis.</p>
 </dd>
-<dt><strong>- zoomcolor: str, default ‘k’</strong></dt><dd><p>Sets the color of the inset zoom lines</p>
+<dt><strong>- ytresh: float</strong></dt><dd><p>The threshold parameter for the y-axis symlog/asinh scale.</p>
+</dd>
+<dt><strong>- zoomcolor: str, default ‘k’</strong></dt><dd><p>Sets the color of the inset zoom lines.</p>
 </dd>
 <dt><strong>- zoomlines: bool, default True</strong></dt><dd><p>Keyword in order to add/remove the inset zoom lines. The default
 option is True.</p>
 </dd>
-<dt><strong>—-</strong></dt><dd></dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><dl class="simple">
-<dt>Axis object where the zoom plot is set</dt><dd></dd>
+<dt>Axes</dt><dd></dd>
 </dl>
 </li>
 </ul>

@@ -1,7 +1,14 @@
+from __future__ import annotations
+
+import logging
+
 import h5py
 import numpy as np
 
 from pyPLUTO.toolfuncs.loadtools import LoadToolsManager
+from pyPLUTO.utils.inspector import track_kwargs
+
+logger = logging.getLogger(__name__)
 
 
 def _inspect_hdf5(self, i: int, exout: int) -> None:
@@ -22,8 +29,6 @@ def _inspect_hdf5(self, i: int, exout: int) -> None:
     -----
     - This routines will be optimize in the future, alongside a novel
       implementation of the AMR in the PLUTO code.
-
-    ----
 
     Examples
     --------
@@ -83,8 +88,6 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
     - This routines will be optimize in the future, alongside a novel
       implementation of the AMR in the PLUTO code.
 
-    ----
-
     Examples
     --------
     - Example #1: Scan the Chombo HDF5 data file
@@ -117,7 +120,9 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
                 if dim == 3:
                     zstr = fl.attrs.get("g_x3stretch")
             except DeprecationWarning:
-                print("Old HDF5 file, not reading stretch and logr factors")
+                logger.warning(
+                    "Old HDF5 file, not reading stretch and logr factors"
+                )
             freb[i] = 1
             x1b = fl.attrs.get("domBeg1")
             if dim == 1:
@@ -411,6 +416,7 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
     return OutDict
 
 
+@track_kwargs
 def oplotbox(
     self,
     AMRLevel,
@@ -421,6 +427,7 @@ def oplotbox(
     kslice=-1,
     geom="CARTESIAN",
     ax=None,
+    _check: bool = True,
     **kwargs,
 ) -> None:
     """This method overplots the AMR boxes up to the specified level.
@@ -450,8 +457,6 @@ def oplotbox(
     Returns
     -------
     - None
-
-    ----
 
     Examples
     --------
@@ -558,8 +563,6 @@ def _read_gridfile(self) -> None:
     Returns
     -------
     - None
-
-    ----
 
     Examples
     --------
@@ -710,8 +713,6 @@ def _split_gridfile(
     Returns
     -------
     - None
-
-    ----
 
     Examples
     --------

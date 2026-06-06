@@ -1,5 +1,7 @@
 """Module for initialization loading functions."""
 
+from __future__ import annotations
+
 import warnings
 from pathlib import Path
 from typing import Unpack, cast
@@ -65,6 +67,7 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
         state: BaseLoadState,
         nout: int | str | list[int | str] | None,
         var: str | list[str] | bool | None,
+        _check: bool = True,
         **kwargs: Unpack[AllKwargs],
     ) -> None:
         """Initialize the InitLoadManager class."""
@@ -87,7 +90,9 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
 
         self.state.code = kwargs.get("code", self.state.code)
         if self.state.code.lower() not in {"pluto", "gpluto"}:
-            self.CodeManager = CodeManager(state, nout, var, **kwargs)
+            self.CodeManager = CodeManager(
+                state, nout, var, _check=False, **kwargs
+            )
             return
 
         self.FindFormat = FindFormat(
@@ -148,8 +153,6 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Set endian to 'big'
@@ -201,8 +204,6 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

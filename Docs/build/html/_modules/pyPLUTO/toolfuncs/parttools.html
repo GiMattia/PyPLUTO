@@ -428,6 +428,18 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Manager for particle analysis helpers.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">BaseLoadState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the particle tools manager with the given load state.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - state: BaseLoadState</span>
+<span class="sd">            The load state object carrying particle variable data.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
 
 <div class="viewcode-block" id="PartToolsManager.spectrum">
@@ -437,21 +449,18 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">var</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">scale</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;lin&quot;</span><span class="p">,</span>
+        <span class="n">vmin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vmax</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the spectrum of a given particle variable.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - bins: np.ndarray</span>
-<span class="sd">            The x1 array of the histogram.</span>
-<span class="sd">        - hist: np.ndarray</span>
-<span class="sd">            The x2 array of the histogram.</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        - density: bool, default False</span>
+<span class="sd">        - bins: int | np.ndarray, default 100</span>
+<span class="sd">            The bin edges for the histogram.</span>
+<span class="sd">        - normalize: bool, default True</span>
 <span class="sd">            If True, the histogram is normalized.</span>
 <span class="sd">        - nbins: int</span>
 <span class="sd">            The number of bins wanted for the histogram.</span>
@@ -459,12 +468,14 @@
 <span class="sd">            The scale of the histogram, linear or logarithmic.</span>
 <span class="sd">        - var: np.ndarray</span>
 <span class="sd">            The chosen variable for the histogram.</span>
-<span class="sd">        - vmin: float</span>
+<span class="sd">        - vmin: float, default min(var)</span>
 <span class="sd">            The minimum value of the chosen variable.</span>
-<span class="sd">        - vmax: float</span>
+<span class="sd">        - vmax: float, default max(var)</span>
 <span class="sd">            The maximum value of the chosen variable.</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - tuple[np.ndarray, np.ndarray]</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -479,8 +490,8 @@
         <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
 
         <span class="c1"># Set limits</span>
-        <span class="n">vmin</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmin&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
-        <span class="n">vmax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;vmax&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+        <span class="n">vmin</span> <span class="o">=</span> <span class="n">vmin</span> <span class="k">if</span> <span class="n">vmin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        <span class="n">vmax</span> <span class="o">=</span> <span class="n">vmax</span> <span class="k">if</span> <span class="n">vmax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
 
         <span class="c1"># Set the number of bins</span>
         <span class="n">nbins</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nbins&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
@@ -494,11 +505,17 @@
         <span class="n">bins</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bins&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
 
         <span class="c1"># Compute the histogram</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warn</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;The &#39;density&#39; keyword is deprecated and will be removed &quot;</span>
+                <span class="s2">&quot;in a future version. Use &#39;normalize&#39; instead.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">hist</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span>
             <span class="n">var</span><span class="p">,</span>
             <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span>
             <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">),</span>
-            <span class="n">density</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">density</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;normalize&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
         <span class="p">)</span>
 
         <span class="c1"># Compute the bin centers</span>
@@ -519,10 +536,6 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Select or sort particle indices matching a condition.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - indx: np.ndarray</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - ascending: bool, default True</span>
@@ -534,7 +547,9 @@
 <span class="sd">        - var (not optional): np.ndarray</span>
 <span class="sd">            The chosen variable for the selection.</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - np.ndarray</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>

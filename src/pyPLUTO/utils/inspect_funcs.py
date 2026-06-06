@@ -190,7 +190,7 @@ def _build_transitive(items: list) -> dict[str, list[str]]:
 
     full_kwargs = resolve_full_kwargs(items, _build_used_keys_registry())
     by_qualname = {
-        qn: sorted(k for k in keys if k != "check")
+        qn: sorted(k for k in keys if k != "_check")
         for qn, keys in full_kwargs.items()
     }
     return {
@@ -226,7 +226,7 @@ def main() -> None:
         # We detect @track_kwargs by the presence of a 'used_keys' closure.
         has_track_kwargs = _extract_used_keys(obj) is not None if obj else False
         if has_track_kwargs:
-            sig_params = set(args) | {"self", "cls", "check"}
+            sig_params = set(args) | {"self", "cls", "_check"}
             for key, desc in doc.items():
                 if key not in sig_params and key not in kwargs:
                     kwargs[key] = desc

@@ -461,10 +461,6 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a .png image file of the figure created with the Image class.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - None</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - bbox: {&#39;tight&#39;, None}, default &#39;tight&#39;</span>
@@ -479,7 +475,9 @@
 <span class="sd">        - dpi: int, default 300</span>
 <span class="sd">            The resolution of the saved image in dots per inch (DPI).</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -524,36 +522,93 @@
         <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.85</span><span class="p">,</span>
         <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.85</span><span class="p">,</span>
         <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">c</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Insert a text box inside the figure created with Image class.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - None</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - ax: axis object, default None</span>
 <span class="sd">            The axis where to insert the text box. If None, the last considered</span>
 <span class="sd">            axis will be used.</span>
+<span class="sd">        - bbox: str | None, default None</span>
+<span class="sd">            The bounding box for the text.</span>
+<span class="sd">        - bottom: float, default varies</span>
+<span class="sd">            The bottom limit of the axis / axes set. For the figure layout it</span>
+<span class="sd">            is the space from the bottom border to the plot (default 0.1); for</span>
+<span class="sd">            an inset zoom it is the bottom position of the inset (default 0.6 +</span>
+<span class="sd">            height).</span>
 <span class="sd">        - c: str, default &#39;k&#39;</span>
-<span class="sd">            Determines the text color.</span>
+<span class="sd">            The text color.</span>
+<span class="sd">        - figsize: list[float], default varies</span>
+<span class="sd">            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],</span>
+<span class="sd">            computed from the number of rows and columns (or [8,5] for a single</span>
+<span class="sd">            plot).</span>
+<span class="sd">        - fontsize: float, default 17.0</span>
+<span class="sd">            Sets the fontsize for all the axis components.</span>
 <span class="sd">        - horalign: str, default &#39;left&#39;</span>
 <span class="sd">            The horizontal alignment. Possible values are &#39;left&#39;, &#39;center&#39;,</span>
 <span class="sd">            &#39;right&#39;.</span>
+<span class="sd">        - hratio: [float], default [1.0]</span>
+<span class="sd">            Ratio between the rows of the plot. The default is that every plot</span>
+<span class="sd">            row has the same height.</span>
+<span class="sd">        - hspace: [float], default []</span>
+<span class="sd">            The space between plot rows (in figure units). If not enough or too</span>
+<span class="sd">            many spaces are considered, the program will remove the excess and</span>
+<span class="sd">            fill the lacks with [0.1].</span>
+<span class="sd">        - left: float, default varies</span>
+<span class="sd">            The left limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the left border to the plot (default 0.125); for an</span>
+<span class="sd">            inset zoom it is the left position of the inset (default 0.6).</span>
+<span class="sd">        - ncol: int, default 1</span>
+<span class="sd">            The number of columns of subplots.</span>
+<span class="sd">        - nrow: int, default 1</span>
+<span class="sd">            The number of rows of subplots.</span>
+<span class="sd">        - proj: str, default None</span>
+<span class="sd">            Custom projection for the plot (e.g. 3D). Recommended only if</span>
+<span class="sd">            needed. WARNING: pyPLUTO does not support 3D plotting for now, only</span>
+<span class="sd">            3D axes. The 3D plot feature will be available in future releases.</span>
+<span class="sd">        - right: float, default varies</span>
+<span class="sd">            The right limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the right border to the plot (default 0.9); for an</span>
+<span class="sd">            inset zoom it is the right position of the inset (default left +</span>
+<span class="sd">            0.15).</span>
+<span class="sd">        - sharex: bool | str | Matplotlib axis, default False</span>
+<span class="sd">            Enables/disables the sharing of the x-axis between the subplots.</span>
+<span class="sd">        - sharey: bool | str | Matplotlib axis, default False</span>
+<span class="sd">            Enables/disables the sharing of the y-axis between the subplots.</span>
+<span class="sd">        - suptitle: str, default None</span>
+<span class="sd">            Creates a figure title over all the subplots.</span>
 <span class="sd">        - text (not optional): str</span>
 <span class="sd">            The text that will appear on the text box</span>
 <span class="sd">        - textsize: float, default fontsize</span>
 <span class="sd">            Sets the text fontsize. The default value corresponds to the value</span>
 <span class="sd">            of the actual fontsize in the figure.</span>
+<span class="sd">        - tight: bool, default True</span>
+<span class="sd">            Enables/disables tight layout options for the figure. In case of a</span>
+<span class="sd">            highly customized plot (e.g. ratios or space between rows and</span>
+<span class="sd">            columns) the option is set by default to False since that option</span>
+<span class="sd">            would not be available for standard matplotlib functions.</span>
+<span class="sd">        - top: float, default varies</span>
+<span class="sd">            The top limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the top border to the plot (default 0.9); for an</span>
+<span class="sd">            inset zoom it is the top position of the inset (default bottom +</span>
+<span class="sd">            height).</span>
 <span class="sd">        - veralign: str, default &#39;baseline&#39;</span>
 <span class="sd">            The vertical alignment. Possible values are &#39;baseline&#39;, &#39;bottom&#39;,</span>
 <span class="sd">            &#39;center&#39;, &#39;center_baseline&#39;, &#39;top&#39;.</span>
 <span class="sd">        - x: float, default 0.85</span>
 <span class="sd">            The horizontal starting position of the text box, in units of figure</span>
 <span class="sd">            size.</span>
+<span class="sd">        - wratio: [float], default [1.0]</span>
+<span class="sd">            Ratio between the columns of the plot. The default is that every</span>
+<span class="sd">            plot column has the same width.</span>
+<span class="sd">        - wspace: [float], default []</span>
+<span class="sd">            The space between plot columns (in figure units). If not enough or</span>
+<span class="sd">            too many spaces are considered, the program will remove the excess</span>
+<span class="sd">            and fill the lacks with [0.1].</span>
 <span class="sd">        - xycoords: str, default &#39;fraction&#39;</span>
 <span class="sd">            The coordinate system used. Possible values are &#39;figure fraction&#39;,</span>
 <span class="sd">            which sets the position as a fraction of the axis (inside the axis</span>
@@ -564,7 +619,9 @@
 <span class="sd">            The vertical starting position of the text box, in units of figure</span>
 <span class="sd">            size.</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -590,8 +647,6 @@
 <span class="sd">            &gt;&gt;&gt; I.text(&quot;text&quot;, x=0.5, y=0.5, xycoords=&quot;points&quot;)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
-
         <span class="c1"># Find figure and number of the axis</span>
         <span class="n">ax</span><span class="p">,</span> <span class="n">nax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">assign_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -629,7 +684,7 @@
             <span class="n">x</span><span class="p">,</span>
             <span class="n">y</span><span class="p">,</span>
             <span class="n">text</span><span class="p">,</span>
-            <span class="n">c</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span>
             <span class="n">transform</span><span class="o">=</span><span class="n">coord</span><span class="p">,</span>
             <span class="n">fontsize</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;textsize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">),</span>
             <span class="n">horizontalalignment</span><span class="o">=</span><span class="n">hortx</span><span class="p">,</span>
@@ -640,30 +695,81 @@
 
     <span class="c1"># End of the function</span>
 
+    <span class="nd">@track_kwargs</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">assign_ax</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Axes</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the axes of the figure where the plot/feature should go.</span>
 
-<span class="sd">        If no axis is present, an axis is created. If the axis is</span>
-<span class="sd">        present but no axis is seletced, the last axis is selected.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - ax: ax | list[ax] | int | None</span>
-<span class="sd">            The selected set of axes.</span>
-<span class="sd">        - nax: int</span>
-<span class="sd">            The number of the selected set of axes.</span>
+<span class="sd">         If no axis is present, an axis is created. If the axis is</span>
+<span class="sd">         present but no axis is seletced, the last axis is selected.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - ax (not optional): ax | int | list[ax] | None</span>
 <span class="sd">            The selected set of axes.</span>
-<span class="sd">        - **kwargs: Any</span>
-<span class="sd">            The keyword arguments to be passed to the create_axes function</span>
-<span class="sd">            (not written here since is not public method).</span>
+<span class="sd">        - bottom: float, default varies</span>
+<span class="sd">            The bottom limit of the axis / axes set. For the figure layout it</span>
+<span class="sd">            is the space from the bottom border to the plot (default 0.1); for</span>
+<span class="sd">            an inset zoom it is the bottom position of the inset (default 0.6 +</span>
+<span class="sd">            height).</span>
+<span class="sd">        - figsize: list[float], default varies</span>
+<span class="sd">            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],</span>
+<span class="sd">            computed from the number of rows and columns (or [8,5] for a single</span>
+<span class="sd">            plot).</span>
+<span class="sd">        - fontsize: float, default 17.0</span>
+<span class="sd">            Sets the fontsize for all the axis components.</span>
+<span class="sd">        - hratio: [float], default [1.0]</span>
+<span class="sd">            Ratio between the rows of the plot. The default is that every plot</span>
+<span class="sd">            row has the same height.</span>
+<span class="sd">        - hspace: [float], default []</span>
+<span class="sd">            The space between plot rows (in figure units). If not enough or too</span>
+<span class="sd">            many spaces are considered, the program will remove the excess and</span>
+<span class="sd">            fill the lacks with [0.1].</span>
+<span class="sd">        - left: float, default varies</span>
+<span class="sd">            The left limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the left border to the plot (default 0.125); for an</span>
+<span class="sd">            inset zoom it is the left position of the inset (default 0.6).</span>
+<span class="sd">        - ncol: int, default 1</span>
+<span class="sd">            The number of columns of subplots.</span>
+<span class="sd">        - nrow: int, default 1</span>
+<span class="sd">            The number of rows of subplots.</span>
+<span class="sd">        - proj: str, default None</span>
+<span class="sd">            Custom projection for the plot (e.g. 3D). Recommended only if</span>
+<span class="sd">            needed. WARNING: pyPLUTO does not support 3D plotting for now, only</span>
+<span class="sd">            3D axes. The 3D plot feature will be available in future releases.</span>
+<span class="sd">        - right: float, default varies</span>
+<span class="sd">            The right limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the right border to the plot (default 0.9); for an</span>
+<span class="sd">            inset zoom it is the right position of the inset (default left +</span>
+<span class="sd">            0.15).</span>
+<span class="sd">        - sharex: bool | str | Matplotlib axis, default False</span>
+<span class="sd">            Enables/disables the sharing of the x-axis between the subplots.</span>
+<span class="sd">        - sharey: bool | str | Matplotlib axis, default False</span>
+<span class="sd">            Enables/disables the sharing of the y-axis between the subplots.</span>
+<span class="sd">        - suptitle: str, default None</span>
+<span class="sd">            Creates a figure title over all the subplots.</span>
+<span class="sd">        - tight: bool, default True</span>
+<span class="sd">            Enables/disables tight layout options for the figure. In case of a</span>
+<span class="sd">            highly customized plot (e.g. ratios or space between rows and</span>
+<span class="sd">            columns) the option is set by default to False since that option</span>
+<span class="sd">            would not be available for standard matplotlib functions.</span>
+<span class="sd">        - top: float, default varies</span>
+<span class="sd">            The top limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the top border to the plot (default 0.9); for an</span>
+<span class="sd">            inset zoom it is the top position of the inset (default bottom +</span>
+<span class="sd">            height).</span>
+<span class="sd">        - wratio: [float], default [1.0]</span>
+<span class="sd">            Ratio between the columns of the plot. The default is that every</span>
+<span class="sd">            plot column has the same width.</span>
+<span class="sd">        - wspace: [float], default []</span>
+<span class="sd">            The space between plot columns (in figure units). If not enough or</span>
+<span class="sd">            too many spaces are considered, the program will remove the excess</span>
+<span class="sd">            and fill the lacks with [0.1].</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - tuple[Axes, int]</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -687,7 +793,7 @@
         <span class="c1"># Check if the axis is None and no axis is present (and create one)</span>
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ax</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CreateAxesManager</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span>
-                <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
             <span class="p">)</span>
 
         <span class="c1"># Check if the axis is None and an axis is present (and select the last</span>
@@ -730,10 +836,6 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">hide_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nax</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">txts</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Text</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Hide the text placed when an axis is created (the axis index).</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - None</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - nax (not optional): int</span>
@@ -741,7 +843,9 @@
 <span class="sd">        - txts (not optional): str | None</span>
 <span class="sd">            The text of the selected set of axes.</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -770,11 +874,6 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Normalize</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the color scale and limits of a pcolormesh given the scale.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - norm: Normalize</span>
-<span class="sd">            The normalization of the colormap</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - cscale : {&#39;linear&#39;,&#39;log&#39;,&#39;symlog&#39;,&#39;twoslope&#39;}, default &#39;linear&#39;</span>
@@ -788,11 +887,13 @@
 <span class="sd">            - symlog: sets the limit between the logaitrhmic and the linear</span>
 <span class="sd">            regime.</span>
 <span class="sd">        - vmax (not optional): float</span>
-<span class="sd">            The maximum value of the colormap.</span>
+<span class="sd">            The maximum value of the variable to be computed / plotted.</span>
 <span class="sd">        - vmin (not optional): float</span>
-<span class="sd">            The minimum value of the colormap.</span>
+<span class="sd">            The minimum value of the variable to be computed / plotted.</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - Normalize</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -844,17 +945,14 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mcol</span><span class="o">.</span><span class="n">Colormap</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Find a colormap by name.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - cmap: Colormap | None</span>
-<span class="sd">            The colormap found by name.</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - name (not optional): str | Colormap | None</span>
 <span class="sd">            The name of the colormap.</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - Colormap | None</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>

@@ -1,7 +1,9 @@
 """Module to manage the zoom functionality in pyPLUTO."""
 
+from __future__ import annotations
+
 import warnings
-from typing import Any, cast
+from typing import Any, Unpack, cast
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -12,6 +14,7 @@ from pyPLUTO.imagefuncs.display import DisplayManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.plot import PlotManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagekwargs import SetLocKwargs, ZoomKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -36,7 +39,10 @@ class ZoomManager(ImageMixin):
 
     @track_kwargs
     def zoom(
-        self, ax: Axes | int | None = None, check: bool = True, **kwargs: Any
+        self,
+        ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[ZoomKwargs],
     ) -> Axes:
         """Creation of an inset zoom of an already existent plot or display.
 
@@ -255,8 +261,6 @@ class ZoomManager(ImageMixin):
         -------
         - Axes
 
-        ----
-
         Examples
         --------
         - Example #1: create a simple zoom of a 1d plot
@@ -289,12 +293,10 @@ class ZoomManager(ImageMixin):
             >>> I.zoom(var=var2, xrange=[1, 10], yrange=[10, 20])
 
         """
-        kwargs.pop("check", check)
-
         self.state.tight = False
 
         # Set or create figure and axes
-        ax, nax = self.ImageToolsManager.assign_ax(ax, **kwargs)
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         if self.state.fig is None:
             raise ValueError(
@@ -305,7 +307,7 @@ class ZoomManager(ImageMixin):
         if kwargs.get("pos"):
             axins = self.place_inset_pos(ax, kwargs["pos"])
         else:
-            axins = self.place_inset_loc(ax, **kwargs)
+            axins = self.place_inset_loc(ax, _check=False, **kwargs)
         kwargs["fontsize"] = kwargs.get("fontsize", self.state.fontsize)
         kwargs["titlesize"] = kwargs.get("titlesize", self.state.fontsize)
 
@@ -318,14 +320,14 @@ class ZoomManager(ImageMixin):
         if "yticks" not in kwargs:
             kwargs["yticks"] = None
 
-        self.AxisManager.set_axis(ax=axins, check=False, **kwargs)
+        self.AxisManager.set_axis(ax=axins, _check=False, **kwargs)
 
         pcm = ax.collections
 
         # Plots the lines
         pcm = ax.collections
         if len(pcm) > 0:
-            self.zoomdisplay(ax, nax, axins, **kwargs)
+            self.zoomdisplay(ax, nax, axins, _check=False, **kwargs)
         else:
             self.zoomplot(ax, axins)
 
@@ -366,11 +368,17 @@ class ZoomManager(ImageMixin):
                 marker=i.get_marker(),
                 ms=i.get_markersize(),
                 ax=axins,
+                _check=False,
             )
 
     @track_kwargs
     def zoomdisplay(
-        self, ax: Axes, nax: int, axins: Axes, **kwargs: Any
+        self,
+        ax: Axes,
+        nax: int,
+        axins: Axes,
+        _check: bool = True,
+        **kwargs: Unpack[ZoomKwargs],
     ) -> None:
         """Plot the zoom on the inset zoom, for a display plot.
 
@@ -589,8 +597,8 @@ class ZoomManager(ImageMixin):
             )
 
         ccd = cast(np.ndarray[Any, Any], pcm.get_coordinates())
-        xc = kwargs.pop("x1", ccd[:, :, 0])
-        yc = kwargs.pop("x2", ccd[:, :, 1])
+        kwargs["x1"] = xc = kwargs.pop("x1", ccd[:, :, 0])
+        kwargs["x2"] = yc = kwargs.pop("x2", ccd[:, :, 1])
 
         psh = kwargs.pop("shading", getattr(pcm, "_shading", "flat"))
         leny = len(xc[0]) if np.ndim(yc) > 1 else len(yc)
@@ -616,10 +624,10 @@ class ZoomManager(ImageMixin):
         kwargs["vmin"] = kwargs.pop("vmin", self.state.vlims[nax][0])
         kwargs["vmax"] = kwargs.pop("vmax", self.state.vlims[nax][1])
         kwargs["tresh"] = kwargs.pop("tresh", self.state.vlims[nax][2])
-
-        self.DisplayManager.display(
-            pcm0, x1=xc, x2=yc, ax=axins, check=False, shading=psh, **kwargs
-        )
+        kwargs["shading"] = psh
+        if pcm0 is not None and not isinstance(pcm0, str):
+            kwargs["var"] = pcm0
+            self.DisplayManager.display(ax=axins, _check=False, **kwargs)
 
     def place_inset_pos(self, ax: Axes, pos: list[float]) -> Axes:
         """Place an inset axes given the position (left, top, bottom, right).
@@ -644,7 +652,9 @@ class ZoomManager(ImageMixin):
         return ax.inset_axes((left, bottom, width, height))
 
     @track_kwargs
-    def place_inset_loc(self, ax: Axes, **kwargs: Any) -> Axes:
+    def place_inset_loc(
+        self, ax: Axes, _check: bool = True, **kwargs: Unpack[SetLocKwargs]
+    ) -> Axes:
         """Place an inset axes given different keywords.
 
         In case both top and bottom are given, the top is given priority and a

@@ -1,5 +1,7 @@
 """Compute normalization unit scales and build the variable→unit mapping."""
 
+from __future__ import annotations
+
 import math
 import re
 from pathlib import Path

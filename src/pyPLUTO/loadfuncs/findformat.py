@@ -1,5 +1,7 @@
 """Module to find the format of the PLUTO output files."""
 
+from __future__ import annotations
+
 import glob
 from collections.abc import Callable
 from pathlib import Path
@@ -48,8 +50,6 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -168,8 +168,6 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Check the format of the output files
@@ -211,8 +209,6 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

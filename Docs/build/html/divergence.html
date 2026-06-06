@@ -469,8 +469,6 @@ computed at the corresponding x1, x2, or x3 values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>- edge_order: int, default 2</strong></dt><dd><p>The order of accuracy of derivatives at the domain boundaries.</p>
-</dd>
 <dt><strong>- v1: np.ndarray | None</strong></dt><dd><p>Field corresponding to the x1 vector component. Must have the same
 shape as self.rho. Can only be None is a given direction is not
 used.</p>
@@ -489,17 +487,14 @@ used.</p>
 </dd>
 <dt><strong>- x3slice: float | None</strong></dt><dd><p>If not None, specifies the constant value for the x3 axis.</p>
 </dd>
-<dt><strong>—-</strong></dt><dd></dd>
+<dt><strong>- edge_order: int, default 2</strong></dt><dd><p>The order of accuracy of derivatives at the domain boundaries.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><dl class="simple">
-<dt>np.ndarray</dt><dd><p>Array corresponding to the divergence of the input vector field. In 3D,
-e.g., its shape is (self.nx1, self.nx2, self.nx3), while if
-INCLUDE_JDIR == NO (or if x2slice = constant), its shape is
-(self.nx1, self.nx3).</p>
-</dd>
+<dt>np.ndarray</dt><dd></dd>
 </dl>
 </li>
 </ul>

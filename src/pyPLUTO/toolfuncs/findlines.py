@@ -1,5 +1,8 @@
 """Find-lines utilities manager."""
 
+from __future__ import annotations
+
+import logging
 from typing import Any
 
 import contourpy as cp
@@ -12,6 +15,8 @@ from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.toolfuncs.loadtools import LoadToolsManager
 from pyPLUTO.utils.inspector import track_kwargs
+
+logger = logging.getLogger(__name__)
 
 
 class FindLinesManager(LoadMixin):
@@ -90,6 +95,7 @@ class FindLinesManager(LoadMixin):
         x1: np.ndarray | None = None,
         x2: np.ndarray | None = None,
         text: bool = False,
+        _check: bool = True,
         **kwargs: Any,
     ) -> list:
         """Find field lines using the vector field.
@@ -149,7 +155,6 @@ class FindLinesManager(LoadMixin):
             The strcuture of the list is [[x1, y1], [x2, y2], ...] where
             x1, y1, x2, y2 are numpy arrays representing the coordinates of
             the field lines.
-        ----
 
         Examples
         --------
@@ -300,11 +305,17 @@ class FindLinesManager(LoadMixin):
                 y_line = np.append(y_line, y_line[0])
 
             if text is True:
-                print("Line with footpoint at x = ", xp, " and y = ", yp)
-                print("Final integration time forward:  ", sol_forward.t[-1])
-                print("Final integration time backward: ", sol_backward.t[-1])
-                print("Final step number forward:       ", forw_steps)
-                print("Final step number backward:      ", self.stepnum)
+                logger.debug("Line with footpoint at x = %s and y = %s", xp, yp)
+                logger.debug(
+                    "Final integration time forward:  %s", sol_forward.t[-1]
+                )
+                logger.debug(
+                    "Final integration time backward: %s", sol_backward.t[-1]
+                )
+                logger.debug("Final step number forward:       %s", forw_steps)
+                logger.debug(
+                    "Final step number backward:      %s", self.stepnum
+                )
 
             if len(x_line) > 1:
                 lines_list.append([x_line, y_line])
@@ -316,7 +327,9 @@ class FindLinesManager(LoadMixin):
         return lines_list
 
     @track_kwargs
-    def find_contour(self, var: str | np.ndarray, **kwargs: Any) -> list:
+    def find_contour(
+        self, var: str | np.ndarray, _check: bool = True, **kwargs: Any
+    ) -> list:
         """Generate contour lines for a given variable.
 
         Parameters
@@ -357,7 +370,6 @@ class FindLinesManager(LoadMixin):
             List of contour lines. The strcuture of the list is
             [[x1, y1], [x2, y2], ...] where x1, y1, x2, y2 are numpy arrays
             representing the coordinates of the field lines.
-        ----
 
         Examples
         --------

@@ -1,5 +1,7 @@
 """Module to create axes in the image class."""
 
+from __future__ import annotations
+
 import copy
 import warnings
 from itertools import islice
@@ -9,9 +11,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
 
+from pyPLUTO.imagekwargs import CreateAxesKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
-from pyPLUTO.utils.annotator import AllKwargs
 from pyPLUTO.utils.inspector import track_kwargs
 
 defaults: dict[str, Any] = {
@@ -41,8 +43,8 @@ class CreateAxesManager(ImageMixin):
     @track_kwargs(extra_keys=set(defaults.keys()))
     def create_axes(
         self,
-        check: bool = True,
-        **kwargs: Unpack[AllKwargs],
+        _check: bool = True,
+        **kwargs: Unpack[CreateAxesKwargs],
     ) -> Axes | list[Axes]:
         """Creation of a set of axes using add_subplot from matplotlib.
 
@@ -93,9 +95,9 @@ class CreateAxesManager(ImageMixin):
             the space from the right border to the plot (default 0.9); for an
             inset zoom it is the right position of the inset (default left +
             0.15).
-        - sharex: bool | str | Matplotlib axis, default False
+        - sharexaxes: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the x-axis between the subplots.
-        - sharey: bool | str | Matplotlib axis, default False
+        - shareyaxes: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the y-axis between the subplots.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
@@ -120,8 +122,6 @@ class CreateAxesManager(ImageMixin):
         Returns
         -------
         - Axes | list[Axes]
-
-        ----
 
         Examples
         --------
@@ -154,8 +154,6 @@ class CreateAxesManager(ImageMixin):
             >>> ax = I.create_axes(left=0.75)
 
         """
-        kwargs.pop("kwargscheck", check)
-
         # Change fontsize if requested
         if "fontsize" in kwargs:
             plt.rcParams.update({"font.size": kwargs["fontsize"]})
@@ -190,8 +188,8 @@ class CreateAxesManager(ImageMixin):
         proj = kwargs.get("proj")
 
         # Set sharex and sharey
-        sharex: bool | str | Axes | int | None = kwargs.get("sharex")
-        sharey: bool | str | Axes | int | None = kwargs.get("sharey")
+        sharex: bool | str | Axes | int | None = kwargs.get("sharexaxes")
+        sharey: bool | str | Axes | int | None = kwargs.get("shareyaxes")
 
         for i in range(ncol * nrow):
             sharex_ref = self._check_shareaxis(i, sharex)
@@ -337,8 +335,6 @@ class CreateAxesManager(ImageMixin):
         -------
         - tuple[list[float], list[float]]
 
-        ----
-
         Examples
         --------
         - Example #1: ratio and space are given correctly (rows)
@@ -392,8 +388,6 @@ class CreateAxesManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Add the axis to the class info variables
@@ -438,8 +432,6 @@ class CreateAxesManager(ImageMixin):
         Returns
         -------
         - Axes | str | None
-
-        ----
 
         Examples
         --------

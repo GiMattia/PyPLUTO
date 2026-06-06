@@ -1,9 +1,11 @@
 """Interactive functions for image manipulation and display."""
 
+from __future__ import annotations
+
 import inspect
 from collections.abc import Iterable
 from pathlib import Path
-from typing import Any
+from typing import Unpack
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -17,6 +19,7 @@ from matplotlib.widgets import Slider
 from pyPLUTO.imagefuncs.display import DisplayManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.plot import PlotManager
+from pyPLUTO.imagekwargs import DisplayKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -55,10 +58,11 @@ class InteractiveManager(ImageMixin):
         self,
         varx: dict[str, np.ndarray] | np.ndarray,
         vary: dict[str, np.ndarray] | None = None,
-        check: bool = True,
         limfix: bool = True,
         labslider: list[str | float] | None = None,
-        **kwargs: Any,
+        ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[DisplayKwargs],
     ) -> None:
         """Create an interactive plot with a slider to change the data.
 
@@ -307,8 +311,6 @@ class InteractiveManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Create an interactive 2D plot
@@ -330,14 +332,10 @@ class InteractiveManager(ImageMixin):
             >>> pp.show()
 
         """
-        kwargs.pop("check", check)
-
         # Store the variable x. If vary is None, it is set to varx
         if vary is None:
             if isinstance(varx, dict):
                 self.anim_var = varx
-                scrh = np.asarray(list(varx.keys()))[0]
-                splt = np.ndim(varx[scrh])
             else:
                 raise ValueError("varx must be a dictionary")
 
@@ -355,9 +353,8 @@ class InteractiveManager(ImageMixin):
 
         # Set or create figure and axes (to test)
         # Set or create figure and axes
-        ax, _ = self.ImageToolsManager.assign_ax(
-            kwargs.pop("ax", None), **kwargs, tight=False
-        )
+        kwargs["tight"] = False
+        ax, _ = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         if self.state.fig is None:
             raise ValueError(
@@ -422,15 +419,13 @@ class InteractiveManager(ImageMixin):
                 if limfix is True
                 else np.nanmax(self.anim_var[self.animkeys[0]])
             )
-            vmin = kwargs.pop("vmin", vmin)
-            vmax = kwargs.pop("vmax", vmax)
+            kwargs["vmin"] = kwargs.pop("vmin", vmin)
+            kwargs["vmax"] = kwargs.pop("vmax", vmax)
 
             # Display the data if it is 2D
             self.DisplayManager.display(
                 self.anim_var[self.animkeys[0]],
                 ax=ax,
-                vmin=vmin,
-                vmax=vmax,
                 **kwargs,
             )
             self.anim_pcm = ax.collections[0]
@@ -444,6 +439,7 @@ class InteractiveManager(ImageMixin):
                 varx,
                 var,
                 ax=ax,
+                _check=False,
                 **kwargs,
             )
             self.anim_pcm = ax.get_lines()[0]
@@ -459,8 +455,6 @@ class InteractiveManager(ImageMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -535,8 +529,6 @@ class InteractiveManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Update the data in the interactive plot
@@ -585,8 +577,6 @@ class InteractiveManager(ImageMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

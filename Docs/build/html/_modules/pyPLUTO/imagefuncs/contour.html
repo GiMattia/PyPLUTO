@@ -419,7 +419,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.contour</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuadContourSet</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayLike</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.colorbar</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorbarManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.imagetools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageToolsManager</span>
@@ -450,140 +450,209 @@
 <a class="viewcode-back" href="../../../contour.html#pyPLUTO.imagefuncs.contour.ContourManager.contour">[docs]</a>
     <span class="nd">@track_kwargs</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">contour</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">],</span> <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuadContourSet</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot a contour plot of a given variable.</span>
 
 <span class="sd">        The function uses the matplotlib.pyplot.contour function. The function</span>
 <span class="sd">        returns None.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - cnt: LineCollection</span>
-<span class="sd">            The set of contour lines of the given variable.</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - alpha: float, default 1.0</span>
-<span class="sd">            Sets the transparency of the contour lines.</span>
-<span class="sd">        - aspect: {&#39;auto&#39;, &#39;equal&#39;, float}, default &#39;auto&#39;</span>
-<span class="sd">            Sets the aspect ratio of the plot. The &#39;auto&#39; keyword is the default</span>
-<span class="sd">            option (most likely the plot will be squared). The &#39;equal&#39; keyword</span>
-<span class="sd">            will set the same scaling for x and y. A float will fix the ratio</span>
-<span class="sd">            between the y-scale and the x-scale (1.0 is the same as &#39;equal&#39;).</span>
-<span class="sd">        - ax: {ax object, &#39;old&#39;, None}, default None</span>
-<span class="sd">            The axis where to plot the lines. If None, a new axis is created.</span>
-<span class="sd">            If &#39;old&#39;, the last considered axis will be used.</span>
+<span class="sd">            Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is</span>
+<span class="sd">            fully transparent.</span>
+<span class="sd">        - aspect: &#39;auto&#39; | &#39;equal&#39; | float, default &#39;auto&#39;</span>
+<span class="sd">            Sets the aspect ratio of the plot. The &#39;auto&#39; keyword is the</span>
+<span class="sd">            default option. The &#39;equal&#39; keyword sets the same scaling for x and</span>
+<span class="sd">            y. A float fixes the ratio between the y-scale and the x-scale (1.0</span>
+<span class="sd">            is the same as &#39;equal&#39;).</span>
+<span class="sd">        - ax: ax | int | None, default None</span>
+<span class="sd">            The axis where to plot. If None, the last considered axis will be</span>
+<span class="sd">            used.</span>
+<span class="sd">        - bottom: float, default varies</span>
+<span class="sd">            The bottom limit of the axis / axes set. For the figure layout it</span>
+<span class="sd">            is the space from the bottom border to the plot (default 0.1); for</span>
+<span class="sd">            an inset zoom it is the bottom position of the inset (default 0.6 +</span>
+<span class="sd">            height).</span>
 <span class="sd">        - c: str, default self.color</span>
-<span class="sd">            Determines the contour lines plot. If not defined, the program will</span>
-<span class="sd">            loop over an array of 6 color which are different for the most</span>
-<span class="sd">            common vision deficiencies.</span>
+<span class="sd">            Determines the color. If not defined, the program will loop over an</span>
+<span class="sd">            array of 6 colors which are different for the most common vision</span>
+<span class="sd">            deficiencies.</span>
+<span class="sd">        - clabel: str, default None</span>
+<span class="sd">            Sets the label of the colorbar.</span>
 <span class="sd">        - cmap: str, default &#39;hot&#39;</span>
-<span class="sd">            Selects the colormap. If not defined, the colormap &#39;hot&#39; will be</span>
-<span class="sd">            adopted. Some useful colormaps are: plasma, magma, seismic. Please</span>
-<span class="sd">            avoid using colorbars like jjet or rainbow, which are not</span>
+<span class="sd">            Selects the colormap. Some useful colormaps are: plasma, magma,</span>
+<span class="sd">            seismic. Please avoid colormaps like jet or rainbow, which are not</span>
 <span class="sd">            perceptively uniform and not suited for people with vision</span>
 <span class="sd">            deficiencies.</span>
+<span class="sd">        - cpad: float, default 0.07</span>
+<span class="sd">            Fraction of original axes between colorbar and the axes (in axes</span>
+<span class="sd">            units).</span>
 <span class="sd">        - cpos: {&#39;top&#39;,&#39;bottom&#39;,&#39;left&#39;,&#39;right&#39;}, default None</span>
-<span class="sd">            Enables the colorbar (if defined), default position on the right.</span>
+<span class="sd">            Enables the colorbar and sets its position. If not defined, no</span>
+<span class="sd">            colorbar is shown.</span>
 <span class="sd">        - cscale: {&#39;linear&#39;,&#39;log&#39;,&#39;symlog&#39;,&#39;twoslope&#39;}, default &#39;linear&#39;</span>
 <span class="sd">            Sets the colorbar scale. Default is the linear (&#39;norm&#39;) scale.</span>
+<span class="sd">        - cticks: {[float], None}, default None</span>
+<span class="sd">            If enabled (and different from None), sets manually the ticks on</span>
+<span class="sd">            the colorbar.</span>
+<span class="sd">        - ctickslabels: str, default None</span>
+<span class="sd">            If enabled, sets manually ticks labels on the colorbar.</span>
 <span class="sd">        - extend: {&#39;neither&#39;,&#39;both&#39;,&#39;min&#39;,&#39;max&#39;}, default &#39;neither&#39;</span>
 <span class="sd">            Sets the extension of the triangular colorbar extension.</span>
 <span class="sd">        - extendrect: bool, default False</span>
-<span class="sd">            If True, the colorbar extension will be rectangular.</span>
+<span class="sd">            If True, the colorbar extension will be triangular.</span>
+<span class="sd">        - figsize: list[float], default varies</span>
+<span class="sd">            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],</span>
+<span class="sd">            computed from the number of rows and columns (or [8,5] for a single</span>
+<span class="sd">            plot).</span>
 <span class="sd">        - fontsize: float, default 17.0</span>
-<span class="sd">            Sets the fontsize for all the axis components (only for the current</span>
-<span class="sd">            axis).</span>
-<span class="sd">        - grid: bool, default False</span>
-<span class="sd">            Enables/disables the grid on the plot.</span>
+<span class="sd">            Sets the fontsize for all the axis components.</span>
+<span class="sd">        - grid: bool | string, default False</span>
+<span class="sd">            Enables/disables the grid on the plot. If True it enables both axes</span>
+<span class="sd">            grids. If &#39;x&#39; or &#39;y&#39; it enables only the x- or y-axis grid.</span>
+<span class="sd">        - hratio: [float], default [1.0]</span>
+<span class="sd">            Ratio between the rows of the plot. The default is that every plot</span>
+<span class="sd">            row has the same height.</span>
+<span class="sd">        - hspace: [float], default []</span>
+<span class="sd">            The space between plot rows (in figure units). If not enough or too</span>
+<span class="sd">            many spaces are considered, the program will remove the excess and</span>
+<span class="sd">            fill the lacks with [0.1].</span>
 <span class="sd">        - labelsize: float, default fontsize</span>
-<span class="sd">            Sets the labels fontsize (which is the same for both labels).</span>
-<span class="sd">            The default value corresponds to the value of the keyword</span>
-<span class="sd">            &#39;fontsize&#39;.</span>
-<span class="sd">        - levels: np.ndarray</span>
-<span class="sd">            The levels of the contour lines.</span>
+<span class="sd">            Sets the labels fontsize (which is the same for both labels). The</span>
+<span class="sd">            default value corresponds to the value of the keyword &#39;fontsize&#39;.</span>
+<span class="sd">        - left: float, default varies</span>
+<span class="sd">            The left limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the left border to the plot (default 0.125); for an</span>
+<span class="sd">            inset zoom it is the left position of the inset (default 0.6).</span>
+<span class="sd">        - levels: int | np.ndarray, default 10</span>
+<span class="sd">            The levels of number of levels or the list of levels for the</span>
+<span class="sd">            contours. If an integer is provided, the levels are generated using</span>
+<span class="sd">            a linear or logarithmic scale. If an array is provided, the levels</span>
+<span class="sd">            are taken from the array.</span>
+<span class="sd">        - lw: float, default 1.3</span>
+<span class="sd">            Sets the linewidth.</span>
 <span class="sd">        - minorticks: str, default None</span>
 <span class="sd">            If not None enables the minor ticks on the plot (for both grid</span>
 <span class="sd">            axes).</span>
-<span class="sd">        - sharex: Matplotlib axis | False, default False</span>
-<span class="sd">            Shares the x-axis with another axis.</span>
-<span class="sd">        - sharey: Matplotlib axis | False, default False</span>
-<span class="sd">            Shares the y-axis with another axis.</span>
+<span class="sd">        - ncol: int, default 1</span>
+<span class="sd">            The number of columns of subplots.</span>
+<span class="sd">        - nrow: int, default 1</span>
+<span class="sd">            The number of rows of subplots.</span>
+<span class="sd">        - proj: str, default None</span>
+<span class="sd">            Custom projection for the plot (e.g. 3D). Recommended only if</span>
+<span class="sd">            needed. WARNING: pyPLUTO does not support 3D plotting for now, only</span>
+<span class="sd">            3D axes. The 3D plot feature will be available in future releases.</span>
+<span class="sd">        - right: float, default varies</span>
+<span class="sd">            The right limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the right border to the plot (default 0.9); for an</span>
+<span class="sd">            inset zoom it is the right position of the inset (default left +</span>
+<span class="sd">            0.15).</span>
+<span class="sd">        - sharex: bool | str | Matplotlib axis, default False</span>
+<span class="sd">            Enables/disables the sharing of the x-axis between the subplots.</span>
+<span class="sd">        - sharey: bool | str | Matplotlib axis, default False</span>
+<span class="sd">            Enables/disables the sharing of the y-axis between the subplots.</span>
+<span class="sd">        - suptitle: str, default None</span>
+<span class="sd">            Creates a figure title over all the subplots.</span>
 <span class="sd">        - ticksdir: {&#39;in&#39;, &#39;out&#39;}, default &#39;in&#39;</span>
 <span class="sd">            Sets the ticks direction. The default option is &#39;in&#39;.</span>
 <span class="sd">        - tickssize: float | bool, default True</span>
-<span class="sd">            Sets the ticks fontsize (which is the same for both grid axes).</span>
-<span class="sd">            The default value corresponds to the value of the keyword</span>
-<span class="sd">            &#39;fontsize&#39;.</span>
+<span class="sd">            Sets the ticks fontsize (which is the same for both grid axes). The</span>
+<span class="sd">            default value corresponds to the value of the keyword &#39;fontsize&#39;.</span>
+<span class="sd">        - tight: bool, default True</span>
+<span class="sd">            Enables/disables tight layout options for the figure. In case of a</span>
+<span class="sd">            highly customized plot (e.g. ratios or space between rows and</span>
+<span class="sd">            columns) the option is set by default to False since that option</span>
+<span class="sd">            would not be available for standard matplotlib functions.</span>
 <span class="sd">        - title: str, default None</span>
 <span class="sd">            Places the title of the plot on top of it.</span>
 <span class="sd">        - titlepad: float, default 8.0</span>
-<span class="sd">            Sets the distance between the title and the top of the plot</span>
+<span class="sd">            Sets the distance between the title and the top of the plot.</span>
 <span class="sd">        - titlesize: float, default fontsize</span>
 <span class="sd">            Sets the title fontsize. The default value corresponds to the value</span>
 <span class="sd">            of the keyword &#39;fontsize&#39;.</span>
+<span class="sd">        - top: float, default varies</span>
+<span class="sd">            The top limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the top border to the plot (default 0.9); for an</span>
+<span class="sd">            inset zoom it is the top position of the inset (default bottom +</span>
+<span class="sd">            height).</span>
 <span class="sd">        - transpose: True/False, default False</span>
-<span class="sd">            Transposes the variable matrix. Use is not recommended if not really</span>
-<span class="sd">            necessary (e.g. in case of highly customized variables and plots).</span>
+<span class="sd">            Transposes the variable matrix. Use is not recommended if not</span>
+<span class="sd">            really necessary (e.g. in case of highly customized variables and</span>
+<span class="sd">            plots).</span>
 <span class="sd">        - tresh: float, default max(abs(vmin),vmax)*0.01</span>
-<span class="sd">            Sets the threshold for the colormap. If not defined, the threshold</span>
-<span class="sd">            will be set to 1% of the maximum absolute value of the variable.</span>
-<span class="sd">            The default cases are the following:</span>
-<span class="sd">            - twoslope colorscale: sets the limit between the two linear</span>
-<span class="sd">            regimes.</span>
-<span class="sd">            - symlog: sets the limit between the logaitrhmic and the linear</span>
-<span class="sd">            regime.</span>
+<span class="sd">            Sets the threshold for the colormap (used with composite</span>
+<span class="sd">            colorscales such as twoslope or symlog).</span>
 <span class="sd">        - var (not optional): np.ndarray</span>
 <span class="sd">            The variable to be plotted.</span>
 <span class="sd">        - vmax: float</span>
-<span class="sd">            The maximum value of the colormap.</span>
+<span class="sd">            The maximum value of the variable to be computed / plotted.</span>
 <span class="sd">        - vmin: float</span>
-<span class="sd">            The minimum value of the colormap.</span>
-<span class="sd">        - x1: 1D array, default &#39;Default&#39;</span>
-<span class="sd">            The &#39;x&#39; array.</span>
-<span class="sd">        - x2: 1D array, default &#39;Default&#39;</span>
-<span class="sd">            The &#39;y&#39; array.</span>
-<span class="sd">        - xrange: [float, float], default [0,1]</span>
-<span class="sd">            Sets the range in the x-direction. If not defined the code will</span>
-<span class="sd">            compute the range while plotting the data.</span>
+<span class="sd">            The minimum value of the variable to be computed / plotted.</span>
+<span class="sd">        - wratio: [float], default [1.0]</span>
+<span class="sd">            Ratio between the columns of the plot. The default is that every</span>
+<span class="sd">            plot column has the same width.</span>
+<span class="sd">        - wspace: [float], default []</span>
+<span class="sd">            The space between plot columns (in figure units). If not enough or</span>
+<span class="sd">            too many spaces are considered, the program will remove the excess</span>
+<span class="sd">            and fill the lacks with [0.1].</span>
+<span class="sd">        - x1: np.ndarray, default &#39;Default&#39;</span>
+<span class="sd">            The x-axis array. If not defined, a default array will be</span>
+<span class="sd">            generated.</span>
+<span class="sd">        - x2: np.ndarray, default &#39;Default&#39;</span>
+<span class="sd">            The y-axis array. If not defined, a default array will be</span>
+<span class="sd">            generated.</span>
+<span class="sd">        - xlabelpad: float, default 4.0</span>
+<span class="sd">            The padding between the x-axis label and the axis.</span>
+<span class="sd">        - xrange: [float, float], default &#39;Default&#39;</span>
+<span class="sd">            Sets the range in the x-direction. If not defined, the range is</span>
+<span class="sd">            computed automatically from the x-array.</span>
 <span class="sd">        - xscale: {&#39;linear&#39;,&#39;log&#39;}, default &#39;linear&#39;</span>
-<span class="sd">            If enabled (and different from True), sets automatically the scale</span>
-<span class="sd">            on the x-axis. Data in log scale should be used with the keyword</span>
-<span class="sd">            &#39;log&#39;, while data in linear scale should be used with the keyword</span>
-<span class="sd">            &#39;linear&#39;.</span>
-<span class="sd">        - xticks: {[float], None, True}, default True</span>
-<span class="sd">            If enabled (and different from True), sets manually ticks on</span>
+<span class="sd">            If enabled (and different from &#39;Default&#39;), sets automatically the</span>
+<span class="sd">            scale on the x-axis. Data in log scale should be used with the</span>
+<span class="sd">            keyword &#39;log&#39;, while data in linear scale should be used with the</span>
+<span class="sd">            keyword &#39;linear&#39;.</span>
+<span class="sd">        - xticks: list[float] | None | bool, default True</span>
+<span class="sd">            If enabled (and different from True), sets manually ticks on the</span>
 <span class="sd">            x-axis. In order to completely remove the ticks the keyword should</span>
 <span class="sd">            be used with None.</span>
-<span class="sd">        - xtickslabels: {[str], None, True}, default True</span>
+<span class="sd">        - xtickslabels: list[str] | None | bool, default True</span>
 <span class="sd">            If enabled (and different from True), sets manually the ticks</span>
 <span class="sd">            labels on the x-axis. In order to completely remove the ticks the</span>
-<span class="sd">            keyword should be used with None. Note that fixed tickslabels should</span>
-<span class="sd">            always correspond to fixed ticks.</span>
+<span class="sd">            keyword should be used with None. Note that fixed tickslabels</span>
+<span class="sd">            should always correspond to fixed ticks.</span>
 <span class="sd">        - xtitle: str, default None</span>
 <span class="sd">            Sets and places the label of the x-axis.</span>
-<span class="sd">        - yrange: [float, float], default [0,1]</span>
-<span class="sd">            Sets the range in the y-direction. If not defined the code will</span>
-<span class="sd">            compute the range while plotting the data.</span>
+<span class="sd">        - xtresh: float</span>
+<span class="sd">            The threshold parameter for the x-axis symlog/asinh scale.</span>
+<span class="sd">        - ylabelpad: float, default 4.0</span>
+<span class="sd">            The padding between the y-axis label and the axis.</span>
+<span class="sd">        - yrange: [float, float], default &#39;Default&#39;</span>
+<span class="sd">            Sets the range in the y-direction. If not defined, the range is</span>
+<span class="sd">            computed automatically from the y-array.</span>
 <span class="sd">        - yscale: {&#39;linear&#39;,&#39;log&#39;}, default &#39;linear&#39;</span>
-<span class="sd">            If enabled (and different from True), sets automatically the scale</span>
-<span class="sd">            on the y-axis. Data in log scale should be used with the keyword</span>
-<span class="sd">            &#39;log&#39;, while data in linear scale should be used with the keyword</span>
-<span class="sd">            &#39;linear&#39;.</span>
-<span class="sd">        - yticks: {[float], None, True}, default True</span>
-<span class="sd">            If enabled (and different from True), sets manually ticks on</span>
+<span class="sd">            If enabled (and different from &#39;Default&#39;), sets automatically the</span>
+<span class="sd">            scale on the y-axis. Data in log scale should be used with the</span>
+<span class="sd">            keyword &#39;log&#39;, while data in linear scale should be used with the</span>
+<span class="sd">            keyword &#39;linear&#39;.</span>
+<span class="sd">        - yticks: list[float] | None | bool, default True</span>
+<span class="sd">            If enabled (and different from True), sets manually ticks on the</span>
 <span class="sd">            y-axis. In order to completely remove the ticks the keyword should</span>
 <span class="sd">            be used with None.</span>
-<span class="sd">        - ytickslabels: {[str], None, True}, default True</span>
+<span class="sd">        - ytickslabels: list[str] | None | bool, default True</span>
 <span class="sd">            If enabled (and different from True), sets manually the ticks</span>
 <span class="sd">            labels on the y-axis. In order to completely remove the ticks the</span>
-<span class="sd">            keyword should be used with None. Note that fixed tickslabels should</span>
-<span class="sd">            always correspond to fixed ticks.</span>
+<span class="sd">            keyword should be used with None. Note that fixed tickslabels</span>
+<span class="sd">            should always correspond to fixed ticks.</span>
 <span class="sd">        - ytitle: str, default None</span>
 <span class="sd">            Sets and places the label of the y-axis.</span>
+<span class="sd">        - ytresh: float</span>
+<span class="sd">            The threshold parameter for the y-axis symlog/asinh scale.</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - QuadContourSet</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -593,6 +662,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
+        <span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
 
         <span class="c1"># Set or create figure and axes</span>
         <span class="n">ax</span><span class="p">,</span> <span class="n">nax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">assign_ax</span><span class="p">(</span>
@@ -631,7 +701,7 @@
         <span class="n">cscale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cscale&quot;</span><span class="p">,</span> <span class="s2">&quot;norm&quot;</span><span class="p">)</span>
         <span class="n">tresh</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tresh&quot;</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vmin</span><span class="p">),</span> <span class="n">vmax</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">)</span>
         <span class="n">lint</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lint&quot;</span><span class="p">)</span>
-        <span class="n">lw</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lw&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">lw</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lw&quot;</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="s2">&quot;colors&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s2">&quot;cmap&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">warn</span> <span class="o">=</span> <span class="s2">&quot;Both colors and cmap are defined. Using c.&quot;</span>

@@ -1,5 +1,8 @@
 """Mixin class for image handling."""
 
+from __future__ import annotations
+
+from collections.abc import Sequence
 from typing import Any
 
 from matplotlib.axes import Axes
@@ -57,12 +60,12 @@ class ImageMixin:
         self.state.fig = value
 
     @property
-    def figsize(self) -> list[float]:
+    def figsize(self) -> Sequence[float]:
         """Get the figsize attribute of the image."""
         return self.state.figsize
 
     @figsize.setter
-    def figsize(self, value: list[float]) -> None:
+    def figsize(self, value: Sequence[float]) -> None:
         """Set the figsize attribute of the image."""
         self.state.figsize = value
 

@@ -1,5 +1,7 @@
 """Descriptor management utilities for reading PLUTO descriptor files."""
 
+from __future__ import annotations
+
 from pathlib import Path
 
 import numpy as np
@@ -43,8 +45,6 @@ class DescriptorManager(LoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

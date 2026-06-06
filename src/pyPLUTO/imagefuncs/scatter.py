@@ -1,15 +1,21 @@
 """ScatterManager class."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import Unpack
 
 import numpy as np
+from matplotlib.axes import Axes
 from matplotlib.collections import PathCollection
+from matplotlib.markers import MarkerStyle
+from matplotlib.path import Path
 
 from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.legend import LegendManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagekwargs import ScatterKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -36,8 +42,9 @@ class ScatterManager(ImageMixin):
         self,
         x: np.ndarray | list[float],
         y: np.ndarray | list[float],
-        check: bool = True,
-        **kwargs: Any,
+        ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[ScatterKwargs],
     ) -> PathCollection:
         """Scatter plot for a 2D function (or a 2D slice).
 
@@ -263,8 +270,6 @@ class ScatterManager(ImageMixin):
         -------
         - PathCollection
 
-        ----
-
         Examples
         --------
         - Example #1: Plot a scatter plot of a variable
@@ -280,12 +285,8 @@ class ScatterManager(ImageMixin):
         x = np.asarray(x)
         y = np.asarray(y)
 
-        kwargs.pop("check", check)
-
         # Set or create figure and axes
-        ax, nax = self.ImageToolsManager.assign_ax(
-            kwargs.pop("ax", None), **kwargs
-        )
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         if self.state.fig is None:
             raise ValueError(
@@ -298,7 +299,7 @@ class ScatterManager(ImageMixin):
             kwargs["yrange"] = [y.min(), y.max()]
 
         # Set ax parameters
-        self.AxisManager.set_axis(ax=ax, check=False, **kwargs)
+        self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)
 
         # Keywords vmin and vmax
@@ -330,6 +331,18 @@ class ScatterManager(ImageMixin):
             cmap = None
 
         # Start scatter plot procedure
+        raw_marker = kwargs.get("marker", "o")
+        marker: str | Path | MarkerStyle | None
+        if (
+            isinstance(raw_marker, (str, Path, MarkerStyle))
+            or raw_marker is None
+        ):
+            marker = raw_marker
+        elif isinstance(raw_marker, (list, tuple, np.ndarray)):
+            marker = raw_marker[0] if len(raw_marker) > 0 else None
+        else:
+            marker = "o"
+
         pcm = ax.scatter(
             x,
             y,
@@ -339,7 +352,7 @@ class ScatterManager(ImageMixin):
             s=kwargs.get("ms", 3),
             edgecolors=kwargs.get("edgecolors", "none"),
             alpha=kwargs.get("alpha", 1.0),
-            marker=kwargs.get("marker", "o"),
+            marker=marker,
         )
 
         # Creation of the legend
@@ -347,12 +360,12 @@ class ScatterManager(ImageMixin):
         if self.state.legpos[nax] is not None:
             copy_label = kwargs.get("label")
             kwargs["label"] = None
-            self.LegendManager.legend(ax, check=False, fromplot=True, **kwargs)
+            self.LegendManager.legend(ax, _check=False, fromplot=True, **kwargs)
             kwargs["label"] = copy_label
 
         # Place the colorbar (use colorbar function)
         if cpos is not None:
-            self.ColorbarManager.colorbar(pcm, check=False, **kwargs)
+            self.ColorbarManager.colorbar(pcm, _check=False, **kwargs)
 
         # If tight_layout is enabled, is re-inforced
         if self.state.tight:

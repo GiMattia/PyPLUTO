@@ -459,8 +459,74 @@
 <span id="mirror"></span><h1>Load.mirror<a class="headerlink" href="#load-mirror" title="Link to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">TransformManager.</span></span><span class="sig-name descname"><span class="pre">mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarT</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dirs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'l'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pyPLUTO/toolfuncs/transform.html#TransformManager.mirror"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Mirror a variable in one or more directions.</p>
+<span class="sig-prename descclassname"><span class="pre">TransformManager.</span></span><span class="sig-name descname"><span class="pre">mirror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dirs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'l'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pyPLUTO/toolfuncs/transform.html#TransformManager.mirror"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Mirror the variable in the specified directions.</p>
+<p>Multiple directions can be specified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- dirs: str | list, default ‘l’</strong></dt><dd><p>The directions to mirror the variable. Can be ‘l’, ‘r’, ‘t’, ‘b’ or
+a list or combination of them.</p>
+</dd>
+<dt><strong>- var: np.ndarray</strong></dt><dd><p>The variable to mirror.</p>
+</dd>
+<dt><strong>- xax: np.ndarray | None, default None</strong></dt><dd><p>The x-axis to mirror.</p>
+</dd>
+<dt><strong>- yax: np.ndarray | None, default None</strong></dt><dd><p>The y-axis to mirror.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>newvar: np.ndarray</dt><dd><p>The mirrored variable.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>xax: np.ndarray</dt><dd><p>The mirrored x-axis.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>yax: np.ndarray</dt><dd><p>The mirrored y-axis.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<ul>
+<li><p>Example #1: Mirror the variable in the left direction</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mirror</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">dirs</span><span class="o">=</span><span class="s2">&quot;l&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #2: Mirror the variable in the right direction with axis</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mirror</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">dirs</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">xax</span><span class="o">=</span><span class="n">xax</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #3: Mirror the variable in the top and left directions</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mirror</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">dirs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
+<li><dl>
+<dt>Example #4: Mirror the variable in the top and left directions (no</dt><dd><p>list)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mirror</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">dirs</span><span class="o">=</span><span class="s2">&quot;tl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p>Example #5: Mirror the variable in the left direction three times</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mirror</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">dirs</span><span class="o">=</span><span class="s2">&quot;lll&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
 </dd></dl>
 
 <div class="line-block">

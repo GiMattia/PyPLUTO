@@ -1,9 +1,12 @@
 """Module for managing contour plots in image displays."""
 
+from __future__ import annotations
+
 import warnings
-from typing import Any
+from typing import Unpack
 
 import numpy as np
+from matplotlib.axes import Axes
 from matplotlib.contour import QuadContourSet
 from numpy.typing import ArrayLike
 
@@ -11,6 +14,7 @@ from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagekwargs import ContourKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -34,7 +38,11 @@ class ContourManager(ImageMixin):
 
     @track_kwargs
     def contour(
-        self, var: ArrayLike, check: bool = True, **kwargs: Any
+        self,
+        var: ArrayLike,
+        ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[ContourKwargs],
     ) -> QuadContourSet:
         """Plot a contour plot of a given variable.
 
@@ -238,8 +246,6 @@ class ContourManager(ImageMixin):
         -------
         - QuadContourSet
 
-        ----
-
         Examples
         --------
         - Example #1: Plot a contour plot of a variable
@@ -247,13 +253,10 @@ class ContourManager(ImageMixin):
             >>> I.contour(D.rho, levels=10)
 
         """
-        kwargs.pop("check", check)
         var = np.asarray(var)
 
         # Set or create figure and axes
-        ax, nax = self.ImageToolsManager.assign_ax(
-            kwargs.pop("ax", None), **kwargs
-        )
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         if self.state.fig is None:
             raise ValueError(
@@ -270,7 +273,7 @@ class ContourManager(ImageMixin):
             var = var.T
 
         # Set ax parameters
-        self.AxisManager.set_axis(ax=ax, check=False, **kwargs)
+        self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)
 
         # Keywords vmin and vmax
@@ -286,7 +289,6 @@ class ContourManager(ImageMixin):
         cpos = kwargs.get("cpos")
         cscale = kwargs.get("cscale", "norm")
         tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
-        lint = kwargs.get("lint")
         lw = kwargs.get("lw", 1.3)
 
         if "colors" in kwargs and "cmap" in kwargs:
@@ -294,9 +296,7 @@ class ContourManager(ImageMixin):
             warnings.warn(warn, UserWarning, stacklevel=2)
 
         # Set the colorbar scale (put in function)
-        norm = self.ImageToolsManager.set_cscale(
-            cscale, vmin, vmax, tresh, lint
-        )
+        norm = self.ImageToolsManager.set_cscale(cscale, vmin, vmax, tresh)
 
         # Select shading
         alpha = kwargs.get("alpha", 1.0)
@@ -315,7 +315,7 @@ class ContourManager(ImageMixin):
         )
 
         if cpos is not None:
-            self.ColorbarManager.colorbar(cnt, check=False, **kwargs)
+            self.ColorbarManager.colorbar(cnt, _check=False, **kwargs)
 
         # If tight_layout is enabled, is re-inforced
         if self.state.tight:

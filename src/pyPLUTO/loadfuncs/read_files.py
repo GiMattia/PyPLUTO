@@ -1,5 +1,7 @@
 """Module for reading different types of external files."""
 
+from __future__ import annotations
+
 import warnings
 from pathlib import Path
 from typing import Any
@@ -31,12 +33,16 @@ class ReadFilesManager(LoadMixin):
         self.state = state
 
     @track_kwargs
-    def _read_vtk(self, filename: str, **kwargs: Any) -> None:
+    def _read_vtk(
+        self, filename: str, _check: bool = True, **kwargs: Any
+    ) -> None:
         """Read data from a VTK file."""
         raise NotImplementedError("read_vtk() is not yet implemented.")
 
     @track_kwargs
-    def _read_h5(self, filename: str, **kwargs: Any) -> dict[str, Any]:
+    def _read_h5(
+        self, filename: str, _check: bool = True, **kwargs: Any
+    ) -> dict[str, Any]:
         """Read data from an HDF5 file."""
         try:
             pathh5 = self.state.pathdir / Path(filename)
@@ -51,17 +57,23 @@ class ReadFilesManager(LoadMixin):
         return data_dict
 
     @track_kwargs
-    def _read_tab(self, filename: str, **kwargs: Any) -> None:
+    def _read_tab(
+        self, filename: str, _check: bool = True, **kwargs: Any
+    ) -> None:
         """Read data from a tab file."""
         raise NotImplementedError("read_tab() is not yet implemented.")
 
     @track_kwargs
-    def _read_bin(self, filename: str, **kwargs: Any) -> None:
+    def _read_bin(
+        self, filename: str, _check: bool = True, **kwargs: Any
+    ) -> None:
         """Read data from a binary file."""
         raise NotImplementedError("read_bin() is not yet implemented.")
 
     @track_kwargs
-    def _read_dat(self, filename: str, **kwargs: Any) -> dict[str, Any]:
+    def _read_dat(
+        self, filename: str, _check: bool = True, **kwargs: Any
+    ) -> dict[str, Any]:
         """Read data from a dat file."""
         try:
             pathh5 = self.state.pathdir / Path(filename)
@@ -85,7 +97,11 @@ class ReadFilesManager(LoadMixin):
 
     @track_kwargs
     def read_file(
-        self, filename: str, datatype: str | None = None, **kwargs: Any
+        self,
+        filename: str,
+        datatype: str | None = None,
+        _check: bool = True,
+        **kwargs: Any,
     ) -> Any:
         """Read data from output files."""
         if datatype is None:
@@ -104,14 +120,14 @@ class ReadFilesManager(LoadMixin):
         if reader is None:
             warn = f"Invalid datatype: {datatype}. Resetting to 'h5'"
             warnings.warn(warn, UserWarning, stacklevel=2)
-            return self._read_h5(filename, **kwargs)
+            return self._read_h5(filename, _check=False, **kwargs)
 
         if datatype in {"h5", "dat"}:
-            return reader(filename, **kwargs)
+            return reader(filename, _check=False, **kwargs)
 
         warn = (
             f"Invalid datatype: {datatype}, not implemented yet! "
             "Resetting to 'h5'"
         )
         warnings.warn(warn, UserWarning, stacklevel=2)
-        return self._read_h5(filename, **kwargs)
+        return self._read_h5(filename, _check=False, **kwargs)

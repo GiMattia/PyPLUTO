@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pyPLUTO.configure import Configure
+from pyPLUTO.configure import Configure, set_text
 from pyPLUTO.examples_api import (
     copy_examples,
     examples_path,
@@ -34,5 +34,6 @@ __all__ = [
     "ring",
     "run_example",
     "savefig",
+    "set_text",
     "show",
 ]

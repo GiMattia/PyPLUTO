@@ -10,6 +10,7 @@ import numpy as np
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
+from pyPLUTO.configure import set_text
 from pyPLUTO.loadfuncs.initload import InitLoadManager
 from pyPLUTO.toolfuncs.compute_units import UnitManager
 from pyPLUTO.toolfuncs.parttools import PartToolsManager
@@ -138,6 +139,7 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         self.state: BaseLoadState = BaseLoadState()
         self.cached_vars = set()
         self.state.text = kwargs.get("text", self.state.text)
+        set_text(self.state.text)
         self.state.class_name = self.__class__.__name__
         InitLoadManager(self.state, nout, var, _check=False, **kwargs)
         self.PartToolsManager = PartToolsManager(self.state)

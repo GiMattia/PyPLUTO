@@ -2,7 +2,7 @@ import warnings
 
 from pyPLUTO.utils.inspector import (
     _find_kwargs_keys_from_source,
-    _kwargs_state,
+    _kwargs_remaining,
     find_kwargs_keys,
     track_kwargs,
 )
@@ -94,7 +94,7 @@ def test_state_cleared_after_warning():
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
         f(a=1, _check=True)
-        assert _kwargs_state["remaining"] == set()
+        assert _kwargs_remaining.get() is None
 
 
 def test_find_kwargs_keys_all_cases():
@@ -128,8 +128,8 @@ def test_track_kwargs_state_clearing():
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
         f(unused_kwarg=42, _check=True)
-        # State cleared after warning
-        assert _kwargs_state["remaining"] == set()
+        # ContextVar is reset to None after the outer call completes
+        assert _kwargs_remaining.get() is None
 
 
 def test_subscript_with_non_string_slice_returns_none_branch():

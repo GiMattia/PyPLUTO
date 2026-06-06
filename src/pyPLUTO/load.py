@@ -8,6 +8,7 @@ from typing import Any, Generic, TypeVar, Unpack, cast, overload
 
 import numpy as np
 
+from pyPLUTO.configure import set_text
 from pyPLUTO.loadfuncs.initload import InitLoadManager
 from pyPLUTO.loadfuncs.read_files import ReadFilesManager
 from pyPLUTO.loadfuncs.readdefplini import FiledefpliniManager
@@ -202,6 +203,7 @@ class Load(LoadMixin, Generic[_VarT]):
         """Initialize the Load class."""
         self.state: LoadState = LoadState()
         self.state.text = kwargs.get("text", self.state.text)
+        set_text(self.state.text)
         self.state.class_name = self.__class__.__name__
         self.state.full3D = kwargs.get("full3D", self.state.full3D)
         self.state.level = kwargs.get("level", self.state.level)

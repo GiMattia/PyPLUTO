@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib
+import logging
 import sys
 import traceback
 import warnings
@@ -11,7 +12,9 @@ from types import TracebackType
 from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
-    from IPython.core.interactiveshell import InteractiveShell
+    from IPython.core.interactiveshell import (  # type: ignore
+        InteractiveShell,
+    )
 
 FormatWarning = Callable[
     [Warning | str, type[Warning], str, int, str | None], str
@@ -260,3 +263,49 @@ class Configure:
             warnings.formatwarning = self.color_warning  # type: ignore
         if colorerr:
             sys.excepthook = self.color_error
+
+        # Attach a stdout handler so logger.info() calls are visible,
+        # matching the old print() behaviour.
+        pkg_logger = logging.getLogger("pyPLUTO")
+        if not pkg_logger.handlers:
+            _handler = logging.StreamHandler(sys.stdout)
+            _handler.setFormatter(logging.Formatter("%(message)s"))
+            pkg_logger.addHandler(_handler)
+            pkg_logger.setLevel(logging.INFO)
+
+
+def set_text(text: bool | None) -> None:
+    """Set the verbosity of pyPLUTO logging.
+
+    Parameters
+    ----------
+    - text: bool | None
+        None (default) enables standard INFO messages. False silences all
+        output (WARNING level). True enables full debug output (DEBUG level).
+
+    Returns
+    -------
+    - None
+
+    Examples
+    --------
+    - Example #1: Silence all output
+
+        >>> set_text(False)
+
+    - Example #2: Default INFO output
+
+        >>> set_text(None)
+
+    - Example #3: Full debug output
+
+        >>> set_text(True)
+
+    """
+    pkg_logger = logging.getLogger("pyPLUTO")
+    if text is False:
+        pkg_logger.setLevel(logging.WARNING)
+    elif text is True:
+        pkg_logger.setLevel(logging.DEBUG)
+    else:
+        pkg_logger.setLevel(logging.INFO)

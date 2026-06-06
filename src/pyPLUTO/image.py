@@ -14,6 +14,7 @@ from matplotlib.contour import QuadContourSet
 from numpy.typing import ArrayLike
 
 from pyPLUTO.amr import oplotbox
+from pyPLUTO.configure import set_text
 from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.contour import ContourManager
 from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
@@ -67,7 +68,7 @@ class Image(ImageMixin):
     @track_kwargs
     def __init__(
         self,
-        text: bool = True,
+        text: bool | None = None,
         _check: bool = True,
         **kwargs: Unpack[FigureKwargs],
     ) -> None:
@@ -157,6 +158,7 @@ class Image(ImageMixin):
 
         """
         self.state = ImageState()
+        set_text(text)
 
         self.FigureManager = FigureManager(self.state, **kwargs)
 
@@ -175,7 +177,7 @@ class Image(ImageMixin):
         self.StreamplotManager = StreamplotManager(self.state)
         self.ZoomManager = ZoomManager(self.state)
 
-        if text:
+        if text is not False:
             logger.info("Image class created at nwin %s", self.nwin)
 
     def __str__(self) -> str:

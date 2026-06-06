@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import ast
+import contextvars
 import functools
 import inspect
 import textwrap
@@ -72,10 +73,11 @@ def find_kwargs_keys(func: Callable[..., Any]) -> set[str]:
     return _find_kwargs_keys_from_source(source)
 
 
-# Shared state for tracking across nested calls
 P = ParamSpec("P")
 R = TypeVar("R")
-_kwargs_state: dict[str, set[str]] = {"remaining": set()}
+_kwargs_remaining: contextvars.ContextVar[set[str] | None] = (
+    contextvars.ContextVar("_kwargs_remaining", default=None)
+)
 
 
 @overload
@@ -109,31 +111,32 @@ def track_kwargs(
             bound.apply_defaults()
             check = bound.arguments.get("_check", False)
 
-            # Be robust to "check" passed via kwargs even if not bound.
             if not bool(check) and "_check" in kwargs:
                 check = kwargs.pop("_check", False)
 
             if bool(check):
-                _kwargs_state["remaining"] = set(kwargs)
+                _kwargs_remaining.set(set(kwargs))
 
-            _kwargs_state["remaining"] -= used_keys
-            _kwargs_state["remaining"] -= set(sig.parameters.keys())
+            current = _kwargs_remaining.get()
+            if current is not None:
+                current -= used_keys
+                current -= set(sig.parameters.keys())
 
             result = inner_func(*args, **kwargs)
 
-            func_name = getattr(inner_func, "__name__", repr(inner_func))
-            mod_name = getattr(inner_func, "__module__", "<unknown>")
-
-            remaining = _kwargs_state.get("remaining", set())
-            if bool(check) and remaining:
-                warnings.warn(
-                    f"Unused kwargs: {remaining} "
-                    f"in function {func_name} "
-                    f"of {mod_name}",
-                    UserWarning,
-                    stacklevel=2,
-                )
-                remaining.clear()
+            if bool(check):
+                func_name = getattr(inner_func, "__name__", repr(inner_func))
+                mod_name = getattr(inner_func, "__module__", "<unknown>")
+                current = _kwargs_remaining.get()
+                if current:
+                    warnings.warn(
+                        f"Unused kwargs: {current} "
+                        f"in function {func_name} "
+                        f"of {mod_name}",
+                        UserWarning,
+                        stacklevel=2,
+                    )
+                _kwargs_remaining.set(None)
 
             return result
 

@@ -48,8 +48,10 @@ def test_wrongattr():
         Data.wrong
 
 
-def test_Image_prints_message(capfd):
-    Data = pp.Load(path=path / "single_file")
-    captured = capfd.readouterr()
-    assert "Load: folder " in captured.out
-    assert "output " in captured.out
+def test_Image_prints_message(caplog):
+    import logging
+
+    with caplog.at_level(logging.INFO):
+        Data = pp.Load(path=path / "single_file")
+    assert "Load: folder " in caplog.text
+    assert "output " in caplog.text

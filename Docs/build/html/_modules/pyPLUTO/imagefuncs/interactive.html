@@ -459,7 +459,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">anim_pcm</span><span class="p">:</span> <span class="n">Collection</span> <span class="o">|</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">labslider</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">anim_ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">anim_var</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">anim_var</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">animkeys</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nsld</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lenlab</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
@@ -472,8 +472,8 @@
     <span class="nd">@track_kwargs</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">interactive</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">varx</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-        <span class="n">vary</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">varx</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">vary</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">limfix</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">labslider</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -559,8 +559,9 @@
 <span class="sd">        - labelsize: float, default fontsize</span>
 <span class="sd">            Sets the labels fontsize (which is the same for both labels). The</span>
 <span class="sd">            default value corresponds to the value of the keyword &#39;fontsize&#39;.</span>
-<span class="sd">        - labslider: str, default None</span>
-<span class="sd">            The label of the slider.</span>
+<span class="sd">        - labslider: list[str | float] | None, default None</span>
+<span class="sd">            The labels of the slider ticks. If None, the slider ticks are</span>
+<span class="sd">            determined automatically.</span>
 <span class="sd">        - left: float, default varies</span>
 <span class="sd">            The left limit of the axis / axes set. For the figure layout it is</span>
 <span class="sd">            the space from the left border to the plot (default 0.125); for an</span>
@@ -655,10 +656,13 @@
 <span class="sd">        - tresh: float, default max(abs(vmin),vmax)*0.01</span>
 <span class="sd">            Sets the threshold for the colormap (used with composite</span>
 <span class="sd">            colorscales such as twoslope or symlog).</span>
-<span class="sd">        - varx (not optional): array_like</span>
-<span class="sd">            The x-axis variable.</span>
-<span class="sd">        - vary: array_like, default None</span>
-<span class="sd">            The y-axis variable.</span>
+<span class="sd">        - varx (not optional): dict[int, np.ndarray] | np.ndarray</span>
+<span class="sd">            The variable to animate. If a dict, keys are output indices and</span>
+<span class="sd">            values are the corresponding arrays (multi-frame). If an ndarray,</span>
+<span class="sd">            a single frame is shown.</span>
+<span class="sd">        - vary: dict[int, np.ndarray] | None, default None</span>
+<span class="sd">            Optional second variable (e.g. y-axis for 1D plots). Same format</span>
+<span class="sd">            as varx.</span>
 <span class="sd">        - vmax: float</span>
 <span class="sd">            The maximum value of the variable to be computed / plotted.</span>
 <span class="sd">        - vmin: float</span>
@@ -774,7 +778,7 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span>
+                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">anim_ax</span> <span class="o">=</span> <span class="n">ax</span>
@@ -883,12 +887,12 @@
         <span class="c1"># Update the data</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">animkeys</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">anim_var</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No data is present. Please create an interactive plot first.&quot;</span>
+                <span class="s2">&quot;No data is present, create an interactive plot first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slider</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No slider is present. Please create an interactive plot first.&quot;</span>
+                <span class="s2">&quot;No slider is present, create an interactive plot first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">anim_var</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">animkeys</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span>
@@ -896,7 +900,7 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">anim_pcm</span><span class="p">,</span> <span class="n">QuadMesh</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s2">&quot;The current plot is not a 2D plot. &quot;</span>
-                    <span class="s2">&quot;Please use a 2D variable.&quot;</span>
+                    <span class="s2">&quot;Please use a 2D variable.&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="c1"># Update the data array if it is 2D</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">anim_pcm</span><span class="o">.</span><span class="n">set_array</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
@@ -912,7 +916,7 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">anim_pcm</span><span class="p">,</span> <span class="n">Line2D</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s2">&quot;The current plot is not a 1D plot. &quot;</span>
-                    <span class="s2">&quot;Please use a 1D variable.&quot;</span>
+                    <span class="s2">&quot;Please use a 1D variable.&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="c1"># Update the data array if it is 1D</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">anim_pcm</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
@@ -921,13 +925,13 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">slider</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labslider</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">slider</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;nout = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">animkeys</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">:</span><span class="s2">0</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lenlab</span><span class="si">}</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;nout = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">animkeys</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">:</span><span class="s2">0</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lenlab</span><span class="si">}</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># Update the plot</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span>
+                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
 
@@ -955,7 +959,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slider</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No slider is present. Please create an interactive plot first.&quot;</span>
+                <span class="s2">&quot;No slider is present, create an interactive plot first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="c1"># Update the plot with the current frame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_slider</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
@@ -1015,12 +1019,15 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span>
+                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># Create the animation</span>
         <span class="n">ani</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="n">frames</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="n">interval</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">update</span><span class="p">,</span>
+            <span class="n">frames</span><span class="o">=</span><span class="n">frames</span><span class="p">,</span>
+            <span class="n">interval</span><span class="o">=</span><span class="n">interval</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">gifname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1028,7 +1035,7 @@
 
             <span class="k">if</span> <span class="n">script_relative</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">out_path</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">():</span>
                 <span class="c1"># Find the path of the script calling this method</span>
-                <span class="n">caller_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+                <span class="n">caller_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
                 <span class="n">base_dir</span> <span class="o">=</span> <span class="n">caller_file</span><span class="o">.</span><span class="n">parent</span>
                 <span class="n">out_path</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="n">out_path</span>
 

@@ -597,7 +597,7 @@
         <span class="c1"># Standard check on the figure</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span>
+                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># Assign the source axis</span>
@@ -619,7 +619,9 @@
             <span class="n">cax</span> <span class="o">=</span> <span class="n">divider</span><span class="o">.</span><span class="n">append_axes</span><span class="p">(</span><span class="n">cpos</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;7%&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="n">cpad</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">cax</span><span class="p">,</span> <span class="n">naxc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">assign_ax</span><span class="p">(</span>
-                <span class="n">cax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="n">cax</span><span class="p">,</span>
+                <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">hide_text</span><span class="p">(</span><span class="n">naxc</span><span class="p">,</span> <span class="n">cax</span><span class="o">.</span><span class="n">texts</span><span class="p">)</span>
 
@@ -640,7 +642,8 @@
 
         <span class="c1"># Set the tickslabels</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">ctkc</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ctickslabels&quot;</span><span class="p">,</span> <span class="s2">&quot;Default&quot;</span><span class="p">)),</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">ctkc</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ctickslabels&quot;</span><span class="p">,</span> <span class="s2">&quot;Default&quot;</span><span class="p">)),</span>
+            <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">),</span>
         <span class="p">):</span>
             <span class="n">axis</span> <span class="o">=</span> <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span> <span class="k">if</span> <span class="n">ccor</span> <span class="o">==</span> <span class="s2">&quot;vertical&quot;</span> <span class="k">else</span> <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span>
             <span class="n">ticks</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cticks&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">list</span><span class="p">(</span><span class="n">cbar</span><span class="o">.</span><span class="n">get_ticks</span><span class="p">())</span>
@@ -689,7 +692,7 @@
         <span class="c1"># Standard check on the figure</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span>
+                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="c1"># Standard check on the figure</span>
         <span class="c1"># Select the source axis</span>
@@ -710,7 +713,7 @@
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span>
+                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">axs</span>

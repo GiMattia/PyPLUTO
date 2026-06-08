@@ -521,8 +521,9 @@ the matplotlib package.</p>
 </dd>
 <dt><strong>- lw: float, default 1.3</strong></dt><dd><p>Sets the linewidth.</p>
 </dd>
-<dt><strong>- marker: {‘o’, ‘v’, ‘^’, ‘&lt;’, ‘&gt;’, ‘X’, ‘ ‘, etc.}, default ‘ ‘</strong></dt><dd><p>Sets an optional symbol for every point. The default value is no
-marker (’ ‘).</p>
+<dt><strong>- marker: str | list[str | MarkerType] | MarkerType, default ‘ ‘</strong></dt><dd><p>Sets an optional symbol for every point. The default value is no
+marker (’ ‘). A list can be used to cycle through different markers
+for each legend entry.</p>
 </dd>
 <dt><strong>- ms: float, default 3</strong></dt><dd><p>Sets the marker size.</p>
 </dd>

@@ -708,7 +708,7 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span>
+                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># Set or create figure and axes</span>
@@ -737,7 +737,8 @@
 
         <span class="c1"># Set color line and increase the number of lines (if default color)</span>
         <span class="n">col_line</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">color</span><span class="p">)]</span>
+            <span class="s2">&quot;c&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">color</span><span class="p">)],</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>

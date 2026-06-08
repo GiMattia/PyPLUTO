@@ -417,7 +417,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Unpack</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Unpack</span><span class="p">,</span> <span class="n">cast</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.axes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes</span>
@@ -716,12 +716,12 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span>
+                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># Sets position of the zoom</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">):</span>
-            <span class="n">axins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">place_inset_pos</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">pos</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">):</span>
+            <span class="n">axins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">place_inset_pos</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">axins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">place_inset_loc</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;fontsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fontsize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">)</span>
@@ -1010,10 +1010,10 @@
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pcm</span><span class="p">,</span> <span class="n">QuadMesh</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s2">&quot;The zoom can be applied only to a QuadMesh object.&quot;</span>
+                <span class="s2">&quot;The zoom can be applied only to a QuadMesh object.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
-        <span class="n">ccd</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">pcm</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">())</span>
+        <span class="n">ccd</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;np.ndarray[Any, Any]&quot;</span><span class="p">,</span> <span class="n">pcm</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">())</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">ccd</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">])</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;x2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">ccd</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">])</span>
 
@@ -1035,13 +1035,16 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;No variable is present in the zoom display. &quot;</span>
-                <span class="s2">&quot;Please provide a variable to plot.&quot;</span>
+                <span class="s2">&quot;Please provide a variable to plot.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="c1"># pcm0 = kwargs.pop(&#39;var&#39;, pcm.reshape((lxc, lyc)).T)</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;vmin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;vmin&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">vlims</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;vmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;vmax&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">vlims</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tresh&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;tresh&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">vlims</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;shading&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">psh</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;shading&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+            <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;flat&quot;</span><span class="p">,</span> <span class="s2">&quot;nearest&quot;</span><span class="p">,</span> <span class="s2">&quot;gouraud&quot;</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">psh</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">pcm0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pcm0</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;var&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pcm0</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">DisplayManager</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axins</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1070,7 +1073,10 @@
 
     <span class="nd">@track_kwargs</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">place_inset_loc</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span> <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">SetLocKwargs</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">SetLocKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Axes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Place an inset axes given different keywords.</span>
 

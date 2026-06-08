@@ -3,7 +3,7 @@
 pyPLUTO.show
 ============
 
-.. autofunction:: pyPLUTO.pytools.show
+.. autofunction:: pyPLUTO.utils.pytools.show
 
 |
 

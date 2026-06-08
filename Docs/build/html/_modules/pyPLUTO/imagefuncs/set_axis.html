@@ -678,7 +678,7 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">})</span>
 
         <span class="c1"># Set aspect ratio</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aspect&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;aspect&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;aspect&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;aspect&quot;</span><span class="p">])</span>
 
         <span class="c1"># Set xrange and yrange</span>
@@ -691,7 +691,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">share_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># Set ticks size</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tickssize&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;tickssize&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tickssize&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tickssize&quot;</span><span class="p">])</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tickssize&quot;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
@@ -708,7 +708,10 @@
                 <span class="n">top</span><span class="o">=</span><span class="s2">&quot;off&quot;</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span>
-                <span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">tckd</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="s2">&quot;off&quot;</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="s2">&quot;off&quot;</span>
+                <span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span>
+                <span class="n">direction</span><span class="o">=</span><span class="n">tckd</span><span class="p">,</span>
+                <span class="n">right</span><span class="o">=</span><span class="s2">&quot;off&quot;</span><span class="p">,</span>
+                <span class="n">top</span><span class="o">=</span><span class="s2">&quot;off&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># Set minor ticks</span>
@@ -720,8 +723,8 @@
         <span class="c1"># Scales and alpha</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_scales</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">):</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">alpha</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
 
         <span class="c1"># Set ticks and tickslabels</span>
         <span class="n">xtc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xticks&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
@@ -854,7 +857,10 @@
 
     <span class="nd">@track_kwargs</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_titles</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span> <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">SetTitleKwargs</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">SetTitleKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the title or axis labels of the plot.</span>
 
@@ -943,7 +949,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">spar</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;asinh&quot;</span><span class="p">:</span> <span class="s2">&quot;linear_width&quot;</span><span class="p">,</span> <span class="s2">&quot;symlog&quot;</span><span class="p">:</span> <span class="s2">&quot;linthresh&quot;</span><span class="p">}</span>
 
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xscale&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;xscale&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xscale&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">xscale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xscale&quot;</span><span class="p">]</span>
             <span class="n">xscale_param</span> <span class="o">=</span> <span class="n">spar</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">xscale</span><span class="p">)</span>
             <span class="n">xscale_kwargs</span> <span class="o">=</span> <span class="p">(</span>
@@ -954,7 +960,7 @@
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">xscale</span><span class="p">,</span> <span class="o">**</span><span class="n">xscale_kwargs</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">xscale</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="n">xscale</span>
 
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;yscale&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;yscale&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;yscale&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">yscale</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;yscale&quot;</span><span class="p">]</span>
             <span class="n">yscale_param</span> <span class="o">=</span> <span class="n">spar</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
             <span class="n">yscale_kwargs</span> <span class="o">=</span> <span class="p">(</span>
@@ -993,14 +999,17 @@
 <span class="sd">        - None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xrange&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;xrange&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xrange&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span><span class="o">.</span><span class="n">set_xrange</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nax</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xrange&quot;</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;yrange&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;yrange&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;yrange&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span><span class="o">.</span><span class="n">set_yrange</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nax</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;yrange&quot;</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
 
     <span class="nd">@track_kwargs</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">share_axes</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span> <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ShareAxesKwargs</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ShareAxesKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Share the x- and y-axis of a selected axis.</span>
 
@@ -1018,9 +1027,9 @@
 <span class="sd">        - None</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharex&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;sharex&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;sharex&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">sharex</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;sharex&quot;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharey&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;sharey&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;sharey&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">sharey</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;sharey&quot;</span><span class="p">])</span>
 
     <span class="nd">@track_kwargs</span>

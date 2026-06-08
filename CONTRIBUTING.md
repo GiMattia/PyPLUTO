@@ -77,15 +77,18 @@ pixi run -e all pre-commit run --all-files
 pixi run -e all pytest -v ./Tests
 ```
 
-### Option C: `pip` fallback (not lockfile-based)
+### Option C: `pip` (no lockfile)
 
-If you prefer a classic setup:
+uv (Option A) is the recommended setup, but if you prefer plain `pip` you can
+install the project together with its dependency groups (requires `pip >= 25.1`,
+which understands PEP 735 dependency groups):
 
 ```bash
-pip install -r requirements_dev.txt
+pip install -e ".[gui]" --group dev --group test --group docs
 ```
 
-`requirements_dev.txt` installs the project in editable mode with development extras.
+This installs PyPLUTO in editable mode with the development, test and
+documentation tooling. Unlike Options A and B it is not lockfile-based.
 
 ## Pre-commit and Quality Checks
 

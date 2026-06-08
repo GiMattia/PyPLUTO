@@ -1,3 +1,5 @@
+# Legacy module pending type-checking rework; excluded for now.
+# type: ignore
 from __future__ import annotations
 
 import logging
@@ -121,7 +123,7 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
                     zstr = fl.attrs.get("g_x3stretch")
             except DeprecationWarning:
                 logger.warning(
-                    "Old HDF5 file, not reading stretch and logr factors"
+                    "Old HDF5 file, not reading stretch and logr factors",
                 )
             freb[i] = 1
             x1b = fl.attrs.get("domBeg1")
@@ -245,7 +247,7 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
             ("dx2", dx2),
             ("dx3", dx3),
             ("Dt", dt),
-        ]
+        ],
     )
 
     # Variables table
@@ -286,7 +288,7 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
                     "z1": 0.0,
                     "kb": 0,
                     "ke": 0,
-                }
+                },
             )
             # Box indexes
             ib = boxes[j]["lo_i"]
@@ -368,7 +370,7 @@ def _DataScanHDF5(self, fp, myvars, ilev) -> dict:
                 ckb0 = (kb0 - kb) // freb[i]
                 cke0 = (ke0 - kb) // freb[i]
                 q1 = np.zeros(
-                    (cie0 - cib0 + 1, cje0 - cjb0 + 1, cke0 - ckb0 + 1, nvar)
+                    (cie0 - cib0 + 1, cje0 - cjb0 + 1, cke0 - ckb0 + 1, nvar),
                 )
                 q1 = q[cib0 : cie0 + 1, cjb0 : cje0 + 1, ckb0 : cke0 + 1, :]
 
@@ -525,28 +527,28 @@ def oplotbox(
                             [x0 * np.cos(y0), x1 * np.cos(y0)],
                             x1
                             * np.cos(
-                                np.linspace(y0, y1, num=int(abs(y0 - y1) / dn))
+                                np.linspace(y0, y1, num=int(abs(y0 - y1) / dn)),
                             ),
                             [x1 * np.cos(y1), x0 * np.cos(y1)],
                             x0
                             * np.cos(
-                                np.linspace(y1, y0, num=int(abs(y0 - y1) / dn))
+                                np.linspace(y1, y0, num=int(abs(y0 - y1) / dn)),
                             ),
-                        ]
+                        ],
                     )
                     yb = np.concatenate(
                         [
                             [x0 * np.sin(y0), x1 * np.sin(y0)],
                             x1
                             * np.sin(
-                                np.linspace(y0, y1, num=int(abs(y0 - y1) / dn))
+                                np.linspace(y0, y1, num=int(abs(y0 - y1) / dn)),
                             ),
                             [x1 * np.sin(y1), x0 * np.sin(y1)],
                             x0
                             * np.sin(
-                                np.linspace(y1, y0, num=int(abs(y0 - y1) / dn))
+                                np.linspace(y1, y0, num=int(abs(y0 - y1) / dn)),
                             ),
-                        ]
+                        ],
                     )
                     self.plot(xb, yb, c=cols[il], ax=ax, **kwargs)
 
@@ -576,7 +578,7 @@ def _read_gridfile(self) -> None:
 
     # Open and read the gridfile
     with open(self.pathgrid) as gfp:
-        for i in gfp.readlines():
+        for i in gfp:
             _split_gridfile(self, i, xL, xR, nmax)
 
     # Compute nx1, nx2, nx3
@@ -660,10 +662,16 @@ def _read_gridfile(self) -> None:
 
         if self.dim == 3 and self._full3d is True:
             x1_3D, x2_3D, x3_3D = np.meshgrid(
-                self.x1, self.x2, self.x3, indexing="ij"
+                self.x1,
+                self.x2,
+                self.x3,
+                indexing="ij",
             )
             x1r_3D, x2r_3D, x3r_3D = np.meshgrid(
-                self.x1r, self.x2r, self.x3r, indexing="ij"
+                self.x1r,
+                self.x2r,
+                self.x3r,
+                indexing="ij",
             )
 
             self.x1c = (np.sin(x2_3D) * np.cos(x3_3D) * x1_3D).T
@@ -693,7 +701,11 @@ def _read_gridfile(self) -> None:
 
 
 def _split_gridfile(
-    self, i: str, xL: list[float], xR: list[float], nmax: list[int]
+    self,
+    i: str,
+    xL: list[float],
+    xR: list[float],
+    nmax: list[int],
 ) -> None:
     """Split the gridfile, storing information in the variables passed.
 

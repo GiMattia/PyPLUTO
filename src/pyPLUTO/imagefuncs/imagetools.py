@@ -81,7 +81,7 @@ class ImageToolsManager(ImageMixin):
 
         if script_relative and not out_path.is_absolute():
             # Find the path of the script calling this method
-            caller_file = Path(inspect.stack()[1].filename).resolve()
+            caller_file = Path(inspect.stack()[2].filename).resolve()
             base_dir = caller_file.parent
             out_path = base_dir / out_path
 
@@ -224,7 +224,7 @@ class ImageToolsManager(ImageMixin):
 
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         # Dictionary with the possible 'xycoords' values
@@ -362,7 +362,7 @@ class ImageToolsManager(ImageMixin):
         """
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
         # Check if the axis is None and no axis is present (and create one)
         if ax is None and len(self.state.ax) == 0:
@@ -502,7 +502,8 @@ class ImageToolsManager(ImageMixin):
         return norm
 
     def find_cmap(
-        self, name: str | mcol.Colormap | None
+        self,
+        name: str | mcol.Colormap | None,
     ) -> mcol.Colormap | None:
         """Find a colormap by name.
 
@@ -556,8 +557,8 @@ class ImageToolsManager(ImageMixin):
                 # Prefer .reversed() method if available
                 rev = getattr(cmap, "reversed", None)
                 if callable(rev):
-                    return cast(mcol.Colormap, rev())
-            return cast(mcol.Colormap, cmap)
+                    return cast("mcol.Colormap", rev())
+            return cast("mcol.Colormap", cmap)
 
         # Gigantic warning!
         warn = (

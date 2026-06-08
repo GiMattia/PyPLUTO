@@ -2,11 +2,16 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Unpack
 
 import numpy as np
 from scipy.interpolate import RectBivariateSpline
 
+from pyPLUTO.loadkwargs import (
+    CartesianVectorKwargs,
+    ReshapeKwargs,
+    SlicesKwargs,
+)
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.toolfuncs.findlines import FindLinesManager
@@ -27,12 +32,12 @@ class TransformManager(LoadMixin):
     def slices(
         self,
         var: np.ndarray,
-        diag: bool | None = None,
+        diag: bool | str | None = None,
         x1: int | list | None = None,
         x2: int | list | None = None,
         x3: int | list | None = None,
         _check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[SlicesKwargs],
     ) -> np.ndarray:
         """Slice the variable in the 3 directions.
 
@@ -188,14 +193,15 @@ class TransformManager(LoadMixin):
                     mode="reflect",
                     reflect_type="odd",
                 )
-        xax is not None and nax.append(axx)
-        yax is not None and nax.append(axy)
+        if axx is not None:
+            nax.append(axx)
+        if axy is not None:
+            nax.append(axy)
         if len(nax) > 1:
             return [newvar, *nax]
-        elif len(nax) > 0:
+        if len(nax) > 0:
             return [newvar, nax[0]]
-        else:
-            return [newvar]
+        return [newvar]
 
     def repeat(
         self,
@@ -209,7 +215,10 @@ class TransformManager(LoadMixin):
 
     @track_kwargs
     def cartesian_vector(
-        self, var: str | None = None, _check: bool = True, **kwargs: Any
+        self,
+        var: str | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[CartesianVectorKwargs],
     ) -> tuple[np.ndarray, ...]:
         """Convert a vector from spherical or polar components to cartesian.
 
@@ -260,17 +269,20 @@ class TransformManager(LoadMixin):
         if var is not None:
             var_0 = [
                 self.LoadToolsManager.check_var(
-                    v, kwargs.get("transpose", False)
+                    v,
+                    kwargs.get("transpose", False),
                 )
                 for v in vecvars[var]
             ]
         elif "var1" in kwargs and "var2" in kwargs:
             var_0 = [
                 self.LoadToolsManager.check_var(
-                    kwargs["var1"], kwargs.get("transpose", False)
+                    kwargs["var1"],
+                    kwargs.get("transpose", False),
                 ),
                 self.LoadToolsManager.check_var(
-                    kwargs["var2"], kwargs.get("transpose", False)
+                    kwargs["var2"],
+                    kwargs.get("transpose", False),
                 ),
             ]
         else:
@@ -279,8 +291,9 @@ class TransformManager(LoadMixin):
         if "var3" in kwargs:
             var_0.append(
                 self.LoadToolsManager.check_var(
-                    kwargs["var3"], kwargs.get("transpose", False)
-                )
+                    kwargs["var3"],
+                    kwargs.get("transpose", False),
+                ),
             )
 
         x2 = kwargs.get("x2", self.x2)
@@ -294,12 +307,10 @@ class TransformManager(LoadMixin):
                 vary = varr * np.sin(x3) + var_0[2] * np.cos(x3)
                 if kwargs.get("fullout", False):
                     return varx, vary, varz, varr
-                else:
-                    return varx, vary, varz
-            else:
-                return varr, varz
+                return varx, vary, varz
+            return varr, varz
 
-        elif self.geom == "POLAR":
+        if self.geom == "POLAR":
             varx = var_0[0] * np.cos(x2) - var_0[1] * np.sin(x2)
             vary = var_0[0] * np.sin(x2) + var_0[1] * np.cos(x2)
             return varx, vary
@@ -307,7 +318,12 @@ class TransformManager(LoadMixin):
 
     @track_kwargs
     def reshape_cartesian(
-        self, *args: Any, _check: bool = True, **kwargs: Any
+        self,
+        var1: np.ndarray,
+        var2: np.ndarray | None = None,
+        var3: np.ndarray | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[ReshapeKwargs],
     ) -> tuple[np.ndarray, ...]:
         """Reshape a variable into a cartesian grid.
 
@@ -330,32 +346,34 @@ class TransformManager(LoadMixin):
             Transposes the variable matrix. Use is not recommended if not
             really necessary (e.g. in case of highly customized variables and
             plots).
-        - var: np.ndarray
-            The variable to convert.
-        - x1: int
-            The first index of the variable.
-        - x2: int
-            The second index of the variable.
+        - var1 (not optional): np.ndarray
+            The first variable to convert.
+        - var2: np.ndarray | None, default None
+            The second variable to convert.
+        - var3: np.ndarray | None, default None
+            The third variable to convert.
+        - x1: np.ndarray, default self.x1
+            The first grid coordinate.
+        - x2: np.ndarray, default self.x2
+            The second grid coordinate.
 
         Examples
         --------
-        - Example #1: Convert the vector from spherical to cartesian components
+        - Example #1: Reshape a single variable into a cartesian grid
 
-            >>> Bx, By, Bz = cartesian_vector(var="B")
+            >>> xc, yc, rho = reshape_cartesian(D.rho)
 
-        - Example #2: Convert the vector from polar to cartesian components
+        - Example #2: Reshape two variables into a cartesian grid
 
-            >>> Bx, By = cartesian_vector(var1=D.Bx1, var2=D.Bx2)
+            >>> xc, yc, Bx, Bz = reshape_cartesian(Bx, Bz, nx1=500)
 
         """
-        var = []
-        newv = []
-        for i in args:
-            var.append(
-                self.LoadToolsManager.check_var(
-                    i, kwargs.get("transpose", False)
-                )
-            )
+        newv: list[np.ndarray] = []
+        var = [
+            self.LoadToolsManager.check_var(v, kwargs.get("transpose", False))
+            for v in (var1, var2, var3)
+            if v is not None
+        ]
 
         x1 = kwargs.pop("x1", self.x1)
         x2 = kwargs.pop("x2", self.x2)
@@ -380,7 +398,9 @@ class TransformManager(LoadMixin):
             yc0 = np.linspace(ymin, ymax, nx2)
             xc, yc = np.meshgrid(xc0, yc0, indexing="ij")
 
-        x1, x2, var = self.reshape_uniform(x1, x2, *var, **kwargs)
+        # Forward the (possibly defaulted) grid coordinates to reshape_uniform
+        kwargs["x1"], kwargs["x2"] = x1, x2
+        x1, x2, var = self.reshape_uniform(*var, **kwargs)
 
         ww, nn = self._convert2cartgrid(xc, yc, x1, x2)
 
@@ -390,32 +410,35 @@ class TransformManager(LoadMixin):
         for i, singlevar in enumerate(var):
             newv.append(
                 np.sum(
-                    [ww[j] * singlevar.flat[nn[j]] for j in range(4)], axis=0
-                )
+                    [ww[j] * singlevar.flat[nn[j]] for j in range(4)],
+                    axis=0,
+                ),
             )
             newv[i] = self.LoadToolsManager.congrid(
-                newv[i], (nx1, nx2), method="linear"
+                newv[i],
+                (nx1, nx2),
+                method="linear",
             )
 
         if self.geom == "SPHERICAL":
             return ycong[:, 0], xcong[0], *newv
-        else:
-            return xcong[:, 0], ycong[0], *newv
+        return xcong[:, 0], ycong[0], *newv
 
     @track_kwargs
     def reshape_uniform(
         self,
-        x1: np.ndarray,
-        x2: np.ndarray,
-        *args: Any,
+        var1: np.ndarray,
+        var2: np.ndarray | None = None,
+        var3: np.ndarray | None = None,
+        *,
         _check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[ReshapeKwargs],
     ) -> tuple[np.ndarray, np.ndarray, list[np.ndarray]]:
         """Reshape a non-uniform (cartesian) 2D grid into a uniform grid.
 
         Returns
         -------
-        tuple: A tuple containing the reshaped x1, x2, varx, and vary.
+        tuple: A tuple containing the reshaped x1, x2 and the variables.
 
         Parameters
         ----------
@@ -427,20 +450,29 @@ class TransformManager(LoadMixin):
             Transposes the variable matrix. Use is not recommended if not
             really necessary (e.g. in case of highly customized variables and
             plots).
-        - var: np.ndarray
-            The variable to convert.
-        - x1: int
-            The first index of the variable.
-        - x2: int
-            The second index of the variable.
+        - var1 (not optional): np.ndarray
+            The first variable to reshape.
+        - var2: np.ndarray | None, default None
+            The second variable to reshape.
+        - var3: np.ndarray | None, default None
+            The third variable to reshape.
+        - x1: np.ndarray, default self.x1
+            The first grid coordinate.
+        - x2: np.ndarray, default self.x2
+            The second grid coordinate.
 
         Examples
         --------
         - Example #1: Reshape the grid into a uniform grid
 
-            >>> x1new, x2new, varx = reshape_uniform(x1, x2, var)
+            >>> x1new, x2new, varx = reshape_uniform(var, x1=x1, x2=x2)
 
         """
+        x1 = kwargs.get("x1", self.x1)
+        x2 = kwargs.get("x2", self.x2)
+
+        args = [v for v in (var1, var2, var3) if v is not None]
+
         uniform_x = all(np.diff(x1) == np.diff(x1)[0])
         uniform_y = all(np.diff(x2) == np.diff(x2)[0])
 
@@ -472,7 +504,11 @@ class TransformManager(LoadMixin):
         return x1new, x2new, newvars
 
     def _convert2cartgrid(
-        self, R: np.ndarray, Z: np.ndarray, new_r: np.ndarray, new_t: np.ndarray
+        self,
+        R: np.ndarray,
+        Z: np.ndarray,
+        new_r: np.ndarray,
+        new_t: np.ndarray,
     ) -> tuple[list[np.ndarray], list[np.ndarray]]:
         """Convert a spherical/polar grid to Cartesian helper weights."""
         Rs = np.sqrt(R**2 + Z**2)

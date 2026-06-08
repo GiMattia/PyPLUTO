@@ -59,11 +59,20 @@ dev = [
     "h5py-stubs",
     "pre-commit",
     "pyright",
-    "pyrefly",
     "ruff",
-    "ty>=0.0.17",
     "radon",
     "pydata-sphinx-theme",
+]
+
+# Type checkers we keep installable but do NOT yet use as the source of truth.
+# pyright (in the `dev` group) is the standard checker for PyPLUTO. Every issue
+# these would report is already covered by pyright; they are kept here so we can
+# switch to one of them once they are mature enough to validate the patterns
+# PyPLUTO relies on (Generic + overloaded __new__, Unpack[TypedDict] extra-key
+# rejection, etc.).
+typefuture = [
+    "pyrefly",
+    "ty",
 ]
 
 notebook = [
@@ -90,7 +99,7 @@ local-dev = [
 
 [project.scripts]
 pypluto-gui = "pyPLUTO.gui.main:main"
-pypluto-examples = "pyPLUTO.examples_cli:main"
+pypluto-examples = "pyPLUTO.utils.examples_cli:main"
 
 [tool.flit.module]
 name = "pyPLUTO"
@@ -222,6 +231,7 @@ pasta = { features = ["pasta"] }
 full = { features = ["full"] }
 
 dev = { features = ["dev"] }
+typefuture = { features = ["typefuture"] }
 test = { features = ["test"] }
 docs = { features = ["docs"] }
 notebook = { features = ["notebook"] }
@@ -229,6 +239,23 @@ dev-test = { features = ["dev", "test"] }
 dev-docs = { features = ["dev", "docs"] }
 local-dev = { features = ["dev", "test", "docs", "notebook"] }
 
+# pyright is the standard type checker for PyPLUTO (run via the `dev` dependency
+# group). See CONTRIBUTING for the rationale.
+[tool.pyright]
+pythonVersion = "3.11"
+typeCheckingMode = "standard"
+include = ["src"]
+exclude = [
+    "**/__pycache__",
+    "**/node_modules",
+    "**/.*",
+    "**/.venv",
+    "Tests",
+]
+
+# NOTE: pyrefly and ty (the `typefuture` dependency group) are kept available
+# but are NOT the source of truth yet; pyright already covers every issue they
+# would report. We will switch once they mature on the patterns PyPLUTO uses.
 [tool.pyrefly]
 project-includes = [
     "**/*.py*",

@@ -19,7 +19,9 @@ class LoadToolsManager(LoadMixin):
         self.state = state
 
     def check_var(
-        self, var: str | np.ndarray, transpose: bool = False
+        self,
+        var: str | np.ndarray,
+        transpose: bool = False,
     ) -> np.ndarray:
         """Check and return a variable.
 
@@ -61,7 +63,7 @@ class LoadToolsManager(LoadMixin):
                 var = np.asarray(AttrResolver.resolve(self.state, var, val))
             except ValueError as exc:
                 raise ValueError(
-                    f"Variable {var} not found in the dataset."
+                    f"Variable {var} not found in the dataset.",
                 ) from exc
 
         if not isinstance(var, np.ndarray):
@@ -113,7 +115,7 @@ class LoadToolsManager(LoadMixin):
         if olddims.size != newdims.size:
             raise ValueError(
                 "Dimension mismatch: newdims must have the same number "
-                "of dimensions as the input array."
+                "of dimensions as the input array.",
             )
 
         m1 = int(minusone)
@@ -137,6 +139,12 @@ class LoadToolsManager(LoadMixin):
             return map_coordinates(a, coords, order=3, mode="nearest")
 
         interpolator = RegularGridInterpolator(
-            old_grid, a, method=method, bounds_error=False, fill_value=None
+            old_grid,
+            a,
+            method=method,
+            bounds_error=False,
+            # scipy stubs type fill_value as float, but None enables
+            # extrapolation (used together with bounds_error=False).
+            fill_value=None,  # pyright: ignore[reportArgumentType]
         )
         return interpolator(new_coords)

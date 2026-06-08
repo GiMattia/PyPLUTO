@@ -30,6 +30,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 - Custom variables bug in GUI
 - Small bug in particles + `self.state` handling
+- `LoadPart`: requesting a non-existent `chnk` now emits a `UserWarning` listing available chunks instead of silently producing an empty object that raises `AttributeError` on attribute access; for multi-output loads, only outputs that contain the requested chunk are loaded
 
 ---
 

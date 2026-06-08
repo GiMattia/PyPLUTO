@@ -196,6 +196,6 @@ class PanelsMixin:
         if isinstance(width, int):
             pushbutton.setFixedWidth(width)
         if callback is not None:
-            pushbutton.clicked.connect(callback)  # type: ignore[arg-type]
+            pushbutton.clicked.connect(callback)
         control_layout.addWidget(pushbutton)
         return pushbutton

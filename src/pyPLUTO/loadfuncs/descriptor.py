@@ -78,7 +78,7 @@ class DescriptorManager(LoadMixin):
                 [
                     ">" if rows[k][5] == "big" else "<"
                     for k in self.state.outlist
-                ]
+                ],
             ),
         }
 
@@ -99,5 +99,6 @@ class DescriptorManager(LoadMixin):
         ]
 
         self.state.d_info["binformat"] = np.char.add(
-            self.state.d_info["endianess"], "f" + str(self.state.charsize)
+            self.state.d_info["endianess"],
+            "f" + str(self.state.charsize),
         )

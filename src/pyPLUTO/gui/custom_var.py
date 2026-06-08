@@ -69,7 +69,7 @@ class CustomVarDialog(QDialog):
 
         btns = QDialogButtonBox(
             QDialogButtonBox.StandardButton.Ok
-            | QDialogButtonBox.StandardButton.Cancel
+            | QDialogButtonBox.StandardButton.Cancel,
         )
         btns.accepted.connect(self._accept)
         btns.rejected.connect(self.reject)
@@ -113,10 +113,10 @@ class CustomVarDialog(QDialog):
             ].strip()  # ignore comments when evaluating
             if not expr_clean:
                 raise ValueError(
-                    f"empty expression after comment stripping in line: {raw!r}"
+                    f"empty expression after comment striping - line: {raw!r}",
                 )
             pairs.append(
-                (display_name, expr_display, hidden, clean_name, expr_clean)
+                (display_name, expr_display, hidden, clean_name, expr_clean),
             )
         if not pairs:
             raise ValueError("Please enter at least one 'NAME = EXPR' line.")
@@ -157,7 +157,9 @@ def setup_var_selector(combo: QComboBox, Data: Load) -> None:
 
 
 def _insert_or_select_combo_item(
-    combo: QComboBox, clean_name: str, expr_clean: str
+    combo: QComboBox,
+    clean_name: str,
+    expr_clean: str,
 ) -> None:
     """Insert *clean_name* into *combo* before the sentinel.
 
@@ -213,10 +215,11 @@ def _on_activated(combo: QComboBox, idx: int, Data: Load) -> None:
     combo.setProperty("_cv_defs", stored)
 
     top = combo.window()
-    if not (hasattr(top, "info_label") and stored):
+    info_obj = getattr(top, "info_label", None)
+    if not (stored and isinstance(info_obj, QTextEdit)):
         return
 
-    info = cast(QTextEdit, top.info_label)
+    info = cast(QTextEdit, info_obj)
     lines = []
     for tup in stored:
         if len(tup) == threed:

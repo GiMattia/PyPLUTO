@@ -58,11 +58,11 @@ wheels = [
 
 [[package]]
 name = "astropy-iers-data"
-version = "0.2026.6.1.17.39.59"
+version = "0.2026.6.8.17.49.5"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/79/55/a840631c7c77db6a211eebfee30b477dd73b4f7c293b2163b5d373baaf17/astropy_iers_data-0.2026.6.1.17.39.59.tar.gz", hash = "sha256:a6976783e40a774f5aac417c0f5154c544728a44be17b27b05fae08b0d400e91", size = 1937788, upload-time = "2026-06-01T17:40:51.873Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c1/47/6197b687902ba061a61e2ae6d828d359215c639a6f448d31d2824165b506/astropy_iers_data-0.2026.6.8.17.49.5.tar.gz", hash = "sha256:66fa9a87d6fb1e05421ef2da921b84c89c5a864cc9693c4b38a3a7c5d4bc27cd", size = 1937848, upload-time = "2026-06-08T17:49:47.139Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0a/51/a5d2cb8df5e9514b204ae26c24d22b3543938d0a4a5213a41af8d761f02b/astropy_iers_data-0.2026.6.1.17.39.59-py3-none-any.whl", hash = "sha256:14670333b6999594890688e98d623182157428326fbe4c9de24a872dae76002b", size = 1992435, upload-time = "2026-06-01T17:40:49.88Z" },
+    { url = "https://files.pythonhosted.org/packages/35/b1/fd78ab698d2bebbbac19789440801cc6f762ec017850b00dbe8e3a333428/astropy_iers_data-0.2026.6.8.17.49.5-py3-none-any.whl", hash = "sha256:8ad0c8dddaab2bce6d169c2a25a82e62955e71330e7ddb562f529e1a775937b3", size = 1992483, upload-time = "2026-06-08T17:49:45.41Z" },
 ]
 
 [[package]]
@@ -94,15 +94,15 @@ wheels = [
 
 [[package]]
 name = "beautifulsoup4"
-version = "4.14.3"
+version = "4.15.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "soupsieve" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c3/b0/1c6a16426d389813b48d95e26898aff79abbde42ad353958ad95cc8c9b21/beautifulsoup4-4.14.3.tar.gz", hash = "sha256:6292b1c5186d356bba669ef9f7f051757099565ad9ada5dd630bd9de5fa7fb86", size = 627737, upload-time = "2025-11-30T15:08:26.084Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/65/318323f98dbee45d42dff61d8f047181bc6f2268a9068cfad035a46be5af/beautifulsoup4-4.15.0.tar.gz", hash = "sha256:288e3ca7d54b06f2ac191970bc275c1939cb46d450b255bf6718b04aa37ab4f7", size = 632571, upload-time = "2026-06-07T16:44:20.453Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1a/39/47f9197bdd44df24d67ac8893641e16f386c984a0619ef2ee4c51fbbc019/beautifulsoup4-4.14.3-py3-none-any.whl", hash = "sha256:0918bfe44902e6ad8d57732ba310582e98da931428d231a5ecb9e7c703a735bb", size = 107721, upload-time = "2025-11-30T15:08:24.087Z" },
+    { url = "https://files.pythonhosted.org/packages/88/c6/92fcd42f1ba33e1184263f25bfabf3d27c383410470f169e4b8163bf9c17/beautifulsoup4-4.15.0-py3-none-any.whl", hash = "sha256:d6f88de62e1d4e38ecb1077eb9724cd0eff29d2a08ca16a401e9b9e93f117cf9", size = 109924, upload-time = "2026-06-07T16:44:21.566Z" },
 ]
 
 [[package]]
@@ -427,11 +427,11 @@ wheels = [
 
 [[package]]
 name = "distlib"
-version = "0.4.1"
+version = "0.4.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/86/b2/d6fc3f2347f43dada79e5ff118493e8109c98400a0e29a1d5264a3aa479b/distlib-0.4.1.tar.gz", hash = "sha256:c3804d0d2d4b5fcd44036eb860cb6660485fcdf5c2aba53dc324d805837ea65b", size = 610526, upload-time = "2026-06-02T11:17:40.691Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/46/8d/873e9252ea2c0e0c857884e0a2899ec43ade132345df1925ef24cbe64f18/distlib-0.4.2.tar.gz", hash = "sha256:baeb401c90f27acd15c4861ae0847d1e731c27ac3dbf4210643ba61fa1e813db", size = 614914, upload-time = "2026-06-08T16:24:15.439Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/25/18/3497c4fa83a76dcb154923fd2075522e8dd6995ecee4093c00ae18160046/distlib-0.4.1-py2.py3-none-any.whl", hash = "sha256:9c2c552c68cbadc619f2d0ed3a69e27c351a3f4c9baa9ffb7df9e9cdc3d19a97", size = 469216, upload-time = "2026-06-02T11:17:38.779Z" },
+    { url = "https://files.pythonhosted.org/packages/c1/60/aa891c893821d4d127292ed66c6940d1d715894bd5a0ce048056bc641773/distlib-0.4.2-py2.py3-none-any.whl", hash = "sha256:ca4cb11e5d746b5ec13c199cbf19ae27a241f89702b54e153a74332955446067", size = 470510, upload-time = "2026-06-08T16:24:13.208Z" },
 ]
 
 [[package]]
@@ -1380,11 +1380,9 @@ dev = [
     { name = "pandas-stubs" },
     { name = "pre-commit" },
     { name = "pydata-sphinx-theme" },
-    { name = "pyrefly" },
     { name = "pyright" },
     { name = "radon" },
     { name = "ruff" },
-    { name = "ty" },
     { name = "uv" },
 ]
 dev-docs = [
@@ -1394,14 +1392,12 @@ dev-docs = [
     { name = "pandas-stubs" },
     { name = "pre-commit" },
     { name = "pydata-sphinx-theme" },
-    { name = "pyrefly" },
     { name = "pyright" },
     { name = "radon" },
     { name = "ruff" },
     { name = "sphinx", version = "9.0.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "sphinx", version = "9.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "sphinx-automodapi" },
-    { name = "ty" },
     { name = "uv" },
 ]
 dev-test = [
@@ -1411,7 +1407,6 @@ dev-test = [
     { name = "pandas-stubs" },
     { name = "pre-commit" },
     { name = "pydata-sphinx-theme" },
-    { name = "pyrefly" },
     { name = "pyright" },
     { name = "pytest" },
     { name = "pytest-cov" },
@@ -1419,7 +1414,6 @@ dev-test = [
     { name = "pytest-xdist" },
     { name = "radon" },
     { name = "ruff" },
-    { name = "ty" },
     { name = "uv" },
 ]
 docs = [
@@ -1437,7 +1431,6 @@ local-dev = [
     { name = "pandas-stubs" },
     { name = "pre-commit" },
     { name = "pydata-sphinx-theme" },
-    { name = "pyrefly" },
     { name = "pyright" },
     { name = "pytest" },
     { name = "pytest-cov" },
@@ -1448,7 +1441,6 @@ local-dev = [
     { name = "sphinx", version = "9.0.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "sphinx", version = "9.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "sphinx-automodapi" },
-    { name = "ty" },
     { name = "uv" },
 ]
 notebook = [
@@ -1460,6 +1452,10 @@ test = [
     { name = "pytest-cov" },
     { name = "pytest-doctestplus" },
     { name = "pytest-xdist" },
+]
+typefuture = [
+    { name = "pyrefly" },
+    { name = "ty" },
 ]
 
 [package.metadata]
@@ -1484,11 +1480,9 @@ dev = [
     { name = "pandas-stubs" },
     { name = "pre-commit" },
     { name = "pydata-sphinx-theme" },
-    { name = "pyrefly" },
     { name = "pyright" },
     { name = "radon" },
     { name = "ruff" },
-    { name = "ty", specifier = ">=0.0.17" },
     { name = "uv" },
 ]
 dev-docs = [
@@ -1498,13 +1492,11 @@ dev-docs = [
     { name = "pandas-stubs" },
     { name = "pre-commit" },
     { name = "pydata-sphinx-theme" },
-    { name = "pyrefly" },
     { name = "pyright" },
     { name = "radon" },
     { name = "ruff" },
     { name = "sphinx", specifier = ">=9.0.0" },
     { name = "sphinx-automodapi", specifier = ">=0.20.0" },
-    { name = "ty", specifier = ">=0.0.17" },
     { name = "uv" },
 ]
 dev-test = [
@@ -1514,7 +1506,6 @@ dev-test = [
     { name = "pandas-stubs" },
     { name = "pre-commit" },
     { name = "pydata-sphinx-theme" },
-    { name = "pyrefly" },
     { name = "pyright" },
     { name = "pytest", specifier = ">=9.0.0" },
     { name = "pytest-cov", specifier = ">=7.0.0" },
@@ -1522,7 +1513,6 @@ dev-test = [
     { name = "pytest-xdist", specifier = ">=3.8.0" },
     { name = "radon" },
     { name = "ruff" },
-    { name = "ty", specifier = ">=0.0.17" },
     { name = "uv" },
 ]
 docs = [
@@ -1539,7 +1529,6 @@ local-dev = [
     { name = "pandas-stubs" },
     { name = "pre-commit" },
     { name = "pydata-sphinx-theme" },
-    { name = "pyrefly" },
     { name = "pyright" },
     { name = "pytest", specifier = ">=9.0.0" },
     { name = "pytest-cov", specifier = ">=7.0.0" },
@@ -1549,7 +1538,6 @@ local-dev = [
     { name = "ruff" },
     { name = "sphinx", specifier = ">=9.0.0" },
     { name = "sphinx-automodapi", specifier = ">=0.20.0" },
-    { name = "ty", specifier = ">=0.0.17" },
     { name = "uv" },
 ]
 notebook = [{ name = "ipython", specifier = ">=9.0.0" }]
@@ -1559,6 +1547,10 @@ test = [
     { name = "pytest-cov", specifier = ">=7.0.0" },
     { name = "pytest-doctestplus", specifier = ">=1.5.0" },
     { name = "pytest-xdist", specifier = ">=3.8.0" },
+]
+typefuture = [
+    { name = "pyrefly" },
+    { name = "ty" },
 ]
 
 [[package]]
@@ -2308,9 +2300,9 @@ wheels = [
 
 [[package]]
 name = "wcwidth"
-version = "0.8.0"
+version = "0.8.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/af/44/c833e6b746ffb654e9abacf7ad6c2480a9c8c42e9637c1ae849964fb4dde/wcwidth-0.8.0.tar.gz", hash = "sha256:68a882ff6d14e3d14e0cae590b96a0551be64ce4905408112a8254434a1bdf69", size = 1305357, upload-time = "2026-06-05T21:19:35.667Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/49/b4/51fe890511f0f242d07cb1ebe6a5b6db417262b9d2568b460347c57d95cc/wcwidth-0.8.1.tar.gz", hash = "sha256:faf5b4a5366a72dc49cad48cdf21f52bdf63bdda995178e483ba247ff79089b9", size = 1466072, upload-time = "2026-06-08T05:57:23.146Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fb/17/c68b6cbcfeadbf420b3c3edaf8fda51335bc9c38732adb2d3ba8984dc607/wcwidth-0.8.0-py3-none-any.whl", hash = "sha256:8c75e6099cefd197c4bcc67a486f70b5dbc68f997c05f34a811d853910450d64", size = 324935, upload-time = "2026-06-05T21:19:33.999Z" },
+    { url = "https://files.pythonhosted.org/packages/bd/6e/95b0e537de1f4d4301f76f944642c6da50d1511cc7b3d64dc418a66c7509/wcwidth-0.8.1-py3-none-any.whl", hash = "sha256:f453740b1e4a4f3291faa37944c555d71056c4da08d59809b307ef4feba695c8", size = 323092, upload-time = "2026-06-08T05:57:21.413Z" },
 ]

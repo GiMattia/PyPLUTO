@@ -262,7 +262,7 @@ class AxisManager(ImageMixin):
         plt.rcParams.update({"font.size": self.state.fontsize})
 
         # Set aspect ratio
-        if kwargs.get("aspect", True) is not True:
+        if "aspect" in kwargs and kwargs["aspect"] is not True:
             self.state.ax[nax].set_aspect(kwargs["aspect"])
 
         # Set xrange and yrange
@@ -275,7 +275,7 @@ class AxisManager(ImageMixin):
         self.share_axes(ax, _check=False, **kwargs)
 
         # Set ticks size
-        if kwargs.get("tickssize", True) is not True:
+        if "tickssize" in kwargs and kwargs["tickssize"] is not True:
             ax.tick_params(axis="x", labelsize=kwargs["tickssize"])
             ax.tick_params(axis="y", labelsize=kwargs["tickssize"])
         else:
@@ -292,7 +292,10 @@ class AxisManager(ImageMixin):
                 top="off",
             )
             ax.tick_params(
-                which="minor", direction=tckd, right="off", top="off"
+                which="minor",
+                direction=tckd,
+                right="off",
+                top="off",
             )
 
         # Set minor ticks
@@ -304,8 +307,8 @@ class AxisManager(ImageMixin):
         # Scales and alpha
         self.set_scales(ax, nax, _check=False, **kwargs)
 
-        if kwargs.get("alpha"):
-            ax.set_alpha(kwargs["alpha"])
+        if alpha := kwargs.get("alpha"):
+            ax.set_alpha(alpha)
 
         # Set ticks and tickslabels
         xtc = kwargs.get("xticks", True)
@@ -437,7 +440,10 @@ class AxisManager(ImageMixin):
 
     @track_kwargs
     def set_titles(
-        self, ax: Axes, _check: bool = True, **kwargs: Unpack[SetTitleKwargs]
+        self,
+        ax: Axes,
+        _check: bool = True,
+        **kwargs: Unpack[SetTitleKwargs],
     ) -> None:
         """Set the title or axis labels of the plot.
 
@@ -526,7 +532,7 @@ class AxisManager(ImageMixin):
         """
         spar = {"asinh": "linear_width", "symlog": "linthresh"}
 
-        if kwargs.get("xscale", True) is not True:
+        if "xscale" in kwargs and kwargs["xscale"] is not True:
             xscale = kwargs["xscale"]
             xscale_param = spar.get(xscale)
             xscale_kwargs = (
@@ -537,7 +543,7 @@ class AxisManager(ImageMixin):
             ax.set_xscale(xscale, **xscale_kwargs)
             self.state.xscale[nax] = xscale
 
-        if kwargs.get("yscale", True) is not True:
+        if "yscale" in kwargs and kwargs["yscale"] is not True:
             yscale = kwargs["yscale"]
             yscale_param = spar.get(yscale)
             yscale_kwargs = (
@@ -576,14 +582,17 @@ class AxisManager(ImageMixin):
         - None
 
         """
-        if kwargs.get("xrange") is not None:
+        if "xrange" in kwargs and kwargs["xrange"] is not None:
             self.RangeManager.set_xrange(ax, nax, kwargs["xrange"], 3)
-        if kwargs.get("yrange") is not None:
+        if "yrange" in kwargs and kwargs["yrange"] is not None:
             self.RangeManager.set_yrange(ax, nax, kwargs["yrange"], 3)
 
     @track_kwargs
     def share_axes(
-        self, ax: Axes, _check: bool = True, **kwargs: Unpack[ShareAxesKwargs]
+        self,
+        ax: Axes,
+        _check: bool = True,
+        **kwargs: Unpack[ShareAxesKwargs],
     ) -> None:
         """Share the x- and y-axis of a selected axis.
 
@@ -601,9 +610,9 @@ class AxisManager(ImageMixin):
         - None
 
         """
-        if kwargs.get("sharex", False) is not False:
+        if "sharex" in kwargs and kwargs["sharex"] is not False:
             ax.sharex(kwargs["sharex"])
-        if kwargs.get("sharey", False) is not False:
+        if "sharey" in kwargs and kwargs["sharey"] is not False:
             ax.sharey(kwargs["sharey"])
 
     @track_kwargs

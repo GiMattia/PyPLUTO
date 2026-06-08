@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import mmap
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -23,6 +24,7 @@ class BaseLoadState:
     alone: bool = field(init=False)
     charsize: int = field(init=False)
     class_name: str = field(init=False)
+    chnk: int | Sequence[int] | None = None
     code: str = "gPLUTO"
     d_info: dict[str, Any] = field(default_factory=dict)
     d_vars: dict[str, Any] = field(default_factory=dict)

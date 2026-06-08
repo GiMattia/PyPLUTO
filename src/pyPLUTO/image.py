@@ -1,11 +1,9 @@
 """Image class. It plots the data."""
 
-# ruff: noqa: ANN201  # noqa: RUF100
-
 from __future__ import annotations
 
 import logging
-from typing import Unpack
+from typing import Any, Unpack
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -14,7 +12,6 @@ from matplotlib.contour import QuadContourSet
 from numpy.typing import ArrayLike
 
 from pyPLUTO.amr import oplotbox
-from pyPLUTO.configure import set_text
 from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.contour import ContourManager
 from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
@@ -45,6 +42,7 @@ from pyPLUTO.imagekwargs import (
 )
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.configure import set_text
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.resolver import AttrResolver
 
@@ -259,10 +257,24 @@ class Image(ImageMixin):
             return super().__setattr__(name, value)
         return setattr(self.state, name, value)
 
-    @property
-    def animate(self):
-        """Return the animate method."""
-        return self.InteractiveManager.animate
+    def animate(
+        self,
+        gifname: str | None = None,
+        frames: int | None = None,
+        interval: int = 500,
+        updateslider: bool = True,
+        script_relative: bool = False,
+    ) -> None:
+        """Animate method."""
+        return self.InteractiveManager.animate(
+            gifname=gifname,
+            frames=frames,
+            interval=interval,
+            updateslider=updateslider,
+            script_relative=script_relative,
+        )
+
+    animate.__doc__ = InteractiveManager.animate.__doc__
 
     def colorbar(
         self,
@@ -275,10 +287,14 @@ class Image(ImageMixin):
         cax: Axes | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[ColorbarKwargs],
-    ):
+    ) -> None:
         """Colorbar method."""
         return self.ColorbarManager.colorbar(
-            pcm=pcm, axs=axs, cax=cax, _check=_check, **kwargs
+            pcm=pcm,
+            axs=axs,
+            cax=cax,
+            _check=_check,
+            **kwargs,
         )
 
     colorbar.__doc__ = ColorbarManager.colorbar.__doc__
@@ -289,14 +305,16 @@ class Image(ImageMixin):
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[ContourKwargs],
-    ):
+    ) -> QuadContourSet:
         """Contour method."""
         return self.ContourManager.contour(var, ax, _check=_check, **kwargs)
 
     contour.__doc__ = ContourManager.contour.__doc__
 
     def create_axes(
-        self, _check: bool = True, **kwargs: Unpack[CreateAxesKwargs]
+        self,
+        _check: bool = True,
+        **kwargs: Unpack[CreateAxesKwargs],
     ) -> Axes | list[Axes]:
         """Creation of a set of axes using add_subplot from matplotlib."""
         return self.CreateAxesManager.create_axes(_check=_check, **kwargs)
@@ -309,7 +327,7 @@ class Image(ImageMixin):
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[DisplayKwargs],
-    ):
+    ) -> QuadMesh:
         """Display method."""
         return self.DisplayManager.display(var, ax=ax, _check=_check, **kwargs)
 
@@ -317,13 +335,13 @@ class Image(ImageMixin):
 
     def interactive(
         self,
-        varx: dict[str, np.ndarray] | np.ndarray,
-        vary: dict[str, np.ndarray] | None = None,
+        varx: dict[int, np.ndarray] | np.ndarray,
+        vary: dict[int, np.ndarray] | None = None,
         _check: bool = True,
         limfix: bool = True,
         labslider: list[str | float] | None = None,
         **kwargs: Unpack[DisplayKwargs],
-    ):
+    ) -> None:
         """Interactive method."""
         return self.InteractiveManager.interactive(
             varx=varx,
@@ -342,10 +360,13 @@ class Image(ImageMixin):
         fromplot: bool = False,
         _check: bool = True,
         **kwargs: Unpack[LegendKwargs],
-    ):
+    ) -> None:
         """Legend method."""
         return self.LegendManager.legend(
-            ax=ax, fromplot=fromplot, _check=_check, **kwargs
+            ax=ax,
+            fromplot=fromplot,
+            _check=_check,
+            **kwargs,
         )
 
     legend.__doc__ = LegendManager.legend.__doc__
@@ -357,16 +378,28 @@ class Image(ImageMixin):
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[PlotKwargs],
-    ):
+    ) -> None:
         """Plot method."""
         return self.PlotManager.plot(x, y, ax, _check=_check, **kwargs)
 
     plot.__doc__ = PlotManager.plot.__doc__
 
-    @property
-    def savefig(self):
-        """Return the savefig method."""
-        return self.ImageToolsManager.savefig
+    def savefig(
+        self,
+        filename: str = "img.png",
+        bbox: str | None = "tight",
+        dpi: int = 300,
+        script_relative: bool = False,
+    ) -> None:
+        """Savefig method."""
+        return self.ImageToolsManager.savefig(
+            filename=filename,
+            bbox=bbox,
+            dpi=dpi,
+            script_relative=script_relative,
+        )
+
+    savefig.__doc__ = ImageToolsManager.savefig.__doc__
 
     def scatter(
         self,
@@ -375,7 +408,7 @@ class Image(ImageMixin):
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[ScatterKwargs],
-    ):
+    ) -> PathCollection:
         """Scatter method."""
         return self.ScatterManager.scatter(x, y, ax, _check=_check, **kwargs)
 
@@ -386,7 +419,7 @@ class Image(ImageMixin):
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[SetAxisKwargs],
-    ):
+    ) -> None:
         """Set axis method."""
         return self.AxisManager.set_axis(ax=ax, _check=_check, **kwargs)
 
@@ -399,10 +432,14 @@ class Image(ImageMixin):
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[StreamplotKwargs],
-    ):
+    ) -> LineCollection:
         """Streamplot method."""
         return self.StreamplotManager.streamplot(
-            var1, var2, ax, _check=_check, **kwargs
+            var1,
+            var2,
+            ax,
+            _check=_check,
+            **kwargs,
         )
 
     streamplot.__doc__ = StreamplotManager.streamplot.__doc__
@@ -416,10 +453,16 @@ class Image(ImageMixin):
         c: str = "k",
         _check: bool = True,
         **kwargs: Unpack[TextKwargs],
-    ):
+    ) -> None:
         """Text method."""
         return self.ImageToolsManager.text(
-            text=text, x=x, y=y, ax=ax, c=c, _check=_check, **kwargs
+            text=text,
+            x=x,
+            y=y,
+            ax=ax,
+            c=c,
+            _check=_check,
+            **kwargs,
         )
 
     text.__doc__ = ImageToolsManager.text.__doc__
@@ -429,7 +472,7 @@ class Image(ImageMixin):
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[ZoomKwargs],
-    ):
+    ) -> Axes:
         """Zoom method."""
         return self.ZoomManager.zoom(ax=ax, _check=_check, **kwargs)
 
@@ -437,7 +480,10 @@ class Image(ImageMixin):
 
     @track_kwargs
     def oplotbox(
-        self, *args: object, _check: bool = True, **kwargs: object
+        self,
+        *args: Any,  # noqa: ANN401
+        _check: bool = True,
+        **kwargs: object,
     ) -> None:
         """Plot a box in the figure (AMR, WIP)."""
         oplotbox(self, *args, _check=False, **kwargs)

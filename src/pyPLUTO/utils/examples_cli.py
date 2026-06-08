@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from pyPLUTO.examples_api import (
+from pyPLUTO.utils.examples_api import (
     copy_examples,
     examples_path,
     list_examples,
@@ -25,7 +25,8 @@ def _build_parser() -> argparse.ArgumentParser:
     sub.add_parser("list", help="List runnable example scripts.")
 
     copy_parser = sub.add_parser(
-        "copy", help="Copy examples to a local directory."
+        "copy",
+        help="Copy examples to a local directory.",
     )
     copy_parser.add_argument(
         "dst",
@@ -41,10 +42,13 @@ def _build_parser() -> argparse.ArgumentParser:
 
     run_parser = sub.add_parser("run", help="Run an example script by name.")
     run_parser.add_argument(
-        "example", help="Example name, e.g. test01_sod or test01_sod.py"
+        "example",
+        help="Example name, e.g. test01_sod or test01_sod.py",
     )
     run_parser.add_argument(
-        "args", nargs=argparse.REMAINDER, help="Extra args for script."
+        "args",
+        nargs=argparse.REMAINDER,
+        help="Extra args for script.",
     )
 
     return parser

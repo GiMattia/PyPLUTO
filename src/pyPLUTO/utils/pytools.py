@@ -36,7 +36,7 @@ def find_example(name: str) -> Path:
 
     # If the test problem is not found, raise an error
     raise FileNotFoundError(
-        f"Test problem '{name}' not found near {base_dir} or in $PLUTO_DIR."
+        f"Test problem '{name}' not found near {base_dir} or in $PLUTO_DIR.",
     )
 
 
@@ -48,7 +48,7 @@ def savefig(**_kwargs: object) -> None:
     """
     raise NotImplementedError(
         "pyPLUTO.savefig is deprecated.\n"
-        "Please call savefig from the Image class instead"
+        "Please call savefig from the Image class instead",
     )
 
 

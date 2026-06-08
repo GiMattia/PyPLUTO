@@ -6,6 +6,7 @@ import mmap
 import struct
 import warnings
 from pathlib import Path
+from typing import Any, cast
 
 import h5py
 import numpy as np
@@ -24,7 +25,11 @@ class OffsetFluid(LoadMixin):
         self.GridAloneManager = GridManager(state)
 
     def offset_bin(
-        self, _i: int, var: str | None, exout: int, _mm: mmap.mmap
+        self,
+        _i: int,
+        var: str | None,
+        exout: int,
+        _mm: mmap.mmap,
     ) -> None:
         """Compute the offset and shape of the variables to be loaded.
 
@@ -70,7 +75,8 @@ class OffsetFluid(LoadMixin):
         for eachvar in varloop:
             # Get the grid shape and size (centered or staggered)
             grid_size = grid_sizes.get(
-                eachvar, [self.state.nshp, self.state.gridsize]
+                eachvar,
+                [self.state.nshp, self.state.gridsize],
             )
             self.state.varshape[eachvar] = grid_size[0]
             # Assign the offset
@@ -84,7 +90,11 @@ class OffsetFluid(LoadMixin):
         # End of function
 
     def offset_h5(
-        self, i: int, _var: str | None, exout: int, _mm: mmap.mmap
+        self,
+        i: int,
+        _var: str | None,
+        exout: int,
+        _mm: mmap.mmap,
     ) -> None:
         """Compute the offset and shape of the variable in hdf5 format.
 
@@ -127,7 +137,7 @@ class OffsetFluid(LoadMixin):
         timestep = h5file.get(timestep_key, None)
 
         if isinstance(timestep, h5py.Group):
-            timeattr = timestep.attrs["Time"]
+            timeattr = cast("Any", timestep.attrs["Time"])
             idx = np.searchsorted(self.state.outlist, exout)
             self.state.timelist[idx] = float(timeattr)
             idx = np.searchsorted(self.state.noutlist, exout)
@@ -159,13 +169,14 @@ class OffsetFluid(LoadMixin):
             and isinstance(stagvs, h5py.Group | dict)
         ):
             self.state.d_info["varslist"][exout] = set(cellvs.keys()) | set(
-                stagvs.keys()
+                stagvs.keys(),
             )
         elif not isinstance(cellvs, h5py.Group | dict) or not isinstance(
-            stagvs, h5py.Group | dict
+            stagvs,
+            h5py.Group | dict,
         ):
             raise ValueError(
-                "Error: Variables group not found in the HDF5 file."
+                "Error: Variables group not found in the HDF5 file.",
             )
 
         # Loop over the variables and store the offset and shape
@@ -183,20 +194,22 @@ class OffsetFluid(LoadMixin):
                 )
             # Only Dataset objects provide shape and a file offset
             if isinstance(obj, h5py.Dataset):
-                self.state.varoffset[j] = obj.id.get_offset()
+                self.state.varoffset[j] = obj.id.get_offset()  # pyright: ignore[reportAttributeAccessIssue]
                 self.state.varshape[j] = obj.shape
             elif obj is not None:
                 raise ValueError(
-                    f"Error: Variable {j} in the HDF5 file is not a dataset."
+                    f"Error: Variable {j} in the HDF5 file is not a dataset.",
                 )
 
         if self.state.alone is True and self.state.infogrid is True:
-            self.state.x1 = h5file["cell_coords"]["X"][:]
-            self.state.x2 = h5file["cell_coords"]["Y"][:]
-            self.state.x3 = h5file["cell_coords"]["Z"][:]
-            self.state.x1r = h5file["node_coords"]["X"][:]
-            self.state.x2r = h5file["node_coords"]["Y"][:]
-            self.state.x3r = h5file["node_coords"]["Z"][:]
+            cell = cast("h5py.Group", h5file["cell_coords"])
+            node = cast("h5py.Group", h5file["node_coords"])
+            self.state.x1 = cast("h5py.Dataset", cell["X"])[:]
+            self.state.x2 = cast("h5py.Dataset", cell["Y"])[:]
+            self.state.x3 = cast("h5py.Dataset", cell["Z"])[:]
+            self.state.x1r = cast("h5py.Dataset", node["X"])[:]
+            self.state.x2r = cast("h5py.Dataset", node["Y"])[:]
+            self.state.x3r = cast("h5py.Dataset", node["Z"])[:]
             self.GridAloneManager.readgridh5()
         self.state.infogrid = False
 
@@ -204,7 +217,11 @@ class OffsetFluid(LoadMixin):
         h5file.close()
 
     def offset_vtk(
-        self, i: int, var: str | None, exout: int, mm: mmap.mmap
+        self,
+        i: int,
+        var: str | None,
+        exout: int,
+        mm: mmap.mmap,
     ) -> None:
         """Compute the offset and shape of the variables to be loaded.
 
@@ -311,7 +328,8 @@ class OffsetFluid(LoadMixin):
                     binf = 8 if parts[3].decode() == "double" else 4
                     raw = mm[line_end + 1 : line_end + 1 + binf]
                     scrh = struct.unpack(
-                        self.state.d_info["endianess"][exout] + "d", raw
+                        self.state.d_info["endianess"][exout] + "d",
+                        raw,
                     )[0]
                     self.state.timelist[exout] = scrh
                     idx = np.searchsorted(self.state.noutlist, exout)
@@ -349,14 +367,18 @@ class OffsetFluid(LoadMixin):
             and self.state.alone is True
         ):
             self.state.d_info["varslist"][exout] = list(
-                self.state.varoffset.keys()
+                self.state.varoffset.keys(),
             )
         if self.state.infogrid is True:
             self.GridAloneManager.readgridvtk(gridvars)
             self.state.infogrid = False
 
     def offset_hdf5(
-        self, i: int, _var: str | None, exout: int, _mm: mmap.mmap
+        self,
+        i: int,
+        _var: str | None,
+        exout: int,
+        _mm: mmap.mmap,
     ) -> None:
         """Load AMR data from PLUTO/Chombo HDF5 files.
 

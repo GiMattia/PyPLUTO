@@ -29,7 +29,10 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         self.load_variables(variables, index, exout)
 
     def load_variables(
-        self, variables: str | list[str] | bool | None, i: int, exout: int
+        self,
+        variables: str | list[str] | bool | None,
+        i: int,
+        exout: int,
     ) -> None:
         """Load the variables in the class.
 
@@ -94,7 +97,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             self._track_mm(mm)
             self.offsetdata.compute_offset(i, exout, None, mm)
             if self.state.datatype in ("hdf5", "tab"):
-                return None
+                return
 
         # Check if only specific variables should be loaded
         is_chunked_particles = (
@@ -105,6 +108,20 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         if is_chunked_particles:
             # Chunked particle binary layout: load one file per chunk id.
             load_vars = self.state.d_info["chnklist"][exout]
+            if self.state.chnk is not None:
+                chnk = self.state.chnk
+                selected = {chnk} if isinstance(chnk, int) else set(chnk)
+                load_vars = [c for c in load_vars if c in selected]
+                if not load_vars:
+                    available = self.state.d_info["chnklist"][exout]
+                    warnings.warn(
+                        f"Chunk(s) {sorted(selected)} not found for output "
+                        f"{exout}. Available chunks: {list(available)}. "
+                        "Returning empty object.",
+                        UserWarning,
+                        stacklevel=2,
+                    )
+                    return
         elif variables is True:
             # If all the variables are to be loaded, the load_vars
             # is set to the variables list
@@ -117,7 +134,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             )
         else:
             # If no variables are to be loaded, return None (WIP)
-            return None
+            return
 
         for j in load_vars:
             offvar = j
@@ -241,17 +258,20 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         if var == "tot" and chunk_id is not None:
             if self.state.lennout != 1:
                 if var not in self.state.d_vars or not isinstance(
-                    self.state.d_vars[var], dict
+                    self.state.d_vars[var],
+                    dict,
                 ):
                     self.state.d_vars[var] = {}
                 if time not in self.state.d_vars[var] or not isinstance(
-                    self.state.d_vars[var][time], list
+                    self.state.d_vars[var][time],
+                    list,
                 ):
                     self.state.d_vars[var][time] = []
                 self.state.d_vars[var][time].append(scrh)
             else:
                 if var not in self.state.d_vars or not isinstance(
-                    self.state.d_vars[var], list
+                    self.state.d_vars[var],
+                    list,
                 ):
                     self.state.d_vars[var] = []
                 self.state.d_vars[var].append(scrh)

@@ -19,7 +19,11 @@ class ReadtabManager(LoadMixin):
         self.state = state
 
     def read_tab(
-        self, i: int, var: str | None, exout: int, mm: mmap.mmap
+        self,
+        i: int,
+        var: str | None,
+        exout: int,
+        mm: mmap.mmap,
     ) -> None:
         """Read the data.****.tab file and stores the relevant information.
 
@@ -105,5 +109,5 @@ class ReadtabManager(LoadMixin):
             col = data[:, j]
             if empty_lines > 0:
                 col = col.reshape(self.state.nx1, self.state.nx2)
-            if var in self.load_vars:
+            if var is not None and var in self.load_vars:
                 setattr(self.state, var, col)

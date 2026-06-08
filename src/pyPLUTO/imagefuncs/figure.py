@@ -100,7 +100,9 @@ class FigureManager(ImageMixin):
 
         self.setup_style()
         self.state.color = self.choose_colorlines(
-            numcolors, withblack, withwhite
+            numcolors,
+            withblack,
+            withwhite,
         )
         self.assign_LaTeX(fontweight)
         self.create_figure(replace, suptitle, suptitlesize)
@@ -116,7 +118,10 @@ class FigureManager(ImageMixin):
             self.state.style = "default"
 
     def choose_colorlines(
-        self, numcolors: int, withblack: bool, withwhite: bool
+        self,
+        numcolors: int,
+        withblack: bool,
+        withwhite: bool,
     ) -> list[str]:
         """Choose the colors for the lines.
 
@@ -278,7 +283,7 @@ class FigureManager(ImageMixin):
                         "font.family": "serif",
                         "font.weight": fontweight,
                         "text.usetex": True,
-                    }
+                    },
                 )
 
             # If errors occur, the LaTeX option True is used and a warning
@@ -349,7 +354,10 @@ class FigureManager(ImageMixin):
             plt.close(existing_fig)
 
     def create_figure(
-        self, replace: bool, suptitle: str | None, suptitlesize: int | str
+        self,
+        replace: bool,
+        suptitle: str | None,
+        suptitlesize: int | str,
     ) -> None:
         """Create the figure associated to an Image instance.
 

@@ -273,7 +273,7 @@ class StreamplotManager(ImageMixin):
 
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         x = np.asarray(kwargs.get("x1", np.arange(len(var1[:, 0]))))

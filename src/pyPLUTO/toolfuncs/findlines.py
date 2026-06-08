@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
+from typing import Unpack
 
 import contourpy as cp
 import matplotlib.colors as mcol
@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import solve_ivp
 
+from pyPLUTO.loadkwargs import FindContourKwargs, FindFieldlinesKwargs
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.toolfuncs.loadtools import LoadToolsManager
@@ -96,7 +97,7 @@ class FindLinesManager(LoadMixin):
         x2: np.ndarray | None = None,
         text: bool = False,
         _check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[FindFieldlinesKwargs],
     ) -> list:
         """Find field lines using the vector field.
 
@@ -172,10 +173,12 @@ class FindLinesManager(LoadMixin):
 
         """
         varx = self.LoadToolsManager.check_var(
-            var1, kwargs.get("transpose", False)
+            var1,
+            kwargs.get("transpose", False),
         )
         vary = self.LoadToolsManager.check_var(
-            var2, kwargs.get("transpose", False)
+            var2,
+            kwargs.get("transpose", False),
         )
 
         xc = x1 if x1 is not None else self.x1
@@ -183,7 +186,7 @@ class FindLinesManager(LoadMixin):
 
         if x0 is None or y0 is None:
             raise ValueError(
-                "Footpoints not provided. Please provide footpoints!"
+                "Footpoints not provided. Please provide footpoints!",
             )
 
         x0 = list(np.atleast_1d(x0))
@@ -202,8 +205,9 @@ class FindLinesManager(LoadMixin):
 
         step = np.abs(
             kwargs.get(
-                "step", min((xend - xbeg) / self.nx1, (yend - ybeg) / self.nx2)
-            )
+                "step",
+                min((xend - xbeg) / self.nx1, (yend - ybeg) / self.nx2),
+            ),
         )
 
         maxstep = kwargs.get("maxstep", 100 * step)
@@ -307,14 +311,17 @@ class FindLinesManager(LoadMixin):
             if text is True:
                 logger.debug("Line with footpoint at x = %s and y = %s", xp, yp)
                 logger.debug(
-                    "Final integration time forward:  %s", sol_forward.t[-1]
+                    "Final integration time forward:  %s",
+                    sol_forward.t[-1],
                 )
                 logger.debug(
-                    "Final integration time backward: %s", sol_backward.t[-1]
+                    "Final integration time backward: %s",
+                    sol_backward.t[-1],
                 )
                 logger.debug("Final step number forward:       %s", forw_steps)
                 logger.debug(
-                    "Final step number backward:      %s", self.stepnum
+                    "Final step number backward:      %s",
+                    self.stepnum,
                 )
 
             if len(x_line) > 1:
@@ -328,7 +335,10 @@ class FindLinesManager(LoadMixin):
 
     @track_kwargs
     def find_contour(
-        self, var: str | np.ndarray, _check: bool = True, **kwargs: Any
+        self,
+        var: str | np.ndarray,
+        _check: bool = True,
+        **kwargs: Unpack[FindContourKwargs],
     ) -> list:
         """Generate contour lines for a given variable.
 
@@ -396,7 +406,8 @@ class FindLinesManager(LoadMixin):
 
         """
         var = self.LoadToolsManager.check_var(
-            var, kwargs.get("transpose", False)
+            var,
+            kwargs.get("transpose", False),
         ).T
 
         if self.geom == "SPHERICAL":

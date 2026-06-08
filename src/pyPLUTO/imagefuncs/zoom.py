@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import warnings
-from typing import Any, Unpack, cast
+from typing import Any, Literal, Unpack, cast
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -300,12 +300,12 @@ class ZoomManager(ImageMixin):
 
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         # Sets position of the zoom
-        if kwargs.get("pos"):
-            axins = self.place_inset_pos(ax, kwargs["pos"])
+        if pos := kwargs.get("pos"):
+            axins = self.place_inset_pos(ax, pos)
         else:
             axins = self.place_inset_loc(ax, _check=False, **kwargs)
         kwargs["fontsize"] = kwargs.get("fontsize", self.state.fontsize)
@@ -593,10 +593,10 @@ class ZoomManager(ImageMixin):
 
         if not isinstance(pcm, QuadMesh):
             raise TypeError(
-                "The zoom can be applied only to a QuadMesh object."
+                "The zoom can be applied only to a QuadMesh object.",
             )
 
-        ccd = cast(np.ndarray[Any, Any], pcm.get_coordinates())
+        ccd = cast("np.ndarray[Any, Any]", pcm.get_coordinates())
         kwargs["x1"] = xc = kwargs.pop("x1", ccd[:, :, 0])
         kwargs["x2"] = yc = kwargs.pop("x2", ccd[:, :, 1])
 
@@ -618,13 +618,16 @@ class ZoomManager(ImageMixin):
         else:
             raise ValueError(
                 "No variable is present in the zoom display. "
-                "Please provide a variable to plot."
+                "Please provide a variable to plot.",
             )
         # pcm0 = kwargs.pop('var', pcm.reshape((lxc, lyc)).T)
         kwargs["vmin"] = kwargs.pop("vmin", self.state.vlims[nax][0])
         kwargs["vmax"] = kwargs.pop("vmax", self.state.vlims[nax][1])
         kwargs["tresh"] = kwargs.pop("tresh", self.state.vlims[nax][2])
-        kwargs["shading"] = psh
+        kwargs["shading"] = cast(
+            Literal["flat", "nearest", "gouraud", "auto"] | None,
+            psh,
+        )
         if pcm0 is not None and not isinstance(pcm0, str):
             kwargs["var"] = pcm0
             self.DisplayManager.display(ax=axins, _check=False, **kwargs)
@@ -653,7 +656,10 @@ class ZoomManager(ImageMixin):
 
     @track_kwargs
     def place_inset_loc(
-        self, ax: Axes, _check: bool = True, **kwargs: Unpack[SetLocKwargs]
+        self,
+        ax: Axes,
+        _check: bool = True,
+        **kwargs: Unpack[SetLocKwargs],
     ) -> Axes:
         """Place an inset axes given different keywords.
 

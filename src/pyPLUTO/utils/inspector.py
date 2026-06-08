@@ -31,7 +31,8 @@ def _find_kwargs_keys_from_source(source: str) -> set[str]:
         def _get_str_from_slice(self, slice_node: ast.AST) -> str | None:
             """Get string from slice node."""
             if isinstance(slice_node, ast.Constant) and isinstance(
-                slice_node.value, str
+                slice_node.value,
+                str,
             ):
                 return slice_node.value
             return None
@@ -86,7 +87,8 @@ def track_kwargs(func: Callable[P, R]) -> Callable[P, R]: ...
 
 @overload
 def track_kwargs(
-    *, extra_keys: set[str] | None = None
+    *,
+    extra_keys: set[str] | None = None,
 ) -> Callable[[Callable[P, R]], Callable[P, R]]: ...
 
 
@@ -120,9 +122,9 @@ def track_kwargs(
         @functools.wraps(inner_func)
         def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             """Track kwargs keys from source code."""
-            check = kwargs.get("_check", _check_default)  # type: ignore[call-overload]
+            check = kwargs.get("_check", _check_default)
             if not _check_is_explicit:
-                cast(Any, kwargs).pop("_check", None)
+                cast("Any", kwargs).pop("_check", None)
 
             if bool(check):
                 _kwargs_remaining.set(set(kwargs))
@@ -148,7 +150,9 @@ def track_kwargs(
 
             return result
 
-        cast(Any, wrapper).__signature__ = sig.replace(parameters=public_params)
+        cast("Any", wrapper).__signature__ = sig.replace(
+            parameters=public_params
+        )
         return wrapper
 
     if func is not None and callable(func):

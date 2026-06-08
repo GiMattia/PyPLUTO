@@ -290,7 +290,7 @@ class ScatterManager(ImageMixin):
 
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
         # Keywords xrange and yrange
         if not kwargs.get("xrange") and self.state.setax[nax] != 1:

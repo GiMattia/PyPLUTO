@@ -5,17 +5,17 @@ from __future__ import annotations
 from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as _version
 
-from pyPLUTO.configure import Configure, set_text
-from pyPLUTO.examples_api import (
+from pyPLUTO.image import Image
+from pyPLUTO.load import Load
+from pyPLUTO.loadpart import LoadPart
+from pyPLUTO.utils.configure import Configure, set_text
+from pyPLUTO.utils.examples_api import (
     copy_examples,
     examples_path,
     list_examples,
     run_example,
 )
-from pyPLUTO.image import Image
-from pyPLUTO.load import Load
-from pyPLUTO.loadpart import LoadPart
-from pyPLUTO.pytools import find_example, ring, savefig, show
+from pyPLUTO.utils.pytools import find_example, ring, savefig, show
 
 try:
     __version__ = _version("py-pluto")

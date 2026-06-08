@@ -12,12 +12,11 @@ from types import TracebackType
 from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
-    from IPython.core.interactiveshell import (  # type: ignore
-        InteractiveShell,
-    )
+    from IPython.core.interactiveshell import InteractiveShell
 
 FormatWarning = Callable[
-    [Warning | str, type[Warning], str, int, str | None], str
+    [Warning | str, type[Warning], str, int, str | None],
+    str,
 ]
 
 
@@ -128,7 +127,7 @@ class Configure:
         if shell == "ZMQInteractiveShell":
             return "Jupyter notebook or qtconsole"
         # Terminal running IPython
-        elif shell == "TerminalInteractiveShell":
+        if shell == "TerminalInteractiveShell":
             return "Terminal running IPython"
         # Unknown session
         return "Unknown session"
@@ -198,12 +197,14 @@ class Configure:
         sys.stderr.write(f"\33[31m{value}\33[0m\n")  # Red color for errors
 
     def _setup_handlers(
-        self, colorwarn: bool = True, colorerr: bool = True
+        self,
+        colorwarn: bool = True,
+        colorerr: bool = True,
     ) -> None:
         """Set up the handlers for the warnings and errors.
 
         Note that a type ignore is placed on the line where the warning handler
-        is set up because mypy and pyrefly would throw the following error:
+        is set up because ty and pyrefly would throw the following error:
 
         (Warning | str, type[Warning], str, int, str | None) -> str is not
         assignable to attribute formatwarning with type (message: Warning | str,

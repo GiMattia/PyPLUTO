@@ -6,10 +6,10 @@ import logging
 from typing import TYPE_CHECKING, cast
 
 import numpy as np
-from matplotlib.backends.backend_qtagg import (
-    FigureCanvasQTAgg as FigureCanvas,
+from matplotlib.backends.backend_qt import (
+    FigureCanvasQT as FigureCanvas,
 )
-from matplotlib.backends.backend_qtagg import (
+from matplotlib.backends.backend_qt import (
     NavigationToolbar2QT as NavigationToolbar,
 )
 from matplotlib.collections import QuadMesh
@@ -158,7 +158,10 @@ class PlotController:
         vmax = app.datadict.pop("vmax", app.var.max())
         ctresh = app.datadict.pop("tresh", max(np.abs(vmin), vmax) * 0.01)
         norm = app.Image.ImageToolsManager.set_cscale(
-            cscale, vmin, vmax, ctresh
+            cscale,
+            vmin,
+            vmax,
+            ctresh,
         )
         for artist in app.Image.ax[0].get_children():
             if isinstance(artist, (AxesImage, QuadMesh)):
@@ -208,8 +211,8 @@ class PlotController:
         app = self.app
         app.canvas_layout.removeWidget(app.toolbar)
         app.toolbar.deleteLater()
-        app.canvas_layout.removeWidget(cast(QWidget, app.canvas))
-        cast(QWidget, app.canvas).deleteLater()
+        app.canvas_layout.removeWidget(cast("QWidget", app.canvas))
+        cast("QWidget", app.canvas).deleteLater()
         self.create_new_figure()
 
     def clear_labels(self) -> None:
@@ -293,7 +296,9 @@ class PlotController:
             app.datadict["tresh"] = float(app.vscale_tresh.text())
 
     def _set_range(
-        self, xlim: list[float] | None, ylim: list[float] | None
+        self,
+        xlim: list[float] | None,
+        ylim: list[float] | None,
     ) -> None:
         """Update the axis extents and write them into ``app.datadict``.
 
@@ -330,7 +335,9 @@ class PlotController:
             app.ymax = np.maximum(ylim[1], app.ymax)
         ymin, ymax = (
             app.Image.RangeManager.range_offset(
-                app.ymin, app.ymax, app.yscale_selector.currentText()
+                app.ymin,
+                app.ymax,
+                app.yscale_selector.currentText(),
             )
             if app.vardim == 1
             else (app.ymin, app.ymax)

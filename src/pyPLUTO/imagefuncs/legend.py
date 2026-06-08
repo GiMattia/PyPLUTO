@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Unpack
+from typing import Unpack, cast
 
 import matplotlib.lines as mlines
 import numpy as np
 from matplotlib.axes import Axes
+from matplotlib.typing import MarkerType
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagekwargs import LegendKwargs
@@ -106,9 +107,10 @@ class LegendManager(ImageMixin):
             the matplotlib package.
         - lw: float, default 1.3
             Sets the linewidth.
-        - marker: {'o', 'v', '^', '<', '>', 'X', ' ', etc.}, default ' '
+        - marker: str | list[str | MarkerType] | MarkerType, default ' '
             Sets an optional symbol for every point. The default value is no
-            marker (' ').
+            marker (' '). A list can be used to cycle through different markers
+            for each legend entry.
         - ms: float, default 3
             Sets the marker size.
         - mscale: float, default 1.0
@@ -201,19 +203,24 @@ class LegendManager(ImageMixin):
         # Finds the legend parameters (position, columns, size, spacing and pad)
         self.state.legpos[nax] = kwargs.get("legpos", self.state.legpos[nax])
         self.state.legpar[nax][0] = kwargs.get(
-            "legsize", self.state.legpar[nax][0]
+            "legsize",
+            self.state.legpar[nax][0],
         )
         self.state.legpar[nax][1] = kwargs.get(
-            "legcols", self.state.legpar[nax][1]
+            "legcols",
+            self.state.legpar[nax][1],
         )
         self.state.legpar[nax][2] = kwargs.get(
-            "legspace", self.state.legpar[nax][2]
+            "legspace",
+            self.state.legpar[nax][2],
         )
         self.state.legpar[nax][3] = kwargs.get(
-            "legpad", self.state.legpar[nax][3]
+            "legpad",
+            self.state.legpar[nax][3],
         )
         self.state.legpar[nax][4] = kwargs.get(
-            "legalpha", self.state.legpar[nax][4]
+            "legalpha",
+            self.state.legpar[nax][4],
         )
 
         # Check if another unwanted legend is present and cancel it
@@ -224,19 +231,19 @@ class LegendManager(ImageMixin):
                 lleg.remove()
 
         # Check is custom labels are on and plot the legend
-        if kwargs.get("label") is not None:
-            lab = (
-                kwargs["label"]
-                if isinstance(kwargs["label"], list)
-                else [kwargs["label"]]
-            )
+        if (label := kwargs.get("label")) is not None:
+            lab = label if isinstance(label, list) else [label]
             col = list(np.atleast_1d(kwargs.get("c", ["k"])))
             ls = list(np.atleast_1d(kwargs.get("ls", ["-"])))
             lw = list(np.atleast_1d(kwargs.get("lw", [1.5])))
-            mrk = list(np.atleast_1d(kwargs.get("marker", [""])))
+            raw_mrk = kwargs.get("marker", [""])
+            mrk: list[MarkerType] = cast(
+                "list[MarkerType]",
+                raw_mrk if isinstance(raw_mrk, list) else [raw_mrk],
+            )
             ms = list(np.atleast_1d(kwargs.get("ms", [5.0])))
             fls = list(np.atleast_1d(kwargs.get("fillstyle", ["full"])))
-            edgcol = list(np.atleast_1d(kwargs.get("edgecolor", [None])))
+            edgcol = list(np.atleast_1d(kwargs.get("edgecolor", ["none"])))
             lines = []
             # Create the list of lines
             for i, val in enumerate(lab):
@@ -252,7 +259,7 @@ class LegendManager(ImageMixin):
                         ms=ms[i % len(ms)],
                         fillstyle=fls[i % len(fls)],
                         markeredgecolor=edgcol[i % len(edgcol)],
-                    )
+                    ),
                 )
             # Create the legend
             legg = ax.legend(

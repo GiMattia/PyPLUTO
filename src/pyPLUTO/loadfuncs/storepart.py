@@ -63,7 +63,7 @@ class StorePart(BaseLoadMixin):
             else:
                 raise AttributeError(
                     "Cannot infer output index: neither 'noutlist' nor 'nout' "
-                    "is available in state."
+                    "is available in state.",
                 )
             if isinstance(tot_data, list | tuple):
                 out_to_tot_chunks = {out: list(tot_data)}
@@ -100,7 +100,8 @@ class StorePart(BaseLoadMixin):
 
                 if self.state.lennout != 1:
                     if var not in self.state.d_vars or not isinstance(
-                        self.state.d_vars[var], dict
+                        self.state.d_vars[var],
+                        dict,
                     ):
                         self.state.d_vars[var] = {}
                     self.state.d_vars[var][out] = part
@@ -129,7 +130,8 @@ class StorePart(BaseLoadMixin):
                     arr_np = np.asarray(arr)
                     for idx, dest in enumerate(dest_names):
                         if dest not in self.state.d_vars or not isinstance(
-                            self.state.d_vars[dest], dict
+                            self.state.d_vars[dest],
+                            dict,
                         ):
                             self.state.d_vars[dest] = {}
                         self.state.d_vars[dest][int(out)] = arr_np[idx]

@@ -48,7 +48,7 @@ class GridFileManager(LoadMixin):
 
         # Open and read the gridfile
         with open(file=self.state.pathdir / Path("grid.out")) as gfp:
-            for i in gfp.readlines():
+            for i in gfp:
                 self.split_gridfile(i, xL, xR, nmax)
 
         # Compute nx1, nx2, nx3
@@ -111,7 +111,7 @@ class GridFileManager(LoadMixin):
 
         # Compute the centered and staggered grid values
         self.state.x1r = np.array(
-            [*xL[0 : self.state.nx1], xR[self.state.nx1 - 1]]
+            [*xL[0 : self.state.nx1], xR[self.state.nx1 - 1]],
         )
         self.state.x1 = 0.5 * (self.state.x1r[:-1] + self.state.x1r[1:])
         self.state.dx1 = self.state.x1r[1:] - self.state.x1r[:-1]
@@ -132,7 +132,11 @@ class GridFileManager(LoadMixin):
         self.state.gridsize_st3 = self.state.nx1 * self.state.nx2 * nx3s
 
     def split_gridfile(
-        self, i: str, xL: list[float], xR: list[float], nmax: list[int]
+        self,
+        i: str,
+        xL: list[float],
+        xR: list[float],
+        nmax: list[int],
     ) -> None:
         """Split the gridfile, storing the info in the function variables.
 
@@ -215,10 +219,14 @@ class GridFileManager(LoadMixin):
         threed = 3
         if self.state.geom in {"POLAR", "CYLINDRICAL"}:
             x1_2D, x2_2D = np.meshgrid(
-                self.state.x1, self.state.x2, indexing="ij"
+                self.state.x1,
+                self.state.x2,
+                indexing="ij",
             )
             x1r_2D, x2r_2D = np.meshgrid(
-                self.state.x1r, self.state.x2r, indexing="ij"
+                self.state.x1r,
+                self.state.x2r,
+                indexing="ij",
             )
 
             self.state.x1c = (np.cos(x2_2D) * x1_2D).T
@@ -228,10 +236,14 @@ class GridFileManager(LoadMixin):
             del x1_2D, x2_2D, x1r_2D, x2r_2D
         elif self.state.geom == "SPHERICAL":
             x1_2D, x2_2D = np.meshgrid(
-                self.state.x1, self.state.x2, indexing="ij"
+                self.state.x1,
+                self.state.x2,
+                indexing="ij",
             )
             x1r_2D, x2r_2D = np.meshgrid(
-                self.state.x1r, self.state.x2r, indexing="ij"
+                self.state.x1r,
+                self.state.x2r,
+                indexing="ij",
             )
 
             self.state.x1p = (np.sin(x2_2D) * x1_2D).T
@@ -240,10 +252,14 @@ class GridFileManager(LoadMixin):
             self.state.x2rp = (np.cos(x2r_2D) * x1r_2D).T
 
             x1_2D, x3_2D = np.meshgrid(
-                self.state.x1, self.state.x3, indexing="ij"
+                self.state.x1,
+                self.state.x3,
+                indexing="ij",
             )
             x1r_2D, x3r_2D = np.meshgrid(
-                self.state.x1r, self.state.x3r, indexing="ij"
+                self.state.x1r,
+                self.state.x3r,
+                indexing="ij",
             )
 
             self.state.x1t = (np.cos(x3_2D) * x1_2D).T
@@ -254,7 +270,10 @@ class GridFileManager(LoadMixin):
             del x1_2D, x2_2D, x1r_2D, x2r_2D, x3_2D, x3r_2D
             if self.state.dim == threed and self.state.full3D is True:
                 x1_3D, x2_3D, x3_3D = np.meshgrid(
-                    self.state.x1, self.state.x2, self.state.x3, indexing="ij"
+                    self.state.x1,
+                    self.state.x2,
+                    self.state.x3,
+                    indexing="ij",
                 )
                 x1r_3D, x2r_3D, x3r_3D = np.meshgrid(
                     self.state.x1r,

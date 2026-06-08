@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
@@ -37,14 +36,13 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
         nout: int | str | list[int | str] | None,
         var: str | list[str] | bool | None,
         _check: bool = True,
-        **kwargs: Any,
     ) -> None:
         """Initialize the CodeManager class."""
         self.state = state
         if isinstance(state, LoadState):
             self.echomanager = EchoLoadManager(state)
 
-        self.select_code(nout, var, _check=False, **kwargs)
+        self.select_code(nout, var, _check=False)
 
     @track_kwargs
     def select_code(
@@ -52,7 +50,6 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
         nout: int | str | list[int | str] | None,
         var: str | list[str] | bool | None,
         _check: bool = True,
-        **kwargs: Any,
     ) -> None:
         """Select the code based on the state.
 
@@ -76,9 +73,9 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
         if self.state.code.lower() in codedict:
             if self.state.text is not False:
                 logger.info("Loading data from code: %s", self.state.code)
-            codedict[self.state.code.lower()](nout, var, _check=False, **kwargs)
+            codedict[self.state.code.lower()](nout, var, _check=False)
 
         else:
             raise NotImplementedError(
-                f"{self.state.code} loading is not implemented!"
+                f"{self.state.code} loading is not implemented!",
             )

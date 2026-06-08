@@ -75,7 +75,9 @@ def test_animate_property(monkeypatch):
         image_mod,
         "InteractiveManager",
         lambda state: type(
-            "DummyInteractive", (), {"animate": lambda self=None: "animate"}
+            "DummyInteractive",
+            (),
+            {"animate": lambda self=None, **kw: "animate"},
         )(),
     )
 

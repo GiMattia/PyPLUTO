@@ -26,7 +26,11 @@ class RangeManager(ImageMixin):
         self.fixrange = 3
 
     def set_xrange(
-        self, ax: Axes, nax: int, xlim: list[float], case: int
+        self,
+        ax: Axes,
+        nax: int,
+        xlim: list[float],
+        case: int,
     ) -> None:
         """Set the lower and upper limits of the x-axis of a set of axes.
 
@@ -130,7 +134,9 @@ class RangeManager(ImageMixin):
 
             # Extend slightly the range
             ymin, ymax = self.range_offset(
-                smally.min(), smally.max(), self.state.yscale[nax]
+                smally.min(),
+                smally.max(),
+                self.state.yscale[nax],
             )
             ax.set_ylim(ymin, ymax)
 
@@ -152,7 +158,9 @@ class RangeManager(ImageMixin):
 
             # Extend slightly the range (not perfect method)
             ymin, ymax = self.range_offset(
-                smally.min(), smally.max(), self.state.yscale[nax]
+                smally.min(),
+                smally.max(),
+                self.state.yscale[nax],
             )
 
             # Check if the limits should be changed
@@ -170,7 +178,11 @@ class RangeManager(ImageMixin):
         # End of the function
 
     def range_offset(
-        self, ymin: float, ymax: float, scale: str, margin: float = 0.1
+        self,
+        ymin: float,
+        ymax: float,
+        scale: str,
+        margin: float = 0.1,
     ) -> tuple[float, float]:
         """Return the offsetted data range for the y-axis limits.
 

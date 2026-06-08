@@ -97,7 +97,7 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
             if "particles" not in set_vars:
                 raise FileNotFoundError(
                     f"file particles.*.{self.datatype} \
-                                            not found!"
+                                            not found!",
                 )
 
             # Particles are always 'single_file', initialize additional vars
@@ -119,7 +119,7 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
                 for elem in self.state.matching_files:
                     raw_str = Path(elem).name.split(".")
                     self.state.d_info["varslist"][int(raw_str[1])].append(
-                        raw_str[0]
+                        raw_str[0],
                     )
             else:
                 # If the files are single, the typefile is set to 'single_file'
@@ -129,7 +129,11 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
             raise ValueError(f"Unknown class name: {self.state.class_name}")
 
     def varsout(
-        self, elem: str, set_vars: set, set_outs: set, set_chnk: dict
+        self,
+        elem: str,
+        set_vars: set,
+        set_outs: set,
+        set_chnk: dict,
     ) -> None:
         """Find the variables and the outputs for the fluid and particles files.
 

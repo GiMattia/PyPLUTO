@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Unpack, cast
 
 import numpy as np
 
+from pyPLUTO.loadkwargs import FourierKwargs
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -20,7 +21,10 @@ class FourierManager(LoadMixin):
 
     @track_kwargs(extra_keys={"dx", "dy", "dz"})
     def fourier(
-        self, f: np.ndarray, _check: bool = True, **kwargs: Any
+        self,
+        f: np.ndarray,
+        _check: bool = True,
+        **kwargs: Unpack[FourierKwargs],
     ) -> tuple[list[np.ndarray], np.ndarray]:
         """Compute the Fourier transform of a given array.
 
@@ -85,20 +89,23 @@ class FourierManager(LoadMixin):
 
         spacing = {}
 
+        # Dynamic (variable) key access requires a plain-dict view
+        kw = cast("dict[str, Any]", kwargs)
+
         for pars, def_attr, direction, numdir in dir_par:
             if dim <= numdir:
                 break
 
             try:
-                spacing[pars] = self._fourier_spacing(kwargs[pars])
+                spacing[pars] = self._fourier_spacing(kw[pars])
             except ValueError:
                 spacing[pars] = self._fourier_spacing(getattr(self, def_attr))
                 spacing[pars] = 1.0 if spacing[pars] is None else spacing[pars]
 
-            if kwargs.get(direction, True) is True and dim > numdir:
+            if kw.get(direction, True) is True and dim > numdir:
                 axes.append(numdir)
                 freqs.append(
-                    2.0 * np.pi * np.fft.rfftfreq(shp[numdir], spacing[pars])
+                    2.0 * np.pi * np.fft.rfftfreq(shp[numdir], spacing[pars]),
                 )
 
         fk = np.fft.fftn(f, axes=axes)
@@ -108,7 +115,7 @@ class FourierManager(LoadMixin):
         return out_freqs, np.abs(fk[slices])
 
     @staticmethod
-    def _fourier_spacing(dx: float | int | list | np.ndarray) -> float:
+    def _fourier_spacing(dx: float | list | np.ndarray) -> float:
         """Check the grid spacing and return the correct value.
 
         If the grid spacing is not valid (negative), raise an error.

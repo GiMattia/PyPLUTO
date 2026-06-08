@@ -16,8 +16,8 @@ from pyPLUTO.loadfuncs.findfiles import FindFilesManager
 from pyPLUTO.loadfuncs.findformat import FindFormat
 from pyPLUTO.loadfuncs.loadvars import LoadVariables
 from pyPLUTO.loadfuncs.storepart import StorePart
+from pyPLUTO.loadkwargs import BaseLoadKwargs
 from pyPLUTO.loadstate import LoadState
-from pyPLUTO.utils.annotator import AllKwargs
 from pyPLUTO.utils.inspector import track_kwargs
 
 
@@ -68,7 +68,7 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
         nout: int | str | list[int | str] | None,
         var: str | list[str] | bool | None,
         _check: bool = True,
-        **kwargs: Unpack[AllKwargs],
+        **kwargs: Unpack[BaseLoadKwargs],
     ) -> None:
         """Initialize the InitLoadManager class."""
         self.state = state
@@ -88,15 +88,21 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
         # Check the path
         self.check_path(kwargs.get("path", self.state.pathdir))
 
-        self.state.code = kwargs.get("code", self.state.code)
+        code = kwargs.get("code")
+        self.state.code = self.state.code if code is None else code
         if self.state.code.lower() not in {"pluto", "gpluto"}:
             self.CodeManager = CodeManager(
-                state, nout, var, _check=False, **kwargs
+                state,
+                nout,
+                var,
+                _check=False,
             )
             return
 
         self.FindFormat = FindFormat(
-            state, kwargs.get("datatype"), kwargs.get("alone")
+            state,
+            kwargs.get("datatype"),
+            kwargs.get("alone"),
         )
 
         if isinstance(state, LoadState) and not self.state.alone:
@@ -104,7 +110,8 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
                 self.Descriptor = DescriptorManager(state, nout)
             except UserWarning:
                 warnings.warn(
-                    "Failed to initialize descriptor manager.", stacklevel=2
+                    "Failed to initialize descriptor manager.",
+                    stacklevel=2,
                 )
                 self.state.alone = True
 
@@ -125,7 +132,7 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
             StorePart(state).finalize()
 
         for key, value in self.state.d_vars.items():
-            typed_value = cast(np.ndarray, value)
+            typed_value = cast("np.ndarray", value)
             setattr(self.state, str(key), typed_value)
 
         if (
@@ -230,11 +237,11 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
         # Check if the path is a non-empty string.
         if not isinstance(path, str) and not isinstance(path, Path):
             error = TypeError(
-                "Invalid data type. 'path' must be path or string"
+                "Invalid data type. 'path' must be path or string",
             )
             raise TypeError(error)
         # Check if the path is not empty
-        elif not isinstance(path, Path) and not path.strip():
+        if not isinstance(path, Path) and not path.strip():
             raise ValueError("'path' cannot be an empty string.")
         # Convert the path to a Path object and store it
 
@@ -242,13 +249,13 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
 
         if not isinstance(self.state.pathdir, Path):
             raise TypeError(
-                "Invalid data type. 'path' must be or converted to Path object."
+                "Invalid data type. Path must be or converted to Path object.",
             )
 
         # Check that the path is a directory
         if not self.state.pathdir.is_dir():
             raise NotADirectoryError(
-                f"Directory {self.state.pathdir} not found."
+                f"Directory {self.state.pathdir} not found.",
             )
 
         # End of the function

@@ -4,19 +4,13 @@ from __future__ import annotations
 
 import warnings
 from pathlib import Path
-from typing import TypedDict, Unpack, cast
+from typing import cast
 
 import h5py
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.utils.inspector import track_kwargs
-
-
-class EchoKwargs(TypedDict, total=False):
-    """Kwarg typedict for the vars variable (to be deprecated)."""
-
-    vars: str | list[str] | bool | None  # to be deprecated!!!
 
 
 class EchoLoadManager(LoadMixin):
@@ -37,7 +31,6 @@ class EchoLoadManager(LoadMixin):
         nout: int | str | list[int | str] | None,
         loadvars: str | list[str] | bool | None,
         _check: bool = True,
-        **kwargs: Unpack[EchoKwargs],
     ) -> None:
         """Load data from an ECHO HDF5 output file.
 
@@ -117,17 +110,9 @@ class EchoLoadManager(LoadMixin):
         # Construct the file path
         file = self.state.pathdir / Path(f"out{self.state.nout:03d}.h5")
 
-        # Determine which variables to load; handle deprecated 'vars' kwarg
-        if kwargs.get("vars") is not None:
-            warnings.warn(
-                "'vars' argument is deprecated. Use 'var' instead.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-
         with h5py.File(str(file), "r") as tmp:
             # Read simulation time from the output file
-            self.state.ntime = cast(h5py.Dataset, tmp["time"])[()][0]
+            self.state.ntime = cast("h5py.Dataset", tmp["time"])[()][0]
 
             # Populate varslist: HDF5 keys except "time", mapped to PLUTO names
             all_vars = [conv_dict.get(k, k) for k in tmp if k != "time"]
@@ -217,7 +202,10 @@ class EchoLoadManager(LoadMixin):
         self.state.nshp = dim_dict[self.state.dim]
 
     def echo_load_vars(
-        self, tmp: h5py.File, conv_dict: dict[str, str], var: list[str]
+        self,
+        tmp: h5py.File,
+        conv_dict: dict[str, str],
+        var: list[str],
     ) -> None:
         """Load and store variables from an open ECHO HDF5 output file.
 

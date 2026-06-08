@@ -292,7 +292,7 @@ class PlotManager(ImageMixin):
 
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         # Set or create figure and axes
@@ -321,7 +321,8 @@ class PlotManager(ImageMixin):
 
         # Set color line and increase the number of lines (if default color)
         col_line = kwargs.get(
-            "c", self.state.color[self.state.nline[nax] % len(self.state.color)]
+            "c",
+            self.state.color[self.state.nline[nax] % len(self.state.color)],
         )
         if not kwargs.get("c"):
             self.state.nline[nax] = self.state.nline[nax] + 1

@@ -144,7 +144,7 @@ class LegendKwargs(CreateAxesKwargs, total=False):
     legspace: float
     ls: str | Sequence[str | LineStyleType] | LineStyleType
     lw: float | Sequence[float]
-    marker: str | Sequence[str | MarkerType] | MarkerType
+    marker: str | list[str | MarkerType] | MarkerType
     ms: float | Sequence[float]
     mscale: float | Sequence[float]
 

@@ -14,7 +14,10 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
     """Class to find the format of the PLUTO output files."""
 
     def __init__(
-        self, state: BaseLoadState, datatype: str | None, alone: bool | None
+        self,
+        state: BaseLoadState,
+        datatype: str | None,
+        alone: bool | None,
     ) -> None:
         """Initialize the FindFormat class."""
         self.state = state
@@ -142,7 +145,7 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
                 # Store the charsize depending on the format
                 self.state.charsize = 8 if self.state.datatype in dbl else 4
                 # If the format is found, end the function
-                return None
+                return
 
         # No file has been found, so raise an error depending on the case.
         # If the datatype is None, raise a general error, otherwise raise

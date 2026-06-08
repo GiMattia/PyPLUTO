@@ -78,14 +78,14 @@ def _download_examples() -> Path:
                     }
                     if not top_dirs:
                         raise FileNotFoundError(
-                            "Invalid GitHub archive structure."
+                            "Invalid GitHub archive structure.",
                         )
                     top_dir = sorted(top_dirs)[0]
                     prefix = f"{top_dir}/Examples/"
                     members = [m for m in zf.namelist() if m.startswith(prefix)]
                     if not members:
                         raise FileNotFoundError(
-                            "Examples directory not found in archive."
+                            "Examples directory not found in archive.",
                         )
                     zf.extractall(cache_dir)
                 extracted = cache_dir / top_dir / "Examples"
@@ -101,7 +101,7 @@ def _download_examples() -> Path:
 
     raise RuntimeError(
         "Unable to download examples from GitHub. "
-        "Please check your internet connection and repository URLs."
+        "Please check your internet connection and repository URLs.",
     ) from last_error
 
 
@@ -125,13 +125,14 @@ def examples_path(download: bool = True) -> Path:
         return local
     if not download:
         raise FileNotFoundError(
-            "Examples not found locally and download=False."
+            "Examples not found locally and download=False.",
         )
     return _download_examples()
 
 
 def copy_examples(
-    dst: str | Path = "pypluto_examples", overwrite: bool = False
+    dst: str | Path = "pypluto_examples",
+    overwrite: bool = False,
 ) -> Path:
     """Copy the full examples tree to a writable destination.
 
@@ -153,7 +154,7 @@ def copy_examples(
     if destination.exists() and not overwrite:
         raise FileExistsError(
             f"Destination already exists: {destination}. "
-            "Pass overwrite=True to merge content."
+            "Pass overwrite=True to merge content.",
         )
 
     shutil.copytree(src, destination, dirs_exist_ok=overwrite)

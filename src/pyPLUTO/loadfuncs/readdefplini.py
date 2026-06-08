@@ -47,14 +47,16 @@ class FiledefpliniManager(LoadMixin):
                 logger.info("No %s is read!", defhfile) if defh is True else ...
 
         # Try to read the file pluto.ini
+        pathplini = None
         if isinstance(plini, str):
             pathplini = self.state.pathdir / Path(plini)
         elif plini is not False:
             pathplini = self.state.pathdir / Path("pluto.ini")
-        try:
-            self.state.plini = inifix.load(pathplini, sections="require")
-        except FileNotFoundError:
-            logger.info("No pluto.ini is read!") if plini is True else ...
+        if pathplini is not None:
+            try:
+                self.state.plini = inifix.load(pathplini, sections="require")
+            except FileNotFoundError:
+                logger.info("No pluto.ini is read!") if plini is True else ...
 
     def read_defh(self, filepath: Path) -> dict:
         """Read a header file and extract definitions.
@@ -83,7 +85,7 @@ class FiledefpliniManager(LoadMixin):
                 for line in file
                 if line.strip().startswith("#define")
                 for _, key, value in [
-                    re.split(r"\s+", line.strip(), maxsplit=2)
+                    re.split(r"\s+", line.strip(), maxsplit=2),
                 ]
             }
 

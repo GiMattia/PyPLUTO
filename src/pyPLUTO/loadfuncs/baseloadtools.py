@@ -76,7 +76,7 @@ class BaseLoadTools(BaseLoadMixin[BaseLoadState]):
         if np.any(~np.isin(self.state.noutlist, self.state.outlist)):
             raise ValueError(
                 f"Error: Wrong output file(s) {self.state.noutlist} \
-                            in path {self.state.pathdir}."
+                            in path {self.state.pathdir}.",
             )
 
         # End of the function

@@ -145,7 +145,8 @@ class UnitManager(BaseLoadMixin):
         }
 
     def _derive_units_from_base(
-        self, scales: dict[str, float]
+        self,
+        scales: dict[str, float],
     ) -> dict[str, float]:
         """Fill missing derived unit scales from the three base units.
 
@@ -177,7 +178,7 @@ class UnitManager(BaseLoadMixin):
         defh_units = self._units_from_defh()
 
         physics = str(
-            (getattr(self.state, "defh", {}) or {}).get("PHYSICS", "")
+            (getattr(self.state, "defh", {}) or {}).get("PHYSICS", ""),
         ).strip()
         physics_units = self._physics_defaults(physics) if physics else {}
 

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from matplotlib.backends.backend_qtagg import (
+from matplotlib.backends.backend_qt import (
     NavigationToolbar2QT as NavigationToolbar,
 )
 from matplotlib.backends.backend_template import FigureCanvas
@@ -77,15 +77,7 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
     Image: Any
 
     # --- Plot state (set by PlotController) ---
-    firstplot: bool
-    vardim: int
     var: Any
-    datadict: dict[str, Any]
-    xmin: float
-    xmax: float
-    ymin: float
-    ymax: float
-    numlines: int
     xslice: Any
     yslice: Any
     zslice: Any
@@ -128,7 +120,7 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         main_layout.addLayout(button_layout)
 
         self.typecmap_selector.currentIndexChanged.connect(
-            self.plot_controller.update_cmap_selector
+            self.plot_controller.update_cmap_selector,
         )
 
         self.canvas_layout = QVBoxLayout()
@@ -157,7 +149,9 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         self.add_pushbutton("Select File", layout, self.select_folder)
         self.add_pushbutton("Clear", layout, self.load_controller.clearload)
         self.add_pushbutton(
-            "Reload Folder", layout, self.load_controller.reload_data
+            "Reload Folder",
+            layout,
+            self.load_controller.reload_data,
         )
         button_layout.addLayout(layout)
 
@@ -227,7 +221,8 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         layout = QHBoxLayout()
         self.add_label("cmap:", layout)
         self.typecmap_selector = self.add_combobox(
-            layout, list(cmaps_divided.keys())
+            layout,
+            list(cmaps_divided.keys()),
         )
         self.cmap_selector = self.add_combobox(layout, cmaps_avail)
         self.reverse_checkbox = self.add_checkbox("reverse", layout)
@@ -240,11 +235,15 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
 
         layout = QHBoxLayout()
         self.add_pushbutton(
-            "Update plot", layout, self.plot_controller.update_axes
+            "Update plot",
+            layout,
+            self.plot_controller.update_axes,
         )
         self.add_pushbutton("Clear", layout, self.plot_controller.clear_labels)
         self.add_pushbutton(
-            "Reload Canvas", layout, self.plot_controller.reload_canvas
+            "Reload Canvas",
+            layout,
+            self.plot_controller.reload_canvas,
         )
         button_layout.addLayout(layout)
 

@@ -45,7 +45,7 @@ class InteractiveManager(ImageMixin):
         self.anim_pcm: Collection | Line2D | None = None
         self.labslider: list[str | float] | None = None
         self.anim_ax: Axes | None = None
-        self.anim_var: dict[str, np.ndarray] | np.ndarray
+        self.anim_var: dict[int, np.ndarray] | np.ndarray
         self.animkeys: np.ndarray | None = None
         self.nsld: int = 0
         self.lenlab: int = 0
@@ -56,8 +56,8 @@ class InteractiveManager(ImageMixin):
     @track_kwargs
     def interactive(
         self,
-        varx: dict[str, np.ndarray] | np.ndarray,
-        vary: dict[str, np.ndarray] | None = None,
+        varx: dict[int, np.ndarray] | np.ndarray,
+        vary: dict[int, np.ndarray] | None = None,
         limfix: bool = True,
         labslider: list[str | float] | None = None,
         ax: Axes | list[Axes] | int | None = None,
@@ -143,8 +143,9 @@ class InteractiveManager(ImageMixin):
         - labelsize: float, default fontsize
             Sets the labels fontsize (which is the same for both labels). The
             default value corresponds to the value of the keyword 'fontsize'.
-        - labslider: str, default None
-            The label of the slider.
+        - labslider: list[str | float] | None, default None
+            The labels of the slider ticks. If None, the slider ticks are
+            determined automatically.
         - left: float, default varies
             The left limit of the axis / axes set. For the figure layout it is
             the space from the left border to the plot (default 0.125); for an
@@ -239,10 +240,13 @@ class InteractiveManager(ImageMixin):
         - tresh: float, default max(abs(vmin),vmax)*0.01
             Sets the threshold for the colormap (used with composite
             colorscales such as twoslope or symlog).
-        - varx (not optional): array_like
-            The x-axis variable.
-        - vary: array_like, default None
-            The y-axis variable.
+        - varx (not optional): dict[int, np.ndarray] | np.ndarray
+            The variable to animate. If a dict, keys are output indices and
+            values are the corresponding arrays (multi-frame). If an ndarray,
+            a single frame is shown.
+        - vary: dict[int, np.ndarray] | None, default None
+            Optional second variable (e.g. y-axis for 1D plots). Same format
+            as varx.
         - vmax: float
             The maximum value of the variable to be computed / plotted.
         - vmin: float
@@ -358,7 +362,7 @@ class InteractiveManager(ImageMixin):
 
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         self.anim_ax = ax
@@ -466,12 +470,12 @@ class InteractiveManager(ImageMixin):
         # Update the data
         if self.animkeys is None or self.anim_var is None:
             raise ValueError(
-                "No data is present. Please create an interactive plot first."
+                "No data is present, create an interactive plot first.",
             )
 
         if self.slider is None:
             raise ValueError(
-                "No slider is present. Please create an interactive plot first."
+                "No slider is present, create an interactive plot first.",
             )
         idx = int(i)
         var = self.anim_var[self.animkeys[idx]]
@@ -479,7 +483,7 @@ class InteractiveManager(ImageMixin):
             if not isinstance(self.anim_pcm, QuadMesh):
                 raise ValueError(
                     "The current plot is not a 2D plot. "
-                    "Please use a 2D variable."
+                    "Please use a 2D variable.",
                 )
             # Update the data array if it is 2D
             self.anim_pcm.set_array(var.T.ravel())
@@ -495,7 +499,7 @@ class InteractiveManager(ImageMixin):
             if not isinstance(self.anim_pcm, Line2D):
                 raise ValueError(
                     "The current plot is not a 1D plot. "
-                    "Please use a 1D variable."
+                    "Please use a 1D variable.",
                 )
             # Update the data array if it is 1D
             self.anim_pcm.set_ydata(var)
@@ -504,13 +508,13 @@ class InteractiveManager(ImageMixin):
             self.slider.label.set_text(str(self.labslider[idx]))
         else:
             self.slider.label.set_text(
-                f"nout = {self.animkeys[idx]:0{self.lenlab}d}"
+                f"nout = {self.animkeys[idx]:0{self.lenlab}d}",
             )
 
         # Update the plot
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
         self.state.fig.canvas.draw()
 
@@ -538,7 +542,7 @@ class InteractiveManager(ImageMixin):
         """
         if self.slider is None:
             raise ValueError(
-                "No slider is present. Please create an interactive plot first."
+                "No slider is present, create an interactive plot first.",
             )
         # Update the plot with the current frame
         self.update_slider(i)
@@ -596,12 +600,15 @@ class InteractiveManager(ImageMixin):
 
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         # Create the animation
         ani = animation.FuncAnimation(
-            self.state.fig, update, frames=frames, interval=interval
+            self.state.fig,
+            update,
+            frames=frames,
+            interval=interval,
         )
 
         if gifname is not None:
@@ -609,7 +616,7 @@ class InteractiveManager(ImageMixin):
 
             if script_relative and not out_path.is_absolute():
                 # Find the path of the script calling this method
-                caller_file = Path(inspect.stack()[1].filename).resolve()
+                caller_file = Path(inspect.stack()[2].filename).resolve()
                 base_dir = caller_file.parent
                 out_path = base_dir / out_path
 

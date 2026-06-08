@@ -4,11 +4,12 @@ from __future__ import annotations
 
 import warnings
 from pathlib import Path
-from typing import Any
+from typing import Unpack
 
 import h5py
 import numpy as np
 
+from pyPLUTO.loadkwargs import WriteFileKwargs
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -29,7 +30,7 @@ class WriteFilesManager(LoadMixin):
         dataname: str | None = None,
         grid: bool = False,
         _check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[WriteFileKwargs],
     ) -> None:
         """Write data to an HDF5 file.
 
@@ -79,9 +80,16 @@ class WriteFilesManager(LoadMixin):
                 f.create_dataset(dataname, data=data)
 
             if grid is True:
-                f.create_dataset("nx1", data=kwargs.get("nx1", self.state.nx1))
-                f.create_dataset("nx2", data=kwargs.get("nx2", self.state.nx2))
-                f.create_dataset("nx3", data=kwargs.get("nx3", self.state.nx3))
+                # nx* are scalars: wrap so h5py receives an array-like
+                f.create_dataset(
+                    "nx1", data=np.asarray(kwargs.get("nx1", self.state.nx1))
+                )
+                f.create_dataset(
+                    "nx2", data=np.asarray(kwargs.get("nx2", self.state.nx2))
+                )
+                f.create_dataset(
+                    "nx3", data=np.asarray(kwargs.get("nx3", self.state.nx3))
+                )
                 f.create_dataset("x1", data=kwargs.get("x1", self.state.x1))
                 f.create_dataset("x2", data=kwargs.get("x2", self.state.x2))
                 f.create_dataset("x3", data=kwargs.get("x3", self.state.x3))
@@ -97,7 +105,7 @@ class WriteFilesManager(LoadMixin):
         dataname: str | None = None,
         grid: bool = False,
         _check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[WriteFileKwargs],
     ) -> None:
         """Write data to a VTK file."""
         raise NotImplementedError("write_vtk() is not yet implemented.")
@@ -110,7 +118,7 @@ class WriteFilesManager(LoadMixin):
         dataname: str | None = None,
         grid: bool = False,
         _check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[WriteFileKwargs],
     ) -> None:
         """Write data to a tab-separated file."""
         raise NotImplementedError("write_tab() is not yet implemented.")
@@ -123,7 +131,7 @@ class WriteFilesManager(LoadMixin):
         dataname: str | None = None,
         grid: bool = False,
         _check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[WriteFileKwargs],
     ) -> None:
         """Write data to a binary file."""
         raise NotImplementedError("write_bin() is not yet implemented.")
@@ -137,7 +145,7 @@ class WriteFilesManager(LoadMixin):
         dataname: str | None = None,
         grid: bool = False,
         _check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[WriteFileKwargs],
     ) -> None:
         """Write the input data to a file."""
         if datatype is None:
@@ -155,7 +163,12 @@ class WriteFilesManager(LoadMixin):
             warn = f"Invalid datatype: {datatype}. Resetting to 'h5'"
             warnings.warn(warn, UserWarning, stacklevel=2)
             self._write_h5(
-                data, filename, dataname, grid, _check=False, **kwargs
+                data,
+                filename,
+                dataname,
+                grid,
+                _check=False,
+                **kwargs,
             )
             return
 
@@ -166,7 +179,12 @@ class WriteFilesManager(LoadMixin):
             )
             warnings.warn(warn, UserWarning, stacklevel=2)
             self._write_h5(
-                data, filename, dataname, grid, _check=False, **kwargs
+                data,
+                filename,
+                dataname,
+                grid,
+                _check=False,
+                **kwargs,
             )
             return
 

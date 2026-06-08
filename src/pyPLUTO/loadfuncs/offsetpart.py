@@ -19,7 +19,11 @@ class OffsetPart(BaseLoadMixin):
         self.state = state
 
     def offset_bin(
-        self, _i: int, var: str | None, exout: int, mm: mmap.mmap
+        self,
+        _i: int,
+        var: str | None,
+        exout: int,
+        mm: mmap.mmap,
     ) -> None:
         """Compute the offset and shape of the variables to be loaded.
 
@@ -75,7 +79,7 @@ class OffsetPart(BaseLoadMixin):
                     self.state.d_info["endianess"][exout] = self.state.endian
                 if self.state.d_info["endianess"][exout] is None:
                     raise ValueError(
-                        "Error: Wrong endianess in particle binary file."
+                        "Error: Wrong endianess in particle binary file.",
                     )
                 self.state.d_info["binformat"][exout] = (
                     f"{self.state.d_info['endianess'][exout]}f"
@@ -113,7 +117,11 @@ class OffsetPart(BaseLoadMixin):
         # End of function
 
     def offset_vtk(
-        self, i: int, var: str | None, exout: int, mm: mmap.mmap
+        self,
+        i: int,
+        var: str | None,
+        exout: int,
+        mm: mmap.mmap,
     ) -> None:
         """Compute the offset and shape of the variables to be loaded.
 

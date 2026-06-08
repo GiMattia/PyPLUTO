@@ -4,11 +4,12 @@ from __future__ import annotations
 
 import warnings
 from collections.abc import Callable
-from typing import Any
+from typing import Unpack
 
 import numpy as np
 
 from pyPLUTO.baseloadstate import BaseLoadState
+from pyPLUTO.loadkwargs import SpectrumKwargs
 from pyPLUTO.utils.inspector import track_kwargs
 
 
@@ -38,7 +39,7 @@ class PartToolsManager:
         vmin: float | None = None,
         vmax: float | None = None,
         _check: bool = True,
-        **kwargs: Any,
+        **kwargs: Unpack[SpectrumKwargs],
     ) -> tuple[np.ndarray, np.ndarray]:
         """Compute the spectrum of a given particle variable.
 
@@ -74,17 +75,17 @@ class PartToolsManager:
 
         """
         # Set limits
-        vmin = vmin if vmin is not None else np.nanmin(var)
-        vmax = vmax if vmax is not None else np.nanmax(var)
+        rmin: float = float(np.nanmin(var)) if vmin is None else vmin
+        rmax: float = float(np.nanmax(var)) if vmax is None else vmax
 
         # Set the number of bins
         nbins = kwargs.get("nbins", 100)
 
         # Set the bins
         bins = (
-            np.linspace(vmin, vmax, nbins)
+            np.linspace(rmin, rmax, nbins)
             if scale == "lin"
-            else np.logspace(np.log10(vmin), np.log10(vmax), nbins)
+            else np.logspace(np.log10(rmin), np.log10(rmax), nbins)
         )
         bins = kwargs.get("bins", bins)
 
@@ -98,7 +99,7 @@ class PartToolsManager:
         hist, bins = np.histogram(
             var,
             bins=bins,
-            range=(vmin, vmax),
+            range=(rmin, rmax),
             density=kwargs.get("normalize", True),
         )
 

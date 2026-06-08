@@ -4,11 +4,12 @@ from __future__ import annotations
 
 import warnings
 from pathlib import Path
-from typing import Any
+from typing import Unpack, cast
 
 import h5py
 import numpy as np
 
+from pyPLUTO.loadkwargs import ReadFileKwargs
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -34,46 +35,61 @@ class ReadFilesManager(LoadMixin):
 
     @track_kwargs
     def _read_vtk(
-        self, filename: str, _check: bool = True, **kwargs: Any
-    ) -> None:
+        self,
+        filename: str,
+        _check: bool = True,
+        **kwargs: Unpack[ReadFileKwargs],
+    ) -> dict[str, np.ndarray]:
         """Read data from a VTK file."""
         raise NotImplementedError("read_vtk() is not yet implemented.")
 
     @track_kwargs
     def _read_h5(
-        self, filename: str, _check: bool = True, **kwargs: Any
-    ) -> dict[str, Any]:
+        self,
+        filename: str,
+        _check: bool = True,
+        **kwargs: Unpack[ReadFileKwargs],
+    ) -> dict[str, np.ndarray]:
         """Read data from an HDF5 file."""
         try:
             pathh5 = self.state.pathdir / Path(filename)
         except FileNotFoundError:
             pathh5 = filename
 
-        data_dict: dict[str, Any] = {}
+        data_dict: dict[str, np.ndarray] = {}
         with h5py.File(str(pathh5), "r") as f:
             for key in f:
-                data_dict[key] = f[key][()]
+                data_dict[key] = cast("h5py.Dataset", f[key])[()]
 
         return data_dict
 
     @track_kwargs
     def _read_tab(
-        self, filename: str, _check: bool = True, **kwargs: Any
-    ) -> None:
+        self,
+        filename: str,
+        _check: bool = True,
+        **kwargs: Unpack[ReadFileKwargs],
+    ) -> dict[str, np.ndarray]:
         """Read data from a tab file."""
         raise NotImplementedError("read_tab() is not yet implemented.")
 
     @track_kwargs
     def _read_bin(
-        self, filename: str, _check: bool = True, **kwargs: Any
-    ) -> None:
+        self,
+        filename: str,
+        _check: bool = True,
+        **kwargs: Unpack[ReadFileKwargs],
+    ) -> dict[str, np.ndarray]:
         """Read data from a binary file."""
         raise NotImplementedError("read_bin() is not yet implemented.")
 
     @track_kwargs
     def _read_dat(
-        self, filename: str, _check: bool = True, **kwargs: Any
-    ) -> dict[str, Any]:
+        self,
+        filename: str,
+        _check: bool = True,
+        **kwargs: Unpack[ReadFileKwargs],
+    ) -> dict[str, np.ndarray]:
         """Read data from a dat file."""
         try:
             pathh5 = self.state.pathdir / Path(filename)
@@ -83,7 +99,9 @@ class ReadFilesManager(LoadMixin):
         names = kwargs.get("names", True)
         skip = kwargs.get("skip", 0)
 
-        data = np.genfromtxt(str(pathh5), names=names, skip_header=skip)
+        # genfromtxt expects True / a collection of names / None (not False)
+        names_arg = None if names is False else names
+        data = np.genfromtxt(str(pathh5), names=names_arg, skip_header=skip)
         if names:
             loop = data.dtype.names
             if loop is None:
@@ -101,8 +119,8 @@ class ReadFilesManager(LoadMixin):
         filename: str,
         datatype: str | None = None,
         _check: bool = True,
-        **kwargs: Any,
-    ) -> Any:
+        **kwargs: Unpack[ReadFileKwargs],
+    ) -> dict[str, np.ndarray]:
         """Read data from output files."""
         if datatype is None:
             datatype = filename.rsplit(".", maxsplit=1)[-1]

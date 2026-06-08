@@ -50,7 +50,7 @@ class SetUnitsManager(BaseLoadMixin):
             if isinstance(value, Iterable):
                 return [str(v) for v in value]
             raise TypeError(
-                "var must be None, True, a string, or an iterable of strings."
+                "var must be None, True, a string, or an iterable of strings.",
             )
 
         explicit = not (var is None or var is True)
@@ -72,7 +72,7 @@ class SetUnitsManager(BaseLoadMixin):
             excluded = {str(v) for v in skip_units}
         else:
             raise TypeError(
-                "skip_units must be None, a string, or an iterable of strings."
+                "skip_units must be None, a string, or an iterable of strings.",
             )
 
         ordered = [name for name in selected if name not in excluded]
@@ -97,7 +97,8 @@ class SetUnitsManager(BaseLoadMixin):
         - None
         """
         selected, explicit = self._resolve_unit_vars(
-            var=var, skip_units=skip_units
+            var=var,
+            skip_units=skip_units,
         )
 
         for name in selected:
@@ -137,7 +138,8 @@ class SetUnitsManager(BaseLoadMixin):
         - None
         """
         selected, explicit = self._resolve_unit_vars(
-            var=var, skip_units=skip_units
+            var=var,
+            skip_units=skip_units,
         )
         if not explicit:
             selected = [

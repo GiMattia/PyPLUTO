@@ -166,7 +166,8 @@ def build_locals(Data: Load) -> dict[str, float | np.ndarray]:
 
 
 def apply_grid_shaping(
-    local: dict[str, float | np.ndarray], Data: Load
+    local: dict[str, float | np.ndarray],
+    Data: Load,
 ) -> None:
     """Reshape 1-D grid arrays for broadcasting and expose geometry aliases.
 
@@ -223,7 +224,8 @@ def apply_grid_shaping(
                 pattern = [1] * Data.state.dim
                 pattern[axis] = v.shape[0]
                 local[name] = np.broadcast_to(
-                    cast(np.ndarray, v).reshape(pattern), nshp
+                    cast("np.ndarray", v).reshape(pattern),
+                    nshp,
                 )
             except Exception:
                 pass  # leave the original 1-D array if reshape fails
@@ -316,7 +318,9 @@ def _evaluate_array_expr(
     out_shape = np.broadcast(*[np.empty(a.shape, dtype=[]) for a in arrs]).shape
 
     with tempfile.NamedTemporaryFile(
-        prefix=f"{name}_", suffix=".dat", delete=False
+        prefix=f"{name}_",
+        suffix=".dat",
+        delete=False,
     ) as tmp:
         tmp_path = tmp.name
 
@@ -332,7 +336,11 @@ def _evaluate_array_expr(
 
 
 def evaluate_custom_var(
-    Data: Load, name: str, expr: str, *, assign: bool = True
+    Data: Load,
+    name: str,
+    expr: str,
+    *,
+    assign: bool = True,
 ) -> np.ndarray | int | float:
     """Evaluate a user-defined expression and optionally store the result.
 
@@ -407,7 +415,9 @@ def evaluate_custom_var(
 
     try:
         tiny_res: np.ndarray = ne.evaluate(
-            expr, local_dict=tiny, global_dict={}
+            expr,
+            local_dict=tiny,
+            global_dict={},
         )
     except Exception as err:
         raise ValueError(f"validation error: {err}") from err
@@ -421,7 +431,9 @@ def evaluate_custom_var(
         # Scalar expression: evaluate directly and unwrap 0-D arrays.
         try:
             res: np.ndarray = ne.evaluate(
-                expr, local_dict=local, global_dict={}
+                expr,
+                local_dict=local,
+                global_dict={},
             )
         except Exception as err:
             raise ValueError(f"evaluate error: {err}") from err

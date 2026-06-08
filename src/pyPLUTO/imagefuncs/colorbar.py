@@ -181,7 +181,7 @@ class ColorbarManager(ImageMixin):
         # Standard check on the figure
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         # Assign the source axis
@@ -203,7 +203,9 @@ class ColorbarManager(ImageMixin):
             cax = divider.append_axes(cpos, size="7%", pad=cpad)
         else:
             cax, naxc = self.ImageToolsManager.assign_ax(
-                cax, _check=False, **kwargs
+                cax,
+                _check=False,
+                **kwargs,
             )
             self.ImageToolsManager.hide_text(naxc, cax.texts)
 
@@ -224,7 +226,8 @@ class ColorbarManager(ImageMixin):
 
         # Set the tickslabels
         if isinstance(
-            (ctkc := kwargs.get("ctickslabels", "Default")), (list, tuple)
+            (ctkc := kwargs.get("ctickslabels", "Default")),
+            (list, tuple),
         ):
             axis = cbar.ax.yaxis if ccor == "vertical" else cbar.ax.xaxis
             ticks = kwargs.get("cticks") or list(cbar.get_ticks())
@@ -272,7 +275,7 @@ class ColorbarManager(ImageMixin):
         # Standard check on the figure
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
         # Standard check on the figure
         # Select the source axis
@@ -293,7 +296,7 @@ class ColorbarManager(ImageMixin):
         )
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         return axs

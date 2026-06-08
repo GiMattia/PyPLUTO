@@ -26,7 +26,9 @@ class AttrResolver:
             return val
         if isinstance(val, list) and val and isinstance(val[0], np.ndarray):
             return AttrResolver._chunk_list(
-                state, name, cast("list[np.ndarray]", val)
+                state,
+                name,
+                cast("list[np.ndarray]", val),
             )
         if isinstance(val, dict) and val:
             first = next(iter(val.values()))
@@ -43,7 +45,9 @@ class AttrResolver:
 
     @staticmethod
     def _chunk_list(
-        state: object, name: str, val: list[np.ndarray]
+        state: object,
+        name: str,
+        val: list[np.ndarray],
     ) -> np.ndarray:
         """Concatenate a list of array chunks, cache the result, and return it.
 

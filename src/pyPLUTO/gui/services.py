@@ -168,7 +168,10 @@ def convert_axis_map(geom: str, vardim: int) -> dict[str, str]:
 
 
 def apply_slices(
-    var: np.ndarray, xs: str, ys: str, zs: str
+    var: np.ndarray,
+    xs: str,
+    ys: str,
+    zs: str,
 ) -> tuple[
     np.ndarray,
     int | slice | tuple | None,

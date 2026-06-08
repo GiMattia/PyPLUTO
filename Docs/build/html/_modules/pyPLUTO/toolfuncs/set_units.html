@@ -414,6 +414,8 @@
   <h1>Source code for pyPLUTO.toolfuncs.set_units</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Attach and detach astropy units on loaded variables.&quot;&quot;&quot;</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.baseloadstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseLoadState</span>
@@ -429,6 +431,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Attach and detach astropy units on variables stored in state.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">BaseLoadState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the unit-attachment manager with the given load state.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_unit_vars</span><span class="p">(</span>
@@ -436,9 +439,24 @@
         <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">skip_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve variable selection for unit attach/detach operations.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve variable selection for unit attach/detach operations.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - var: str | Iterable[str] | bool | None, default None</span>
+<span class="sd">            The variable(s) to select for unit operations.</span>
+<span class="sd">        - skip_units: str | Iterable[str] | None, default None</span>
+<span class="sd">            The unit(s) to skip during operations.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - tuple[list[str], bool]</span>
+<span class="sd">            A tuple containing the selected variable names and a boolean</span>
+<span class="sd">            indicating if the selection was explicit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">_to_list</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Coerce a variable selector to a flat list of name strings.&quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">[]</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -481,7 +499,19 @@
         <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">skip_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attach astropy units to selected variables in place.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attach astropy units to selected variables in place.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - var: str | Iterable[str] | bool | None, default None</span>
+<span class="sd">            The variable(s) to select for unit operations.</span>
+<span class="sd">        - skip_units: str | Iterable[str] | None, default None</span>
+<span class="sd">            The unit(s) to skip during operations.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">selected</span><span class="p">,</span> <span class="n">explicit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_unit_vars</span><span class="p">(</span>
             <span class="n">var</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">skip_units</span><span class="o">=</span><span class="n">skip_units</span>
         <span class="p">)</span>
@@ -512,7 +542,19 @@
         <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">skip_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert selected astropy Quantity variables back to code units.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert selected astropy Quantity variables back to code units.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - var: str | Iterable[str] | bool | None, default None</span>
+<span class="sd">            The variable(s) to select for unit operations.</span>
+<span class="sd">        - skip_units: str | Iterable[str] | None, default None</span>
+<span class="sd">            The unit(s) to skip during operations.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">selected</span><span class="p">,</span> <span class="n">explicit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_unit_vars</span><span class="p">(</span>
             <span class="n">var</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">skip_units</span><span class="o">=</span><span class="n">skip_units</span>
         <span class="p">)</span>

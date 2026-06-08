@@ -396,6 +396,9 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="show.html">pyPLUTO.show</a></li>
 </ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="set_text.html">pyPLUTO.set_text</a></li>
+</ul>
 </div>
 </nav></div>
     </div>
@@ -471,8 +474,6 @@ employed dimensions unless a slice is taken.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>- edge_order: int | None, default 2</strong></dt><dd><p>The order of accuracy of derivatives at the domain boundaries.</p>
-</dd>
 <dt><strong>- var (not optional): np.ndarray</strong></dt><dd><p>The field whose gradient is calculated (e.g., ‘rho’, ‘vx1’). Must
 have the same shape as self.rho.</p>
 </dd>
@@ -482,18 +483,14 @@ have the same shape as self.rho.</p>
 </dd>
 <dt><strong>- x3slice: float | None, default None</strong></dt><dd><p>If not None, specifies the constant value for the x3 axis.</p>
 </dd>
-<dt><strong>—-</strong></dt><dd></dd>
+<dt><strong>- edge_order: int | None, default 2</strong></dt><dd><p>The order of accuracy of derivatives at the domain boundaries.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><dl class="simple">
-<dt>np.ndarray</dt><dd><p>Gradient of the input field ‘var’. The shape of the array depends on
-the number of used spatial dimensions. E.g.:
-3D: (3, self.nx1, self.nx2, self.nx3)
-3D, INCLUDE_JDIR == NO: (2, self.nx1, self.nx3)
-3D, x2slice = constant: (3, self.nx1, self.nx3)</p>
-</dd>
+<dt>np.ndarray</dt><dd></dd>
 </dl>
 </li>
 </ul>
@@ -501,7 +498,7 @@ the number of used spatial dimensions. E.g.:
 </dl>
 <p class="rubric">Examples</p>
 <ul>
-<li><p>Example # 1: Compute the gradient of the density field</p>
+<li><p>Example #1: Compute the gradient of the density field</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pyPLUTO</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">rho</span><span class="p">)</span>

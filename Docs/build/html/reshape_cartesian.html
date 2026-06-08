@@ -396,6 +396,9 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="show.html">pyPLUTO.show</a></li>
 </ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="set_text.html">pyPLUTO.set_text</a></li>
+</ul>
 </div>
 </nav></div>
     </div>
@@ -459,8 +462,53 @@
 <span id="reshape-cartesian"></span><h1>Load.reshape_cartesian<a class="headerlink" href="#load-reshape-cartesian" title="Link to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">TransformManager.</span></span><span class="sig-name descname"><span class="pre">reshape_cartesian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarT</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pyPLUTO/toolfuncs/transform.html#TransformManager.reshape_cartesian"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Reshape cylindrical/spherical data onto a Cartesian grid.</p>
+<span class="sig-prename descclassname"><span class="pre">TransformManager.</span></span><span class="sig-name descname"><span class="pre">reshape_cartesian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pyPLUTO/toolfuncs/transform.html#TransformManager.reshape_cartesian"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Reshape a variable into a cartesian grid.</p>
+<p>Zones not covered by the original domain (e.g. the very inner radial
+regions) are also interpolated. At the current stage, the transformation
+is only in 2D.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- nx1: int, default len(x1)</strong></dt><dd><p>The number of grid points in the first direction.</p>
+</dd>
+<dt><strong>- nx2: int, default len(x2)</strong></dt><dd><p>The number of grid points in the second direction.</p>
+</dd>
+<dt><strong>- transpose: True/False, default False</strong></dt><dd><p>Transposes the variable matrix. Use is not recommended if not
+really necessary (e.g. in case of highly customized variables and
+plots).</p>
+</dd>
+<dt><strong>- var: np.ndarray</strong></dt><dd><p>The variable to convert.</p>
+</dd>
+<dt><strong>- x1: int</strong></dt><dd><p>The first index of the variable.</p>
+</dd>
+<dt><strong>- x2: int</strong></dt><dd><p>The second index of the variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>newvar: tuple(np.ndarray)</dt><dd><p>The converted variable.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<ul>
+<li><p>Example #1: Convert the vector from spherical to cartesian components</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Bx</span><span class="p">,</span> <span class="n">By</span><span class="p">,</span> <span class="n">Bz</span> <span class="o">=</span> <span class="n">cartesian_vector</span><span class="p">(</span><span class="n">var</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #2: Convert the vector from polar to cartesian components</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Bx</span><span class="p">,</span> <span class="n">By</span> <span class="o">=</span> <span class="n">cartesian_vector</span><span class="p">(</span><span class="n">var1</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">Bx1</span><span class="p">,</span> <span class="n">var2</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">Bx2</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
 </dd></dl>
 
 <div class="line-block">

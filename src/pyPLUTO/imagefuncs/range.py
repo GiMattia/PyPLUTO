@@ -1,10 +1,11 @@
 """RangeManager class."""
 
+from __future__ import annotations
+
 import warnings
 
 import numpy as np
 from matplotlib.axes import Axes
-from numpy.typing import NDArray
 
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -25,7 +26,11 @@ class RangeManager(ImageMixin):
         self.fixrange = 3
 
     def set_xrange(
-        self, ax: Axes, nax: int, xlim: list[float], case: int
+        self,
+        ax: Axes,
+        nax: int,
+        xlim: list[float],
+        case: int,
     ) -> None:
         """Set the lower and upper limits of the x-axis of a set of axes.
 
@@ -43,8 +48,6 @@ class RangeManager(ImageMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -85,12 +88,10 @@ class RangeManager(ImageMixin):
         nax: int,
         ylim: list[float],
         case: int,
-        data: tuple[NDArray[np.float64] | None, NDArray[np.float64] | None] = (
+        data: tuple[np.ndarray | None, np.ndarray | None] = (
             None,
             None,
         ),
-        # x: NDArray[np.float64] | None = None,
-        # y: NDArray[np.float64] | None = None,
     ) -> None:
         """Set the lower and upper limits of the y-axis of a set of.
 
@@ -103,20 +104,16 @@ class RangeManager(ImageMixin):
             The selected set of axes.
         - case (not optional): int
             The case in exam (if range is fixed or variable).
+        - data: tuple[np.ndarray | None, np.ndarray | None]
+            The x and y data arrays.
         - nax (not optional): int
             The number of the selected set of axes.
-        - x: np.ndarray
-            The x-array (to limit the y-range automatically).
-        - y: np.ndarray
-            The y-array (to limit the y-range automatically).
         - ylim (not optional): list[float]
             The limits of the y-axis.
 
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -137,10 +134,10 @@ class RangeManager(ImageMixin):
 
             # Extend slightly the range
             ymin, ymax = self.range_offset(
-                smally.min(), smally.max(), self.state.yscale[nax]
+                smally.min(),
+                smally.max(),
+                self.state.yscale[nax],
             )
-            # ymin   = smally.min() - 0.02*np.abs(smally.min())
-            # ymax   = smally.max() + 0.02*np.abs(smally.max())
             ax.set_ylim(ymin, ymax)
 
             # Switch to case 2 (previous limits are present now)
@@ -161,10 +158,10 @@ class RangeManager(ImageMixin):
 
             # Extend slightly the range (not perfect method)
             ymin, ymax = self.range_offset(
-                smally.min(), smally.max(), self.state.yscale[nax]
+                smally.min(),
+                smally.max(),
+                self.state.yscale[nax],
             )
-            # ymin   = smally.min() - 0.02*np.abs(smally.min())
-            # ymax   = smally.max() + 0.02*np.abs(smally.max())
 
             # Check if the limits should be changed
             ymin = np.minimum(ymin, ax.get_ylim()[0])
@@ -181,26 +178,28 @@ class RangeManager(ImageMixin):
         # End of the function
 
     def range_offset(
-        self, ymin: float, ymax: float, scale: str, margin: float = 0.1
+        self,
+        ymin: float,
+        ymax: float,
+        scale: str,
+        margin: float = 0.1,
     ) -> tuple[float, float]:
         """Return the offsetted data range for the y-axis limits.
 
         Parameters
         ----------
+        - margin (optional): float
+            The margin of the data range.
+        - scale (not optional): str
+            The scale of the y-axis.
         - ymin (not optional): float
             The lower limit of the y-axis.
         - ymax (not optional): float
             The upper limit of the y-axis.
-        - scale (not optional): str
-            The scale of the y-axis.
-        - margin (optional): float
-            The margin of the data range.
 
         Returns
         -------
         - tuple[float, float]
-
-        ----
 
         Examples
         --------

@@ -1,8 +1,11 @@
 """Module to manage the display of 2D plots in the image."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import Unpack
 
 import numpy as np
+from matplotlib.axes import Axes
 from matplotlib.collections import QuadMesh
 from numpy.typing import ArrayLike
 
@@ -10,6 +13,7 @@ from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagekwargs import DisplayKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -35,8 +39,9 @@ class DisplayManager(ImageMixin):
     def display(
         self,
         var: ArrayLike,
-        check: bool = True,
-        **kwargs: Any,
+        ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[DisplayKwargs],
     ) -> QuadMesh:
         """Plot for a 2D function using the matplotlib's pcolormesh function.
 
@@ -54,7 +59,8 @@ class DisplayManager(ImageMixin):
             y. A float fixes the ratio between the y-scale and the x-scale (1.0
             is the same as 'equal').
         - ax: ax | int | None, default None
-            The axis where to plot. If None, the last considered axis will be used.
+            The axis where to plot. If None, the last considered axis will be
+            used.
         - bottom: float, default varies
             The bottom limit of the axis / axes set. For the figure layout it
             is the space from the bottom border to the plot (default 0.1); for
@@ -83,7 +89,7 @@ class DisplayManager(ImageMixin):
         - extend: {'neither','both','min','max'}, default 'neither'
             Sets the extension of the triangular colorbar extension.
         - extendrect: bool, default False
-            If True, the colorbar extension will be rectangular.
+            If True, the colorbar extension will be triangular.
         - figsize: list[float], default varies
             Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
             computed from the number of rows and columns (or [8,5] for a single
@@ -93,6 +99,13 @@ class DisplayManager(ImageMixin):
         - grid: bool | string, default False
             Enables/disables the grid on the plot. If True it enables both axes
             grids. If 'x' or 'y' it enables only the x- or y-axis grid.
+        - hratio: [float], default [1.0]
+            Ratio between the rows of the plot. The default is that every plot
+            row has the same height.
+        - hspace: [float], default []
+            The space between plot rows (in figure units). If not enough or too
+            many spaces are considered, the program will remove the excess and
+            fill the lacks with [0.1].
         - labelsize: float, default fontsize
             Sets the labels fontsize (which is the same for both labels). The
             default value corresponds to the value of the keyword 'fontsize'.
@@ -103,14 +116,19 @@ class DisplayManager(ImageMixin):
         - minorticks: str, default None
             If not None enables the minor ticks on the plot (for both grid
             axes).
+        - ncol: int, default 1
+            The number of columns of subplots.
+        - nrow: int, default 1
+            The number of rows of subplots.
         - proj: str, default None
             Custom projection for the plot (e.g. 3D). Recommended only if
             needed. WARNING: pyPLUTO does not support 3D plotting for now, only
             3D axes. The 3D plot feature will be available in future releases.
-        - right: float, default 0.9
+        - right: float, default varies
             The right limit of the axis / axes set. For the figure layout it is
-            the space from the right border to the plot; for an inset zoom it
-            is the right position of the inset.
+            the space from the right border to the plot (default 0.9); for an
+            inset zoom it is the right position of the inset (default left +
+            0.15).
         - shading: {'flat', 'nearest', 'auto', 'gouraud'}, default 'auto'
             The shading between the grid points. If not defined, the shading
             will be one between 'flat' and 'nearest' depending on the size of
@@ -118,13 +136,26 @@ class DisplayManager(ImageMixin):
             NxM z-array, the x- and y-arrays have sizes of, respectively, N+1
             and M+1. All the other shadings require a N x-array and a M
             y-array.
+        - sharex: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the x-axis between the subplots.
+        - sharey: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the y-axis between the subplots.
+        - suptitle: str, default None
+            Creates a figure title over all the subplots.
         - ticksdir: {'in', 'out'}, default 'in'
             Sets the ticks direction. The default option is 'in'.
         - tickssize: float | bool, default True
             Sets the ticks fontsize (which is the same for both grid axes). The
             default value corresponds to the value of the keyword 'fontsize'.
+        - tight: bool, default True
+            Enables/disables tight layout options for the figure. In case of a
+            highly customized plot (e.g. ratios or space between rows and
+            columns) the option is set by default to False since that option
+            would not be available for standard matplotlib functions.
         - title: str, default None
             Places the title of the plot on top of it.
+        - titlepad: float, default 8.0
+            Sets the distance between the title and the top of the plot.
         - titlesize: float, default fontsize
             Sets the title fontsize. The default value corresponds to the value
             of the keyword 'fontsize'.
@@ -143,15 +174,24 @@ class DisplayManager(ImageMixin):
         - var (not optional): 2D array
             The array to be plotted.
         - vmax: float
-            The maximum value of the colormap.
+            The maximum value of the variable to be computed / plotted.
         - vmin: float
-            The minimum value of the colormap.
+            The minimum value of the variable to be computed / plotted.
+        - wratio: [float], default [1.0]
+            Ratio between the columns of the plot. The default is that every
+            plot column has the same width.
+        - wspace: [float], default []
+            The space between plot columns (in figure units). If not enough or
+            too many spaces are considered, the program will remove the excess
+            and fill the lacks with [0.1].
         - x1: np.ndarray, default 'Default'
             The x-axis array. If not defined, a default array will be
             generated.
         - x2: np.ndarray, default 'Default'
             The y-axis array. If not defined, a default array will be
             generated.
+        - xlabelpad: float, default 4.0
+            The padding between the x-axis label and the axis.
         - xrange: [float, float], default 'Default'
             Sets the range in the x-direction. If not defined, the range is
             computed automatically from the x-array.
@@ -171,6 +211,10 @@ class DisplayManager(ImageMixin):
             should always correspond to fixed ticks.
         - xtitle: str, default None
             Sets and places the label of the x-axis.
+        - xtresh: float
+            The threshold parameter for the x-axis symlog/asinh scale.
+        - ylabelpad: float, default 4.0
+            The padding between the y-axis label and the axis.
         - yrange: [float, float], default 'Default'
             Sets the range in the y-direction. If not defined, the range is
             computed automatically from the y-array.
@@ -190,48 +234,12 @@ class DisplayManager(ImageMixin):
             should always correspond to fixed ticks.
         - ytitle: str, default None
             Sets and places the label of the y-axis.
-
-        - hratio: [float], default [1.0]
-            Ratio between the rows of the plot. The default is that every plot
-            row has the same height.
-        - hspace: [float], default []
-            The space between plot rows (in figure units). If not enough or too
-            many spaces are considered, the program will remove the excess and
-            fill the lacks with [0.1].
-        - sharex: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the x-axis between the subplots.
-        - sharey: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the y-axis between the subplots.
-        - suptitle: str, default None
-            Creates a figure title over all the subplots.
-        - tight: bool, default True
-            Enables/disables tight layout options for the figure. In case of a
-            highly customized plot (e.g. ratios or space between rows and
-            columns) the option is set by default to False since that option
-            would not be available for standard matplotlib functions.
-        - titlepad: float, default 8.0
-            Sets the distance between the title and the top of the plot.
-        - wratio: [float], default [1.0]
-            Ratio between the columns of the plot. The default is that every
-            plot column has the same width.
-        - wspace: [float], default []
-            The space between plot columns (in figure units). If not enough or
-            too many spaces are considered, the program will remove the excess
-            and fill the lacks with [0.1].
-        - xlabelpad: float, default 4.0
-            The padding between the x-axis label and the axis.
-        - xtresh: float
-            The threshold parameter for the x-axis symlog/asinh scale.
-        - ylabelpad: float, default 4.0
-            The padding between the y-axis label and the axis.
         - ytresh: float
             The threshold parameter for the y-axis symlog/asinh scale.
 
         Returns
         -------
         - QuadMesh
-
-        ----
 
         Examples
         --------
@@ -267,16 +275,12 @@ class DisplayManager(ImageMixin):
                         cscale = 'symlog', tresh = 0.001, vmin = -1, vmax = 1)
 
         """
-        kwargs.pop("check", check)
-
         # Set or create figure and axes
-        ax, nax = self.ImageToolsManager.assign_ax(
-            kwargs.pop("ax", None), **kwargs
-        )
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         if self.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
         # Keyword x1 and x2
         var = np.asarray(var)
@@ -291,7 +295,7 @@ class DisplayManager(ImageMixin):
         if not kwargs.get("yrange") and self.setay[nax] != 1:
             kwargs["yrange"] = [y.min(), y.max()]
         # Set ax parameters
-        self.AxisManager.set_axis(ax=ax, check=False, **kwargs)
+        self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)
 
         # Keywords vmin and vmax
@@ -302,13 +306,10 @@ class DisplayManager(ImageMixin):
         cpos = kwargs.get("cpos")
         cscale = kwargs.get("cscale", "norm")
         tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
-        lint = kwargs.get("lint")
         self.vlims[nax] = [vmin, vmax, tresh]
 
         # Set the colorbar scale (put in function)
-        norm = self.ImageToolsManager.set_cscale(
-            cscale, vmin, vmax, tresh, lint
-        )
+        norm = self.ImageToolsManager.set_cscale(cscale, vmin, vmax, tresh)
 
         # Select shading
         shade = kwargs.get("shading", "auto")
@@ -331,7 +332,7 @@ class DisplayManager(ImageMixin):
 
         # Place the colorbar (use colorbar function)
         if cpos is not None:
-            self.ColorbarManager.colorbar(pcm, check=False, **kwargs)
+            self.ColorbarManager.colorbar(pcm, _check=False, **kwargs)
 
         # If tight_layout is enabled, is re-inforced
         if self.tight:

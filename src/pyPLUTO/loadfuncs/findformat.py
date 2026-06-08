@@ -1,25 +1,27 @@
 """Module to find the format of the PLUTO output files."""
 
+from __future__ import annotations
+
 import glob
 from collections.abc import Callable
 from pathlib import Path
-from typing import Any
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
-from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FindFormat(BaseLoadMixin[BaseLoadState]):
     """Class to find the format of the PLUTO output files."""
 
-    @track_kwargs
-    def __init__(self, state: BaseLoadState, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        state: BaseLoadState,
+        datatype: str | None,
+        alone: bool | None,
+    ) -> None:
         """Initialize the FindFormat class."""
         self.state = state
 
-        datatype = kwargs.get("datatype")
-        alone = kwargs.get("alone")
         self.check_format(datatype, alone)
 
     def check_format(
@@ -51,8 +53,6 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -145,7 +145,7 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
                 # Store the charsize depending on the format
                 self.state.charsize = 8 if self.state.datatype in dbl else 4
                 # If the format is found, end the function
-                return None
+                return
 
         # No file has been found, so raise an error depending on the case.
         # If the datatype is None, raise a general error, otherwise raise
@@ -170,8 +170,6 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -214,8 +212,6 @@ class FindFormat(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

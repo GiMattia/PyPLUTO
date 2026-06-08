@@ -414,17 +414,19 @@
   <h1>Source code for pyPLUTO.imagefuncs.legend</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;LegendManager class.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">TypeVar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Unpack</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mlines</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.axes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.imagetools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageToolsManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagekwargs</span><span class="w"> </span><span class="kn">import</span> <span class="n">LegendKwargs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagemixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageMixin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagestate</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageState</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
-
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">LegendManager</span><span class="p">(</span><span class="n">ImageMixin</span><span class="p">):</span>
@@ -449,68 +451,124 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">legend</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">fromplot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">LegendKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creation of a legend referring to the current figure.</span>
 
 <span class="sd">        If no labels are given, it shows the labels of all the plots in the</span>
 <span class="sd">        figure, ordered by entry. If specific labels are given, it shows those.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - None</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - ax: ax | int | None, default None</span>
 <span class="sd">            The axis where to insert the legend. If None, the last considered</span>
 <span class="sd">            axis will be used.</span>
+<span class="sd">        - bottom: float, default varies</span>
+<span class="sd">            The bottom limit of the axis / axes set. For the figure layout it</span>
+<span class="sd">            is the space from the bottom border to the plot (default 0.1); for</span>
+<span class="sd">            an inset zoom it is the bottom position of the inset (default 0.6 +</span>
+<span class="sd">            height).</span>
 <span class="sd">        - c: str, default self.color</span>
-<span class="sd">            Determines the line color. If not defined, the program will loop</span>
-<span class="sd">            over an array of 6 color which are different for the most common</span>
+<span class="sd">            Determines the color. If not defined, the program will loop</span>
+<span class="sd">            over an array of 6 colors which are different for the most common</span>
 <span class="sd">            vision deficiencies.</span>
 <span class="sd">        - edgecolor: list[str], default [None]</span>
-<span class="sd">            Sets the edge color of the legend. The default value is black (&#39;k&#39;).</span>
+<span class="sd">            Sets the edge color of the legend. The default value is black</span>
+<span class="sd">            (&#39;k&#39;).</span>
+<span class="sd">        - figsize: list[float], default varies</span>
+<span class="sd">            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],</span>
+<span class="sd">            computed from the number of rows and columns (or [8,5] for a single</span>
+<span class="sd">            plot).</span>
 <span class="sd">        - fillstyle: {&#39;full&#39;, &#39;left&#39;, &#39;right&#39;, &#39;bottom&#39;, &#39;top&#39;, &#39;none&#39;},</span>
 <span class="sd">            default &#39;full&#39;</span>
 <span class="sd">            Sets the marker filling. The default value is the fully filled</span>
 <span class="sd">            marker (&#39;full&#39;).</span>
-<span class="sd">        - label: [str], default None</span>
-<span class="sd">            Associates a label to each line. If not specified, the program will</span>
-<span class="sd">            take the label which are already associated with the plot.</span>
+<span class="sd">        - fontsize: float, default 17.0</span>
+<span class="sd">            Sets the fontsize for all the axis components.</span>
+<span class="sd">        - fromplot: bool, default False</span>
+<span class="sd">            If True, the legend will be created from the plot elements.</span>
+<span class="sd">        - hratio: [float], default [1.0]</span>
+<span class="sd">            Ratio between the rows of the plot. The default is that every plot</span>
+<span class="sd">            row has the same height.</span>
+<span class="sd">        - hspace: [float], default []</span>
+<span class="sd">            The space between plot rows (in figure units). If not enough or too</span>
+<span class="sd">            many spaces are considered, the program will remove the excess and</span>
+<span class="sd">            fill the lacks with [0.1].</span>
+<span class="sd">        - label: str, default None</span>
+<span class="sd">            Associates a label to the plot, used for the creation of the</span>
+<span class="sd">            legend.</span>
+<span class="sd">        - left: float, default varies</span>
+<span class="sd">            The left limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the left border to the plot (default 0.125); for an</span>
+<span class="sd">            inset zoom it is the left position of the inset (default 0.6).</span>
 <span class="sd">        - legalpha: float, default 0.8</span>
 <span class="sd">            Sets the opacity of the legend.</span>
 <span class="sd">        - legcols: int, default 1</span>
 <span class="sd">            Sets the number of columns that the legend should have.</span>
 <span class="sd">        - legpad: float, default 0.8</span>
-<span class="sd">            Sets the space between the lines (or symbols) and the correspondibg</span>
+<span class="sd">            Sets the space between the lines (or symbols) and the corresponding</span>
 <span class="sd">            text in the legend.</span>
-<span class="sd">        - legpos: int | str, default 0</span>
-<span class="sd">            Selects the legend location. If not specified the standard</span>
-<span class="sd">            matplotlib legend function will find the most suitable location.</span>
+<span class="sd">        - legpos: int | str, default None</span>
+<span class="sd">            If defined, creates a legend at the specified location.</span>
 <span class="sd">        - legsize: float, default fontsize</span>
 <span class="sd">            Sets the fontsize of the legend. The default value is the default</span>
 <span class="sd">            fontsize value.</span>
 <span class="sd">        - legspace: float, default 2</span>
 <span class="sd">            Sets the space between the legend columns, in font-size units.</span>
-<span class="sd">        - ls: {&#39;-&#39;, &#39;--&#39;, &#39;-.&#39;, &#39;:&#39;, &#39; &#39;, ect.}, default &#39;-&#39;</span>
+<span class="sd">        - ls: {&#39;-&#39;, &#39;--&#39;, &#39;-.&#39;, &#39;:&#39;, &#39; &#39;, etc.}, default &#39;-&#39;</span>
 <span class="sd">            Sets the linestyle. The choices available are the ones defined in</span>
-<span class="sd">            the matplotlib package. Here are reported the most common ones.</span>
+<span class="sd">            the matplotlib package.</span>
 <span class="sd">        - lw: float, default 1.3</span>
-<span class="sd">            Sets the linewidth of each line.</span>
+<span class="sd">            Sets the linewidth.</span>
 <span class="sd">        - marker: {&#39;o&#39;, &#39;v&#39;, &#39;^&#39;, &#39;&lt;&#39;, &#39;&gt;&#39;, &#39;X&#39;, &#39; &#39;, etc.}, default &#39; &#39;</span>
 <span class="sd">            Sets an optional symbol for every point. The default value is no</span>
 <span class="sd">            marker (&#39; &#39;).</span>
-<span class="sd">        - ms: float, default 5 (if label) or 1 (if not label)</span>
-<span class="sd">            Sets the marker size from the default value of 5.0 (if label is</span>
-<span class="sd">            given) or the marker scale from the default value of 1.0 (if not</span>
-<span class="sd">            label).</span>
+<span class="sd">        - ms: float, default 3</span>
+<span class="sd">            Sets the marker size.</span>
 <span class="sd">        - mscale: float, default 1.0</span>
 <span class="sd">            Sets the marker scale. The default value is 1.0.</span>
+<span class="sd">        - ncol: int, default 1</span>
+<span class="sd">            The number of columns of subplots.</span>
+<span class="sd">        - nrow: int, default 1</span>
+<span class="sd">            The number of rows of subplots.</span>
+<span class="sd">        - proj: str, default None</span>
+<span class="sd">            Custom projection for the plot (e.g. 3D). Recommended only if</span>
+<span class="sd">            needed. WARNING: pyPLUTO does not support 3D plotting for now, only</span>
+<span class="sd">            3D axes. The 3D plot feature will be available in future releases.</span>
+<span class="sd">        - right: float, default varies</span>
+<span class="sd">            The right limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the right border to the plot (default 0.9); for an</span>
+<span class="sd">            inset zoom it is the right position of the inset (default left +</span>
+<span class="sd">            0.15).</span>
+<span class="sd">        - sharex: bool | str | Matplotlib axis, default False</span>
+<span class="sd">            Enables/disables the sharing of the x-axis between the subplots.</span>
+<span class="sd">        - sharey: bool | str | Matplotlib axis, default False</span>
+<span class="sd">            Enables/disables the sharing of the y-axis between the subplots.</span>
+<span class="sd">        - suptitle: str, default None</span>
+<span class="sd">            Creates a figure title over all the subplots.</span>
+<span class="sd">        - tight: bool, default True</span>
+<span class="sd">            Enables/disables tight layout options for the figure. In case of a</span>
+<span class="sd">            highly customized plot (e.g. ratios or space between rows and</span>
+<span class="sd">            columns) the option is set by default to False since that option</span>
+<span class="sd">            would not be available for standard matplotlib functions.</span>
+<span class="sd">        - top: float, default varies</span>
+<span class="sd">            The top limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the top border to the plot (default 0.9); for an</span>
+<span class="sd">            inset zoom it is the top position of the inset (default bottom +</span>
+<span class="sd">            height).</span>
+<span class="sd">        - wratio: [float], default [1.0]</span>
+<span class="sd">            Ratio between the columns of the plot. The default is that every</span>
+<span class="sd">            plot column has the same width.</span>
+<span class="sd">        - wspace: [float], default []</span>
+<span class="sd">            The space between plot columns (in figure units). If not enough or</span>
+<span class="sd">            too many spaces are considered, the program will remove the excess</span>
+<span class="sd">            and fill the lacks with [0.1].</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -552,10 +610,8 @@
 <span class="sd">            &gt;&gt;&gt; pp.show()</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
-
         <span class="c1"># Find figure and number of the axis</span>
-        <span class="n">ax</span><span class="p">,</span> <span class="n">nax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">assign_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">,</span> <span class="n">nax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">assign_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">hide_text</span><span class="p">(</span><span class="n">nax</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">texts</span><span class="p">)</span>
 
         <span class="c1"># Finds the legend parameters (position, columns, size, spacing and pad)</span>
@@ -590,13 +646,13 @@
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span>
                 <span class="k">else</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]]</span>
             <span class="p">)</span>
-            <span class="n">col</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">]))</span>
-            <span class="n">ls</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ls&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;-&quot;</span><span class="p">]))</span>
-            <span class="n">lw</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lw&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">]))</span>
-            <span class="n">mrk</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;marker&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]))</span>
-            <span class="n">ms</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ms&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">5.0</span><span class="p">]))</span>
-            <span class="n">fls</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fillstyle&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;full&quot;</span><span class="p">]))</span>
-            <span class="n">edgcol</span> <span class="o">=</span> <span class="n">makelist</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;edgecolor&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">]))</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">])))</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ls&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;-&quot;</span><span class="p">])))</span>
+            <span class="n">lw</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lw&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">])))</span>
+            <span class="n">mrk</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;marker&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])))</span>
+            <span class="n">ms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ms&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">5.0</span><span class="p">])))</span>
+            <span class="n">fls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fillstyle&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;full&quot;</span><span class="p">])))</span>
+            <span class="n">edgcol</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;edgecolor&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">])))</span>
             <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="c1"># Create the list of lines</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lab</span><span class="p">):</span>
@@ -643,38 +699,6 @@
 
 
         <span class="c1"># End of the function</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">makelist</span><span class="p">(</span><span class="n">el</span><span class="p">:</span> <span class="n">T</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;If the element is not a list, it converts it into a list.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    - list[Any]</span>
-<span class="sd">        The list of chosen elements.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    - el (not optional): Any</span>
-<span class="sd">        The element to be converted into a list.</span>
-
-<span class="sd">    ----</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    - Example #1: element is a list</span>
-
-<span class="sd">        &gt;&gt;&gt; makelist([1, 2, 3])</span>
-<span class="sd">        [1,2,3]</span>
-
-<span class="sd">    - Example #2: element is not a list</span>
-
-<span class="sd">        &gt;&gt;&gt; makelist(1)</span>
-<span class="sd">        [1]</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Return the element as a list</span>
-    <span class="k">return</span> <span class="n">el</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">el</span><span class="p">]</span>
 </pre></div>
 
                 </article>

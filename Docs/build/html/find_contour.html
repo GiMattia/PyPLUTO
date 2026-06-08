@@ -396,6 +396,9 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="show.html">pyPLUTO.show</a></li>
 </ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="set_text.html">pyPLUTO.set_text</a></li>
+</ul>
 </div>
 </nav></div>
     </div>
@@ -459,8 +462,88 @@
 <span id="find-contour"></span><h1>Load.find_contour<a class="headerlink" href="#load-find-contour" title="Link to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">FindLinesManager.</span></span><span class="sig-name descname"><span class="pre">find_contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/pyPLUTO/toolfuncs/findlines.html#FindLinesManager.find_contour"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-prename descclassname"><span class="pre">FindLinesManager.</span></span><span class="sig-name descname"><span class="pre">find_contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/pyPLUTO/toolfuncs/findlines.html#FindLinesManager.find_contour"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Generate contour lines for a given variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- levels: int | np.ndarray, default 10</strong></dt><dd><p>The levels of number of levels or the list of levels for the
+contours. If an integer is provided, the levels are generated using
+a linear or logarithmic scale. If an array is provided, the levels
+are taken from the array.</p>
+</dd>
+<dt><strong>- levelscale: str, default ‘linear’</strong></dt><dd><p>The scale of the levels. Available options are ‘linear’ and
+‘logarithmic’.</p>
+</dd>
+<dt><strong>- line_cmap: str, default ‘k’</strong></dt><dd><p>The colormap to use to associate each level with a color.
+The colormap can also be a color, which is used for all the levels.
+If not provided, all the lines are associated with the color black.</p>
+</dd>
+<dt><strong>- transpose: True/False, default False</strong></dt><dd><p>Transposes the variable matrix. Use is not recommended if not
+really necessary (e.g. in case of highly customized variables and
+plots).</p>
+</dd>
+<dt><strong>- var (not optional): str | np.ndarray</strong></dt><dd><p>The variable to plot. If a string is provided, the variable is taken
+from the dataset.</p>
+</dd>
+<dt><strong>- vmax: float</strong></dt><dd><p>The maximum value of the variable to be computed / plotted.</p>
+</dd>
+<dt><strong>- vmin: float</strong></dt><dd><p>The minimum value of the variable to be computed / plotted.</p>
+</dd>
+<dt><strong>- x1: np.ndarray, default self.x1</strong></dt><dd><p>The x1 coordinates. If the geometry is non-Cartesian, the x1
+cartesian coordinates are taken from the dataset.</p>
+</dd>
+<dt><strong>- x2: np.ndarray, default self.x2</strong></dt><dd><p>The x2 coordinates. If the geometry is non-Cartesian, the x2
+cartesian coordinates are taken from the dataset.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>lines_list: list</dt><dd><p>List of contour lines. The strcuture of the list is
+[[x1, y1], [x2, y2], …] where x1, y1, x2, y2 are numpy arrays
+representing the coordinates of the field lines.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<ul>
+<li><p>Example #1: Generate contour lines for a given variable.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lines_list</span> <span class="o">=</span> <span class="n">find_contour</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><dl>
+<dt>Example #2: Generate contour lines for a given variable and</dt><dd><p>coordinates.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lines_list</span> <span class="o">=</span> <span class="n">find_contour</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="o">=</span><span class="n">x2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Example #3: Generate contour lines for a given variable and</dt><dd><p>coordinates with a logarithmic scale.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lines_list</span> <span class="o">=</span> <span class="n">find_contour</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="o">=</span><span class="n">x2</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span> <span class="n">levelscale</span><span class="o">=</span><span class="s1">&#39;logarithmic&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Example #4: Generate contour lines for a given variable and</dt><dd><p>coordinates with a logarithmic scale and a colormap.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lines_list</span> <span class="o">=</span> <span class="n">find_contour</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="o">=</span><span class="n">x2</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span> <span class="n">levelscale</span><span class="o">=</span><span class="s1">&#39;logarithmic&#39;</span><span class="p">,</span> <span class="n">line_cmap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
 </dd></dl>
 
 <div class="line-block">

@@ -1,9 +1,11 @@
 """Interactive functions for image manipulation and display."""
 
+from __future__ import annotations
+
 import inspect
 from collections.abc import Iterable
 from pathlib import Path
-from typing import Any
+from typing import Unpack
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -13,11 +15,11 @@ from matplotlib.axes import Axes
 from matplotlib.collections import Collection, QuadMesh
 from matplotlib.lines import Line2D
 from matplotlib.widgets import Slider
-from numpy.typing import NDArray
 
 from pyPLUTO.imagefuncs.display import DisplayManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.plot import PlotManager
+from pyPLUTO.imagekwargs import DisplayKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -43,8 +45,8 @@ class InteractiveManager(ImageMixin):
         self.anim_pcm: Collection | Line2D | None = None
         self.labslider: list[str | float] | None = None
         self.anim_ax: Axes | None = None
-        self.anim_var: dict[str, NDArray[Any]] | NDArray[Any]
-        self.animkeys: NDArray[Any] | None = None
+        self.anim_var: dict[int, np.ndarray] | np.ndarray
+        self.animkeys: np.ndarray | None = None
         self.nsld: int = 0
         self.lenlab: int = 0
         self.limfix: bool = True
@@ -54,12 +56,13 @@ class InteractiveManager(ImageMixin):
     @track_kwargs
     def interactive(
         self,
-        varx: dict[str, NDArray[Any]] | NDArray[Any],
-        vary: dict[str, NDArray[Any]] | None = None,
-        check: bool = True,
+        varx: dict[int, np.ndarray] | np.ndarray,
+        vary: dict[int, np.ndarray] | None = None,
         limfix: bool = True,
         labslider: list[str | float] | None = None,
-        **kwargs: Any,
+        ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[DisplayKwargs],
     ) -> None:
         """Create an interactive plot with a slider to change the data.
 
@@ -67,22 +70,6 @@ class InteractiveManager(ImageMixin):
 
         Parameters
         ----------
-        - varx (not optional): array_like
-            The x-axis variable.
-        - vary: array_like, default None
-            The y-axis variable.
-        - ax: ax | int | None, default None
-            The axis where to plot. If None, the last considered axis will be used.
-        - labslider: str, default None
-            The label of the slider.
-        - limfix: bool, default True
-            If True, the colorbar limits are fixed through the entire
-            animation.
-        - vmin: float
-            The minimum value of the colormap.
-        - vmax: float
-            The maximum value of the colormap.
-
         - alpha: float, default 1.0
             Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is
             fully transparent.
@@ -91,6 +78,9 @@ class InteractiveManager(ImageMixin):
             default option. The 'equal' keyword sets the same scaling for x and
             y. A float fixes the ratio between the y-scale and the x-scale (1.0
             is the same as 'equal').
+        - ax: ax | int | None, default None
+            The axis where to plot. If None, the last considered axis will be
+            used.
         - bottom: float, default varies
             The bottom limit of the axis / axes set. For the figure layout it
             is the space from the bottom border to the plot (default 0.1); for
@@ -126,7 +116,7 @@ class InteractiveManager(ImageMixin):
         - extend: {'neither','both','min','max'}, default 'neither'
             Sets the extension of the triangular colorbar extension.
         - extendrect: bool, default False
-            If True, the colorbar extension will be rectangular.
+            If True, the colorbar extension will be triangular.
         - figsize: list[float], default varies
             Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
             computed from the number of rows and columns (or [8,5] for a single
@@ -153,6 +143,9 @@ class InteractiveManager(ImageMixin):
         - labelsize: float, default fontsize
             Sets the labels fontsize (which is the same for both labels). The
             default value corresponds to the value of the keyword 'fontsize'.
+        - labslider: list[str | float] | None, default None
+            The labels of the slider ticks. If None, the slider ticks are
+            determined automatically.
         - left: float, default varies
             The left limit of the axis / axes set. For the figure layout it is
             the space from the left border to the plot (default 0.125); for an
@@ -171,6 +164,9 @@ class InteractiveManager(ImageMixin):
             fontsize value.
         - legspace: float, default 2
             Sets the space between the legend columns, in font-size units.
+        - limfix: bool, default True
+            If True, the colorbar limits are fixed through the entire
+            animation.
         - lint: bool, default None
             If True, enables linear interpolation between frames in the
             interactive plot.
@@ -189,14 +185,19 @@ class InteractiveManager(ImageMixin):
             Sets the marker size.
         - mscale: float, default 1.0
             Sets the marker scale. The default value is 1.0.
+        - ncol: int, default 1
+            The number of columns of subplots.
+        - nrow: int, default 1
+            The number of rows of subplots.
         - proj: str, default None
             Custom projection for the plot (e.g. 3D). Recommended only if
             needed. WARNING: pyPLUTO does not support 3D plotting for now, only
             3D axes. The 3D plot feature will be available in future releases.
-        - right: float, default 0.9
+        - right: float, default varies
             The right limit of the axis / axes set. For the figure layout it is
-            the space from the right border to the plot; for an inset zoom it
-            is the right position of the inset.
+            the space from the right border to the plot (default 0.9); for an
+            inset zoom it is the right position of the inset (default left +
+            0.15).
         - shading: {'flat', 'nearest', 'auto', 'gouraud'}, default 'auto'
             The shading between the grid points. If not defined, the shading
             will be one between 'flat' and 'nearest' depending on the size of
@@ -239,6 +240,17 @@ class InteractiveManager(ImageMixin):
         - tresh: float, default max(abs(vmin),vmax)*0.01
             Sets the threshold for the colormap (used with composite
             colorscales such as twoslope or symlog).
+        - varx (not optional): dict[int, np.ndarray] | np.ndarray
+            The variable to animate. If a dict, keys are output indices and
+            values are the corresponding arrays (multi-frame). If an ndarray,
+            a single frame is shown.
+        - vary: dict[int, np.ndarray] | None, default None
+            Optional second variable (e.g. y-axis for 1D plots). Same format
+            as varx.
+        - vmax: float
+            The maximum value of the variable to be computed / plotted.
+        - vmin: float
+            The minimum value of the variable to be computed / plotted.
         - wratio: [float], default [1.0]
             Ratio between the columns of the plot. The default is that every
             plot column has the same width.
@@ -271,6 +283,8 @@ class InteractiveManager(ImageMixin):
             labels on the x-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
             should always correspond to fixed ticks.
+        - xtitle: str, default None
+            Sets and places the label of the x-axis.
         - xtresh: float
             The threshold parameter for the x-axis symlog/asinh scale.
         - ylabelpad: float, default 4.0
@@ -301,8 +315,6 @@ class InteractiveManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Create an interactive 2D plot
@@ -324,14 +336,10 @@ class InteractiveManager(ImageMixin):
             >>> pp.show()
 
         """
-        kwargs.pop("check", check)
-
         # Store the variable x. If vary is None, it is set to varx
         if vary is None:
             if isinstance(varx, dict):
                 self.anim_var = varx
-                scrh = np.asarray(list(varx.keys()))[0]
-                splt = np.ndim(varx[scrh])
             else:
                 raise ValueError("varx must be a dictionary")
 
@@ -349,13 +357,12 @@ class InteractiveManager(ImageMixin):
 
         # Set or create figure and axes (to test)
         # Set or create figure and axes
-        ax, _ = self.ImageToolsManager.assign_ax(
-            kwargs.pop("ax", None), **kwargs, tight=False
-        )
+        kwargs["tight"] = False
+        ax, _ = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         self.anim_ax = ax
@@ -416,15 +423,13 @@ class InteractiveManager(ImageMixin):
                 if limfix is True
                 else np.nanmax(self.anim_var[self.animkeys[0]])
             )
-            vmin = kwargs.pop("vmin", vmin)
-            vmax = kwargs.pop("vmax", vmax)
+            kwargs["vmin"] = kwargs.pop("vmin", vmin)
+            kwargs["vmax"] = kwargs.pop("vmax", vmax)
 
             # Display the data if it is 2D
             self.DisplayManager.display(
                 self.anim_var[self.animkeys[0]],
                 ax=ax,
-                vmin=vmin,
-                vmax=vmax,
                 **kwargs,
             )
             self.anim_pcm = ax.collections[0]
@@ -438,6 +443,7 @@ class InteractiveManager(ImageMixin):
                 varx,
                 var,
                 ax=ax,
+                _check=False,
                 **kwargs,
             )
             self.anim_pcm = ax.get_lines()[0]
@@ -454,8 +460,6 @@ class InteractiveManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Update the data in the interactive plot
@@ -466,12 +470,12 @@ class InteractiveManager(ImageMixin):
         # Update the data
         if self.animkeys is None or self.anim_var is None:
             raise ValueError(
-                "No data is present. Please create an interactive plot first."
+                "No data is present, create an interactive plot first.",
             )
 
         if self.slider is None:
             raise ValueError(
-                "No slider is present. Please create an interactive plot first."
+                "No slider is present, create an interactive plot first.",
             )
         idx = int(i)
         var = self.anim_var[self.animkeys[idx]]
@@ -479,7 +483,7 @@ class InteractiveManager(ImageMixin):
             if not isinstance(self.anim_pcm, QuadMesh):
                 raise ValueError(
                     "The current plot is not a 2D plot. "
-                    "Please use a 2D variable."
+                    "Please use a 2D variable.",
                 )
             # Update the data array if it is 2D
             self.anim_pcm.set_array(var.T.ravel())
@@ -495,7 +499,7 @@ class InteractiveManager(ImageMixin):
             if not isinstance(self.anim_pcm, Line2D):
                 raise ValueError(
                     "The current plot is not a 1D plot. "
-                    "Please use a 1D variable."
+                    "Please use a 1D variable.",
                 )
             # Update the data array if it is 1D
             self.anim_pcm.set_ydata(var)
@@ -504,13 +508,13 @@ class InteractiveManager(ImageMixin):
             self.slider.label.set_text(str(self.labslider[idx]))
         else:
             self.slider.label.set_text(
-                f"nout = {self.animkeys[idx]:0{self.lenlab}d}"
+                f"nout = {self.animkeys[idx]:0{self.lenlab}d}",
             )
 
         # Update the plot
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
         self.state.fig.canvas.draw()
 
@@ -529,8 +533,6 @@ class InteractiveManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Update the data in the interactive plot
@@ -540,7 +542,7 @@ class InteractiveManager(ImageMixin):
         """
         if self.slider is None:
             raise ValueError(
-                "No slider is present. Please create an interactive plot first."
+                "No slider is present, create an interactive plot first.",
             )
         # Update the plot with the current frame
         self.update_slider(i)
@@ -569,14 +571,16 @@ class InteractiveManager(ImageMixin):
             The name of the GIF file.
         - interval: int, default 500
             The interval between frames in milliseconds.
+        - script_relative: bool, default False
+            If True, the image is saved in the same directory as the script
+            calling this method. If False, the image is saved in the current
+            working directory.
         - updateslider: bool, default True
             If True, the slider is shown and updated with each frame.
 
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -596,12 +600,15 @@ class InteractiveManager(ImageMixin):
 
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         # Create the animation
         ani = animation.FuncAnimation(
-            self.state.fig, update, frames=frames, interval=interval
+            self.state.fig,
+            update,
+            frames=frames,
+            interval=interval,
         )
 
         if gifname is not None:
@@ -609,7 +616,7 @@ class InteractiveManager(ImageMixin):
 
             if script_relative and not out_path.is_absolute():
                 # Find the path of the script calling this method
-                caller_file = Path(inspect.stack()[1].filename).resolve()
+                caller_file = Path(inspect.stack()[2].filename).resolve()
                 base_dir = caller_file.parent
                 out_path = base_dir / out_path
 

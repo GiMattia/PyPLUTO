@@ -1,5 +1,7 @@
 """Figure Manager Module."""
 
+from __future__ import annotations
+
 import shutil
 import warnings
 from typing import Unpack
@@ -8,44 +10,73 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 
+from pyPLUTO.imagekwargs import FigureKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
-from pyPLUTO.utils.annotator import AllKwargs
 from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FigureManager(ImageMixin):
-    """Manages the figure and sets the style, size, and LaTeX settings."""
+    """Manages the figure and sets the style, size, and LaTeX settings.
+
+    It creates a new figure and sets the LaTeX conditions, as well as the
+    matplotlib style. Every Image is associated to a figure object and only one
+    in order to avoid confusion between images and figures. If you
+    want to create multiple figures, you have to create multiple Image objects.
+
+    Parameters
+    ----------
+    - close: bool, default True
+        If True, the existing figure with the same window number is closed.
+    - fig (not optional): Figure | None, default None
+        The figure instance. If not None, the figure is used (only if we
+        need to associate an Image to an existing figure).
+    - figsize: Sequence[float], default varies
+        Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+        computed from the number of rows and columns (or [8,5] for a single
+        plot).
+    - fontweight: str, default "normal"
+        Sets the font weight for all the axis components.
+    - fontsize: float, default 17.0
+        Sets the fontsize for all the axis components.
+    - LaTeX (not optional): bool | str
+        The LaTeX option. Is True is selected, the default LaTeX font is
+        used. If 'pgf' is selected, the pgf backend is used to save pdf
+        figures with minimal file size. If XeLaTeX is not installed and the
+        'pgf' option is selected, the LaTeX option True is used as backup
+        strategy.
+    - numcolors: int, default 10
+        The number of colors.
+    - nwin: int, default 1
+        The window number.
+    - replace: bool, default False
+        If True, the existing figure with the same window number will be
+        replaced.
+    - suptitle: str, default None
+        Creates a figure title over all the subplots.
+    - suptitlesize: int | str, default 'large'
+        The figure title size.
+    - tight: bool, default True
+        Enables/disables tight layout options for the figure. In case of a
+        highly customized plot (e.g. ratios or space between rows and
+        columns) the option is set by default to False since that option
+        would not be available for standard matplotlib functions.
+    - withblack: bool, default False
+        If True, the black color is used as first color.
+    - withwhite: bool default False
+        If True, the white color is used as first color.
+    """
 
     @track_kwargs
     def __init__(
         self,
         state: ImageState,
-        **kwargs: Unpack[AllKwargs],
+        _check: bool = True,
+        **kwargs: Unpack[FigureKwargs],
     ) -> None:
-        """Initialize the FigureManager class.
-
-        It creates a new figure and sets the LaTeX conditions, as well as the
-        matplotlib style. Every Image is associated to a figure object and only
-        one in order to avoid confusion between images and figures. If you
-        want to create multiple figures, you have to create multiple
-        Image objects.
-
-        Parameters
-        ----------
-        - state: ImageState
-            The state of the image, which contains the figure and other
-            properties.
-
-        Returns
-        -------
-        - None
-
-        """
-        # needed because the __init__ is longer than simply self.state = state
+        """Initialize the FigureManager class with a given state."""
         self.state = state
 
-        # Extract specific kwargs for colorlines, with defaults if not provided
         close = kwargs.pop("close", True)
         fontweight = kwargs.pop("fontweight", "normal")
         numcolors = kwargs.pop("numcolors", 10)
@@ -69,7 +100,9 @@ class FigureManager(ImageMixin):
 
         self.setup_style()
         self.state.color = self.choose_colorlines(
-            numcolors, withblack, withwhite
+            numcolors,
+            withblack,
+            withwhite,
         )
         self.assign_LaTeX(fontweight)
         self.create_figure(replace, suptitle, suptitlesize)
@@ -85,7 +118,10 @@ class FigureManager(ImageMixin):
             self.state.style = "default"
 
     def choose_colorlines(
-        self, numcolors: int, withblack: bool, withwhite: bool
+        self,
+        numcolors: int,
+        withblack: bool,
+        withwhite: bool,
     ) -> list[str]:
         """Choose the colors for the lines.
 
@@ -104,8 +140,6 @@ class FigureManager(ImageMixin):
         Returns
         -------
         - list[str]
-
-        ----
 
         Examples
         --------
@@ -203,12 +237,12 @@ class FigureManager(ImageMixin):
             figures with minimal file size. If XeLaTeX is not installed and the
             'pgf' option is selected, the LaTeX option True is used as backup
             strategy.
+        - fontweight: str, default "normal"
+            Sets the font weight for all the axis components.
 
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -249,7 +283,7 @@ class FigureManager(ImageMixin):
                         "font.family": "serif",
                         "font.weight": fontweight,
                         "text.usetex": True,
-                    }
+                    },
                 )
 
             # If errors occur, the LaTeX option True is used and a warning
@@ -283,8 +317,6 @@ class FigureManager(ImageMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -322,7 +354,10 @@ class FigureManager(ImageMixin):
             plt.close(existing_fig)
 
     def create_figure(
-        self, replace: bool, suptitle: str | None, suptitlesize: int | str
+        self,
+        replace: bool,
+        suptitle: str | None,
+        suptitlesize: int | str,
     ) -> None:
         """Create the figure associated to an Image instance.
 
@@ -330,34 +365,17 @@ class FigureManager(ImageMixin):
 
         Parameters
         ----------
-        - close: bool, default True
-            If True, the existing figure with the same window number is closed.
-        - fig (not optional): Figure | None, default None
-            The figure instance. If not None, the figure is used (only if we
-            need to associate an Image to an existing figure).
-        - figsize: list[float], default varies
-            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
-            computed from the number of rows and columns (or [8,5] for a single
-            plot).
-        - fontsize: float, default 17.0
-            Sets the fontsize for all the axis components.
-        - nwin: int, default 1
-            The window number.
+        - replace: bool, default False
+            If True, the existing figure with the same window number will be
+            replaced.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
         - suptitlesize: int | str, default 'large'
             The figure title size.
-        - tight: bool, default True
-            Enables/disables tight layout options for the figure. In case of a
-            highly customized plot (e.g. ratios or space between rows and
-            columns) the option is set by default to False since that option
-            would not be available for standard matplotlib functions.
 
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

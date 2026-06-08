@@ -1,6 +1,8 @@
 """Module for code selection functionality."""
 
-from typing import Any
+from __future__ import annotations
+
+import logging
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
@@ -8,31 +10,61 @@ from pyPLUTO.codes.echo_load import EchoLoadManager
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.utils.inspector import track_kwargs
 
+logger = logging.getLogger(__name__)
+
 
 class CodeManager(BaseLoadMixin[BaseLoadState]):
-    """Class that manages the code selection."""
+    """Class that manages the code selection.
+
+    Parameters
+    ----------
+    - nout: int | list | None
+        The output number to load.
+    - var: str | list[str] | np.ndarray | bool | None, default True
+            The variable to be loaded . When loading, it selects the variables
+            (True loads all, or pass a string or list for a subset).
+
+    Return
+    ------
+    - None
+    """
 
     @track_kwargs
     def __init__(
         self,
         state: BaseLoadState,
         nout: int | str | list[int | str] | None,
-        **kwargs: Any,
+        var: str | list[str] | bool | None,
+        _check: bool = True,
     ) -> None:
         """Initialize the CodeManager class."""
         self.state = state
         if isinstance(state, LoadState):
             self.echomanager = EchoLoadManager(state)
 
-        self.select_code(nout, **kwargs)
+        self.select_code(nout, var, _check=False)
 
     @track_kwargs
     def select_code(
-        self, nout: int | str | list[int | str] | None, **kwargs: Any
+        self,
+        nout: int | str | list[int | str] | None,
+        var: str | list[str] | bool | None,
+        _check: bool = True,
     ) -> None:
-        """Select the code based on the state."""
-        # If not code is provided (or the code is PLUTO/gPLUTO) just skip
+        """Select the code based on the state.
 
+        Parameters
+        ----------
+        - nout: int | list | None
+            The output number to load.
+        - var: str | list[str] | np.ndarray | bool | None, default True
+            The variable to be loaded . When loading, it selects the variables
+            (True loads all, or pass a string or list for a subset).
+
+        Return
+        ------
+        - None
+        """
         codedict = {
             "echo": self.echomanager.load_echo,
         }
@@ -40,10 +72,10 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
         # If not code is provided (or the code is PLUTO/gPLUTO) just skip
         if self.state.code.lower() in codedict:
             if self.state.text is not False:
-                print(f"Loading data from code: {self.state.code}")
-            codedict[self.state.code.lower()](nout, **kwargs)
+                logger.info("Loading data from code: %s", self.state.code)
+            codedict[self.state.code.lower()](nout, var, _check=False)
 
         else:
             raise NotImplementedError(
-                f"{self.state.code} loading is not implemented!"
+                f"{self.state.code} loading is not implemented!",
             )

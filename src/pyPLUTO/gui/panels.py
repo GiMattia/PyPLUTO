@@ -1,10 +1,15 @@
 """Widget-construction mixin for the main GUI window."""
 
+from __future__ import annotations
+
+from collections.abc import Callable
+
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
     QFrame,
     QLabel,
+    QLayout,
     QLineEdit,
     QPushButton,
 )
@@ -13,7 +18,7 @@ from PySide6.QtWidgets import (
 class PanelsMixin:
     """Small helpers to build repetitive Qt widgets."""
 
-    def add_line(self, control_layout):
+    def add_line(self, control_layout: QLayout) -> None:
         """Add a horizontal sunken separator line to a layout.
 
         Parameters
@@ -31,7 +36,13 @@ class PanelsMixin:
         line.setFrameShadow(QFrame.Shadow.Sunken)
         control_layout.addWidget(line)
 
-    def add_combobox(self, control_layout, data, width=None, height=None):
+    def add_combobox(
+        self,
+        control_layout: QLayout,
+        data: list[str],
+        width: int | None = None,
+        height: int | None = None,
+    ) -> QComboBox:
         """Create a combo box pre-populated with items and add it to a layout.
 
         Parameters
@@ -58,7 +69,13 @@ class PanelsMixin:
         control_layout.addWidget(combo_box)
         return combo_box
 
-    def add_label(self, label, control_layout, width=None, height=None):
+    def add_label(
+        self,
+        label: str,
+        control_layout: QLayout,
+        width: int | None = None,
+        height: int | None = None,
+    ) -> QLabel:
         """Create a text label and add it to a layout.
 
         Parameters
@@ -85,7 +102,13 @@ class PanelsMixin:
         control_layout.addWidget(labelgui)
         return labelgui
 
-    def add_lineedit(self, control_layout, data=None, width=None, height=None):
+    def add_lineedit(
+        self,
+        control_layout: QLayout,
+        data: str | None = None,
+        width: int | None = None,
+        height: int | None = None,
+    ) -> QLineEdit:
         """Create a single-line text input and add it to a layout.
 
         Parameters
@@ -112,7 +135,13 @@ class PanelsMixin:
         control_layout.addWidget(lineedit)
         return lineedit
 
-    def add_checkbox(self, label, control_layout, width=None, height=None):
+    def add_checkbox(
+        self,
+        label: str,
+        control_layout: QLayout,
+        width: int | None = None,
+        height: int | None = None,
+    ) -> QCheckBox:
         """Create a check box and add it to a layout.
 
         Parameters
@@ -136,8 +165,16 @@ class PanelsMixin:
         control_layout.addWidget(checkbox)
         return checkbox
 
-    def add_pushbutton(self, label, control_layout, callback=None, width=None):
-        """Create a push button, optionally wire a click handler, and add it to a layout.
+    def add_pushbutton(
+        self,
+        label: str,
+        control_layout: QLayout,
+        callback: Callable[[], None] | None = None,
+        width: int | None = None,
+    ) -> QPushButton:
+        """Create a push button and add it to a layout.
+
+        Optionally, wire a click handler.
 
         Parameters
         ----------
@@ -145,7 +182,7 @@ class PanelsMixin:
             Text displayed on the button face.
         - control_layout: QLayout
             The Qt layout that will receive the button.
-        - callback: callable or None, default None
+        - callback: Callable[[], None] or None, default None
             Slot connected to the ``clicked`` signal; skipped when ``None``.
         - width: int or None, default None
             Fixed pixel width; ignored when not an integer.
@@ -159,6 +196,6 @@ class PanelsMixin:
         if isinstance(width, int):
             pushbutton.setFixedWidth(width)
         if callback is not None:
-            pushbutton.clicked.connect(callback)  # type: ignore[arg-type]
+            pushbutton.clicked.connect(callback)
         control_layout.addWidget(pushbutton)
         return pushbutton

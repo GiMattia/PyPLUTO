@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import os
 from typing import TYPE_CHECKING, cast
 
@@ -19,6 +20,8 @@ from pyPLUTO.gui.services import (
     parse_selected_file,
     parse_vars_text,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class LoadController:
@@ -53,7 +56,9 @@ class LoadController:
             var = parse_vars_text(app.varstext.text())
             app.Data = pp.Load(
                 app.nout,
-                path=cast(str, app.folder_path),  # always set before this call
+                path=cast(
+                    "str", app.folder_path
+                ),  # always set before this call
                 datatype=app.datatype,
                 var=var,
                 full3D=False,
@@ -80,10 +85,10 @@ class LoadController:
             # refresh the info panel including any custom-variable definitions
             defs = app.var_selector.property("_cv_defs") or []
             app.info_label.setPlainText(
-                build_info_text(str(app.folder_path or "./"), app.Data, defs)
+                build_info_text(str(app.folder_path or "./"), app.Data, defs),
             )
         except Exception as e:
-            print(f"Error loading data: {e}")
+            logger.error("Error loading data: %s", e)
             app.data_loaded = False
 
     def select_folder(self) -> None:
@@ -118,7 +123,7 @@ class LoadController:
             if format_name != "None"
             else ""
         )
-        starting_dir: str = app.folder_path if app.folder_path else os.getcwd()
+        starting_dir: str = app.folder_path or os.getcwd()
         bigstr += (
             "PLUTO Files (*.dbl *.vtk *.flt *.dbl.h5 *.flt.h5 *.out "
             "*.hdf5 *.tab);;All Files (*)"
@@ -126,7 +131,10 @@ class LoadController:
 
         # non-native dialog required so folder navigation also exposes files
         dialog = QFileDialog(
-            app, "Select a File or Folder", starting_dir, bigstr
+            app,
+            "Select a File or Folder",
+            starting_dir,
+            bigstr,
         )
         dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
         dialog.setFileMode(QFileDialog.FileMode.ExistingFile)
@@ -171,7 +179,9 @@ class LoadController:
 
         # restore the previously selected variable if it survived the reload
         loaded_vars: list[str] = getattr(
-            app.Data, "load_vars", getattr(app.Data, "_load_vars", [])
+            app.Data,
+            "load_vars",
+            getattr(app.Data, "_load_vars", []),
         )
         if var_name in loaded_vars or var_name in custom_names:
             app.var_selector.setCurrentText(var_name)

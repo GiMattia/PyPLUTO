@@ -396,6 +396,9 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="show.html">pyPLUTO.show</a></li>
 </ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="set_text.html">pyPLUTO.set_text</a></li>
+</ul>
 </div>
 </nav></div>
     </div>
@@ -459,8 +462,90 @@
 <span id="find-fieldlines"></span><h1>Load.find_fieldlines<a class="headerlink" href="#load-find-fieldlines" title="Link to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">FindLinesManager.</span></span><span class="sig-name descname"><span class="pre">find_fieldlines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/pyPLUTO/toolfuncs/findlines.html#FindLinesManager.find_fieldlines"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Find field lines from two vector components.</p>
+<span class="sig-prename descclassname"><span class="pre">FindLinesManager.</span></span><span class="sig-name descname"><span class="pre">find_fieldlines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/pyPLUTO/toolfuncs/findlines.html#FindLinesManager.find_fieldlines"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Find field lines using the vector field.</p>
+<p>The field lines are computed by interpolating the variables var1 and
+var2 at the footpoints x0 and y0. Different integration algorithms are
+available, based on the method solve_ivp of the scipy package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>- atol: float, default 1e-6</strong></dt><dd><p>The absolute tolerance for the integration.</p>
+</dd>
+<dt><strong>- closed: bool, default True</strong></dt><dd><p>If True, it checks if the line is closed on itself.</p>
+</dd>
+<dt><strong>- ctol: float, default 1e-6</strong></dt><dd><p>The absolute tolerance for line closing on itself.</p>
+</dd>
+<dt><strong>- dense: bool, default False</strong></dt><dd><p>If True, the grid is dense (dense=True) or sparse (dense=False).</p>
+</dd>
+<dt><strong>- maxstep: float, default 100*step</strong></dt><dd><p>The maximum step size for the integration.</p>
+</dd>
+<dt><strong>- minstep: float, default 0.05*step</strong></dt><dd><p>The minimum step size for the integration
+(only used if order is LSODA).</p>
+</dd>
+<dt><strong>- numsteps: int, default 16384</strong></dt><dd><p>The maximum number of steps for the integration.</p>
+</dd>
+<dt><strong>- order: str, default ‘RK45’</strong></dt><dd><p>The integration method. Available options are:
+‘RK45’, ‘RK23’, ‘DOP853’, ‘Radau’, ‘BDF’, ‘LSODA’.</p>
+</dd>
+<dt><strong>- rtol: float, default 1e-6</strong></dt><dd><p>The relative tolerance for the integration.</p>
+</dd>
+<dt><strong>- step: float, default</strong></dt><dd><dl class="simple">
+<dt>abs(min((xend-xbeg)/self.nx1, (yend-ybeg)/self.nx2))</dt><dd><p>The initial step size for the integration.</p>
+</dd>
+</dl>
+</dd>
+<dt><strong>- text: bool, default False</strong></dt><dd><p>If True some additional information is printed.</p>
+</dd>
+<dt><strong>- transpose: True/False, default False</strong></dt><dd><p>Transposes the variable matrix. Use is not recommended if not
+really necessary (e.g. in case of highly customized variables and
+plots).</p>
+</dd>
+<dt><strong>- var1 (not optional): str | np.ndarray</strong></dt><dd><p>The first variable to be interpolated.</p>
+</dd>
+<dt><strong>- var2 (not optional): str | np.ndarray</strong></dt><dd><p>The second variable to be interpolated.</p>
+</dd>
+<dt><strong>- x0: list</strong></dt><dd><p>The x coordinates of the footpoints.</p>
+</dd>
+<dt><strong>- x1: np.ndarray | list | None, default self.x1</strong></dt><dd><p>The x coordinates of the grid.</p>
+</dd>
+<dt><strong>- x2: np.ndarray | list | None, default self.x2</strong></dt><dd><p>The y coordinates of the grid.</p>
+</dd>
+<dt><strong>- y0: list</strong></dt><dd><p>The y coordinates of the footpoints.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>linelist: list</dt><dd><p>A list of lists containing the coordinates of the field lines.
+The strcuture of the list is [[x1, y1], [x2, y2], …] where
+x1, y1, x2, y2 are numpy arrays representing the coordinates of
+the field lines.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<ul>
+<li><p>Example #1: Find field lines using the vector field</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">find_fieldlines</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #2: Find field lines using two strings ‘Bx1’ and ‘Bx2’</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">find_fieldlines</span><span class="p">(</span><span class="s2">&quot;Bx1&quot;</span><span class="p">,</span> <span class="s2">&quot;Bx2&quot;</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Example #3: Find field lines using two variables and two footpoints</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">find_fieldlines</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">],</span> <span class="p">[</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
+</ul>
 </dd></dl>
 
 <div class="line-block">

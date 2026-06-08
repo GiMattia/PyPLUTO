@@ -471,6 +471,11 @@ loading method is used (if implemented).</p>
 the format from the list of possible formats. HDF5 (AMR) formats have
 not been implemented yet.</p>
 </dd>
+<dt><strong>- defh: bool | str | None, default None</strong></dt><dd><p>The path to the definitions header file. If True, the code will look for
+the default definitions header file. If a string is provided, it will be
+used as the path to the definitions header file. If False, the code will
+not attempt to read the definitions header file.</p>
+</dd>
 <dt><strong>- endian: str | None, default None</strong></dt><dd><p>Endianess of the datafiles. Should be used only if specific
 architectures are used, since the code computes it by itself. Valid
 values are ‘big’ and ‘little’ (or ‘&lt;’ and ‘&gt;’).</p>
@@ -496,15 +501,17 @@ used carefully, e.g. only when the data need to be shown interactively.</p>
 </dd>
 <dt><strong>- path: str, default ‘./’</strong></dt><dd><p>The path of the folder where the files should be loaded.</p>
 </dd>
-<dt><strong>- text: bool, default True</strong></dt><dd><p>If True, the folder and output are printed. In case the user needs a
-more detailed information of the structure and attributes loaded from
-the class, the __str__ method provides a easy display of all the
-important information.</p>
+<dt><strong>- plini: bool | str | None, default None</strong></dt><dd><p>The path to the pluto.ini file. If True, the code will look for the
+default pluto.ini file. If a string is provided, it will be used as the
+path to the pluto.ini file. If False, the code will not attempt to read
+the pluto.ini file.</p>
 </dd>
-<dt><strong>- vars: str | list | bool | None, default True</strong></dt><dd><p>The variables to be loaded. The default value, True, corresponds to all
+<dt><strong>- text: bool | None, default None</strong></dt><dd><p>Controls output verbosity. None (default) prints standard load info at
+INFO level. False silences all output. True enables full DEBUG logging.</p>
+</dd>
+<dt><strong>- var: str | list[str] | bool | None, default True</strong></dt><dd><p>The variables to be loaded. The default value, True, corresponds to all
 the variables.</p>
 </dd>
-<dt><strong>—-</strong></dt><dd></dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -556,7 +563,7 @@ the variables.</p>
 </li>
 <li><dl>
 <dt>Example #6: Load the data from the default folder and multiple selected</dt><dd><p>outputs and variables</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="s2">&quot;vel1&quot;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">nout</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">var</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="s2">&quot;vel1&quot;</span><span class="p">])</span>
 <span class="go">Loading folder ./,     output [0, 1, 2]</span>
 </pre></div>
 </div>

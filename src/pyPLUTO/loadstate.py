@@ -1,9 +1,10 @@
 """Module that contains the LoadState class."""
 
-from dataclasses import dataclass, field
-from typing import Any
+from __future__ import annotations
 
-from numpy.typing import NDArray
+from dataclasses import dataclass, field
+
+import numpy as np
 
 from pyPLUTO.baseloadstate import BaseLoadState
 
@@ -19,9 +20,9 @@ class LoadState(BaseLoadState):
     """
 
     defh: dict = field(init=False, repr=False)
-    dx1: NDArray[Any] = field(init=False)
-    dx2: NDArray[Any] = field(init=False)
-    dx3: NDArray[Any] = field(init=False)
+    dx1: np.ndarray = field(init=False)
+    dx2: np.ndarray = field(init=False)
+    dx3: np.ndarray = field(init=False)
     full3D: bool = False
     geom: str = field(init=False)
 
@@ -40,25 +41,25 @@ class LoadState(BaseLoadState):
 
     plini: dict = field(init=False, repr=False)
 
-    x1: NDArray[Any] = field(init=False)
-    x1c: NDArray[Any] = field(init=False, repr=False)
-    x1p: NDArray[Any] = field(init=False, repr=False)
-    x1r: NDArray[Any] = field(init=False)
-    x1rc: NDArray[Any] = field(init=False, repr=False)
-    x1rp: NDArray[Any] = field(init=False, repr=False)
-    x1rt: NDArray[Any] = field(init=False, repr=False)
-    x1t: NDArray[Any] = field(init=False, repr=False)
+    x1: np.ndarray = field(init=False)
+    x1c: np.ndarray = field(init=False, repr=False)
+    x1p: np.ndarray = field(init=False, repr=False)
+    x1r: np.ndarray = field(init=False)
+    x1rc: np.ndarray = field(init=False, repr=False)
+    x1rp: np.ndarray = field(init=False, repr=False)
+    x1rt: np.ndarray = field(init=False, repr=False)
+    x1t: np.ndarray = field(init=False, repr=False)
 
-    x2: NDArray[Any] = field(init=False)
-    x2c: NDArray[Any] = field(init=False, repr=False)
-    x2p: NDArray[Any] = field(init=False, repr=False)
-    x2r: NDArray[Any] = field(init=False)
-    x2rc: NDArray[Any] = field(init=False, repr=False)
-    x2rp: NDArray[Any] = field(init=False, repr=False)
+    x2: np.ndarray = field(init=False)
+    x2c: np.ndarray = field(init=False, repr=False)
+    x2p: np.ndarray = field(init=False, repr=False)
+    x2r: np.ndarray = field(init=False)
+    x2rc: np.ndarray = field(init=False, repr=False)
+    x2rp: np.ndarray = field(init=False, repr=False)
 
-    x3: NDArray[Any] = field(init=False)
-    x3c: NDArray[Any] = field(init=False, repr=False)
-    x3r: NDArray[Any] = field(init=False)
-    x3rc: NDArray[Any] = field(init=False, repr=False)
-    x3rt: NDArray[Any] = field(init=False, repr=False)
-    x3t: NDArray[Any] = field(init=False, repr=False)
+    x3: np.ndarray = field(init=False)
+    x3c: np.ndarray = field(init=False, repr=False)
+    x3r: np.ndarray = field(init=False)
+    x3rc: np.ndarray = field(init=False, repr=False)
+    x3rt: np.ndarray = field(init=False, repr=False)
+    x3t: np.ndarray = field(init=False, repr=False)

@@ -1,14 +1,15 @@
 """Module to load the data from the output files of the ECHO code."""
 
+from __future__ import annotations
+
 import warnings
 from pathlib import Path
-from typing import Unpack, cast
+from typing import cast
 
 import h5py
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
-from pyPLUTO.utils.annotator import AllKwargs
 from pyPLUTO.utils.inspector import track_kwargs
 
 
@@ -28,7 +29,8 @@ class EchoLoadManager(LoadMixin):
     def load_echo(
         self,
         nout: int | str | list[int | str] | None,
-        **kwargs: Unpack[AllKwargs],
+        loadvars: str | list[str] | bool | None,
+        _check: bool = True,
     ) -> None:
         """Load data from an ECHO HDF5 output file.
 
@@ -39,26 +41,25 @@ class EchoLoadManager(LoadMixin):
 
         Parameters
         ----------
-        - nout: int | list | None
-            The output number to load. If a string or None is given the
-            output defaults to 0 and a warning is raised.
-        - var: str | list[str] | np.ndarray | bool | None, default True
+        - loadvars: str | list[str] | np.ndarray | bool | None, default True
             The variable to be loaded / plotted. When loading, it selects the
             variables (True loads all, or pass a string or list for a subset);
             when plotting, it is the array to display.
+        - nout: int | list | None
+            The output number to load. If a string or None is given the
+            output defaults to 0 and a warning is raised.
+        - vars: to be deprecated!
 
         Returns
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Load all variables from output 3
 
-            >>> import pyPLUTO as pp
-            >>> D = pp.Load(3, code='echo')
+            >>> EchoLoadManager = pp.EchoLoadManager(state)
+            >>> EchoLoadManager.load_echo(nout=3, loadvars=True)
 
         """
         # ECHO always produces Cartesian geometry output
@@ -109,20 +110,13 @@ class EchoLoadManager(LoadMixin):
         # Construct the file path
         file = self.state.pathdir / Path(f"out{self.state.nout:03d}.h5")
 
-        # Determine which variables to load; handle deprecated 'vars' kwarg
-        loadvars = True
-        if kwargs.get("vars") is not None:
-            warnings.warn(
-                "'vars' argument is deprecated. Use 'var' instead.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-            loadvars = kwargs.get("vars", loadvars)
-        loadvars = kwargs.get("var", loadvars)
-
         with h5py.File(str(file), "r") as tmp:
             # Read simulation time from the output file
-            self.state.ntime = cast(h5py.Dataset, tmp["time"])[()][0]
+            self.state.ntime = cast("h5py.Dataset", tmp["time"])[()][0]
+
+            # Populate varslist: HDF5 keys except "time", mapped to PLUTO names
+            all_vars = [conv_dict.get(k, k) for k in tmp if k != "time"]
+            self.state.d_info["varslist"] = [all_vars]
 
             # Build the list of variable names to load
             if loadvars is True:
@@ -146,6 +140,18 @@ class EchoLoadManager(LoadMixin):
         ----------
         - conv_dict: dict[str, str]
             Mapping from ECHO variable names to PLUTO variable names.
+
+        Returns
+        -------
+        - None
+
+        Examples
+        --------
+        - Example #1: Load grid coordinates
+
+            >>> EchoLoadManager = pp.EchoLoadManager(state)
+            >>> EchoLoadManager.echo_load_grid(conv_dict)
+
         """
         with h5py.File(str(self.state.pathdir / Path("grid.h5")), "r") as grid:
             # Load grid coordinates and map them to PLUTO naming convention
@@ -163,6 +169,18 @@ class EchoLoadManager(LoadMixin):
         Sets ``nx1``, ``nx2``, ``nx3`` (number of cells per direction),
         ``dim`` (number of active dimensions), ``gridsize`` (total cell count)
         and ``nshp`` (shape tuple used for array reshaping).
+
+
+        Returns
+        -------
+        - None
+
+        Examples
+        --------
+        - Example #1: Derive the grid dimensions
+
+            >>> EchoLoadManager = pp.EchoLoadManager(state)
+            >>> EchoLoadManager.echo_set_grid_dims()
         """
         # Count cells along each direction (1 if the coordinate is absent)
         for dim in ["x1", "x2", "x3"]:
@@ -184,7 +202,10 @@ class EchoLoadManager(LoadMixin):
         self.state.nshp = dim_dict[self.state.dim]
 
     def echo_load_vars(
-        self, tmp: h5py.File, conv_dict: dict[str, str], var: list[str]
+        self,
+        tmp: h5py.File,
+        conv_dict: dict[str, str],
+        var: list[str],
     ) -> None:
         """Load and store variables from an open ECHO HDF5 output file.
 
@@ -200,6 +221,17 @@ class EchoLoadManager(LoadMixin):
             Mapping from ECHO variable names to PLUTO variable names.
         - var: list[str]
             List of PLUTO variable names to load.
+
+        Returns
+        -------
+        - None
+
+        Examples
+        --------
+        - Example #1: Load variables
+
+            >>> EchoLoadManager = pp.EchoLoadManager(state)
+            >>> EchoLoadManager.echo_load_vars(tmp, conv_dict, var)
         """
         for key in var:
             if key == "time":
@@ -226,4 +258,6 @@ class EchoLoadManager(LoadMixin):
                     loadvar = loadvar[0]
 
             # Transpose to match PLUTO's column-major convention
-            setattr(self.state, conv_dict.get(valkey, valkey), loadvar.T)
+            varname = conv_dict.get(valkey, valkey)
+            setattr(self.state, varname, loadvar.T)
+            self.state.d_vars[varname] = loadvar.T

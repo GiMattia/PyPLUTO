@@ -1,5 +1,7 @@
 """Pure custom-variable engine (no Qt dependencies)."""
 
+from __future__ import annotations
+
 import contextlib
 import os
 import re
@@ -37,6 +39,20 @@ def normalize_expr(expr: str) -> str:
     -------
     - str
 
+    -----
+
+    Examples
+    --------
+    - Example #1: Normalize a simple expression
+
+        >>> normalize_expr("D.rho")
+        'rho'
+
+    - Example #2: Normalize a numpy expression
+
+        >>> normalize_expr("np.sqrt(D.rho)")
+        'sqrt(rho)'
+
     """
     s = expr.strip()
     for pat, repl in _NORM_PATTERNS:
@@ -64,6 +80,15 @@ def frozen_var_names(Data: Load) -> set[str]:
     Returns
     -------
     - set[str]
+
+    -----
+
+    Examples
+    --------
+    - Example #1: Return the unchangable variables
+
+        >>> frozen_var_names(Data)
+        {'rho', 'vx1', 'vx2', 'vx3', 'x1', 'x2', 'x3'}
 
     """
     names = set(map(str, getattr(Data.state, "d_vars", [])))
@@ -101,6 +126,15 @@ def build_locals(Data: Load) -> dict[str, float | np.ndarray]:
     -------
     - dict[str, float | np.ndarray]
 
+    -----
+
+    Examples
+    --------
+    - Example #1: Build the variable namespace
+
+        >>> build_locals(Data)
+        {'pi': 3.141592653589793, 'e': 2.718281828459045, 'rho': <array>, ...}
+
     """
     local: dict[str, float | np.ndarray] = {
         "pi": float(np.pi),
@@ -132,7 +166,8 @@ def build_locals(Data: Load) -> dict[str, float | np.ndarray]:
 
 
 def apply_grid_shaping(
-    local: dict[str, float | np.ndarray], Data: Load
+    local: dict[str, float | np.ndarray],
+    Data: Load,
 ) -> None:
     """Reshape 1-D grid arrays for broadcasting and expose geometry aliases.
 
@@ -160,6 +195,15 @@ def apply_grid_shaping(
     -------
     - None
 
+
+    -----
+
+    Examples
+    --------
+    - Example #1: Reshape 1-D grid arrays
+
+        >>> apply_grid_shaping(local, Data)
+
     """
     nshp = (
         Data.state.nshp
@@ -180,7 +224,8 @@ def apply_grid_shaping(
                 pattern = [1] * Data.state.dim
                 pattern[axis] = v.shape[0]
                 local[name] = np.broadcast_to(
-                    cast(np.ndarray, v).reshape(pattern), nshp
+                    cast("np.ndarray", v).reshape(pattern),
+                    nshp,
                 )
             except Exception:
                 pass  # leave the original 1-D array if reshape fails
@@ -254,11 +299,28 @@ def _evaluate_array_expr(
     -------
     - np.ndarray
 
+
+    -----
+
+    Examples
+    --------
+    - Example #1: Evaluate array expressions
+
+        >>> _evaluate_array_expr(
+        ...     "sqrt(rho)",
+        ...     local,
+        ...     "sqrt_rho",
+        ...     [local["rho"]],
+        ...     np.float64
+        ... )
+
     """
     out_shape = np.broadcast(*[np.empty(a.shape, dtype=[]) for a in arrs]).shape
 
     with tempfile.NamedTemporaryFile(
-        prefix=f"{name}_", suffix=".dat", delete=False
+        prefix=f"{name}_",
+        suffix=".dat",
+        delete=False,
     ) as tmp:
         tmp_path = tmp.name
 
@@ -274,7 +336,11 @@ def _evaluate_array_expr(
 
 
 def evaluate_custom_var(
-    Data: Load, name: str, expr: str, *, assign: bool = True
+    Data: Load,
+    name: str,
+    expr: str,
+    *,
+    assign: bool = True,
 ) -> np.ndarray | int | float:
     """Evaluate a user-defined expression and optionally store the result.
 
@@ -311,6 +377,16 @@ def evaluate_custom_var(
         If name is protected, the expression fails to compile, an unknown
         variable is referenced, or evaluation raises an error.
 
+
+
+    -----
+
+    Examples
+    --------
+    - Example #1: Evaluate a scalar expression
+
+        >>> evaluate_custom_var(Data, "sqrt_rho", "sqrt(rho)")
+
     """
     expr = normalize_expr(expr)
     if name in frozen_var_names(Data):
@@ -339,7 +415,9 @@ def evaluate_custom_var(
 
     try:
         tiny_res: np.ndarray = ne.evaluate(
-            expr, local_dict=tiny, global_dict={}
+            expr,
+            local_dict=tiny,
+            global_dict={},
         )
     except Exception as err:
         raise ValueError(f"validation error: {err}") from err
@@ -353,7 +431,9 @@ def evaluate_custom_var(
         # Scalar expression: evaluate directly and unwrap 0-D arrays.
         try:
             res: np.ndarray = ne.evaluate(
-                expr, local_dict=local, global_dict={}
+                expr,
+                local_dict=local,
+                global_dict={},
             )
         except Exception as err:
             raise ValueError(f"evaluate error: {err}") from err
@@ -402,6 +482,14 @@ def validate_lines_sequential(Data: Load, pairs: list[tuple[str, str]]) -> None:
     - ValueError
         If any expression references an unknown variable, targets a protected
         name, or produces an error on the tiny namespace.
+
+
+    -----
+
+    Examples
+    --------
+    - Example #1: Validate a sequence of custom variable definitions
+        >>> validate_lines_sequential(Data, [("sqrt_rho", "sqrt(rho)")])
 
     """
     base = build_locals(Data)

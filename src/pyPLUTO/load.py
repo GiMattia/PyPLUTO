@@ -1,8 +1,10 @@
 """The Load class loads the data (fluid) from the output files."""
 
-# ruff: noqa: ANN201
+from __future__ import annotations
 
-from typing import Unpack
+import logging
+from collections.abc import Iterable
+from typing import Generic, Literal, TypeVar, Unpack, cast, overload
 
 import numpy as np
 
@@ -10,6 +12,17 @@ from pyPLUTO.loadfuncs.initload import InitLoadManager
 from pyPLUTO.loadfuncs.read_files import ReadFilesManager
 from pyPLUTO.loadfuncs.readdefplini import FiledefpliniManager
 from pyPLUTO.loadfuncs.write_files import WriteFilesManager
+from pyPLUTO.loadkwargs import (
+    CartesianVectorKwargs,
+    FindContourKwargs,
+    FindFieldlinesKwargs,
+    FourierKwargs,
+    LoadKwargs,
+    ReadFileKwargs,
+    ReshapeKwargs,
+    SlicesKwargs,
+    WriteFileKwargs,
+)
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.toolfuncs.compute_units import UnitManager
@@ -18,12 +31,16 @@ from pyPLUTO.toolfuncs.fourier import FourierManager
 from pyPLUTO.toolfuncs.nabla import NablaManager
 from pyPLUTO.toolfuncs.set_units import SetUnitsManager
 from pyPLUTO.toolfuncs.transform import TransformManager
-from pyPLUTO.utils.annotator import AllKwargs
+from pyPLUTO.utils.configure import set_text
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.resolver import AttrResolver
 
+logger = logging.getLogger(__name__)
 
-class Load(LoadMixin):
+_VarT = TypeVar("_VarT", bound="np.ndarray | dict[int, np.ndarray]")
+
+
+class Load(LoadMixin, Generic[_VarT]):
     """The Load class loads the data (fluid) from the output files.
 
     The initialization corresponds to the loading, if wanted, of one or more
@@ -47,6 +64,11 @@ class Load(LoadMixin):
         The format of the data file. If not specified, the code will look for
         the format from the list of possible formats. HDF5 (AMR) formats have
         not been implemented yet.
+    - defh: bool | str | None, default None
+        The path to the definitions header file. If True, the code will look for
+        the default definitions header file. If a string is provided, it will be
+        used as the path to the definitions header file. If False, the code will
+        not attempt to read the definitions header file.
     - endian: str | None, default None
         Endianess of the datafiles. Should be used only if specific
         architectures are used, since the code computes it by itself. Valid
@@ -72,11 +94,14 @@ class Load(LoadMixin):
         used carefully, e.g. only when the data need to be shown interactively.
     - path: str, default './'
         The path of the folder where the files should be loaded.
-    - text: bool, default True
-        If True, the folder and output are printed. In case the user needs a
-        more detailed information of the structure and attributes loaded from
-        the class, the __str__ method provides a easy display of all the
-        important information.
+    - plini: bool | str | None, default None
+        The path to the pluto.ini file. If True, the code will look for the
+        default pluto.ini file. If a string is provided, it will be used as the
+        path to the pluto.ini file. If False, the code will not attempt to read
+        the pluto.ini file.
+    - text: bool | None, default None
+        Controls output verbosity. None (default) prints standard load info at
+        INFO level. False silences all output. True enables full DEBUG logging.
     - var: str | list[str] | bool | None, default True
         The variables to be loaded. The default value, True, corresponds to all
         the variables.
@@ -84,8 +109,6 @@ class Load(LoadMixin):
     Returns
     -------
     - None
-
-    ----
 
     Examples
     --------
@@ -146,23 +169,56 @@ class Load(LoadMixin):
 
     """
 
+    @overload
+    def __new__(
+        cls,
+        nout: int | None = ...,
+        var: str | list[str] | bool | None = ...,
+        **kwargs: Unpack[LoadKwargs],
+    ) -> Load[np.ndarray]: ...
+
+    @overload
+    def __new__(  # pyright: ignore[reportOverlappingOverload]
+        cls,
+        nout: list[int | str] | Literal["all"],
+        var: str | list[str] | bool | None = ...,
+        **kwargs: Unpack[LoadKwargs],
+    ) -> Load[dict[int, np.ndarray]]: ...
+
+    @overload
+    def __new__(
+        cls,
+        nout: str = ...,
+        var: str | list[str] | bool | None = ...,
+        **kwargs: Unpack[LoadKwargs],
+    ) -> Load[np.ndarray]: ...
+
+    def __new__(
+        cls, *_args: object, **_kwargs: object
+    ) -> Load[np.ndarray] | Load[dict[int, np.ndarray]]:
+        """Allocate a new Load instance."""
+        return cast(
+            "Load[np.ndarray] | Load[dict[int, np.ndarray]]",
+            super().__new__(cls),
+        )
+
     @track_kwargs
     def __init__(
         self,
         nout: int | str | list[int | str] | None = "last",
-        check: bool = True,
-        **kwargs: Unpack[AllKwargs],
+        var: str | list[str] | bool | None = True,
+        _check: bool = True,
+        **kwargs: Unpack[LoadKwargs],
     ) -> None:
         """Initialize the Load class."""
-        kwargs.pop("kwargscheck", check)
-
         self.state: LoadState = LoadState()
         self.state.text = kwargs.get("text", self.state.text)
+        set_text(self.state.text)
         self.state.class_name = self.__class__.__name__
         self.state.full3D = kwargs.get("full3D", self.state.full3D)
         self.state.level = kwargs.get("level", self.state.level)
-        InitLoadManager(self.state, nout, **kwargs)
-        FiledefpliniManager(self.state, **kwargs)
+        InitLoadManager(self.state, nout, var, _check=False, **kwargs)
+        FiledefpliniManager(self.state, kwargs.get("defh"), kwargs.get("plini"))
 
         self.ReadFileManager = ReadFilesManager(self.state)
         self.WriteFileManager = WriteFilesManager(self.state)
@@ -186,14 +242,22 @@ class Load(LoadMixin):
             path = kwargs.get("path", self.state.pathdir)
             if hasattr(self.state, "nout"):
                 if isinstance(self.state.nout, (int, np.integer)):
-                    nout_out = int(self.state.nout)
+                    nout_out = self.state.nout
                 else:
                     nout_out = (
                         np.atleast_1d(self.state.nout).astype(int).tolist()
                     )
             else:
                 nout_out = None
-            print(f"Load: folder {path},     output {nout_out}")
+            logger.info("Load: folder %s,     output %s", path, nout_out)
+
+    def __repr__(self) -> str:
+        """Return the repr of the Load class."""
+        return (
+            f"Load(nout={self.state.nout!r}, "
+            f"path={self.state.pathdir!r}, "
+            f"geom={self.state.geom!r})"
+        )
 
     def __str__(self) -> str:
         """Return the string representation of the Load class."""
@@ -243,10 +307,10 @@ class Load(LoadMixin):
         """
         return text
 
-    def __getattr__(self, name: str):  # noqa: ANN204
+    def __getattr__(self, name: str) -> _VarT:
         """Get the attribute of the Load class."""
         val = getattr(self.state, name)
-        return AttrResolver.resolve(self.state, name, val)
+        return cast("_VarT", AttrResolver.resolve(self.state, name, val))
 
     def __setattr__(self, name: str, value: object) -> None:
         """Set the attribute of the Load class."""
@@ -254,82 +318,276 @@ class Load(LoadMixin):
             return super().__setattr__(name, value)
         return setattr(self.state, name, value)
 
-    @property
-    def write_file(self):
-        """Property for the write_file method."""
-        return self.WriteFileManager.write_file
+    def write_file(
+        self,
+        data: np.ndarray | dict,
+        filename: str,
+        datatype: str | None = None,
+        dataname: str | None = None,
+        grid: bool = False,
+        _check: bool = True,
+        **kwargs: Unpack[WriteFileKwargs],
+    ) -> None:
+        """Write file method."""
+        return self.WriteFileManager.write_file(
+            data,
+            filename,
+            datatype,
+            dataname,
+            grid,
+            _check=_check,
+            **kwargs,
+        )
 
-    @property
-    def read_file(self):
-        """Property for the read_file method."""
-        return self.ReadFileManager.read_file
+    write_file.__doc__ = WriteFilesManager.write_file.__doc__
 
-    @property
-    def gradient(self):
-        """Property for the gradient method."""
-        return self.NablaManager.gradient
+    def read_file(
+        self,
+        filename: str,
+        datatype: str | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[ReadFileKwargs],
+    ) -> dict[str, np.ndarray]:
+        """Read file method."""
+        return self.ReadFileManager.read_file(
+            filename,
+            datatype,
+            _check=_check,
+            **kwargs,
+        )
 
-    @property
-    def divergence(self):
-        """Property for the divergence method."""
-        return self.NablaManager.divergence
+    read_file.__doc__ = ReadFilesManager.read_file.__doc__
 
-    @property
-    def curl(self):
-        """Property for the curl method."""
-        return self.NablaManager.curl
+    def gradient(
+        self,
+        var: np.ndarray,
+        x1slice: float | None = None,
+        x2slice: float | None = None,
+        x3slice: float | None = None,
+        edge_order: int = 2,
+    ) -> np.ndarray:
+        """Gradient method."""
+        return self.NablaManager.gradient(
+            var,
+            x1slice,
+            x2slice,
+            x3slice,
+            edge_order,
+        )
 
-    @property
-    def fourier(self):
-        """Property for the fourier method."""
-        return self.FourierManager.fourier
+    gradient.__doc__ = NablaManager.gradient.__doc__
 
-    @property
-    def slices(self):
-        """Property for the slices method."""
-        return self.TransformManager.slices
+    def divergence(
+        self,
+        v1: np.ndarray | None = None,
+        v2: np.ndarray | None = None,
+        v3: np.ndarray | None = None,
+        x1slice: float | None = None,
+        x2slice: float | None = None,
+        x3slice: float | None = None,
+        edge_order: int = 2,
+    ) -> np.ndarray:
+        """Divergence method."""
+        return self.NablaManager.divergence(
+            v1,
+            v2,
+            v3,
+            x1slice,
+            x2slice,
+            x3slice,
+            edge_order,
+        )
 
-    @property
-    def mirror(self):
-        """Property for the mirror method."""
-        return self.TransformManager.mirror
+    divergence.__doc__ = NablaManager.divergence.__doc__
 
-    @property
-    def repeat(self):
-        """Property for the repeat method."""
-        return self.TransformManager.repeat
+    def curl(
+        self,
+        v1: np.ndarray | None = None,
+        v2: np.ndarray | None = None,
+        v3: np.ndarray | None = None,
+        x1slice: float | None = None,
+        x2slice: float | None = None,
+        x3slice: float | None = None,
+        edge_order: int = 2,
+    ) -> np.ndarray:
+        """Curl method."""
+        return self.NablaManager.curl(
+            v1,
+            v2,
+            v3,
+            x1slice,
+            x2slice,
+            x3slice,
+            edge_order,
+        )
 
-    @property
-    def cartesian_vector(self):
-        """Property for the cartesian_vector method."""
-        return self.TransformManager.cartesian_vector
+    curl.__doc__ = NablaManager.curl.__doc__
 
-    @property
-    def reshape_cartesian(self):
-        """Property for the reshape_cartesian method."""
-        return self.TransformManager.reshape_cartesian
+    def fourier(
+        self,
+        f: np.ndarray,
+        _check: bool = True,
+        **kwargs: Unpack[FourierKwargs],
+    ) -> tuple[list[np.ndarray], np.ndarray]:
+        """Fourier method."""
+        return self.FourierManager.fourier(f, _check=_check, **kwargs)
 
-    @property
-    def reshape_uniform(self):
-        """Property for the reshape_uniform method."""
-        return self.TransformManager.reshape_uniform
+    fourier.__doc__ = FourierManager.fourier.__doc__
 
-    @property
-    def find_fieldlines(self):
-        """Property for the find_fieldlines method."""
-        return self.FindLinesManager.find_fieldlines
+    def slices(
+        self,
+        var: np.ndarray,
+        diag: bool | str | None = None,
+        x1: int | list | None = None,
+        x2: int | list | None = None,
+        x3: int | list | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[SlicesKwargs],
+    ) -> np.ndarray:
+        """Slices method."""
+        return self.TransformManager.slices(
+            var,
+            diag,
+            x1,
+            x2,
+            x3,
+            _check=_check,
+            **kwargs,
+        )
 
-    @property
-    def find_contour(self):
-        """Property for the find_contour method."""
-        return self.FindLinesManager.find_contour
+    slices.__doc__ = TransformManager.slices.__doc__
 
-    @property
-    def to_astropy_units(self):
-        """Property for the to_astropy_units method."""
-        return self.SetUnitsManager.to_astropy_units
+    def mirror(
+        self,
+        var: np.ndarray,
+        dirs: str | list = "l",
+        xax: np.ndarray | None = None,
+        yax: np.ndarray | None = None,
+    ) -> list[np.ndarray]:
+        """Mirror method."""
+        return self.TransformManager.mirror(var, dirs, xax, yax)
 
-    @property
-    def to_code_units(self):
-        """Property for the to_code_units method."""
-        return self.SetUnitsManager.to_code_units
+    mirror.__doc__ = TransformManager.mirror.__doc__
+
+    def repeat(
+        self,
+        var: np.ndarray,
+        dirs: str | list,
+        xax: np.ndarray | None = None,
+        yax: np.ndarray | None = None,
+    ) -> np.ndarray:
+        """Repeat method."""
+        return self.TransformManager.repeat(var, dirs, xax, yax)
+
+    repeat.__doc__ = TransformManager.repeat.__doc__
+
+    def cartesian_vector(
+        self,
+        var: str | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[CartesianVectorKwargs],
+    ) -> tuple[np.ndarray, ...]:
+        """Cartesian vector method."""
+        return self.TransformManager.cartesian_vector(
+            var,
+            _check=_check,
+            **kwargs,
+        )
+
+    cartesian_vector.__doc__ = TransformManager.cartesian_vector.__doc__
+
+    def reshape_cartesian(
+        self,
+        var1: np.ndarray,
+        var2: np.ndarray | None = None,
+        var3: np.ndarray | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[ReshapeKwargs],
+    ) -> tuple[np.ndarray, ...]:
+        """Reshape cartesian method."""
+        return self.TransformManager.reshape_cartesian(
+            var1,
+            var2,
+            var3,
+            _check=_check,
+            **kwargs,
+        )
+
+    reshape_cartesian.__doc__ = TransformManager.reshape_cartesian.__doc__
+
+    def reshape_uniform(
+        self,
+        var1: np.ndarray,
+        var2: np.ndarray | None = None,
+        var3: np.ndarray | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[ReshapeKwargs],
+    ) -> tuple[np.ndarray, np.ndarray, list[np.ndarray]]:
+        """Reshape uniform method."""
+        return self.TransformManager.reshape_uniform(
+            var1,
+            var2,
+            var3,
+            _check=_check,
+            **kwargs,
+        )
+
+    reshape_uniform.__doc__ = TransformManager.reshape_uniform.__doc__
+
+    def find_fieldlines(
+        self,
+        var1: str | np.ndarray,
+        var2: str | np.ndarray,
+        x0: list | float | None = None,
+        y0: list | float | None = None,
+        x1: np.ndarray | None = None,
+        x2: np.ndarray | None = None,
+        text: bool = False,
+        _check: bool = True,
+        **kwargs: Unpack[FindFieldlinesKwargs],
+    ) -> list:
+        """Find fieldlines method."""
+        return self.FindLinesManager.find_fieldlines(
+            var1,
+            var2,
+            x0,
+            y0,
+            x1,
+            x2,
+            text,
+            _check=_check,
+            **kwargs,
+        )
+
+    find_fieldlines.__doc__ = FindLinesManager.find_fieldlines.__doc__
+
+    def find_contour(
+        self,
+        var: str | np.ndarray,
+        _check: bool = True,
+        **kwargs: Unpack[FindContourKwargs],
+    ) -> list:
+        """Find contour method."""
+        return self.FindLinesManager.find_contour(var, _check=_check, **kwargs)
+
+    find_contour.__doc__ = FindLinesManager.find_contour.__doc__
+
+    def to_astropy_units(
+        self,
+        var: str | Iterable[str] | bool | None = None,
+        skip_units: str | Iterable[str] | None = None,
+    ) -> None:
+        """To astropy units method."""
+        return self.SetUnitsManager.to_astropy_units(var, skip_units)
+
+    to_astropy_units.__doc__ = SetUnitsManager.to_astropy_units.__doc__
+
+    def to_code_units(
+        self,
+        var: str | Iterable[str] | bool | None = None,
+        skip_units: str | Iterable[str] | None = None,
+    ) -> None:
+        """To code units method."""
+        return self.SetUnitsManager.to_code_units(var, skip_units)
+
+    to_code_units.__doc__ = SetUnitsManager.to_code_units.__doc__

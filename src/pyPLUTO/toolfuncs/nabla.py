@@ -1,4 +1,8 @@
+# Legacy module pending type-checking rework; excluded for now.
+# type: ignore
 """Nabla utilities manager."""
+
+from __future__ import annotations
 
 import warnings
 from typing import Any
@@ -13,18 +17,7 @@ class NablaManager(LoadMixin):
     """Manager for gradient, divergence and curl utilities."""
 
     def __init__(self, state: LoadState) -> None:
-        """Initialize the nabla manager with the given load state.
-
-        Parameters
-        ----------
-        - state: LoadState
-            The load state object providing grid arrays and geometry information.
-
-        Returns
-        -------
-        - None
-
-        """
+        """Initialize the nabla manager with the given load state."""
         self.state = state
 
     def _is_number(self, value: Any) -> bool:
@@ -38,8 +31,6 @@ class NablaManager(LoadMixin):
         Returns
         -------
         - bool
-
-        ----
 
         Examples
         --------
@@ -56,7 +47,7 @@ class NablaManager(LoadMixin):
         """
         return isinstance(value, (int, float))
 
-    def _islice_imin_imax(self, xvalue, xgrid) -> list[int]:
+    def _islice_imin_imax(self, xvalue: float, xgrid: np.ndarray) -> list[int]:
         """Return i, imin, imax for xgrid.
 
         The computation is done such that xgrid[i] <= xvalue <=
@@ -75,8 +66,6 @@ class NablaManager(LoadMixin):
         Returns
         -------
         - list[int]
-
-        ----
 
         Examples
         --------
@@ -103,9 +92,14 @@ class NablaManager(LoadMixin):
             i_max = 3 if i_min == 0 else i_max
 
         # Return i, imin, imax
-        return i - i_min, i_min, i_max
+        return [int(i - i_min), int(i_min), int(i_max)]
 
-    def _get_slice_indices(self, slice_val, grid, grid_size):
+    def _get_slice_indices(
+        self,
+        slice_val: float,
+        grid: np.ndarray,
+        grid_size: int,
+    ) -> tuple[int, slice]:
         """Get the slice indices from the slice value.
 
         Parameters
@@ -120,8 +114,6 @@ class NablaManager(LoadMixin):
         Returns
         -------
         - tuple
-
-        ----
 
         Examples
         --------
@@ -139,9 +131,8 @@ class NablaManager(LoadMixin):
             return idx, slice(idx_min, idx_max)
 
         # If the slice value is a list return the indices and the slice
-        else:
-            # Return the indices and the slice
-            return slice(0, grid_size), slice(0, grid_size)
+        # Return the indices and the slice
+        return slice(0, grid_size), slice(0, grid_size)
 
     def _warning_cylindrical(self):
         """Emit a DeprecationWarning for the unsupported CYLINDRICAL geometry."""
@@ -155,9 +146,9 @@ class NablaManager(LoadMixin):
     def gradient(
         self,
         var: np.ndarray,
-        x1slice: float | int | None = None,
-        x2slice: float | int | None = None,
-        x3slice: float | int | None = None,
+        x1slice: float | None = None,
+        x2slice: float | None = None,
+        x3slice: float | None = None,
         edge_order: int = 2,
     ) -> np.ndarray:
         """Compute the gradient of a specified field 'var'.
@@ -187,8 +178,6 @@ class NablaManager(LoadMixin):
         Returns
         -------
         - np.ndarray
-
-        ----
 
         Examples
         --------
@@ -225,11 +214,13 @@ class NablaManager(LoadMixin):
 
         if self.dim == 1:
             grad = np.gradient(
-                var[irange], self.x1[irange], edge_order=edge_order
+                var[irange],
+                self.x1[irange],
+                edge_order=edge_order,
             )
             return np.asarray(grad)[i]
 
-        elif self.dim == 2:
+        if self.dim == 2:
             grad = np.gradient(
                 var[irange, jrange],
                 self.x1[irange],
@@ -239,13 +230,15 @@ class NablaManager(LoadMixin):
 
             if self.geom in ["SPHERICAL", "POLAR"]:
                 rr, _ = np.meshgrid(
-                    self.x1[irange], self.x2[jrange], indexing="ij"
+                    self.x1[irange],
+                    self.x2[jrange],
+                    indexing="ij",
                 )
                 grad[1] /= rr
 
             return np.asarray(grad)[:, i, j]
 
-        elif self.dim == 3:
+        if self.dim == 3:
             if self.nx2 == 1:
                 grad = np.gradient(
                     var[irange, 0, krange],
@@ -256,42 +249,43 @@ class NablaManager(LoadMixin):
 
                 if self.geom == "SPHERICAL":
                     rr, _ = np.meshgrid(
-                        self.x1[irange], self.x3[krange], indexing="ij"
+                        self.x1[irange],
+                        self.x3[krange],
+                        indexing="ij",
                     )
                     grad[1] /= rr * np.sin(self.x2[0])
 
                 return np.asarray(grad)[:, i, k]
 
-            else:
-                grad = np.gradient(
-                    var[irange, jrange, krange],
+            grad = np.gradient(
+                var[irange, jrange, krange],
+                self.x1[irange],
+                self.x2[jrange],
+                self.x3[krange],
+                edge_order=edge_order,
+            )
+
+            if self.geom != "CARTESIAN":
+                xx1, xx2, _ = np.meshgrid(
                     self.x1[irange],
                     self.x2[jrange],
                     self.x3[krange],
-                    edge_order=edge_order,
+                    indexing="ij",
                 )
+                grad[1] /= xx1
+                if self.geom == "SPHERICAL":
+                    grad[2] /= xx1 * np.sin(xx2)
 
-                if self.geom != "CARTESIAN":
-                    xx1, xx2, _ = np.meshgrid(
-                        self.x1[irange],
-                        self.x2[jrange],
-                        self.x3[krange],
-                        indexing="ij",
-                    )
-                    grad[1] /= xx1
-                    if self.geom == "SPHERICAL":
-                        grad[2] /= xx1 * np.sin(xx2)
-
-                return np.asarray(grad)[:, i, j, k]
+            return np.asarray(grad)[:, i, j, k]
 
     def divergence(
         self,
         v1: np.ndarray | None = None,
         v2: np.ndarray | None = None,
         v3: np.ndarray | None = None,
-        x1slice: float | int | None = None,
-        x2slice: float | int | None = None,
-        x3slice: float | int | None = None,
+        x1slice: float | None = None,
+        x2slice: float | None = None,
+        x3slice: float | None = None,
         edge_order: int = 2,
     ) -> np.ndarray:
         """Calculate the divergence of a vector field.
@@ -328,8 +322,6 @@ class NablaManager(LoadMixin):
         Returns
         -------
         - np.ndarray
-
-        ----
 
         Examples
         --------
@@ -383,13 +375,15 @@ class NablaManager(LoadMixin):
 
             return div1[i]
 
-        elif self.dim == 2:
+        if self.dim == 2:
             var1 = np.copy(v1[irange, jrange])
             var2 = np.copy(v2[irange, jrange])
 
             if self.geom != "CARTESIAN":
                 rr, tt = np.meshgrid(
-                    self.x1[irange], self.x2[jrange], indexing="ij"
+                    self.x1[irange],
+                    self.x2[jrange],
+                    indexing="ij",
                 )
 
                 if self.geom in ["POLAR", "CYLINDRICAL"]:
@@ -399,10 +393,16 @@ class NablaManager(LoadMixin):
                     var2 *= np.sin(tt)
 
             div1 = np.gradient(
-                var1, self.x1[irange], axis=0, edge_order=edge_order
+                var1,
+                self.x1[irange],
+                axis=0,
+                edge_order=edge_order,
             )
             div2 = np.gradient(
-                var2, self.x2[jrange], axis=1, edge_order=edge_order
+                var2,
+                self.x2[jrange],
+                axis=1,
+                edge_order=edge_order,
             )
 
             if self.geom in ["POLAR", "CYLINDRICAL"]:
@@ -415,14 +415,16 @@ class NablaManager(LoadMixin):
 
             return div1[i, j] + div2[i, j]
 
-        elif self.dim == 3:
+        if self.dim == 3:
             if self.nx2 == 1:
                 var1 = np.copy(v1[irange, 0, krange])
                 var3 = np.copy(v3[irange, 0, krange])
 
                 if self.geom != "CARTESIAN":
                     rr, _ = np.meshgrid(
-                        self.x1[irange], self.x3[krange], indexing="ij"
+                        self.x1[irange],
+                        self.x3[krange],
+                        indexing="ij",
                     )
 
                     if self.geom == "POLAR":
@@ -431,10 +433,16 @@ class NablaManager(LoadMixin):
                         var1 *= rr**2
 
                 div1 = np.gradient(
-                    var1, self.x1[irange], axis=0, edge_order=edge_order
+                    var1,
+                    self.x1[irange],
+                    axis=0,
+                    edge_order=edge_order,
                 )
                 div3 = np.gradient(
-                    var3, self.x3[krange], axis=1, edge_order=edge_order
+                    var3,
+                    self.x3[krange],
+                    axis=1,
+                    edge_order=edge_order,
                 )
 
                 if self.geom == "POLAR":
@@ -445,53 +453,61 @@ class NablaManager(LoadMixin):
 
                 return div1[i, k] + div3[i, k]
 
-            else:
-                var1 = np.copy(v1[irange, jrange, krange])
-                var2 = np.copy(v2[irange, jrange, krange])
-                var3 = np.copy(v3[irange, jrange, krange])
+            var1 = np.copy(v1[irange, jrange, krange])
+            var2 = np.copy(v2[irange, jrange, krange])
+            var3 = np.copy(v3[irange, jrange, krange])
 
-                if self.geom != "CARTESIAN":
-                    rr, tt, _ = np.meshgrid(
-                        self.x1[irange],
-                        self.x2[jrange],
-                        self.x3[krange],
-                        indexing="ij",
-                    )
-
-                    if self.geom == "POLAR":
-                        var1 *= rr
-                    elif self.geom == "SPHERICAL":
-                        var1 *= rr**2
-                        var2 *= np.sin(tt)
-
-                div1 = np.gradient(
-                    var1, self.x1[irange], axis=0, edge_order=edge_order
-                )
-                div2 = np.gradient(
-                    var2, self.x2[jrange], axis=1, edge_order=edge_order
-                )
-                div3 = np.gradient(
-                    var3, self.x3[krange], axis=2, edge_order=edge_order
+            if self.geom != "CARTESIAN":
+                rr, tt, _ = np.meshgrid(
+                    self.x1[irange],
+                    self.x2[jrange],
+                    self.x3[krange],
+                    indexing="ij",
                 )
 
                 if self.geom == "POLAR":
-                    div1 /= rr
-                    div2 /= rr
+                    var1 *= rr
                 elif self.geom == "SPHERICAL":
-                    div1 /= rr**2
-                    div2 /= rr * np.sin(tt)
-                    div3 /= rr * np.sin(tt)
+                    var1 *= rr**2
+                    var2 *= np.sin(tt)
 
-                return div1[i, j, k] + div2[i, j, k] + div3[i, j, k]
+            div1 = np.gradient(
+                var1,
+                self.x1[irange],
+                axis=0,
+                edge_order=edge_order,
+            )
+            div2 = np.gradient(
+                var2,
+                self.x2[jrange],
+                axis=1,
+                edge_order=edge_order,
+            )
+            div3 = np.gradient(
+                var3,
+                self.x3[krange],
+                axis=2,
+                edge_order=edge_order,
+            )
+
+            if self.geom == "POLAR":
+                div1 /= rr
+                div2 /= rr
+            elif self.geom == "SPHERICAL":
+                div1 /= rr**2
+                div2 /= rr * np.sin(tt)
+                div3 /= rr * np.sin(tt)
+
+            return div1[i, j, k] + div2[i, j, k] + div3[i, j, k]
 
     def curl(
         self,
         v1: np.ndarray | None = None,
         v2: np.ndarray | None = None,
         v3: np.ndarray | None = None,
-        x1slice: float | int | None = None,
-        x2slice: float | int | None = None,
-        x3slice: float | int | None = None,
+        x1slice: float | None = None,
+        x2slice: float | None = None,
+        x3slice: float | None = None,
         edge_order: int = 2,
     ) -> np.ndarray:
         """Calculate the curl of a specified vector field (v1, v2, v3).
@@ -507,14 +523,14 @@ class NablaManager(LoadMixin):
         Parameters
         ----------
         - v1: np.ndarray | None
-            Field corresponding to the x1 vector component. Must have the same shape
-            as self.rho.
+            Field corresponding to the x1 vector component.
+            Must have the same shape as self.rho.
         - v2: np.ndarray | None
-            Field corresponding to the x2 vector component. Must have the same shape
-            as self.rho.
+            Field corresponding to the x2 vector component.
+            Must have the same shape as self.rho.
         - v3: np.ndarray | None
-            Field corresponding to the x3 vector component. Must have the same shape
-            as self.rho.
+            Field corresponding to the x3 vector component.
+            Must have the same shape as self.rho.
         - x1slice: float | None
             If not None, specifies the constant value for the x1 axis.
         - x2slice: float | None
@@ -527,8 +543,6 @@ class NablaManager(LoadMixin):
         Returns
         -------
         - np.ndarray
-
-        ----
 
         Examples
         --------
@@ -566,14 +580,16 @@ class NablaManager(LoadMixin):
         if self.dim == 1:
             raise ValueError("curl() requires DIMENSION >= 2")
 
-        elif self.dim == 2:
+        if self.dim == 2:
             var1 = np.copy(v1[irange, jrange])
             var2 = np.copy(v2[irange, jrange])
             var3 = np.copy(v3[irange, jrange])
 
             if self.geom != "CARTESIAN":
                 rr, tt = np.meshgrid(
-                    self.x1[irange], self.x2[jrange], indexing="ij"
+                    self.x1[irange],
+                    self.x2[jrange],
+                    indexing="ij",
                 )
 
                 if self.geom == "POLAR":
@@ -587,7 +603,10 @@ class NablaManager(LoadMixin):
             dv1_dx2 = np.gradient(var1, self.x2, axis=1, edge_order=edge_order)
             dv2_dx1 = np.gradient(var2, self.x1, axis=0, edge_order=edge_order)
             dv3_dx1, dv3_dx2 = np.gradient(
-                var3, self.x1, self.x2, edge_order=edge_order
+                var3,
+                self.x1,
+                self.x2,
+                edge_order=edge_order,
             )
 
             curl1 = dv3_dx2
@@ -611,7 +630,7 @@ class NablaManager(LoadMixin):
 
             return np.asarray([curl1[i, j], curl2[i, j], curl3[i, j]])
 
-        elif self.dim == 3:
+        if self.dim == 3:
             if self.nx2 == 1:
                 var1 = np.copy(v1[irange, 0, krange])
                 var2 = np.copy(v2[irange, 0, krange])
@@ -619,7 +638,9 @@ class NablaManager(LoadMixin):
 
                 if self.geom != "CARTESIAN":
                     rr, _ = np.meshgrid(
-                        self.x1[irange], self.x3[krange], indexing="ij"
+                        self.x1[irange],
+                        self.x3[krange],
+                        indexing="ij",
                     )
 
                     if self.geom == "POLAR":
@@ -629,13 +650,22 @@ class NablaManager(LoadMixin):
                         var3 *= rr * np.sin(self.x2[0])
 
                 dv1_dx3 = np.gradient(
-                    var1, self.x3, axis=1, edge_order=edge_order
+                    var1,
+                    self.x3,
+                    axis=1,
+                    edge_order=edge_order,
                 )
                 dv2_dx1, dv2_dx3 = np.gradient(
-                    var2, self.x1, self.x3, edge_order=edge_order
+                    var2,
+                    self.x1,
+                    self.x3,
+                    edge_order=edge_order,
                 )
                 dv3_dx1 = np.gradient(
-                    var3, self.x1, axis=0, edge_order=edge_order
+                    var3,
+                    self.x1,
+                    axis=0,
+                    edge_order=edge_order,
                 )
 
                 curl1 = -dv2_dx3
@@ -652,47 +682,58 @@ class NablaManager(LoadMixin):
 
                 return np.asarray([curl1[i, k], curl2[i, k], curl3[i, k]])
 
-            else:
-                var1 = np.copy(v1[irange, jrange, krange])
-                var2 = np.copy(v2[irange, jrange, krange])
-                var3 = np.copy(v3[irange, jrange, krange])
+            var1 = np.copy(v1[irange, jrange, krange])
+            var2 = np.copy(v2[irange, jrange, krange])
+            var3 = np.copy(v3[irange, jrange, krange])
 
-                if self.geom != "CARTESIAN":
-                    rr, tt, _ = np.meshgrid(
-                        self.x1[irange],
-                        self.x2[jrange],
-                        self.x3[krange],
-                        indexing="ij",
-                    )
-
-                    if self.geom == "POLAR":
-                        var2 *= rr
-                    elif self.geom == "SPHERICAL":
-                        var2 *= rr
-                        var3 *= rr * np.sin(tt)
-
-                dv1_dx2, dv1_dx3 = np.gradient(
-                    var1, self.x2, self.x3, axis=[1, 2], edge_order=edge_order
+            if self.geom != "CARTESIAN":
+                rr, tt, _ = np.meshgrid(
+                    self.x1[irange],
+                    self.x2[jrange],
+                    self.x3[krange],
+                    indexing="ij",
                 )
-                dv2_dx1, dv2_dx3 = np.gradient(
-                    var2, self.x1, self.x3, axis=[0, 2], edge_order=edge_order
-                )
-                dv3_dx1, dv3_dx2 = np.gradient(
-                    var3, self.x1, self.x2, axis=[0, 1], edge_order=edge_order
-                )
-
-                curl1 = dv3_dx2 - dv2_dx3
-                curl2 = dv1_dx3 - dv3_dx1
-                curl3 = dv2_dx1 - dv1_dx2
 
                 if self.geom == "POLAR":
-                    curl1 /= rr
-                    curl3 /= rr
+                    var2 *= rr
                 elif self.geom == "SPHERICAL":
-                    curl1 /= rr**2 * np.sin(tt)
-                    curl2 /= rr * np.sin(tt)
-                    curl3 /= rr
+                    var2 *= rr
+                    var3 *= rr * np.sin(tt)
 
-                return np.asarray(
-                    [curl1[i, j, k], curl2[i, j, k], curl3[i, j, k]]
-                )
+            dv1_dx2, dv1_dx3 = np.gradient(
+                var1,
+                self.x2,
+                self.x3,
+                axis=[1, 2],
+                edge_order=edge_order,
+            )
+            dv2_dx1, dv2_dx3 = np.gradient(
+                var2,
+                self.x1,
+                self.x3,
+                axis=[0, 2],
+                edge_order=edge_order,
+            )
+            dv3_dx1, dv3_dx2 = np.gradient(
+                var3,
+                self.x1,
+                self.x2,
+                axis=[0, 1],
+                edge_order=edge_order,
+            )
+
+            curl1 = dv3_dx2 - dv2_dx3
+            curl2 = dv1_dx3 - dv3_dx1
+            curl3 = dv2_dx1 - dv1_dx2
+
+            if self.geom == "POLAR":
+                curl1 /= rr
+                curl3 /= rr
+            elif self.geom == "SPHERICAL":
+                curl1 /= rr**2 * np.sin(tt)
+                curl2 /= rr * np.sin(tt)
+                curl3 /= rr
+
+            return np.asarray(
+                [curl1[i, j, k], curl2[i, j, k], curl3[i, j, k]],
+            )

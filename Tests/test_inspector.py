@@ -2,7 +2,7 @@ import warnings
 
 from pyPLUTO.utils.inspector import (
     _find_kwargs_keys_from_source,
-    _kwargs_state,
+    _kwargs_remaining,
     find_kwargs_keys,
     track_kwargs,
 )
@@ -54,7 +54,7 @@ def test_track_kwargs_check_warns_unused_kwarg():
 
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
-        f(a=10, b=20, check=True)
+        f(a=10, b=20, _check=True)
 
         assert any("Unused kwargs" in str(warn.message) for warn in w), (
             "Expected warning not raised"
@@ -71,7 +71,7 @@ def test_track_kwargs_check_no_warning_if_no_unused():
 
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
-        f(a=10, check=True)
+        f(a=10, _check=True)
         # No warnings if no unused kwargs
         assert len(w) == 0
 
@@ -93,8 +93,8 @@ def test_state_cleared_after_warning():
 
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
-        f(a=1, check=True)
-        assert _kwargs_state["remaining"] == set()
+        f(a=1, _check=True)
+        assert _kwargs_remaining.get() is None
 
 
 def test_find_kwargs_keys_all_cases():
@@ -127,9 +127,9 @@ def test_track_kwargs_state_clearing():
 
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
-        f(unused_kwarg=42, check=True)
-        # State cleared after warning
-        assert _kwargs_state["remaining"] == set()
+        f(unused_kwarg=42, _check=True)
+        # ContextVar is reset to None after the outer call completes
+        assert _kwargs_remaining.get() is None
 
 
 def test_subscript_with_non_string_slice_returns_none_branch():
@@ -154,12 +154,12 @@ def f(**kwargs):
 
 def test_unused_kwargs_detection():
     @track_kwargs
-    def outer(check=True, **kwargs):
+    def outer(_check=True, **kwargs):
         x = kwargs["x"]
         y = inner(**kwargs)
 
     @track_kwargs
-    def inner(check=False, **kwargs):
+    def inner(_check=False, **kwargs):
         y = kwargs["y"]
         return y
 
@@ -174,12 +174,12 @@ def test_unused_kwargs_detection():
 
 def test_wrong_unused_kwargs_detection():
     @track_kwargs
-    def outer(check=True, **kwargs):
+    def outer(_check=True, **kwargs):
         x = kwargs.get("x", 0)
         y = inner(**kwargs)
 
     @track_kwargs
-    def inner(check=True, **kwargs):
+    def inner(_check=True, **kwargs):
         y = kwargs.get("y", 0)
         return y
 

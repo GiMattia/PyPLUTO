@@ -5,7 +5,7 @@ import warnings
 
 import pytest
 
-from pyPLUTO.configure import Configure
+from pyPLUTO.utils.configure import Configure
 
 
 @pytest.fixture(autouse=True)
@@ -28,7 +28,7 @@ def test_find_session_standard_when_ipython_import_fails(
 ) -> None:
     """Ensure standard session is found when IPython import fails."""
     monkeypatch.setattr(
-        "pyPLUTO.configure.importlib.import_module",
+        "pyPLUTO.utils.configure.importlib.import_module",
         lambda name: (_ for _ in ()).throw(ImportError),
     )
 
@@ -47,7 +47,7 @@ def test_find_session_standard_when_get_ipython_returns_none(
             return None
 
     monkeypatch.setattr(
-        "pyPLUTO.configure.importlib.import_module",
+        "pyPLUTO.utils.configure.importlib.import_module",
         lambda name: DummyModule,
     )
 
@@ -65,7 +65,7 @@ def test_find_session_jupyter(monkeypatch: pytest.MonkeyPatch) -> None:
             return ZMQInteractiveShell()
 
     monkeypatch.setattr(
-        "pyPLUTO.configure.importlib.import_module",
+        "pyPLUTO.utils.configure.importlib.import_module",
         lambda name: DummyModule,
     )
 
@@ -83,7 +83,7 @@ def test_find_session_ipython_terminal(monkeypatch: pytest.MonkeyPatch) -> None:
             return TerminalInteractiveShell()
 
     monkeypatch.setattr(
-        "pyPLUTO.configure.importlib.import_module",
+        "pyPLUTO.utils.configure.importlib.import_module",
         lambda name: DummyModule,
     )
 
@@ -101,7 +101,7 @@ def test_find_session_unknown_shell(monkeypatch: pytest.MonkeyPatch) -> None:
             return SomeOtherShell()
 
     monkeypatch.setattr(
-        "pyPLUTO.configure.importlib.import_module",
+        "pyPLUTO.utils.configure.importlib.import_module",
         lambda name: DummyModule,
     )
 

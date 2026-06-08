@@ -28,10 +28,12 @@ def test_attribute_get_existing():
     assert img.state.custom_attr == 456
 
 
-def test_Image_prints_message(capfd):
-    I = pp.Image(text=True)
-    captured = capfd.readouterr()
-    assert "Image class created at nwin" in captured.out
+def test_Image_prints_message(caplog):
+    import logging
+
+    with caplog.at_level(logging.INFO):
+        I = pp.Image(text=True)
+    assert "Image class created at nwin" in caplog.text
 
 
 # Check if the __str__ method works
@@ -73,7 +75,9 @@ def test_animate_property(monkeypatch):
         image_mod,
         "InteractiveManager",
         lambda state: type(
-            "DummyInteractive", (), {"animate": lambda self=None: "animate"}
+            "DummyInteractive",
+            (),
+            {"animate": lambda self=None, **kw: "animate"},
         )(),
     )
 

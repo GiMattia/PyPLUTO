@@ -1,5 +1,7 @@
 """Lazy mmap-backed attribute materialisation shared across Load classes."""
 
+from __future__ import annotations
+
 import contextlib
 import mmap
 from typing import cast
@@ -24,7 +26,9 @@ class AttrResolver:
             return val
         if isinstance(val, list) and val and isinstance(val[0], np.ndarray):
             return AttrResolver._chunk_list(
-                state, name, cast("list[np.ndarray]", val)
+                state,
+                name,
+                cast("list[np.ndarray]", val),
             )
         if isinstance(val, dict) and val:
             first = next(iter(val.values()))
@@ -41,7 +45,9 @@ class AttrResolver:
 
     @staticmethod
     def _chunk_list(
-        state: object, name: str, val: list[np.ndarray]
+        state: object,
+        name: str,
+        val: list[np.ndarray],
     ) -> np.ndarray:
         """Concatenate a list of array chunks, cache the result, and return it.
 
@@ -89,7 +95,7 @@ class AttrResolver:
 
     @staticmethod
     def _mmap_array(state: object, name: str, val: np.ndarray) -> np.ndarray:
-        """Copy an mmap-backed array into owned memory, release the mapping, and cache.
+        """Copy an mmap-backed array into owned memory and release the mapping.
 
         The copy is performed via ``np.array(val)`` which forces a full
         read into a new allocation.  After copying, ``MADV_DONTNEED`` is
@@ -114,7 +120,7 @@ class AttrResolver:
         return result
 
     @staticmethod
-    def _get_mmap(arr: np.ndarray) -> "mmap.mmap | None":
+    def _get_mmap(arr: np.ndarray) -> mmap.mmap | None:
         """Walk the .base chain to find the underlying mmap.mmap, if any."""
         obj = arr
         base = getattr(obj, "base", None)

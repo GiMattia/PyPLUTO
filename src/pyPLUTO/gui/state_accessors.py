@@ -4,7 +4,11 @@ from __future__ import annotations
 
 from typing import Any
 
-from .app_state import AppState
+import numpy as np
+
+from pyPLUTO.gui.app_state import AppState
+from pyPLUTO.image import Image as ImageType
+from pyPLUTO.load import Load
 
 
 class StateAccessorsMixin:
@@ -13,31 +17,13 @@ class StateAccessorsMixin:
     state: AppState
 
     @property
-    def folder_path(self) -> str | None:
-        """Selected data folder path."""
-        return self.state.folder_path
+    def Data(self) -> Load:
+        """Current loaded data object."""
+        return self.state.Data
 
-    @folder_path.setter
-    def folder_path(self, value: str | None) -> None:
-        self.state.folder_path = value
-
-    @property
-    def datatype(self) -> str | None:
-        """Detected or selected data format."""
-        return self.state.datatype
-
-    @datatype.setter
-    def datatype(self, value: str | None) -> None:
-        self.state.datatype = value
-
-    @property
-    def nout(self) -> int | str:
-        """Current output index (or ``'last'``)."""
-        return self.state.nout
-
-    @nout.setter
-    def nout(self, value: int | str) -> None:
-        self.state.nout = value
+    @Data.setter
+    def Data(self, value: Load) -> None:
+        self.state.Data = value
 
     @property
     def data_loaded(self) -> bool:
@@ -49,6 +35,24 @@ class StateAccessorsMixin:
         self.state.data_loaded = value
 
     @property
+    def datadict(self) -> dict[str, Any]:
+        """Plot keyword arguments assembled from current GUI controls."""
+        return self.state.datadict
+
+    @datadict.setter
+    def datadict(self, value: dict[str, Any]) -> None:
+        self.state.datadict = value
+
+    @property
+    def datatype(self) -> str | None:
+        """Detected or selected data format."""
+        return self.state.datatype
+
+    @datatype.setter
+    def datatype(self, value: str | None) -> None:
+        self.state.datatype = value
+
+    @property
     def firstplot(self) -> bool:
         """Whether the next plot is the first one on the active canvas."""
         return self.state.firstplot
@@ -58,13 +62,31 @@ class StateAccessorsMixin:
         self.state.firstplot = value
 
     @property
-    def vardim(self) -> int:
-        """Dimensionality of the currently selected variable view."""
-        return self.state.vardim
+    def folder_path(self) -> str | None:
+        """Selected data folder path."""
+        return self.state.folder_path
 
-    @vardim.setter
-    def vardim(self, value: int) -> None:
-        self.state.vardim = value
+    @folder_path.setter
+    def folder_path(self, value: str | None) -> None:
+        self.state.folder_path = value
+
+    @property
+    def Image(self) -> ImageType:
+        """Current ``pyPLUTO.Image`` plotting helper instance."""
+        return self.state.Image
+
+    @Image.setter
+    def Image(self, value: ImageType) -> None:
+        self.state.Image = value
+
+    @property
+    def nout(self) -> int | str:
+        """Current output index (or ``'last'``)."""
+        return self.state.nout
+
+    @nout.setter
+    def nout(self, value: int | str) -> None:
+        self.state.nout = value
 
     @property
     def numlines(self) -> int:
@@ -76,13 +98,22 @@ class StateAccessorsMixin:
         self.state.numlines = value
 
     @property
-    def xmin(self) -> float:
-        """Tracked global x-axis minimum for the current figure."""
-        return self.state.xmin
+    def var(self) -> np.ndarray | None:
+        """Current selected variable array after optional slicing."""
+        return self.state.var
 
-    @xmin.setter
-    def xmin(self, value: float) -> None:
-        self.state.xmin = value
+    @var.setter
+    def var(self, value: np.ndarray | None) -> None:
+        self.state.var = value
+
+    @property
+    def vardim(self) -> int:
+        """Dimensionality of the currently selected variable view."""
+        return self.state.vardim
+
+    @vardim.setter
+    def vardim(self, value: int) -> None:
+        self.state.vardim = value
 
     @property
     def xmax(self) -> float:
@@ -94,13 +125,13 @@ class StateAccessorsMixin:
         self.state.xmax = value
 
     @property
-    def ymin(self) -> float:
-        """Tracked global y-axis minimum for the current figure."""
-        return self.state.ymin
+    def xmin(self) -> float:
+        """Tracked global x-axis minimum for the current figure."""
+        return self.state.xmin
 
-    @ymin.setter
-    def ymin(self, value: float) -> None:
-        self.state.ymin = value
+    @xmin.setter
+    def xmin(self, value: float) -> None:
+        self.state.xmin = value
 
     @property
     def ymax(self) -> float:
@@ -112,37 +143,10 @@ class StateAccessorsMixin:
         self.state.ymax = value
 
     @property
-    def datadict(self) -> dict[str, Any]:
-        """Plot keyword arguments assembled from current GUI controls."""
-        return self.state.datadict
+    def ymin(self) -> float:
+        """Tracked global y-axis minimum for the current figure."""
+        return self.state.ymin
 
-    @datadict.setter
-    def datadict(self, value: dict[str, Any]) -> None:
-        self.state.datadict = value
-
-    @property
-    def Data(self) -> Any:
-        """Current loaded data object."""
-        return self.state.Data
-
-    @Data.setter
-    def Data(self, value: Any) -> None:
-        self.state.Data = value
-
-    @property
-    def Image(self) -> Any:
-        """Current ``pyPLUTO.Image`` plotting helper instance."""
-        return self.state.Image
-
-    @Image.setter
-    def Image(self, value: Any) -> None:
-        self.state.Image = value
-
-    @property
-    def var(self) -> Any:
-        """Current selected variable array after optional slicing."""
-        return self.state.var
-
-    @var.setter
-    def var(self, value: Any) -> None:
-        self.state.var = value
+    @ymin.setter
+    def ymin(self, value: float) -> None:
+        self.state.ymin = value

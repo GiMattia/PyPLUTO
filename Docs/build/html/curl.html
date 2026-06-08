@@ -396,6 +396,9 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="show.html">pyPLUTO.show</a></li>
 </ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="set_text.html">pyPLUTO.set_text</a></li>
+</ul>
 </div>
 </nav></div>
     </div>
@@ -460,8 +463,8 @@
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">NablaManager.</span></span><span class="sig-name descname"><span class="pre">curl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x1slice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2slice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x3slice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/pyPLUTO/toolfuncs/nabla.html#NablaManager.curl"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Calculates the curl of a specified vector field (v1, v2, v3)
-using second-order accurate central differences via the NumPy
+<dd><p>Calculate the curl of a specified vector field (v1, v2, v3).</p>
+<p>Uses second-order accurate central differences via the NumPy
 gradient() function. Unlike in divergence(), all three vector
 components must be specified. The resulting array has its first
 index representing the 3 curl components, while the remaining
@@ -471,16 +474,14 @@ corresponding x1, x2, or x3 values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>- edge_order: int, default 2</strong></dt><dd><p>The order of accuracy of derivatives at the domain boundaries.</p>
+<dt><strong>- v1: np.ndarray | None</strong></dt><dd><p>Field corresponding to the x1 vector component.
+Must have the same shape as self.rho.</p>
 </dd>
-<dt><strong>- v1: np.ndarray | None</strong></dt><dd><p>Field corresponding to the x1 vector component. Must have the same shape
-as self.rho.</p>
+<dt><strong>- v2: np.ndarray | None</strong></dt><dd><p>Field corresponding to the x2 vector component.
+Must have the same shape as self.rho.</p>
 </dd>
-<dt><strong>- v2: np.ndarray | None</strong></dt><dd><p>Field corresponding to the x2 vector component. Must have the same shape
-as self.rho.</p>
-</dd>
-<dt><strong>- v3: np.ndarray | None</strong></dt><dd><p>Field corresponding to the x3 vector component. Must have the same shape
-as self.rho.</p>
+<dt><strong>- v3: np.ndarray | None</strong></dt><dd><p>Field corresponding to the x3 vector component.
+Must have the same shape as self.rho.</p>
 </dd>
 <dt><strong>- x1slice: float | None</strong></dt><dd><p>If not None, specifies the constant value for the x1 axis.</p>
 </dd>
@@ -488,16 +489,14 @@ as self.rho.</p>
 </dd>
 <dt><strong>- x3slice: float | None</strong></dt><dd><p>If not None, specifies the constant value for the x3 axis.</p>
 </dd>
-<dt><strong>—-</strong></dt><dd></dd>
+<dt><strong>- edge_order: int, default 2</strong></dt><dd><p>The order of accuracy of derivatives at the domain boundaries.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><dl class="simple">
-<dt>np.ndarray</dt><dd><p>Curl of the specified vector field (v1, v2, v3). In 3D, e.g., its shape
-is (3, self.nx1, self.nx2, self.nx3), while if INCLUDE_JDIR == NO (or if
-x2slice = constant), its shape is (3, self.nx1, self.nx3).</p>
-</dd>
+<dt>np.ndarray</dt><dd></dd>
 </dl>
 </li>
 </ul>

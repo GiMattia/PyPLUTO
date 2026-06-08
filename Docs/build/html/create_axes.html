@@ -454,7 +454,7 @@
 <span id="create-axes"></span><h1>Image.create_axes<a class="headerlink" href="#image-create-axes" title="Link to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyPLUTO.imagefuncs.create_axes.CreateAxesManager.create_axes">
-<span class="sig-prename descclassname"><span class="pre">CreateAxesManager.</span></span><span class="sig-name descname"><span class="pre">create_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ncol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pyPLUTO/imagefuncs/create_axes.html#CreateAxesManager.create_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyPLUTO.imagefuncs.create_axes.CreateAxesManager.create_axes" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">CreateAxesManager.</span></span><span class="sig-name descname"><span class="pre">create_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Unpack</span><span class="p"><span class="pre">[</span></span><span class="pre">CreateAxesKwargs</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pyPLUTO/imagefuncs/create_axes.html#CreateAxesManager.create_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyPLUTO.imagefuncs.create_axes.CreateAxesManager.create_axes" title="Link to this definition">#</a></dt>
 <dd><p>Creation of a set of axes using add_subplot from matplotlib.</p>
 <p>If additional parameters (like the figure limits or the spacing)
 are given, the plots are located using set_position.
@@ -464,39 +464,47 @@ In case only few custom options are given, the code computes the rest
 are located through the standard methods of matplotlib.</p>
 <p>If more axes are created in the figure, the list of all axes is
 returned, otherwise the single axis is returned.</p>
-<dl class="field-list">
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>- bottom: float, default 0.1</strong></dt><dd><p>The space from the bottom border to the last row of plots.</p>
+<dt><strong>- bottom: float, default varies</strong></dt><dd><p>The bottom limit of the axis / axes set. For the figure layout it
+is the space from the bottom border to the plot (default 0.1); for
+an inset zoom it is the bottom position of the inset (default 0.6 +
+height).</p>
 </dd>
-<dt><strong>- figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]</strong></dt><dd><p>Sets the figure size. The default value is computed from the number
-of rows and columns.</p>
+<dt><strong>- figsize: list[float], default varies</strong></dt><dd><p>Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+computed from the number of rows and columns (or [8,5] for a single
+plot).</p>
 </dd>
-<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axes.</p>
+<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components.</p>
 </dd>
 <dt><strong>- hratio: [float], default [1.0]</strong></dt><dd><p>Ratio between the rows of the plot. The default is that every plot
 row has the same height.</p>
 </dd>
-<dt><strong>- hspace: [float], default []</strong></dt><dd><p>The space between plot rows (in figure units). If not enough or
-too many spaces are considered, the program will remove the excess
-and fill the lacks with [0.1].</p>
+<dt><strong>- hspace: [float], default []</strong></dt><dd><p>The space between plot rows (in figure units). If not enough or too
+many spaces are considered, the program will remove the excess and
+fill the lacks with [0.1].</p>
 </dd>
-<dt><strong>- left: float, default 0.125</strong></dt><dd><p>The space from the left border to the leftmost column of plots.</p>
+<dt><strong>- left: float, default varies</strong></dt><dd><p>The left limit of the axis / axes set. For the figure layout it is
+the space from the left border to the plot (default 0.125); for an
+inset zoom it is the left position of the inset (default 0.6).</p>
 </dd>
 <dt><strong>- ncol: int, default 1</strong></dt><dd><p>The number of columns of subplots.</p>
 </dd>
 <dt><strong>- nrow: int, default 1</strong></dt><dd><p>The number of rows of subplots.</p>
 </dd>
 <dt><strong>- proj: str, default None</strong></dt><dd><p>Custom projection for the plot (e.g. 3D). Recommended only if
-needed.
-WARNING: pyPLUTO does not support 3D plotting for now, only 3D axes.
-The 3D plot feature will be available in future releases.</p>
+needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+3D axes. The 3D plot feature will be available in future releases.</p>
 </dd>
-<dt><strong>- right: float, default 0.9</strong></dt><dd><p>The space from the right border to the rightmost column of plots.</p>
+<dt><strong>- right: float, default varies</strong></dt><dd><p>The right limit of the axis / axes set. For the figure layout it is
+the space from the right border to the plot (default 0.9); for an
+inset zoom it is the right position of the inset (default left +
+0.15).</p>
 </dd>
-<dt><strong>- sharex: bool | str | Matplotlib axis, default False</strong></dt><dd><p>Enables/disables the sharing of the x-axis between the subplots.</p>
+<dt><strong>- sharexaxes: bool | str | Matplotlib axis, default False</strong></dt><dd><p>Enables/disables the sharing of the x-axis between the subplots.</p>
 </dd>
-<dt><strong>- sharey: bool | str | Matplotlib axis, default False</strong></dt><dd><p>Enables/disables the sharing of the y-axis between the subplots.</p>
+<dt><strong>- shareyaxes: bool | str | Matplotlib axis, default False</strong></dt><dd><p>Enables/disables the sharing of the y-axis between the subplots.</p>
 </dd>
 <dt><strong>- suptitle: str, default None</strong></dt><dd><p>Creates a figure title over all the subplots.</p>
 </dd>
@@ -505,7 +513,10 @@ highly customized plot (e.g. ratios or space between rows and
 columns) the option is set by default to False since that option
 would not be available for standard matplotlib functions.</p>
 </dd>
-<dt><strong>- top: float, default 0.9</strong></dt><dd><p>The space from the top border to the first row of plots.</p>
+<dt><strong>- top: float, default varies</strong></dt><dd><p>The top limit of the axis / axes set. For the figure layout it is
+the space from the top border to the plot (default 0.9); for an
+inset zoom it is the top position of the inset (default bottom +
+height).</p>
 </dd>
 <dt><strong>- wratio: [float], default [1.0]</strong></dt><dd><p>Ratio between the columns of the plot. The default is that every
 plot column has the same width.</p>
@@ -514,19 +525,15 @@ plot column has the same width.</p>
 too many spaces are considered, the program will remove the excess
 and fill the lacks with [0.1].</p>
 </dd>
-<dt><strong>—-</strong></dt><dd></dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><dl class="simple">
-<dt>The list of axes (if more axes are in the figure) or the axis</dt><dd></dd>
+<dt>Axes | list[Axes]</dt><dd></dd>
 </dl>
 </li>
 </ul>
-<dl class="simple">
-<dt>(if only one axis is present)</dt><dd></dd>
-</dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>

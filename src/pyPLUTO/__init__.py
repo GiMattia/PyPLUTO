@@ -1,19 +1,26 @@
 """Top-level package for pyPLUTO."""
 
-from pyPLUTO.configure import Configure
-from pyPLUTO.examples_api import (
+from __future__ import annotations
+
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as _version
+
+from pyPLUTO.image import Image
+from pyPLUTO.load import Load
+from pyPLUTO.loadpart import LoadPart
+from pyPLUTO.utils.configure import Configure, set_text
+from pyPLUTO.utils.examples_api import (
     copy_examples,
     examples_path,
     list_examples,
     run_example,
 )
-from pyPLUTO.image import Image
-from pyPLUTO.load import Load
-from pyPLUTO.loadpart import LoadPart
-from pyPLUTO.pytools import find_example, ring, savefig, show
+from pyPLUTO.utils.pytools import find_example, ring, savefig, show
 
-# Define the version and additional environment variables
-__version__ = "1.1.5"
+try:
+    __version__ = _version("py-pluto")
+except PackageNotFoundError:
+    __version__ = "unknown"
 
 colorerr: bool = True
 colorwarn: bool = True
@@ -32,5 +39,6 @@ __all__ = [
     "ring",
     "run_example",
     "savefig",
+    "set_text",
     "show",
 ]

@@ -1,9 +1,13 @@
 """Compute normalization unit scales and build the variable→unit mapping."""
 
+from __future__ import annotations
+
 import math
 import re
 from pathlib import Path
 from typing import Any
+
+import astropy.units as u
 
 from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.loadmixin import BaseLoadMixin
@@ -13,28 +17,8 @@ class UnitManager(BaseLoadMixin):
     """Resolve normalization scales and build the variable→astropy-unit map."""
 
     def __init__(self, state: BaseLoadState) -> None:
-        """Initialize the unit manager with the given load state.
-
-        Parameters
-        ----------
-        - state: BaseLoadState
-            The load state object providing unit-definition headers and overrides.
-
-        Returns
-        -------
-        - None
-
-        """
+        """Initialize the unit manager with the given load state."""
         self.state = state
-
-    def _get_astropy_units(self):
-        """Import and return the astropy.units module (monkeypatchable)."""
-        try:
-            import astropy.units as u
-
-            return u
-        except ImportError:
-            raise ImportError("Astropy is required for unit-aware operations.")
 
     def _units_from_log(self) -> dict[str, float]:
         """Read normalization scales from PLUTO log text headers.
@@ -120,9 +104,7 @@ class UnitManager(BaseLoadMixin):
                 continue
             val = userdef[key]
             try:
-                import astropy.units as _u
-
-                if isinstance(val, _u.Quantity):
+                if isinstance(val, u.Quantity):
                     units[key] = float(val.cgs.value)
                     continue
             except ImportError:
@@ -163,7 +145,8 @@ class UnitManager(BaseLoadMixin):
         }
 
     def _derive_units_from_base(
-        self, scales: dict[str, float]
+        self,
+        scales: dict[str, float],
     ) -> dict[str, float]:
         """Fill missing derived unit scales from the three base units.
 
@@ -195,7 +178,7 @@ class UnitManager(BaseLoadMixin):
         defh_units = self._units_from_defh()
 
         physics = str(
-            (getattr(self.state, "defh", {}) or {}).get("PHYSICS", "")
+            (getattr(self.state, "defh", {}) or {}).get("PHYSICS", ""),
         ).strip()
         physics_units = self._physics_defaults(physics) if physics else {}
 
@@ -213,8 +196,6 @@ class UnitManager(BaseLoadMixin):
 
     def _make_units_dict(self) -> dict[str, Any]:
         """Build a mapping from variable names to pre-computed astropy units."""
-        u = self._get_astropy_units()
-
         scales = self._resolve_base_scales()
         self.state.unit_base = dict(scales)
 

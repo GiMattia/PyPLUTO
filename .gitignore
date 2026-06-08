@@ -31,4 +31,5 @@ Utils/
 .venv/
 .vscode/
 .codex
+.claude
 Makefile

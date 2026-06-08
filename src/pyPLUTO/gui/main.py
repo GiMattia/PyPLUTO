@@ -1,10 +1,12 @@
 """Main GUI module."""
 
+from __future__ import annotations
+
 import sys
 
 from PySide6.QtWidgets import QApplication
 
-from .main_window import PyPLUTOApp
+from pyPLUTO.gui.main_window import PyPLUTOApp
 
 
 def main() -> None:

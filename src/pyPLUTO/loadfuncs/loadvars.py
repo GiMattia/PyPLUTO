@@ -1,5 +1,7 @@
 """Docstring for pyPLUTO.loadfuncs.loadvars module."""
 
+from __future__ import annotations
+
 import mmap
 import warnings
 from pathlib import Path
@@ -27,7 +29,10 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         self.load_variables(variables, index, exout)
 
     def load_variables(
-        self, variables: str | list[str] | bool | None, i: int, exout: int
+        self,
+        variables: str | list[str] | bool | None,
+        i: int,
+        exout: int,
     ) -> None:
         """Load the variables in the class.
 
@@ -47,15 +52,13 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             The index of the output to be loaded.
         - i (not optional): int
             The index of the file to be loaded.
-        - vars (not optional): str | list[str] | bool | None, default True
+        - variables (not optional): str | list[str] | bool | None, default True
             If True all the variables are loaded, otherwise just a selection is
             loaded.
 
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -80,18 +83,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         mm = None
         endpath = f".{int(exout):04d}.{self.state.datatype}"
 
-        # Find the class name and find the single_file filepath
-        if self.state.class_name == "Load":
-            # If the class name is Load (single file), the filepath is data
-            self.state.filepath = Path(self.state.pathdir) / ("data" + endpath)
-        elif self.state.class_name == "LoadPart":
-            # If the class name is LoadPart, the filepath is particles
-            self.state.filepath = Path(self.state.pathdir) / (
-                "particles" + endpath
-            )
-        else:
-            # If the class name is not recognized, raise an error
-            raise NameError("Invalid class name.")
+        self.find_pathclass(endpath)
 
         # If files in single_file format, inspect the file
         # or compute the offset and shape
@@ -105,7 +97,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             self._track_mm(mm)
             self.offsetdata.compute_offset(i, exout, None, mm)
             if self.state.datatype in ("hdf5", "tab"):
-                return None
+                return
 
         # Check if only specific variables should be loaded
         is_chunked_particles = (
@@ -116,6 +108,20 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         if is_chunked_particles:
             # Chunked particle binary layout: load one file per chunk id.
             load_vars = self.state.d_info["chnklist"][exout]
+            if self.state.chnk is not None:
+                chnk = self.state.chnk
+                selected = {chnk} if isinstance(chnk, int) else set(chnk)
+                load_vars = [c for c in load_vars if c in selected]
+                if not load_vars:
+                    available = self.state.d_info["chnklist"][exout]
+                    warnings.warn(
+                        f"Chunk(s) {sorted(selected)} not found for output "
+                        f"{exout}. Available chunks: {list(available)}. "
+                        "Returning empty object.",
+                        UserWarning,
+                        stacklevel=2,
+                    )
+                    return
         elif variables is True:
             # If all the variables are to be loaded, the load_vars
             # is set to the variables list
@@ -128,7 +134,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             )
         else:
             # If no variables are to be loaded, return None (WIP)
-            return None
+            return
 
         for j in load_vars:
             offvar = j
@@ -166,9 +172,6 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             if self.state.lennout != 1:
                 self.init_vardict(j)
 
-            if mm is None:
-                raise RuntimeError("memmap object not initialized")
-
             dtype = np.dtype(self.state.d_info["binformat"][exout])
             shape = self.state.varshape[offind]
             offset = self.state.varoffset[offind]
@@ -188,7 +191,30 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
                 int(j) if is_chunked_particles and offind == "tot" else None,
             )
 
-        # ... then after the variable loop ...
+    def find_pathclass(self, endpath: str) -> None:
+        """Set the data filepath based on the loader class and file suffix.
+
+        Parameters
+        ----------
+        - endpath (not optional): str
+            The file suffix.
+
+        Returns
+        -------
+        - None
+        """
+        # Find the class name and find the single_file filepath
+        if self.state.class_name == "Load":
+            # If the class name is Load (single file), the filepath is data
+            self.state.filepath = Path(self.state.pathdir) / ("data" + endpath)
+        elif self.state.class_name == "LoadPart":
+            # If the class name is LoadPart, the filepath is particles
+            self.state.filepath = Path(self.state.pathdir) / (
+                "particles" + endpath
+            )
+        else:
+            # If the class name is not recognized, raise an error
+            raise NameError("Invalid class name.")
 
     def assign_var(
         self,
@@ -204,18 +230,22 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
 
         Parameters
         ----------
-        - exout (not optional): int
-            The index of the output to be loaded.
-        - var (not optional): str
-            The variable name.
         - data (not optional): np.ndarray
             The data to be assigned to the variable.
+        - chunk_id: int | None
+            The ID of the chunk to which the variable belongs.
+        - exout (not optional): int
+            The index of the output to be loaded.
+        - scrh (not optional): np.ndarray
+            The data to be assigned to the variable.
+        - var (not optional): str
+            The variable name.
+
+
 
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -228,17 +258,20 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         if var == "tot" and chunk_id is not None:
             if self.state.lennout != 1:
                 if var not in self.state.d_vars or not isinstance(
-                    self.state.d_vars[var], dict
+                    self.state.d_vars[var],
+                    dict,
                 ):
                     self.state.d_vars[var] = {}
                 if time not in self.state.d_vars[var] or not isinstance(
-                    self.state.d_vars[var][time], list
+                    self.state.d_vars[var][time],
+                    list,
                 ):
                     self.state.d_vars[var][time] = []
                 self.state.d_vars[var][time].append(scrh)
             else:
                 if var not in self.state.d_vars or not isinstance(
-                    self.state.d_vars[var], list
+                    self.state.d_vars[var],
+                    list,
                 ):
                     self.state.d_vars[var] = []
                 self.state.d_vars[var].append(scrh)
@@ -256,7 +289,13 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         # End of the function
 
     def _track_mm(self, mm: mmap.mmap) -> None:
-        """Store mmap reference on state so compact() can evict its pages."""
+        """Store mmap reference on state so compact() can evict its pages.
+
+        Parameters
+        ----------
+        - mm: mmap.mmap
+            The memory-mapped file to be tracked.
+        """
         if self.state.class_name != "LoadPart":
             return
         self.state.mmaps.append(mm)
@@ -275,8 +314,6 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

@@ -2,19 +2,35 @@
 
 from __future__ import annotations
 
+import logging
+from typing import TYPE_CHECKING, cast
+
 import numpy as np
+from matplotlib.backends.backend_qt import (
+    FigureCanvasQT as FigureCanvas,
+)
+from matplotlib.backends.backend_qt import (
+    NavigationToolbar2QT as NavigationToolbar,
+)
 from matplotlib.collections import QuadMesh
 from matplotlib.image import AxesImage
+from PySide6.QtWidgets import QWidget
 
 import pyPLUTO as pp
 
-from .services import apply_slices, convert_axis_map
+if TYPE_CHECKING:
+    from pyPLUTO.gui.main_window import PyPLUTOApp
+
+from pyPLUTO.gui.globals import cmaps_divided as cmaps
+from pyPLUTO.gui.services import apply_slices, convert_axis_map
+
+logger = logging.getLogger(__name__)
 
 
 class PlotController:
     """Orchestrate GUI plotting actions and canvas lifecycle."""
 
-    def __init__(self, app):
+    def __init__(self, app: PyPLUTOApp) -> None:
         """Bind the controller to the main application window.
 
         Parameters
@@ -33,8 +49,8 @@ class PlotController:
         """Repopulate the colormap selector based on the chosen colormap type.
 
         Reads the current colormap-type combo box and replaces the items in the
-        colormap combo box with the matching subset from the global ``cmaps_divided``
-        registry.
+        colormap combo box with the matching subset from the global
+        ``cmaps_divided`` registry.
 
         Returns
         -------
@@ -42,14 +58,13 @@ class PlotController:
 
         """
         app = self.app
-        from .globals import cmaps_divided as cmaps
 
         selected_type = app.typecmap_selector.currentText()
         app.cmap_selector.clear()
         app.cmap_selector.addItems(cmaps.get(selected_type, []))
 
     def plot_data(self) -> None:
-        """Read the current GUI state, slice the selected variable, and render it.
+        """Read the current GUI state, slice the selected var, and render it.
 
         Dispatches to ``Image.plot`` for 1-D data and ``Image.display`` for 2-D
         data. When the *overplot* checkbox is active and the variable is 1-D the
@@ -60,13 +75,14 @@ class PlotController:
         - None
 
         """
+        twod = 2
         app = self.app
         if not app.data_loaded:
-            print("ERROR: No data loaded.")
+            logger.error("No data loaded.")
             return
         var_name = app.var_selector.currentText()
         if not var_name:
-            print("ERROR: No variable selected.")
+            logger.error("No variable selected.")
             return
 
         app.var = getattr(app.Data, var_name)
@@ -78,7 +94,7 @@ class PlotController:
             app.zslicetext.text(),
         )
         app.vardim = len(np.shape(app.var))
-        if app.vardim < 1 or app.vardim > 2:
+        if app.vardim < 1 or app.vardim > twod:
             raise ValueError("ERROR: Variable shape not recognized.")
         self._check_axisparam()
 
@@ -94,7 +110,7 @@ class PlotController:
         xlim = [x1.min(), x1.max()]
         ylim = (
             [x2.min(), x2.max()]
-            if app.vardim == 2
+            if app.vardim == twod
             else [app.var.min(), app.var.max()]
         )
         self._set_range(xlim, ylim)
@@ -123,10 +139,11 @@ class PlotController:
         app.canvas.draw()
 
     def update_axes(self) -> None:
-        """Apply colormap, normalisation, and axis-range changes without re-plotting.
+        """Apply colormap, normalisation, and axis-range changes.
 
-        Updates every ``AxesImage`` and ``QuadMesh`` artist on the current axes in
-        place, then calls ``set_axis`` to propagate scale and range settings.
+        Such changes are done without re-plotting.
+        Updates every ``AxesImage`` and ``QuadMesh`` artist on the current axes
+        in place, then calls ``set_axis`` to propagate scale and range settings.
 
         Returns
         -------
@@ -141,7 +158,10 @@ class PlotController:
         vmax = app.datadict.pop("vmax", app.var.max())
         ctresh = app.datadict.pop("tresh", max(np.abs(vmin), vmax) * 0.01)
         norm = app.Image.ImageToolsManager.set_cscale(
-            cscale, vmin, vmax, ctresh
+            cscale,
+            vmin,
+            vmax,
+            ctresh,
         )
         for artist in app.Image.ax[0].get_children():
             if isinstance(artist, (AxesImage, QuadMesh)):
@@ -155,10 +175,10 @@ class PlotController:
         app.canvas.draw()
 
     def create_new_figure(self) -> None:
-        """Instantiate a fresh ``pp.Image``, canvas, and toolbar and attach them to the layout.
+        """Instantiate fresh Image, canvas, and toolbar attached to the layout.
 
-        Creates a new ``FigureCanvasQTAgg`` and ``NavigationToolbar2QT`` from the
-        new figure and appends both to ``app.canvas_layout``.
+        Creates a new ``FigureCanvasQTAgg`` and ``NavigationToolbar2QT`` from
+        the new figure and appends both to ``app.canvas_layout``.
 
         Returns
         -------
@@ -166,17 +186,10 @@ class PlotController:
 
         """
         app = self.app
-        from matplotlib.backends.backend_qtagg import (
-            FigureCanvasQTAgg as FigureCanvas,
-        )
-        from matplotlib.backends.backend_qtagg import (
-            NavigationToolbar2QT as NavigationToolbar,
-        )
 
         app.Image = pp.Image(figsize=[10, 6])
         app.firstplot = True
         app.figure = app.Image.fig
-        print(app.Image.fontsize, app.Image.figsize)
         app.canvas = FigureCanvas(app.figure)
         app.toolbar = NavigationToolbar(app.canvas, app)
         app.canvas.setFixedWidth(800)
@@ -186,8 +199,9 @@ class PlotController:
     def reload_canvas(self) -> None:
         """Destroy the current canvas and toolbar, then create a fresh figure.
 
-        Removes the existing toolbar and canvas widgets from the layout, schedules
-        them for deletion, and delegates to ``create_new_figure`` to rebuild them.
+        Removes the existing toolbar and canvas widgets from the layout,
+        schedules them for deletion, and delegates to ``create_new_figure`` to
+        rebuild them.
 
         Returns
         -------
@@ -197,8 +211,8 @@ class PlotController:
         app = self.app
         app.canvas_layout.removeWidget(app.toolbar)
         app.toolbar.deleteLater()
-        app.canvas_layout.removeWidget(app.canvas)
-        app.canvas.deleteLater()
+        app.canvas_layout.removeWidget(cast("QWidget", app.canvas))
+        cast("QWidget", app.canvas).deleteLater()
         self.create_new_figure()
 
     def clear_labels(self) -> None:
@@ -281,20 +295,25 @@ class PlotController:
         if app.vscale_tresh.text():
             app.datadict["tresh"] = float(app.vscale_tresh.text())
 
-    def _set_range(self, xlim, ylim) -> None:
-        """Update the cumulative axis extents and write them into ``app.datadict``.
+    def _set_range(
+        self,
+        xlim: list[float] | None,
+        ylim: list[float] | None,
+    ) -> None:
+        """Update the axis extents and write them into ``app.datadict``.
 
-        On the first plot the stored limits are initialised from ``xlim``/``ylim``.
-        On subsequent calls the stored limits are grown to encompass the new data.
-        Any user-supplied range overrides in the text fields take precedence over
-        the computed limits when writing ``xrange`` and ``yrange``.
+        On the first plot the stored limits are initialised from
+        ``xlim``/``ylim``. On subsequent calls the stored limits are grown to
+        encompass the new data. Any user-supplied range overrides in the text
+        fields take precedence over the computed limits when writing ``xrange``
+        and ``yrange``.
 
         Parameters
         ----------
         - xlim: list[float] or None
-            [xmin, xmax] for the current data; ``None`` reuses the stored values.
+            [xmin, xmax] for the current data; None reuses the stored values.
         - ylim: list[float] or None
-            [ymin, ymax] for the current data; ``None`` reuses the stored values.
+            [ymin, ymax] for the current data; None reuses the stored values.
 
         Returns
         -------
@@ -316,7 +335,9 @@ class PlotController:
             app.ymax = np.maximum(ylim[1], app.ymax)
         ymin, ymax = (
             app.Image.RangeManager.range_offset(
-                app.ymin, app.ymax, app.yscale_selector.currentText()
+                app.ymin,
+                app.ymax,
+                app.yscale_selector.currentText(),
             )
             if app.vardim == 1
             else (app.ymin, app.ymax)

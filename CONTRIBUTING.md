@@ -4,8 +4,7 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![pixi](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json)](https://github.com/prefix-dev/pixi)
-[![pyrefly](https://img.shields.io/endpoint?url=https://pyrefly.org/badge.json)](https://github.com/facebook/pyrefly)
-[![ty](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ty/main/assets/badge/v0.json)](https://github.com/astral-sh/ty)
+[![pyright](https://img.shields.io/badge/type%20checker-pyright-blue)](https://github.com/microsoft/pyright)
 
 Thank you for considering a contribution to PyPLUTO.
 
@@ -114,8 +113,39 @@ Current checks include:
 - standard `pre-commit-hooks` sanity checks
 - `ruff` lint/format
 - lock consistency checks (`uv lock --check`, `pixi lock --check`)
-- `ty` type checking (`pre-push` and `manual`)
+- `pyright` type checking (`pre-push` and `manual`)
 - `pytest` with coverage threshold (`manual`, fail-under `45`)
+
+## Type checking
+
+PyPLUTO uses **[pyright](https://github.com/microsoft/pyright)** as its standard
+type checker. Run it locally with the `dev` dependency group installed:
+
+```bash
+pyright
+```
+
+The configuration lives in the `[tool.pyright]` section of `pyproject.toml`, so
+the same settings are used from the CLI, CI, and editors.
+
+pyright was chosen because it is currently the only checker that validates the
+patterns PyPLUTO relies on — notably `Generic` classes with overloaded `__new__`
+(used to type loaded variables such as `Data.rho` from the constructor) and the
+rejection of unknown `Unpack[TypedDict]` keyword arguments (e.g. catching
+`Load(format=2)`).
+
+**pyrefly and ty** (the `typefuture` dependency group) are kept installable but
+are **not** the source of truth yet. Every issue they would currently report is
+already covered by pyright, and they do not yet fully validate the patterns
+above. The intent is to switch to one of them once they mature. Install them
+only if you want to experiment:
+
+```bash
+uv sync --group typefuture     # or: pixi install -e typefuture
+```
+
+A couple of legacy modules (`amr.py`, `nabla.py`) are excluded from type
+checking via a file-level `# type: ignore` until they are reworked.
 
 ## Running Tests
 

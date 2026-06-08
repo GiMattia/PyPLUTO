@@ -1,5 +1,7 @@
 """Module to create axes in the image class."""
 
+from __future__ import annotations
+
 import copy
 import warnings
 from itertools import islice
@@ -9,9 +11,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
 
+from pyPLUTO.imagekwargs import CreateAxesKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
-from pyPLUTO.utils.annotator import AllKwargs
 from pyPLUTO.utils.inspector import track_kwargs
 
 defaults: dict[str, Any] = {
@@ -41,8 +43,8 @@ class CreateAxesManager(ImageMixin):
     @track_kwargs(extra_keys=set(defaults.keys()))
     def create_axes(
         self,
-        check: bool = True,
-        **kwargs: Unpack[AllKwargs],
+        _check: bool = True,
+        **kwargs: Unpack[CreateAxesKwargs],
     ) -> Axes | list[Axes]:
         """Creation of a set of axes using add_subplot from matplotlib.
 
@@ -88,13 +90,14 @@ class CreateAxesManager(ImageMixin):
             Custom projection for the plot (e.g. 3D). Recommended only if
             needed. WARNING: pyPLUTO does not support 3D plotting for now, only
             3D axes. The 3D plot feature will be available in future releases.
-        - right: float, default 0.9
+        - right: float, default varies
             The right limit of the axis / axes set. For the figure layout it is
-            the space from the right border to the plot; for an inset zoom it
-            is the right position of the inset.
-        - sharex: bool | str | Matplotlib axis, default False
+            the space from the right border to the plot (default 0.9); for an
+            inset zoom it is the right position of the inset (default left +
+            0.15).
+        - sharexaxes: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the x-axis between the subplots.
-        - sharey: bool | str | Matplotlib axis, default False
+        - shareyaxes: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the y-axis between the subplots.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
@@ -119,8 +122,6 @@ class CreateAxesManager(ImageMixin):
         Returns
         -------
         - Axes | list[Axes]
-
-        ----
 
         Examples
         --------
@@ -153,8 +154,6 @@ class CreateAxesManager(ImageMixin):
             >>> ax = I.create_axes(left=0.75)
 
         """
-        kwargs.pop("kwargscheck", check)
-
         # Change fontsize if requested
         if "fontsize" in kwargs:
             plt.rcParams.update({"font.size": kwargs["fontsize"]})
@@ -176,7 +175,7 @@ class CreateAxesManager(ImageMixin):
         # Set figure size
         if self.state.fig is None:
             raise ValueError(
-                "You need to create a figure before creating axes."
+                "You need to create a figure before creating axes.",
             )
 
         if figsize := kwargs.get("figsize"):
@@ -189,8 +188,8 @@ class CreateAxesManager(ImageMixin):
         proj = kwargs.get("proj")
 
         # Set sharex and sharey
-        sharex: bool | str | Axes | int | None = kwargs.get("sharex")
-        sharey: bool | str | Axes | int | None = kwargs.get("sharey")
+        sharex: bool | str | Axes | int | None = kwargs.get("sharexaxes")
+        sharey: bool | str | Axes | int | None = kwargs.get("shareyaxes")
 
         for i in range(ncol * nrow):
             sharex_ref = self._check_shareaxis(i, sharex)
@@ -236,7 +235,7 @@ class CreateAxesManager(ImageMixin):
                         hplot[row][0],
                         wplot[col][1],
                         hplot[row][1],
-                    )
+                    ),
                 )
 
         # Updates rows and columns
@@ -250,7 +249,7 @@ class CreateAxesManager(ImageMixin):
         # Tight layout (depending on the subplot creation)
         self.state.tight = kwargs.get("tight", self.state.tight)
         self.state.fig.set_layout_engine(
-            None if not self.state.tight else "tight"
+            None if not self.state.tight else "tight",
         )
 
         ret_ax = self.state.ax[0] if len(self.state.ax) == 1 else self.state.ax
@@ -261,7 +260,10 @@ class CreateAxesManager(ImageMixin):
         return ret_ax
 
     def _set_custom_axes(
-        self, custom: dict[str, Any], nrow: int, ncol: int
+        self,
+        custom: dict[str, Any],
+        nrow: int,
+        ncol: int,
     ) -> tuple[list[list[float]], list[list[float]]]:
         """Set the axes position and spacing according to the parameters.
 
@@ -280,10 +282,16 @@ class CreateAxesManager(ImageMixin):
 
         """
         hspace, hratio = self._check_rowcol(
-            custom["hratio"], custom["hspace"], nrow, "rows"
+            custom["hratio"],
+            custom["hspace"],
+            nrow,
+            "rows",
         )
         wspace, wratio = self._check_rowcol(
-            custom["wratio"], custom["wspace"], ncol, "cols"
+            custom["wratio"],
+            custom["wspace"],
+            ncol,
+            "cols",
         )
 
         hsize = custom["top"] - custom["bottom"] - sum(hspace)
@@ -335,8 +343,6 @@ class CreateAxesManager(ImageMixin):
         Returns
         -------
         - tuple[list[float], list[float]]
-
-        ----
 
         Examples
         --------
@@ -391,8 +397,6 @@ class CreateAxesManager(ImageMixin):
         -------
         - None
 
-        ----
-
         Examples
         --------
         - Example #1: Add the axis to the class info variables
@@ -423,7 +427,9 @@ class CreateAxesManager(ImageMixin):
         ax.annotate(str(i), (0.47, 0.47), xycoords="axes fraction")
 
     def _check_shareaxis(
-        self, i: int, share: bool | str | Axes | int | None
+        self,
+        i: int,
+        share: bool | str | Axes | int | None,
     ) -> Axes | str | None:
         """Check the sharing of the x or y axis.
 
@@ -437,8 +443,6 @@ class CreateAxesManager(ImageMixin):
         Returns
         -------
         - Axes | str | None
-
-        ----
 
         Examples
         --------

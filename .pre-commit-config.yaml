@@ -71,13 +71,15 @@ repos:
         pass_filenames: false
 
   # -----------------------------
-  # Type checking (ty)
+  # Type checking (pyright)
   # -----------------------------
+  # pyright is the standard type checker for PyPLUTO. pyrefly and ty (the
+  # `typefuture` dependency group) are kept available but are not run here yet.
   - repo: local
     hooks:
-      - id: ty
-        name: ty type check
-        entry: ty check
+      - id: pyright
+        name: pyright type check
+        entry: pyright
         language: system
         pass_filenames: false
         stages: [pre-push, manual]

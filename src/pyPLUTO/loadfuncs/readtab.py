@@ -1,5 +1,7 @@
 """Docstring for pyPLUTO.loadfuncs.readtab."""
 
+from __future__ import annotations
+
 import io
 import mmap
 
@@ -13,22 +15,15 @@ class ReadtabManager(LoadMixin):
     """Class that manages the reading of tabular data."""
 
     def __init__(self, state: LoadState) -> None:
-        """Initialize the tabular-data reading manager with the given load state.
-
-        Parameters
-        ----------
-        - state: LoadState
-            The load state object carrying grid metadata and output information.
-
-        Returns
-        -------
-        - None
-
-        """
+        """Initialize the tabular-data reading manager with the given state."""
         self.state = state
 
     def read_tab(
-        self, i: int, var: str | None, exout: int, mm: mmap.mmap
+        self,
+        i: int,
+        var: str | None,
+        exout: int,
+        mm: mmap.mmap,
     ) -> None:
         """Read the data.****.tab file and stores the relevant information.
 
@@ -39,12 +34,16 @@ class ReadtabManager(LoadMixin):
         ----------
         - i (not optional): int
             The index of the file to be loaded.
+        - exout (not optional): int
+            The index of the output file to be loaded.
+        - mm (not optional): mmap.mmap
+            The memory-mapped file object.
+        - var (not optional): str
+            The variable to be loaded.
 
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -110,5 +109,5 @@ class ReadtabManager(LoadMixin):
             col = data[:, j]
             if empty_lines > 0:
                 col = col.reshape(self.state.nx1, self.state.nx2)
-            if var in self.load_vars:
+            if var is not None and var in self.load_vars:
                 setattr(self.state, var, col)

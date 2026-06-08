@@ -1,14 +1,18 @@
 """Module providing colorbar management functionalities for image displays."""
 
+from __future__ import annotations
+
 import warnings
-from typing import Any
+from typing import Unpack
 
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection, PathCollection, QuadMesh
 from matplotlib.contour import QuadContourSet
+from matplotlib.ticker import FixedFormatter, FixedLocator
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagekwargs import ColorbarKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -35,8 +39,8 @@ class ColorbarManager(ImageMixin):
         ) = None,
         axs: Axes | int | None = None,
         cax: Axes | int | None = None,
-        check: bool = True,
-        **kwargs: Any,
+        _check: bool = True,
+        **kwargs: Unpack[ColorbarKwargs],
     ) -> None:
         """Display a colorbar in a selected position.
 
@@ -49,6 +53,11 @@ class ColorbarManager(ImageMixin):
         - axs: axis object, default None
             The axes where the display that will be used for the colorbar is
             located. If None, the last considered axis will be used.
+        - bottom: float, default varies
+            The bottom limit of the axis / axes set. For the figure layout it
+            is the space from the bottom border to the plot (default 0.1); for
+            an inset zoom it is the bottom position of the inset (default 0.6 +
+            height).
         - cax: axis object, default None
             The axes where the colorbar should be placed. If None, the colorbar
             will be placed next to the axis axs.
@@ -68,16 +77,7 @@ class ColorbarManager(ImageMixin):
         - extend: {'neither','both','min','max'}, default 'neither'
             Sets the extension of the triangular colorbar extension.
         - extendrect: bool, default False
-            If True, the colorbar extension will be rectangular.
-        - pcm: QuadMesh | PathCollection | None, default None
-            The collection to be used for the colorbar. If None, the axs will be
-            used. If both pcm and axs are not None, pcm will be used.
-
-        - bottom: float, default varies
-            The bottom limit of the axis / axes set. For the figure layout it
-            is the space from the bottom border to the plot (default 0.1); for
-            an inset zoom it is the bottom position of the inset (default 0.6 +
-            height).
+            If True, the colorbar extension will be triangular.
         - figsize: list[float], default varies
             Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
             computed from the number of rows and columns (or [8,5] for a single
@@ -95,14 +95,22 @@ class ColorbarManager(ImageMixin):
             The left limit of the axis / axes set. For the figure layout it is
             the space from the left border to the plot (default 0.125); for an
             inset zoom it is the left position of the inset (default 0.6).
+        - ncol: int, default 1
+            The number of columns of subplots.
+        - nrow: int, default 1
+            The number of rows of subplots.
+        - pcm: QuadMesh | PathCollection | None, default None
+            The collection to be used for the colorbar. If None, the axs will be
+            used. If both pcm and axs are not None, pcm will be used.
         - proj: str, default None
             Custom projection for the plot (e.g. 3D). Recommended only if
             needed. WARNING: pyPLUTO does not support 3D plotting for now, only
             3D axes. The 3D plot feature will be available in future releases.
-        - right: float, default 0.9
+        - right: float, default varies
             The right limit of the axis / axes set. For the figure layout it is
-            the space from the right border to the plot; for an inset zoom it
-            is the right position of the inset.
+            the space from the right border to the plot (default 0.9); for an
+            inset zoom it is the right position of the inset (default left +
+            0.15).
         - sharex: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the x-axis between the subplots.
         - sharey: bool | str | Matplotlib axis, default False
@@ -130,8 +138,6 @@ class ColorbarManager(ImageMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -164,8 +170,8 @@ class ColorbarManager(ImageMixin):
 
         """
         # Check parameters
-        if not isinstance(check, bool):
-            raise TypeError("check must be a boolean value.")
+        if not isinstance(_check, bool):
+            raise TypeError("_check must be a boolean value.")
 
         # If pcm and a source axes are selected, raise a warning and use pcm
         if pcm is not None and axs is not None:
@@ -175,11 +181,11 @@ class ColorbarManager(ImageMixin):
         # Standard check on the figure
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         # Assign the source axis
-        axs = self._find_ax(pcm, axs, **kwargs)
+        axs = self._find_ax(pcm, axs)
 
         # Select the keywords to position the colorbar
         if pcm is None:
@@ -196,7 +202,11 @@ class ColorbarManager(ImageMixin):
             divider = make_axes_locatable(axs)
             cax = divider.append_axes(cpos, size="7%", pad=cpad)
         else:
-            cax, naxc = self.ImageToolsManager.assign_ax(cax, **kwargs)
+            cax, naxc = self.ImageToolsManager.assign_ax(
+                cax,
+                _check=False,
+                **kwargs,
+            )
             self.ImageToolsManager.hide_text(naxc, cax.texts)
 
         # Check if the cax is an Axes instance
@@ -215,8 +225,14 @@ class ColorbarManager(ImageMixin):
         )
 
         # Set the tickslabels
-        if (ctkc := kwargs.get("ctickslabels", "Default")) != "Default":
-            cbar.ax.set_yticklabels(ctkc)
+        if isinstance(
+            (ctkc := kwargs.get("ctickslabels", "Default")),
+            (list, tuple),
+        ):
+            axis = cbar.ax.yaxis if ccor == "vertical" else cbar.ax.xaxis
+            ticks = kwargs.get("cticks") or list(cbar.get_ticks())
+            axis.set_major_locator(FixedLocator(ticks))
+            axis.set_major_formatter(FixedFormatter(list(ctkc)))
 
         # Ensure, if needed, the tight layout
         if self.state.tight:
@@ -231,7 +247,6 @@ class ColorbarManager(ImageMixin):
             QuadMesh | PathCollection | LineCollection | QuadContourSet | None
         ) = None,
         axs: Axes | int | None = None,
-        **kwargs: Any,
     ) -> Axes:
         """Find and return the appropriate axis based on the input.
 
@@ -240,6 +255,10 @@ class ColorbarManager(ImageMixin):
         - axs: Axes | int | None, default None
             The axis or index of the axis to find. If None, the last used axis
             will be returned.
+        - pcm: matplotlib collection or None, default None
+            The collection for which to find the corresponding axis.
+            Accepted types: QuadMesh, PathCollection, LineCollection,
+            QuadContourSet.
 
         Returns
         -------
@@ -256,7 +275,7 @@ class ColorbarManager(ImageMixin):
         # Standard check on the figure
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
         # Standard check on the figure
         # Select the source axis
@@ -271,10 +290,13 @@ class ColorbarManager(ImageMixin):
             if not isinstance(gca, Axes):
                 raise TypeError("gca() did not return an Axes instance.")
             axs = gca
-        axs, _ = self.ImageToolsManager.assign_ax(axs, **kwargs)
+        axs, _ = self.ImageToolsManager.assign_ax(
+            axs,
+            _check=False,
+        )
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         return axs

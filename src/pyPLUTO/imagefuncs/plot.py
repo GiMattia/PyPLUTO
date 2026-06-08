@@ -1,14 +1,18 @@
 """PlotManager class."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import Unpack
 
 import numpy as np
+from matplotlib.axes import Axes
 from numpy.typing import ArrayLike
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.legend import LegendManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagekwargs import PlotKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
@@ -36,10 +40,11 @@ class PlotManager(ImageMixin):
     @track_kwargs
     def plot(
         self,
-        x: ArrayLike | list[float],
-        y: ArrayLike | list[float] | None = None,
-        check: bool = True,
-        **kwargs: Any,
+        x: ArrayLike,
+        y: ArrayLike | None = None,
+        ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[PlotKwargs],
     ) -> None:
         """Creation of a 1D function plot (or a 1D slice plot).
 
@@ -60,7 +65,8 @@ class PlotManager(ImageMixin):
             y. A float fixes the ratio between the y-scale and the x-scale (1.0
             is the same as 'equal').
         - ax: ax | int | None, default None
-            The axis where to plot. If None, the last considered axis will be used.
+            The axis where to plot. If None, the last considered axis will be
+            used.
         - bottom: float, default varies
             The bottom limit of the axis / axes set. For the figure layout it
             is the space from the bottom border to the plot (default 0.1); for
@@ -70,6 +76,9 @@ class PlotManager(ImageMixin):
             Determines the color. If not defined, the program will loop
             over an array of 6 colors which are different for the most common
             vision deficiencies.
+        - edgecolor: list[str], default [None]
+            Sets the edge color of the legend. The default value is black
+            ('k').
         - figsize: list[float], default varies
             Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
             computed from the number of rows and columns (or [8,5] for a single
@@ -83,18 +92,25 @@ class PlotManager(ImageMixin):
         - grid: bool | string, default False
             Enables/disables the grid on the plot. If True it enables both axes
             grids. If 'x' or 'y' it enables only the x- or y-axis grid.
+        - hratio: [float], default [1.0]
+            Ratio between the rows of the plot. The default is that every plot
+            row has the same height.
+        - hspace: [float], default []
+            The space between plot rows (in figure units). If not enough or too
+            many spaces are considered, the program will remove the excess and
+            fill the lacks with [0.1].
         - label: str, default None
             Associates a label to the plot, used for the creation of the
             legend.
         - labelsize: float, default fontsize
             Sets the labels fontsize (which is the same for both labels). The
             default value corresponds to the value of the keyword 'fontsize'.
-        - legalpha: float, default 0.8
-            Sets the opacity of the legend.
         - left: float, default varies
             The left limit of the axis / axes set. For the figure layout it is
             the space from the left border to the plot (default 0.125); for an
             inset zoom it is the left position of the inset (default 0.6).
+        - legalpha: float, default 0.8
+            Sets the opacity of the legend.
         - legcols: int, default 1
             Sets the number of columns that the legend should have.
         - legpad: float, default 0.8
@@ -122,21 +138,39 @@ class PlotManager(ImageMixin):
             Sets the marker size.
         - mscale: float, default 1.0
             Sets the marker scale. The default value is 1.0.
+        - ncol: int, default 1
+            The number of columns of subplots.
+        - nrow: int, default 1
+            The number of rows of subplots.
         - proj: str, default None
             Custom projection for the plot (e.g. 3D). Recommended only if
             needed. WARNING: pyPLUTO does not support 3D plotting for now, only
             3D axes. The 3D plot feature will be available in future releases.
-        - right: float, default 0.9
+        - right: float, default varies
             The right limit of the axis / axes set. For the figure layout it is
-            the space from the right border to the plot; for an inset zoom it
-            is the right position of the inset.
+            the space from the right border to the plot (default 0.9); for an
+            inset zoom it is the right position of the inset (default left +
+            0.15).
+        - sharex: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the x-axis between the subplots.
+        - sharey: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the y-axis between the subplots.
+        - suptitle: str, default None
+            Creates a figure title over all the subplots.
         - ticksdir: {'in', 'out'}, default 'in'
             Sets the ticks direction. The default option is 'in'.
         - tickssize: float | bool, default True
             Sets the ticks fontsize (which is the same for both grid axes). The
             default value corresponds to the value of the keyword 'fontsize'.
+        - tight: bool, default True
+            Enables/disables tight layout options for the figure. In case of a
+            highly customized plot (e.g. ratios or space between rows and
+            columns) the option is set by default to False since that option
+            would not be available for standard matplotlib functions.
         - title: str, default None
             Places the title of the plot on top of it.
+        - titlepad: float, default 8.0
+            Sets the distance between the title and the top of the plot.
         - titlesize: float, default fontsize
             Sets the title fontsize. The default value corresponds to the value
             of the keyword 'fontsize'.
@@ -145,9 +179,18 @@ class PlotManager(ImageMixin):
             the space from the top border to the plot (default 0.9); for an
             inset zoom it is the top position of the inset (default bottom +
             height).
+        - wratio: [float], default [1.0]
+            Ratio between the columns of the plot. The default is that every
+            plot column has the same width.
+        - wspace: [float], default []
+            The space between plot columns (in figure units). If not enough or
+            too many spaces are considered, the program will remove the excess
+            and fill the lacks with [0.1].
         - x (not optional): 1D array
             This is the x-axis variable. If y is not defined, then this becomes
             the y-axis variable.
+        - xlabelpad: float, default 4.0
+            The padding between the x-axis label and the axis.
         - xrange: [float, float], default 'Default'
             Sets the range in the x-direction. If not defined, the range is
             computed automatically from the x-array.
@@ -167,8 +210,12 @@ class PlotManager(ImageMixin):
             should always correspond to fixed ticks.
         - xtitle: str, default None
             Sets and places the label of the x-axis.
+        - xtresh: float
+            The threshold parameter for the x-axis symlog/asinh scale.
         - y: 1D array, default [None]
             The y-axis variable.
+        - ylabelpad: float, default 4.0
+            The padding between the y-axis label and the axis.
         - yrange: [float, float], default 'Default'
             Sets the range in the y-direction. If not defined, the range is
             computed automatically from the y-array.
@@ -188,51 +235,12 @@ class PlotManager(ImageMixin):
             should always correspond to fixed ticks.
         - ytitle: str, default None
             Sets and places the label of the y-axis.
-
-        - edgecolor: list[str], default [None]
-            Sets the edge color of the legend. The default value is black
-            ('k').
-        - hratio: [float], default [1.0]
-            Ratio between the rows of the plot. The default is that every plot
-            row has the same height.
-        - hspace: [float], default []
-            The space between plot rows (in figure units). If not enough or too
-            many spaces are considered, the program will remove the excess and
-            fill the lacks with [0.1].
-        - sharex: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the x-axis between the subplots.
-        - sharey: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the y-axis between the subplots.
-        - suptitle: str, default None
-            Creates a figure title over all the subplots.
-        - tight: bool, default True
-            Enables/disables tight layout options for the figure. In case of a
-            highly customized plot (e.g. ratios or space between rows and
-            columns) the option is set by default to False since that option
-            would not be available for standard matplotlib functions.
-        - titlepad: float, default 8.0
-            Sets the distance between the title and the top of the plot.
-        - wratio: [float], default [1.0]
-            Ratio between the columns of the plot. The default is that every
-            plot column has the same width.
-        - wspace: [float], default []
-            The space between plot columns (in figure units). If not enough or
-            too many spaces are considered, the program will remove the excess
-            and fill the lacks with [0.1].
-        - xlabelpad: float, default 4.0
-            The padding between the x-axis label and the axis.
-        - xtresh: float
-            The threshold parameter for the x-axis symlog/asinh scale.
-        - ylabelpad: float, default 4.0
-            The padding between the y-axis label and the axis.
         - ytresh: float
             The threshold parameter for the y-axis symlog/asinh scale.
 
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -273,9 +281,6 @@ class PlotManager(ImageMixin):
             >>> I.plot(x, z, ax=I.ax[0])
 
         """
-        # Check parameters
-        kwargs.pop("check", check)
-
         # If only one argument is given, it is the y-axis
         if y is None:
             y = np.asarray(x, dtype=float)
@@ -287,16 +292,14 @@ class PlotManager(ImageMixin):
 
         if self.state.fig is None:
             raise ValueError(
-                "No figure is present. Please create a figure first."
+                "No figure is present. Please create a figure first.",
             )
 
         # Set or create figure and axes
-        ax, nax = self.ImageToolsManager.assign_ax(
-            kwargs.pop("ax", None), **kwargs
-        )
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         # Set ax parameters
-        self.AxisManager.set_axis(ax=ax, check=False, **kwargs)
+        self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)
 
         # Keyword xrange and yrange
@@ -318,7 +321,8 @@ class PlotManager(ImageMixin):
 
         # Set color line and increase the number of lines (if default color)
         col_line = kwargs.get(
-            "c", self.state.color[self.state.nline[nax] % len(self.state.color)]
+            "c",
+            self.state.color[self.state.nline[nax] % len(self.state.color)],
         )
         if not kwargs.get("c"):
             self.state.nline[nax] = self.state.nline[nax] + 1
@@ -339,9 +343,9 @@ class PlotManager(ImageMixin):
         # Creation of the legend
         self.state.legpos[nax] = kwargs.get("legpos", self.state.legpos[nax])
         if self.state.legpos[nax] is not None:
-            copy_label: str | None = kwargs.get("label")
+            copy_label = kwargs.get("label")
             kwargs["label"] = None
-            self.LegendManager.legend(ax, check=False, fromplot=True, **kwargs)
+            self.LegendManager.legend(ax, _check=False, fromplot=True, **kwargs)
             kwargs["label"] = copy_label
 
         # If tight_layout is enabled, is re-inforced

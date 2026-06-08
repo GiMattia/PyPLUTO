@@ -1,11 +1,14 @@
 """Module that contains the LoadState class."""
 
+from __future__ import annotations
+
 import mmap
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from numpy.typing import NDArray
+import numpy as np
 
 
 @dataclass
@@ -21,6 +24,7 @@ class BaseLoadState:
     alone: bool = field(init=False)
     charsize: int = field(init=False)
     class_name: str = field(init=False)
+    chnk: int | Sequence[int] | None = None
     code: str = "gPLUTO"
     d_info: dict[str, Any] = field(default_factory=dict)
     d_vars: dict[str, Any] = field(default_factory=dict)
@@ -34,15 +38,15 @@ class BaseLoadState:
     matching_files: list[str] | None = None
     mmaps: list[mmap.mmap] = field(default_factory=list)
     multiple: bool = False
-    nout: int | NDArray[Any] = field(init=False, repr=False)
-    noutlist: NDArray[Any] = field(init=False)
+    nout: int | np.ndarray = field(init=False, repr=False)
+    noutlist: np.ndarray = field(init=False)
     nshp: int | tuple[int, ...] = field(init=False)
-    ntime: int | NDArray[Any] = field(init=False, repr=False)
-    ntimelist: NDArray[Any] = field(init=False)
-    outlist: NDArray[Any] = field(init=False)
+    ntime: int | np.ndarray = field(init=False, repr=False)
+    ntimelist: np.ndarray = field(init=False)
+    outlist: np.ndarray = field(init=False)
     pathdir: str | Path = "./"
     text: bool | None = None
-    timelist: NDArray[Any] = field(init=False)
+    timelist: np.ndarray = field(init=False)
     unit_attached: set[str] = field(default_factory=set)
     unit_base: dict[str, float | str] = field(default_factory=dict)
     unit_userdef: dict[str, float] = field(default_factory=dict)

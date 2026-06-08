@@ -23,7 +23,7 @@ import pyPLUTO
 
 
 # --- Compute Lorentz factor and sort ---
-def compute_gamma(dp: pyPLUTO.LoadPart) -> np.ndarray:
+def compute_gamma(dp: pyPLUTO.LoadPart[np.ndarray]) -> np.ndarray:
     """Compute the Lorentz factor for a given particle dataset."""
     return np.sqrt(1 + dp.ux1**2 + dp.ux2**2 + dp.ux3**2)
 
@@ -79,7 +79,7 @@ Image.create_axes(left=0.35, right=0.7, bottom=0.23, top=0.4)
 # --- Plot particle spectra ---
 for Dp, label in [(Dp_i, "t = 0"), (Dp_f, "t = 100")]:
     gl = compute_gamma(Dp)
-    hist, bins = Dp.spectrum(gl, density=False)
+    hist, bins = Dp.spectrum(gl, normalize=False)
 
     Image.plot(
         bins,

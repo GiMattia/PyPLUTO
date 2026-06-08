@@ -19,7 +19,7 @@ def test_default_zoom():
     pos1 = Image.ax[1].get_position().bounds
     posleft = pos0[0] + 0.6 * pos0[2]
     posbot = pos0[1] + 0.6 * pos0[3]
-    width = 0.2 * pos0[2]
+    width = 0.15 * pos0[2]
     height = 0.15 * pos0[3]
     line1 = Image.ax[1].get_lines()[0]
     line2 = Image.ax[1].get_lines()[1]

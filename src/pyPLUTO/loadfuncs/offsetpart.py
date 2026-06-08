@@ -1,5 +1,7 @@
 """Docstring for pyPLUTO.loadfuncs.offsetfluid module."""
 
+from __future__ import annotations
+
 import mmap
 import warnings
 
@@ -13,22 +15,15 @@ class OffsetPart(BaseLoadMixin):
     """Class that computes the fluid offsets in single_file format."""
 
     def __init__(self, state: BaseLoadState) -> None:
-        """Initialize the particle offset manager with the given load state.
-
-        Parameters
-        ----------
-        - state: BaseLoadState
-            The load state object carrying particle metadata and file information.
-
-        Returns
-        -------
-        - None
-
-        """
+        """Initialize the particle offset manager with the given load state."""
         self.state = state
 
     def offset_bin(
-        self, _i: int, var: str | None, exout: int, mm: mmap.mmap
+        self,
+        _i: int,
+        var: str | None,
+        exout: int,
+        mm: mmap.mmap,
     ) -> None:
         """Compute the offset and shape of the variables to be loaded.
 
@@ -39,14 +34,16 @@ class OffsetPart(BaseLoadMixin):
         ----------
         - i (not optional): int
             The index of the file to be loaded.
+        - exout (not optional): int
+            The index of the output file to be loaded.
+        - mm (not optional): mmap.mmap
+            The memory-mapped file object.
         - var (not optional): str
             The variable to be loaded.
 
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -61,6 +58,7 @@ class OffsetPart(BaseLoadMixin):
 
         vardim: list[int] = []
         field_names: list[str] = []
+        threeparts = 3
 
         search_pos = 0
         while True:
@@ -71,7 +69,7 @@ class OffsetPart(BaseLoadMixin):
             search_pos = line_end + 1
 
             parts = raw_line.split()
-            if len(parts) < 3:
+            if len(parts) < threeparts:
                 continue
             key = parts[1]
 
@@ -81,7 +79,7 @@ class OffsetPart(BaseLoadMixin):
                     self.state.d_info["endianess"][exout] = self.state.endian
                 if self.state.d_info["endianess"][exout] is None:
                     raise ValueError(
-                        "Error: Wrong endianess in particle binary file."
+                        "Error: Wrong endianess in particle binary file.",
                     )
                 self.state.d_info["binformat"][exout] = (
                     f"{self.state.d_info['endianess'][exout]}f"
@@ -119,7 +117,11 @@ class OffsetPart(BaseLoadMixin):
         # End of function
 
     def offset_vtk(
-        self, i: int, var: str | None, exout: int, mm: mmap.mmap
+        self,
+        i: int,
+        var: str | None,
+        exout: int,
+        mm: mmap.mmap,
     ) -> None:
         """Compute the offset and shape of the variables to be loaded.
 
@@ -130,14 +132,16 @@ class OffsetPart(BaseLoadMixin):
         ----------
         - i (not optional): int
             The index of the file to be loaded.
+        - exout (not optional): int
+            The index of the output file to be loaded.
+        - mm (not optional): mmap.mmap
+            The memory-mapped file object.
         - var (not optional): str
             The variable to be loaded.
 
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -161,6 +165,7 @@ class OffsetPart(BaseLoadMixin):
         # Particle vtk files store point coordinates first. Use this section to
         # infer the particle count and point-data offsets.
         search_pos = 0
+        twoparts, fourparts = 2, 4
         while True:
             points_pos = mm.find(b"POINTS", search_pos)
             if points_pos == -1:
@@ -171,7 +176,7 @@ class OffsetPart(BaseLoadMixin):
 
             line = mm[points_pos:line_end]
             parts = line.split()
-            if len(parts) < 2:
+            if len(parts) < twoparts:
                 break
 
             self.state.dim = int(parts[1])
@@ -193,7 +198,7 @@ class OffsetPart(BaseLoadMixin):
                 break
             line = mm[scalars_pos:line_end]
             parts = line.split()
-            if len(parts) < 2:
+            if len(parts) < twoparts:
                 break
             namevar = parts[1].decode()
 
@@ -223,7 +228,7 @@ class OffsetPart(BaseLoadMixin):
                 break
             line = mm[vectors_pos:line_end]
             parts = line.split()
-            if len(parts) < 4:
+            if len(parts) < fourparts:
                 warnings.warn(
                     "Warning: malformed VECTORS entry in vtk particle file.",
                     UserWarning,

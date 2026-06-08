@@ -1,35 +1,30 @@
 """Docstring for findfiles.py."""
 
+from __future__ import annotations
+
 from pathlib import Path
-from typing import Any
 
 import numpy as np
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.loadfuncs.baseloadtools import BaseLoadTools
-from pyPLUTO.utils.inspector import track_kwargs
 
 
 class FindFilesManager(BaseLoadMixin[BaseLoadState]):
     """Class that manages file finding operations."""
 
-    @track_kwargs
     def __init__(
         self,
         state: BaseLoadState,
         nout: int | str | list[int | str],
-        **kwargs: Any,
     ) -> None:
         """Initialize the FindFilesManager class."""
         self.state = state
         self.LoadToolManager = BaseLoadTools(self.state)
-        self.find_files(nout, **kwargs)
+        self.find_files(nout)
 
-    @track_kwargs
-    def find_files(
-        self, nout: int | str | list[int | str], **kwargs: Any
-    ) -> None:
+    def find_files(self, nout: int | str | list[int | str]) -> None:
         """Find the files to be loaded.
 
         If nout is a list, the function loops over the list and finds the
@@ -46,8 +41,6 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -104,7 +97,7 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
             if "particles" not in set_vars:
                 raise FileNotFoundError(
                     f"file particles.*.{self.datatype} \
-                                            not found!"
+                                            not found!",
                 )
 
             # Particles are always 'single_file', initialize additional vars
@@ -126,7 +119,7 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
                 for elem in self.state.matching_files:
                     raw_str = Path(elem).name.split(".")
                     self.state.d_info["varslist"][int(raw_str[1])].append(
-                        raw_str[0]
+                        raw_str[0],
                     )
             else:
                 # If the files are single, the typefile is set to 'single_file'
@@ -136,22 +129,28 @@ class FindFilesManager(BaseLoadMixin[BaseLoadState]):
             raise ValueError(f"Unknown class name: {self.state.class_name}")
 
     def varsout(
-        self, elem: str, set_vars: set, set_outs: set, set_chnk: dict
+        self,
+        elem: str,
+        set_vars: set,
+        set_outs: set,
+        set_chnk: dict,
     ) -> None:
         """Find the variables and the outputs for the fluid and particles files.
 
         Parameters
         ----------
-        - class_name (not optional): str
-            The name of the class. Supported classes are 'Load' or 'LoadPart'.
         - elem (not optional): str
             The matching file.
+        - set_vars (not optional): set
+            The set of variables.
+        - set_outs (not optional): set
+            The set of outputs.
+        - set_chnk (not optional): dict
+            The dictionary of chunks.
 
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------

@@ -1,11 +1,13 @@
 """Module for grid management when reading files without descriptor."""
 
+from __future__ import annotations
+
 import warnings
 
 import numpy as np
 
-from ..loadmixin import LoadMixin
-from ..loadstate import LoadState
+from pyPLUTO.loadmixin import LoadMixin
+from pyPLUTO.loadstate import LoadState
 
 
 class GridManager(LoadMixin):
@@ -26,8 +28,6 @@ class GridManager(LoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -120,7 +120,7 @@ class GridManager(LoadMixin):
             )
             warnings.warn(warn, UserWarning, stacklevel=2)
 
-            return None
+            return
 
         if gridvars[0] == "x1r":
             self.state.x1 = 0.5 * (self.state.x1r[:-1] + self.state.x1r[1:])
@@ -132,7 +132,7 @@ class GridManager(LoadMixin):
             self.state.x3 = 0.5 * (self.state.x3r[:-1] + self.state.x3r[1:])
             self.state.dx3 = self.state.x3r[1:] - self.state.x3r[:-1]
 
-        return None
+        return
 
     def readgridh5(self) -> None:
         """Read the grid from a .h5 file.
@@ -144,8 +144,6 @@ class GridManager(LoadMixin):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -165,7 +163,10 @@ class GridManager(LoadMixin):
         self.state.nshp = nshp
         self.state.dim = len(nshp)
         self.state.geom = "UNKNOWN"
-        self.state.nx1, self.state.nx2, self.state.nx3 = ((*nshp, 1, 1, 1))[:3]
+        nx_vals = (*nshp, 1, 1, 1)
+        self.state.nx1 = int(nx_vals[0])
+        self.state.nx2 = int(nx_vals[1])
+        self.state.nx3 = int(nx_vals[2])
         nx1s, nx2s, nx3s = (
             self.state.nx1 + 1,
             self.state.nx2 + 1,
@@ -185,7 +186,9 @@ class GridManager(LoadMixin):
         # Determine grid shape based on dimension
         (self.state.nshp_st1, self.state.nshp_st2, self.state.nshp_st3) = (
             GRID_SHAPES[self.state.dim](
-                self.state.nx1, self.state.nx2, self.state.nx3
+                self.state.nx1,
+                self.state.nx2,
+                self.state.nx3,
             )
         )
 

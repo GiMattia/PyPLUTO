@@ -416,9 +416,19 @@
 
 <span class="c1"># ruff: noqa: ANN201  # noqa: RUF100</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Unpack</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.axes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">LineCollection</span><span class="p">,</span> <span class="n">PathCollection</span><span class="p">,</span> <span class="n">QuadMesh</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.contour</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuadContourSet</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayLike</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.amr</span><span class="w"> </span><span class="kn">import</span> <span class="n">oplotbox</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.configure</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_text</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.colorbar</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorbarManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.contour</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContourManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.create_axes</span><span class="w"> </span><span class="kn">import</span> <span class="n">CreateAxesManager</span>
@@ -433,11 +443,26 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.set_axis</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxisManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.streamplot</span><span class="w"> </span><span class="kn">import</span> <span class="n">StreamplotManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.zoom</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZoomManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagekwargs</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ColorbarKwargs</span><span class="p">,</span>
+    <span class="n">ContourKwargs</span><span class="p">,</span>
+    <span class="n">CreateAxesKwargs</span><span class="p">,</span>
+    <span class="n">DisplayKwargs</span><span class="p">,</span>
+    <span class="n">FigureKwargs</span><span class="p">,</span>
+    <span class="n">LegendKwargs</span><span class="p">,</span>
+    <span class="n">PlotKwargs</span><span class="p">,</span>
+    <span class="n">ScatterKwargs</span><span class="p">,</span>
+    <span class="n">SetAxisKwargs</span><span class="p">,</span>
+    <span class="n">StreamplotKwargs</span><span class="p">,</span>
+    <span class="n">TextKwargs</span><span class="p">,</span>
+    <span class="n">ZoomKwargs</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagemixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageMixin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagestate</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageState</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.annotator</span><span class="w"> </span><span class="kn">import</span> <span class="n">AllKwargs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.resolver</span><span class="w"> </span><span class="kn">import</span> <span class="n">AttrResolver</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Image">
@@ -459,9 +484,9 @@
     <span class="nd">@track_kwargs</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">AllKwargs</span><span class="p">],</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">FigureKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Image class.</span>
 
@@ -470,10 +495,6 @@
 <span class="sd">        one in order to avoid confusion between images and figures. If you want</span>
 <span class="sd">        to create multiple figures, you have to create multiple Image objects.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - None</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - close: bool, default True</span>
@@ -481,10 +502,14 @@
 <span class="sd">        - fig: Figure | None, default None</span>
 <span class="sd">            The figure instance. If not None, the figure is used (only</span>
 <span class="sd">            if we need to associate an Image to an existing figure).</span>
-<span class="sd">        - figsize: list[float], default [8,5]</span>
-<span class="sd">            The figure size.</span>
-<span class="sd">        - fontsize: int, default 17</span>
-<span class="sd">            The font size.</span>
+<span class="sd">        - figsize: list[float], default varies</span>
+<span class="sd">            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],</span>
+<span class="sd">            computed from the number of rows and columns (or [8,5] for a single</span>
+<span class="sd">            plot).</span>
+<span class="sd">        - fontsize: float, default 17.0</span>
+<span class="sd">            Sets the fontsize for all the axis components.</span>
+<span class="sd">        - fontweight: str, default &#39;normal&#39;</span>
+<span class="sd">            The font weight for all the axis components.</span>
 <span class="sd">        - LaTeX: bool | str, default False</span>
 <span class="sd">            The LaTeX option. Is True is selected, the default LaTeX font</span>
 <span class="sd">            is used. If &#39;pgf&#39; is selected, the pgf backend is used to save pdf</span>
@@ -496,24 +521,33 @@
 <span class="sd">            but the full list contains 24 colors (+ black or white).</span>
 <span class="sd">        - nwin: int, default 1</span>
 <span class="sd">            The window number.</span>
-<span class="sd">        - oldcolor: bool, default False</span>
-<span class="sd">            if True, the old colors are used</span>
+<span class="sd">        - replace: bool, default False</span>
+<span class="sd">            If True, the existing figure with the same window is replaced.</span>
 <span class="sd">        - style: str, default &#39;default&#39;</span>
 <span class="sd">            The style of the figure. Possible values are: &#39;seaborn&#39;, &#39;ggplot&#39;,</span>
 <span class="sd">            &#39;fivethirtyeight&#39;, &#39;bmh&#39;, &#39;grayscale&#39;, &#39;dark_background&#39;, &#39;classic&#39;,</span>
 <span class="sd">            etc.</span>
 <span class="sd">        - suptitle: str, default None</span>
-<span class="sd">            The super title of the figure.</span>
+<span class="sd">            Creates a figure title over all the subplots.</span>
 <span class="sd">        - suptitlesize: str | int, default &#39;large&#39;</span>
 <span class="sd">            The figure title size.</span>
 <span class="sd">        - tight: bool, default True</span>
-<span class="sd">            If True, the tight layout is used.</span>
+<span class="sd">            Enables/disables tight layout options for the figure. In case of a</span>
+<span class="sd">            highly customized plot (e.g. ratios or space between rows and</span>
+<span class="sd">            columns) the option is set by default to False since that option</span>
+<span class="sd">            would not be available for standard matplotlib functions.</span>
+<span class="sd">        - text: bool | None, default None</span>
+<span class="sd">            Controls output verbosity. None (default) logs the window number at</span>
+<span class="sd">            INFO level. False silences all output. True enables full DEBUG</span>
+<span class="sd">            logging.</span>
 <span class="sd">        - withblack: bool, default False</span>
 <span class="sd">            If True, the black color is used as first color.</span>
 <span class="sd">        - withwhite: bool, default False</span>
 <span class="sd">            If True, the white color is used as first color.</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -543,9 +577,8 @@
 <span class="sd">            &gt;&gt;&gt; I = pp.Image(suptitle=&quot;Title&quot;)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;kwargscheck&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">ImageState</span><span class="p">()</span>
+        <span class="n">set_text</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">FigureManager</span> <span class="o">=</span> <span class="n">FigureManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -564,8 +597,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">StreamplotManager</span> <span class="o">=</span> <span class="n">StreamplotManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ZoomManager</span> <span class="o">=</span> <span class="n">ZoomManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">text</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Image class created at nwin </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nwin</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Image class created at nwin </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nwin</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the repr of the Image class.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Image(nwin=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nwin</span><span class="si">!r}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;figsize=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="si">!r}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Print the Image class.&quot;&quot;&quot;</span>
@@ -640,84 +680,188 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">animate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the animate method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the animate method.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">InteractiveManager</span><span class="o">.</span><span class="n">animate</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">colorbar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the colorbar method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ColorbarManager</span><span class="o">.</span><span class="n">colorbar</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">colorbar</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pcm</span><span class="p">:</span> <span class="n">QuadMesh</span>
+        <span class="o">|</span> <span class="n">PathCollection</span>
+        <span class="o">|</span> <span class="n">LineCollection</span>
+        <span class="o">|</span> <span class="n">QuadContourSet</span>
+        <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">axs</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ColorbarKwargs</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Colorbar method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ColorbarManager</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+            <span class="n">pcm</span><span class="o">=</span><span class="n">pcm</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span><span class="n">axs</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">contour</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the contour method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ContourManager</span><span class="o">.</span><span class="n">contour</span>
+    <span class="n">colorbar</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">ColorbarManager</span><span class="o">.</span><span class="n">colorbar</span><span class="o">.</span><span class="vm">__doc__</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the create_axes method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">CreateAxesManager</span><span class="o">.</span><span class="n">create_axes</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">contour</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ContourKwargs</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Contour method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ContourManager</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the display method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">DisplayManager</span><span class="o">.</span><span class="n">display</span>
+    <span class="n">contour</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">ContourManager</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="vm">__doc__</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the interactive method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">InteractiveManager</span><span class="o">.</span><span class="n">interactive</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_axes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">CreateAxesKwargs</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Axes</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creation of a set of axes using add_subplot from matplotlib.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">CreateAxesManager</span><span class="o">.</span><span class="n">create_axes</span><span class="p">(</span><span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">legend</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the legend method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">LegendManager</span><span class="o">.</span><span class="n">legend</span>
+    <span class="n">create_axes</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">CreateAxesManager</span><span class="o">.</span><span class="n">create_axes</span><span class="o">.</span><span class="vm">__doc__</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the plot method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PlotManager</span><span class="o">.</span><span class="n">plot</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">display</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">DisplayKwargs</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Display method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">DisplayManager</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">display</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">DisplayManager</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">interactive</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">varx</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">vary</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">limfix</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">labslider</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">DisplayKwargs</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interactive method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">InteractiveManager</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
+            <span class="n">varx</span><span class="o">=</span><span class="n">varx</span><span class="p">,</span>
+            <span class="n">vary</span><span class="o">=</span><span class="n">vary</span><span class="p">,</span>
+            <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span>
+            <span class="n">limfix</span><span class="o">=</span><span class="n">limfix</span><span class="p">,</span>
+            <span class="n">labslider</span><span class="o">=</span><span class="n">labslider</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">interactive</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">InteractiveManager</span><span class="o">.</span><span class="n">interactive</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">legend</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fromplot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">LegendKwargs</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Legend method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">LegendManager</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">fromplot</span><span class="o">=</span><span class="n">fromplot</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+    <span class="n">legend</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">LegendManager</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">PlotKwargs</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PlotManager</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">plot</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">PlotManager</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="vm">__doc__</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">savefig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the savefig method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the savefig method.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">savefig</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the scatter method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ScatterManager</span><span class="o">.</span><span class="n">scatter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">scatter</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ScatterKwargs</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Scatter method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ScatterManager</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the set_axis method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span><span class="o">.</span><span class="n">set_axis</span>
+    <span class="n">scatter</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">ScatterManager</span><span class="o">.</span><span class="n">scatter</span><span class="o">.</span><span class="vm">__doc__</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the show method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">show</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_axis</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">SetAxisKwargs</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set axis method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span><span class="o">.</span><span class="n">set_axis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the text method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">set_axis</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">AxisManager</span><span class="o">.</span><span class="n">set_axis</span><span class="o">.</span><span class="vm">__doc__</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">streamplot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the streamplot method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">StreamplotManager</span><span class="o">.</span><span class="n">streamplot</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">streamplot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">var2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">StreamplotKwargs</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Streamplot method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">StreamplotManager</span><span class="o">.</span><span class="n">streamplot</span><span class="p">(</span>
+            <span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the zoom method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ZoomManager</span><span class="o">.</span><span class="n">zoom</span>
+    <span class="n">streamplot</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">StreamplotManager</span><span class="o">.</span><span class="n">streamplot</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">text</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.85</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.85</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">c</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">TextKwargs</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Text method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+    <span class="n">text</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">zoom</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ZoomKwargs</span><span class="p">],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Zoom method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ZoomManager</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">zoom</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">ZoomManager</span><span class="o">.</span><span class="n">zoom</span><span class="o">.</span><span class="vm">__doc__</span>
 
 <div class="viewcode-block" id="Image.oplotbox">
 <a class="viewcode-back" href="../../oplotbox.html#pyPLUTO.Image.oplotbox">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">oplotbox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nd">@track_kwargs</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">oplotbox</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">object</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot a box in the figure (AMR, WIP).&quot;&quot;&quot;</span>
-        <span class="n">oplotbox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="n">oplotbox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </div>
 
 </pre></div>

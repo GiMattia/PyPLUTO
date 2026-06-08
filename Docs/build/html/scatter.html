@@ -454,53 +454,109 @@
 <span id="scatter"></span><h1>Image.scatter<a class="headerlink" href="#image-scatter" title="Link to this heading">#</a></h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyPLUTO.imagefuncs.scatter.ScatterManager.scatter">
-<span class="sig-prename descclassname"><span class="pre">ScatterManager.</span></span><span class="sig-name descname"><span class="pre">scatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">generic</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">generic</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">PathCollection</span></span></span><a class="reference internal" href="_modules/pyPLUTO/imagefuncs/scatter.html#ScatterManager.scatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyPLUTO.imagefuncs.scatter.ScatterManager.scatter" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">ScatterManager.</span></span><span class="sig-name descname"><span class="pre">scatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Unpack</span><span class="p"><span class="pre">[</span></span><span class="pre">ScatterKwargs</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">PathCollection</span></span></span><a class="reference internal" href="_modules/pyPLUTO/imagefuncs/scatter.html#ScatterManager.scatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyPLUTO.imagefuncs.scatter.ScatterManager.scatter" title="Link to this definition">#</a></dt>
 <dd><p>Scatter plot for a 2D function (or a 2D slice).</p>
 <p>A simple figure and a single axis can also be created.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>- alpha: float, default 1.0</strong></dt><dd><p>Sets the transparency of the plot.</p>
+<dt><strong>- alpha: float, default 1.0</strong></dt><dd><p>Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is
+fully transparent.</p>
 </dd>
-<dt><strong>- aspect: {‘auto’, ‘equal’, float}, default ‘auto’</strong></dt><dd><p>Sets the aspect ratio of the plot. The ‘auto’ keyword is the default
-option (most likely the plot will be squared). The ‘equal’ keyword
-will set the same scaling for x and y. A float will fix the ratio
-between the y-scale and the x-scale (1.0 is the same as ‘equal’).</p>
+<dt><strong>- aspect: ‘auto’ | ‘equal’ | float, default ‘auto’</strong></dt><dd><p>Sets the aspect ratio of the plot. The ‘auto’ keyword is the
+default option. The ‘equal’ keyword sets the same scaling for x and
+y. A float fixes the ratio between the y-scale and the x-scale (1.0
+is the same as ‘equal’).</p>
 </dd>
-<dt><strong>- ax: axis object</strong></dt><dd></dd>
-<dt><strong>The axis where to plot the scatter. If not given, the last considered</strong></dt><dd></dd>
-<dt><strong>axis will be used.</strong></dt><dd></dd>
-<dt><strong>- c: str, default self.color</strong></dt><dd><p>Determines the scatter plot color. If not defined, the program will
-loop over an array of 6 color which are different for the most
-common vision deficiencies.</p>
+<dt><strong>- ax: ax | int | None, default None</strong></dt><dd><p>The axis where to plot. If None, the last considered axis will be
+used.</p>
 </dd>
-<dt><strong>- clabel: str, default None</strong></dt><dd><p>Sets the colorbar label.</p>
+<dt><strong>- bottom: float, default varies</strong></dt><dd><p>The bottom limit of the axis / axes set. For the figure layout it
+is the space from the bottom border to the plot (default 0.1); for
+an inset zoom it is the bottom position of the inset (default 0.6 +
+height).</p>
 </dd>
-<dt><strong>- cmap: str, default ‘hot’</strong></dt><dd><p>Selects the colormap. If not defined, the colormap ‘hot’ will be
-adopted. Some useful colormaps are: plasma, magma, seismic. Please
-avoid using colorbars like jjet or rainbow, which are not
+<dt><strong>- c: str, default self.color</strong></dt><dd><p>Determines the color. If not defined, the program will loop over an
+array of 6 colors which are different for the most common vision
+deficiencies.</p>
+</dd>
+<dt><strong>- clabel: str, default None</strong></dt><dd><p>Sets the label of the colorbar.</p>
+</dd>
+<dt><strong>- cmap: str, default ‘hot’</strong></dt><dd><p>Selects the colormap. Some useful colormaps are: plasma, magma,
+seismic. Please avoid colormaps like jet or rainbow, which are not
 perceptively uniform and not suited for people with vision
 deficiencies.</p>
 </dd>
-<dt><strong>- cpos: {‘top’,’bottom’,’left’,’right’}, default None</strong></dt><dd><p>Enables the colorbar (if defined), default position on the right.</p>
+<dt><strong>- cpad: float, default 0.07</strong></dt><dd><p>Fraction of original axes between colorbar and the axes (in axes
+units).</p>
+</dd>
+<dt><strong>- cpos: {‘top’,’bottom’,’left’,’right’}, default None</strong></dt><dd><p>Enables the colorbar and sets its position. If not defined, no
+colorbar is shown.</p>
 </dd>
 <dt><strong>- cscale: {‘linear’,’log’,’symlog’,’twoslope’}, default ‘linear’</strong></dt><dd><p>Sets the colorbar scale. Default is the linear (‘norm’) scale.</p>
 </dd>
+<dt><strong>- cticks: {[float], None}, default None</strong></dt><dd><p>If enabled (and different from None), sets manually the ticks on
+the colorbar.</p>
+</dd>
+<dt><strong>- ctickslabels: str, default None</strong></dt><dd><p>If enabled, sets manually ticks labels on the colorbar.</p>
+</dd>
+<dt><strong>- edgecolor: list[str], default [None]</strong></dt><dd><p>Sets the edge color of the legend. The default value is black
+(‘k’).</p>
+</dd>
 <dt><strong>- edgecolors: str, default None</strong></dt><dd><p>Enables a contouring color for the markers.</p>
 </dd>
-<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components (only for the current
-axis).</p>
+<dt><strong>- extend: {‘neither’,’both’,’min’,’max’}, default ‘neither’</strong></dt><dd><p>Sets the extension of the triangular colorbar extension.</p>
 </dd>
-<dt><strong>- grid: bool, default False</strong></dt><dd><p>Enables/disables the grid on the plot.</p>
+<dt><strong>- extendrect: bool, default False</strong></dt><dd><p>If True, the colorbar extension will be triangular.</p>
 </dd>
-<dt><strong>- label: str, default None</strong></dt><dd><p>Associates a label to be used for the creation of the legend.</p>
+<dt><strong>- figsize: list[float], default varies</strong></dt><dd><p>Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
+computed from the number of rows and columns (or [8,5] for a single
+plot).</p>
 </dd>
-<dt><strong>- labelsize: float, default fontsize</strong></dt><dd><p>Sets the labels fontsize (which is the same for both labels).
-The default value corresponds to the value of the keyword
-‘fontsize’.</p>
+<dt><strong>- fillstyle: {‘full’, ‘left’, ‘right’, ‘bottom’, ‘top’, ‘none’},</strong></dt><dd><p>default ‘full’
+Sets the marker filling. The default value is the fully filled
+marker (‘full’).</p>
 </dd>
-<dt><strong>- legpos: int/str, default None</strong></dt><dd><p>If enabled, creates a legend. This keyword selects the legend
-location.</p>
+<dt><strong>- fontsize: float, default 17.0</strong></dt><dd><p>Sets the fontsize for all the axis components.</p>
+</dd>
+<dt><strong>- grid: bool | string, default False</strong></dt><dd><p>Enables/disables the grid on the plot. If True it enables both axes
+grids. If ‘x’ or ‘y’ it enables only the x- or y-axis grid.</p>
+</dd>
+<dt><strong>- hratio: [float], default [1.0]</strong></dt><dd><p>Ratio between the rows of the plot. The default is that every plot
+row has the same height.</p>
+</dd>
+<dt><strong>- hspace: [float], default []</strong></dt><dd><p>The space between plot rows (in figure units). If not enough or too
+many spaces are considered, the program will remove the excess and
+fill the lacks with [0.1].</p>
+</dd>
+<dt><strong>- label: str, default None</strong></dt><dd><p>Associates a label to the plot, used for the creation of the
+legend.</p>
+</dd>
+<dt><strong>- labelsize: float, default fontsize</strong></dt><dd><p>Sets the labels fontsize (which is the same for both labels). The
+default value corresponds to the value of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- left: float, default varies</strong></dt><dd><p>The left limit of the axis / axes set. For the figure layout it is
+the space from the left border to the plot (default 0.125); for an
+inset zoom it is the left position of the inset (default 0.6).</p>
+</dd>
+<dt><strong>- legalpha: float, default 0.8</strong></dt><dd><p>Sets the opacity of the legend.</p>
+</dd>
+<dt><strong>- legcols: int, default 1</strong></dt><dd><p>Sets the number of columns that the legend should have.</p>
+</dd>
+<dt><strong>- legpad: float, default 0.8</strong></dt><dd><p>Sets the space between the lines (or symbols) and the corresponding
+text in the legend.</p>
+</dd>
+<dt><strong>- legpos: int | str, default None</strong></dt><dd><p>If defined, creates a legend at the specified location.</p>
+</dd>
+<dt><strong>- legsize: float, default fontsize</strong></dt><dd><p>Sets the fontsize of the legend. The default value is the default
+fontsize value.</p>
+</dd>
+<dt><strong>- legspace: float, default 2</strong></dt><dd><p>Sets the space between the legend columns, in font-size units.</p>
+</dd>
+<dt><strong>- ls: {‘-’, ‘–’, ‘-.’, ‘:’, ‘ ‘, etc.}, default ‘-’</strong></dt><dd><p>Sets the linestyle. The choices available are the ones defined in
+the matplotlib package.</p>
+</dd>
+<dt><strong>- lw: float, default 1.3</strong></dt><dd><p>Sets the linewidth.</p>
 </dd>
 <dt><strong>- marker: {‘o’, ‘v’, ‘^’, ‘&lt;’, ‘&gt;’, ‘X’, ‘ ‘, etc.}, default ‘ ‘</strong></dt><dd><p>Sets an optional symbol for every point. The default value is no
 marker (’ ‘).</p>
@@ -510,81 +566,119 @@ axes).</p>
 </dd>
 <dt><strong>- ms: float, default 3</strong></dt><dd><p>Sets the marker size.</p>
 </dd>
+<dt><strong>- mscale: float, default 1.0</strong></dt><dd><p>Sets the marker scale. The default value is 1.0.</p>
+</dd>
+<dt><strong>- ncol: int, default 1</strong></dt><dd><p>The number of columns of subplots.</p>
+</dd>
+<dt><strong>- nrow: int, default 1</strong></dt><dd><p>The number of rows of subplots.</p>
+</dd>
+<dt><strong>- proj: str, default None</strong></dt><dd><p>Custom projection for the plot (e.g. 3D). Recommended only if
+needed. WARNING: pyPLUTO does not support 3D plotting for now, only
+3D axes. The 3D plot feature will be available in future releases.</p>
+</dd>
+<dt><strong>- right: float, default varies</strong></dt><dd><p>The right limit of the axis / axes set. For the figure layout it is
+the space from the right border to the plot (default 0.9); for an
+inset zoom it is the right position of the inset (default left +
+0.15).</p>
+</dd>
+<dt><strong>- sharex: bool | str | Matplotlib axis, default False</strong></dt><dd><p>Enables/disables the sharing of the x-axis between the subplots.</p>
+</dd>
+<dt><strong>- sharey: bool | str | Matplotlib axis, default False</strong></dt><dd><p>Enables/disables the sharing of the y-axis between the subplots.</p>
+</dd>
+<dt><strong>- suptitle: str, default None</strong></dt><dd><p>Creates a figure title over all the subplots.</p>
+</dd>
 <dt><strong>- ticksdir: {‘in’, ‘out’}, default ‘in’</strong></dt><dd><p>Sets the ticks direction. The default option is ‘in’.</p>
 </dd>
-<dt><strong>- tickssize: float | bool, default True</strong></dt><dd><p>Sets the ticks fontsize (which is the same for both grid axes).
-The default value corresponds to the value of the keyword
-‘fontsize’.</p>
+<dt><strong>- tickssize: float | bool, default True</strong></dt><dd><p>Sets the ticks fontsize (which is the same for both grid axes). The
+default value corresponds to the value of the keyword ‘fontsize’.</p>
+</dd>
+<dt><strong>- tight: bool, default True</strong></dt><dd><p>Enables/disables tight layout options for the figure. In case of a
+highly customized plot (e.g. ratios or space between rows and
+columns) the option is set by default to False since that option
+would not be available for standard matplotlib functions.</p>
 </dd>
 <dt><strong>- title: str, default None</strong></dt><dd><p>Places the title of the plot on top of it.</p>
 </dd>
-<dt><strong>- titlepad: float, default 8.0</strong></dt><dd><p>Sets the distance between the title and the top of the plot</p>
+<dt><strong>- titlepad: float, default 8.0</strong></dt><dd><p>Sets the distance between the title and the top of the plot.</p>
 </dd>
 <dt><strong>- titlesize: float, default fontsize</strong></dt><dd><p>Sets the title fontsize. The default value corresponds to the value
 of the keyword ‘fontsize’.</p>
 </dd>
-<dt><strong>- tresh: float, default max(abs(vmin),vmax)*0.01</strong></dt><dd><p>Sets the threshold for the colormap. If not defined, the threshold
-will be set to 1% of the maximum absolute value of the variable.
-The default cases are the following:
-- twoslope colorscale: sets the limit between the two linear
-regimes.
-- symlog: sets the limit between the logaitrhmic and the linear
-regime.</p>
+<dt><strong>- top: float, default varies</strong></dt><dd><p>The top limit of the axis / axes set. For the figure layout it is
+the space from the top border to the plot (default 0.9); for an
+inset zoom it is the top position of the inset (default bottom +
+height).</p>
 </dd>
-<dt><strong>- vmax: float</strong></dt><dd><p>The maximum value of the colormap.</p>
+<dt><strong>- tresh: float, default max(abs(vmin),vmax)*0.01</strong></dt><dd><p>Sets the threshold for the colormap (used with composite
+colorscales such as twoslope or symlog).</p>
 </dd>
-<dt><strong>- vmin: float</strong></dt><dd><p>The minimum value of the colormap.</p>
+<dt><strong>- vmax: float</strong></dt><dd><p>The maximum value of the variable to be computed / plotted.</p>
+</dd>
+<dt><strong>- vmin: float</strong></dt><dd><p>The minimum value of the variable to be computed / plotted.</p>
+</dd>
+<dt><strong>- wratio: [float], default [1.0]</strong></dt><dd><p>Ratio between the columns of the plot. The default is that every
+plot column has the same width.</p>
+</dd>
+<dt><strong>- wspace: [float], default []</strong></dt><dd><p>The space between plot columns (in figure units). If not enough or
+too many spaces are considered, the program will remove the excess
+and fill the lacks with [0.1].</p>
 </dd>
 <dt><strong>- x (not optional): 1D array</strong></dt><dd><p>The x-axis variable.</p>
 </dd>
-<dt><strong>- xrange: [float, float], default ‘Default’</strong></dt><dd><p>Sets the range in the x-direction. If not defined or set to
-‘Default’ the code will compute the range while plotting the data by
-taking the minimum and the maximum values of the x1-array.</p>
+<dt><strong>- xlabelpad: float, default 4.0</strong></dt><dd><p>The padding between the x-axis label and the axis.</p>
 </dd>
-<dt><strong>- xscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from True), sets automatically the scale
-on the x-axis. Data in log scale should be used with the keyword
-‘log’, while data in linear scale should be used with the keyword
-‘linear’.</p>
+<dt><strong>- xrange: [float, float], default ‘Default’</strong></dt><dd><p>Sets the range in the x-direction. If not defined, the range is
+computed automatically from the x-array.</p>
 </dd>
-<dt><strong>- xticks: {[float], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on
+<dt><strong>- xscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets automatically the
+scale on the x-axis. Data in log scale should be used with the
+keyword ‘log’, while data in linear scale should be used with the
+keyword ‘linear’.</p>
+</dd>
+<dt><strong>- xticks: list[float] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on the
 x-axis. In order to completely remove the ticks the keyword should
 be used with None.</p>
 </dd>
-<dt><strong>- xtickslabels: {[str], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
+<dt><strong>- xtickslabels: list[str] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
 labels on the x-axis. In order to completely remove the ticks the
-keyword should be used with None. Note that fixed tickslabels should
-always correspond to fixed ticks.</p>
+keyword should be used with None. Note that fixed tickslabels
+should always correspond to fixed ticks.</p>
 </dd>
 <dt><strong>- xtitle: str, default None</strong></dt><dd><p>Sets and places the label of the x-axis.</p>
 </dd>
+<dt><strong>- xtresh: float</strong></dt><dd><p>The threshold parameter for the x-axis symlog/asinh scale.</p>
+</dd>
 <dt><strong>- y (not optional): 1D array</strong></dt><dd><p>The y-axis variable.</p>
 </dd>
-<dt><strong>- yrange: [float, float], default [0,1]</strong></dt><dd><p>Sets the range in the y-direction. If not defined the code will
-compute the range while plotting the data.</p>
+<dt><strong>- ylabelpad: float, default 4.0</strong></dt><dd><p>The padding between the y-axis label and the axis.</p>
 </dd>
-<dt><strong>- yscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from True), sets automatically the scale
-on the y-axis. Data in log scale should be used with the keyword
-‘log’, while data in linear scale should be used with the keyword
-‘linear’.</p>
+<dt><strong>- yrange: [float, float], default ‘Default’</strong></dt><dd><p>Sets the range in the y-direction. If not defined, the range is
+computed automatically from the y-array.</p>
 </dd>
-<dt><strong>- yticks: {[float], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on
+<dt><strong>- yscale: {‘linear’,’log’}, default ‘linear’</strong></dt><dd><p>If enabled (and different from ‘Default’), sets automatically the
+scale on the y-axis. Data in log scale should be used with the
+keyword ‘log’, while data in linear scale should be used with the
+keyword ‘linear’.</p>
+</dd>
+<dt><strong>- yticks: list[float] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually ticks on the
 y-axis. In order to completely remove the ticks the keyword should
 be used with None.</p>
 </dd>
-<dt><strong>- ytickslabels: {[str], None, True}, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
+<dt><strong>- ytickslabels: list[str] | None | bool, default True</strong></dt><dd><p>If enabled (and different from True), sets manually the ticks
 labels on the y-axis. In order to completely remove the ticks the
-keyword should be used with None. Note that fixed tickslabels should
-always correspond to fixed ticks.</p>
+keyword should be used with None. Note that fixed tickslabels
+should always correspond to fixed ticks.</p>
 </dd>
 <dt><strong>- ytitle: str, default None</strong></dt><dd><p>Sets and places the label of the y-axis.</p>
 </dd>
-<dt><strong>—-</strong></dt><dd></dd>
+<dt><strong>- ytresh: float</strong></dt><dd><p>The threshold parameter for the y-axis symlog/asinh scale.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><dl class="simple">
-<dt>The scatter plot</dt><dd></dd>
+<dt>PathCollection</dt><dd></dd>
 </dl>
 </li>
 </ul>

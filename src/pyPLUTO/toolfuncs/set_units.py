@@ -1,5 +1,7 @@
 """Attach and detach astropy units on loaded variables."""
 
+from __future__ import annotations
+
 from collections.abc import Iterable
 
 from pyPLUTO.baseloadstate import BaseLoadState
@@ -15,18 +17,7 @@ class SetUnitsManager(BaseLoadMixin):
     """Attach and detach astropy units on variables stored in state."""
 
     def __init__(self, state: BaseLoadState) -> None:
-        """Initialize the unit-attachment manager with the given load state.
-
-        Parameters
-        ----------
-        - state: BaseLoadState
-            The load state object carrying variable data and unit mappings.
-
-        Returns
-        -------
-        - None
-
-        """
+        """Initialize the unit-attachment manager with the given load state."""
         self.state = state
 
     def _resolve_unit_vars(
@@ -34,7 +25,21 @@ class SetUnitsManager(BaseLoadMixin):
         var: str | Iterable[str] | bool | None = None,
         skip_units: str | Iterable[str] | None = None,
     ) -> tuple[list[str], bool]:
-        """Resolve variable selection for unit attach/detach operations."""
+        """Resolve variable selection for unit attach/detach operations.
+
+        Parameters
+        ----------
+        - var: str | Iterable[str] | bool | None, default None
+            The variable(s) to select for unit operations.
+        - skip_units: str | Iterable[str] | None, default None
+            The unit(s) to skip during operations.
+
+        Returns
+        -------
+        - tuple[list[str], bool]
+            A tuple containing the selected variable names and a boolean
+            indicating if the selection was explicit.
+        """
 
         def _to_list(value: str | Iterable[str] | bool | None) -> list[str]:
             """Coerce a variable selector to a flat list of name strings."""
@@ -45,7 +50,7 @@ class SetUnitsManager(BaseLoadMixin):
             if isinstance(value, Iterable):
                 return [str(v) for v in value]
             raise TypeError(
-                "var must be None, True, a string, or an iterable of strings."
+                "var must be None, True, a string, or an iterable of strings.",
             )
 
         explicit = not (var is None or var is True)
@@ -67,7 +72,7 @@ class SetUnitsManager(BaseLoadMixin):
             excluded = {str(v) for v in skip_units}
         else:
             raise TypeError(
-                "skip_units must be None, a string, or an iterable of strings."
+                "skip_units must be None, a string, or an iterable of strings.",
             )
 
         ordered = [name for name in selected if name not in excluded]
@@ -78,9 +83,22 @@ class SetUnitsManager(BaseLoadMixin):
         var: str | Iterable[str] | bool | None = None,
         skip_units: str | Iterable[str] | None = None,
     ) -> None:
-        """Attach astropy units to selected variables in place."""
+        """Attach astropy units to selected variables in place.
+
+        Parameters
+        ----------
+        - var: str | Iterable[str] | bool | None, default None
+            The variable(s) to select for unit operations.
+        - skip_units: str | Iterable[str] | None, default None
+            The unit(s) to skip during operations.
+
+        Returns
+        -------
+        - None
+        """
         selected, explicit = self._resolve_unit_vars(
-            var=var, skip_units=skip_units
+            var=var,
+            skip_units=skip_units,
         )
 
         for name in selected:
@@ -106,9 +124,22 @@ class SetUnitsManager(BaseLoadMixin):
         var: str | Iterable[str] | bool | None = None,
         skip_units: str | Iterable[str] | None = None,
     ) -> None:
-        """Convert selected astropy Quantity variables back to code units."""
+        """Convert selected astropy Quantity variables back to code units.
+
+        Parameters
+        ----------
+        - var: str | Iterable[str] | bool | None, default None
+            The variable(s) to select for unit operations.
+        - skip_units: str | Iterable[str] | None, default None
+            The unit(s) to skip during operations.
+
+        Returns
+        -------
+        - None
+        """
         selected, explicit = self._resolve_unit_vars(
-            var=var, skip_units=skip_units
+            var=var,
+            skip_units=skip_units,
         )
         if not explicit:
             selected = [

@@ -414,15 +414,18 @@
   <h1>Source code for pyPLUTO.imagefuncs.create_axes</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Module to create axes in the image class.&quot;&quot;&quot;</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">islice</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Unpack</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.axes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagekwargs</span><span class="w"> </span><span class="kn">import</span> <span class="n">CreateAxesKwargs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagemixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageMixin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagestate</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageState</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
@@ -455,7 +458,9 @@
 <a class="viewcode-back" href="../../../create_axes.html#pyPLUTO.imagefuncs.create_axes.CreateAxesManager.create_axes">[docs]</a>
     <span class="nd">@track_kwargs</span><span class="p">(</span><span class="n">extra_keys</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_axes</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">ncol</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nrow</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">CreateAxesKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Axes</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creation of a set of axes using add_subplot from matplotlib.</span>
 
@@ -469,43 +474,46 @@
 <span class="sd">        If more axes are created in the figure, the list of all axes is</span>
 <span class="sd">        returned, otherwise the single axis is returned.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - The list of axes (if more axes are in the figure) or the axis</span>
-<span class="sd">        (if only one axis is present)</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        - bottom: float, default 0.1</span>
-<span class="sd">            The space from the bottom border to the last row of plots.</span>
-<span class="sd">        - figsize: [float, float], default [6*sqrt(ncol),5*sqrt(nrow)]</span>
-<span class="sd">            Sets the figure size. The default value is computed from the number</span>
-<span class="sd">            of rows and columns.</span>
+<span class="sd">        - bottom: float, default varies</span>
+<span class="sd">            The bottom limit of the axis / axes set. For the figure layout it</span>
+<span class="sd">            is the space from the bottom border to the plot (default 0.1); for</span>
+<span class="sd">            an inset zoom it is the bottom position of the inset (default 0.6 +</span>
+<span class="sd">            height).</span>
+<span class="sd">        - figsize: list[float], default varies</span>
+<span class="sd">            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],</span>
+<span class="sd">            computed from the number of rows and columns (or [8,5] for a single</span>
+<span class="sd">            plot).</span>
 <span class="sd">        - fontsize: float, default 17.0</span>
-<span class="sd">            Sets the fontsize for all the axes.</span>
+<span class="sd">            Sets the fontsize for all the axis components.</span>
 <span class="sd">        - hratio: [float], default [1.0]</span>
 <span class="sd">            Ratio between the rows of the plot. The default is that every plot</span>
 <span class="sd">            row has the same height.</span>
 <span class="sd">        - hspace: [float], default []</span>
-<span class="sd">            The space between plot rows (in figure units). If not enough or</span>
-<span class="sd">            too many spaces are considered, the program will remove the excess</span>
-<span class="sd">            and fill the lacks with [0.1].</span>
-<span class="sd">        - left: float, default 0.125</span>
-<span class="sd">            The space from the left border to the leftmost column of plots.</span>
+<span class="sd">            The space between plot rows (in figure units). If not enough or too</span>
+<span class="sd">            many spaces are considered, the program will remove the excess and</span>
+<span class="sd">            fill the lacks with [0.1].</span>
+<span class="sd">        - left: float, default varies</span>
+<span class="sd">            The left limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the left border to the plot (default 0.125); for an</span>
+<span class="sd">            inset zoom it is the left position of the inset (default 0.6).</span>
 <span class="sd">        - ncol: int, default 1</span>
 <span class="sd">            The number of columns of subplots.</span>
 <span class="sd">        - nrow: int, default 1</span>
 <span class="sd">            The number of rows of subplots.</span>
 <span class="sd">        - proj: str, default None</span>
 <span class="sd">            Custom projection for the plot (e.g. 3D). Recommended only if</span>
-<span class="sd">            needed.</span>
-<span class="sd">            WARNING: pyPLUTO does not support 3D plotting for now, only 3D axes.</span>
-<span class="sd">            The 3D plot feature will be available in future releases.</span>
-<span class="sd">        - right: float, default 0.9</span>
-<span class="sd">            The space from the right border to the rightmost column of plots.</span>
-<span class="sd">        - sharex: bool | str | Matplotlib axis, default False</span>
+<span class="sd">            needed. WARNING: pyPLUTO does not support 3D plotting for now, only</span>
+<span class="sd">            3D axes. The 3D plot feature will be available in future releases.</span>
+<span class="sd">        - right: float, default varies</span>
+<span class="sd">            The right limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the right border to the plot (default 0.9); for an</span>
+<span class="sd">            inset zoom it is the right position of the inset (default left +</span>
+<span class="sd">            0.15).</span>
+<span class="sd">        - sharexaxes: bool | str | Matplotlib axis, default False</span>
 <span class="sd">            Enables/disables the sharing of the x-axis between the subplots.</span>
-<span class="sd">        - sharey: bool | str | Matplotlib axis, default False</span>
+<span class="sd">        - shareyaxes: bool | str | Matplotlib axis, default False</span>
 <span class="sd">            Enables/disables the sharing of the y-axis between the subplots.</span>
 <span class="sd">        - suptitle: str, default None</span>
 <span class="sd">            Creates a figure title over all the subplots.</span>
@@ -514,8 +522,11 @@
 <span class="sd">            highly customized plot (e.g. ratios or space between rows and</span>
 <span class="sd">            columns) the option is set by default to False since that option</span>
 <span class="sd">            would not be available for standard matplotlib functions.</span>
-<span class="sd">        - top: float, default 0.9</span>
-<span class="sd">            The space from the top border to the first row of plots.</span>
+<span class="sd">        - top: float, default varies</span>
+<span class="sd">            The top limit of the axis / axes set. For the figure layout it is</span>
+<span class="sd">            the space from the top border to the plot (default 0.9); for an</span>
+<span class="sd">            inset zoom it is the top position of the inset (default bottom +</span>
+<span class="sd">            height).</span>
 <span class="sd">        - wratio: [float], default [1.0]</span>
 <span class="sd">            Ratio between the columns of the plot. The default is that every</span>
 <span class="sd">            plot column has the same width.</span>
@@ -524,7 +535,9 @@
 <span class="sd">            too many spaces are considered, the program will remove the excess</span>
 <span class="sd">            and fill the lacks with [0.1].</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - Axes | list[Axes]</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -557,11 +570,12 @@
 <span class="sd">            &gt;&gt;&gt; ax = I.create_axes(left=0.75)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;check&quot;</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
-
         <span class="c1"># Change fontsize if requested</span>
         <span class="k">if</span> <span class="s2">&quot;fontsize&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;fontsize&quot;</span><span class="p">]})</span>
+
+        <span class="n">nrow</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nrow&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">ncol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ncol&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
         <span class="n">custom_plot</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
@@ -581,7 +595,7 @@
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">figsize</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;figsize&quot;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="o">*</span><span class="n">figsize</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">figsize</span> <span class="o">=</span> <span class="n">figsize</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="p">(</span><span class="n">custom_plot</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">set_size</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ncol</span><span class="p">),</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nrow</span><span class="p">))</span>
@@ -590,8 +604,8 @@
         <span class="n">proj</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;proj&quot;</span><span class="p">)</span>
 
         <span class="c1"># Set sharex and sharey</span>
-        <span class="n">sharex</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharex&quot;</span><span class="p">)</span>
-        <span class="n">sharey</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharey&quot;</span><span class="p">)</span>
+        <span class="n">sharex</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sharexaxes&quot;</span><span class="p">)</span>
+        <span class="n">sharey</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;shareyaxes&quot;</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncol</span> <span class="o">*</span> <span class="n">nrow</span><span class="p">):</span>
             <span class="n">sharex_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_shareaxis</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">sharex</span><span class="p">)</span>
@@ -645,8 +659,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ncol0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ncol0</span> <span class="o">+</span> <span class="n">ncol</span>
 
         <span class="c1"># Set figure title if requested</span>
-        <span class="k">if</span> <span class="s2">&quot;suptitle&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;suptitle&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">suptitle</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;suptitle&quot;</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">suptitle</span><span class="p">)</span>
 
         <span class="c1"># Tight layout (depending on the subplot creation)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tight</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tight&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tight</span><span class="p">)</span>
@@ -667,13 +681,6 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the axes position and spacing according to the parameters.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - wplot: list[list[float]]</span>
-<span class="sd">            List of the left and right position of the axes.</span>
-<span class="sd">        - hplot: list[list[float]]</span>
-<span class="sd">            List of the top and bottom position of the axes.</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - custom: dict[str, Any]</span>
@@ -682,6 +689,10 @@
 <span class="sd">            Number of rows in the axes.</span>
 <span class="sd">        - ncol: int</span>
 <span class="sd">            Number of columns in the axes.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - tuple[list[list[float]], list[list[float]]]</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">hspace</span><span class="p">,</span> <span class="n">hratio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_rowcol</span><span class="p">(</span>
@@ -726,13 +737,6 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the width and spacing of the plots on a single row or column.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - space: list[float]</span>
-<span class="sd">            the space between the rows or columns</span>
-<span class="sd">        - ratio: list[float]</span>
-<span class="sd">            the ratio of the rows or columns</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - ratio: list[float]</span>
@@ -744,7 +748,9 @@
 <span class="sd">        - func: str</span>
 <span class="sd">            the function to check (rows or cols)</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - tuple[list[float], list[float]]</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -788,10 +794,6 @@
 
 <span class="sd">        The corresponding axis is appended to the list of axes.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - None</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - ax (not optional): ax</span>
@@ -799,7 +801,9 @@
 <span class="sd">        - i (not optional): int</span>
 <span class="sd">            The index of the axis in the list.</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -835,11 +839,6 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the sharing of the x or y axis.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - share_ref: Axes | str | None</span>
-<span class="sd">            The reference axis for sharing.</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        - i: int</span>
@@ -847,7 +846,9 @@
 <span class="sd">        - share: bool | str | Axes | int | None</span>
 <span class="sd">            The sharing option.</span>
 
-<span class="sd">        ----</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - Axes | str | None</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>

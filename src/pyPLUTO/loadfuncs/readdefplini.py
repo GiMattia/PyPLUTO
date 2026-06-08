@@ -1,24 +1,41 @@
 """Module for reading definitions and pluto.ini files."""
 
+from __future__ import annotations
+
+import logging
 import re
 from pathlib import Path
-from typing import Any
 
 import inifix
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
-from pyPLUTO.utils.inspector import track_kwargs
+
+logger = logging.getLogger(__name__)
 
 
 class FiledefpliniManager(LoadMixin):
-    """Manage loading of definitions headers and the pluto.ini file."""
+    """Manage loading of definitions headers and the pluto.ini file.
 
-    @track_kwargs
-    def __init__(self, state: LoadState, **kwargs: Any) -> None:
+    Parameters
+    ----------
+    - state: LoadState
+        The load state object.
+    - defh: bool | str | None
+        The path to the definitions header file.
+    - plini: bool | str | None
+        The path to the pluto.ini file.
+    """
+
+    def __init__(
+        self,
+        state: LoadState,
+        defh: bool | str | None,
+        plini: bool | str | None,
+    ) -> None:
         """Initialize the FiledefpliniManager."""
         self.state = state
-        if (defh := kwargs.get("defh")) is not False:
+        if defh is not False:
             pathdefh = self.state.pathdir / Path("definitions.h")
             defhfile = "definitions.hpp"
             if not pathdefh.exists():
@@ -27,18 +44,19 @@ class FiledefpliniManager(LoadMixin):
             try:
                 self.state.defh = self.read_defh(pathdefh)
             except FileNotFoundError:
-                print(f"No {defhfile} is read!") if defh is True else ...
+                logger.info("No %s is read!", defhfile) if defh is True else ...
 
         # Try to read the file pluto.ini
-        plini = kwargs.get("plini")
+        pathplini = None
         if isinstance(plini, str):
             pathplini = self.state.pathdir / Path(plini)
         elif plini is not False:
             pathplini = self.state.pathdir / Path("pluto.ini")
-        try:
-            self.state.plini = inifix.load(pathplini, sections="require")
-        except FileNotFoundError:
-            print("No pluto.ini is read!") if plini is True else ...
+        if pathplini is not None:
+            try:
+                self.state.plini = inifix.load(pathplini, sections="require")
+            except FileNotFoundError:
+                logger.info("No pluto.ini is read!") if plini is True else ...
 
     def read_defh(self, filepath: Path) -> dict:
         """Read a header file and extract definitions.
@@ -67,7 +85,7 @@ class FiledefpliniManager(LoadMixin):
                 for line in file
                 if line.strip().startswith("#define")
                 for _, key, value in [
-                    re.split(r"\s+", line.strip(), maxsplit=2)
+                    re.split(r"\s+", line.strip(), maxsplit=2),
                 ]
             }
 

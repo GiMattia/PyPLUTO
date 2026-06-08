@@ -6,7 +6,7 @@ import warnings
 
 import pytest
 
-import pyPLUTO.pytools as pt
+import pyPLUTO.utils.pytools as pt
 
 # ---- find_example -----------------------------------------------------------
 

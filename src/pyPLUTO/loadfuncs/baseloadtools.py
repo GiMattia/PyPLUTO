@@ -1,5 +1,7 @@
 """Docstring for pyPLUTO.loadfuncs.baseloadtools module."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
@@ -32,8 +34,6 @@ class BaseLoadTools(BaseLoadMixin[BaseLoadState]):
         Returns
         -------
         - None
-
-        ----
 
         Examples
         --------
@@ -76,7 +76,7 @@ class BaseLoadTools(BaseLoadMixin[BaseLoadState]):
         if np.any(~np.isin(self.state.noutlist, self.state.outlist)):
             raise ValueError(
                 f"Error: Wrong output file(s) {self.state.noutlist} \
-                            in path {self.state.pathdir}."
+                            in path {self.state.pathdir}.",
             )
 
         # End of the function

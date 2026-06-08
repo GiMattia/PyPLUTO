@@ -539,9 +539,35 @@ extras.</p>
 <li><p>standard <code class="docutils literal notranslate"><span class="pre">pre-commit-hooks</span></code> sanity checks</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ruff</span></code> lint/format</p></li>
 <li><p>lock consistency checks (<code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">lock</span> <span class="pre">--check</span></code>, <code class="docutils literal notranslate"><span class="pre">pixi</span> <span class="pre">lock</span> <span class="pre">--check</span></code>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ty</span></code> type checking (<code class="docutils literal notranslate"><span class="pre">pre-push</span></code> and <code class="docutils literal notranslate"><span class="pre">manual</span></code> stages)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyright</span></code> type checking (<code class="docutils literal notranslate"><span class="pre">pre-push</span></code> and <code class="docutils literal notranslate"><span class="pre">manual</span></code> stages)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pytest</span></code> with coverage threshold (<code class="docutils literal notranslate"><span class="pre">manual</span></code>, fail-under 45 %)</p></li>
 </ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="type-checking">
+<h2>Type checking<a class="headerlink" href="#type-checking" title="Link to this heading">#</a></h2>
+<p>PyPLUTO uses <a class="reference external" href="https://github.com/microsoft/pyright">pyright</a> as its standard
+type checker. Run it locally with the <code class="docutils literal notranslate"><span class="pre">dev</span></code> dependency group installed:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pyright
+</pre></div>
+</div>
+<p>The configuration lives in the <code class="docutils literal notranslate"><span class="pre">[tool.pyright]</span></code> section of <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>,
+so the same settings are used from the CLI, CI, and editors.</p>
+<p>pyright was chosen because it is currently the only checker that validates the
+patterns PyPLUTO relies on — notably <code class="docutils literal notranslate"><span class="pre">Generic</span></code> classes with overloaded
+<code class="docutils literal notranslate"><span class="pre">__new__</span></code> (used to type loaded variables such as <code class="docutils literal notranslate"><span class="pre">Data.rho</span></code> from the
+constructor) and the rejection of unknown <code class="docutils literal notranslate"><span class="pre">Unpack[TypedDict]</span></code> keyword
+arguments (e.g. catching <code class="docutils literal notranslate"><span class="pre">Load(format=2)</span></code>).</p>
+<p><strong>pyrefly</strong> and <strong>ty</strong> (the <code class="docutils literal notranslate"><span class="pre">typefuture</span></code> dependency group) are kept
+installable but are <strong>not</strong> the source of truth yet. Every issue they would
+currently report is already covered by pyright, and they do not yet fully
+validate the patterns above. The intent is to switch to one of them once they
+mature.</p>
+<p>A couple of legacy modules (<code class="docutils literal notranslate"><span class="pre">amr.py</span></code>, <code class="docutils literal notranslate"><span class="pre">nabla.py</span></code>) are excluded from type
+checking via a file-level <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">type:</span> <span class="pre">ignore</span></code> until they are reworked.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -678,6 +704,7 @@ developers directly.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-setup">Local Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-commit-and-quality-checks">Pre-commit and Quality Checks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#type-checking">Type checking</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-tests">Running Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-for-pull-requests">Workflow for Pull Requests</a></li>

@@ -466,8 +466,10 @@ finds the format between dbl, flt and vtk.</p>
 <dt><strong>- endian: str | None, default None</strong></dt><dd><p>The endianess of the data files. If None, the code finds the
 endianess.</p>
 </dd>
-<dt><strong>- nfile_lp: int | None, default None</strong></dt><dd><p>The file number for the lp methods. If None, the code finds the
-file number.</p>
+<dt><strong>- chnk: int | Sequence[int] | None, default None</strong></dt><dd><p>The chunk(s) to load. If None, all chunks are loaded. If a requested
+chunk does not exist for a given output, a <code class="docutils literal notranslate"><span class="pre">UserWarning</span></code> is issued and
+that output is skipped; for multi-output loads only the outputs that
+contain the requested chunk are returned.</p>
 </dd>
 <dt><strong>- nout: int | str | list | None, default ‘last’</strong></dt><dd><p>The output number to be loaded. If ‘last’ the last output is loaded.
 If None, the data are not loaded.</p>
@@ -477,7 +479,7 @@ If None, the data are not loaded.</p>
 <dt><strong>- text: bool | None, default None</strong></dt><dd><p>Controls output verbosity. None (default) prints standard load info at
 INFO level. False silences all output. True enables full DEBUG logging.</p>
 </dd>
-<dt><strong>- vars: str | list | bool | None, default True</strong></dt><dd><p>The variables to be loaded. If True, all the variables are loaded.
+<dt><strong>- var: str | list | bool | None, default True</strong></dt><dd><p>The variables to be loaded. If True, all the variables are loaded.
 If None, the data are not loaded.</p>
 </dd>
 </dl>
@@ -539,7 +541,7 @@ If None, the data are not loaded.</p>
 </dl>
 </li>
 </ul>
-<p>Initialize the Load class.</p>
+<p>Initialize the LoadPart class.</p>
 </dd></dl>
 
 <div class="line-block">

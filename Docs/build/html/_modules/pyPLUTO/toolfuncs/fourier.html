@@ -416,10 +416,11 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Unpack</span><span class="p">,</span> <span class="n">cast</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadkwargs</span><span class="w"> </span><span class="kn">import</span> <span class="n">FourierKwargs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadmixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadMixin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadState</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
@@ -436,7 +437,10 @@
 <a class="viewcode-back" href="../../../fourier.html#pyPLUTO.toolfuncs.fourier.FourierManager.fourier">[docs]</a>
     <span class="nd">@track_kwargs</span><span class="p">(</span><span class="n">extra_keys</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;dx&quot;</span><span class="p">,</span> <span class="s2">&quot;dy&quot;</span><span class="p">,</span> <span class="s2">&quot;dz&quot;</span><span class="p">})</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">fourier</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">FourierKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the Fourier transform of a given array.</span>
 
@@ -501,20 +505,23 @@
 
         <span class="n">spacing</span> <span class="o">=</span> <span class="p">{}</span>
 
+        <span class="c1"># Dynamic (variable) key access requires a plain-dict view</span>
+        <span class="n">kw</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;dict[str, Any]&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
         <span class="k">for</span> <span class="n">pars</span><span class="p">,</span> <span class="n">def_attr</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">numdir</span> <span class="ow">in</span> <span class="n">dir_par</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">dim</span> <span class="o">&lt;=</span> <span class="n">numdir</span><span class="p">:</span>
                 <span class="k">break</span>
 
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">spacing</span><span class="p">[</span><span class="n">pars</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fourier_spacing</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">pars</span><span class="p">])</span>
+                <span class="n">spacing</span><span class="p">[</span><span class="n">pars</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fourier_spacing</span><span class="p">(</span><span class="n">kw</span><span class="p">[</span><span class="n">pars</span><span class="p">])</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="n">spacing</span><span class="p">[</span><span class="n">pars</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fourier_spacing</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">def_attr</span><span class="p">))</span>
                 <span class="n">spacing</span><span class="p">[</span><span class="n">pars</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">spacing</span><span class="p">[</span><span class="n">pars</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">spacing</span><span class="p">[</span><span class="n">pars</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">dim</span> <span class="o">&gt;</span> <span class="n">numdir</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">kw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">dim</span> <span class="o">&gt;</span> <span class="n">numdir</span><span class="p">:</span>
                 <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numdir</span><span class="p">)</span>
                 <span class="n">freqs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">rfftfreq</span><span class="p">(</span><span class="n">shp</span><span class="p">[</span><span class="n">numdir</span><span class="p">],</span> <span class="n">spacing</span><span class="p">[</span><span class="n">pars</span><span class="p">])</span>
+                    <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">rfftfreq</span><span class="p">(</span><span class="n">shp</span><span class="p">[</span><span class="n">numdir</span><span class="p">],</span> <span class="n">spacing</span><span class="p">[</span><span class="n">pars</span><span class="p">]),</span>
                 <span class="p">)</span>
 
         <span class="n">fk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">)</span>
@@ -525,7 +532,7 @@
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_fourier_spacing</span><span class="p">(</span><span class="n">dx</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fourier_spacing</span><span class="p">(</span><span class="n">dx</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the grid spacing and return the correct value.</span>
 
 <span class="sd">        If the grid spacing is not valid (negative), raise an error.</span>

@@ -412,7 +412,9 @@
                 <article class="bd-article">
                   
   <h1>Source code for pyPLUTO.toolfuncs.nabla</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Nabla utilities manager.&quot;&quot;&quot;</span>
+<span></span><span class="c1"># Legacy module pending type-checking rework; excluded for now.</span>
+<span class="c1"># type: ignore</span>
+<span class="sd">&quot;&quot;&quot;Nabla utilities manager.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -507,7 +509,10 @@
         <span class="k">return</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">i_min</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">i_min</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">i_max</span><span class="p">)]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_slice_indices</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">slice_val</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">grid</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">slice_val</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">grid</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">grid_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the slice indices from the slice value.</span>
 
@@ -540,9 +545,8 @@
             <span class="k">return</span> <span class="n">idx</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="n">idx_min</span><span class="p">,</span> <span class="n">idx_max</span><span class="p">)</span>
 
         <span class="c1"># If the slice value is a list return the indices and the slice</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># Return the indices and the slice</span>
-            <span class="k">return</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">)</span>
+        <span class="c1"># Return the indices and the slice</span>
+        <span class="k">return</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_warning_cylindrical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Emit a DeprecationWarning for the unsupported CYLINDRICAL geometry.&quot;&quot;&quot;</span>
@@ -558,9 +562,9 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">gradient</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">var</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-        <span class="n">x1slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">x2slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x1slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x2slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">edge_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the gradient of a specified field &#39;var&#39;.</span>
@@ -626,11 +630,13 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                <span class="n">var</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
+                <span class="n">var</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">grad</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span>
 
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
                 <span class="n">var</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">],</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
@@ -640,13 +646,15 @@
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;SPHERICAL&quot;</span><span class="p">,</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">]:</span>
                 <span class="n">rr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="n">rr</span>
 
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">grad</span><span class="p">)[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
 
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
                     <span class="n">var</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">krange</span><span class="p">],</span>
@@ -657,33 +665,34 @@
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
                     <span class="n">rr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                        <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="n">grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
                 <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">grad</span><span class="p">)[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
 
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                    <span class="n">var</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">],</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
+                <span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
-                    <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
+                <span class="n">grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="n">xx1</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                    <span class="n">grad</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/=</span> <span class="n">xx1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xx2</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
-                    <span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
-                        <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
-                    <span class="p">)</span>
-                    <span class="n">grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="n">xx1</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
-                        <span class="n">grad</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/=</span> <span class="n">xx1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xx2</span><span class="p">)</span>
-
-                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">grad</span><span class="p">)[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span></div>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">grad</span><span class="p">)[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="NablaManager.divergence">
@@ -693,9 +702,9 @@
         <span class="n">v1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">v2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">v3</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">x1slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">x2slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x1slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x2slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">edge_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the divergence of a vector field.</span>
@@ -785,13 +794,15 @@
 
             <span class="k">return</span> <span class="n">div1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">])</span>
             <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">])</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
                 <span class="n">rr</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;POLAR&quot;</span><span class="p">,</span> <span class="s2">&quot;CYLINDRICAL&quot;</span><span class="p">]:</span>
@@ -801,10 +812,16 @@
                     <span class="n">var2</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
 
             <span class="n">div1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                <span class="n">var1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
+                <span class="n">var1</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">div2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                <span class="n">var2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
+                <span class="n">var2</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
             <span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;POLAR&quot;</span><span class="p">,</span> <span class="s2">&quot;CYLINDRICAL&quot;</span><span class="p">]:</span>
@@ -817,14 +834,16 @@
 
             <span class="k">return</span> <span class="n">div1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">div2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
 
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
                 <span class="n">var3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v3</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
                     <span class="n">rr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                        <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
                     <span class="p">)</span>
 
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
@@ -833,10 +852,16 @@
                         <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
 
                 <span class="n">div1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                    <span class="n">var1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
+                    <span class="n">var1</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">div3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                    <span class="n">var3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
+                    <span class="n">var3</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
                 <span class="p">)</span>
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
@@ -847,44 +872,52 @@
 
                 <span class="k">return</span> <span class="n">div1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">div3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
 
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
-                <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
-                <span class="n">var3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v3</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+            <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+            <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+            <span class="n">var3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v3</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
 
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
-                    <span class="n">rr</span><span class="p">,</span> <span class="n">tt</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
-                        <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
-                    <span class="p">)</span>
-
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
-                        <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span>
-                    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
-                        <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
-                        <span class="n">var2</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
-
-                <span class="n">div1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                    <span class="n">var1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
-                <span class="p">)</span>
-                <span class="n">div2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                    <span class="n">var2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
-                <span class="p">)</span>
-                <span class="n">div3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                    <span class="n">var3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">tt</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
-                    <span class="n">div1</span> <span class="o">/=</span> <span class="n">rr</span>
-                    <span class="n">div2</span> <span class="o">/=</span> <span class="n">rr</span>
+                    <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span>
                 <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
-                    <span class="n">div1</span> <span class="o">/=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
-                    <span class="n">div2</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
-                    <span class="n">div3</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+                    <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
+                    <span class="n">var2</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
 
-                <span class="k">return</span> <span class="n">div1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">div2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">div3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span></div>
+            <span class="n">div1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var1</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">div2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var2</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">div3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var3</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                <span class="n">div1</span> <span class="o">/=</span> <span class="n">rr</span>
+                <span class="n">div2</span> <span class="o">/=</span> <span class="n">rr</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                <span class="n">div1</span> <span class="o">/=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
+                <span class="n">div2</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+                <span class="n">div3</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">div1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">div2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">div3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="NablaManager.curl">
@@ -894,9 +927,9 @@
         <span class="n">v1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">v2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">v3</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">x1slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">x2slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x1slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x2slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">edge_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the curl of a specified vector field (v1, v2, v3).</span>
@@ -969,14 +1002,16 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;curl() requires DIMENSION &gt;= 2&quot;</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">])</span>
             <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">])</span>
             <span class="n">var3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v3</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">])</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
                 <span class="n">rr</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
@@ -990,7 +1025,10 @@
             <span class="n">dv1_dx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">)</span>
             <span class="n">dv2_dx1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">var2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">)</span>
             <span class="n">dv3_dx1</span><span class="p">,</span> <span class="n">dv3_dx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                <span class="n">var3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
+                <span class="n">var3</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
             <span class="p">)</span>
 
             <span class="n">curl1</span> <span class="o">=</span> <span class="n">dv3_dx2</span>
@@ -1014,7 +1052,7 @@
 
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">curl1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">curl2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">curl3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]])</span>
 
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
                 <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
@@ -1022,7 +1060,9 @@
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
                     <span class="n">rr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                        <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
                     <span class="p">)</span>
 
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
@@ -1032,13 +1072,22 @@
                         <span class="n">var3</span> <span class="o">*=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
                 <span class="n">dv1_dx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                    <span class="n">var1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
+                    <span class="n">var1</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">dv2_dx1</span><span class="p">,</span> <span class="n">dv2_dx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                    <span class="n">var2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
+                    <span class="n">var2</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span>
+                    <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">dv3_dx1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                    <span class="n">var3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
+                    <span class="n">var3</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
                 <span class="p">)</span>
 
                 <span class="n">curl1</span> <span class="o">=</span> <span class="o">-</span><span class="n">dv2_dx3</span>
@@ -1055,50 +1104,61 @@
 
                 <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">curl1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">curl2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">curl3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]])</span>
 
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
-                <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
-                <span class="n">var3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v3</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+            <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+            <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+            <span class="n">var3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v3</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
 
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
-                    <span class="n">rr</span><span class="p">,</span> <span class="n">tt</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
-                        <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
-                    <span class="p">)</span>
-
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
-                        <span class="n">var2</span> <span class="o">*=</span> <span class="n">rr</span>
-                    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
-                        <span class="n">var2</span> <span class="o">*=</span> <span class="n">rr</span>
-                        <span class="n">var3</span> <span class="o">*=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
-
-                <span class="n">dv1_dx2</span><span class="p">,</span> <span class="n">dv1_dx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                    <span class="n">var1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">tt</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="n">dv2_dx1</span><span class="p">,</span> <span class="n">dv2_dx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                    <span class="n">var2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
-                <span class="p">)</span>
-                <span class="n">dv3_dx1</span><span class="p">,</span> <span class="n">dv3_dx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
-                    <span class="n">var3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span>
-                <span class="p">)</span>
-
-                <span class="n">curl1</span> <span class="o">=</span> <span class="n">dv3_dx2</span> <span class="o">-</span> <span class="n">dv2_dx3</span>
-                <span class="n">curl2</span> <span class="o">=</span> <span class="n">dv1_dx3</span> <span class="o">-</span> <span class="n">dv3_dx1</span>
-                <span class="n">curl3</span> <span class="o">=</span> <span class="n">dv2_dx1</span> <span class="o">-</span> <span class="n">dv1_dx2</span>
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
-                    <span class="n">curl1</span> <span class="o">/=</span> <span class="n">rr</span>
-                    <span class="n">curl3</span> <span class="o">/=</span> <span class="n">rr</span>
+                    <span class="n">var2</span> <span class="o">*=</span> <span class="n">rr</span>
                 <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
-                    <span class="n">curl1</span> <span class="o">/=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
-                    <span class="n">curl2</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
-                    <span class="n">curl3</span> <span class="o">/=</span> <span class="n">rr</span>
+                    <span class="n">var2</span> <span class="o">*=</span> <span class="n">rr</span>
+                    <span class="n">var3</span> <span class="o">*=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
 
-                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">curl1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">curl2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">curl3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]]</span>
-                <span class="p">)</span></div>
+            <span class="n">dv1_dx2</span><span class="p">,</span> <span class="n">dv1_dx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var1</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span>
+                <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">dv2_dx1</span><span class="p">,</span> <span class="n">dv2_dx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var2</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span>
+                <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">dv3_dx1</span><span class="p">,</span> <span class="n">dv3_dx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var3</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span>
+                <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">curl1</span> <span class="o">=</span> <span class="n">dv3_dx2</span> <span class="o">-</span> <span class="n">dv2_dx3</span>
+            <span class="n">curl2</span> <span class="o">=</span> <span class="n">dv1_dx3</span> <span class="o">-</span> <span class="n">dv3_dx1</span>
+            <span class="n">curl3</span> <span class="o">=</span> <span class="n">dv2_dx1</span> <span class="o">-</span> <span class="n">dv1_dx2</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                <span class="n">curl1</span> <span class="o">/=</span> <span class="n">rr</span>
+                <span class="n">curl3</span> <span class="o">/=</span> <span class="n">rr</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                <span class="n">curl1</span> <span class="o">/=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+                <span class="n">curl2</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+                <span class="n">curl3</span> <span class="o">/=</span> <span class="n">rr</span>
+
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">curl1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">curl2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">curl3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]],</span>
+            <span class="p">)</span></div>
 
 </pre></div>
 

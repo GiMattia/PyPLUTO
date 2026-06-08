@@ -416,17 +416,27 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="c1"># ruff: noqa: ANN201</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Unpack</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">overload</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Unpack</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">overload</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.configure</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_text</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadfuncs.initload</span><span class="w"> </span><span class="kn">import</span> <span class="n">InitLoadManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadfuncs.read_files</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReadFilesManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadfuncs.readdefplini</span><span class="w"> </span><span class="kn">import</span> <span class="n">FiledefpliniManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadfuncs.write_files</span><span class="w"> </span><span class="kn">import</span> <span class="n">WriteFilesManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadkwargs</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CartesianVectorKwargs</span><span class="p">,</span>
+    <span class="n">FindContourKwargs</span><span class="p">,</span>
+    <span class="n">FindFieldlinesKwargs</span><span class="p">,</span>
+    <span class="n">FourierKwargs</span><span class="p">,</span>
+    <span class="n">LoadKwargs</span><span class="p">,</span>
+    <span class="n">ReadFileKwargs</span><span class="p">,</span>
+    <span class="n">ReshapeKwargs</span><span class="p">,</span>
+    <span class="n">SlicesKwargs</span><span class="p">,</span>
+    <span class="n">WriteFileKwargs</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadmixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadMixin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadState</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.compute_units</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnitManager</span>
@@ -435,7 +445,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.nabla</span><span class="w"> </span><span class="kn">import</span> <span class="n">NablaManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.set_units</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetUnitsManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransformManager</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.annotator</span><span class="w"> </span><span class="kn">import</span> <span class="n">AllKwargs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.configure</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_text</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.resolver</span><span class="w"> </span><span class="kn">import</span> <span class="n">AttrResolver</span>
 
@@ -580,15 +590,15 @@
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">nout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
         <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">AllKwargs</span><span class="p">],</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">LoadKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Load</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span> <span class="o">...</span>
 
     <span class="nd">@overload</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span>  <span class="c1"># pyright: ignore[reportOverlappingOverload]</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">nout</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">],</span>
+        <span class="n">nout</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
         <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">AllKwargs</span><span class="p">],</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">LoadKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Load</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span> <span class="o">...</span>
 
     <span class="nd">@overload</span>
@@ -596,12 +606,17 @@
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">nout</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
         <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">AllKwargs</span><span class="p">],</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Load</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="n">Load</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span> <span class="o">...</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">LoadKwargs</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Load</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span> <span class="o">...</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Load</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">:</span> <span class="nb">object</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Load</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="n">Load</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Allocate a new Load instance.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+            <span class="s2">&quot;Load[np.ndarray] | Load[dict[int, np.ndarray]]&quot;</span><span class="p">,</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">),</span>
+        <span class="p">)</span>
 
     <span class="nd">@track_kwargs</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -609,7 +624,7 @@
         <span class="n">nout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;last&quot;</span><span class="p">,</span>
         <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">AllKwargs</span><span class="p">],</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">LoadKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Load class.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span> <span class="n">LoadState</span> <span class="o">=</span> <span class="n">LoadState</span><span class="p">()</span>
@@ -711,7 +726,7 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_VarT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the attribute of the Load class.&quot;&quot;&quot;</span>
         <span class="n">val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">_VarT</span><span class="p">,</span> <span class="n">AttrResolver</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;_VarT&quot;</span><span class="p">,</span> <span class="n">AttrResolver</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the attribute of the Load class.&quot;&quot;&quot;</span>
@@ -719,85 +734,279 @@
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">write_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the write_file method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">WriteFileManager</span><span class="o">.</span><span class="n">write_file</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_file</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">datatype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dataname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">grid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">WriteFileKwargs</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write file method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">WriteFileManager</span><span class="o">.</span><span class="n">write_file</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">,</span>
+            <span class="n">filename</span><span class="p">,</span>
+            <span class="n">datatype</span><span class="p">,</span>
+            <span class="n">dataname</span><span class="p">,</span>
+            <span class="n">grid</span><span class="p">,</span>
+            <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">read_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the read_file method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ReadFileManager</span><span class="o">.</span><span class="n">read_file</span>
+    <span class="n">write_file</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">WriteFilesManager</span><span class="o">.</span><span class="n">write_file</span><span class="o">.</span><span class="vm">__doc__</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the gradient method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NablaManager</span><span class="o">.</span><span class="n">gradient</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_file</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">datatype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ReadFileKwargs</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read file method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ReadFileManager</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span>
+            <span class="n">filename</span><span class="p">,</span>
+            <span class="n">datatype</span><span class="p">,</span>
+            <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">divergence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the divergence method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NablaManager</span><span class="o">.</span><span class="n">divergence</span>
+    <span class="n">read_file</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">ReadFilesManager</span><span class="o">.</span><span class="n">read_file</span><span class="o">.</span><span class="vm">__doc__</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">curl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the curl method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NablaManager</span><span class="o">.</span><span class="n">curl</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gradient</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">x1slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x2slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gradient method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NablaManager</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+            <span class="n">var</span><span class="p">,</span>
+            <span class="n">x1slice</span><span class="p">,</span>
+            <span class="n">x2slice</span><span class="p">,</span>
+            <span class="n">x3slice</span><span class="p">,</span>
+            <span class="n">edge_order</span><span class="p">,</span>
+        <span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">fourier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the fourier method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FourierManager</span><span class="o">.</span><span class="n">fourier</span>
+    <span class="n">gradient</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">NablaManager</span><span class="o">.</span><span class="n">gradient</span><span class="o">.</span><span class="vm">__doc__</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">slices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the slices method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">slices</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">divergence</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">v1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">v2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">v3</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x1slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x2slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Divergence method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NablaManager</span><span class="o">.</span><span class="n">divergence</span><span class="p">(</span>
+            <span class="n">v1</span><span class="p">,</span>
+            <span class="n">v2</span><span class="p">,</span>
+            <span class="n">v3</span><span class="p">,</span>
+            <span class="n">x1slice</span><span class="p">,</span>
+            <span class="n">x2slice</span><span class="p">,</span>
+            <span class="n">x3slice</span><span class="p">,</span>
+            <span class="n">edge_order</span><span class="p">,</span>
+        <span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">mirror</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the mirror method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">mirror</span>
+    <span class="n">divergence</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">NablaManager</span><span class="o">.</span><span class="n">divergence</span><span class="o">.</span><span class="vm">__doc__</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the repeat method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">repeat</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">curl</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">v1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">v2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">v3</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x1slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x2slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Curl method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NablaManager</span><span class="o">.</span><span class="n">curl</span><span class="p">(</span>
+            <span class="n">v1</span><span class="p">,</span>
+            <span class="n">v2</span><span class="p">,</span>
+            <span class="n">v3</span><span class="p">,</span>
+            <span class="n">x1slice</span><span class="p">,</span>
+            <span class="n">x2slice</span><span class="p">,</span>
+            <span class="n">x3slice</span><span class="p">,</span>
+            <span class="n">edge_order</span><span class="p">,</span>
+        <span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">cartesian_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the cartesian_vector method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">cartesian_vector</span>
+    <span class="n">curl</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">NablaManager</span><span class="o">.</span><span class="n">curl</span><span class="o">.</span><span class="vm">__doc__</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">reshape_cartesian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the reshape_cartesian method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">reshape_cartesian</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fourier</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">FourierKwargs</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fourier method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FourierManager</span><span class="o">.</span><span class="n">fourier</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">reshape_uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the reshape_uniform method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">reshape_uniform</span>
+    <span class="n">fourier</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">FourierManager</span><span class="o">.</span><span class="n">fourier</span><span class="o">.</span><span class="vm">__doc__</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">find_fieldlines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the find_fieldlines method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span><span class="o">.</span><span class="n">find_fieldlines</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">slices</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">diag</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x2</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x3</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">SlicesKwargs</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Slices method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">slices</span><span class="p">(</span>
+            <span class="n">var</span><span class="p">,</span>
+            <span class="n">diag</span><span class="p">,</span>
+            <span class="n">x1</span><span class="p">,</span>
+            <span class="n">x2</span><span class="p">,</span>
+            <span class="n">x3</span><span class="p">,</span>
+            <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">find_contour</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the find_contour method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span><span class="o">.</span><span class="n">find_contour</span>
+    <span class="n">slices</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">TransformManager</span><span class="o">.</span><span class="n">slices</span><span class="o">.</span><span class="vm">__doc__</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_astropy_units</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the to_astropy_units method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">SetUnitsManager</span><span class="o">.</span><span class="n">to_astropy_units</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mirror</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">dirs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">=</span> <span class="s2">&quot;l&quot;</span><span class="p">,</span>
+        <span class="n">xax</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">yax</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mirror method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">xax</span><span class="p">,</span> <span class="n">yax</span><span class="p">)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_code_units</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for the to_code_units method.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">SetUnitsManager</span><span class="o">.</span><span class="n">to_code_units</span></div>
+    <span class="n">mirror</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">TransformManager</span><span class="o">.</span><span class="n">mirror</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">repeat</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">dirs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">,</span>
+        <span class="n">xax</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">yax</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Repeat method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">xax</span><span class="p">,</span> <span class="n">yax</span><span class="p">)</span>
+
+    <span class="n">repeat</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">TransformManager</span><span class="o">.</span><span class="n">repeat</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">cartesian_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">CartesianVectorKwargs</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cartesian vector method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">cartesian_vector</span><span class="p">(</span>
+            <span class="n">var</span><span class="p">,</span>
+            <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">cartesian_vector</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">TransformManager</span><span class="o">.</span><span class="n">cartesian_vector</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reshape_cartesian</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">var2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">var3</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ReshapeKwargs</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reshape cartesian method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">reshape_cartesian</span><span class="p">(</span>
+            <span class="n">var1</span><span class="p">,</span>
+            <span class="n">var2</span><span class="p">,</span>
+            <span class="n">var3</span><span class="p">,</span>
+            <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">reshape_cartesian</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">TransformManager</span><span class="o">.</span><span class="n">reshape_cartesian</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reshape_uniform</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">var2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">var3</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ReshapeKwargs</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reshape uniform method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">reshape_uniform</span><span class="p">(</span>
+            <span class="n">var1</span><span class="p">,</span>
+            <span class="n">var2</span><span class="p">,</span>
+            <span class="n">var3</span><span class="p">,</span>
+            <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">reshape_uniform</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">TransformManager</span><span class="o">.</span><span class="n">reshape_uniform</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_fieldlines</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var1</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">var2</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">x0</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">y0</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">FindFieldlinesKwargs</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find fieldlines method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span><span class="o">.</span><span class="n">find_fieldlines</span><span class="p">(</span>
+            <span class="n">var1</span><span class="p">,</span>
+            <span class="n">var2</span><span class="p">,</span>
+            <span class="n">x0</span><span class="p">,</span>
+            <span class="n">y0</span><span class="p">,</span>
+            <span class="n">x1</span><span class="p">,</span>
+            <span class="n">x2</span><span class="p">,</span>
+            <span class="n">text</span><span class="p">,</span>
+            <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">find_fieldlines</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">FindLinesManager</span><span class="o">.</span><span class="n">find_fieldlines</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_contour</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">FindContourKwargs</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find contour method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span><span class="o">.</span><span class="n">find_contour</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">find_contour</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">FindLinesManager</span><span class="o">.</span><span class="n">find_contour</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_astropy_units</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">skip_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;To astropy units method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">SetUnitsManager</span><span class="o">.</span><span class="n">to_astropy_units</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">skip_units</span><span class="p">)</span>
+
+    <span class="n">to_astropy_units</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">SetUnitsManager</span><span class="o">.</span><span class="n">to_astropy_units</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_code_units</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">skip_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;To code units method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">SetUnitsManager</span><span class="o">.</span><span class="n">to_code_units</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">skip_units</span><span class="p">)</span>
+
+    <span class="n">to_code_units</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">SetUnitsManager</span><span class="o">.</span><span class="n">to_code_units</span><span class="o">.</span><span class="vm">__doc__</span></div>
 
 </pre></div>
 

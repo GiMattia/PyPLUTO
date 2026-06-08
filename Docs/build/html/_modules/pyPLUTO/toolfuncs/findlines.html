@@ -417,7 +417,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Unpack</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">contourpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cp</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcol</span>
@@ -425,6 +425,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_ivp</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadkwargs</span><span class="w"> </span><span class="kn">import</span> <span class="n">FindContourKwargs</span><span class="p">,</span> <span class="n">FindFieldlinesKwargs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadmixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadMixin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadState</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.loadtools</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadToolsManager</span>
@@ -512,7 +513,7 @@
         <span class="n">x2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">FindFieldlinesKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Find field lines using the vector field.</span>
 
@@ -588,10 +589,12 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">varx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LoadToolsManager</span><span class="o">.</span><span class="n">check_var</span><span class="p">(</span>
-            <span class="n">var1</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="n">var1</span><span class="p">,</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="n">vary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LoadToolsManager</span><span class="o">.</span><span class="n">check_var</span><span class="p">(</span>
-            <span class="n">var2</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="n">var2</span><span class="p">,</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
         <span class="p">)</span>
 
         <span class="n">xc</span> <span class="o">=</span> <span class="n">x1</span> <span class="k">if</span> <span class="n">x1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span>
@@ -599,7 +602,7 @@
 
         <span class="k">if</span> <span class="n">x0</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">y0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Footpoints not provided. Please provide footpoints!&quot;</span>
+                <span class="s2">&quot;Footpoints not provided. Please provide footpoints!&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="n">x0</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">x0</span><span class="p">))</span>
@@ -618,8 +621,9 @@
 
         <span class="n">step</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
             <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                <span class="s2">&quot;step&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="p">((</span><span class="n">xend</span> <span class="o">-</span> <span class="n">xbeg</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx1</span><span class="p">,</span> <span class="p">(</span><span class="n">yend</span> <span class="o">-</span> <span class="n">ybeg</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span><span class="p">)</span>
-            <span class="p">)</span>
+                <span class="s2">&quot;step&quot;</span><span class="p">,</span>
+                <span class="nb">min</span><span class="p">((</span><span class="n">xend</span> <span class="o">-</span> <span class="n">xbeg</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx1</span><span class="p">,</span> <span class="p">(</span><span class="n">yend</span> <span class="o">-</span> <span class="n">ybeg</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span><span class="p">),</span>
+            <span class="p">),</span>
         <span class="p">)</span>
 
         <span class="n">maxstep</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;maxstep&quot;</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">step</span><span class="p">)</span>
@@ -723,14 +727,17 @@
             <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Line with footpoint at x = </span><span class="si">%s</span><span class="s2"> and y = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                    <span class="s2">&quot;Final integration time forward:  </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sol_forward</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="s2">&quot;Final integration time forward:  </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">sol_forward</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                 <span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                    <span class="s2">&quot;Final integration time backward: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sol_backward</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="s2">&quot;Final integration time backward: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">sol_backward</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                 <span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Final step number forward:       </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">forw_steps</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                    <span class="s2">&quot;Final step number backward:      </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span>
+                    <span class="s2">&quot;Final step number backward:      </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stepnum</span><span class="p">,</span>
                 <span class="p">)</span>
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_line</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -747,7 +754,10 @@
 <a class="viewcode-back" href="../../../find_contour.html#pyPLUTO.toolfuncs.findlines.FindLinesManager.find_contour">[docs]</a>
     <span class="nd">@track_kwargs</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">find_contour</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">FindContourKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate contour lines for a given variable.</span>
 
@@ -815,7 +825,8 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LoadToolsManager</span><span class="o">.</span><span class="n">check_var</span><span class="p">(</span>
-            <span class="n">var</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="n">var</span><span class="p">,</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transpose&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
         <span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>

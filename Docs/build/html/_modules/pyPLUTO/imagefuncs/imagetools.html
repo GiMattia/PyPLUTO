@@ -497,7 +497,7 @@
 
         <span class="k">if</span> <span class="n">script_relative</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">out_path</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">():</span>
             <span class="c1"># Find the path of the script calling this method</span>
-            <span class="n">caller_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+            <span class="n">caller_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
             <span class="n">base_dir</span> <span class="o">=</span> <span class="n">caller_file</span><span class="o">.</span><span class="n">parent</span>
             <span class="n">out_path</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="n">out_path</span>
 
@@ -643,7 +643,7 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span>
+                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># Dictionary with the possible &#39;xycoords&#39; values</span>
@@ -782,7 +782,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span>
+                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="c1"># Check if the axis is None and no axis is present (and create one)</span>
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ax</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -922,7 +922,8 @@
         <span class="k">return</span> <span class="n">norm</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">find_cmap</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">mcol</span><span class="o">.</span><span class="n">Colormap</span> <span class="o">|</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">mcol</span><span class="o">.</span><span class="n">Colormap</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">mcol</span><span class="o">.</span><span class="n">Colormap</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Find a colormap by name.</span>
 
@@ -976,8 +977,8 @@
                 <span class="c1"># Prefer .reversed() method if available</span>
                 <span class="n">rev</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span> <span class="s2">&quot;reversed&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">rev</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">mcol</span><span class="o">.</span><span class="n">Colormap</span><span class="p">,</span> <span class="n">rev</span><span class="p">())</span>
-            <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">mcol</span><span class="o">.</span><span class="n">Colormap</span><span class="p">,</span> <span class="n">cmap</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;mcol.Colormap&quot;</span><span class="p">,</span> <span class="n">rev</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;mcol.Colormap&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="p">)</span>
 
         <span class="c1"># Gigantic warning!</span>
         <span class="n">warn</span> <span class="o">=</span> <span class="p">(</span>

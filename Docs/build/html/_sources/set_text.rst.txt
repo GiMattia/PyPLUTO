@@ -3,7 +3,7 @@
 pyPLUTO.set_text
 ================
 
-.. autofunction:: pyPLUTO.configure.set_text
+.. autofunction:: pyPLUTO.utils.configure.set_text
 
 |
 

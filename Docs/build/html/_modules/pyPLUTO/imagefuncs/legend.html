@@ -416,11 +416,12 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Unpack</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Unpack</span><span class="p">,</span> <span class="n">cast</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mlines</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.axes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MarkerType</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.imagetools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageToolsManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagekwargs</span><span class="w"> </span><span class="kn">import</span> <span class="n">LegendKwargs</span>
@@ -522,9 +523,10 @@
 <span class="sd">            the matplotlib package.</span>
 <span class="sd">        - lw: float, default 1.3</span>
 <span class="sd">            Sets the linewidth.</span>
-<span class="sd">        - marker: {&#39;o&#39;, &#39;v&#39;, &#39;^&#39;, &#39;&lt;&#39;, &#39;&gt;&#39;, &#39;X&#39;, &#39; &#39;, etc.}, default &#39; &#39;</span>
+<span class="sd">        - marker: str | list[str | MarkerType] | MarkerType, default &#39; &#39;</span>
 <span class="sd">            Sets an optional symbol for every point. The default value is no</span>
-<span class="sd">            marker (&#39; &#39;).</span>
+<span class="sd">            marker (&#39; &#39;). A list can be used to cycle through different markers</span>
+<span class="sd">            for each legend entry.</span>
 <span class="sd">        - ms: float, default 3</span>
 <span class="sd">            Sets the marker size.</span>
 <span class="sd">        - mscale: float, default 1.0</span>
@@ -617,19 +619,24 @@
         <span class="c1"># Finds the legend parameters (position, columns, size, spacing and pad)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;legpos&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;legsize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="s2">&quot;legsize&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;legcols&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="s2">&quot;legcols&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;legspace&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+            <span class="s2">&quot;legspace&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;legpad&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+            <span class="s2">&quot;legpad&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;legalpha&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
+            <span class="s2">&quot;legalpha&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpar</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">4</span><span class="p">],</span>
         <span class="p">)</span>
 
         <span class="c1"># Check if another unwanted legend is present and cancel it</span>
@@ -640,19 +647,19 @@
                 <span class="n">lleg</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
 
         <span class="c1"># Check is custom labels are on and plot the legend</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">lab</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span>
-                <span class="k">else</span> <span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]]</span>
-            <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">label</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lab</span> <span class="o">=</span> <span class="n">label</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">label</span><span class="p">]</span>
             <span class="n">col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">])))</span>
             <span class="n">ls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ls&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;-&quot;</span><span class="p">])))</span>
             <span class="n">lw</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lw&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">])))</span>
-            <span class="n">mrk</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;marker&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])))</span>
+            <span class="n">raw_mrk</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;marker&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
+            <span class="n">mrk</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">MarkerType</span><span class="p">]</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+                <span class="s2">&quot;list[MarkerType]&quot;</span><span class="p">,</span>
+                <span class="n">raw_mrk</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_mrk</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">raw_mrk</span><span class="p">],</span>
+            <span class="p">)</span>
             <span class="n">ms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ms&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">5.0</span><span class="p">])))</span>
             <span class="n">fls</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fillstyle&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;full&quot;</span><span class="p">])))</span>
-            <span class="n">edgcol</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;edgecolor&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">])))</span>
+            <span class="n">edgcol</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;edgecolor&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;none&quot;</span><span class="p">])))</span>
             <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="c1"># Create the list of lines</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lab</span><span class="p">):</span>
@@ -668,7 +675,7 @@
                         <span class="n">ms</span><span class="o">=</span><span class="n">ms</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">ms</span><span class="p">)],</span>
                         <span class="n">fillstyle</span><span class="o">=</span><span class="n">fls</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">fls</span><span class="p">)],</span>
                         <span class="n">markeredgecolor</span><span class="o">=</span><span class="n">edgcol</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">edgcol</span><span class="p">)],</span>
-                    <span class="p">)</span>
+                    <span class="p">),</span>
                 <span class="p">)</span>
             <span class="c1"># Create the legend</span>
             <span class="n">legg</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>

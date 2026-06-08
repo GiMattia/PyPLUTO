@@ -152,19 +152,26 @@ For more detailed instructions and additional installation options, please refer
 
 ## Cite This Repository
 
-If you use this repository in your research or projects, please consider citing the arxiv paper.
+If you use this repository in your research or projects, please cite the JOSS paper.
 
 ```
-@ARTICLE{PyPLUTO2025,
+@ARTICLE{2025JOSS...10.8448M,
        author = {{Mattia}, Giancarlo and {Crocco}, Daniele and {Melon Fuksman}, David and {Bugli}, Matteo and {Berta}, Vittoria and {Puzzoni}, Eleonora and {Mignone}, Andrea and {Vaidya}, Bhargav},
         title = "{PyPLUTO: a data analysis Python package for the PLUTO code}",
-      journal = {arXiv e-prints},
-     keywords = {Astrophysics - Instrumentation and Methods for Astrophysics},
+      journal = {The Journal of Open Source Software},
+     keywords = {astronomy, magnetohydrodynamics, computational astrophysics, data visualization, Python, Instrumentation and Methods for Astrophysics},
          year = 2025,
-        month = jan,
-          eid = {arXiv:2501.09748},
-        pages = {arXiv:2501.09748},
-          doi = {10.48550/arXiv.2501.09748},
+        month = sep,
+       volume = {10},
+       number = {113},
+          eid = {8448},
+        pages = {8448},
+          doi = {10.21105/joss.08448},
+archivePrefix = {arXiv},
+       eprint = {2501.09748},
+ primaryClass = {astro-ph.IM},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2025JOSS...10.8448M},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
 }
 ```
 

@@ -7,7 +7,7 @@ from typing import Any
 from matplotlib.backends.backend_qt import (
     NavigationToolbar2QT as NavigationToolbar,
 )
-from matplotlib.backends.backend_template import FigureCanvas
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,

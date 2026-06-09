@@ -7,10 +7,10 @@ from typing import TYPE_CHECKING, cast
 
 import numpy as np
 from matplotlib.backends.backend_qt import (
-    FigureCanvasQT as FigureCanvas,
-)
-from matplotlib.backends.backend_qt import (
     NavigationToolbar2QT as NavigationToolbar,
+)
+from matplotlib.backends.backend_qtagg import (
+    FigureCanvasQTAgg as FigureCanvas,
 )
 from matplotlib.collections import QuadMesh
 from matplotlib.image import AxesImage

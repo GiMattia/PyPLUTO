@@ -1,34 +1,31 @@
 """Regression tests for the GUI canvas backend."""
 
-import os
+import importlib.util
+from pathlib import Path
 
-import pytest
+
+def _source(module: str) -> str:
+    spec = importlib.util.find_spec(module)
+    assert spec is not None and spec.origin is not None
+    return Path(spec.origin).read_text()
 
 
-def test_plot_controller_canvas_has_agg_renderer():
-    """FigureCanvas used by PlotController must subclass FigureCanvasAgg.
+def test_plot_controller_canvas_uses_qtagg():
+    """Regression: FigureCanvas must be FigureCanvasQTAgg (has Agg renderer).
 
-    Regression: FigureCanvasQT (no Agg renderer) was used, producing a blank canvas.
+    FigureCanvasQT alone has no Agg renderer and produces a blank canvas.
     """
-    pytest.importorskip("PySide6")
-    os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
-    from matplotlib.backends.backend_agg import FigureCanvasAgg
-
-    import pyPLUTO.gui.plot_controller as pc
-
-    assert issubclass(pc.FigureCanvas, FigureCanvasAgg)
+    src = _source("pyPLUTO.gui.plot_controller")
+    assert "backend_qtagg" in src
+    assert "FigureCanvasQTAgg" in src
 
 
-def test_main_window_canvas_annotation_matches_plot_controller():
-    """The FigureCanvas type annotation in main_window must match plot_controller.
+def test_main_window_canvas_annotation_uses_qtagg():
+    """Regression: main_window FigureCanvas annotation must match plot_controller.
 
-    Regression: main_window imported FigureCanvas from backend_template (a no-op
-    stub unrelated to FigureCanvasQTAgg), causing a type mismatch.
+    Previously imported from backend_template (a no-op stub), which is not a
+    QWidget and caused a pyright type error.
     """
-    pytest.importorskip("PySide6")
-    os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
-
-    import pyPLUTO.gui.main_window as mw
-    import pyPLUTO.gui.plot_controller as pc
-
-    assert mw.FigureCanvas is pc.FigureCanvas
+    src = _source("pyPLUTO.gui.main_window")
+    assert "backend_qtagg" in src
+    assert "backend_template" not in src

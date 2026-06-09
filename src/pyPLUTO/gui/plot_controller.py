@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
 import numpy as np
 from matplotlib.backends.backend_qt import (
@@ -14,7 +14,6 @@ from matplotlib.backends.backend_qtagg import (
 )
 from matplotlib.collections import QuadMesh
 from matplotlib.image import AxesImage
-from PySide6.QtWidgets import QWidget
 
 import pyPLUTO as pp
 
@@ -119,7 +118,14 @@ class PlotController:
             cmap_temp = app.datadict.pop("cmap")
             cscale_temp = app.datadict.pop("cscale")
             ctresh_temp = app.datadict.pop("tresh", None)
-            app.Image.plot(x1, app.var, **app.datadict, xtitle=" ", ytitle=" ")
+            app.Image.plot(
+                x1,
+                app.var,
+                **app.datadict,
+                xtitle=" ",
+                ytitle=" ",
+                figsize=app.Image.state.figsize,
+            )
             app.datadict["cmap"] = cmap_temp
             app.datadict["cscale"] = cscale_temp
             if ctresh_temp is not None:
@@ -134,6 +140,7 @@ class PlotController:
                 xtitle=" ",
                 ytitle=" ",
                 clabel=" ",
+                figsize=app.Image.state.figsize,
             )
         app.firstplot = False
         app.canvas.draw()
@@ -187,7 +194,7 @@ class PlotController:
         """
         app = self.app
 
-        app.Image = pp.Image(figsize=[10, 6])
+        app.Image = pp.Image(figsize=[10, 6], text=False)
         app.firstplot = True
         app.figure = app.Image.fig
         app.canvas = FigureCanvas(app.figure)
@@ -197,11 +204,11 @@ class PlotController:
         app.canvas_layout.addWidget(app.canvas)
 
     def reload_canvas(self) -> None:
-        """Destroy the current canvas and toolbar, then create a fresh figure.
+        """Clear the figure content in-place without touching the Qt widgets.
 
-        Removes the existing toolbar and canvas widgets from the layout,
-        schedules them for deletion, and delegates to ``create_new_figure`` to
-        rebuild them.
+        Clears all axes and artists from the existing figure, then re-attaches
+        a fresh ``pp.Image`` to it. The canvas and toolbar widgets stay in the
+        layout, so no geometry shift occurs.
 
         Returns
         -------
@@ -209,11 +216,10 @@ class PlotController:
 
         """
         app = self.app
-        app.canvas_layout.removeWidget(app.toolbar)
-        app.toolbar.deleteLater()
-        app.canvas_layout.removeWidget(cast("QWidget", app.canvas))
-        cast("QWidget", app.canvas).deleteLater()
-        self.create_new_figure()
+        app.figure.clear()
+        app.Image = pp.Image(fig=app.figure, text=False)
+        app.firstplot = True
+        app.canvas.draw()
 
     def clear_labels(self) -> None:
         """Reset every plot-panel widget to its default state.

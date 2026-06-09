@@ -2,19 +2,24 @@
 
 from __future__ import annotations
 
+import bisect
 from typing import Any
 
 from matplotlib.backends.backend_qt import (
     NavigationToolbar2QT as NavigationToolbar,
 )
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
     QFileDialog,
     QHBoxLayout,
+    QLabel,
     QLineEdit,
     QMainWindow,
+    QSlider,
+    QSpinBox,
     QTextEdit,
     QVBoxLayout,
     QWidget,
@@ -24,7 +29,6 @@ from pyPLUTO.gui.app_state import AppState
 from pyPLUTO.gui.globals import (
     cmaps_avail,
     cmaps_divided,
-    format_avail,
     scales,
     vscales,
 )
@@ -39,9 +43,9 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
 
     # --- Qt widgets (set in _build_* methods) ---
     datatype_selector: QComboBox
-    format_selector: QComboBox
-    outtext: QLineEdit
     varstext: QLineEdit
+    time_slider: QSlider
+    nout_display: QSpinBox
     var_selector: QComboBox
     xaxis_selector: QComboBox
     yaxis_selector: QComboBox
@@ -109,9 +113,12 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         self.plot_controller = PlotController(self)
 
         button_layout = QVBoxLayout()
+        button_layout.setSpacing(6)
         self._build_load_panel(button_layout)
         self.add_line(button_layout)
         self._build_variable_panel(button_layout)
+        self.add_line(button_layout)
+        self._build_slider_row(button_layout)
         self.add_line(button_layout)
         self._build_plot_panel(button_layout)
         self.add_line(button_layout)
@@ -128,19 +135,9 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         main_layout.addLayout(self.canvas_layout)
 
     def _build_load_panel(self, button_layout: QVBoxLayout) -> None:
-        """Add data-loading controls.
-
-        More specifically: datatype, format, nout/vars, and file buttons.
-        """
+        """Add data-loading controls: datatype, vars, and file buttons."""
         layout = QHBoxLayout()
         self.datatype_selector = self.add_combobox(layout, ["PLUTO fluid"])
-        self.add_label("Preferred format:", layout)
-        self.format_selector = self.add_combobox(layout, format_avail)
-        button_layout.addLayout(layout)
-
-        layout = QHBoxLayout()
-        self.add_label("nout:", layout)
-        self.outtext = self.add_lineedit(layout, "nout")
         self.add_label("vars:", layout)
         self.varstext = self.add_lineedit(layout, "vars")
         button_layout.addLayout(layout)
@@ -255,6 +252,52 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         info_box.setFixedSize(370, 200)
         button_layout.addWidget(info_box)
         self.info_label = info_box
+
+    def _build_slider_row(self, button_layout: QVBoxLayout) -> None:
+        """Add a time-step slider to the left control panel."""
+        self.time_slider = QSlider(Qt.Orientation.Horizontal)
+        self.time_slider.setEnabled(False)
+
+        self.nout_display = QSpinBox()
+        self.nout_display.setButtonSymbols(QSpinBox.ButtonSymbols.NoButtons)
+        self.nout_display.setFixedWidth(60)
+        self.nout_display.setRange(0, 99999)
+        self.nout_display.setEnabled(False)
+
+        row_widget = QWidget()
+        row_widget.setMaximumHeight(26)
+        row = QHBoxLayout(row_widget)
+        row.setContentsMargins(4, 0, 4, 0)
+        row.addWidget(QLabel("nout:"))
+        row.addWidget(self.time_slider)
+        row.addWidget(self.nout_display)
+        button_layout.addWidget(row_widget)
+
+        self.time_slider.sliderMoved.connect(self._on_slider_moved)
+        self.nout_display.editingFinished.connect(self._on_nout_typed)
+
+    def _on_slider_moved(self, value: int) -> None:
+        """Reload data and replot as the slider moves."""
+        if not self.data_loaded:
+            return
+        nout = int(self.Data.outlist[value])
+        self.nout = nout
+        self.nout_display.setValue(nout)
+        self.load_controller.reload_data()
+        self.plot_controller.plot_data()
+
+    def _on_nout_typed(self) -> None:
+        """Move slider to the typed nout and replot."""
+        if not self.data_loaded:
+            return
+        target = self.nout_display.value()
+        outlist = self.Data.outlist.tolist()
+        try:
+            idx = outlist.index(target)
+        except ValueError:
+            idx = min(bisect.bisect_left(outlist, target), len(outlist) - 1)
+        self.time_slider.setValue(idx)
+        self._on_slider_moved(idx)
 
     def select_folder(self) -> None:
         """Open a file dialog to select a folder containing data files."""

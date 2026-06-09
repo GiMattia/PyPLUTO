@@ -15,7 +15,7 @@ class AppState:
     # Load/session state
     folder_path: str | None = None
     datatype: str | None = None
-    nout: int | str = "last"
+    nout: int | str = 0
     data_loaded: bool = False
 
     # Plot/session state

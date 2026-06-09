@@ -62,6 +62,7 @@ class LoadController:
                 datatype=app.datatype,
                 var=var,
                 full3D=False,
+                text=False,
             )
             app.data_loaded = True
 
@@ -87,6 +88,23 @@ class LoadController:
             app.info_label.setPlainText(
                 build_info_text(str(app.folder_path or "./"), app.Data, defs),
             )
+
+            # populate the time slider from the available output list
+            outlist = app.Data.outlist.tolist()
+            n = len(outlist)
+            current_nout = app.nout
+            if isinstance(current_nout, str):
+                idx = n - 1
+            else:
+                try:
+                    idx = outlist.index(current_nout)
+                except ValueError:
+                    idx = n - 1
+            app.time_slider.setRange(0, n - 1)
+            app.time_slider.setValue(idx)
+            app.nout_display.setValue(outlist[idx])
+            app.time_slider.setEnabled(True)
+            app.nout_display.setEnabled(True)
         except Exception as e:
             logger.error("Error loading data: %s", e)
             app.data_loaded = False
@@ -100,31 +118,8 @@ class LoadController:
 
         """
         app = self.app
-        format_name = app.format_selector.currentText()
-
-        # map each format name to its glob pattern for the dialog filter
-        formats_list: dict[str, str | None] = {
-            "dbl": "*.dbl",
-            "flt": "*.flt",
-            "vtk": "*.vtk",
-            "dbl.h5": "*.dbl.h5",
-            "flt.h5": "*.flt.h5",
-            "hdf5": "*.hdf5",
-            "tab": "*.tab",
-            "None": None,
-        }
-
-        # preferred format appears first in the filter string when selected
-        bigstr = (
-            (
-                f"Preferred format: {format_name} "
-                f"Files ({formats_list[format_name]});;"
-            )
-            if format_name != "None"
-            else ""
-        )
         starting_dir: str = app.folder_path or os.getcwd()
-        bigstr += (
+        bigstr = (
             "PLUTO Files (*.dbl *.vtk *.flt *.dbl.h5 *.flt.h5 *.out "
             "*.hdf5 *.tab);;All Files (*)"
         )
@@ -160,8 +155,6 @@ class LoadController:
         app = self.app
         var_name = app.var_selector.currentText()
 
-        # read nout from the text field; fall back to "last" if empty
-        app.nout = int(app.outtext.text()) if app.outtext.text() else "last"
         app.folder_path = "./" if app.folder_path is None else app.folder_path
         self.load_data()
 
@@ -194,12 +187,14 @@ class LoadController:
         - None
 
         """
-        # reset folder, format, nout, and vars fields to their initial state
         app = self.app
         app.folder_path = "./"
-        app.format_selector.setCurrentIndex(0)
-        app.outtext.clear()
+        app.state.nout = 0
         app.varstext.clear()
+        app.time_slider.setEnabled(False)
+        app.time_slider.setValue(0)
+        app.nout_display.setEnabled(False)
+        app.nout_display.setValue(0)
 
     def finalize_load_path(self, file_path: str) -> None:
         """Parse the selected file path and trigger a data load.
@@ -215,7 +210,6 @@ class LoadController:
         - None
 
         """
-        # infer folder, datatype, and output index from the chosen file
         app = self.app
         app.folder_path, app.datatype, app.nout = parse_selected_file(file_path)
         self.load_data()

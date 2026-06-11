@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "py-pluto"
-version = "1.2.2"
+version = "1.2.3"
 description = "PyPLUTO: Plotting routines for PLUTO"
 readme = "README.md"
 requires-python = ">=3.11"

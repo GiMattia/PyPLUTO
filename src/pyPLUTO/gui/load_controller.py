@@ -105,6 +105,8 @@ class LoadController:
             app.nout_display.setValue(outlist[idx])
             app.time_slider.setEnabled(True)
             app.nout_display.setEnabled(True)
+            for btn in app.playback_buttons:
+                btn.setEnabled(True)
         except Exception as e:
             logger.error("Error loading data: %s", e)
             app.data_loaded = False
@@ -154,6 +156,8 @@ class LoadController:
         """
         app = self.app
         var_name = app.var_selector.currentText()
+        x_axis = app.xaxis_selector.currentText()
+        y_axis = app.yaxis_selector.currentText()
 
         app.folder_path = "./" if app.folder_path is None else app.folder_path
         self.load_data()
@@ -179,6 +183,12 @@ class LoadController:
         if var_name in loaded_vars or var_name in custom_names:
             app.var_selector.setCurrentText(var_name)
 
+        # restore axis selectors so they don't snap back to index 0
+        if x_axis:
+            app.xaxis_selector.setCurrentText(x_axis)
+        if y_axis:
+            app.yaxis_selector.setCurrentText(y_axis)
+
     def clearload(self) -> None:
         """Reset all load-panel fields to their defaults.
 
@@ -191,10 +201,15 @@ class LoadController:
         app.folder_path = "./"
         app.state.nout = 0
         app.varstext.clear()
+        app.frozen_lines.clear()
+        app.live_specs.clear()
+        app._play_timer.stop()
         app.time_slider.setEnabled(False)
         app.time_slider.setValue(0)
         app.nout_display.setEnabled(False)
         app.nout_display.setValue(0)
+        for btn in app.playback_buttons:
+            btn.setEnabled(False)
 
     def finalize_load_path(self, file_path: str) -> None:
         """Parse the selected file path and trigger a data load.

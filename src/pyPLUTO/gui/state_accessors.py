@@ -17,6 +17,16 @@ class StateAccessorsMixin:
     state: AppState
 
     @property
+    def frozen_lines(self) -> list[dict[str, Any]]:
+        """Saved line snapshots that are not updated by the slider."""
+        return self.state.frozen_lines
+
+    @property
+    def live_specs(self) -> list[dict[str, Any]]:
+        """Plot specs for lines that follow the time slider."""
+        return self.state.live_specs
+
+    @property
     def Data(self) -> Load:
         """Current loaded data object."""
         return self.state.Data

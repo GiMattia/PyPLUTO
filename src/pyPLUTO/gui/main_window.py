@@ -3,21 +3,24 @@
 from __future__ import annotations
 
 import bisect
+from collections.abc import Callable
 from typing import Any
 
 from matplotlib.backends.backend_qt import (
     NavigationToolbar2QT as NavigationToolbar,
 )
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
+    QDoubleSpinBox,
     QFileDialog,
     QHBoxLayout,
     QLabel,
     QLineEdit,
     QMainWindow,
+    QPushButton,
     QSlider,
     QSpinBox,
     QTextEdit,
@@ -86,6 +89,17 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
     yslice: Any
     zslice: Any
 
+    # --- Playback controls (set in _build_playback_row) ---
+    rewind_btn: QPushButton
+    back_btn: QPushButton
+    play_btn: QPushButton
+    pause_btn: QPushButton
+    forward_btn: QPushButton
+    last_btn: QPushButton
+    interval_spinbox: QDoubleSpinBox
+    playback_buttons: list[QPushButton]
+    _play_timer: QTimer
+
     # --- File dialog ---
     _file_dialog: QFileDialog | None
 
@@ -119,6 +133,7 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         self._build_variable_panel(button_layout)
         self.add_line(button_layout)
         self._build_slider_row(button_layout)
+        self._build_playback_row(button_layout)
         self.add_line(button_layout)
         self._build_plot_panel(button_layout)
         self.add_line(button_layout)
@@ -227,7 +242,10 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
 
         layout = QHBoxLayout()
         self.add_pushbutton("Plot", layout, self.plot_controller.plot_data)
-        self.overplot_checkbox = self.add_checkbox("Overplot       ", layout)
+        self.overplot_checkbox = self.add_checkbox("Overplot", layout)
+        self.add_pushbutton(
+            "Lock Lines", layout, self.plot_controller.lock_lines
+        )
         button_layout.addLayout(layout)
 
         layout = QHBoxLayout()
@@ -253,6 +271,53 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         button_layout.addWidget(info_box)
         self.info_label = info_box
 
+    def _build_playback_row(self, button_layout: QVBoxLayout) -> None:
+        """Add media-style playback controls below the nout slider."""
+        row_widget = QWidget()
+        row_widget.setMaximumHeight(30)
+        row = QHBoxLayout(row_widget)
+        row.setContentsMargins(4, 0, 4, 0)
+        row.setSpacing(3)
+
+        def _btn(label: str, callback: Callable[[], None]) -> QPushButton:
+            b = QPushButton(label)
+            b.setFixedWidth(43)
+            b.setEnabled(False)
+            b.clicked.connect(callback)
+            row.addWidget(b, stretch=1)
+            return b
+
+        self.rewind_btn = _btn("⏮", self._on_rewind)
+        self.back_btn = _btn("⯬", self._on_back)
+        self.play_btn = _btn("▶", self._on_play)
+        self.pause_btn = _btn("⏸", self._on_pause)
+        self.forward_btn = _btn("⯮", self._on_forward)
+        self.last_btn = _btn("⏭", self._on_last)
+
+        self.playback_buttons = [
+            self.rewind_btn,
+            self.back_btn,
+            self.play_btn,
+            self.pause_btn,
+            self.forward_btn,
+            self.last_btn,
+        ]
+
+        row.addWidget(QLabel("dt(s):"))
+        self.interval_spinbox = QDoubleSpinBox()
+        self.interval_spinbox.setRange(0.05, 60.0)
+        self.interval_spinbox.setValue(0.1)
+        self.interval_spinbox.setSingleStep(0.01)
+        self.interval_spinbox.setDecimals(2)
+        self.interval_spinbox.setFixedWidth(60)
+        row.addWidget(self.interval_spinbox)
+
+        button_layout.addWidget(row_widget)
+
+        self._play_timer = QTimer(self)
+        self._play_timer.setSingleShot(True)
+        self._play_timer.timeout.connect(self._on_play_tick)
+
     def _build_slider_row(self, button_layout: QVBoxLayout) -> None:
         """Add a time-step slider to the left control panel."""
         self.time_slider = QSlider(Qt.Orientation.Horizontal)
@@ -277,14 +342,20 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         self.nout_display.editingFinished.connect(self._on_nout_typed)
 
     def _on_slider_moved(self, value: int) -> None:
-        """Reload data and replot as the slider moves."""
+        """Reload data at the selected nout and replay all live specs."""
         if not self.data_loaded:
             return
         nout = int(self.Data.outlist[value])
         self.nout = nout
         self.nout_display.setValue(nout)
         self.load_controller.reload_data()
-        self.plot_controller.plot_data()
+        if not self.live_specs:
+            self.info_label.append(
+                "No live lines to replay — plot a line first, "
+                "or overplot after locking."
+            )
+            return
+        self.plot_controller.replay_all()
 
     def _on_nout_typed(self) -> None:
         """Move slider to the typed nout and replot."""
@@ -298,6 +369,52 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
             idx = min(bisect.bisect_left(outlist, target), len(outlist) - 1)
         self.time_slider.setValue(idx)
         self._on_slider_moved(idx)
+
+    def _on_rewind(self) -> None:
+        """Stop playback and jump to the first output."""
+        self._play_timer.stop()
+        self.time_slider.setValue(0)
+        self._on_slider_moved(0)
+
+    def _on_back(self) -> None:
+        """Step the slider back by one output."""
+        idx = max(0, self.time_slider.value() - 1)
+        self.time_slider.setValue(idx)
+        self._on_slider_moved(idx)
+
+    def _on_play(self) -> None:
+        """Start automatic playback at the current interval setting."""
+        if not self.data_loaded:
+            return
+        interval_ms = int(self.interval_spinbox.value() * 1000)
+        self._play_timer.start(interval_ms)
+
+    def _on_pause(self) -> None:
+        """Pause automatic playback."""
+        self._play_timer.stop()
+
+    def _on_forward(self) -> None:
+        """Step the slider forward by one output."""
+        idx = min(self.time_slider.maximum(), self.time_slider.value() + 1)
+        self.time_slider.setValue(idx)
+        self._on_slider_moved(idx)
+
+    def _on_last(self) -> None:
+        """Stop playback and jump to the last output."""
+        self._play_timer.stop()
+        idx = self.time_slider.maximum()
+        self.time_slider.setValue(idx)
+        self._on_slider_moved(idx)
+
+    def _on_play_tick(self) -> None:
+        """Advance one step then reschedule; stop automatically at the end."""
+        idx = self.time_slider.value() + 1
+        if idx > self.time_slider.maximum():
+            return
+        self.time_slider.setValue(idx)
+        self._on_slider_moved(idx)
+        interval_ms = int(self.interval_spinbox.value() * 1000)
+        self._play_timer.start(interval_ms)
 
     def select_folder(self) -> None:
         """Open a file dialog to select a folder containing data files."""

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 from matplotlib.backends.backend_qt import (
@@ -103,6 +103,7 @@ class PlotController:
         else:
             self.reload_canvas()
             app.numlines = 1
+            app.frozen_lines.clear()
 
         x1 = getattr(app.Data, axis_convert[app.xaxis_selector.currentText()])
         x2 = getattr(app.Data, axis_convert[app.yaxis_selector.currentText()])
@@ -114,6 +115,14 @@ class PlotController:
         )
         self._set_range(xlim, ylim)
 
+        # Capture the spec after ranges are set, before datadict is mutated.
+        spec = self._capture_spec()
+        if app.overplot_checkbox.isChecked() and app.vardim == 1:
+            app.live_specs.append(spec)
+        else:
+            app.live_specs.clear()
+            app.live_specs.append(spec)
+
         if app.vardim == 1:
             cmap_temp = app.datadict.pop("cmap")
             cscale_temp = app.datadict.pop("cscale")
@@ -124,7 +133,16 @@ class PlotController:
                 **app.datadict,
                 xtitle=" ",
                 ytitle=" ",
-                figsize=app.Image.state.figsize,
+            )
+            # Capture the actual color assigned so replay stays in sync.
+            if app.Image.ax:
+                plotted = app.Image.ax[0].get_lines()
+                if plotted:
+                    app.live_specs[-1]["color"] = plotted[-1].get_color()
+            app.figure.set_size_inches(
+                app.Image.state.figsize[0],
+                app.Image.state.figsize[1],
+                forward=False,
             )
             app.datadict["cmap"] = cmap_temp
             app.datadict["cscale"] = cscale_temp
@@ -143,6 +161,107 @@ class PlotController:
                 figsize=app.Image.state.figsize,
             )
         app.firstplot = False
+        app.canvas.draw()
+
+    def lock_lines(self) -> None:
+        """Freeze all current live lines into static snapshots.
+
+        Reads every ``Line2D`` from the active axes, stores its data and style,
+        then clears ``live_specs`` so subsequent overplots become the new live
+        lines followed by the slider.
+
+        Returns
+        -------
+        - None
+
+        """
+        app = self.app
+        if not app.data_loaded:
+            app.info_label.append("[Lock Lines] No data loaded.")
+            return
+        if not app.live_specs:
+            app.info_label.append(
+                "[Lock Lines] Nothing to lock — plot a line first."
+            )
+            return
+        if not app.Image.ax:
+            app.info_label.append("[Lock Lines] No active axes found.")
+            return
+        ax = app.Image.ax[0]
+        lines = ax.get_lines()
+        if not lines:
+            app.info_label.append(
+                "[Lock Lines] No lines found on the current axes."
+            )
+            return
+        n_before = len(app.frozen_lines)
+        for line in lines:
+            app.frozen_lines.append(
+                {
+                    "xdata": line.get_xdata().copy(),
+                    "ydata": line.get_ydata().copy(),
+                    "color": line.get_color(),
+                    "linewidth": line.get_linewidth(),
+                    "linestyle": line.get_linestyle(),
+                    "marker": line.get_marker(),
+                    "markersize": line.get_markersize(),
+                }
+            )
+        n_locked = len(app.frozen_lines) - n_before
+        app.live_specs.clear()
+        app.numlines = 0
+        app.overplot_checkbox.setChecked(True)
+        app.info_label.append(
+            f"[Lock Lines] {n_locked} line(s) frozen. "
+            "Overplot a new line to enable slider replay."
+        )
+
+    def replay_all(self) -> None:
+        """Redraw frozen snapshots then re-execute all live specs.
+
+        Called by the time slider. Clears the canvas, repaints every frozen
+        line from its stored arrays, then re-plots each live spec against the
+        freshly loaded ``Data`` at the current nout.
+
+        Returns
+        -------
+        - None
+
+        """
+        app = self.app
+        # Clear the figure without disturbing the Qt widget layout.
+        app.figure.clear()
+        app.Image = pp.Image(fig=app.figure, text=False)
+        app.firstplot = True
+        app.numlines = 0
+
+        # Re-execute live specs (creates the axis via pp.Image).
+        for spec in app.live_specs:
+            try:
+                self._execute_spec(spec)
+            except Exception as exc:
+                app.info_label.append(f"[Replay] Error executing spec: {exc}")
+                logger.exception("Error in _execute_spec")
+                continue
+            app.firstplot = False
+            app.numlines += 1
+
+        # Paint frozen lines directly onto the existing axis.
+        if app.frozen_lines and app.Image.ax:
+            ax = app.Image.ax[0]
+            for fl in app.frozen_lines:
+                style = {
+                    k: v for k, v in fl.items() if k not in ("xdata", "ydata")
+                }
+                ax.plot(fl["xdata"], fl["ydata"], **style)
+
+        # Advance nline so any subsequent plot_data() overplot picks up the
+        # right next color (frozen + live lines already occupy the palette).
+        if app.Image.ax:
+            app.Image.state.nline[0] = len(app.frozen_lines) + len(
+                app.live_specs
+            )
+
         app.canvas.draw()
 
     def update_axes(self) -> None:
@@ -258,6 +377,128 @@ class PlotController:
         app.cmap_selector.setCurrentIndex(0)
         app.reverse_checkbox.setChecked(False)
         app.overplot_checkbox.setChecked(False)
+
+    def _capture_spec(self) -> dict[str, Any]:
+        """Snapshot the current GUI state as a replayable plot specification.
+
+        Called inside ``plot_data`` after ``_check_axisparam`` and
+        ``_set_range`` have both run, so ``app.datadict`` already contains
+        the full set of plot kwargs including computed axis ranges.
+
+        Returns
+        -------
+        - dict[str, Any]
+            Mapping with all information needed to reproduce the plot at a
+            different nout via ``_execute_spec``.
+
+        """
+        app = self.app
+        # Strip computed ranges — _execute_spec recomputes them from fresh data.
+        datadict = {
+            k: v
+            for k, v in app.datadict.items()
+            if k not in ("xrange", "yrange")
+        }
+        return {
+            "var_name": app.var_selector.currentText(),
+            "xslice": app.xslicetext.text(),
+            "yslice": app.yslicetext.text(),
+            "zslice": app.zslicetext.text(),
+            "axis_x": app.xaxis_selector.currentText(),
+            "axis_y": app.yaxis_selector.currentText(),
+            "transpose": app.transpose_checkbox.isChecked(),
+            "yscale": app.yscale_selector.currentText(),
+            "xrange_min": app.xrange_min.text(),
+            "xrange_max": app.xrange_max.text(),
+            "yrange_min": app.yrange_min.text(),
+            "yrange_max": app.yrange_max.text(),
+            "datadict": datadict,
+        }
+
+    def _execute_spec(self, spec: dict[str, Any]) -> None:
+        """Re-plot one live spec against the current loaded Data.
+
+        Fetches the variable, applies the stored slices, recomputes axis
+        ranges from the new data (honouring any stored manual overrides),
+        and calls the appropriate ``Image`` method.
+
+        Parameters
+        ----------
+        - spec: dict[str, Any]
+            A spec dict previously produced by ``_capture_spec``.
+
+        Returns
+        -------
+        - None
+
+        """
+        twod = 2
+        app = self.app
+        try:
+            var = getattr(app.Data, spec["var_name"])
+        except AttributeError:
+            logger.warning("Variable %s not found in Data", spec["var_name"])
+            return
+        var = var.T if spec["transpose"] else var
+        var, _, _, _ = apply_slices(
+            var, spec["xslice"], spec["yslice"], spec["zslice"]
+        )
+        vardim = len(np.shape(var))
+        if vardim < 1 or vardim > twod:
+            return
+
+        axis_convert = convert_axis_map(app.Data.geom, vardim)
+        x1 = getattr(app.Data, axis_convert[spec["axis_x"]])
+
+        # Recompute ranges from fresh data, apply any stored manual overrides.
+        xlim = [float(x1.min()), float(x1.max())]
+        if vardim == twod:
+            x2 = getattr(app.Data, axis_convert[spec["axis_y"]])
+            ylim = [float(x2.min()), float(x2.max())]
+            ymin_r, ymax_r = ylim
+        else:
+            x2 = None
+            ylim = [float(var.min()), float(var.max())]
+            ymin_r, ymax_r = app.Image.RangeManager.range_offset(
+                ylim[0], ylim[1], spec["yscale"]
+            )
+
+        datadict: dict[str, Any] = dict(spec["datadict"])
+        datadict["xrange"] = [
+            float(spec["xrange_min"]) if spec["xrange_min"] else xlim[0],
+            float(spec["xrange_max"]) if spec["xrange_max"] else xlim[1],
+        ]
+        datadict["yrange"] = [
+            float(spec["yrange_min"]) if spec["yrange_min"] else ymin_r,
+            float(spec["yrange_max"]) if spec["yrange_max"] else ymax_r,
+        ]
+
+        if vardim == 1:
+            datadict.pop("cmap", None)
+            datadict.pop("cscale", None)
+            datadict.pop("tresh", None)
+            # Pin the color so replay always uses the same hue regardless of
+            # how many lines the fresh Image has already drawn.
+            if "color" in spec:
+                datadict["c"] = spec["color"]
+            app.Image.plot(x1, var, **datadict, xtitle=" ", ytitle=" ")
+            app.figure.set_size_inches(
+                app.Image.state.figsize[0],
+                app.Image.state.figsize[1],
+                forward=False,
+            )
+        else:
+            app.Image.display(
+                var,
+                x1=x1,
+                x2=x2,
+                cpos="right",
+                **datadict,
+                xtitle=" ",
+                ytitle=" ",
+                clabel=" ",
+                figsize=app.Image.state.figsize,
+            )
 
     def _check_axisparam(self) -> None:
         """Rebuild ``app.datadict`` from the current plot-panel widget values.

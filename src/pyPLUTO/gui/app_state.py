@@ -28,6 +28,10 @@ class AppState:
     ymax: float = 0.0
     datadict: dict[str, Any] = field(default_factory=dict)
 
+    # Line-lock / slider replay state
+    frozen_lines: list[dict[str, Any]] = field(default_factory=list)
+    live_specs: list[dict[str, Any]] = field(default_factory=list)
+
     # Runtime objects/data
     Data: Any = None
     Image: Any = None

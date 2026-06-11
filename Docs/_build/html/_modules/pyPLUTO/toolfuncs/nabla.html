@@ -1,0 +1,1236 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyPLUTO.toolfuncs.nabla &#8212; PyPLUTO 1.2.3 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=6bda2a82" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+
+    <script src="../../../_static/documentation_options.js?v=590429e0"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyPLUTO/toolfuncs/nabla';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">PyPLUTO 1.2.3 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../toolsmethods.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../imageclass.html">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../gui.html">
+    GUI
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../faq.html">
+    FAQs
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../contributing.html">
+    Contribute
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../loadclass.html">
+    Loading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../toolsmethods.html">
+    Manipulating
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../imageclass.html">
+    Plotting
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../gui.html">
+    GUI
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../faq.html">
+    FAQs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributing.html">
+    Contribute
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">pyPLUTO.toolfuncs.nabla</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for pyPLUTO.toolfuncs.nabla</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Legacy module pending type-checking rework; excluded for now.</span>
+<span class="c1"># type: ignore</span>
+<span class="sd">&quot;&quot;&quot;Nabla utilities manager.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadmixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.loadstate</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoadState</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">NablaManager</span><span class="p">(</span><span class="n">LoadMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manager for gradient, divergence and curl utilities.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">LoadState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the nabla manager with the given load state.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if value is a number.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - value (not optional): Any</span>
+<span class="sd">            The value to check.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - bool</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: Check if 1 is a number</span>
+
+<span class="sd">            &gt;&gt;&gt; _is_number(1)</span>
+<span class="sd">            True</span>
+
+<span class="sd">        - Example #2: Check if &#39;1&#39; is a number</span>
+
+<span class="sd">            &gt;&gt;&gt; _is_number(&quot;1&quot;)</span>
+<span class="sd">            False</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_islice_imin_imax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xvalue</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">xgrid</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return i, imin, imax for xgrid.</span>
+
+<span class="sd">        The computation is done such that xgrid[i] &lt;= xvalue &lt;=</span>
+<span class="sd">        xgrid[i+1] with a stencil of 3 cells.</span>
+
+<span class="sd">        If the grid is too small, imin and imax are set to 0 and N,</span>
+<span class="sd">        respectively.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - xvalue (not optional): float</span>
+<span class="sd">            The value to check.</span>
+<span class="sd">        - xgrid (not optional): numpy.ndarray</span>
+<span class="sd">            The grid to check.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - list[int]</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: Compute the indices for the stencil of 3 cells</span>
+
+<span class="sd">            &gt;&gt;&gt; _islice_imin_imax(0.5, np.linspace(0, 1, 11))</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Compute the grid length and the index of the closest grid point</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xgrid</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">xgrid</span> <span class="o">-</span> <span class="n">xvalue</span><span class="p">))</span>
+
+        <span class="c1"># Compute the limits of the stencil</span>
+        <span class="n">i_min</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">i_max</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># If the grid is too small, set imin and imax to 0 and N</span>
+        <span class="k">if</span> <span class="n">N</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">N</span>
+
+        <span class="c1"># If imin or imax are outside the grid, set them to 0 and/or N</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i_min</span> <span class="o">=</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">3</span> <span class="k">if</span> <span class="n">i_max</span> <span class="o">==</span> <span class="n">N</span> <span class="k">else</span> <span class="n">i_min</span>
+            <span class="n">i_max</span> <span class="o">=</span> <span class="mi">3</span> <span class="k">if</span> <span class="n">i_min</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">i_max</span>
+
+        <span class="c1"># Return i, imin, imax</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">i_min</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">i_min</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">i_max</span><span class="p">)]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_slice_indices</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">slice_val</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">grid</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">grid_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the slice indices from the slice value.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - slice_val: float</span>
+<span class="sd">            The value of the slice.</span>
+<span class="sd">        - grid: np.ndarray</span>
+<span class="sd">            The grid of the data.</span>
+<span class="sd">        - grid_size: int</span>
+<span class="sd">            The size of the grid.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - tuple</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: Get the slice indices</span>
+
+<span class="sd">            &gt;&gt;&gt; _get_slice_indices(0.5, np.linspace(0, 1, 11), 11)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># If the slice value is a number return the index and the slice</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_number</span><span class="p">(</span><span class="n">slice_val</span><span class="p">):</span>
+            <span class="c1"># Get the slice indices</span>
+            <span class="n">idx</span><span class="p">,</span> <span class="n">idx_min</span><span class="p">,</span> <span class="n">idx_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_islice_imin_imax</span><span class="p">(</span><span class="n">slice_val</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
+
+            <span class="c1"># Return the indices and the slice</span>
+            <span class="k">return</span> <span class="n">idx</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="n">idx_min</span><span class="p">,</span> <span class="n">idx_max</span><span class="p">)</span>
+
+        <span class="c1"># If the slice value is a list return the indices and the slice</span>
+        <span class="c1"># Return the indices and the slice</span>
+        <span class="k">return</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_warning_cylindrical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Emit a DeprecationWarning for the unsupported CYLINDRICAL geometry.&quot;&quot;&quot;</span>
+        <span class="n">warning_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;&quot;&quot;&quot;</span>
+        <span class="c1"># CYLINDRICAL geometry has been deprecated since PLUTO v4.4.</span>
+        <span class="c1"># POLAR may be used instead by excluding the phi-direction</span>
+        <span class="c1"># (simply set INCLUDE_JDIR to NO in definitions.h).</span>
+        <span class="c1"># &quot;&quot;&quot;</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning_message</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NablaManager.gradient">
+<a class="viewcode-back" href="../../../gradient.html#pyPLUTO.toolfuncs.nabla.NablaManager.gradient">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gradient</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">var</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">x1slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x2slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the gradient of a specified field &#39;var&#39;.</span>
+
+<span class="sd">        The gradient is computed in all available directions using second-order</span>
+<span class="sd">        accurate central differences via the NumPy gradient() function.</span>
+<span class="sd">        The first index of the resulting array</span>
+<span class="sd">        represents the N gradient components. If &#39;x1slice&#39;, &#39;x2slice&#39;, or</span>
+<span class="sd">        &#39;x3slice&#39; are specified, the gradient is only computed at the</span>
+<span class="sd">        corresponding x1, x2, or x3 values. N corresponds to the number of</span>
+<span class="sd">        employed dimensions unless a slice is taken.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - var (not optional): np.ndarray</span>
+<span class="sd">            The field whose gradient is calculated (e.g., &#39;rho&#39;, &#39;vx1&#39;). Must</span>
+<span class="sd">            have the same shape as self.rho.</span>
+<span class="sd">        - x1slice: float | None, default None</span>
+<span class="sd">            If not None, specifies the constant value for the x1 axis.</span>
+<span class="sd">        - x2slice: float | None, default None</span>
+<span class="sd">            If not None, specifies the constant value for the x2 axis.</span>
+<span class="sd">        - x3slice: float | None, default None</span>
+<span class="sd">            If not None, specifies the constant value for the x3 axis.</span>
+<span class="sd">        - edge_order: int | None, default 2</span>
+<span class="sd">            The order of accuracy of derivatives at the domain boundaries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - np.ndarray</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: Compute the gradient of the density field</span>
+
+<span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
+<span class="sd">            &gt;&gt;&gt; D = pp.Load(0)</span>
+<span class="sd">            &gt;&gt;&gt; D.gradient(D.rho)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># If the geometry is not defined raise an error</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;UNKNOWN&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown geometry nabla cannot be computed!&quot;</span><span class="p">)</span>
+
+        <span class="c1"># if self.geom == &#39;CYLINDRICAL&#39;:</span>
+        <span class="c1">#    self._warning_cylindrical()</span>
+
+        <span class="c1"># Unpack the slice values and grids into tuples</span>
+        <span class="n">slices</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">x1slice</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx1</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">x2slice</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">x3slice</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx3</span><span class="p">),</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Process each slice and store the results</span>
+        <span class="n">indices</span><span class="p">,</span> <span class="n">ranges</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span>
+            <span class="o">*</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_slice_indices</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">slices</span><span class="p">],</span>
+            <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Unpack the results back into individual variables</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">indices</span>
+        <span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span> <span class="o">=</span> <span class="n">ranges</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">grad</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;SPHERICAL&quot;</span><span class="p">,</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">]:</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="n">rr</span>
+
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">grad</span><span class="p">)[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                    <span class="n">var</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">krange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                    <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                    <span class="n">rr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                        <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">grad</span><span class="p">)[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
+
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
+                <span class="n">xx1</span><span class="p">,</span> <span class="n">xx2</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">grad</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="n">xx1</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                    <span class="n">grad</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/=</span> <span class="n">xx1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xx2</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">grad</span><span class="p">)[:,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="NablaManager.divergence">
+<a class="viewcode-back" href="../../../divergence.html#pyPLUTO.toolfuncs.nabla.NablaManager.divergence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">divergence</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">v1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">v2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">v3</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x1slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x2slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the divergence of a vector field.</span>
+
+<span class="sd">        The divergence is specified by its</span>
+<span class="sd">        components v1, v2, and v3 using second-order accurate central</span>
+<span class="sd">        differences via the NumPy gradient() function. If &#39;x1slice&#39;,</span>
+<span class="sd">        &#39;x2slice&#39;, or &#39;x3slice&#39; are specified, the divergence is only</span>
+<span class="sd">        computed at the corresponding x1, x2, or x3 values.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - v1: np.ndarray | None</span>
+<span class="sd">            Field corresponding to the x1 vector component. Must have the same</span>
+<span class="sd">            shape as self.rho. Can only be None is a given direction is not</span>
+<span class="sd">            used.</span>
+<span class="sd">        - v2: np.ndarray | None</span>
+<span class="sd">            Field corresponding to the x2 vector component. Must have the same</span>
+<span class="sd">            shape as self.rho. Can only be None is a given direction is not</span>
+<span class="sd">            used.</span>
+<span class="sd">        - v3: np.ndarray | None</span>
+<span class="sd">            Field corresponding to the x3 vector component. Must have the same</span>
+<span class="sd">            shape as self.rho. Can only be None is a given direction is not</span>
+<span class="sd">            used.</span>
+<span class="sd">        - x1slice: float | None</span>
+<span class="sd">            If not None, specifies the constant value for the x1 axis.</span>
+<span class="sd">        - x2slice: float | None</span>
+<span class="sd">            If not None, specifies the constant value for the x2 axis.</span>
+<span class="sd">        - x3slice: float | None</span>
+<span class="sd">            If not None, specifies the constant value for the x3 axis.</span>
+<span class="sd">        - edge_order: int, default 2</span>
+<span class="sd">            The order of accuracy of derivatives at the domain boundaries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - np.ndarray</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: Calculate the divergence of a vector field</span>
+
+<span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
+<span class="sd">            &gt;&gt;&gt; D = pp.Load()</span>
+<span class="sd">            &gt;&gt;&gt; D.divergence(D.vx1, D.vx2, D.vx3)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;CYLINDRICAL&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_warning_cylindrical</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_number</span><span class="p">(</span><span class="n">x1slice</span><span class="p">):</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">imin</span><span class="p">,</span> <span class="n">imax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_islice_imin_imax</span><span class="p">(</span><span class="n">x1slice</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span>
+            <span class="n">irange</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">imin</span><span class="p">,</span> <span class="n">imax</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx1</span><span class="p">)</span>
+            <span class="n">irange</span> <span class="o">=</span> <span class="n">i</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_number</span><span class="p">(</span><span class="n">x2slice</span><span class="p">):</span>
+            <span class="n">j</span><span class="p">,</span> <span class="n">jmin</span><span class="p">,</span> <span class="n">jmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_islice_imin_imax</span><span class="p">(</span><span class="n">x2slice</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span>
+            <span class="n">jrange</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">jmin</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span><span class="p">)</span>
+            <span class="n">jrange</span> <span class="o">=</span> <span class="n">j</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_number</span><span class="p">(</span><span class="n">x3slice</span><span class="p">):</span>
+            <span class="n">k</span><span class="p">,</span> <span class="n">kmin</span><span class="p">,</span> <span class="n">kmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_islice_imin_imax</span><span class="p">(</span><span class="n">x3slice</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">)</span>
+            <span class="n">krange</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">kmin</span><span class="p">,</span> <span class="n">kmax</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx3</span><span class="p">)</span>
+            <span class="n">krange</span> <span class="o">=</span> <span class="n">k</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">])</span>
+
+            <span class="n">rr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;POLAR&quot;</span><span class="p">,</span> <span class="s2">&quot;CYLINDRICAL&quot;</span><span class="p">]:</span>
+                <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
+
+            <span class="n">div1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">rr</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;POLAR&quot;</span><span class="p">,</span> <span class="s2">&quot;CYLINDRICAL&quot;</span><span class="p">]:</span>
+                <span class="n">div1</span> <span class="o">/=</span> <span class="n">rr</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                <span class="n">div1</span> <span class="o">/=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
+
+            <span class="k">return</span> <span class="n">div1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">])</span>
+            <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;POLAR&quot;</span><span class="p">,</span> <span class="s2">&quot;CYLINDRICAL&quot;</span><span class="p">]:</span>
+                    <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                    <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
+                    <span class="n">var2</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+
+            <span class="n">div1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var1</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">div2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var2</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;POLAR&quot;</span><span class="p">,</span> <span class="s2">&quot;CYLINDRICAL&quot;</span><span class="p">]:</span>
+                <span class="n">div1</span> <span class="o">/=</span> <span class="n">rr</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                    <span class="n">div2</span> <span class="o">/=</span> <span class="n">rr</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                <span class="n">div1</span> <span class="o">/=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
+                <span class="n">div2</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">div1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">div2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+                <span class="n">var3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v3</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
+                    <span class="n">rr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                        <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                        <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span>
+                    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                        <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
+
+                <span class="n">div1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                    <span class="n">var1</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">div3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                    <span class="n">var3</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                    <span class="n">div1</span> <span class="o">/=</span> <span class="n">rr</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                    <span class="n">div1</span> <span class="o">/=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
+                    <span class="n">div3</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+                <span class="k">return</span> <span class="n">div1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">div3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
+
+            <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+            <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+            <span class="n">var3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v3</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">tt</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                    <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                    <span class="n">var1</span> <span class="o">*=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
+                    <span class="n">var2</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+
+            <span class="n">div1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var1</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">div2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var2</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">div3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var3</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                <span class="n">div1</span> <span class="o">/=</span> <span class="n">rr</span>
+                <span class="n">div2</span> <span class="o">/=</span> <span class="n">rr</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                <span class="n">div1</span> <span class="o">/=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span>
+                <span class="n">div2</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+                <span class="n">div3</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">div1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">div2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">div3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="NablaManager.curl">
+<a class="viewcode-back" href="../../../curl.html#pyPLUTO.toolfuncs.nabla.NablaManager.curl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">curl</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">v1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">v2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">v3</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x1slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x2slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the curl of a specified vector field (v1, v2, v3).</span>
+
+<span class="sd">        Uses second-order accurate central differences via the NumPy</span>
+<span class="sd">        gradient() function. Unlike in divergence(), all three vector</span>
+<span class="sd">        components must be specified. The resulting array has its first</span>
+<span class="sd">        index representing the 3 curl components, while the remaining</span>
+<span class="sd">        indices correspond to the grid location. If &#39;x1slice&#39;, &#39;x2slice&#39;, or</span>
+<span class="sd">        &#39;x3slice&#39; are specified, the curl is only computed at the</span>
+<span class="sd">        corresponding x1, x2, or x3 values.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - v1: np.ndarray | None</span>
+<span class="sd">            Field corresponding to the x1 vector component.</span>
+<span class="sd">            Must have the same shape as self.rho.</span>
+<span class="sd">        - v2: np.ndarray | None</span>
+<span class="sd">            Field corresponding to the x2 vector component.</span>
+<span class="sd">            Must have the same shape as self.rho.</span>
+<span class="sd">        - v3: np.ndarray | None</span>
+<span class="sd">            Field corresponding to the x3 vector component.</span>
+<span class="sd">            Must have the same shape as self.rho.</span>
+<span class="sd">        - x1slice: float | None</span>
+<span class="sd">            If not None, specifies the constant value for the x1 axis.</span>
+<span class="sd">        - x2slice: float | None</span>
+<span class="sd">            If not None, specifies the constant value for the x2 axis.</span>
+<span class="sd">        - x3slice: float | None</span>
+<span class="sd">            If not None, specifies the constant value for the x3 axis.</span>
+<span class="sd">        - edge_order: int, default 2</span>
+<span class="sd">            The order of accuracy of derivatives at the domain boundaries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - np.ndarray</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: Calculate the curl of a vector field</span>
+
+<span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
+<span class="sd">            &gt;&gt;&gt; D = pp.Load()</span>
+<span class="sd">            &gt;&gt;&gt; D.curl(D.vx1, D.vx2, D.vx3)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;CYLINDRICAL&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_warning_cylindrical</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_number</span><span class="p">(</span><span class="n">x1slice</span><span class="p">):</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">imin</span><span class="p">,</span> <span class="n">imax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_islice_imin_imax</span><span class="p">(</span><span class="n">x1slice</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span>
+            <span class="n">irange</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">imin</span><span class="p">,</span> <span class="n">imax</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx1</span><span class="p">)</span>
+            <span class="n">irange</span> <span class="o">=</span> <span class="n">i</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_number</span><span class="p">(</span><span class="n">x2slice</span><span class="p">):</span>
+            <span class="n">j</span><span class="p">,</span> <span class="n">jmin</span><span class="p">,</span> <span class="n">jmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_islice_imin_imax</span><span class="p">(</span><span class="n">x2slice</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span>
+            <span class="n">jrange</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">jmin</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span><span class="p">)</span>
+            <span class="n">jrange</span> <span class="o">=</span> <span class="n">j</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_number</span><span class="p">(</span><span class="n">x3slice</span><span class="p">):</span>
+            <span class="n">k</span><span class="p">,</span> <span class="n">kmin</span><span class="p">,</span> <span class="n">kmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_islice_imin_imax</span><span class="p">(</span><span class="n">x3slice</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">)</span>
+            <span class="n">krange</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">kmin</span><span class="p">,</span> <span class="n">kmax</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx3</span><span class="p">)</span>
+            <span class="n">krange</span> <span class="o">=</span> <span class="n">k</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;curl() requires DIMENSION &gt;= 2&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">])</span>
+            <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">])</span>
+            <span class="n">var3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v3</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                    <span class="n">var2</span> <span class="o">*=</span> <span class="n">rr</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="ow">in</span> <span class="s2">&quot;CYLINDRICAL&quot;</span><span class="p">:</span>
+                    <span class="n">var3</span> <span class="o">*=</span> <span class="n">rr</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                    <span class="n">var2</span> <span class="o">*=</span> <span class="n">rr</span>
+                    <span class="n">var3</span> <span class="o">*=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+
+            <span class="n">dv1_dx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">)</span>
+            <span class="n">dv2_dx1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">var2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">)</span>
+            <span class="n">dv3_dx1</span><span class="p">,</span> <span class="n">dv3_dx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var3</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">curl1</span> <span class="o">=</span> <span class="n">dv3_dx2</span>
+            <span class="n">curl2</span> <span class="o">=</span> <span class="o">-</span><span class="n">dv3_dx1</span>
+            <span class="n">curl3</span> <span class="o">=</span> <span class="n">dv2_dx1</span> <span class="o">-</span> <span class="n">dv1_dx2</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;CYLINDRICAL&quot;</span><span class="p">:</span>
+                <span class="n">curl1</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">curl2</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">curl3</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                <span class="n">curl1</span> <span class="o">/=</span> <span class="n">rr</span>
+                <span class="n">curl3</span> <span class="o">/=</span> <span class="n">rr</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;CYLINDRICAL&quot;</span><span class="p">:</span>
+                <span class="n">curl1</span> <span class="o">/=</span> <span class="n">rr</span>
+                <span class="n">curl2</span> <span class="o">/=</span> <span class="n">rr</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                <span class="n">curl1</span> <span class="o">/=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+                <span class="n">curl2</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+                <span class="n">curl3</span> <span class="o">/=</span> <span class="n">rr</span>
+
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">curl1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">curl2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">curl3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]])</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nx2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+                <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+                <span class="n">var3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v3</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
+                    <span class="n">rr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                        <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                        <span class="n">var2</span> <span class="o">*=</span> <span class="n">rr</span>
+                    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                        <span class="n">var2</span> <span class="o">*=</span> <span class="n">rr</span>
+                        <span class="n">var3</span> <span class="o">*=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+                <span class="n">dv1_dx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                    <span class="n">var1</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">dv2_dx1</span><span class="p">,</span> <span class="n">dv2_dx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                    <span class="n">var2</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span>
+                    <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">dv3_dx1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                    <span class="n">var3</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="n">curl1</span> <span class="o">=</span> <span class="o">-</span><span class="n">dv2_dx3</span>
+                <span class="n">curl2</span> <span class="o">=</span> <span class="n">dv1_dx3</span> <span class="o">-</span> <span class="n">dv3_dx1</span>
+                <span class="n">curl3</span> <span class="o">=</span> <span class="n">dv2_dx1</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                    <span class="n">curl1</span> <span class="o">/=</span> <span class="n">rr</span>
+                    <span class="n">curl3</span> <span class="o">/=</span> <span class="n">rr</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                    <span class="n">curl1</span> <span class="o">/=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">curl2</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">curl3</span> <span class="o">/=</span> <span class="n">rr</span>
+
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">curl1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">curl2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">curl3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]])</span>
+
+            <span class="n">var1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v1</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+            <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v2</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+            <span class="n">var3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">v3</span><span class="p">[</span><span class="n">irange</span><span class="p">,</span> <span class="n">jrange</span><span class="p">,</span> <span class="n">krange</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span><span class="p">:</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">tt</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">irange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">jrange</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">[</span><span class="n">krange</span><span class="p">],</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                    <span class="n">var2</span> <span class="o">*=</span> <span class="n">rr</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                    <span class="n">var2</span> <span class="o">*=</span> <span class="n">rr</span>
+                    <span class="n">var3</span> <span class="o">*=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+
+            <span class="n">dv1_dx2</span><span class="p">,</span> <span class="n">dv1_dx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var1</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span>
+                <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">dv2_dx1</span><span class="p">,</span> <span class="n">dv2_dx3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var2</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x3</span><span class="p">,</span>
+                <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">dv3_dx1</span><span class="p">,</span> <span class="n">dv3_dx2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
+                <span class="n">var3</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span>
+                <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="n">edge_order</span><span class="o">=</span><span class="n">edge_order</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">curl1</span> <span class="o">=</span> <span class="n">dv3_dx2</span> <span class="o">-</span> <span class="n">dv2_dx3</span>
+            <span class="n">curl2</span> <span class="o">=</span> <span class="n">dv1_dx3</span> <span class="o">-</span> <span class="n">dv3_dx1</span>
+            <span class="n">curl3</span> <span class="o">=</span> <span class="n">dv2_dx1</span> <span class="o">-</span> <span class="n">dv1_dx2</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;POLAR&quot;</span><span class="p">:</span>
+                <span class="n">curl1</span> <span class="o">/=</span> <span class="n">rr</span>
+                <span class="n">curl3</span> <span class="o">/=</span> <span class="n">rr</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">==</span> <span class="s2">&quot;SPHERICAL&quot;</span><span class="p">:</span>
+                <span class="n">curl1</span> <span class="o">/=</span> <span class="n">rr</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+                <span class="n">curl2</span> <span class="o">/=</span> <span class="n">rr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+                <span class="n">curl3</span> <span class="o">/=</span> <span class="n">rr</span>
+
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">curl1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">curl2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">curl3</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]],</span>
+            <span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

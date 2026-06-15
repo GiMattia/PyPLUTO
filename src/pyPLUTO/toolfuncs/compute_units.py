@@ -24,6 +24,9 @@ class UnitManager(BaseLoadMixin):
         """Read normalization scales from PLUTO log text headers.
 
         Takes the first number on each row (CGS value).
+        Supports two log formats:
+        - Section-based: ``Normalization Units:`` block with ``[Name]: VALUE``
+        - Inline: ``unit density: VALUE`` lines in the header configuration
         """
         pathdir = Path(getattr(self.state, "pathdir", "."))
         candidates = [pathdir / "pluto.0.log"]
@@ -38,10 +41,19 @@ class UnitManager(BaseLoadMixin):
             "Time": "UNIT_TIME",
             "Mag Field": "UNIT_MAGFIELD",
         }
+        inline_field_map = {
+            "density": "UNIT_DENSITY",
+            "length": "UNIT_LENGTH",
+            "velocity": "UNIT_VELOCITY",
+            "time": "UNIT_TIME",
+            "pressure": "UNIT_PRESSURE",
+            "temperature": "UNIT_TEMPERATURE",
+        }
         parsed: dict[str, float] = {}
         num_re = re.compile(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?")
         section_re = re.compile(r"^\s*(?:>)?\s*Normalization\s+Units\s*:\s*$")
         row_re = re.compile(r"^\s*\[(?P<name>[^\]]+)\]\s*:\s*(?P<rest>.+)$")
+        inline_re = re.compile(r"^\s*unit\s+(?P<name>\w+)\s*:\s*(?P<rest>.+)$")
 
         for filepath in candidates:
             if not filepath.exists() or not filepath.is_file():
@@ -77,6 +89,21 @@ class UnitManager(BaseLoadMixin):
                     continue
                 found_row = True
                 parsed[field_map[name]] = float(num_match.group(0))
+
+            if not parsed:
+                for line in lines:
+                    m = inline_re.match(line)
+                    if not m:
+                        continue
+                    name = m.group("name").strip().lower()
+                    if name not in inline_field_map:
+                        continue
+                    num_match = num_re.search(m.group("rest"))
+                    if num_match is None:
+                        continue
+                    val = float(num_match.group(0))
+                    if val != 0.0:
+                        parsed[inline_field_map[name]] = val
 
             if parsed:
                 break
@@ -157,7 +184,7 @@ class UnitManager(BaseLoadMixin):
         l0 = scales.get("UNIT_LENGTH", 1.0)
         v0 = scales.get("UNIT_VELOCITY", 1.0)
 
-        if "UNIT_TIME" not in scales:
+        if not scales.get("UNIT_TIME"):
             scales["UNIT_TIME"] = l0 / v0
         if "UNIT_PRESSURE" not in scales:
             scales["UNIT_PRESSURE"] = rho0 * v0**2

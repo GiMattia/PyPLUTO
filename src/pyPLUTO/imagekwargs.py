@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from typing import Literal, TypedDict
 
 import numpy as np
@@ -211,6 +211,31 @@ class ScatterKwargs(Base2DplotKwargs, LegendKwargs, total=False):
     """Keyword arguments for creating scatter plots."""
 
     edgecolors: str | Sequence[str]
+
+
+class VolumeKwargs(Base2DplotKwargs, total=False):
+    """Keyword arguments for volume rendering of a 3D Cartesian field."""
+
+    x3: np.ndarray
+    opacity: str | tuple | Callable[[np.ndarray], np.ndarray]
+    opacity_scale: float
+    mode: Literal["composite", "mip", "average"]
+    samples: int
+    resolution: int | tuple[int, int]
+    preview_resolution: int
+    preview_samples: int
+    background: str | tuple[float, float, float, float] | None
+    gamma: float
+    lut_size: int
+    margin: float
+    interactive: bool
+    triad: bool
+    colorbar: bool
+    show_grid: bool
+    set_orthographic: bool
+    elev: float
+    azim: float
+    roll: float
 
 
 class ZoomKwargs(DisplayKwargs, total=False):

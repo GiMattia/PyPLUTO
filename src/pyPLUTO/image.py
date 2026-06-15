@@ -25,6 +25,8 @@ from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.scatter import ScatterManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
 from pyPLUTO.imagefuncs.streamplot import StreamplotManager
+from pyPLUTO.imagefuncs.volengine import MPLVolumeRenderer
+from pyPLUTO.imagefuncs.volume import VolumeManager
 from pyPLUTO.imagefuncs.zoom import ZoomManager
 from pyPLUTO.imagekwargs import (
     ColorbarKwargs,
@@ -38,6 +40,7 @@ from pyPLUTO.imagekwargs import (
     SetAxisKwargs,
     StreamplotKwargs,
     TextKwargs,
+    VolumeKwargs,
     ZoomKwargs,
 )
 from pyPLUTO.imagemixin import ImageMixin
@@ -177,6 +180,7 @@ class Image(ImageMixin):
         self.RangeManager = RangeManager(self.state)
         self.ScatterManager = ScatterManager(self.state)
         self.StreamplotManager = StreamplotManager(self.state)
+        self.VolumeManager = VolumeManager(self.state)
         self.ZoomManager = ZoomManager(self.state)
 
         if text is not False:
@@ -466,6 +470,23 @@ class Image(ImageMixin):
         )
 
     text.__doc__ = ImageToolsManager.text.__doc__
+
+    def volume(
+        self,
+        var: np.ndarray,
+        ax: Axes | int | None = None,
+        _check: bool = True,
+        **kwargs: Unpack[VolumeKwargs],
+    ) -> MPLVolumeRenderer:
+        """Volume method."""
+        return self.VolumeManager.volume(
+            var,
+            ax,
+            _check=_check,
+            **kwargs,
+        )
+
+    volume.__doc__ = VolumeManager.volume.__doc__
 
     def zoom(
         self,

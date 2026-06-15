@@ -28,6 +28,7 @@ dependencies = [
     "numexpr>=2.10.0",
     "h5py>=3.11.0",
     "inifix>=7.0.0",
+    "marimo>=0.23.9",
 ]
 
 [project.optional-dependencies]
@@ -100,6 +101,7 @@ local-dev = [
 [project.scripts]
 pypluto-gui = "pyPLUTO.gui.main:main"
 pypluto-examples = "pyPLUTO.utils.examples_cli:main"
+pluto-config = "pyPLUTO.configfuncs.main:main"
 
 [tool.flit.module]
 name = "pyPLUTO"

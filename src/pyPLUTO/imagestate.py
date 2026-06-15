@@ -42,5 +42,6 @@ class ImageState:
     tickspar: list[Any | int] = field(default_factory=list)
     tight: bool = True
     vlims: list[list[float]] = field(default_factory=list)
+    volumes: list[Any] = field(default_factory=list)
     xscale: list[str] = field(default_factory=list)
     yscale: list[str] = field(default_factory=list)

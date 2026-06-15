@@ -85,6 +85,41 @@ def test_unknown_unit_explicit_raises():
         D.to_astropy_units("foo")
 
 
+def test_units_inline_log_format(tmp_path):
+    """Parse the compact 'unit density: VALUE' format emitted by some PLUTO versions."""
+    pytest.importorskip("astropy.units")
+    log_text = """\
+> Header configuration:
+
+  unit density:     1.672622e-24
+  unit length:      1.495979e+13
+  unit velocity:    2.997925e+10
+  unit time:        0.000000e+00
+"""
+    (tmp_path / "pluto.log").write_text(log_text, encoding="utf-8")
+
+    state = SimpleNamespace(
+        defh={},
+        pathdir=tmp_path,
+        unit_base={},
+        unit_attached=set(),
+        units={},
+    )
+    manager = UnitManager(state)
+    units = manager._make_units_dict()
+
+    assert state.unit_base["UNIT_DENSITY"] == pytest.approx(1.672622e-24)
+    assert state.unit_base["UNIT_LENGTH"] == pytest.approx(1.495979e13)
+    assert state.unit_base["UNIT_VELOCITY"] == pytest.approx(2.997925e10)
+    # unit time = 0 in log → derived as l0 / v0
+    assert state.unit_base["UNIT_TIME"] == pytest.approx(
+        1.495979e13 / 2.997925e10
+    )
+    assert units["rho"].value == pytest.approx(1.672622e-24)
+    assert units["vx1"].value == pytest.approx(2.997925e10)
+    assert units["x1"].value == pytest.approx(1.495979e13)
+
+
 def test_units_fallback_from_log_normalization(tmp_path):
     pytest.importorskip("astropy.units")
     log_text = """

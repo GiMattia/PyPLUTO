@@ -26,7 +26,7 @@ jobs:
         run: uv sync --group dev
 
       - name: Install pixi
-        uses: prefix-dev/setup-pixi@v0.9.5
+        uses: prefix-dev/setup-pixi@v0.9.6
 
       - name: Check pixi lock consistency
         run: pixi lock --check

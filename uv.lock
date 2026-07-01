@@ -1695,7 +1695,7 @@ wheels = [
 
 [[package]]
 name = "py-pluto"
-version = "1.2.2"
+version = "1.2.4"
 source = { editable = "." }
 dependencies = [
     { name = "astropy" },

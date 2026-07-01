@@ -329,6 +329,7 @@ class AxisManager(ImageMixin):
             ax.grid(True, axis=grid)
 
         # Reinforces the tight_layout if needed
+        self.state.tight = kwargs.get("tight", self.state.tight)
         if self.state.tight is not False and self.state.fig is not None:
             self.state.fig.tight_layout()
 

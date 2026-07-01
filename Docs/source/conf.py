@@ -4,11 +4,11 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
+import sys
+from importlib.metadata import version as _pkg_version
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here.
-import sys
-
 sys.path.insert(0, os.path.abspath("../../Src/pyPLUTO/"))
 
 # -- Project information -----------------------------------------------------
@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath("../../Src/pyPLUTO/"))
 project: str = "PyPLUTO"
 copyright: str = "2025, G. Mattia, D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya"
 author: str = "G. Mattia D. Crocco, D. Melon Fuksman, M. Bugli, V. Berta, E. Puzzoni, A. Mignone, B, Vaidya"
-release: str = "1.1.1"
+release: str = _pkg_version("py-pluto")
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

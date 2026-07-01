@@ -139,20 +139,6 @@ class UnitManager(BaseLoadMixin):
             units[key] = float(val)
         return units
 
-    def _units_from_defh(self) -> dict[str, float]:
-        """Read unit scales stored directly in state.defh as UNIT_* keys."""
-        defh = getattr(self.state, "defh", {}) or {}
-        all_keys = (
-            "UNIT_DENSITY",
-            "UNIT_LENGTH",
-            "UNIT_VELOCITY",
-            "UNIT_PRESSURE",
-            "UNIT_TIME",
-            "UNIT_TEMPERATURE",
-            "UNIT_MAGFIELD",
-        )
-        return {key: float(defh[key]) for key in all_keys if key in defh}
-
     def _physics_defaults(self, physics: str) -> dict[str, float]:
         """Return placeholder base scales for the given PHYSICS module."""
         _dispatch: dict[str, dict[str, float]] = {}
@@ -196,13 +182,12 @@ class UnitManager(BaseLoadMixin):
     def _resolve_base_scales(self) -> dict[str, float]:
         """Build the full set of unit scales via the priority chain.
 
-        Priority: user-defined → log → defh → physics module → classical MHD.
+        Priority: user-defined → log → physics module → classical MHD.
         Any units not supplied by higher-priority sources are derived from the
         three base scales (rho0, l0, v0).
         """
         user_units = self._units_from_userdef()
         log_units = self._units_from_log()
-        defh_units = self._units_from_defh()
 
         physics = str(
             (getattr(self.state, "defh", {}) or {}).get("PHYSICS", ""),
@@ -210,7 +195,7 @@ class UnitManager(BaseLoadMixin):
         physics_units = self._physics_defaults(physics) if physics else {}
 
         resolved: dict[str, float] = {}
-        for source in (user_units, log_units, defh_units, physics_units):
+        for source in (user_units, log_units, physics_units):
             for key, val in source.items():
                 if key not in resolved:
                     resolved[key] = val

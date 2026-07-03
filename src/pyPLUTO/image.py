@@ -17,6 +17,7 @@ from pyPLUTO.imagefuncs.contour import ContourManager
 from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
 from pyPLUTO.imagefuncs.display import DisplayManager
 from pyPLUTO.imagefuncs.figure import FigureManager
+from pyPLUTO.imagefuncs.gridplot import GridPlotManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.interactive import InteractiveManager
 from pyPLUTO.imagefuncs.legend import LegendManager
@@ -45,6 +46,7 @@ from pyPLUTO.imagekwargs import (
 )
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
+from pyPLUTO.load import Load
 from pyPLUTO.utils.configure import set_text
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.resolver import AttrResolver
@@ -181,6 +183,7 @@ class Image(ImageMixin):
         self.ScatterManager = ScatterManager(self.state)
         self.StreamplotManager = StreamplotManager(self.state)
         self.VolumeManager = VolumeManager(self.state)
+        self.GridPlotManager = GridPlotManager(self.state)
         self.ZoomManager = ZoomManager(self.state)
 
         if text is not False:
@@ -428,6 +431,22 @@ class Image(ImageMixin):
         return self.AxisManager.set_axis(ax=ax, _check=_check, **kwargs)
 
     set_axis.__doc__ = AxisManager.set_axis.__doc__
+
+    def showgrid(
+        self,
+        x1: np.ndarray | None = None,
+        x2: np.ndarray | None = None,
+        data: Load | None = None,
+        geom: str | None = None,
+        ax: Axes | list[Axes] | int | None = None,
+        **kwargs: Any,
+    ) -> None:
+        """Showgrid method."""
+        return self.GridPlotManager.showgrid(
+            x1=x1, x2=x2, data=data, geom=geom, ax=ax, **kwargs
+        )
+
+    showgrid.__doc__ = GridPlotManager.showgrid.__doc__
 
     def streamplot(
         self,

@@ -188,7 +188,10 @@ class PlotManager(ImageMixin):
             and fill the lacks with [0.1].
         - x (not optional): 1D array
             This is the x-axis variable. If y is not defined, then this becomes
-            the y-axis variable.
+            the y-axis variable. Can also be a 2D array to draw multiple lines
+            sharing the same style in a single call: matplotlib treats each
+            column as a separate line (requires y to be 2D too, with the same
+            shape).
         - xlabelpad: float, default 4.0
             The padding between the x-axis label and the axis.
         - xrange: [float, float], default 'Default'
@@ -213,7 +216,7 @@ class PlotManager(ImageMixin):
         - xtresh: float
             The threshold parameter for the x-axis symlog/asinh scale.
         - y: 1D array, default [None]
-            The y-axis variable.
+            The y-axis variable. Can also be a 2D array, see `x`.
         - ylabelpad: float, default 4.0
             The padding between the y-axis label and the axis.
         - yrange: [float, float], default 'Default'

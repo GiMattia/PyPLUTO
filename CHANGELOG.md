@@ -5,6 +5,62 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [Unreleased]
+
+Work in progress on the `3D` branch (`pyproject.toml` version `1.2.4`, not yet
+tagged/released), which diverged from `master` right after `v1.2.1`. Two of
+the fixes below (Qt canvas backend, `set_axis` `tight` handling) were applied
+independently on both `master` (released as `v1.2.2`/`v1.2.3`) and here;
+they will collapse into one history once this branch merges. Per project
+convention, everything below that is not a bug fix is **preliminary** and
+subject to change before release.
+
+### Added (preliminary)
+- Volume rendering: `MPLVolumeRenderer` and the `Image.volume` method (`imagefuncs/volengine.py`, `imagefuncs/volume.py`), with new example scripts and tests
+- GUI: slider-based playback controls for stepping/replaying outputs (`⏮ ◀ ▶ ⏸ ⏩ ⏭`), lock lines, and color pinning
+- `GridPlotManager.showgrid`: new method drawing the cell interfaces of a 2D grid; supports `CARTESIAN`, `POLAR`, `CYLINDRICAL`, and `SPHERICAL` geometries, and draws all lines of each direction with a single `PlotManager.plot` call (instead of one call per line) for a large speedup on dense grids
+- `PlotManager.plot`: documented support for 2D `x`/`y` input to draw multiple lines sharing one style in a single call (the primitive `showgrid`'s fast path relies on)
+- `src/pyPLUTO/template.py`: reference template documenting the State/Kwargs/Mixin/Manager/Facade architecture used to add a new class
+
+### Changed (preliminary)
+- Removed the not-yet-flexible units handling added to `defh` reading in 1.2.0 (partial walkback pending a more general implementation)
+- Updated golden reference images and the example test harness for a newer matplotlib version
+
+### Fixed
+- GUI: Qt canvas now uses `FigureCanvasQTAgg` from `matplotlib.backends.backend_qtagg` instead of an incorrect `backend_qt`/`backend_template` import; added a GUI canvas regression test
+- `set_axis`: the `tight` keyword now updates `self.state.tight` before deciding whether to reinforce `tight_layout()`
+- Particles: fixed bug in `offsetpart.py`
+- `Image.showgrid`/`GridPlotManager.showgrid`: `geom` no longer overrides a `Load`'s actual geometry with a hardcoded `"CARTESIAN"` default when `data` is given; fixed a `Data`/`data` keyword-name mismatch in the `Image` facade that bypassed the explicit `data` parameter
+
+---
+
+## [1.2.3] — 2026-06-11
+
+### Fixed
+- `set_axis`: the `tight` keyword now updates `self.state.tight` before deciding whether to reinforce `tight_layout()`, fixing interactive re-runs that passed `tight=False`
+
+### Changed
+- Documentation build configuration and installation instructions updated
+
+---
+
+## [1.2.2] — 2026-06-09
+
+### Fixed
+- GUI: Qt canvas now uses `FigureCanvasQTAgg` from `matplotlib.backends.backend_qtagg` instead of an incorrect `backend_qt`/`backend_template` import
+
+### Added
+- GUI canvas regression test
+
+---
+
+## [1.2.1] — 2026-06-08
+
+### Changed
+- Updated citation info in `README.md` to point to the published JOSS paper instead of the arXiv preprint
+
+---
+
 ## [1.2.0] — 2026-06-06
 
 ### Added
@@ -128,6 +184,10 @@ Initial public release.
 - Sphinx documentation with worked examples
 - CI on Linux, macOS, Windows across Python 3.11–3.13
 
+[Unreleased]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.3...HEAD
+[1.2.3]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.2...v1.2.3
+[1.2.2]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.1...v1.2.2
+[1.2.1]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/GiMattia/pyPLUTO/compare/v1.1.5...v1.2.0
 [1.1.5]: https://github.com/GiMattia/pyPLUTO/compare/v1.1.4...v1.1.5
 [1.1.4]: https://github.com/GiMattia/pyPLUTO/compare/v1.1.3...v1.1.4

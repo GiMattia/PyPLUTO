@@ -39,6 +39,7 @@ from pyPLUTO.imagekwargs import (
     PlotKwargs,
     ScatterKwargs,
     SetAxisKwargs,
+    ShowGridKwargs,
     StreamplotKwargs,
     TextKwargs,
     VolumeKwargs,
@@ -439,7 +440,7 @@ class Image(ImageMixin):
         data: Load | None = None,
         geom: str | None = None,
         ax: Axes | list[Axes] | int | None = None,
-        **kwargs: Any,
+        **kwargs: Unpack[ShowGridKwargs],
     ) -> None:
         """Showgrid method."""
         return self.GridPlotManager.showgrid(

@@ -153,6 +153,13 @@ class PlotKwargs(LegendKwargs, SetAxisKwargs, total=False):
     """Keyword arguments for plotting."""
 
 
+class ShowGridKwargs(PlotKwargs, total=False):
+    """Keyword arguments for showing grid lines."""
+
+    everyx: int
+    everyy: int
+
+
 class ColorbarKwargs(CreateAxesKwargs, total=False):
     """Keyword arguments for setting colorbars."""
 

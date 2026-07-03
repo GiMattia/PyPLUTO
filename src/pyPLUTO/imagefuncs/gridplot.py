@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Unpack
 
 import numpy as np
 from matplotlib.axes import Axes
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.plot import PlotManager
+from pyPLUTO.imagekwargs import ShowGridKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.load import Load
@@ -80,7 +81,7 @@ class GridPlotManager(ImageMixin):
         data: Load | None = None,
         geom: str | None = None,
         ax: Axes | list[Axes] | int | None = None,
-        **kwargs: Any,
+        **kwargs: Unpack[ShowGridKwargs],
     ) -> None:
         """Draw the grid lines of a mesh on the plot.
 

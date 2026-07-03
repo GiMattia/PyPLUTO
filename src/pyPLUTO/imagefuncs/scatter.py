@@ -339,7 +339,12 @@ class ScatterManager(ImageMixin):
         ):
             marker = raw_marker
         elif isinstance(raw_marker, (list, tuple, np.ndarray)):
-            marker = raw_marker[0] if len(raw_marker) > 0 else None
+            marker = (
+                raw_marker[0]
+                if len(raw_marker) > 0
+                and isinstance(raw_marker[0], (str, Path, MarkerStyle))
+                else None
+            )
         else:
             marker = "o"
 

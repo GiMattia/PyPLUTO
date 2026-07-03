@@ -291,9 +291,9 @@ class DisplayManager(ImageMixin):
 
         # Keywords xrange and yrange
         if not kwargs.get("xrange") and self.setax[nax] != 1:
-            kwargs["xrange"] = [x.min(), x.max()]
+            kwargs["xrange"] = [float(x.min()), float(x.max())]
         if not kwargs.get("yrange") and self.setay[nax] != 1:
-            kwargs["yrange"] = [y.min(), y.max()]
+            kwargs["yrange"] = [float(y.min()), float(y.max())]
         # Set ax parameters
         self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)

@@ -158,7 +158,7 @@ class StorePart(BaseLoadMixin):
             if self.state.datatype == "vtk":
                 # VTK stores id as int32 bits inside a float-typed field;
                 # view() reinterprets the bytes in-place — zero copy, no fault.
-                return arr_np.view(">i4")
+                return arr_np.view(np.dtype(">i4"))
             # Binary: id is a float field whose VALUES are integer IDs (1.0,
             # 2.0, …).  astype() would stride through every interleaved row and
             # fault the entire file into RSS at load time.  Return the

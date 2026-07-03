@@ -7,6 +7,7 @@ from typing import Any
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from matplotlib.typing import LegendLocType
 
 from pyPLUTO.imagestate import ImageState
 
@@ -100,12 +101,12 @@ class ImageMixin:
         self.state.legpar = value
 
     @property
-    def legpos(self) -> list[int | str | None]:
+    def legpos(self) -> list[LegendLocType | None]:
         """Get the legpos attribute of the image."""
         return self.state.legpos
 
     @legpos.setter
-    def legpos(self, value: list[int | str | None]) -> None:
+    def legpos(self, value: list[LegendLocType | None]) -> None:
         """Set the legpos attribute of the image."""
         self.state.legpos = value
 

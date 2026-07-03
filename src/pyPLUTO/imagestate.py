@@ -8,6 +8,7 @@ from typing import Any
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from matplotlib.typing import LegendLocType
 
 
 @dataclass
@@ -28,7 +29,7 @@ class ImageState:
     fontsize: float = 17
     LaTeX: bool | str = True
     legpar: list[list[float]] = field(default_factory=list)
-    legpos: list[int | str | None] = field(default_factory=list)
+    legpos: list[LegendLocType | None] = field(default_factory=list)
     ncol0: int = 0
     nline: list[int] = field(default_factory=list)
     nrow0: int = 0

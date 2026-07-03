@@ -9,7 +9,12 @@ import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.colors import Colormap
 from matplotlib.figure import Figure
-from matplotlib.typing import ColorType, LineStyleType, MarkerType
+from matplotlib.typing import (
+    ColorType,
+    LegendLocType,
+    LineStyleType,
+    MarkerType,
+)
 from numpy.typing import ArrayLike
 
 
@@ -139,7 +144,7 @@ class LegendKwargs(CreateAxesKwargs, total=False):
     label: str | Sequence[str] | None
     legalpha: float
     legcols: int
-    legpos: str | int | None
+    legpos: LegendLocType | None
     legsize: float
     legspace: float
     ls: str | Sequence[str | LineStyleType] | LineStyleType

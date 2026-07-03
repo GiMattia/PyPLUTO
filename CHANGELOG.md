@@ -28,6 +28,7 @@ subject to change before release.
 
 ### Fixed
 - GUI: Qt canvas now uses `FigureCanvasQTAgg` from `matplotlib.backends.backend_qtagg` instead of an incorrect `backend_qt`/`backend_template` import; added a GUI canvas regression test
+- `Tests/test_gui_canvas.py`: read source files as UTF-8 explicitly, fixing a `UnicodeDecodeError` on the Windows CI runner (default `cp1252` locale encoding could not decode the playback-control glyphs in `main_window.py`)
 - `set_axis`: the `tight` keyword now updates `self.state.tight` before deciding whether to reinforce `tight_layout()`
 - Particles: fixed bug in `offsetpart.py`
 - `Image.showgrid`/`GridPlotManager.showgrid`: `geom` no longer overrides a `Load`'s actual geometry with a hardcoded `"CARTESIAN"` default when `data` is given; fixed a `Data`/`data` keyword-name mismatch in the `Image` facade that bypassed the explicit `data` parameter

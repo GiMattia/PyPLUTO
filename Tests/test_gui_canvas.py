@@ -7,7 +7,7 @@ from pathlib import Path
 def _source(module: str) -> str:
     spec = importlib.util.find_spec(module)
     assert spec is not None and spec.origin is not None
-    return Path(spec.origin).read_text()
+    return Path(spec.origin).read_text(encoding="utf-8")
 
 
 def test_plot_controller_canvas_uses_qtagg():

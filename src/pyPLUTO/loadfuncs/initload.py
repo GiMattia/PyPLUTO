@@ -135,6 +135,14 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
             typed_value = cast("np.ndarray", value)
             setattr(self.state, str(key), typed_value)
 
+        # Load metric file if present (GRMHD, time-independent)
+        if isinstance(state, LoadState):
+            metric_path = self.state.pathdir / "metric.out"
+            if metric_path.exists():
+                from pyPLUTO.loadfuncs.readmetricfile import ReadMetricManager
+
+                ReadMetricManager(state).read_metric(str(metric_path))
+
         if (
             isinstance(self.state.ntimelist, np.ndarray)
             and len(self.state.ntimelist) == 1

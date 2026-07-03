@@ -9,6 +9,7 @@ from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.loadfuncs.offsetfluid import OffsetFluid
 from pyPLUTO.loadfuncs.offsetpart import OffsetPart
 from pyPLUTO.loadfuncs.readgridfile import GridFileManager
+from pyPLUTO.loadfuncs.readmetricfile import ReadMetricManager
 from pyPLUTO.loadfuncs.readtab import ReadtabManager
 from pyPLUTO.loadstate import LoadState
 
@@ -23,6 +24,7 @@ class OffsetData(BaseLoadMixin[BaseLoadState]):
             self.GridFileManager = GridFileManager(state)
             self.FluidOffsetclass = OffsetFluid(state)
             self.ReadtabManager = ReadtabManager(state)
+            self.ReadMetricManager = ReadMetricManager(state)
         else:
             self.PartOffsetclass = OffsetPart(state)
 

@@ -395,3 +395,103 @@ class LoadMixin(BaseLoadMixin[LoadState]):
     def x3t(self, value: np.ndarray) -> None:
         """Set the x3t attribute of the load state."""
         self.state.x3t = value
+
+    @property
+    def alpha(self) -> np.ndarray:
+        """Get the alpha attribute of the load state."""
+        return self.state.alpha
+
+    @alpha.setter
+    def alpha(self, value: np.ndarray) -> None:
+        """Set the alpha attribute of the load state."""
+        self.state.alpha = value
+
+    @property
+    def shift1(self) -> np.ndarray:
+        """Get the shift1 attribute of the load state."""
+        return self.state.shift1
+
+    @shift1.setter
+    def shift1(self, value: np.ndarray) -> None:
+        """Set the shift1 attribute of the load state."""
+        self.state.shift1 = value
+
+    @property
+    def shift2(self) -> np.ndarray:
+        """Get the shift2 attribute of the load state."""
+        return self.state.shift2
+
+    @shift2.setter
+    def shift2(self, value: np.ndarray) -> None:
+        """Set the shift2 attribute of the load state."""
+        self.state.shift2 = value
+
+    @property
+    def shift3(self) -> np.ndarray:
+        """Get the shift3 attribute of the load state."""
+        return self.state.shift3
+
+    @shift3.setter
+    def shift3(self, value: np.ndarray) -> None:
+        """Set the shift3 attribute of the load state."""
+        self.state.shift3 = value
+
+    @property
+    def gcov11(self) -> np.ndarray:
+        """Get the gcov11 attribute of the load state."""
+        return self.state.gcov11
+
+    @gcov11.setter
+    def gcov11(self, value: np.ndarray) -> None:
+        """Set the gcov11 attribute of the load state."""
+        self.state.gcov11 = value
+
+    @property
+    def gcov22(self) -> np.ndarray:
+        """Get the gcov22 attribute of the load state."""
+        return self.state.gcov22
+
+    @gcov22.setter
+    def gcov11(self, value: np.ndarray) -> None:
+        """Set the gcov22 attribute of the load state."""
+        self.state.gcov22 = value
+
+    @property
+    def gcov33(self) -> np.ndarray:
+        """Get the gcov33 attribute of the load state."""
+        return self.state.gcov33
+
+    @gcov33.setter
+    def gcov33(self, value: np.ndarray) -> None:
+        """Set the gcov33 attribute of the load state."""
+        self.state.gcov33 = value
+
+    @property
+    def gcov12(self) -> np.ndarray:
+        """Get the gcov12 attribute of the load state."""
+        return self.state.gcov12
+
+    @gcov12.setter
+    def gcov12(self, value: np.ndarray) -> None:
+        """Set the gcov12 attribute of the load state."""
+        self.state.gcov12 = value
+
+    @property
+    def gcov13(self) -> np.ndarray:
+        """Get the gcov13 attribute of the load state."""
+        return self.state.gcov13
+
+    @gcov13.setter
+    def gcov13(self, value: np.ndarray) -> None:
+        """Set the gcov13 attribute of the load state."""
+        self.state.gcov13 = value
+
+    @property
+    def gcov23(self) -> np.ndarray:
+        """Get the gcov23 attribute of the load state."""
+        return self.state.gcov23
+
+    @gcov23.setter
+    def gcov23(self, value: np.ndarray) -> None:
+        """Set the gcov23 attribute of the load state."""
+        self.state.gcov23 = value

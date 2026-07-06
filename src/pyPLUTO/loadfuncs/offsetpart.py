@@ -86,6 +86,10 @@ class OffsetPart(BaseLoadMixin):
                     f"{self.state.charsize}"
                 )
 
+            elif key == b"time":
+                idx = np.searchsorted(self.state.noutlist, exout)
+                self.state.ntimelist[idx] = float(parts[2])
+
             elif key == b"nparticles":
                 self.state.nshp = int(parts[2])
                 self.state.dim = int(parts[2])

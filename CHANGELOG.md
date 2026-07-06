@@ -5,6 +5,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.2.4] — 2026-07-06
+
+### Fixed
+- Units: removed `UnitManager._units_from_defh`, which read `UNIT_*` scales directly out of the parsed `definitions.h` dict; this source was never validated against real `definitions.h` files (only injected as a plain dict in tests) and sat ahead of the physics-module defaults in the priority chain, so a malformed or stale `UNIT_*` macro in `definitions.h` could silently override reliable log-derived units. Priority is now user-defined → log → physics module → classical MHD. `defh` itself (the parsed `definitions.h` dict) is untouched and still used elsewhere (e.g. `PHYSICS` lookup for physics-module defaults).
+- Added "time" info for the particles.
+
+---
+
 ## [1.2.0] — 2026-06-06
 
 ### Added
@@ -128,6 +136,7 @@ Initial public release.
 - Sphinx documentation with worked examples
 - CI on Linux, macOS, Windows across Python 3.11–3.13
 
+[1.2.4]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.3...v1.2.4
 [1.2.0]: https://github.com/GiMattia/pyPLUTO/compare/v1.1.5...v1.2.0
 [1.1.5]: https://github.com/GiMattia/pyPLUTO/compare/v1.1.4...v1.1.5
 [1.1.4]: https://github.com/GiMattia/pyPLUTO/compare/v1.1.3...v1.1.4

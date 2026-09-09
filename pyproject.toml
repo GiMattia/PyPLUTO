@@ -116,6 +116,10 @@ source = ["src"]
 branch = true
 
 [tool.coverage.report]
+# Subpackages (gui, imagefuncs, ...) are namespace packages with no
+# __init__.py, so coverage skips them when listing never-imported
+# files. Without this they vanish from the report instead of showing 0%.
+include_namespace_packages = true
 omit = [
     "*/Tests/*",
     "*/Docs/*",

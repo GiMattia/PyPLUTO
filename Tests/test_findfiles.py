@@ -1,3 +1,5 @@
+"""Test of the findfiles.py file."""
+
 import os
 from pathlib import Path
 
@@ -10,6 +12,7 @@ import pyPLUTO as pp
 repo_root = Path(os.getcwd())
 repo_root = repo_root if repo_root.name == "Tests" else repo_root / "Tests"
 path = repo_root / "Test_load"
+path_part = repo_root / "Test_load/particles_cr"
 
 
 endianess = [">"]
@@ -88,3 +91,19 @@ def test_lasttab():
         v == (varslist if i == 4 else [])
         for i, v in enumerate(Data.d_info["varslist"])
     )
+
+
+# Test with particles CR find files
+def test_CRfindfiles():
+    Data = pp.LoadPart(path=path_part, datatype="vtk", text=False)
+
+    outlist = [0]
+    typefile = ["single_file"]
+    endianess = [">"]
+    varslist = ["points", "Identity", "tinj", "Color", "Four-Velocity"]
+
+    npt.assert_array_equal(Data.outlist, outlist)
+    assert Data.nout == 0
+    assert Data.d_info["typefile"] == typefile
+    assert Data.d_info["endianess"] == endianess
+    npt.assert_array_equal(Data.d_info["varslist"], [varslist])

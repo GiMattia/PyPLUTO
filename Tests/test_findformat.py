@@ -9,6 +9,7 @@ import pyPLUTO as pp
 repo_root = Path(os.getcwd())
 repo_root = repo_root if repo_root.name == "Tests" else repo_root / "Tests"
 path = repo_root / "Test_load"
+path_part = repo_root / "Test_load/particles_cr"
 
 
 # Format not given (single file), finding dbl
@@ -99,3 +100,40 @@ def test_noformat():
 def test_format_noexists():
     with pytest.raises(FileNotFoundError):
         pp.Load(path=path / "multiple_files", text=False, datatype="dbl.h5")
+
+
+# Format not given finding dbl (particles)
+def test_part_notgivendbl():
+    Data = pp.LoadPart(path=path_part, text=False)
+    assert Data.datatype == "dbl"
+
+
+# Format not given (single file), finding vtk (particles)
+def test_part_notgivenvtk():
+    Data = pp.LoadPart(path=path_part / "vtk", text=False)
+    assert Data.datatype == "vtk"
+
+
+# Given format (single file) (particles)
+def test_part_formats():
+    for format in ["dbl", "flt", "vtk"]:
+        Data = pp.LoadPart(path=path_part, text=False, datatype=format)
+        assert Data.datatype == format
+
+
+# Check if raises error if the format is wrong (particles)
+def test_part_wrongformat():
+    with pytest.raises(ValueError):
+        pp.LoadPart(path=path_part, text=False, datatype="wrong")
+
+
+# Check if raises an error if there is no good format (particles)
+def test_part_noformat():
+    with pytest.raises(FileNotFoundError):
+        pp.LoadPart(text=False)
+
+
+# Check if raises error if the selected format does not exist (particles)
+def test_part_nogoodformat():
+    with pytest.raises(FileNotFoundError):
+        pp.LoadPart(path=path_part / "vtk", text=False, datatype="dbl")

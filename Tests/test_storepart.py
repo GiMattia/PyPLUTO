@@ -1,3 +1,5 @@
+"""Test of the storepart.py file."""
+
 import os
 from pathlib import Path
 

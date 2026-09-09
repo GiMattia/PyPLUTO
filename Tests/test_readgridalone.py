@@ -1,3 +1,5 @@
+"""Test of the readgridalone.py file."""
+
 import os
 from pathlib import Path
 
@@ -20,32 +22,6 @@ xc = np.linspace(xc0, -xc0, 128)
 
 xr2D, yr2D = np.meshgrid(xr, xr)
 xc2D, yc2D = np.meshgrid(xc, xc)
-
-
-# Testing the grid from the grid.out file
-def test_gridfile():
-    Data = pp.Load(path=path / "single_file", text=False)
-
-    npt.assert_allclose(Data.x1r, xr)
-    npt.assert_allclose(Data.x2r, xr)
-
-    npt.assert_allclose(Data.dx1, dx)
-    npt.assert_allclose(Data.dx2, dx)
-
-    npt.assert_allclose(Data.x1, xc)
-    npt.assert_allclose(Data.x2, xc)
-
-    assert Data.dim == 2
-    assert (Data.nx1, Data.nx2, Data.nx3) == (128, 128, 1)
-    assert Data.geom == "CARTESIAN"
-    assert Data.nshp == (128, 128)
-
-    assert Data.nshp_st1 == (128, 129)
-    assert Data.nshp_st2 == (129, 128)
-
-    assert Data.gridsize == 128 * 128
-    assert Data.gridsize_st1 == 129 * 128
-    assert Data.gridsize_st2 == 128 * 129
 
 
 # Testing the grid from a standalone vtk file

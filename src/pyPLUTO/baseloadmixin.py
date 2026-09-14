@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import mmap
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Any, Generic, TypeVar
 
@@ -39,6 +40,16 @@ class BaseLoadMixin(Generic[S]):
     def charsize(self, value: int) -> None:
         """Set the charsize attribute of the load state."""
         self.state.charsize = value
+
+    @property
+    def chnk(self) -> int | Sequence[int] | None:
+        """Get the chnk attribute of the load state."""
+        return self.state.chnk
+
+    @chnk.setter
+    def chnk(self, value: int | Sequence[int] | None) -> None:
+        """Set the chnk attribute of the load state."""
+        self.state.chnk = value
 
     @property
     def class_name(self) -> str:
@@ -289,6 +300,16 @@ class BaseLoadMixin(Generic[S]):
     def unit_base(self, value: dict[str, float | str]) -> None:
         """Set the unit_base attribute of the load state."""
         self.state.unit_base = value
+
+    @property
+    def unit_userdef(self) -> dict[str, float]:
+        """Get the unit_userdef attribute of the load state."""
+        return self.state.unit_userdef
+
+    @unit_userdef.setter
+    def unit_userdef(self, value: dict[str, float]) -> None:
+        """Set the unit_userdef attribute of the load state."""
+        self.state.unit_userdef = value
 
     @property
     def units(self) -> dict[str, Any]:

@@ -117,9 +117,9 @@ Equivalent Python API:
 ```python
 import pyPLUTO as pp
 
-print(pp.examples_path())        # installed examples directory
-pp.copy_examples()               # creates ./pypluto_examples
-pp.run_example("test01_sod")     # runs one example script
+print(pp.examples_path())  # installed examples directory
+pp.copy_examples()  # creates ./pypluto_examples
+pp.run_example("test01_sod")  # runs one example script
 ```
 
 ### Maintainer notes for examples

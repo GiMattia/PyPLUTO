@@ -169,10 +169,15 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
 
         if self.state.text is not False:
             path = kwargs.get("path", self.state.pathdir)
-            if isinstance(self.state.nout, (int, np.integer)):
-                nout_out = self.state.nout
+            if hasattr(self.state, "nout"):
+                if isinstance(self.state.nout, (int, np.integer)):
+                    nout_out = self.state.nout
+                else:
+                    nout_out = (
+                        np.atleast_1d(self.state.nout).astype(int).tolist()
+                    )
             else:
-                nout_out = np.atleast_1d(self.state.nout).astype(int).tolist()
+                nout_out = None
             logger.info("Load: folder %s,     output %s", path, nout_out)
 
     def __repr__(self) -> str:
@@ -203,6 +208,8 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
 
         - select
         - spectrum
+        - to_astropy_units
+        - to_code_units
 
         Please refrain from using "private" methods and attributes.
         """

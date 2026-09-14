@@ -27,6 +27,7 @@ class ImageState:
     fig: Figure | None = None
     figsize: Sequence[float] = field(default_factory=lambda: [8.0, 5.0])
     fontsize: float = 17
+    fontweight: str = "normal"
     LaTeX: bool | str = True
     legpar: list[list[float]] = field(default_factory=list)
     legpos: list[LegendLocType | None] = field(default_factory=list)

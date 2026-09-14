@@ -208,6 +208,8 @@ class Image(ImageMixin):
 
         Public methods available:
 
+        - animate
+            Animates an interactive plot, optionally saving it as a GIF.
         - create_axes
             Adds a set of [nrow,ncol] subplots to the figure.
         - colorbar
@@ -222,6 +224,8 @@ class Image(ImageMixin):
             Places one legend in a subplot.
         - set_axis
             Changes the parameter of a specific subplot.
+        - showgrid
+            Draws the grid lines of a mesh in a subplot.
         - plot
             Plots one line in a subplot.
         - savefig
@@ -232,6 +236,8 @@ class Image(ImageMixin):
             Plots a stream plot in a subplot.
         - text
             Places the text in the figure or in a subplot.
+        - volume
+            Renders a 3D quantity as a volume in a subplot.
         - zoom
             Creates an inset zoom region of a subplot.
 
@@ -247,7 +253,7 @@ class Image(ImageMixin):
             The fontweight in the figure.
         - nwin
             The window number.
-        - tg
+        - tight
             The tight layout of the figure.
 
         Please do not use 'private' methods and attributes if not absolutely

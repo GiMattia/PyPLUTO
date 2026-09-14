@@ -130,10 +130,17 @@ exclude_lines = [
     "pragma: no cover",
     "@overload",
     "if TYPE_CHECKING:",
-    "def __repr__",
-    "def __str__",
     "raise NotImplementedError"
 ]
+
+[tool.pytest.ini_options]
+# Tests/ mirrors src/pyPLUTO/ with plain folders (no __init__.py). The
+# importlib import mode lets test files with the same name live in different
+# folders without clashing.
+addopts = ["--import-mode=importlib"]
+# Lets test files import the shared helper modules (e.g. helper_baseload)
+# that live at the top of Tests/.
+pythonpath = ["Tests"]
 
 [tool.ruff]
 target-version = "py311"
@@ -251,6 +258,9 @@ local-dev = { features = ["dev", "test", "docs", "notebook"] }
 pythonVersion = "3.11"
 typeCheckingMode = "standard"
 include = ["src"]
+# Lets pyright and Pylance resolve the shared test helpers in Tests/ (e.g.
+# helper_baseload), mirroring pythonpath = ["Tests"] for pytest.
+extraPaths = ["Tests"]
 exclude = [
     "**/__pycache__",
     "**/node_modules",

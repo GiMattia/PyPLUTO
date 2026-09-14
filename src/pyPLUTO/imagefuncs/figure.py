@@ -78,7 +78,7 @@ class FigureManager(ImageMixin):
         self.state = state
 
         close = kwargs.pop("close", True)
-        fontweight = kwargs.pop("fontweight", "normal")
+        self.state.fontweight = kwargs.pop("fontweight", self.state.fontweight)
         numcolors = kwargs.pop("numcolors", 10)
         replace = kwargs.pop("replace", False)
         suptitle = kwargs.pop("suptitle", None)
@@ -104,7 +104,7 @@ class FigureManager(ImageMixin):
             withblack,
             withwhite,
         )
-        self.assign_LaTeX(fontweight)
+        self.assign_LaTeX(self.state.fontweight)
         self.create_figure(replace, suptitle, suptitlesize)
 
     def setup_style(self) -> None:

@@ -293,15 +293,22 @@ class Load(LoadMixin, Generic[_VarT]):
 
         Public methods available:
 
-        - slices
         - cartesian_vector
-        - reshape_cartesian
-        - write_file
-        - fourier
-        - nabla
+        - curl
+        - divergence
         - find_contour
         - find_fieldlines
-        - vector_field
+        - fourier
+        - gradient
+        - mirror
+        - read_file
+        - repeat
+        - reshape_cartesian
+        - reshape_uniform
+        - slices
+        - to_astropy_units
+        - to_code_units
+        - write_file
 
         Please refrain from using "private" methods and attributes.
         """

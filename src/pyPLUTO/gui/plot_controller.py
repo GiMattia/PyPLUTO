@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, Any
 
+import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_qt import (
     NavigationToolbar2QT as NavigationToolbar,
@@ -321,6 +322,11 @@ class PlotController:
         app.canvas.setFixedWidth(800)
         app.canvas_layout.addWidget(app.toolbar)
         app.canvas_layout.addWidget(app.canvas)
+        # pp.Image registered the figure in pyplot as figure 1, but the GUI owns
+        # it through its own Qt canvas. Release it from pyplot, otherwise it
+        # outlives the window and a later pp.Image() would fetch it again
+        # through plt.figure(1) after its Qt toolbar has been deleted.
+        plt.close(app.figure)
 
     def reload_canvas(self) -> None:
         """Clear the figure content in-place without touching the Qt widgets.

@@ -81,6 +81,16 @@ class ImageMixin:
         self.state.fontsize = value
 
     @property
+    def fontweight(self) -> str:
+        """Get the fontweight attribute of the image."""
+        return self.state.fontweight
+
+    @fontweight.setter
+    def fontweight(self, value: str) -> None:
+        """Set the fontweight attribute of the image."""
+        self.state.fontweight = value
+
+    @property
     def LaTeX(self) -> bool | str:
         """Get the LaTeX attribute of the image."""
         return self.state.LaTeX
@@ -239,6 +249,16 @@ class ImageMixin:
     def vlims(self, value: list[list[float]]) -> None:
         """Set the vlims attribute of the image."""
         self.state.vlims = value
+
+    @property
+    def volumes(self) -> list[Any]:
+        """Get the volumes attribute of the image."""
+        return self.state.volumes
+
+    @volumes.setter
+    def volumes(self, value: list[Any]) -> None:
+        """Set the volumes attribute of the image."""
+        self.state.volumes = value
 
     @property
     def xscale(self) -> list[str]:

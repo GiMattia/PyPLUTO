@@ -1,109 +1,124 @@
+"""Test of the imagemixin.py file."""
+
 import pytest
+from helper_image import DEFAULTS, WITH_DEFAULT, WITHOUT_DEFAULT, DummyState
 
-import pyPLUTO.image as image_mod
-import pyPLUTO.imagemixin as mixin_mod
+from pyPLUTO.imagemixin import ImageMixin
+from pyPLUTO.imagestate import ImageState
 
-
-# ---- Minimal stubs ----
-class DummyManager:
-    def __init__(self, *_a, **_kw): ...
-    def __getattr__(self, name):
-        return lambda *a, **kw: name
-
-
-class DummyState:
-    def __init__(self):
-        self.ax = []
-        self.LaTeX = False
-        self.style = "old"
-        self.legpar = []
-        self.legpos = "right"
-        self.nline = 3
-        self.nwin = 9
-        self.ncol0 = 1
-        self.ntext = 0
-        self.nrow0 = 1
-        self.tight = True
-        self.vlims = (0, 1)
-        self.xscale = "linear"
-        self.yscale = "linear"
-        self.setax = []
-        self.setay = []
-        self.shade = []
-        self.tickspar = []
+# The mixin exposes every ImageState field, so its expected values are the
+# state's own table from helper_image.py: DEFAULTS is what every property
+# returns on a fresh state, split into WITH_DEFAULT and WITHOUT_DEFAULT. Each
+# entry is checked by test_default or by test_unset_until_loaded, and
+# test_every_property_is_listed makes sure the properties match the state
+# fields: a new state field without a property fails there.
 
 
-@pytest.fixture(autouse=True)
-def patch_all(monkeypatch):
-    # replace all managers with simple stubs
-    for name in [
-        "FigureManager",
-        "AxisManager",
-        "ColorbarManager",
-        "ContourManager",
-        "CreateAxesManager",
-        "DisplayManager",
-        "ImageToolsManager",
-        "InteractiveManager",
-        "LegendManager",
-        "PlotManager",
-        "RangeManager",
-        "ScatterManager",
-        "StreamplotManager",
-        "ZoomManager",
-    ]:
-        monkeypatch.setattr(image_mod, name, DummyManager)
-    monkeypatch.setattr(image_mod, "ImageState", lambda *a, **kw: DummyState())
+class _Image(ImageMixin):
+    """The smallest object that can use the mixin: it only has a state."""
+
+    def __init__(self) -> None:
+        self.state = ImageState()
 
 
-# ------------------------------
-# image.py missing lines only
-# ------------------------------
+def test_every_property_is_listed() -> None:
+    """Keep DEFAULTS in sync with the properties ImageMixin defines.
+
+    Adding, removing or renaming a property fails here until the table is
+    updated, so no property can go untested.
+    """
+    defined = {
+        name
+        for name, attribute in vars(ImageMixin).items()
+        if isinstance(attribute, property)
+    }
+    missing, stale = defined - set(DEFAULTS), set(DEFAULTS) - defined
+    assert not missing, (
+        f"not listed in DEFAULTS, so untested: {sorted(missing)}"
+    )
+    assert not stale, (
+        f"listed in DEFAULTS but no ImageMixin property: {sorted(stale)}"
+    )
 
 
-def test_init_exit_branch(monkeypatch):
-    """Covers the 'exit' path when setting 'state' before it's defined."""
-    img = image_mod.Image(text=False)
-    # explicitly trigger first 'if name=="state"' branch
-    object.__setattr__(img, "state", DummyState())
-    img.state.new_field = 42
-    assert img.state.new_field == 42
+@pytest.mark.parametrize(("name", "expected"), WITH_DEFAULT.items())
+def test_default(name: str, expected: object) -> None:
+    """Return the expected default, with the expected type, on a fresh state.
+
+    The type is checked too because 0 == 0.0 == False in Python: comparing
+    values alone would not notice, e.g., tight defaulting to 1.
+    """
+    value = getattr(_Image(), name)
+    assert value == expected
+    assert type(value) is type(expected)
 
 
-@pytest.mark.parametrize(
-    "attr",
-    [
-        "colorbar",
-        "create_axes",
-        "legend",
-        "savefig",
-        "set_axis",
-        "zoom",
-    ],
-)
-def test_property_delegation(attr):
-    """Each property returns a callable from the dummy manager."""
-    img = image_mod.Image(text=False)
-    result = getattr(img, attr)()
-    assert result == attr
+def test_no_property_is_unset() -> None:
+    """Give every ImageMixin property a default, so WITHOUT_DEFAULT is empty.
+
+    Mixins over a state with load-only fields check them one by one instead,
+    with test_unset_until_loaded (see test_baseloadmixin.py). If this fails, a
+    field was marked UNSET in the table and that test should come back here.
+    """
+    assert WITHOUT_DEFAULT == []
 
 
-def test_text_delegation():
-    """text delegates to the manager (requires a positional text argument)."""
-    img = image_mod.Image(text=False)
-    result = img.text(text="hello")
-    assert result == "text"
+@pytest.mark.parametrize("name", DEFAULTS)
+def test_property_reads_from_state(name: str) -> None:
+    """Read each property from the state field with the same name.
+
+    The value is a fresh object(): only the right field can hold it, so a
+    property wired to a different field always fails. Plain values such as
+    False or True could coincide with another field's default and hide it.
+    """
+    image = _Image()
+    sentinel = object()
+    setattr(image.state, name, sentinel)
+    assert getattr(image, name) is sentinel
 
 
-# ------------------------------
-# imagemixin.py missing lines
-# ------------------------------
+@pytest.mark.parametrize("name", DEFAULTS)
+def test_property_writes_to_state(name: str) -> None:
+    """Write each property to the state field with the same name.
+
+    A property without a setter raises AttributeError here, so this also
+    checks that every property can be written.
+    """
+    image = _Image()
+    sentinel = object()
+    setattr(image, name, sentinel)
+    assert getattr(image.state, name) is sentinel
 
 
-def test_selected_mixin_properties():
-    class M(mixin_mod.ImageMixin):
-        def __init__(self):
-            self.state = DummyState()
+@pytest.mark.parametrize("name", DEFAULTS)
+def test_property_roundtrip(name: str) -> None:
+    """Read back through each property what was written through it."""
+    image = _Image()
+    sentinel = object()
+    setattr(image, name, sentinel)
+    assert getattr(image, name) is sentinel
+
+
+def test_states_are_independent() -> None:
+    """Keep the state of two images separate."""
+    first, second = _Image(), _Image()
+    first.style = "dark_background"
+    second.style = "classic"
+    assert first.state.style == "dark_background"
+    assert second.state.style == "classic"
+
+
+def test_selected_mixin_properties() -> None:
+    """Read and write a selection of properties through a dummy state.
+
+    Kept from the first version of this file. The values are deliberately of
+    the wrong type for several properties, so the type checkers are silenced
+    on those lines.
+    """
+
+    class M(ImageMixin):
+        def __init__(self) -> None:
+            self.state = DummyState()  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
 
     m = M()
 
@@ -111,16 +126,16 @@ def test_selected_mixin_properties():
     m.style = "newstyle"
     assert m.style == "newstyle"
 
-    m.legpos = "left"
+    m.legpos = "left"  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
     assert m.legpos == "left"
 
-    m.nline = 7
+    m.nline = 7  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
     assert m.nline == 7
 
     m.ncol0 = 2
     assert m.ncol0 == 2
 
-    m.ntext = 5
+    m.ntext = 5  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
     assert m.ntext == 5
 
     m.nrow0 = 9
@@ -129,16 +144,16 @@ def test_selected_mixin_properties():
     m.tight = False
     assert m.tight is False
 
-    m.vlims = (1, 2)
+    m.vlims = (1, 2)  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
     assert m.vlims == (1, 2)
 
-    m.xscale = "log"
+    m.xscale = "log"  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
     assert m.xscale == "log"
 
-    m.yscale = "log"
+    m.yscale = "log"  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
     assert m.yscale == "log"
 
-    m.ax = ["ax1", "ax2"]
+    m.ax = ["ax1", "ax2"]  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
     assert m.ax == ["ax1", "ax2"]
 
     m.legpar = [[0.1, 0.2], [0.3, 0.4]]

@@ -180,26 +180,34 @@ class ExampleManager(ExampleMixin):
 
 # ---------------------------------------------------------------------------
 # 5. FACADE - not a new file: a few lines added to the existing top-level
-#    class, e.g. `pyPLUTO/image.py`. Shown as reference only (commented out)
-#    since it needs the real top-level class to run. The facade method's own
+#    class, e.g. `pyPLUTO/image.py`. Shown here as a runnable `Example` class
+#    so the pattern can be tested, but in the real codebase these few lines
+#    are added to the existing top-level class. The facade method's own
 #    docstring is a one-line placeholder; the last line below copies the
 #    manager method's full docstring onto it (`rescale.__doc__ = ...`) so
 #    that `help(Example().rescale)` / `Example().rescale?` show the complete
 #    documentation to users calling it through the top-level class.
 # ---------------------------------------------------------------------------
 
-# class Example(ExampleMixin):
-#     def __init__(self) -> None:
-#         self.state = ExampleState()
-#         self.ExManager = ExampleManager(self.state)
-#
-#     def rescale(
-#         self, factor: float = 1.0, _check: bool = True, **kwargs: Any
-#     ) -> list[float]:
-#         """Rescale method."""
-#         return self.ExManager.rescale(factor=factor, _check=_check, **kwargs)
-#
-#     rescale.__doc__ = ExampleManager.rescale.__doc__
+
+class Example(ExampleMixin):
+    """Example class."""
+
+    def __init__(self) -> None:
+        self.state = ExampleState()
+        self.ExManager = ExampleManager(self.state)
+
+    def rescale(
+        self,
+        factor: float = 1.0,
+        _check: bool = True,
+        **kwargs: Unpack[ExampleKwargs],
+    ) -> list[float]:
+        """Rescale method."""
+        return self.ExManager.rescale(factor=factor, _check=_check, **kwargs)
+
+    rescale.__doc__ = ExampleManager.rescale.__doc__
+
 
 # ---------------------------------------------------------------------------
 # Updating the documentation: the Sphinx docs under `Docs/source/` do not

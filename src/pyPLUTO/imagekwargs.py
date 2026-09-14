@@ -129,10 +129,10 @@ class SetAxisKwargs(
     grid: Literal["x", "y"] | bool
     ticksdir: str
     tickssize: float
-    xticks: list[float] | None | bool
-    xtickslabels: list[str] | None | bool
-    yticks: list[float] | None | bool
-    ytickslabels: list[str] | None | bool
+    xticks: list[float] | bool | None
+    xtickslabels: list[str] | bool | None
+    yticks: list[float] | bool | None
+    ytickslabels: list[str] | bool | None
 
 
 class LegendKwargs(CreateAxesKwargs, total=False):
@@ -172,7 +172,7 @@ class ColorbarKwargs(CreateAxesKwargs, total=False):
     cpad: float
     cpos: str
     cticks: list[float] | None
-    ctickslabels: list[str] | None | bool
+    ctickslabels: list[str] | bool | None
     extend: str
     extendrect: bool
 

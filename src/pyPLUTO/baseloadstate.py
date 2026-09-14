@@ -21,32 +21,32 @@ class BaseLoadState:
     loading at runtime.
     """
 
-    alone: bool = field(init=False)
-    charsize: int = field(init=False)
-    class_name: str = field(init=False)
+    alone: bool = field(init=False, repr=False)
+    charsize: int = field(init=False, repr=False)
+    class_name: str = field(init=False, repr=False)
     chnk: int | Sequence[int] | None = None
     code: str = "gPLUTO"
     d_info: dict[str, Any] = field(default_factory=dict)
     d_vars: dict[str, Any] = field(default_factory=dict)
     datatype: str = "Unknown"
-    dim: int = field(init=False)
+    dim: int = field(init=False, repr=False)
     endian: str | None = None
-    filepath: Path = field(init=False)
+    filepath: Path = field(init=False, repr=False)
     infogrid: bool = True
-    lennout: int = field(init=False)
-    lennoutlist: int = field(init=False)
+    lennout: int = field(init=False, repr=False)
+    lennoutlist: int = field(init=False, repr=False)
     matching_files: list[str] | None = None
     mmaps: list[mmap.mmap] = field(default_factory=list)
     multiple: bool = False
     nout: int | np.ndarray = field(init=False, repr=False)
-    noutlist: np.ndarray = field(init=False)
-    nshp: int | tuple[int, ...] = field(init=False)
+    noutlist: np.ndarray = field(init=False, repr=False)
+    nshp: int | tuple[int, ...] = field(init=False, repr=False)
     ntime: int | np.ndarray = field(init=False, repr=False)
-    ntimelist: np.ndarray = field(init=False)
-    outlist: np.ndarray = field(init=False)
+    ntimelist: np.ndarray = field(init=False, repr=False)
+    outlist: np.ndarray = field(init=False, repr=False)
     pathdir: str | Path = "./"
     text: bool | None = None
-    timelist: np.ndarray = field(init=False)
+    timelist: np.ndarray = field(init=False, repr=False)
     unit_attached: set[str] = field(default_factory=set)
     unit_base: dict[str, float | str] = field(default_factory=dict)
     unit_userdef: dict[str, float] = field(default_factory=dict)

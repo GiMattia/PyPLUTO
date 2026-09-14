@@ -103,7 +103,7 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
     # --- File dialog ---
     _file_dialog: QFileDialog | None
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: str = "PLUTO") -> None:
         """Initialize the main application window.
 
         Parameters
@@ -113,8 +113,8 @@ class PyPLUTOApp(QMainWindow, PanelsMixin, StateAccessorsMixin):
         """
         super().__init__()
         self.state = AppState()
-        self.code: str
-        codestr = f" ({self.code:= code})" if code != "PLUTO" else ""
+        self.code: str = code
+        codestr = f" ({code})" if code != "PLUTO" else ""
         self.setWindowTitle(f"PyPLUTO GUI{codestr}")
         if code != "PLUTO":
             raise NotImplementedError(f"Code {code} not yet implemented")

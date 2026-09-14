@@ -1,9 +1,12 @@
 """Test of the imagetools.py file."""
 
+from types import SimpleNamespace
+
 import matplotlib.colors as mcol
 import pytest
 
 import pyPLUTO as pp
+from pyPLUTO.imagefuncs import imagetools
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 
 
@@ -63,10 +66,24 @@ def test_find_cmap_colormap_object():
     assert manager.find_cmap(cmap) is cmap
 
 
+# salsa is an optional dependency, so find_cmap warns differently depending on
+# whether it is installed. Both tests below pin it by hand: otherwise each of
+# them checks a different branch depending on the machine running the suite.
+
+
 # An unknown name warns and falls back to a default colormap
-def test_find_cmap_unknown_name():
+def test_find_cmap_unknown_name(monkeypatch):
     manager, _ = _manager()
+    monkeypatch.setattr(imagetools, "salsa", SimpleNamespace())
     with pytest.warns(UserWarning, match="not found"):
+        assert manager.find_cmap("nosuchcmap").name == "plasma"
+
+
+# Without salsa the fallback is the same, but the warning says why
+def test_find_cmap_without_salsa(monkeypatch):
+    manager, _ = _manager()
+    monkeypatch.setattr(imagetools, "salsa", None)
+    with pytest.warns(UserWarning, match="not installed"):
         assert manager.find_cmap("nosuchcmap").name == "plasma"
 
 

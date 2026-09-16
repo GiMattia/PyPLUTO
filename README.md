@@ -39,7 +39,14 @@ and the following core dependencies:
 - `scipy`
 
 The GUI requires the optional dependency `PySide6`, installable via
-`pip install py-pluto[gui]`.
+`pip install py-pluto[gui]`. On Linux, Qt also needs a few system libraries
+that no Python wheel can install; on Debian and Ubuntu:
+
+```bash
+sudo apt install libegl1 libgl1 libxkbcommon-x11-0 libxcb-cursor0 \
+    libxcb-icccm4 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 \
+    libxcb-shape0 libxcb-xinerama0
+```
 
 The package is provided with a `LICENSE` file which contains the license terms.
 

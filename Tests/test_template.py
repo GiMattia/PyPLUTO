@@ -52,7 +52,12 @@ REFERENCED = sorted(
 
 # ---- The example works ----
 def test_rescale_multiplies_every_value() -> None:
-    """Multiply every stored value by the factor, and return them."""
+    """Rescale three values and check what comes back.
+
+    The plainest possible check that the example works at all. If the
+    template's own example were broken, every contributor copying it would
+    start from something that does not run.
+    """
     state = ExampleState(values=[1.0, 2.0, 3.0])
     assert ExampleManager(state).rescale(factor=2.0) == [2.0, 4.0, 6.0]
 
@@ -70,20 +75,69 @@ def test_rescale_writes_through_to_the_state() -> None:
 
 
 def test_rescale_defaults_to_no_change() -> None:
-    """Leave the values alone when no factor is given."""
+    """Rescale without a factor and check nothing changed.
+
+    The default is 1.0, so the call is a no-op. A default of 0 would silently
+    zero a user's data, which is the kind of thing a declared default is
+    worth pinning against.
+    """
     state = ExampleState(values=[1.0, 2.0])
     assert ExampleManager(state).rescale() == [1.0, 2.0]
 
 
+def test_last_factor_is_unset_before_rescale() -> None:
+    """Read the init=False field on a fresh state and expect AttributeError.
+
+    The template declares `last_factor` as a result rather than a setting, so
+    before anything has run there is no honest value for it. This is the
+    behaviour the real state files rely on, demonstrated in miniature.
+    """
+    with pytest.raises(AttributeError):
+        _ = ExampleState().last_factor
+
+
+def test_rescale_records_the_factor() -> None:
+    """Rescale, then read the field that only rescale can fill in.
+
+    The other half: once the manager has run, the field exists and holds what
+    it was given. Together these two show the whole life of an init=False
+    field, which is what a contributor copying this file needs to see.
+    """
+    state = ExampleState(values=[1.0])
+    ExampleManager(state).rescale(factor=3.0)
+    assert state.last_factor == 3.0
+
+
+def test_repr_of_a_fresh_state_works() -> None:
+    """Print a fresh state, which would raise without repr=False.
+
+    A dataclass repr prints every field, and `last_factor` does not exist
+    yet, so `repr=False` on it is what keeps this from raising. It is the
+    bug that was found in both real state files.
+    """
+    text = repr(ExampleState())
+    assert text.startswith("ExampleState(")
+    assert "last_factor" not in text
+
+
 def test_label_kwarg_overwrites_the_state() -> None:
-    """Overwrite the label when the keyword is given."""
+    """Pass the keyword and check it reached the state.
+
+    The example of a kwargs-only option: `label` is not a parameter of
+    `rescale`, it is read out of **kwargs, which is the pattern the whole
+    track_kwargs machinery exists for.
+    """
     state = ExampleState(label="before")
     ExampleManager(state).rescale(label="after")
     assert state.label == "after"
 
 
 def test_label_kwarg_is_optional() -> None:
-    """Keep the label when the keyword is left out."""
+    """Leave the keyword out and check the state was not touched.
+
+    The guard in the example is `is not None`, so omitting the keyword must
+    leave the previous value alone rather than overwrite it with None.
+    """
     state = ExampleState(label="before")
     ExampleManager(state).rescale()
     assert state.label == "before"
@@ -103,7 +157,12 @@ def test_manager_shares_the_state_by_reference() -> None:
 
 
 def test_each_state_gets_its_own_values() -> None:
-    """Build a fresh list per state, as the default_factory promises."""
+    """Build two states and check they do not share the same list.
+
+    `is not` is the whole test: two empty lists compare equal, so only
+    identity distinguishes a shared object from a fresh one. This is the
+    classic dataclass trap the template warns about, demonstrated.
+    """
     first, second = ExampleState(), ExampleState()
     assert first.values is not second.values
     first.values.append(1.0)
@@ -125,7 +184,15 @@ def test_unknown_kwarg_warns() -> None:
 
 
 def test_unknown_kwarg_is_silent_when_check_is_off() -> None:
-    """Stay silent with _check=False, the way a manager calls another one."""
+    """Call with the check off and require no warning at all.
+
+    `simplefilter("error")` turns any warning into an exception, which is how
+    a test asserts that nothing was raised: with the default filter a stray
+    warning would merely be printed and this would pass regardless.
+
+    This is the call a manager makes to another manager, and the reason the
+    template shows `_check=False` in its example.
+    """
     state = ExampleState(values=[1.0])
     with warnings.catch_warnings():
         warnings.simplefilter("error")
@@ -135,7 +202,12 @@ def test_unknown_kwarg_is_silent_when_check_is_off() -> None:
 
 # ---- The architecture the template teaches ----
 def test_state_is_a_dataclass() -> None:
-    """Keep the state a plain dataclass, with no behaviour of its own."""
+    """Check the state is a dataclass and defines no methods.
+
+    The architecture depends on the state being storage only: the managers
+    hold the behaviour. A state that grew a method would be a second place to
+    look for what the code does, and the template would be teaching that.
+    """
     assert dataclasses.is_dataclass(ExampleState)
     assert not [
         name
@@ -145,7 +217,12 @@ def test_state_is_a_dataclass() -> None:
 
 
 def test_kwargs_is_a_total_false_typeddict() -> None:
-    """Make every kwarg optional, with total=False."""
+    """Check the example table declares no required key.
+
+    `total=False` is what makes every key optional, and it is the easiest
+    thing to leave off a new table. A required key would make every call that
+    omitted it a type error.
+    """
     assert typing.is_typeddict(ExampleKwargs)
     assert ExampleKwargs.__required_keys__ == frozenset()
 
@@ -168,7 +245,13 @@ def test_kwargs_does_not_repeat_an_explicit_parameter() -> None:
 
 
 def test_mixin_property_reads_and_writes_the_state() -> None:
-    """Reach the state field through the mixin property, both ways."""
+    """Read and write one field through the mixin property.
+
+    Both directions in one test, since the example has a single property.
+    The real mixin tests split this into three and run it over every field;
+    the point demonstrated here is the same: the property keeps no value of
+    its own, the state is the single copy.
+    """
     state = ExampleState(label="first")
     manager = ExampleManager(state)
     assert manager.label == "first"
@@ -177,7 +260,13 @@ def test_mixin_property_reads_and_writes_the_state() -> None:
 
 
 def test_manager_inherits_the_mixin() -> None:
-    """Give the manager the shared properties, as every real one does."""
+    """Check the manager inherits the mixin.
+
+    This is what lets a manager write `self.label` rather than
+    `self.state.label`, and it is the half of the mixin arrangement that is
+    easy to forget: a manager that skipped it would still work, just more
+    verbosely, and the codebase would drift into two styles.
+    """
     assert issubclass(ExampleManager, ExampleMixin)
 
 
@@ -224,7 +313,11 @@ def test_facade_builds_its_manager_on_its_own_state() -> None:
 
 
 def test_facade_delegates_to_the_manager() -> None:
-    """Forward the call to the manager and return what it returns."""
+    """Call through the facade and check the work reached the manager.
+
+    Both the returned value and the state are checked, so a facade that
+    called the manager but dropped its result would still fail.
+    """
     example = Example()
     example.state.values = [1.0, 2.0]
     assert example.rescale(factor=2.0) == [2.0, 4.0]
@@ -232,7 +325,11 @@ def test_facade_delegates_to_the_manager() -> None:
 
 
 def test_facade_forwards_its_kwargs() -> None:
-    """Pass the keywords through to the manager, not only the parameters."""
+    """Pass a keyword through the facade and check it arrived.
+
+    The facade forwards `**kwargs` as well as its named parameters, which is
+    the part most easily lost when the two-line wrapper is retyped by hand.
+    """
     example = Example()
     example.rescale(label="through the facade")
     assert example.state.label == "through the facade"

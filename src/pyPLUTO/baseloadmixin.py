@@ -1,4 +1,23 @@
-"""Mixin class for base load functionality."""
+"""Mixin class for base load functionality.
+
+A mixin is a class that is never instantiated on its own: it exists to be
+inherited, adding the same behaviour to several unrelated classes. This one
+adds one property per BaseLoadState field, and it is inherited by both sides
+of the architecture -- the facades the user holds (Load, LoadPart) and every
+manager that does the work.
+
+That is what lets the same name be written the same way everywhere:
+`Data.nout` for a user, `self.nout` inside any manager, both reaching the one
+state object rather than a copy. Without it each manager would have to write
+`self.state.nout`, and the facades would need thirty-odd properties of their
+own, retyped.
+
+The properties are the declared fields only. A loaded variable such as `rho`
+has no property, because its name is not known until the files are read;
+those are reached through the `__getattr__` of the facade instead. So the two
+mechanisms divide the work: properties give typing and editor completion for
+what is known in advance, `__getattr__` covers what is discovered at runtime.
+"""
 
 from __future__ import annotations
 
@@ -15,10 +34,24 @@ S = TypeVar("S", bound=BaseLoadState)
 
 
 class BaseLoadMixin(Generic[S]):
-    """Mixin class that provides base functionality for load state."""
+    """Mixin class that provides base functionality for load state.
+
+    Generic in the state type so that a subclass can narrow it: LoadMixin
+    inherits from `BaseLoadMixin[LoadState]`, which tells the type checkers
+    that `self.state` also carries the grid fields, while LoadPart uses
+    `BaseLoadMixin[BaseLoadState]` and gets only these.
+
+    Each property is a pair: the getter reads the field off the state and the
+    setter writes it back. Neither keeps a value of its own, which is the
+    point -- the state is the single copy, shared by reference, so a manager
+    writing `self.nout` is seen immediately by the facade and by every other
+    manager.
+    """
 
     # pylint: disable=too-many-public-methods
 
+    # Declared, never assigned here: the class that inherits this mixin
+    # supplies the state, and every property below reads through it.
     state: S
 
     @property

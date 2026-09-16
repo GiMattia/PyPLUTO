@@ -72,4 +72,4 @@ Image.volume(
 # Saving the image and showing the plot in the Examples folder
 # (i.e., where the file test16_jet.py is located)
 Image.savefig("test16_jet.png", script_relative=True)
-pyPLUTO.show()
+# pyPLUTO.show()

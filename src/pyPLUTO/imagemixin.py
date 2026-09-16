@@ -1,4 +1,13 @@
-"""Mixin class for image handling."""
+"""Mixin class for image handling.
+
+The plotting counterpart of BaseLoadMixin: one property pair per ImageState
+field, inherited by the Image the user holds and by every one of the sixteen
+managers. That is what lets `I.nwin` and `self.nwin` inside a manager mean the
+same thing, both reaching the one shared state rather than a copy.
+
+Unlike the load mixins there is no generic parameter, since there is only one
+image state to be generic over.
+"""
 
 from __future__ import annotations
 
@@ -16,8 +25,19 @@ class ImageMixin:
     """Mixin class for image handling.
 
     It provides properties and methods related to the image state and axes.
+
+    Each property is a pair: the getter reads the field off the state and the
+    setter writes it back, neither keeping a value of its own. The state is
+    the single copy, so a manager writing `self.nwin` is seen at once by the
+    Image and by every other manager.
+
+    The per-axis lists are exposed whole rather than per axis, so `self.nline`
+    is the list for every axis and a manager indexes it with the axis number
+    it is working on.
     """
 
+    # Declared, never assigned here: the class that inherits this mixin
+    # supplies the state, and every property below reads through it.
     state: ImageState
 
     @property

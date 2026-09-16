@@ -57,6 +57,33 @@ PyPLUTO's dependencies do not conflict with other projects:
 
 ----
 
+The GUI on Linux
+----------------
+
+The ``[gui]`` extra installs PySide6, which bundles Qt itself but links against
+a few libraries that belong to the operating system.  A Python wheel cannot
+install those, so on a bare Linux machine starting the GUI fails with::
+
+   ImportError: libEGL.so.1: cannot open shared object file
+
+On Debian and Ubuntu:
+
+.. code-block:: console
+
+   $ sudo apt install libegl1 libgl1 libxkbcommon-x11-0 libxcb-cursor0 \
+         libxcb-icccm4 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 \
+         libxcb-shape0 libxcb-xinerama0
+
+Other distributions ship the same libraries under similar names.  macOS and
+Windows need nothing extra.  The libraries are required even when no window is
+shown, for instance on a headless machine, because Qt links against them
+rather than loading them on demand.  PyPLUTO recognises this failure and
+prints the command instead of the bare ``ImportError``.
+
+|
+
+----
+
 With ``uv``
 -----------
 

@@ -3,11 +3,23 @@
 The table is written by hand on purpose: it is what the code is checked
 against, so it must never be derived from the code under test. The three
 views below are derived from the table itself, which is only bookkeeping.
+
+This module carries more than the load helpers do, because Image is the
+largest facade in the package: the field table, the sixteen managers and the
+method each is reached through, the kwargs table each method is annotated
+with, and a stand-in state for the tests that must not build a real figure.
+
+Everything except the three derived views is hand-written, so the tests have
+something independent to compare the code against.
 """
 
 # Marks a field with no default: the code fills it in later, so reading it on
 # a fresh state raises AttributeError. ImageState has none today; the marker is
 # kept so this table has the same shape as the other state tables.
+#
+# Every state helper is written the same way even where a part is empty, so
+# the state and mixin test files can be read side by side and none of them is
+# held to a lower standard than the others.
 UNSET = object()
 
 # What every ImageState field holds on a fresh state.
@@ -40,11 +52,14 @@ DEFAULTS: dict[str, object] = {
     "yscale": [],
 }
 
-# The fields with a real default, and the ones filled in later
+# The fields with a real default, and the ones filled in later. WITHOUT_DEFAULT
+# is empty for ImageState, which test_imagestate.py asserts rather than skips:
+# an empty parametrize set becomes a silent skip, so it is stated outright.
 WITH_DEFAULT = {name: v for name, v in DEFAULTS.items() if v is not UNSET}
 WITHOUT_DEFAULT = [name for name, v in DEFAULTS.items() if v is UNSET]
 
-# The fields built by a default_factory: each state must get its own object
+# The fields built by a default_factory: each state must get its own object,
+# or two images would share one list and draw into each other's axes.
 CONTAINERS = [
     name for name, v in WITH_DEFAULT.items() if isinstance(v, (dict, list, set))
 ]
@@ -72,10 +87,15 @@ DELEGATION: dict[str, str] = {
     "zoom": "ZoomManager",
 }
 
-# oplotbox is not a facade: it calls the AMR module function instead
+# oplotbox is not a facade: it calls the AMR module function instead, so it is
+# listed here to be excluded rather than left out, which would make the
+# completeness guard unable to tell it from a method someone forgot.
 NOT_DELEGATED = {"oplotbox"}
 
-# Every manager that Image.__init__ builds on the shared state
+# Every manager that Image.__init__ builds on the shared state.
+#
+# Longer than DELEGATION by two: FigureManager and RangeManager are built and
+# used internally but reached through no public method of their own.
 MANAGERS: list[str] = [
     "AxisManager",
     "ColorbarManager",
@@ -116,7 +136,9 @@ KWARGS: dict[str, str] = {
     "zoom": "ZoomKwargs",
 }
 
-# The facade methods that take explicit parameters only, with no **kwargs
+# The facade methods that take explicit parameters only, with no **kwargs.
+# Listed rather than left out, so every facade method is accounted for by one
+# table or the other.
 NO_KWARGS = {"animate", "savefig"}
 
 # The tables that no facade method unpacks, and where they are unpacked
@@ -129,9 +151,20 @@ OTHER_KWARGS: dict[str, str] = {
 
 
 class DummyState:
-    """The few ImageState fields that Image and ImageMixin read in the tests."""
+    """The few ImageState fields that Image and ImageMixin read in the tests.
+
+    A stand-in for ImageState, used where a test needs an image whose state
+    can be read and written without a real figure behind it. The values are
+    deliberately odd -- nwin 9, style "old", nline 3 -- so that a test
+    asserting on one of them cannot pass by accident against a real default.
+
+    It holds only the fields the tests actually touch, so an attribute error
+    from this class is informative: it means the code under test started
+    reading a field that no test had accounted for.
+    """
 
     def __init__(self) -> None:
+        """Set each field to a value no real ImageState would start with."""
         self.ax = []
         self.LaTeX = False
         self.style = "old"

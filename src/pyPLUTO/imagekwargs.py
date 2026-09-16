@@ -1,4 +1,19 @@
-"""Type annotations for accepted **kwargs in the PyPLUTO Image class."""
+"""Type annotations for accepted **kwargs in the PyPLUTO Image class.
+
+Each table names the keywords one method accepts, and is attached to it as
+`**kwargs: Unpack[SomethingKwargs]`. That is what lets an editor complete
+`I.plot(ls=...)` and pyright reject a misspelled keyword before it runs.
+All are `total=False`, so every key is optional.
+
+The inheritance mirrors the call chain, not a classification: `plot()`
+forwards its keywords to the legend and axis code, so PlotKwargs inherits
+from LegendKwargs and SetAxisKwargs and accepts everything they do. A few
+tables are attached to no method at all and exist only to be inherited.
+
+This is the static half of the keyword checking; `track_kwargs` in
+`utils/inspector.py` is the runtime half, warning about a keyword that is
+accepted here but read nowhere.
+"""
 
 from __future__ import annotations
 

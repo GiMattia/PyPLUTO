@@ -1,4 +1,17 @@
-"""Image class. It plots the data."""
+"""Image class. It plots the data.
+
+The plotting facade, and the largest in the package: it builds the state,
+builds sixteen managers on it, and hands every public call to one of them.
+`pyPLUTO/template.py` describes the pattern.
+
+Reading this file is therefore mostly reading the class docstring, which is
+the user-facing documentation of every keyword, and the three pieces that are
+not delegation: the constructor, the two attribute hooks, and the `__str__`
+that describes the class to a user at the prompt.
+
+One method is not a facade at all. `oplotbox` calls the AMR module function
+directly rather than a manager, which is why the tests list it separately.
+"""
 
 from __future__ import annotations
 
@@ -165,12 +178,20 @@ class Image(ImageMixin):
             >>> I = pp.Image(suptitle="Title")
 
         """
+        # The state comes first and everything else is built on it. Note it is
+        # assigned through the name "state", which __setattr__ below treats as
+        # the one exception to its forwarding: without that, this line would
+        # try to store the state inside a state that does not exist yet.
         self.state = ImageState()
         set_text(text)
 
+        # Built apart from the others, and first, because it is the one that
+        # creates the figure: it reads the keywords given here, while the rest
+        # only need the state it leaves behind.
         self.FigureManager = FigureManager(self.state, **kwargs)
 
-        # Initialize managers
+        # Initialize managers. Each is given the same state object, which is
+        # how a figure drawn by one is seen by all the others.
         self.AxisManager = AxisManager(self.state)
         self.ColorbarManager = ColorbarManager(self.state)
         self.ContourManager = ContourManager(self.state)
@@ -195,7 +216,14 @@ class Image(ImageMixin):
         return f"Image(nwin={self.nwin!r}, figsize={self.figsize!r})"
 
     def __str__(self) -> str:
-        """Print the Image class."""
+        """Print the Image class.
+
+        What a user sees from `print(I)`: the methods and attributes they may
+        use, each with a line of description. It is written by hand, so it can
+        go stale silently -- it once advertised `tg` for `tight` and a
+        `fontweight` that was never stored, and omitted three real methods.
+        The tests in test_image.py check both directions against the class.
+        """
         return r"""
         Image class.
         It plots the data.
@@ -261,12 +289,28 @@ class Image(ImageMixin):
         """
 
     def __getattr__(self, name: str) -> object:
-        """Get the attribute of the Image class."""
+        """Get the attribute of the Image class.
+
+        Called only for names Python could not find the usual way, so the
+        fields with a property on ImageMixin never reach here.
+
+        It goes through AttrResolver for symmetry with Load and LoadPart,
+        although an Image holds no memory-mapped data of its own: the
+        resolver passes anything that is not lazy straight back.
+        """
         val = getattr(self.state, name)
         return AttrResolver.resolve(self.state, name, val)
 
     def __setattr__(self, name: str, value: object) -> None:
-        """Set the attribute of the Image class."""
+        """Set the attribute of the Image class.
+
+        Every assignment is forwarded to the state, so what a user sets on
+        the Image is stored in the one place the sixteen managers read from.
+
+        Two exceptions, both in the first line: the state itself, which has to
+        live on the Image, and anything assigned before the state exists,
+        which is what makes the first line of __init__ possible.
+        """
         if name == "state" or not hasattr(self, "state"):
             return super().__setattr__(name, value)
         return setattr(self.state, name, value)

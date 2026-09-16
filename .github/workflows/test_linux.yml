@@ -34,6 +34,19 @@ jobs:
           python-version: ${{ matrix.python-version }}
           prune-cache: false
 
+      # PySide6, pulled in by --all-extras, links against the system GL/EGL
+      # libraries, which the GitHub Linux runners do not ship. They are needed
+      # even with the offscreen Qt platform: without them
+      # "import PySide6.QtWidgets" fails and Tests/conftest.py cannot be
+      # collected at all.
+      - name: Install Qt system libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libegl1 libgl1 libdbus-1-3 libxkbcommon-x11-0 \
+            libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 \
+            libxcb-randr0 libxcb-render-util0 libxcb-shape0 libxcb-xinerama0
+
       - name: Sync environment
         run: uv sync --all-extras --all-groups ${{ matrix.sync-args }}
 

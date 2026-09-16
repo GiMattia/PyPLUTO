@@ -1,4 +1,16 @@
-"""The Load class loads the data (fluid) from the output files."""
+"""The Load class loads the data (fluid) from the output files.
+
+Load is a facade: it implements almost nothing itself. It builds the state,
+builds a manager for each family of operations on that same state, and then
+every public method is two lines handing the call to the manager that does
+the work. `pyPLUTO/template.py` describes the pattern and why it is used.
+
+Reading this file is therefore mostly reading the class docstring, which is
+the user-facing documentation of every keyword, and the four pieces of
+machinery that are not delegation: the `__new__` overloads that decide what
+type a load is, the constructor, and the two attribute hooks that make
+`Data.rho` work.
+"""
 
 from __future__ import annotations
 
@@ -169,6 +181,12 @@ class Load(LoadMixin, Generic[_VarT]):
 
     """
 
+    # The three overloads exist to tell the type checkers what a variable of
+    # this load will be. Asking for one output gives arrays, asking for
+    # several gives a dict of arrays keyed by output number, so `D.rho` has a
+    # different type depending on the nout that was passed. The overloads let
+    # that be known from the call rather than discovered at runtime; only the
+    # signatures are read, the last definition is the one that runs.
     @overload
     def __new__(
         cls,
@@ -211,15 +229,27 @@ class Load(LoadMixin, Generic[_VarT]):
         **kwargs: Unpack[LoadKwargs],
     ) -> None:
         """Initialize the Load class."""
+        # The state comes first and everything else is built on it. Note it is
+        # assigned through the name "state", which __setattr__ below treats as
+        # the one exception to its forwarding: without that, this line would
+        # try to store the state inside a state that does not exist yet.
         self.state: LoadState = LoadState()
+
+        # Verbosity is settled before anything can log.
         self.state.text = kwargs.get("text", self.state.text)
         set_text(self.state.text)
         self.state.class_name = self.__class__.__name__
         self.state.full3D = kwargs.get("full3D", self.state.full3D)
         self.state.level = kwargs.get("level", self.state.level)
+
+        # The reading happens here: these two fill the state with the grid,
+        # the variables and the metadata. _check=False because this call is
+        # not the outermost one -- __init__ is, and it judges the keywords.
         InitLoadManager(self.state, nout, var, _check=False, **kwargs)
         FiledefpliniManager(self.state, kwargs.get("defh"), kwargs.get("plini"))
 
+        # Every manager is given the same state object, which is how a result
+        # written by one is visible to all the others.
         self.ReadFileManager = ReadFilesManager(self.state)
         self.WriteFileManager = WriteFilesManager(self.state)
         self.FindLinesManager = FindLinesManager(self.state)
@@ -315,12 +345,31 @@ class Load(LoadMixin, Generic[_VarT]):
         return text
 
     def __getattr__(self, name: str) -> _VarT:
-        """Get the attribute of the Load class."""
+        """Get the attribute of the Load class.
+
+        Called only for names Python could not find the usual way, so the
+        fields with a property on LoadMixin never reach here: this is the
+        path for the loaded variables, whose names come from the simulation
+        and cannot be declared in advance.
+
+        The value goes through AttrResolver, which is what turns a
+        memory-mapped window into an array the state owns, once, on the first
+        access. See `utils/resolver.py`.
+        """
         val = getattr(self.state, name)
         return cast("_VarT", AttrResolver.resolve(self.state, name, val))
 
     def __setattr__(self, name: str, value: object) -> None:
-        """Set the attribute of the Load class."""
+        """Set the attribute of the Load class.
+
+        Every assignment is forwarded to the state, so `D.rho = ...` and a
+        user's own `D.my_var = ...` are stored in the one place the managers
+        read from.
+
+        Two exceptions, both in the first line: the state itself, which has to
+        live on the Load, and anything assigned before the state exists, which
+        is what makes the first line of __init__ possible.
+        """
         if name == "state" or not hasattr(self, "state"):
             return super().__setattr__(name, value)
         return setattr(self.state, name, value)
@@ -346,6 +395,10 @@ class Load(LoadMixin, Generic[_VarT]):
             **kwargs,
         )
 
+    # Every method below follows this shape: a one-line placeholder docstring,
+    # a body that forwards to the manager, and this line copying the manager's
+    # full documentation onto the facade method. Without the copy, `help(D.
+    # write_file)` would show the placeholder instead of the real thing.
     write_file.__doc__ = WriteFilesManager.write_file.__doc__
 
     def read_file(

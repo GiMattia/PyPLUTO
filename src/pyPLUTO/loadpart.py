@@ -1,4 +1,14 @@
-"""The Load class loads the data (fluid) from the output files."""
+"""The LoadPart class loads the particles from the output files.
+
+The particle counterpart of Load, and a facade in the same way: it builds a
+state, builds three managers on it, and hands every public call to one of
+them. `pyPLUTO/template.py` describes the pattern.
+
+Two differences from Load are worth knowing. It uses BaseLoadState directly
+rather than LoadState, because particles carry their positions as ordinary
+variables and need no mesh. And it has four public methods against Load's
+sixteen, since the grid operations have no meaning without a grid.
+"""
 
 from __future__ import annotations
 
@@ -98,6 +108,12 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         >>> LoadPart(nfile_lp=1)
     """
 
+    # The three overloads exist to tell the type checkers what a variable of
+    # this load will be. Asking for one output gives arrays, asking for
+    # several gives a dict of arrays keyed by output number, so `D.vx1` has a
+    # different type depending on the nout that was passed. The overloads let
+    # that be known from the call rather than discovered at runtime; only the
+    # signatures are read, the last definition is the one that runs.
     @overload
     def __new__(
         cls,
@@ -140,6 +156,10 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         **kwargs: Unpack[LoadPartKwargs],
     ) -> None:
         """Initialize the LoadPart class."""
+        # The state comes first and everything else is built on it. Note it is
+        # assigned through the name "state", which __setattr__ below treats as
+        # the one exception to its forwarding: without that, this line would
+        # try to store the state inside a state that does not exist yet.
         self.state: BaseLoadState = BaseLoadState()
         self.cached_vars = set()
         self.state.text = kwargs.get("text", self.state.text)
@@ -153,7 +173,14 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
             )
             kwargs.setdefault("chnk", kwargs.pop("nfile_lp"))
         self.state.chnk = kwargs.get("chnk")
+
+        # The reading happens here: this fills the state with the particles
+        # and the metadata. _check=False because this call is not the
+        # outermost one -- __init__ is, and it judges the keywords.
         InitLoadManager(self.state, nout, var, _check=False, **kwargs)
+
+        # Every manager is given the same state object, which is how a result
+        # written by one is visible to all the others.
         self.PartToolsManager = PartToolsManager(self.state)
         self.UnitManager = UnitManager(self.state)
         self.SetUnitsManager = SetUnitsManager(self.state)
@@ -216,12 +243,32 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         return text
 
     def __getattr__(self, name: str) -> _VarT:
-        """Get the attribute of the Load class."""
+        """Get the attribute of the Load class.
+
+        Called only for names Python could not find the usual way, so the
+        fields with a property on BaseLoadMixin never reach here: this is the
+        path for the loaded variables, whose names come from the simulation
+        and cannot be declared in advance.
+
+        This is where the resolver earns its keep, since LoadPart is the one
+        class that really carries memory-mapped data: the first access to a
+        variable copies it into memory the state owns and releases the
+        mapping. See `utils/resolver.py`.
+        """
         val = getattr(self.state, name)
         return cast("_VarT", AttrResolver.resolve(self.state, name, val))
 
     def __setattr__(self, name: str, value: object) -> None:
-        """Set the attribute of the Load class."""
+        """Set the attribute of the Load class.
+
+        Every assignment is forwarded to the state, so a loaded variable and
+        a user's own composite variable are stored in the one place the
+        managers read from.
+
+        Two exceptions, both in the first line: the state itself, which has to
+        live on the LoadPart, and anything assigned before the state exists,
+        which is what makes the first lines of __init__ possible.
+        """
         if name == "state" or not hasattr(self, "state"):
             return super().__setattr__(name, value)
         return setattr(self.state, name, value)
@@ -236,6 +283,10 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         """Select method."""
         return self.PartToolsManager.select(var, cond, sort, ascending)
 
+    # Every method below follows this shape: a one-line placeholder docstring,
+    # a body that forwards to the manager, and this line copying the manager's
+    # full documentation onto the facade method. Without the copy, `help(D.
+    # select)` would show the placeholder instead of the real thing.
     select.__doc__ = PartToolsManager.select.__doc__
 
     def spectrum(

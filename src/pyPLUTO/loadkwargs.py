@@ -1,4 +1,13 @@
-"""Type annotations for accepted **kwargs in the PyPLUTO Loading classes."""
+"""Type annotations for accepted **kwargs in the PyPLUTO Loading classes.
+
+The loading counterpart of imagekwargs.py: each table names the keywords one
+method accepts, attached as `**kwargs: Unpack[SomethingKwargs]`, and all are
+`total=False` so every key is optional.
+
+Flatter than the image tables, since the loading methods rarely forward
+keywords to one another: only LoadKwargs and LoadPartKwargs inherit, both
+from BaseLoadKwargs, which holds what Load and LoadPart have in common.
+"""
 
 from __future__ import annotations
 

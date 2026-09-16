@@ -1,4 +1,13 @@
-"""Test of the loadkwargs.py file."""
+"""Test of the loadkwargs.py file.
+
+The loading twin of test_imagekwargs.py, kept parallel to it. The file under
+test is pure declaration, so it is at 100% line coverage before a single test
+exists; what these tests check is the contract instead.
+
+One difference in shape: two classes are covered here rather than one, since
+Load and LoadPart each have their own tables, and the tests are parametrized
+over both so neither is held to a lower standard.
+"""
 
 import typing
 from typing import get_args, get_type_hints
@@ -54,16 +63,21 @@ def _chain(typed_dict: type) -> list[type]:
 
 
 def test_module_declares_typed_dicts() -> None:
-    """Find the kwargs TypedDicts, so the tests below are not vacuous."""
+    """Check the module really declares tables, so the rest is not vacuous.
+
+    TYPED_DICTS is read from the module, so if that ever came back empty the
+    parametrized tests would silently become zero tests.
+    """
     assert TYPED_DICTS
 
 
 @pytest.mark.parametrize("name", TYPED_DICTS)
 def test_every_typeddict_is_total_false(name: str) -> None:
-    """Make every kwarg optional, with total=False.
+    """Check one table declares no required key.
 
     A required key would make every call that omits it a type error, so the
-    whole point of these tables is that they are optional.
+    whole point of these tables is that they are optional. `total=False` on
+    the class is what sets this, and it is easy to leave off a new table.
     """
     typed_dict = getattr(kwargs_mod, name)
     assert typed_dict.__required_keys__ == frozenset()
@@ -71,12 +85,16 @@ def test_every_typeddict_is_total_false(name: str) -> None:
 
 @pytest.mark.parametrize("name", TYPED_DICTS)
 def test_no_conflicting_key_types(name: str) -> None:
-    """Declare a kwarg with one type only, along the whole inheritance chain.
+    """Walk one table's whole chain and check no key is declared twice.
 
     LoadKwargs and LoadPartKwargs both extend BaseLoadKwargs, so the same key
     can arrive twice. If a subclass redeclared an inherited key with another
     type, the winner would depend on the order of the bases rather than on
     intent.
+
+    The chain is followed through `_chain`, not `__mro__`: a TypedDict does
+    not keep its parents there, so a version of this test using `__mro__`
+    could never fail.
     """
     seen: dict[str, object] = {}
     conflicts = []
@@ -90,10 +108,12 @@ def test_no_conflicting_key_types(name: str) -> None:
 
 @pytest.mark.parametrize(("cls", "method", "expected"), WITH_KWARGS)
 def test_method_kwargs_typeddict(cls: type, method: str, expected: str) -> None:
-    """Annotate each method's **kwargs with its own TypedDict.
+    """Check one method unpacks the table the helper says it should.
 
     The annotation is what pyright checks a call against, so a method pointed
     at the wrong table would accept the wrong keywords and reject its own.
+    Both classes are covered, so `Load.__init__` and `LoadPart.__init__`
+    cannot end up sharing a table by accident.
     """
     hints = get_type_hints(getattr(cls, method), include_extras=True)
     unpacked = get_args(hints["kwargs"])
@@ -103,24 +123,29 @@ def test_method_kwargs_typeddict(cls: type, method: str, expected: str) -> None:
 
 @pytest.mark.parametrize(("cls", "method"), WITHOUT_KWARGS)
 def test_method_without_kwargs(cls: type, method: str) -> None:
-    """Take explicit parameters only, with no **kwargs at all."""
+    """Check one method takes no **kwargs at all.
+
+    Listed by hand rather than left out, so every method is accounted for by
+    one table or the other and none can be forgotten.
+    """
     hints = get_type_hints(getattr(cls, method), include_extras=True)
     assert "kwargs" not in hints
 
 
 @pytest.mark.parametrize(("cls", "helper"), CLASSES)
 def test_every_method_is_listed(cls: type, helper: object) -> None:
-    """Keep KWARGS and NO_KWARGS in sync with the methods of each class.
+    """Compare the two helper tables against the methods of one class.
 
-    A new method fails here until it is listed in one of the two, so its
-    kwargs table cannot go unchecked. The constructor is added by hand: it is
-    not in DELEGATION, since it delegates to nobody.
+    A new method fails here until it is listed in KWARGS or NO_KWARGS, so its
+    keywords cannot go unchecked. The tests above are parametrized from those
+    tables, which is what makes this the one that keeps them meaningful.
 
-    LONG TEST: CHECK
+    The constructor is added by hand because it is not in DELEGATION: it
+    delegates to nobody, yet it is where most keywords are actually given.
     """
-    kwargs: dict[str, str] = helper.KWARGS  # type: ignore[attr-defined]
-    no_kwargs: set[str] = helper.NO_KWARGS  # type: ignore[attr-defined]
-    delegation: dict[str, str] = helper.DELEGATION  # type: ignore[attr-defined]
+    kwargs: dict[str, str] = helper.KWARGS  # type: ignore[attr-defined]  # ty: ignore[unresolved-attribute]
+    no_kwargs: set[str] = helper.NO_KWARGS  # type: ignore[attr-defined]  # ty: ignore[unresolved-attribute]
+    delegation: dict[str, str] = helper.DELEGATION  # type: ignore[attr-defined]  # ty: ignore[unresolved-attribute]
 
     listed = set(kwargs) | no_kwargs
     expected = set(delegation) | {"__init__"}
@@ -136,11 +161,11 @@ def test_every_method_is_listed(cls: type, helper: object) -> None:
 
 
 def test_every_typeddict_is_reachable() -> None:
-    """Attach every declared TypedDict to a method, directly or as a base.
+    """Check every declared table is reachable from some method.
 
     A table nobody unpacks documents keywords that no call can ever use, so
-    it would silently rot. BaseLoadKwargs is reached through LoadKwargs and
-    LoadPartKwargs, which is why the bases count too.
+    it would silently rot. Bases count as reached: BaseLoadKwargs exists to
+    be inherited by LoadKwargs and LoadPartKwargs rather than unpacked.
     """
     used = {expected for _, _, expected in WITH_KWARGS}
     reachable = {

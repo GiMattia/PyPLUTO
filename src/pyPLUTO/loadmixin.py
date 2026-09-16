@@ -1,4 +1,13 @@
-"""Mixin class for load fluid handling."""
+"""Mixin class for load fluid handling.
+
+The grid half of the mixin pair: BaseLoadMixin exposes what every load has,
+and this adds one property per field that only a fluid load carries. Load and
+every fluid manager inherit it, so `Data.x1` and `self.x1` inside a manager
+reach the same state object.
+
+LoadPart inherits BaseLoadMixin alone and so has none of these, which is
+correct: particles have no mesh.
+"""
 
 from __future__ import annotations
 
@@ -12,8 +21,17 @@ class LoadMixin(BaseLoadMixin[LoadState]):
     """Mixin class for load fluid handling.
 
     It provides properties and methods related to loading fluid data.
+
+    Inherits `BaseLoadMixin[LoadState]`, which does two things at once: it
+    brings in the properties of the base state, and it narrows the state type
+    so the checkers know `self.state` carries the grid fields as well.
+
+    See `loadstate.py` for what the grid names mean; the properties here are
+    one pair per field, in the same order.
     """
 
+    # Redeclared against the narrowed type, so the grid fields resolve here
+    # and not only through the generic parameter above.
     state: LoadState
 
     @property

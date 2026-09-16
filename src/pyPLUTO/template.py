@@ -45,10 +45,32 @@ from pyPLUTO.utils.inspector import track_kwargs
 
 @dataclass
 class ExampleState:
-    """Class that stores the state of the Example top-level class."""
+    """Class that stores the state of the Example top-level class.
 
+    One comment line per field, above it, with a blank line between: the real
+    state files are written this way, since a reader meets thirty of these at
+    once and needs to know what each holds without leaving the file.
+
+    The fields come in two kinds. One the user may choose gets an ordinary
+    default. One that only the code can fill in gets
+    `field(init=False, repr=False)` instead: it has no honest value before
+    then, so reading it early raises AttributeError rather than returning
+    something made up, `init=False` keeps it out of the constructor, and
+    `repr=False` is what lets `repr()` of a fresh state work instead of
+    raising on the first such field.
+
+    A mutable default must use `default_factory`, or every instance would
+    share one object -- the classic dataclass trap.
+    """
+
+    # What this example is called, a setting the user may choose
     label: str = ""
+
+    # The values to be rescaled, a setting with a per-instance default
     values: list[float] = field(default_factory=list)
+
+    # The factor last applied, which exists only once rescale has run
+    last_factor: float = field(init=False, repr=False)
 
 
 # ---------------------------------------------------------------------------
@@ -157,16 +179,35 @@ class ExampleManager(ExampleMixin):
 
         """
         # `track_kwargs` (applied above) inspects this function's source to
-        # discover every key read via kwargs['x'] / kwargs.get('x') /
-        # kwargs.pop('x'), so that unrecognized keys can be warned about at
-        # the outermost call (`_check=True`, the default for methods called
-        # directly by users) while calls a manager makes to *other*
+        # discover every key it reads, so that unrecognized keys can be warned
+        # about at the outermost call (`_check=True`, the default for methods
+        # called directly by users) while calls a manager makes to *other*
         # managers internally pass `_check=False` (see below) to avoid
         # premature/duplicate warnings before the full kwargs set is known.
+        #
+        # The source is parsed and never run, so a key is found only where it
+        # is written out as a literal string. Use one of these four forms:
+        #
+        #   kwargs["label"]             read, write or delete by subscript
+        #   kwargs.get("label")         same for .pop() and .setdefault()
+        #   "label" in kwargs           same for "label" not in kwargs
+        #   @track_kwargs(extra_keys={"label"})    declared by hand
+        #
+        # Anything else is invisible to the scan, and every caller passing
+        # that keyword is then warned that it is unused although it worked.
+        # In particular avoid a computed key, as in `kwargs[name]`, and a
+        # whole-mapping read, as in `kwargs.items()`: prefer one of the first
+        # three forms, and when the keyword genuinely cannot be written that
+        # way -- or is only forwarded to another library, straight into a
+        # matplotlib call for instance -- use the fourth and declare it.
         if (label := kwargs.get("label")) is not None:
             self.state.label = label
 
         self.state.values = [v * factor for v in self.state.values]
+
+        # Filling in a field declared init=False: this is the only place such
+        # a field may be set, and after this line reading it no longer raises.
+        self.state.last_factor = factor
 
         # A manager that needs another manager's behavior takes an instance
         # of it in __init__ (e.g. `self.RangeManager = RangeManager(state)`)

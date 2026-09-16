@@ -1,4 +1,19 @@
-"""Test of the load.py file."""
+"""Test of the load.py file.
+
+Load implements almost nothing: it builds a state, builds eight managers on
+it, and hands every public call to one of them. So these tests are about the
+wiring rather than about loading data -- which manager answers, whether it
+shares the state, whether the arguments arrive intact, and whether what the
+class says about itself is still true.
+
+The failures they are aimed at are quiet ones. A method wired to the wrong
+manager, a manager built on a state of its own, an argument dropped between
+the facade and the manager, a `__str__` still advertising a method that was
+renamed: none of these raise, and all of them have happened in this codebase.
+
+The hand-written tables live in helper_load.py, so a new method or manager
+fails a completeness guard here until it is listed and therefore tested.
+"""
 
 import inspect
 import logging
@@ -18,14 +33,22 @@ from pyPLUTO.load import Load
 
 
 def _load(data_dir: Path) -> Load:
-    """Load the 2D test dataset, the smallest complete one."""
+    """Load the 2D test dataset, the smallest complete one.
+
+    Used by nearly every test here, since what is being checked is the facade
+    rather than the data: the smallest real dataset keeps the tests fast
+    while still exercising a genuine load rather than a stub.
+    """
     return pp.Load(path=data_dir / "single_file", text=False)
 
 
 # ---- Managers ----
 @pytest.mark.parametrize("name", MANAGERS)
 def test_managers_share_the_state(name: str, data_dir: Path) -> None:
-    """Build every manager on the load's own state.
+    """Check one manager holds the same state object as the load itself.
+
+    `is` rather than equality: two states with the same contents would pass
+    an equality check and still be two objects.
 
     A manager with a separate state would read a different grid, or write its
     results where nobody looks, without any error.
@@ -35,7 +58,12 @@ def test_managers_share_the_state(name: str, data_dir: Path) -> None:
 
 
 def test_every_manager_is_listed(data_dir: Path) -> None:
-    """Keep MANAGERS in sync with the managers a Load builds."""
+    """Compare the managers a Load builds with the list in the helper.
+
+    The test above is parametrized from that list, so a manager missing from
+    it would never be checked for sharing the state. This is what keeps that
+    from happening silently.
+    """
     data = _load(data_dir)
     built = {name for name in vars(data.state) if name.endswith("Manager")}
     missing, stale = built - set(MANAGERS), set(MANAGERS) - built
@@ -49,7 +77,13 @@ def test_every_manager_is_listed(data_dir: Path) -> None:
 
 # ---- Attribute access ----
 def test_attribute_reads_and_writes_the_state(data_dir: Path) -> None:
-    """Read and write the load attributes through the state."""
+    """Set a name on the state, read it off the load, and the reverse.
+
+    This is the forwarding that makes `D.rho` work: the variables cannot be
+    declared in advance, so both directions go through the state. It is also
+    what lets a user attach a composite variable of their own and pass the
+    load into their own functions.
+    """
     data = _load(data_dir)
     setattr(data.state, "custom_attr", 123)  # noqa: B010
     assert data.custom_attr == 123
@@ -58,7 +92,12 @@ def test_attribute_reads_and_writes_the_state(data_dir: Path) -> None:
 
 
 def test_unknown_attribute_raises(data_dir: Path) -> None:
-    """Raise AttributeError for an attribute the state does not have."""
+    """Read a name nothing ever set, and expect AttributeError.
+
+    The other half of the forwarding: reaching through to the state must not
+    turn a missing name into None, or a misspelled variable would read as
+    empty rather than as a mistake.
+    """
     data = _load(data_dir)
     with pytest.raises(AttributeError):
         data.wrong  # noqa: B018
@@ -81,7 +120,12 @@ def test_repr_shows_the_state(data_dir: Path) -> None:
 
 
 def test_str_describes_the_load(data_dir: Path) -> None:
-    """Describe the file, the simulation and the public methods."""
+    """Print the description and check each of its sections is present.
+
+    `__str__` is documentation the class writes about itself, so it can go
+    stale as quietly as a comment. This checks the shape; the two tests below
+    check the contents are true.
+    """
     text = str(_load(data_dir))
     assert "Load class." in text
     assert "File properties:" in text
@@ -93,12 +137,26 @@ def test_str_describes_the_load(data_dir: Path) -> None:
 
 @pytest.mark.parametrize("method", DELEGATION)
 def test_str_lists_every_method(method: str, data_dir: Path) -> None:
-    """List every public method in the description, so it cannot go stale."""
+    """Look for one public method in the description, one test per method.
+
+    Parametrized over DELEGATION, so a method added to the class fails here
+    until it is also advertised. This is the exact bug found in image.py and
+    loadpart.py, where `__str__` listed methods that no longer existed and
+    omitted ones that did.
+    """
     assert f"- {method}\n" in str(_load(data_dir))
 
 
 def test_str_attributes_exist(data_dir: Path) -> None:
-    """Advertise only attributes that the load really has."""
+    """Read the attribute names out of the description and check each exists.
+
+    The other direction from the test above: not "is every method listed" but
+    "is everything listed real". `image.py` advertised `tg` for `tight` and a
+    `fontweight` that was never stored, which is what this would have caught.
+
+    The names are pulled out of the quoted lists in the section, and `assert
+    names` guards against the regex silently matching nothing.
+    """
     data = _load(data_dir)
     section = str(data).split("Public attributes available:")[1]
     names = re.findall(r"'(\w+)'", section.split("Variables available:")[0])
@@ -120,7 +178,11 @@ def test_units_keyword_attaches_astropy_units(data_dir: Path) -> None:
 
 
 def test_no_units_keyword_leaves_plain_arrays(data_dir: Path) -> None:
-    """Leave the variables untouched when units is not given."""
+    """Load without the keyword and check the arrays stay plain.
+
+    The counterpart of the test above: attaching units by default would
+    change the type of every variable for every user who never asked.
+    """
     data = _load(data_dir)
     assert not data.unit_attached
     assert not isinstance(data.rho, u.Quantity)
@@ -130,7 +192,12 @@ def test_no_units_keyword_leaves_plain_arrays(data_dir: Path) -> None:
 def test_text_logs_the_single_output(
     data_dir: Path, caplog: pytest.LogCaptureFixture
 ) -> None:
-    """Report the folder and the output number when text is on."""
+    """Load with text on and find the folder and output in the log.
+
+    The line a user sees on every load, so it is worth pinning: it reports
+    what was actually read, and a wrong number here would misdescribe every
+    session.
+    """
     with caplog.at_level(logging.INFO, logger="pyPLUTO.load"):
         pp.Load(path=data_dir / "single_file", text=True)
     assert "single_file" in caplog.text
@@ -153,7 +220,12 @@ def test_text_logs_every_output_as_plain_ints(
 def test_text_logs_no_output_when_nothing_is_loaded(
     data_dir: Path, caplog: pytest.LogCaptureFixture
 ) -> None:
-    """Report no output when nout is None, so nothing was ever loaded."""
+    """Load nothing at all and check the log says so rather than crashing.
+
+    `nout=None` is documented as "do not load", which leaves the output
+    number never set. LoadPart used to raise AttributeError here, because it
+    lacked the guard Load has; that bug was found by this test's twin.
+    """
     with (
         caplog.at_level(logging.INFO, logger="pyPLUTO.load"),
         pytest.warns(UserWarning, match="No output is loaded"),
@@ -164,10 +236,14 @@ def test_text_logs_no_output_when_nothing_is_loaded(
 
 # ---- Delegation to the managers ----
 def test_every_method_is_listed() -> None:
-    """Keep DELEGATION in sync with the public methods Load defines.
+    """Compare the public methods Load defines with the table in the helper.
 
     Adding, removing or renaming a method fails here until the table is
     updated, so no method can go untested.
+
+    The three tests below are all parametrized from DELEGATION, so a method
+    missing from it would have neither its wiring, its arguments nor its
+    documentation checked, with nothing to say so.
     """
     public = {
         name
@@ -187,14 +263,25 @@ def test_every_method_is_listed() -> None:
 def test_delegation(
     method: str, manager: str, data_dir: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """Hand every argument to the right manager and return its result.
+    """Call one facade method and check the manager received it intact.
 
-    Each argument is a fresh object(), and must arrive at the manager's
-    parameter with the same name, whether the facade passes it by position or
-    by keyword. An extra keyword checks that **kwargs are forwarded too. The
-    manager signature is unwrapped because track_kwargs hides _check from it.
+    The strongest test in the file, and the one that would catch a facade
+    method quietly dropping or reordering an argument -- which produces wrong
+    results rather than an error, since most of these parameters are optional.
 
-    LONG TEST: CHECK
+    It works by replacing the manager's method with a recorder, calling the
+    facade, then binding what was recorded against the manager's real
+    signature. Binding is what makes the check independent of *how* the
+    facade passes things: by position or by keyword, the argument has to land
+    on the parameter of the same name.
+
+    Each argument is a fresh object(), so an argument that ended up on the
+    wrong parameter cannot coincidentally look right. An extra keyword checks
+    that **kwargs are forwarded too, and the return value is the same object
+    the manager produced, so the facade is not post-processing anything.
+
+    The manager signature is unwrapped because track_kwargs replaces it with
+    one that hides _check, and binding needs the real one.
     """
     data = _load(data_dir)
     target = getattr(data, manager)
@@ -241,7 +328,17 @@ def test_delegation(
 
 @pytest.mark.parametrize(("method", "manager"), DELEGATION.items())
 def test_docstring_is_copied(method: str, manager: str, data_dir: Path) -> None:
-    """Show the manager's documentation on the facade method."""
+    """Compare the docstring of the facade method with the manager's.
+
+    Each facade method carries a one-line placeholder in the source, replaced
+    at class creation by `method.__doc__ = Manager.method.__doc__`. Without
+    that line, `help(D.read_file)` would show "Read file method." instead of
+    the real documentation, and the parameters would be documented nowhere a
+    user can reach.
+
+    `assert doc` first, so a manager method that lost its own docstring fails
+    as itself rather than as a mismatch between two empty strings.
+    """
     data = _load(data_dir)
     doc = getattr(type(getattr(data, manager)), method).__doc__
     assert doc

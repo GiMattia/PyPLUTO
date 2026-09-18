@@ -1,8 +1,10 @@
 """Test of the image.py file.
 
 The plotting twin of test_load.py and test_loadpart.py, and kept parallel to
-them: the same tests in the same order, so no facade is held to a lower
-standard than the others.
+them: the shared sections (managers, attribute access, printing, delegation)
+hold the same tests under the same names, so no facade is held to a lower
+standard than the others. What only an Image has -- the figure keywords, the
+signature checks, oplotbox -- sits in sections of its own.
 
 Image implements almost nothing -- it builds a state, builds sixteen managers
 on it, and hands every public call to one of them -- so these tests are about
@@ -16,20 +18,21 @@ That last one is not hypothetical. `__str__` here once advertised `tg` for
 that did exist; the two tests that check it in both directions were written
 for that.
 
-Some tests build a real Image and some use the stubs in helper_all.py and
-helper_image.py. The rule of thumb is that anything checking the *figure*
-needs a real one, while anything checking *which manager answered* is better
-off with a stub, which cannot draw and so cannot be slow or flaky.
+Some tests build a real Image and some replace its managers with the stub in
+helper_all.py. The rule of thumb is that anything checking the *figure*
+needs real managers, while anything checking *which manager answered* is
+better off with a stub, which cannot draw and so cannot be slow or flaky.
 """
 
 import inspect
 import logging
 import re
+from collections.abc import Callable
 
 import matplotlib.pyplot as plt
 import pytest
 from helper_all import DummyManager
-from helper_image import DELEGATION, MANAGERS, NOT_DELEGATED, DummyState
+from helper_image import DELEGATION, MANAGERS, NOT_DELEGATED
 
 import pyPLUTO as pp
 import pyPLUTO.image as image_mod
@@ -45,77 +48,22 @@ from pyPLUTO.imagestate import ImageState
 
 @pytest.fixture
 def dummy_managers(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Replace the managers and the state with stubs, for one test only.
+    """Replace the managers with stubs, for one test only.
 
     monkeypatch undoes the replacement when the test ends, so this cannot
     leak into anything else. The stubs make the tests that use it fast and
     figure-free: DummyManager answers any method with its own name, so the
     test can see which one was called without anything being drawn.
+
+    The state stays real. ImageState is a plain dataclass that builds no
+    figure, so there is nothing to gain from a stand-in, and a stand-in would
+    be one more thing that could drift from the class it imitates.
     """
     for name in MANAGERS:
         monkeypatch.setattr(image_mod, name, DummyManager)
-    monkeypatch.setattr(image_mod, "ImageState", lambda *a, **kw: DummyState())
 
 
-# ---- Construction ----
-def test_default_initialization() -> None:
-    """Build an image with no arguments and check what it is made of.
-
-    The simplest possible construction, and the one that would fail first if
-    the constructor stopped building either the state or the figure manager.
-    """
-    img = pp.Image(text=False)
-    assert isinstance(img.state, ImageState)
-    assert isinstance(img.FigureManager, FigureManager)
-
-
-def test_custom_arguments() -> None:
-    """Pass a figure and a style and find both on the state and the image.
-
-    Two things at once: the constructor honours what it was given, and the
-    value is readable through the facade as well as off the state, which is
-    the mixin property doing its job.
-    """
-    fig = plt.figure()
-    img = pp.Image(fig=fig, style="dark_background", text=False)
-    assert img.state.fig is fig
-    assert img.state.style == "dark_background"
-    assert img.style == "dark_background"
-
-
-def test_tight_layout() -> None:
-    """Pass tight=False and check matplotlib actually received it.
-
-    Unlike the test above this reads the answer off the *figure* rather than
-    off the state, so it checks the setting reached matplotlib rather than
-    merely being recorded.
-    """
-    img = pp.Image(tight=False, text=False)
-    assert img.fig is not None
-    assert img.fig.get_tight_layout() is False
-
-
-def test_fontweight_default() -> None:
-    """Build an image without the keyword and check the default weight.
-
-    fontweight used to be advertised by `__str__` but never stored anywhere,
-    so it silently did nothing. It now lives on the state like fontsize, and
-    these two tests are what keep it there.
-    """
-    assert pp.Image(text=False).fontweight == "normal"
-
-
-def test_fontweight_given() -> None:
-    """Pass a font weight and find it on the state and on the image.
-
-    The other half of the pair above: the default exists and a choice is
-    honoured.
-    """
-    img = pp.Image(fontweight="bold", text=False)
-    assert img.state.fontweight == "bold"
-    assert img.fontweight == "bold"
-
-
+# ---- Managers ----
 @pytest.mark.parametrize(("name"), MANAGERS)
 def test_managers_share_the_state(name: str) -> None:
     """Check one manager holds the same state object as the image itself.
@@ -136,6 +84,11 @@ def test_every_manager_is_listed() -> None:
     The test above is parametrized from that list, so a manager missing from
     it would never be checked for sharing the state. Sixteen is enough that
     one going unnoticed is a real possibility.
+
+    The managers are looked for on the *state*, not on the image: they are
+    assigned in `__init__` as `self.XManager = ...`, and `__setattr__`
+    forwards every assignment but "state" itself, so that is where they end
+    up.
     """
     img = pp.Image(text=False)
     built = {name for name in vars(img.state) if name.endswith("Manager")}
@@ -149,36 +102,8 @@ def test_every_manager_is_listed() -> None:
     )
 
 
-def test_warn_attr() -> None:
-    """Pass a keyword nothing reads and check the user is told.
-
-    This is track_kwargs working end to end through a real constructor: the
-    whole point is that a misspelled keyword says so instead of being
-    silently ignored. See utils/inspector.py.
-    """
-    with pytest.warns(UserWarning, match=r"Unused kwargs: \{'attr'\}"):
-        pp.Image(attr=None)  # pyright: ignore[reportCallIssue]
-
-
-@pytest.mark.parametrize(
-    ("text", "logged"), [(None, True), (True, True), (False, False)]
-)
-def test_Image_prints_message(
-    caplog: pytest.LogCaptureFixture, text: bool | None, logged: bool
-) -> None:
-    """Build an image at each verbosity and check whether it logged.
-
-    Three cases in one test: the default and True both print the creation
-    line, False silences it. A user who asked for quiet and got output would
-    have no way to stop it.
-    """
-    with caplog.at_level(logging.INFO):
-        pp.Image(text=text)
-    assert ("Image class created at nwin" in caplog.text) is logged
-
-
 # ---- Attribute access ----
-def test_attribute_get_existing() -> None:
+def test_attribute_reads_and_writes_the_state() -> None:
     """Set a name on the state, read it off the image, and the reverse.
 
     The forwarding that makes the facade transparent: everything a user sets
@@ -191,7 +116,7 @@ def test_attribute_get_existing() -> None:
     assert getattr(img.state, "custom_attr") == 456  # noqa: B009
 
 
-def test_getattr_new() -> None:
+def test_unknown_attribute_raises() -> None:
     """Read a name nothing ever set, and expect AttributeError.
 
     Reaching through to the state must not turn a missing name into None, or
@@ -202,8 +127,35 @@ def test_getattr_new() -> None:
         img.wrong  # noqa: B018
 
 
+@pytest.mark.usefixtures("dummy_managers")
+def test_replaced_state_receives_assignments() -> None:
+    """Swap the state through the facade, then assign a name on the image.
+
+    `__setattr__` has one exception, the name "state": it is stored on the
+    Image itself instead of being forwarded, which is the path taken by the
+    first line of `__init__`. Every other name goes to whatever the state is
+    *now*, so after the swap a new name must land on the new state and not
+    on the Image.
+
+    `vars()` rather than attribute access: it reads the instance dictionary
+    directly, so the value cannot be found by some other route. A failure on
+    the first assert means "state" was forwarded instead of kept (the state
+    would try to hold itself); on the others, that assignments no longer
+    reach the state the managers read from.
+    """
+    img = image_mod.Image(text=False)
+    new_state = ImageState()
+
+    img.state = new_state
+    assert vars(img)["state"] is new_state
+
+    img.new_field = 42
+    assert vars(new_state).get("new_field") == 42
+    assert "new_field" not in vars(img)
+
+
 # ---- Printing ----
-def test_repr_default() -> None:
+def test_repr_shows_the_state() -> None:
     """Compare the repr of a default image with the exact expected text.
 
     An exact match rather than a substring, because the repr is short enough
@@ -222,7 +174,7 @@ def test_repr_follows_the_state() -> None:
     assert repr(img) == "Image(nwin=3, figsize=[4.0, 3.0])"
 
 
-def test_str() -> None:
+def test_str_describes_the_image() -> None:
     """Print the description and check its sections and some of its lines.
 
     `__str__` here carries a line of prose per method, unlike the load
@@ -269,12 +221,129 @@ def test_str_attributes_exist() -> None:
         assert hasattr(img, name), name
 
 
+def test_str_properties_exist() -> None:
+    """Read the property names out of the description and check each exists.
+
+    The same check as the test above, for the other section that names
+    attributes: "Image properties:" gives each line a name in brackets, and
+    "Number of subplots" names two, `(nrow0 x ncol0)`. A renamed field would
+    leave the old name advertised here with nothing to say so.
+
+    The pattern wants a space before the bracket, so words such as "time(s)"
+    in the load facades' twin of this test are not read as names.
+    """
+    img = pp.Image(text=False)
+    section = str(img).split("Image properties:")[1]
+    section = section.split("Public methods available:")[0]
+    names = [
+        name
+        for pair in re.findall(r"\s\((\w+)(?: x (\w+))?\)", section)
+        for name in pair
+        if name
+    ]
+    assert names
+    for name in names:
+        assert hasattr(img, name), name
+
+
+# ---- Construction ----
+def test_default_builds_state_and_figure_manager() -> None:
+    """Build an image with no arguments and check what it is made of.
+
+    The simplest possible construction, and the one that would fail first if
+    the constructor stopped building either the state or the figure manager.
+    """
+    img = pp.Image(text=False)
+    assert isinstance(img.state, ImageState)
+    assert isinstance(img.FigureManager, FigureManager)
+
+
+def test_figure_and_style_keywords_reach_the_state() -> None:
+    """Pass a figure and a style and find both on the state and the image.
+
+    Two things at once: the constructor honours what it was given, and the
+    value is readable through the facade as well as off the state, which is
+    the mixin property doing its job.
+    """
+    fig = plt.figure()
+    img = pp.Image(fig=fig, style="dark_background", text=False)
+    assert img.state.fig is fig
+    assert img.state.style == "dark_background"
+    assert img.style == "dark_background"
+
+
+def test_tight_keyword_reaches_matplotlib() -> None:
+    """Pass tight=False and check matplotlib actually received it.
+
+    Unlike the test above this reads the answer off the *figure* rather than
+    off the state, so it checks the setting reached matplotlib rather than
+    merely being recorded.
+    """
+    img = pp.Image(tight=False, text=False)
+    assert img.fig is not None
+    assert img.fig.get_tight_layout() is False
+
+
+def test_fontweight_defaults_to_normal() -> None:
+    """Build an image without the keyword and check the default weight.
+
+    fontweight used to be advertised by `__str__` but never stored anywhere,
+    so it silently did nothing. It now lives on the state like fontsize, and
+    this test and the next are what keep it there.
+    """
+    assert pp.Image(text=False).fontweight == "normal"
+
+
+def test_fontweight_keyword_is_stored() -> None:
+    """Pass a font weight and find it on the state and on the image.
+
+    The other half of the pair above: the default exists and a choice is
+    honoured.
+    """
+    img = pp.Image(fontweight="bold", text=False)
+    assert img.state.fontweight == "bold"
+    assert img.fontweight == "bold"
+
+
+def test_unknown_keyword_warns() -> None:
+    """Pass a keyword nothing reads and check the user is told.
+
+    This is track_kwargs working end to end through a real constructor: the
+    whole point is that a misspelled keyword says so instead of being
+    silently ignored. See utils/inspector.py.
+    """
+    with pytest.warns(UserWarning, match=r"Unused kwargs: \{'attr'\}"):
+        pp.Image(attr=None)  # pyright: ignore[reportCallIssue]
+
+
+# ---- Logging ----
+@pytest.mark.parametrize(
+    ("text", "logged"), [(None, True), (True, True), (False, False)]
+)
+def test_text_logs_the_window(
+    caplog: pytest.LogCaptureFixture, text: bool | None, logged: bool
+) -> None:
+    """Build an image at each verbosity and check whether it logged.
+
+    Three cases in one test: the default and True both print the creation
+    line, False silences it. A user who asked for quiet and got output would
+    have no way to stop it.
+    """
+    with caplog.at_level(logging.INFO):
+        pp.Image(text=text)
+    assert ("Image class created at nwin" in caplog.text) is logged
+
+
 # ---- Delegation to the managers ----
 def test_every_method_is_listed() -> None:
-    """Compare the public methods Image defines with the helper tables.
+    """Compare the public methods Image defines with the tables in the helper.
 
-    Adding, removing or renaming a method fails here until the table above is
-    updated, so no method can go untested.
+    Adding, removing or renaming a method fails here until DELEGATION or
+    NOT_DELEGATED is updated, so no method can go untested.
+
+    The five tests below that are parametrized from DELEGATION would
+    otherwise skip a missing method with nothing to say so: its wiring, its
+    arguments, its signature and its documentation would all go unchecked.
     """
     public = {
         name
@@ -284,10 +353,12 @@ def test_every_method_is_listed() -> None:
     listed = set(DELEGATION) | NOT_DELEGATED
     missing, stale = public - listed, listed - public
     assert not missing, (
-        f"not listed in DELEGATION, so untested: {sorted(missing)}"
+        f"in neither DELEGATION nor NOT_DELEGATED, so untested: "
+        f"{sorted(missing)}"
     )
     assert not stale, (
-        f"listed in DELEGATION but no longer an Image method: {sorted(stale)}"
+        f"listed in DELEGATION or NOT_DELEGATED but no longer an Image "
+        f"method: {sorted(stale)}"
     )
 
 
@@ -360,6 +431,71 @@ def test_delegation(
 
 
 @pytest.mark.parametrize(("method", "manager"), DELEGATION.items())
+def test_signature_matches_the_manager(method: str, manager: str) -> None:
+    """Compare the signature of one facade method with its manager's.
+
+    test_delegation passes every parameter explicitly, so it cannot see a
+    facade and a manager that *disagree* about their parameters. This test
+    compares the two signatures directly: the same names, in the same order,
+    of the same kind, with the same defaults.
+
+    Each part guards a quiet failure. A parameter the facade does not declare
+    still works at runtime, because it falls into **kwargs and is forwarded,
+    but the type checkers reject it and `help()` does not show it -- this is
+    how `interactive` lost `ax`. The order matters because a user may pass by
+    position: `interactive` once had `_check` where the manager has `limfix`,
+    so a third positional argument silently switched off the kwargs check. A
+    different default means the facade and the manager behave differently
+    when the same call is made on each.
+
+    Annotations are not compared: they are strings under `from __future__
+    import annotations`, and the facade may legitimately spell a type
+    differently. The manager is unwrapped because track_kwargs replaces its
+    signature with one that hides _check.
+    """
+
+    def shape(func: Callable[..., object]) -> list[tuple[str, object, object]]:
+        """Reduce a signature to the name, kind and default of each part."""
+        params = inspect.signature(func).parameters.values()
+        return [(p.name, p.kind, p.default) for p in params if p.name != "self"]
+
+    facade = shape(getattr(Image, method))
+    real = shape(inspect.unwrap(getattr(getattr(image_mod, manager), method)))
+    assert facade == real, f"\nfacade:  {facade}\nmanager: {real}"
+
+
+@pytest.mark.usefixtures("dummy_managers")
+@pytest.mark.parametrize(("method", "manager"), DELEGATION.items())
+def test_required_arguments_reach_the_manager(
+    method: str, manager: str
+) -> None:
+    """Call one facade method with its required arguments only.
+
+    The counterpart of test_delegation, which passes everything: here the
+    facade has to fill in every optional parameter from its own defaults and
+    still reach the manager. A facade that needed an argument its manager
+    does not, or broke on one of its own defaults before forwarding, fails
+    here.
+
+    The managers are stubs, so nothing is drawn and a required argument can
+    be any object. DummyManager returns the name of the method it was asked
+    for, so the result says which method answered; the manager is read back
+    off the image to check the call went through the stub the facade holds.
+    """
+    img = image_mod.Image(text=False)
+    params = inspect.signature(getattr(Image, method)).parameters.values()
+    required = {
+        p.name: object()
+        for p in params
+        if p.name != "self"
+        and p.default is p.empty
+        and p.kind not in (p.VAR_POSITIONAL, p.VAR_KEYWORD)
+    }
+    assert isinstance(getattr(img, manager), DummyManager)
+    assert getattr(img, method)(**required) == method
+
+
+@pytest.mark.parametrize(("method", "manager"), DELEGATION.items())
 def test_docstring_is_copied(method: str, manager: str) -> None:
     """Compare the docstring of the facade method with the manager's.
 
@@ -368,13 +504,19 @@ def test_docstring_is_copied(method: str, manager: str) -> None:
     that line, `help(I.plot)` would show "Plot method." instead of the real
     documentation, and the keywords would be documented nowhere a user can
     reach.
+
+    `assert doc` first, so a manager method that lost its own docstring fails
+    as itself rather than as a mismatch between two empty strings.
     """
     doc = getattr(getattr(image_mod, manager), method).__doc__
     assert doc
     assert getattr(Image, method).__doc__ == doc
 
 
-def test_oplotbox(monkeypatch: pytest.MonkeyPatch) -> None:
+# ---- Not delegated ----
+def test_oplotbox_calls_the_amr_function(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """Call oplotbox and check it reached the AMR function, not a manager.
 
     The one public method that is not delegation: it calls a module function
@@ -395,57 +537,3 @@ def test_oplotbox(monkeypatch: pytest.MonkeyPatch) -> None:
     assert args[0] is img
     assert args[1:] == ([1, 2, 3], [4, 5, 6])
     assert kwargs == {"_check": False}
-
-
-# ---- Moved from test_imagemixin.py ----
-@pytest.mark.usefixtures("dummy_managers")
-def test_init_exit_branch() -> None:
-    """Replace the state outright and check assignments still forward to it.
-
-    `__setattr__` treats the name "state" as its one exception, and
-    `object.__setattr__` is used here to bypass the facade entirely and put a
-    stub in place. What follows checks the forwarding still works afterwards,
-    which is the path taken by the very first line of `__init__`.
-    """
-    img = image_mod.Image(text=False)
-    # explicitly trigger first 'if name=="state"' branch
-    object.__setattr__(img, "state", DummyState())
-    img.state.new_field = 42  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[unresolved-attribute]
-    assert img.state.new_field == 42  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[unresolved-attribute]
-
-
-@pytest.mark.usefixtures("dummy_managers")
-@pytest.mark.parametrize(
-    "attr",
-    [
-        "colorbar",
-        "create_axes",
-        "legend",
-        "savefig",
-        "set_axis",
-        "zoom",
-    ],
-)
-def test_property_delegation(attr: str) -> None:
-    """Call a facade method against a stubbed manager and see which answered.
-
-    DummyManager returns the name of whatever method was called, so the
-    assertion is that the name comes back: the facade reached the method it
-    meant to. Cheaper than test_delegation and covering a different thing --
-    that the call arrives at all, with no figure in the way.
-    """
-    img = image_mod.Image(text=False)
-    result = getattr(img, attr)()
-    assert result == attr
-
-
-@pytest.mark.usefixtures("dummy_managers")
-def test_text_delegation() -> None:
-    """Call text against a stubbed manager, which needs its argument named.
-
-    Separate from the parametrized test above only because `text` will not
-    accept an empty call: it needs the text itself.
-    """
-    img = image_mod.Image(text=False)
-    result = img.text(text="hello")
-    assert result == "text"

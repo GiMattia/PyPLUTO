@@ -46,7 +46,7 @@ class AxisManager(ImageMixin):
     @track_kwargs
     def set_axis(
         self,
-        ax: Axes | list[Axes] | int | None,
+        ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[SetAxisKwargs],
     ) -> None:

@@ -165,6 +165,31 @@ def test_str_attributes_exist(data_dir: Path) -> None:
         assert hasattr(data, name), name
 
 
+def test_str_properties_show_their_field(data_dir: Path) -> None:
+    """Read each property line of the description and check name and value.
+
+    The file and simulation properties are printed as a label, a name in
+    brackets, and a value: `- Geometry (geom) CARTESIAN`. Two things can go
+    stale there. The name can stop existing -- this is what caught `(format)`
+    advertised for a field called `datatype` -- and the value can be read
+    from a different field than the one named, which would print, say, the
+    grid size next to `(nshp)`.
+
+    So each line is checked both ways: the name is an attribute of the load,
+    and the printed value is exactly that attribute as text. The pattern
+    wants a space before the bracket, so a word such as "time(s)" is never
+    read as a name, and `assert pairs` guards against it matching nothing.
+    """
+    data = _load(data_dir)
+    section = str(data).split("File properties:")[1]
+    section = section.split("Public attributes available:")[0]
+    pairs = re.findall(r"\s\((\w+)\)[ \t]+(.*)", section)
+    assert pairs
+    for name, printed in pairs:
+        assert hasattr(data, name), name
+        assert str(getattr(data, name)) == printed, name
+
+
 # ---- Units ----
 def test_units_keyword_attaches_astropy_units(data_dir: Path) -> None:
     """Convert the variables at construction when units is given.

@@ -1,17 +1,18 @@
 # Tests recap
 
-**1697 tests** · in-scope coverage **81.0%** · target 100%
+**1724 tests** · in-scope coverage **81.0%** · target 100%
 
 | Status | Files |
 |---|---|
-| reviewed | 18 |
+| reviewed | 19 |
 | almost | 0 |
-| to review | 46 |
+| to review | 45 |
 | to write | 5 |
 | out of scope | 5 |
 
-- **reviewed** — every test checked, commented and typed, coverage at 100%.
-- **almost** — reviewed to the same standard, but coverage is not yet 100%.
+- **reviewed** — every step of the per-file checklist below is done,
+  documentation included, and coverage is at 100%.
+- **almost** — the checklist is done, but coverage is not yet 100%.
 - **to review** — tests exist, not yet checked.
 - **to write** — no test file of its own (coverage comes from other files).
 - **out of scope** — `amr`, `findlines`, `nabla`, `transform`, and
@@ -51,7 +52,7 @@ test, or a test would compare the code with itself.
 | `gui/plot_controller.py` | `gui/test_plot_controller.py` | 17 | 70% | to review |
 | `gui/services.py` | `gui/test_services.py` | 30 | 88% | to review |
 | `gui/state_accessors.py` | `gui/test_state_accessors.py` | 15 | 100% | to review |
-| `image.py` | `test_image.py` | 90 | 100% | to review  |
+| `image.py` | `test_image.py` | 116 | 100% | reviewed |
 | `imagefuncs/colorbar.py` | `imagefuncs/test_colorbar.py` | 11 | 72% | to review |
 | `imagefuncs/contour.py` | `imagefuncs/test_contour.py` | 10 | 85% | to review |
 | `imagefuncs/create_axes.py` | `imagefuncs/test_create_axes.py` | 14 | 100% | to review |
@@ -70,9 +71,9 @@ test, or a test would compare the code with itself.
 | `imagefuncs/volume.py` | `imagefuncs/test_volume.py` | 5 | 91% | to review |
 | `imagefuncs/zoom.py` | `imagefuncs/test_zoom.py` | 8 | 87% | to review |
 | `imagekwargs.py` | `test_imagekwargs.py` | 65 | 100% | reviewed |
-| `imagemixin.py` | `test_imagemixin.py` | 108 | 100% | reviewed |
+| `imagemixin.py` | `test_imagemixin.py` | 107 | 100% | reviewed |
 | `imagestate.py` | `test_imagestate.py` | 49 | 100% | reviewed |
-| `load.py` | `test_load.py` | 68 | 100% | reviewed |
+| `load.py` | `test_load.py` | 69 | 100% | reviewed |
 | `loadfuncs/baseloadtools.py` | — | — | 89% | to write |
 | `loadfuncs/codeselection.py` | `loadfuncs/test_codeselection.py` | 6 | 88% | to review |
 | `loadfuncs/descriptor.py` | `loadfuncs/test_descriptor.py` | 4 | 100% | to review |
@@ -92,7 +93,7 @@ test, or a test would compare the code with itself.
 | `loadfuncs/write_files.py` | `loadfuncs/test_write_files.py` | 11 | 99% | to review |
 | `loadkwargs.py` | `test_loadkwargs.py` | 50 | 100% | reviewed |
 | `loadmixin.py` | `test_loadmixin.py` | 282 | 100% | reviewed |
-| `loadpart.py` | `test_loadpart.py` | 31 | 100% | reviewed |
+| `loadpart.py` | `test_loadpart.py` | 32 | 100% | reviewed |
 | `loadstate.py` | `test_loadstate.py` | 83 | 100% | reviewed |
 | `template.py` | `test_template.py` | 42 | 100% | reviewed |
 | `toolfuncs/compute_units.py` | `toolfuncs/test_compute_units.py` | 14 | 88% | to review |
@@ -109,6 +110,35 @@ test, or a test would compare the code with itself.
 | `utils/inspector.py` | `utils/test_inspector.py` | 35 | 100% | reviewed |
 | `utils/pytools.py` | `utils/test_pytools.py` | 10 | 92% | to review |
 | `utils/resolver.py` | `utils/test_resolver.py` | 26 | 100% | reviewed |
+
+## Roadmap
+
+One family at a time, and inside each family from the files others depend on
+up to the ones that use them, so every review can lean on the ones before it.
+
+1. **`imagefuncs/`** — the managers `image.py` delegates to.
+   `imagetools` → `range` → `figure` → `create_axes` → `set_axis` →
+   `legend` → `plot` → `scatter` → `display` → `contour` → `streamplot` →
+   `colorbar` → `gridplot` → `zoom` → `interactive` → `volume` →
+   `volengine` (last: likely needs the split noted below first).
+2. **`loadfuncs/`** — in the order of the load pipeline, where most open
+   bugs are. `initload` → `findformat` → `findfiles` → `descriptor` →
+   `readdefplini` → `codeselection` → `loadvars` → `offsetdata` →
+   `offsetfluid` → `offsetpart` → `readgridfile` → `readgridalone` →
+   `readtab` → `storepart` → `read_files` → `write_files` → `baseloadtools`.
+   Afterwards: the open `loadfuncs` bugs that were too large to fix during
+   the review, then the structural items (`is_particle`, grid shapes,
+   `resolve_endianess`).
+3. **`toolfuncs/`** (built on `Load`) — `loadtools` → `parttools` →
+   `fourier` → `compute_units` → `set_units`; then **`utils/`** —
+   `configure` → `pytools` → `examples_cli` → `examples_api`.
+4. **`gui/`** (built on both `Load` and `Image`) — `globals` → `app_state` →
+   `state_accessors` → `services` → `main_window` → `load_controller` →
+   `plot_controller` → `custom_var_engine` → `panels` → `custom_var`.
+
+Before the multiprocessing work: fix the copy/pickle bug of the facades.
+After every phase: run `_test_examples.py`, a full coverage run, and update
+the totals at the top.
 
 ## Other
 
@@ -130,43 +160,40 @@ test, or a test would compare the code with itself.
   box the other way and is safe to accept; a differing region inside a frame
   is a real plotting change and must be understood first.
 
-## Documentation pass
+## Per-file checklist
 
-A file is only finished when a new developer can read it. The rules:
+A file moves to **reviewed** only when all of this is done, for the source
+file *and* its test file. Documentation is part of the review, not a later
+pass: a file is finished when a new developer can read it.
 
-- **Docstrings** — detailed, in the style of `imagefuncs/figure.py`: a
-  summary line, then what the function is for and why it works that way, then
-  `Parameters` / `Returns` / `Examples`.
-- **Comments** — one or two lines at a time, often enough that the intent of
-  each step is clear, never a restatement of the code.
-- **Tests** — no `Parameters`/`Returns` structure; instead say what the test
-  does, what the check represents, and therefore what a failure would mean.
-
-| Source | Source docs | Test file | Test docs |
-|---|---|---|---|
-| `utils/resolver.py` | done | `utils/test_resolver.py` | done |
-| `utils/inspector.py` | done | `utils/test_inspector.py` | done |
-| `template.py` | done | `test_template.py` | done |
-| `__init__.py` | — | `test__init_.py` | — |
-| `baseloadstate.py` | done | `test_baseloadstate.py` | done |
-| `baseloadmixin.py` | done | `test_baseloadmixin.py` | done |
-| `loadstate.py` | done | `test_loadstate.py` | done |
-| `loadmixin.py` | done | `test_loadmixin.py` | done |
-| `imagestate.py` | done | `test_imagestate.py` | done |
-| `imagemixin.py` | done | `test_imagemixin.py` | done |
-| `image.py` | done | `test_image.py` | done |
-| `imagekwargs.py` | done | `test_imagekwargs.py` | done |
-| `load.py` | done | `test_load.py` | done |
-| `loadpart.py` | done | `test_loadpart.py` | done |
-| `loadkwargs.py` | done | `test_loadkwargs.py` | done |
-| `gui/main.py` | done | `gui/test_main.py` | done |
-| — | — | `conftest.py` | done |
-| — | — | `_test_examples.py` | done |
-| — | — | `helper_all.py` | done |
-| — | — | `helper_baseload.py` | done |
-| — | — | `helper_image.py` | done |
-| — | — | `helper_load.py` | done |
-| — | — | `helper_loadpart.py` | done |
+1. **Tests** — read every existing test and keep it (fix it if wrong, never
+   drop it). pytest only, no `unittest`. One `test_<file>.py` per source file,
+   placed as described in *Layout*.
+2. **Coverage** — reach a *meaningful* 100%: each test proves a behaviour,
+   not just that a line ran. No permanently skipped tests; an empty
+   parametrize set gets a non-vacuity guard instead.
+3. **Expected values** — hand-written, in the test or in the matching
+   `helper_<family>.py`; never derived from the code under test.
+   Completeness guards use separate `missing` / `stale` asserts.
+4. **Typing** — the test file is fully annotated and clean under the type
+   checkers.
+5. **Source docstrings** — detailed, in the style of `imagefuncs/figure.py`:
+   a summary line, then what the function is for and why it works that way,
+   then `Parameters` / `Returns` / `Examples`.
+6. **Source comments** — one or two lines at a time, often enough that the
+   intent of each step is clear, never a restatement of the code.
+7. **Test docstrings** — no `Parameters` / `Returns` structure; say what the
+   test does, what the check represents, and therefore what a failure would
+   mean. Any leftover `LONG TEST: CHECK` marker is resolved and removed: a
+   reviewed file has none.
+8. **Findings** — a bug that is easy to fix is fixed during the review,
+   guarded by a test that fails without the fix, and recorded in *Fixed
+   bugs*. Anything larger goes in *Open bugs* (confirmed, with the
+   reproducer) and is fixed later, even when it sits in a file already
+   marked reviewed: that file keeps its status. Design smells go in
+   *Deferred structural improvements* or *Potential improvements*.
+9. **Bookkeeping** — update the file's row and the totals at the top; run
+   `_test_examples.py` after every few files.
 
 ## Deferred structural improvements
 
@@ -192,6 +219,7 @@ from scratch each time.
 
 | Where | What |
 |---|---|
+| `load.py`, `loadpart.py`, `image.py` (`__getattr__`, `__setattr__`) | **The facades cannot be copied or unpickled, so they cannot be sent to a `multiprocessing` worker.** `__getattr__` reads `self.state`; on an instance that has no state yet, that read calls `__getattr__("state")` again, forever. `copy` and `pickle` both build the new instance without running `__init__` and then look up `__setstate__`, which takes exactly that path. Confirmed: `copy.copy` and `copy.deepcopy` raise `RecursionError` on `Load`, `LoadPart` and `Image`; `pickle.dumps` of `Load` and `Image` succeeds but `pickle.loads` raises `RecursionError`; any attribute read or write on `Image.__new__(Image)` does the same. `LoadPart` also fails `deepcopy`/`pickle` for a second reason, `cannot pickle 'mmap.mmap' object` (see the `mmaps` bug below). Nothing tests copy or pickle. The `not hasattr(self, "state")` clause in `__setattr__` belongs to the same bug: its docstring says it "makes the first line of `__init__` possible", but `name == "state"` already handles that line, and if the clause ever ran it would recurse too. Same wrong docstring in all three; `loadpart.py:262` also still says "the Load class". `template.py` has no attribute hooks, so it neither shows the pattern nor the fix. Fix: `if name == "state": raise AttributeError(name)` at the top of each `__getattr__`, then decide what copying a facade means (share or duplicate the state, reopen or drop the mmaps) before multiprocessing work starts. |
 | `loadfuncs/offsetfluid.py:256`, `loadfuncs/offsetpart.py:156` | **Passing the correct `endian` explicitly corrupts the data.** For a standalone vtk load, `offset_vtk` uses `">" if state.endian is None else d_info["endianess"][exout]` — so when the user *does* pass `endian`, it keeps whatever is in that array, which `findfiles.py:94` allocated with `np.empty(dtype="U20")`, i.e. `""`. `binformat` becomes `f4` (native) instead of `>f4`. Confirmed: `Load(path="Tests/Test_load/single_file/vtk", datatype="vtk", alone=True, endian="big")` gives `rho.flat[0] = -1.49e+19`; without `endian=` the same call gives `0.138`. The `if ... is None: raise ValueError("Wrong endianess")` guards at `offsetfluid.py:261`, `offsetpart.py:80,161` are unreachable — `np.empty("U20")` yields `""`, never `None`. The rule is written four times and the copies disagree (`descriptor.py:85`, `offsetpart.py:77` propagate `state.endian` correctly). Fix: one `resolve_endianess()` helper, called from all four sites. |
 | `loadfuncs/findformat.py:125` | **`alone=False` is silently ignored.** `check_format` builds `funcf` (lines 125–135) to gate which probes run given `alone`, then the loop at 138 hard-codes both probes and never reads `funcf`. `alone=True` happens to work via `type_out = []` at line 121, but `alone=False` does not: `check_typelon` still runs, finds the standalone files and sets `state.alone = True`. Confirmed on a folder holding only `data.0000.vtk`: `Load(..., alone=False).state.alone` is `True`. The user gets a standalone load with `timelist` full of NaN instead of the `FileNotFoundError` at line 157. |
 | `loadfuncs/initload.py:121` | **The deprecated `vars=` keyword is warned about, then discarded.** The shim warns but never assigns to `var`, which stays `True`. Confirmed: `Load(path=..., vars="rho")` warns, then loads `['prs','rho','vx1','vx2','vx3']`. It is also in the wrong layer — `var` was already bound as a positional parameter before the manager ran. The sibling `nfile_lp` shim (`loadpart.py:168`) sits in the facade and does forward its value. |
@@ -236,7 +264,6 @@ afternoon, and none is urgent.
 | `utils/inspector.py` | Every decorated function is read and parsed at import time (`inspect.getsource` + `ast.parse`, cached by text). Measure `import pyPLUTO`; if the scan is a visible share, do it lazily on first call. Moot once `kwarden` lands. |
 | `utils/resolver.py` | On Windows `mmap.madvise` does not exist, so `_dontneed` is a silent no-op and mapped pages are never released. Not fixable from Python; worth a line in the docs so the memory growth is not reported as a bug. |
 | `_test_examples.py` | Fourteen subprocesses run one after another (73 s). Each is fully isolated in its own `tmp_path`, so `pytest-xdist` would run them in parallel with no change to the file. |
-| `helper_image.py` | `DummyState` lists the fields the tests read, with nothing checking that list against what `Image` and `ImageMixin` actually touch. A missing field shows as an `AttributeError` from the wrong place. A small guard would say which. |
 | `pyproject.toml` | `Tests/` is excluded from pyright (170 errors today). Add files to its scope one by one as they are reviewed, the way ty already covers them, so a reviewed test file stays clean under both checkers. |
 | process | Mutation testing found two holes in `resolver.py` at 100% coverage that no line-coverage tool could see. A periodic `mutmut` run over the reviewed files, or the ad-hoc mutate-and-revert loop used here, is worth institutionalising. |
 
@@ -244,10 +271,14 @@ afternoon, and none is urgent.
 
 | Where | What |
 |---|---|
+| `image.py` | `Image.interactive` did not declare `ax`, which `InteractiveManager.interactive` takes: it worked at runtime through `**kwargs`, but pyright rejected `I.interactive(var, ax=1)` and `help()` did not show it. Its `_check` also sat where the manager has `limfix`, so `I.interactive(x, y, False)` switched off the kwargs check instead of `limfix`. The facade now matches the manager's signature; `test_signature_matches_the_manager` compares all facade signatures with their managers. |
+| `imagefuncs/set_axis.py` | `AxisManager.set_axis` required `ax`, although its docstring and the facade give it the default `None`. Default added. |
+| `imagefuncs/gridplot.py`, `image.py` | `showgrid` never warned about unused keywords: `track_kwargs` only checks a function that declares `_check`, and `showgrid` was the one public tracked method without it, so `I.showgrid(..., nosuchkw=1)` was silently ignored. `_check` added to the manager and the facade. |
 | `utils/inspector.py` | The kwargs scan missed `"key" in kwargs`, so a method acting on the presence of a keyword rather than its value reported it unused. `Image.contour(colors=...)` and `Image.streamplot(colors=...)` worked but warned. `setdefault` was missed too, which nothing depended on but `volume(proj=...)` came close to. |
 | `template.py` | The `Example` facade annotated `**kwargs: Any`, with `Any` never imported: it only worked because `from __future__ import annotations` keeps annotations as strings. It now unpacks `ExampleKwargs`, like every real facade. |
 | `loadpart.py` | `LoadPart(nout=None)` crashed with `AttributeError: no attribute 'nout'`, although the docstring documents it. `Load` guards the same log line with `hasattr`; `LoadPart` never got the guard. |
 | `loadpart.py` | `__str__` advertised only `select` and `spectrum`, not `to_astropy_units` and `to_code_units`. |
+| `load.py` | `__str__` advertised a `format` property that does not exist; the field is `datatype`. Caught by `test_str_properties_show_their_field`, which now checks every property line of `Load` and `LoadPart` (the name exists, and the printed value is that field), with `test_str_properties_exist` doing the name half for `Image`. |
 | `test_imagekwargs.py` | `test_no_conflicting_key_types` walked `__mro__`, which for a TypedDict is always `(cls, dict, object)`, so it could never fail. Both kwargs test files now walk `__orig_bases__` through a `_chain()` helper. |
 | `gui/main_window.py` | `self.code` never assigned. |
 | `gui/plot_controller.py` | GUI figure left in pyplot as figure 1; after the window was garbage-collected, `pp.Image()` crashed with `QAction already deleted`. Figure now released in `create_new_figure`; `conftest.py` also runs `plt.close("all")` after each window. |

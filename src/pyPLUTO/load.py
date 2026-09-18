@@ -300,7 +300,7 @@ class Load(LoadMixin, Generic[_VarT]):
 
         File properties:
         - Current path loaded (pathdir)      {self.state.pathdir}
-        - Format loaded       (format)       {self.state.datatype}
+        - Format loaded       (datatype)     {self.state.datatype}
 
         Simulation properties
         - Dimensions    (dim)      {self.state.dim}

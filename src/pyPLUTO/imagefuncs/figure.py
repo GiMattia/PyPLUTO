@@ -40,7 +40,7 @@ class FigureManager(ImageMixin):
     - fontsize: float, default 17.0
         Sets the fontsize for all the axis components.
     - LaTeX (not optional): bool | str
-        The LaTeX option. Is True is selected, the default LaTeX font is
+        The LaTeX option. If True is selected, the default LaTeX font is
         used. If 'pgf' is selected, the pgf backend is used to save pdf
         figures with minimal file size. If XeLaTeX is not installed and the
         'pgf' option is selected, the LaTeX option True is used as backup
@@ -232,7 +232,7 @@ class FigureManager(ImageMixin):
         Parameters
         ----------
         - LaTeX (not optional): bool | str
-            The LaTeX option. Is True is selected, the default LaTeX font is
+            The LaTeX option. If True is selected, the default LaTeX font is
             used. If 'pgf' is selected, the pgf backend is used to save pdf
             figures with minimal file size. If XeLaTeX is not installed and the
             'pgf' option is selected, the LaTeX option True is used as backup

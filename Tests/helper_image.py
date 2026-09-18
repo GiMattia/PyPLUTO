@@ -1,4 +1,4 @@
-"""Expected values and stand-ins for ImageState, shared by its tests.
+"""Expected values for ImageState, ImageMixin and Image, shared by their tests.
 
 The table is written by hand on purpose: it is what the code is checked
 against, so it must never be derived from the code under test. The three
@@ -6,8 +6,8 @@ views below are derived from the table itself, which is only bookkeeping.
 
 This module carries more than the load helpers do, because Image is the
 largest facade in the package: the field table, the sixteen managers and the
-method each is reached through, the kwargs table each method is annotated
-with, and a stand-in state for the tests that must not build a real figure.
+method each is reached through, and the kwargs table each method is
+annotated with.
 
 Everything except the three derived views is hand-written, so the tests have
 something independent to compare the code against.
@@ -148,38 +148,3 @@ OTHER_KWARGS: dict[str, str] = {
     "FigureKwargs": "pyPLUTO.image:Image.__init__",
     "SetLocKwargs": "pyPLUTO.imagefuncs.zoom:ZoomManager.place_inset_loc",
 }
-
-
-class DummyState:
-    """The few ImageState fields that Image and ImageMixin read in the tests.
-
-    A stand-in for ImageState, used where a test needs an image whose state
-    can be read and written without a real figure behind it. The values are
-    deliberately odd -- nwin 9, style "old", nline 3 -- so that a test
-    asserting on one of them cannot pass by accident against a real default.
-
-    It holds only the fields the tests actually touch, so an attribute error
-    from this class is informative: it means the code under test started
-    reading a field that no test had accounted for.
-    """
-
-    def __init__(self) -> None:
-        """Set each field to a value no real ImageState would start with."""
-        self.ax = []
-        self.LaTeX = False
-        self.style = "old"
-        self.legpar = []
-        self.legpos = "right"
-        self.nline = 3
-        self.nwin = 9
-        self.ncol0 = 1
-        self.ntext = 0
-        self.nrow0 = 1
-        self.tight = True
-        self.vlims = (0, 1)
-        self.xscale = "linear"
-        self.yscale = "linear"
-        self.setax = []
-        self.setay = []
-        self.shade = []
-        self.tickspar = []

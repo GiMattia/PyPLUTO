@@ -4,7 +4,7 @@ The plotting facade, and the largest in the package: it builds the state,
 builds sixteen managers on it, and hands every public call to one of them.
 `pyPLUTO/template.py` describes the pattern.
 
-Reading this file is therefore mostly reading the class docstring, which is
+Reading this file is therefore mostly reading the __init__ docstring, which is
 the user-facing documentation of every keyword, and the three pieces that are
 not delegation: the constructor, the two attribute hooks, and the `__str__`
 that describes the class to a user at the prompt.
@@ -91,7 +91,7 @@ class Image(ImageMixin):
     ) -> None:
         """Initialize the Image class.
 
-        Ihat creates a new figure and sets the LaTeX conditions, as well as the
+        It creates a new figure and sets the LaTeX conditions, as well as the
         matplotlib style. Every Image is associated to a figure object and only
         one in order to avoid confusion between images and figures. If you want
         to create multiple figures, you have to create multiple Image objects.
@@ -111,8 +111,8 @@ class Image(ImageMixin):
             Sets the fontsize for all the axis components.
         - fontweight: str, default 'normal'
             The font weight for all the axis components.
-        - LaTeX: bool | str, default False
-            The LaTeX option. Is True is selected, the default LaTeX font
+        - LaTeX: bool | str, default True
+            The LaTeX option. If True is selected, the default LaTeX font
             is used. If 'pgf' is selected, the pgf backend is used to save pdf
             figures with minimal file size. If XeLaTeX is not installed and the
             'pgf' option is selected, the LaTeX option True is used as backup
@@ -395,18 +395,20 @@ class Image(ImageMixin):
         self,
         varx: dict[int, np.ndarray] | np.ndarray,
         vary: dict[int, np.ndarray] | None = None,
-        _check: bool = True,
         limfix: bool = True,
         labslider: list[str | float] | None = None,
+        ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
         **kwargs: Unpack[DisplayKwargs],
     ) -> None:
         """Interactive method."""
         return self.InteractiveManager.interactive(
             varx=varx,
             vary=vary,
-            _check=_check,
             limfix=limfix,
             labslider=labslider,
+            ax=ax,
+            _check=_check,
             **kwargs,
         )
 
@@ -490,11 +492,12 @@ class Image(ImageMixin):
         data: Load | None = None,
         geom: str | None = None,
         ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
         **kwargs: Unpack[ShowGridKwargs],
     ) -> None:
         """Showgrid method."""
         return self.GridPlotManager.showgrid(
-            x1=x1, x2=x2, data=data, geom=geom, ax=ax, **kwargs
+            x1=x1, x2=x2, data=data, geom=geom, ax=ax, _check=_check, **kwargs
         )
 
     showgrid.__doc__ = GridPlotManager.showgrid.__doc__

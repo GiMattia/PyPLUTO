@@ -81,6 +81,7 @@ class GridPlotManager(ImageMixin):
         data: Load | None = None,
         geom: str | None = None,
         ax: Axes | list[Axes] | int | None = None,
+        _check: bool = True,
         **kwargs: Unpack[ShowGridKwargs],
     ) -> None:
         """Draw the grid lines of a mesh on the plot.

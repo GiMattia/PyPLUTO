@@ -17,6 +17,7 @@ and `LoadPart(nout=None)` crashed although the docstring documents it.
 
 import inspect
 import logging
+import re
 from pathlib import Path
 
 import numpy as np
@@ -150,6 +151,29 @@ def test_str_lists_every_method(method: str, data_dir: Path) -> None:
     were equally public.
     """
     assert f"- {method}\n" in str(_loadpart(data_dir))
+
+
+def test_str_properties_show_their_field(data_dir: Path) -> None:
+    """Read each property line of the description and check name and value.
+
+    The twin of the Load test. The file and simulation properties are printed
+    as a label, a name in brackets, and a value: `- File format (datatype)
+    dbl`. The name must be an attribute of the load, and the printed value
+    must be exactly that attribute as text, or the line is describing a
+    field that no longer exists, or showing a different one.
+
+    The pattern wants a space before the bracket: this description has
+    "time(s) (ntime)", and without the space `s` would be read as a name.
+    `assert pairs` guards against the pattern matching nothing.
+    """
+    data = _loadpart(data_dir)
+    section = str(data).split("File properties:")[1]
+    section = section.split("Variables loaded:")[0]
+    pairs = re.findall(r"\s\((\w+)\)[ \t]+(.*)", section)
+    assert pairs
+    for name, printed in pairs:
+        assert hasattr(data, name), name
+        assert str(getattr(data, name)) == printed, name
 
 
 def test_str_lists_the_loaded_variables(data_dir: Path) -> None:

@@ -15,7 +15,7 @@ leaving a test that silently checks nothing.
 """
 
 import pytest
-from helper_image import DEFAULTS, WITH_DEFAULT, WITHOUT_DEFAULT, DummyState
+from helper_image import DEFAULTS, WITH_DEFAULT, WITHOUT_DEFAULT
 
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -151,67 +151,3 @@ def test_states_are_independent() -> None:
     second.style = "classic"
     assert first.state.style == "dark_background"
     assert second.state.style == "classic"
-
-
-def test_selected_mixin_properties() -> None:
-    """Read and write a selection of properties through a dummy state.
-
-    Kept from the first version of this file. The values are deliberately of
-    the wrong type for several properties, so the type checkers are silenced
-    on those lines.
-    """
-
-    class M(ImageMixin):
-        def __init__(self) -> None:
-            self.state = DummyState()  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
-
-    m = M()
-
-    # Only touch the specific missing lines
-    m.style = "newstyle"
-    assert m.style == "newstyle"
-
-    m.legpos = "left"  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
-    assert m.legpos == "left"
-
-    m.nline = 7  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
-    assert m.nline == 7
-
-    m.ncol0 = 2
-    assert m.ncol0 == 2
-
-    m.ntext = 5  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
-    assert m.ntext == 5
-
-    m.nrow0 = 9
-    assert m.nrow0 == 9
-
-    m.tight = False
-    assert m.tight is False
-
-    m.vlims = (1, 2)  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
-    assert m.vlims == (1, 2)
-
-    m.xscale = "log"  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
-    assert m.xscale == "log"
-
-    m.yscale = "log"  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
-    assert m.yscale == "log"
-
-    m.ax = ["ax1", "ax2"]  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[invalid-assignment]
-    assert m.ax == ["ax1", "ax2"]
-
-    m.legpar = [[0.1, 0.2], [0.3, 0.4]]
-    assert m.legpar == [[0.1, 0.2], [0.3, 0.4]]
-
-    m.setax = [0, 1]
-    assert m.setax == [0, 1]
-
-    m.setay = [2, 3]
-    assert m.setay == [2, 3]
-
-    m.shade = ["shade1", "shade2"]
-    assert m.shade == ["shade1", "shade2"]
-
-    m.tickspar = [5, 10]
-    assert m.tickspar == [5, 10]

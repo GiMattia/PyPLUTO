@@ -1,4 +1,12 @@
-"""RangeManager class."""
+"""RangeManager class.
+
+It decides the limits of every plot that does not set them by hand, and keeps
+them in step as more is drawn on the same axis.
+
+Each axis carries a case in `setax`/`setay`, which is what the methods here
+switch between: 0 no limits yet, 1 fixed by the user, 2 limits present and
+free to grow, 3 being fixed now.
+"""
 
 from __future__ import annotations
 
@@ -16,10 +24,17 @@ class RangeManager(ImageMixin):
 
     It provides methods to set the x and y axis limits for a set of axes in a
     plot.
+
+    The x-limits are the ones given, while the y-limits are computed from the
+    data and padded, so a curve never touches the frame.
     """
 
     def __init__(self, state: ImageState) -> None:
-        """Initialize the RangeManager with the given state."""
+        """Initialize the RangeManager with the given state.
+
+        The three cases that do something are named here; case 1, where the
+        user has fixed the limits, is the one where nothing happens.
+        """
         self.state = state
         self.changerange = 0
         self.adaptrange = 2
@@ -93,10 +108,12 @@ class RangeManager(ImageMixin):
             None,
         ),
     ) -> None:
-        """Set the lower and upper limits of the y-axis of a set of.
+        """Set the lower and upper limits of the y-axis of a set of axes.
 
         Unlike the x-axis, the y-axis limits are recovered depending on both the
         x-data and the y-data.
+
+        The two computing cases, 0 and 2, need the data and refuse without it.
 
         Parameters
         ----------

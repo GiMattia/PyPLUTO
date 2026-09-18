@@ -1,5 +1,6 @@
 """Test of the set_units.py file."""
 
+import ast
 from pathlib import Path
 
 import numpy as np
@@ -16,6 +17,24 @@ def _manager(data_dir: Path):
 
 
 # Without a selection every known variable is taken, and it is not explicit
+def test_baseloadmixin_is_imported_from_its_own_module() -> None:
+    """Check the mixin is imported from the module that defines it.
+
+    It was imported from `loadmixin`, which only re-exports it, so pyright
+    reported `reportPrivateImportUsage` and the package was no longer clean
+    under the checker it treats as the source of truth.
+    """
+    source = Path("src/pyPLUTO/toolfuncs/set_units.py").read_text()
+    imports = {
+        node.module
+        for node in ast.walk(ast.parse(source))
+        if isinstance(node, ast.ImportFrom)
+        and any(alias.name == "BaseLoadMixin" for alias in node.names)
+    }
+
+    assert imports == {"pyPLUTO.baseloadmixin"}
+
+
 def test_resolve_default(data_dir: Path):
     manager, _ = _manager(data_dir)
     selected, explicit = manager._resolve_unit_vars()

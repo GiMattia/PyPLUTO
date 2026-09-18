@@ -5,16 +5,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
-## [Unreleased]
-
-Work in progress on the `3D` branch (`pyproject.toml` version `1.2.4`, not yet
-tagged/released), which diverged from `master` right after `v1.2.1`. Two of
-the fixes below (Qt canvas backend, `set_axis` `tight` handling) were applied
-independently on both `master` (released as `v1.2.2`/`v1.2.3`) and here;
-they will collapse into one history once this branch merges. Per project
-convention, everything below that is not a bug fix is **preliminary** and
-subject to change before release.
-
 ### Added (preliminary)
 - Volume rendering: `MPLVolumeRenderer` and the `Image.volume` method (`imagefuncs/volengine.py`, `imagefuncs/volume.py`), with new example scripts and tests
 - GUI: slider-based playback controls for stepping/replaying outputs (`⏮ ◀ ▶ ⏸ ⏩ ⏭`), lock lines, and color pinning
@@ -23,15 +13,31 @@ subject to change before release.
 - `src/pyPLUTO/template.py`: reference template documenting the State/Kwargs/Mixin/Manager/Facade architecture used to add a new class
 
 ### Changed (preliminary)
-- Removed the not-yet-flexible units handling added to `defh` reading in 1.2.0 (partial walkback pending a more general implementation)
 - Updated golden reference images and the example test harness for a newer matplotlib version
+- Colormaps: `find_cmap` no longer looks only in `pastamarkers`. A name matplotlib does not know is searched for in the optional packages listed in `imagefuncs.imagetools.CMAP_PROVIDERS` (`cblind`, `pastamarkers`, `seaborn`), in order, each imported only when needed and skipped when not installed; a user can add their own package to the dictionary. A `_r` suffix is honoured by the package's own reversed colormap when it has one, and reversed here otherwise. An unknown name still warns and falls back to `plasma`. `cmasher` and `cmocean` are not searched, since importing them raises matplotlib deprecation warnings; importing either in the script makes its `cmr.`/`cmo.` names resolve through matplotlib. New `cmaps` extra in `pyproject.toml` installs the three searched packages
 
 ### Fixed
 - GUI: Qt canvas now uses `FigureCanvasQTAgg` from `matplotlib.backends.backend_qtagg` instead of an incorrect `backend_qt`/`backend_template` import; added a GUI canvas regression test
 - `Tests/test_gui_canvas.py`: read source files as UTF-8 explicitly, fixing a `UnicodeDecodeError` on the Windows CI runner (default `cp1252` locale encoding could not decode the playback-control glyphs in `main_window.py`)
 - `set_axis`: the `tight` keyword now updates `self.state.tight` before deciding whether to reinforce `tight_layout()`
-- Particles: fixed bug in `offsetpart.py`
 - `Image.showgrid`/`GridPlotManager.showgrid`: `geom` no longer overrides a `Load`'s actual geometry with a hardcoded `"CARTESIAN"` default when `data` is given; fixed a `Data`/`data` keyword-name mismatch in the `Image` facade that bypassed the explicit `data` parameter
+- `Image.text`: its own documented keywords (`textsize`, `horalign`, `veralign`, `bbox`, `xycoords`) no longer raise a spurious "Unused kwargs" warning, and a misspelled keyword is now reported against `text` instead of `assign_ax`
+- `Image.text`: the `horalign` keyword is declared in `TextKwargs`, which spelled it `horlign`, so type checkers rejected a keyword that worked and was documented
+- `find_cmap` no longer returns non-colormap attributes of a colormap package (`find_cmap("count")` returned a method of the `pastamarkers.salsa` named tuple)
+- `Image.showgrid`: a misspelled keyword is now reported, the method being the only tracked one without the internal `_check` flag
+- `Image.interactive`: the `ax` keyword is declared on the facade, so type checkers accept it and `help()` shows it; `_check` no longer sits where the manager has `limfix`, which made a third positional argument switch off the keyword check
+- `AxisManager.set_axis`: `ax` now defaults to `None`, as its docstring and the facade already said
+
+---
+
+## [1.2.4] — 2026-07-06
+
+### Changed
+- Bumped `matplotlib` from 3.10.9 to 3.11.0
+
+### Fixed
+- Units: removed `UnitManager._units_from_defh`, which read `UNIT_*` scales directly out of the parsed `definitions.h` dict; this source was never validated against real `definitions.h` files (only injected as a plain dict in tests) and sat ahead of the physics-module defaults in the priority chain, so a malformed or stale `UNIT_*` macro in `definitions.h` could silently override reliable log-derived units. Priority is now user-defined → log → physics module → classical MHD. `defh` itself (the parsed `definitions.h` dict) is untouched and still used elsewhere (e.g. `PHYSICS` lookup for physics-module defaults)
+- Particles: added the `time` info, read from the particle file header into `ntimelist` (`loadfuncs/offsetpart.py`)
 
 ---
 
@@ -185,7 +191,8 @@ Initial public release.
 - Sphinx documentation with worked examples
 - CI on Linux, macOS, Windows across Python 3.11–3.13
 
-[Unreleased]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.3...HEAD
+[Unreleased]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.4...HEAD
+[1.2.4]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.0...v1.2.1

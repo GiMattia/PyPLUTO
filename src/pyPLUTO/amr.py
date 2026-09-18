@@ -509,6 +509,7 @@ def oplotbox(
                         [y0, y0, y1, y1, y0],
                         color=cols[il],
                         ax=ax,
+                        _check=False,
                         **kwargs,
                     )
                 elif (geom == "POLAR") or (geom == "SPHERICAL"):
@@ -550,7 +551,7 @@ def oplotbox(
                             ),
                         ],
                     )
-                    self.plot(xb, yb, c=cols[il], ax=ax, **kwargs)
+                    self.plot(xb, yb, c=cols[il], ax=ax, _check=False, **kwargs)
 
 
 def _read_gridfile(self) -> None:

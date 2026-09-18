@@ -77,15 +77,15 @@ class Load(LoadMixin, Generic[_VarT]):
         the format from the list of possible formats. HDF5 (AMR) formats have
         not been implemented yet.
     - defh: bool | str | None, default None
-        The path to the definitions header file. If True, the code will look for
-        the default definitions header file. If a string is provided, it will be
-        used as the path to the definitions header file. If False, the code will
-        not attempt to read the definitions header file.
+        Whether to read the definitions header file. If True, the code will
+        look for definitions.h (or .hpp) in the simulation folder. If False,
+        the code will not attempt to read it. A string is currently accepted
+        and ignored: the file is looked for by name in the folder either way.
     - endian: str | None, default None
         Endianess of the datafiles. Should be used only if specific
         architectures are used, since the code computes it by itself. Valid
         values are 'big' and 'little' (or '<' and '>').
-    - full3d: bool, default True
+    - full3D: bool, default False
         If disabled, the 3D meshgrids for the grid in non-cartesian coordinates
         are not used. Instead, a combination of an external loop and2D meshgrid
         is employed. The aim is to allow for cartesian meshes from non-cartesian
@@ -111,9 +111,18 @@ class Load(LoadMixin, Generic[_VarT]):
         default pluto.ini file. If a string is provided, it will be used as the
         path to the pluto.ini file. If False, the code will not attempt to read
         the pluto.ini file.
+    - skip_units: str | list[str] | None, default None
+        The variables that keep plain arrays when units are attached. Has no
+        effect unless 'units' is given.
     - text: bool | None, default None
         Controls output verbosity. None (default) prints standard load info at
         INFO level. False silences all output. True enables full DEBUG logging.
+    - units: bool | str | list[str] | None, default None
+        The variables that are converted to astropy units while loading. True
+        converts every variable, a name or a list of names only those.
+    - user_units: dict[str, float] | None, default None
+        Unit scales given by the user, e.g. {'unit_density': 1.0}, taking
+        precedence over the ones read from the simulation.
     - var: str | list[str] | bool | None, default True
         The variables to be loaded. The default value, True, corresponds to all
         the variables.
@@ -332,7 +341,6 @@ class Load(LoadMixin, Generic[_VarT]):
         - gradient
         - mirror
         - read_file
-        - repeat
         - reshape_cartesian
         - reshape_uniform
         - slices

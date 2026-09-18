@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 
+from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
-from pyPLUTO.loadmixin import BaseLoadMixin
 
 __all__ = ["SetUnitsManager"]
 

@@ -1,3 +1,4 @@
+import ast
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -10,6 +11,24 @@ from pyPLUTO.toolfuncs.compute_units import UnitManager
 
 def _load_single(data_dir: Path, **kwargs):
     return pp.Load(path=data_dir / "single_file", text=False, **kwargs)
+
+
+def test_baseloadmixin_is_imported_from_its_own_module() -> None:
+    """Check the mixin is imported from the module that defines it.
+
+    It was imported from `loadmixin`, which only re-exports it, so pyright
+    reported `reportPrivateImportUsage` and the package was no longer clean
+    under the checker it treats as the source of truth.
+    """
+    source = Path("src/pyPLUTO/toolfuncs/compute_units.py").read_text()
+    imports = {
+        node.module
+        for node in ast.walk(ast.parse(source))
+        if isinstance(node, ast.ImportFrom)
+        and any(alias.name == "BaseLoadMixin" for alias in node.names)
+    }
+
+    assert imports == {"pyPLUTO.baseloadmixin"}
 
 
 def test_units_default_behavior(data_dir: Path):

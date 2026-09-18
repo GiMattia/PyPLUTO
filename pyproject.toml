@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "py-pluto"
-version = "1.2.4"
+version = "1.3"
 description = "PyPLUTO: Plotting routines for PLUTO"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -33,11 +33,18 @@ dependencies = [
 
 [project.optional-dependencies]
 gui = [
-    "PySide6",
+    # 6.9.3 is the last release with manylinux_2_28 wheels, which is the
+    # linux-64 target pixi resolves against; 6.10+ ship manylinux_2_34 only.
+    # uv still picks the newest on a machine whose glibc allows it.
+    "PySide6>=6.9.3",
 ]
 
-pasta = [
-    "pastamarkers"
+# The colormap packages find_cmap searches, in CMAP_PROVIDERS order. All
+# optional: a package that is not installed is skipped.
+cmaps = [
+    "cblind>=2.3.2",
+    "pastamarkers>=1.0.2",
+    "seaborn>=0.13.2",
 ]
 
 [dependency-groups]
@@ -54,15 +61,15 @@ test = [
     "pytest-xdist>=3.8.0",
 ] 
 dev = [
-    "uv",
-    "auto-walrus",
-    "pandas-stubs",
-    "h5py-stubs",
-    "pre-commit",
-    "pyright",
-    "ruff",
-    "radon",
-    "pydata-sphinx-theme",
+    "uv>=0.12.16",
+    "auto-walrus>=0.4.1",
+    "pandas-stubs>=3.0.5",
+    "h5py-stubs>=0.1.2",
+    "pre-commit>=4.6.2",
+    "pyright>=1.1.414",
+    "ruff>=0.16.8",
+    "radon>=6.0.1",
+    "pydata-sphinx-theme>=0.21.0",
 ]
 
 # Type checkers we keep installable but do NOT yet use as the source of truth.
@@ -72,8 +79,8 @@ dev = [
 # PyPLUTO relies on (Generic + overloaded __new__, Unpack[TypedDict] extra-key
 # rejection, etc.).
 typefuture = [
-    "pyrefly",
-    "ty",
+    "pyrefly>=1.3.1",
+    "ty>=0.0.82",
 ]
 
 notebook = [
@@ -231,16 +238,16 @@ py-pluto = { path = ".", editable = true }
 [tool.pixi.feature.gui.pypi-dependencies]
 py-pluto = { path = ".", editable = true, extras = ["gui"] }
 
-[tool.pixi.feature.pasta.pypi-dependencies]
-py-pluto = { path = ".", editable = true, extras = ["pasta"] }
+[tool.pixi.feature.cmaps.pypi-dependencies]
+py-pluto = { path = ".", editable = true, extras = ["cmaps"] }
 
 [tool.pixi.feature.full.pypi-dependencies]
-py-pluto = { path = ".", editable = true, extras = ["gui", "pasta"] }
+py-pluto = { path = ".", editable = true, extras = ["gui", "cmaps"] }
 
 [tool.pixi.environments]
 default = { features = [] }
 gui = { features = ["gui"] }
-pasta = { features = ["pasta"] }
+cmaps = { features = ["cmaps"] }
 full = { features = ["full"] }
 
 dev = { features = ["dev"] }

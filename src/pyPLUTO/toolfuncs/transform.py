@@ -400,7 +400,7 @@ class TransformManager(LoadMixin):
 
         # Forward the (possibly defaulted) grid coordinates to reshape_uniform
         kwargs["x1"], kwargs["x2"] = x1, x2
-        x1, x2, var = self.reshape_uniform(*var, **kwargs)
+        x1, x2, var = self.reshape_uniform(*var, _check=False, **kwargs)
 
         ww, nn = self._convert2cartgrid(xc, yc, x1, x2)
 

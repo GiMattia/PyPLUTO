@@ -111,6 +111,12 @@ DELEGATION: dict[str, str] = {
     "write_file": "WriteFileManager",
 }
 
+# The methods that exist and raise NotImplementedError. They are facade
+# methods like any other, so every delegation test still covers them, but
+# `__str__` does not advertise them: a user reading the list would find
+# nothing behind the name. Empty this when the method is written.
+UNIMPLEMENTED: set[str] = {"repeat"}
+
 # Every method of Load that takes **kwargs, and the TypedDict of loadkwargs.py
 # that declares them. __init__ is listed too: the constructor is where most of
 # the keywords are actually given.

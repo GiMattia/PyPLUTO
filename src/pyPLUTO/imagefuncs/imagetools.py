@@ -13,6 +13,7 @@ import matplotlib.colors as mcol
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.colors import Normalize
+from matplotlib.figure import Figure
 from matplotlib.text import Text
 
 from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
@@ -21,11 +22,17 @@ from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
 
-try:
-    _pm = importlib.import_module("pastamarkers")
-    salsa = getattr(_pm, "salsa", None)
-except (ImportError, ModuleNotFoundError, AttributeError):
-    salsa = None
+# Optional packages searched when matplotlib does not know a colormap name,
+# in order: the first one that has it wins. The value is the attribute holding
+# the colormaps ("" when the package holds them itself), since the packages do
+# not agree: pastamarkers.salsa.pomodoro, cmocean.cm.thermal, seaborn.cm.rocket.
+# None of them is a dependency, so one that is not installed is skipped, and a
+# user can add a package of their own to the dictionary.
+CMAP_PROVIDERS: dict[str, str] = {
+    "cblind": "",
+    "pastamarkers": "salsa",
+    "seaborn": "cm",
+}
 
 
 class ImageToolsManager(ImageMixin):
@@ -219,19 +226,22 @@ class ImageToolsManager(ImageMixin):
             >>> I.text("text", x=0.5, y=0.5, xycoords="points")
 
         """
-        # Find figure and number of the axis
-        ax, nax = self.assign_ax(ax, **kwargs)
+        # Find figure and number of the axis. _check=False because this is a
+        # nested call: with it left out, assign_ax would restart the keyword
+        # tracking, report the keywords this method consumes as unused, and
+        # clear the record before text itself could check anything.
+        ax, nax = self.assign_ax(ax, _check=False, **kwargs)
 
-        if self.state.fig is None:
-            raise ValueError(
-                "No figure is present. Please create a figure first.",
-            )
+        # assign_ax above raises when the state holds no figure, so by here
+        # there is always one: the cast says that to the type checkers without
+        # a second check that could never fail.
+        fig = cast("Figure", self.state.fig)
 
         # Dictionary with the possible 'xycoords' values
         coordinates = {
             "fraction": ax.transAxes,
             "points": ax.transData,
-            "figure": self.state.fig.transFigure,
+            "figure": fig.transFigure,
         }
 
         # Set the 'xycoords' keyword
@@ -249,8 +259,6 @@ class ImageToolsManager(ImageMixin):
         hortx = kwargs.get("horalign", "left")
         vertx = kwargs.get("veralign", "baseline")
 
-        bbox = kwargs.get("bbox")
-
         # Insert the text
         ax.text(
             x,
@@ -261,7 +269,7 @@ class ImageToolsManager(ImageMixin):
             fontsize=kwargs.get("textsize", self.state.fontsize),
             horizontalalignment=hortx,
             verticalalignment=vertx,
-            bbox=kwargs.get("bbox", bbox),
+            bbox=kwargs.get("bbox"),
         )
 
     # End of the function
@@ -449,8 +457,10 @@ class ImageToolsManager(ImageMixin):
 
         Parameters
         ----------
-        - cscale : {'linear','log','symlog','twoslope'}, default 'linear'
+        - cscale : {'linear'/'lin'/'norm','log','symlog','twoslope'/'2slope',
+          'power','asinh'}, default 'linear'
             Sets the colorbar scale. Default is the linear ('norm') scale.
+            Any other name warns and falls back to the linear scale.
         - tresh (not optional): float
             Sets the threshold for the colormap. If not defined, the threshold
             will be set to 1% of the maximum absolute value of the variable.
@@ -497,6 +507,12 @@ class ImageToolsManager(ImageMixin):
         elif cscale == "asinh":
             norm = mcol.AsinhNorm(tresh, vmin, vmax)
         else:
+            # "norm" is the name the managers pass when the user set nothing.
+            if cscale not in ("linear", "lin", "norm", None):
+                warn = (
+                    f"Colorscale '{cscale}' not found. Defaulting to 'linear'."
+                )
+                warnings.warn(warn, UserWarning, stacklevel=2)
             norm = mcol.Normalize(vmin=vmin, vmax=vmax)
 
         return norm
@@ -505,12 +521,27 @@ class ImageToolsManager(ImageMixin):
         self,
         name: str | mcol.Colormap | None,
     ) -> mcol.Colormap | None:
-        """Find a colormap by name.
+        """Find a colormap by name, in matplotlib or in a colormap package.
+
+        A name matplotlib knows costs nothing but the lookup: the packages in
+        CMAP_PROVIDERS are imported only once matplotlib has said no, in the
+        order they are listed, and a package that is not installed is skipped.
+        A name none of them has warns and falls back to 'plasma', so a typo
+        never stops a plot from being drawn.
+
+        A trailing '_r' means the reversed colormap. The name is looked for as
+        written first, so a package shipping its own reversed version is
+        preferred; otherwise the base name is reversed here.
+
+        cmasher and cmocean are not searched because importing them warns;
+        importing either in the script makes its 'cmr.'/'cmo.' names resolve
+        through matplotlib.
 
         Parameters
         ----------
         - name (not optional): str | Colormap | None
-            The name of the colormap.
+            The name of the colormap. A Colormap or None is returned as it is,
+            so a caller can pass a user's keyword straight through.
 
         Returns
         -------
@@ -522,48 +553,56 @@ class ImageToolsManager(ImageMixin):
 
             >>> _find_cmap("viridis")
 
-        - Example #2: find a colormap by name
+        - Example #2: find a reversed colormap by name
 
             >>> _find_cmap("viridis_r")
 
+        - Example #3: find a colormap from an installed colormap package
+
+            >>> _find_cmap("pomodoro")
+
         """
-        # Find a colormap by name or return a default one if not found.
+        # Already a colormap, or nothing at all: nothing to look up.
         if isinstance(name, mcol.Colormap) or name is None:
             return name
 
-        # First, try matplotlib colormap
+        # matplotlib first, which is every ordinary name and imports nothing.
         try:
             return plt.get_cmap(name)
         except ValueError:
-            pass  # Not a matplotlib colormap
+            pass
 
-        if salsa is None:
-            warn = (
-                "salsa is not installed, cannot find colormap. "
-                "Defaulting to 'plasma'."
-            )
-            warnings.warn(warn, UserWarning, stacklevel=2)
-            return plt.get_cmap("plasma")
+        base = name[:-2] if name.endswith("_r") else name
 
-        # Try salsa colormap
-        reverse = False
-        base_name = name
-        if name.endswith("_r"):
-            base_name = name[:-2]
-            reverse = True
+        for module, attr in CMAP_PROVIDERS.items():
+            try:
+                provider = importlib.import_module(module)
+            except ImportError:
+                continue
 
-        if (cmap := getattr(salsa, base_name, None)) is not None:
-            if reverse:
-                # Prefer .reversed() method if available
-                rev = getattr(cmap, "reversed", None)
-                if callable(rev):
-                    return cast("mcol.Colormap", rev())
-            return cast("mcol.Colormap", cmap)
+            # The colormaps sit either on the module or on one attribute of
+            # it, which is what the dictionary value says.
+            holder = getattr(provider, attr, None) if attr else provider
 
-        # Gigantic warning!
+            # The name as written first, then the base name reversed here.
+            for candidate, reverse in ((name, False), (base, base != name)):
+                cmap = getattr(holder, candidate, None)
+
+                # Only a colormap will do: every attribute answers to getattr,
+                # and pastamarkers.salsa is a named tuple, so find_cmap("count")
+                # would otherwise return its count method. Packages such as
+                # cblind expose none and register with matplotlib on import.
+                if not isinstance(cmap, mcol.Colormap):
+                    try:
+                        cmap = plt.get_cmap(candidate)
+                    except ValueError:
+                        continue
+
+                return cmap.reversed() if reverse else cmap
+
         warn = (
-            f"Colormap '{name}' not found in matplotlib or salsa! "
-            "Defaulting to 'plasma'."
+            f"Colormap '{name}' not found in matplotlib or in "
+            f"{', '.join(CMAP_PROVIDERS)}. Defaulting to 'plasma'."
         )
         warnings.warn(warn, UserWarning, stacklevel=2)
         return plt.get_cmap("plasma")

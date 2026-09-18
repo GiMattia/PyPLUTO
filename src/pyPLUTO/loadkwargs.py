@@ -46,7 +46,7 @@ class LoadKwargs(BaseLoadKwargs, total=False):
 class LoadPartKwargs(BaseLoadKwargs, total=False):
     """Type for keyword arguments accepted by LoadPart class."""
 
-    chnk: int | None
+    chnk: int | Sequence[int] | None
     nfile_lp: int | None
 
 

@@ -22,7 +22,7 @@ from pathlib import Path
 
 import pytest
 from astropy import units as u
-from helper_load import DELEGATION, MANAGERS
+from helper_load import DELEGATION, MANAGERS, UNIMPLEMENTED
 
 import pyPLUTO as pp
 from pyPLUTO.load import Load
@@ -135,7 +135,9 @@ def test_str_describes_the_load(data_dir: Path) -> None:
     assert "Please refrain from using" in text
 
 
-@pytest.mark.parametrize("method", DELEGATION)
+@pytest.mark.parametrize(
+    "method", [name for name in DELEGATION if name not in UNIMPLEMENTED]
+)
 def test_str_lists_every_method(method: str, data_dir: Path) -> None:
     """Look for one public method in the description, one test per method.
 
@@ -143,8 +145,26 @@ def test_str_lists_every_method(method: str, data_dir: Path) -> None:
     until it is also advertised. This is the exact bug found in image.py and
     loadpart.py, where `__str__` listed methods that no longer existed and
     omitted ones that did.
+
+    The methods in UNIMPLEMENTED are left out: they exist and raise, so
+    advertising them would send a user after something that is not there.
     """
     assert f"- {method}\n" in str(_load(data_dir))
+
+
+@pytest.mark.parametrize("method", sorted(UNIMPLEMENTED))
+def test_str_hides_what_is_not_implemented(method: str, data_dir: Path) -> None:
+    """Check a method that only raises is not advertised, and still raises.
+
+    Both halves matter: `repeat` was listed among the public methods with a
+    docstring of its own while raising NotImplementedError, and once it is
+    written this test fails and says to empty UNIMPLEMENTED.
+    """
+    data = _load(data_dir)
+    assert f"- {method}\n" not in str(data)
+
+    with pytest.raises(NotImplementedError):
+        getattr(data, method)(data.rho, "l")
 
 
 def test_str_attributes_exist(data_dir: Path) -> None:
@@ -163,6 +183,24 @@ def test_str_attributes_exist(data_dir: Path) -> None:
     assert names
     for name in names:
         assert hasattr(data, name), name
+
+
+@pytest.mark.parametrize(
+    "keyword", ["full3D", "units", "skip_units", "user_units"]
+)
+def test_the_documented_keywords_are_the_real_ones(keyword: str) -> None:
+    """Check a keyword that works is documented under the name the code reads.
+
+    The class documented `full3d` with a default of True while the keyword is
+    `full3D` and defaults to False, so a user copying the documentation got
+    an "Unused kwargs" warning and the opposite setting; `units`,
+    `skip_units` and `user_units` worked and were documented nowhere.
+    """
+    documented = set(
+        re.findall(r"^\s*- (\w+):", inspect.getdoc(Load) or "", re.MULTILINE)
+    )
+
+    assert keyword in documented
 
 
 def test_str_properties_show_their_field(data_dir: Path) -> None:

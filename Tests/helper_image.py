@@ -136,6 +136,37 @@ KWARGS: dict[str, str] = {
     "zoom": "ZoomKwargs",
 }
 
+# Keywords a manager reads from **kwargs while its TypedDict declares them
+# nowhere. Each works at runtime and is documented in the method's docstring,
+# but the type checkers reject it and an editor never offers it: the same
+# fault as `horlign`, which was declared for a method reading `horalign`.
+#
+# This is a list of known faults, not of accepted ones -- every entry is an
+# open bug in tests_recap.md, to be fixed when that manager is reviewed. The
+# test reads it in both directions, so a new undeclared keyword fails here,
+# and so does an entry left behind once the keyword is declared.
+UNDECLARED_KWARGS: dict[str, set[str]] = {
+    # `colors` is read only as a presence test, to warn when it is given
+    # together with `cmap`; the value is never used, so declaring it would
+    # advertise a keyword that does nothing. See the Open bugs row.
+    "contour": {"colors"},
+    "streamplot": {"colors"},
+}
+
+# The facade methods whose docstring documents every keyword their table
+# declares, leaving out the figure-level ones documented on `Image.__init__`.
+# The others are expected failures in test_with_issues.py: move a name here
+# when its manager is reviewed and its keywords written up.
+DOCUMENTED_KWARGS: set[str] = {"create_axes"}
+
+# Keywords a docstring documents while nothing in the package declares or
+# reads them: a user copying the documentation gets an "Unused kwargs"
+# warning from it. One entry per open bug in tests_recap.md, read in both
+# directions like UNDECLARED_KWARGS.
+GHOST_KWARGS: dict[str, set[str]] = {
+    "interactive": {"lint"},
+}
+
 # The facade methods that take explicit parameters only, with no **kwargs.
 # Listed rather than left out, so every facade method is accounted for by one
 # table or the other.

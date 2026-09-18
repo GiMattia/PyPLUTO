@@ -9,6 +9,7 @@ Load and LoadPart each have their own tables, and the tests are parametrized
 over both so neither is held to a lower standard.
 """
 
+import collections.abc
 import typing
 from typing import get_args, get_type_hints
 
@@ -130,6 +131,21 @@ def test_method_without_kwargs(cls: type, method: str) -> None:
     """
     hints = get_type_hints(getattr(cls, method), include_extras=True)
     assert "kwargs" not in hints
+
+
+def test_chnk_declares_the_sequence_it_accepts() -> None:
+    """Check `chnk` is declared for the sequence the class documents.
+
+    `LoadPart` documents `int | Sequence[int] | None` and `BaseLoadState`
+    stores that, while the table declared `int | None`, so `chnk=[0, 1]`
+    worked and every checker refused it.
+    """
+    declared = get_type_hints(kwargs_mod.LoadPartKwargs)["chnk"]
+
+    assert any(
+        typing.get_origin(arg) is collections.abc.Sequence
+        for arg in get_args(declared)
+    )
 
 
 @pytest.mark.parametrize(("cls", "helper"), CLASSES)

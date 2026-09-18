@@ -9,8 +9,8 @@ from typing import Any
 
 import astropy.units as u
 
+from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
-from pyPLUTO.loadmixin import BaseLoadMixin
 
 
 class UnitManager(BaseLoadMixin):

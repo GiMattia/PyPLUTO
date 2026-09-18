@@ -80,7 +80,7 @@ class TextKwargs(CreateAxesKwargs, total=False):
     """Keyword arguments for setting text."""
 
     bbox: dict[str, object] | None
-    horlign: str
+    horalign: str
     textsize: float
     veralign: str
     xycoords: str
@@ -141,7 +141,7 @@ class SetAxisKwargs(
 
     alpha: float
     aspect: float | Literal["auto", "equal"]
-    grid: Literal["x", "y"] | bool
+    grid: Literal["x", "y", "both"] | bool
     ticksdir: str
     tickssize: float
     xticks: list[float] | bool | None
@@ -155,6 +155,7 @@ class LegendKwargs(CreateAxesKwargs, total=False):
 
     c: str | Sequence[str | ColorType] | ArrayLike | ColorType
     edgecolor: str | Sequence[str]
+    legpad: float
     fillstyle: str | Sequence[str]
     label: str | Sequence[str] | None
     legalpha: float
@@ -270,6 +271,8 @@ class ZoomKwargs(DisplayKwargs, total=False):
 
     pos: list[float]
     var: ArrayLike
+    zoomcolor: str
+    zoomlines: bool
 
 
 class SetLocKwargs(TypedDict, total=False):

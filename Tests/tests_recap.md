@@ -1,6 +1,7 @@
 # Tests recap
 
-**1797 tests** · in-scope coverage **81.0%** · target 100%
+**1854 tests** · 47 known bugs as expected failures · in-scope coverage
+**81.0%** · target 100%
 
 | Status | Files |
 |---|---|
@@ -57,7 +58,7 @@ test, or a test would compare the code with itself.
 | `imagefuncs/contour.py` | `imagefuncs/test_contour.py` | 10 | 85% | to review |
 | `imagefuncs/create_axes.py` | `imagefuncs/test_create_axes.py` | 14 | 100% | to review |
 | `imagefuncs/display.py` | `imagefuncs/test_display.py` | 1 | 94% | to review |
-| `imagefuncs/figure.py` | `imagefuncs/test_figure.py` | 20 | 99% | to review |
+| `imagefuncs/figure.py` | `imagefuncs/test_figure.py` | 38 | 100% | reviewed |
 | `imagefuncs/gridplot.py` | `imagefuncs/test_gridplot.py` | 16 | 97% | to review |
 | `imagefuncs/imagetools.py` | `imagefuncs/test_imagetools.py` | 46 | 100% | reviewed |
 | `imagefuncs/interactive.py` | `imagefuncs/test_interactive.py` | 8 | 74% | to review |
@@ -212,7 +213,7 @@ work.
 | Scope the warning filter to pyPLUTO's own warnings | `utils/configure.py:260` |
 | One `resolve_endianess()` for the four sites | `loadfuncs/offsetfluid.py`, `offsetpart.py`, `descriptor.py` |
 | Honour `alone=False`; forward the `vars=` shim; build `codedict` lazily | `loadfuncs/findformat.py`, `initload.py`, `codeselection.py` |
-| Keep `figsize` in step with the figure; let a keyword win over the figure it attaches to; `close=False` when `fig` is given | `imagefuncs/figure.py`, `create_axes.py` |
+| Keep `figsize` in step with the figure when `create_axes` resizes it | `imagefuncs/create_axes.py:185` |
 | A default spacing for `fourier`; `d_vars` for a tab load | `toolfuncs/fourier.py`, `loadfuncs/readtab.py` |
 | Point the unused-keyword warning at the user's frame | `utils/inspector.py` |
 
@@ -333,7 +334,8 @@ in `test_with_issues.py`, or -- if it is a design choice -- a row in
   `xfail(strict=True)`. Every run reports how many bugs are open, and a fix
   makes its test pass, which strict mode turns into a failure telling you to
   drop the marker and move the test into the file it belongs to. Nothing in
-  it passes: 64 expected failures today. Where a fault is partly cleared,
+  it passes: 50 expected failures today, down from 64 as the *Now* list was
+  worked through. Where a fault is partly cleared,
   the done part is guarded elsewhere -- `create_axes` documents every
   keyword it declares, so it is listed in `DOCUMENTED_KWARGS` and checked by
   `test_imagekwargs.py`, while its thirteen siblings stay here.
@@ -438,8 +440,6 @@ from scratch each time.
 | `load.py:284`, `loadpart.py:210` | **`repr()` crashes on a load that read nothing.** `Load(nout=None)` is documented as "do not load", and `repr(D)` then raises `AttributeError: no attribute 'nout'`; `str(D)` raises on `geom`. A repr is what a debugger and the prompt call by themselves, so it must never raise. |
 | `baseloadstate.py:24`, `loadstate.py:17` | **Two states cannot be compared.** The generated `__eq__` reads the load-only fields: `LoadState() == LoadState()` raises `AttributeError`, and two real states raise `ValueError` on the array comparison. `eq=False` would at least give identity. |
 | `imagefuncs/range.py:213` | **Constant data breaks the padding.** The zero-width case pads from `ymax * 0.1`: a constant negative value gives a negative padding and an inverted axis (`ylim = (-4.95, -5.05)`), and a constant zero gives `(0.0, 0.0)` plus a `log10(0)` RuntimeWarning. `abs(ymax) * 0.1 or 1.0` fixes both. |
-| `image.py`, `imagefuncs/figure.py:329` | **An existing figure overrides the keywords given with it.** `Image(fig=f, figsize=[12,3], fontsize=30)` keeps the figure's own `[4,4]` and fontsize 10, because all three are read from the figure after the keywords were applied. The keywords are documented unconditionally. |
-| `imagefuncs/figure.py:351` | `close` defaults to True even when `fig` is given, so `Image(fig=f)` clears and closes the figure it was handed. Closing by window number is by design; the default should be False when a figure is passed directly (decided 2026-09-18). |
 | `imagestate.py`, `imagefuncs/create_axes.py:185` | **`figsize` reports a size the figure does not have.** `create_axes` resizes the figure without updating the state, so after `create_axes(ncol=2)` the property and the repr still say `[8.0, 5.0]` while the figure is `[8.49, 5.0]`. |
 | `imagekwargs.py:61` | **Figure-only keywords type-check on every drawing method and are then unused.** `CreateAxesKwargs` inherits `ImageKwargs`, so `plot(withblack=True)`, `style`, `nwin`, `numcolors` and six more are accepted by the checkers and reported as unused at runtime -- the mirror of a keyword read but not declared. |
 | `imagekwargs.py:144` | `SetAxisKwargs.grid` declares `Literal["x","y"] \| bool`, while `set_axis.py:326` also handles `"both"`: the value works and the checkers reject it. |
@@ -449,8 +449,8 @@ from scratch each time.
 | `load.py:79`, `loadfuncs/readdefplini.py:38` | `defh="mydefs.h"` is ignored: the reader always looks for `definitions.h` in the folder, so a named file is never read and a missing one says nothing. |
 | `toolfuncs/transform.py:403`, `amr.py:507` | Two more `_check` protocol violations, the same fault fixed in `imagetools.text`: `reshape_cartesian(var, transpose=True)` warns that `transpose` is unused, blaming `reshape_uniform`. |
 | `imagefuncs/imagetools.py:191` | `text` documents `xycoords='figure fraction'`, while the lookup knows `fraction`, `points` and `figure`, so the documented spelling raises a bare `KeyError`. |
-| `loadpart.py:58` | The docstring promises a warning when a requested chunk does not exist; for non-chunked particle output `chnk` is silently ignored (`chnk=99` loads normally). `LoadPartKwargs.chnk` is also `int \| None` while the docstring and the state allow a sequence. |
-| `load.py:64`, `loadpart.py:50` | Keywords that work but are documented nowhere: `units`, `skip_units`, `user_units` for both, plus `alone`, `code` and `multiple` for `LoadPart`. |
+| `loadpart.py`, `loadkwargs.py:46` | **`LoadPart` accepts `multiple`, which it cannot use.** Particle output is split by chunk, not by variable, so the keyword means nothing here; it is declared in `LoadPartKwargs`, accepted, and silently ignored -- not even reported as unused, so nothing tells the user the request had no effect. It should be refused, or dropped from the table. |
+| `loadfuncs/loadvars.py:103` | `chnk` is silently ignored for non-chunked particle output: `chnk=99` loads normally instead of warning. The docstring now says chunks exist only for multi-file output, but a request that cannot be honoured should still say so. |
 | `toolfuncs/fourier.py:98` | `fourier(f)` without `dx` raises `KeyError`. |
 | `loadfuncs/readtab.py` | `datatype="tab"` leaves `d_vars` empty, so the GUI lists no variables. |
 | `imagefuncs/colorbar.py` | Docstring says no colorbar without `cpos`, but the default is `"right"`. |
@@ -513,6 +513,14 @@ afternoon, and none is urgent.
 | `imagefuncs/set_axis.py` | `AxisManager.set_axis` required `ax`, although its docstring and the facade give it the default `None`. Default added. |
 | `toolfuncs/compute_units.py`, `set_units.py` | Both imported `BaseLoadMixin` from `pyPLUTO.loadmixin`, which only re-exports it, so pyright reported `reportPrivateImportUsage` twice and the package was no longer clean under it. Now imported from `pyPLUTO.baseloadmixin`, and each file's test checks its own import. |
 | `toolfuncs/transform.py:403`, `amr.py:507,553` | Two more `_check` protocol violations, the same fault as in `imagetools.text`: `reshape_cartesian(var, transpose=True)` warned that `transpose` was unused, blaming `reshape_uniform`, and `oplotbox` re-warned once per box. Regression test in the new `Tests/toolfuncs/test_transform.py`. |
+| `imagefuncs/figure.py`, `imagekwargs.py`, `image.py` | **`close` and `replace` were two halves of one keyword**, each useless alone: `close` emptied the window, `replace` only decided whether `create_figure` built a new figure, and `replace=True` with `close=False` returned the *same* figure. They are one keyword now, `replace`, which empties the window and builds the figure; it defaults to replacing, except when a figure is given with `fig`, which is then the one used. `close` warns as deprecated and is read as `replace`. |
+| `imagefuncs/figure.py:106` | `Image(fig=f)` cleared and closed the figure it was given, then kept using the closed object: `close` ran whether or not a figure had been passed. A figure handed in is now left alone unless `replace=True`. |
+| `imagefuncs/figure.py:127` | An attached figure overwrote the keywords given with it, so `Image(fig=f, figsize=[12,3], fontsize=30)` silently kept the figure's own `[4,4]` and fontsize 10. What was asked for explicitly is applied again afterwards, and a `figsize` resizes the attached figure. |
+| `imagefuncs/figure.py:116` | `nwin` given together with `fig` was silently dropped, since a figure cannot be renumbered. It now warns, and only when the two disagree. |
+| `imagefuncs/figure.py:398` | **Attaching to a figure switched the tight layout off.** `state.tight` was read from `fig.get_tight_layout()`, which reports matplotlib's layout *engine*; pyPLUTO calls `tight_layout()` once and installs no engine, so it answered False for every figure pyPLUTO ever made. Only a True is inherited now. The same confusion made three tests vacuous, `test_tight_keyword_reaches_matplotlib` among them: they asserted `get_tight_layout() is False`, which holds whatever is passed. The axes box is what moves, and is what they check now. |
+| `load.py`, `loadpart.py`, `imagefuncs/imagetools.py`, `colorbar.py`, `set_axis.py`, `interactive.py` | The docstrings that named something false: `full3d` for `full3D` with the opposite default, `defh` promising to read a path it ignores, `xycoords` documenting a spelling that raised `KeyError`, `cpos` saying `None` where the code uses `'right'`, `sharex`/`sharey` promising `bool | str`, the `lint` keyword that exists nowhere, and LoadPart claiming one output at a time. Also documented at last: `units`, `skip_units`, `user_units` on both classes, and `alone`, `code` on LoadPart. |
+| `load.py:337` | `repeat` was advertised in `__str__` while raising `NotImplementedError`. It is no longer listed; `UNIMPLEMENTED` in `helper_load.py` keeps it covered by every delegation test, and `test_str_hides_what_is_not_implemented` fails the day it is written. |
+| `imagefuncs/range.py:213` | Constant data broke the padding: a negative constant inverted the axis and a constant zero gave an empty window with a `log10(0)` warning. The padding is now taken from the absolute value, falling back to 1.0. Existing plots are unaffected -- every example figure still matches. |
 | `imagekwargs.py`, `loadkwargs.py` | Keywords that worked while no table declared them, so the checkers refused them: `legpad`, `zoomcolor`, `zoomlines`, the `"both"` value of `grid`, and a sequence for `chnk`. `test_grid_declares_every_value_it_accepts` and `test_chnk_declares_the_sequence_it_accepts` guard the two that the key-level guard cannot see. |
 | `imagefuncs/imagetools.py` | An unknown `cscale` was silently drawn on a linear scale. It now warns and falls back, with `linear`, `lin`, `norm` and `None` accepted as the deliberate spellings -- `norm` being the one the managers pass internally. |
 | `imagefuncs/imagetools.py` | `text` called `assign_ax` without `_check=False`, so the nested call restarted the keyword tracking and reported the keywords `text` itself consumes: `I.text("hi", textsize=20)` warned about `textsize`, which its own docstring documents, and a real typo was blamed on `assign_ax`. `text` was the only method whose keyword checking was dead. |

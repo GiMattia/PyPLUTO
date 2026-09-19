@@ -153,6 +153,34 @@ def test_str_lists_every_method(method: str, data_dir: Path) -> None:
     assert f"- {method}\n" in str(_loadpart(data_dir))
 
 
+@pytest.mark.parametrize(
+    "keyword", ["alone", "code", "units", "skip_units", "user_units"]
+)
+def test_the_working_keywords_are_documented(keyword: str) -> None:
+    """Check a keyword that works is listed in the class docstring.
+
+    All five are accepted and do something, and none was documented, so the
+    only way to find them was to read the source.
+    """
+    documented = set(
+        re.findall(
+            r"^\s*- (\w+):", inspect.getdoc(LoadPart) or "", re.MULTILINE
+        )
+    )
+
+    assert keyword in documented
+
+
+def test_str_describes_several_outputs() -> None:
+    """Check the class docstring does not claim a single output.
+
+    It said "only one output can be loaded at a time", while `nout="all"`
+    loads several and `test_text_logs_every_output_as_plain_ints` relies on
+    it: the sentence turned a working feature into one users avoid.
+    """
+    assert "only one output" not in (inspect.getdoc(LoadPart) or "")
+
+
 def test_str_properties_show_their_field(data_dir: Path) -> None:
     """Read each property line of the description and check name and value.
 

@@ -273,15 +273,22 @@ def test_figure_and_style_keywords_reach_the_state() -> None:
 
 
 def test_tight_keyword_reaches_matplotlib() -> None:
-    """Pass tight=False and check matplotlib actually received it.
+    """Pass tight=False and check matplotlib actually laid out that way.
 
     Unlike the test above this reads the answer off the *figure* rather than
     off the state, so it checks the setting reached matplotlib rather than
     merely being recorded.
+
+    Not `fig.get_tight_layout()`, which this test used to assert on: it
+    reports matplotlib's layout engine, which pyPLUTO never installs, so it
+    is False whatever is passed and the assertion could not fail. The axes
+    box is what moves, and 0.125 is matplotlib's default left margin.
     """
     img = pp.Image(tight=False, text=False)
+    img.plot([0.0, 1.0], [0.0, 1.0], title="a title", xtitle="x")
+
     assert img.fig is not None
-    assert img.fig.get_tight_layout() is False
+    assert img.ax[0].get_position().x0 == pytest.approx(0.125)
 
 
 def test_fontweight_defaults_to_normal() -> None:

@@ -55,7 +55,7 @@ class FigureKwargs(ImageKwargs, total=False):
     """Keyword arguments for creating figures."""
 
     fig: Figure | None
-    close: bool
+    close: bool  # deprecated, use "replace"
 
 
 class CreateAxesKwargs(ImageKwargs, total=False):

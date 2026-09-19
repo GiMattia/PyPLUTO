@@ -188,12 +188,11 @@ class ImageToolsManager(ImageMixin):
             The space between plot columns (in figure units). If not enough or
             too many spaces are considered, the program will remove the excess
             and fill the lacks with [0.1].
-        - xycoords: str, default 'fraction'
-            The coordinate system used. Possible values are 'figure fraction',
-            which sets the position as a fraction of the axis (inside the axis
-            lie values between 0 and 1), 'points', which sets the position in
-            units of the x/y coordinate system, and 'figure', which sets the
-            position as a fraction of the figure.
+        - xycoords: {'fraction','points','figure'}, default 'fraction'
+            The coordinate system used. 'fraction' sets the position as a
+            fraction of the axis (inside the axis lie values between 0 and 1),
+            'points' sets the position in units of the x/y coordinate system,
+            and 'figure' sets the position as a fraction of the figure.
         - y: float, default 0.85
             The vertical starting position of the text box, in units of figure
             size.

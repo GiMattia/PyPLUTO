@@ -16,6 +16,8 @@ range padded from a tenth of `ymax`, and a logarithmic scale clamped so the
 lower limit stays positive.
 """
 
+import warnings
+
 import numpy as np
 import pytest
 
@@ -85,6 +87,29 @@ def test_range_offset_default_margin() -> None:
     assert manager.range_offset(0.0, 1.0, "linear") == pytest.approx(
         manager.range_offset(0.0, 1.0, "linear", 0.1)
     )
+
+
+@pytest.mark.parametrize(
+    ("constant", "expected"),
+    [(1.0, (0.99, 1.01)), (-5.0, (-5.05, -4.95)), (0.0, (-0.1, 0.1))],
+)
+def test_range_offset_constant_data(
+    constant: float, expected: tuple[float, float]
+) -> None:
+    """Pad a range whose data is a single constant, of either sign.
+
+    Constant data has no range of its own, so the padding comes from the
+    value: a tenth of it, in absolute terms. Taking it signed put the limits
+    the wrong way round for a negative constant and drew the axis upside
+    down, and a constant zero gave no range at all plus a log10(0) warning.
+    """
+    manager, _ = _manager()
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", RuntimeWarning)
+        limits = manager.range_offset(constant, constant, "linear")
+
+    assert limits == pytest.approx(expected)
 
 
 def test_range_offset_negative_log_warns() -> None:

@@ -1,4 +1,5 @@
 import ast
+import inspect
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -6,6 +7,7 @@ import numpy as np
 import pytest
 
 import pyPLUTO as pp
+from pyPLUTO.toolfuncs import compute_units
 from pyPLUTO.toolfuncs.compute_units import UnitManager
 
 
@@ -20,7 +22,7 @@ def test_baseloadmixin_is_imported_from_its_own_module() -> None:
     reported `reportPrivateImportUsage` and the package was no longer clean
     under the checker it treats as the source of truth.
     """
-    source = Path("src/pyPLUTO/toolfuncs/compute_units.py").read_text()
+    source = inspect.getsource(compute_units)
     imports = {
         node.module
         for node in ast.walk(ast.parse(source))

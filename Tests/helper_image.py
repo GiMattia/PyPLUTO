@@ -163,9 +163,7 @@ DOCUMENTED_KWARGS: set[str] = {"create_axes"}
 # reads them: a user copying the documentation gets an "Unused kwargs"
 # warning from it. One entry per open bug in tests_recap.md, read in both
 # directions like UNDECLARED_KWARGS.
-GHOST_KWARGS: dict[str, set[str]] = {
-    "interactive": {"lint"},
-}
+GHOST_KWARGS: dict[str, set[str]] = {}
 
 # The facade methods that take explicit parameters only, with no **kwargs.
 # Listed rather than left out, so every facade method is accounted for by one

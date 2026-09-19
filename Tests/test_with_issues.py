@@ -27,20 +27,16 @@ import warnings
 from collections.abc import Callable
 from pathlib import Path
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pytest
 from helper_image import DELEGATION, DOCUMENTED_KWARGS
 from helper_image import KWARGS as IMAGE_KWARGS
-from matplotlib.figure import Figure
 
 import pyPLUTO as pp
 import pyPLUTO.image as image_mod
 import pyPLUTO.imagekwargs as image_kwargs
-from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
-from pyPLUTO.imagefuncs.set_axis import AxisManager
 
 
 def _image() -> pp.Image:
@@ -186,15 +182,18 @@ def test_a_load_closes_its_memory_maps(data_dir: Path) -> None:
 
 
 @pytest.mark.xfail(
-    strict=True, reason="the class docstring says one output at a time"
+    strict=True, reason="LoadPart declares and accepts a keyword it cannot use"
 )
-def test_loadpart_docstring_does_not_deny_several_outputs() -> None:
-    """Check the class docstring does not claim a single output.
+def test_loadpart_does_not_accept_multiple(data_dir: Path) -> None:
+    """Pass `multiple` to LoadPart and expect it to be refused.
 
-    `nout="all"` loads several, and a test in test_loadpart.py relies on it,
-    so the sentence turns a working feature into one users avoid.
+    `multiple` means one file per variable, while particle output is split
+    by chunk, so the keyword means nothing here. It is declared in
+    `LoadPartKwargs`, accepted, and silently ignored -- not even reported as
+    unused, so nothing tells the user their request had no effect.
     """
-    assert "only one output" not in (inspect.getdoc(pp.LoadPart) or "")
+    with pytest.warns(UserWarning, match="multiple"):
+        pp.LoadPart(path=data_dir / "particles_cr", multiple=True, text=False)
 
 
 @pytest.mark.xfail(strict=True, reason="repr and str need fields no load set")
@@ -261,64 +260,12 @@ def test_fourier_without_dx(data_dir: Path) -> None:
     assert data.fourier(data.rho) is not None
 
 
-# ---- image.py, imagefuncs/figure.py ----
-@pytest.mark.xfail(
-    strict=True, reason="an existing figure overrides the keywords given"
-)
-@pytest.mark.parametrize(
-    ("build", "read", "expected"),
-    [
-        (
-            lambda fig: pp.Image(fig=fig, figsize=[12.0, 3.0], text=False),
-            "figsize",
-            [12.0, 3.0],
-        ),
-        (
-            lambda fig: pp.Image(fig=fig, fontsize=30.0, text=False),
-            "fontsize",
-            30.0,
-        ),
-    ],
-    ids=["figsize", "fontsize"],
-)
-def test_keywords_win_over_the_figure_they_attach_to(
-    build: Callable[[Figure], pp.Image], read: str, expected: object
-) -> None:
-    """Attach to an existing figure and ask for a size and a fontsize.
-
-    The figure's own values overwrite both after the keywords were read, so
-    what the user asked for is silently dropped while the docstring
-    documents the keywords unconditionally.
-    """
-    existing = plt.figure(71, figsize=(4.0, 4.0))
-
-    assert getattr(build(existing), read) == expected
-
-
-@pytest.mark.xfail(
-    strict=True, reason="close defaults to True even when a figure is given"
-)
-def test_a_given_figure_is_not_closed() -> None:
-    """Hand a drawn figure to an Image and check it survives.
-
-    Closing is for the window number; a figure passed directly is one the
-    user already owns, so `close` should default to False when `fig` is
-    given, as decided.
-    """
-    existing = plt.figure(72)
-    existing.add_subplot(111).plot([0.0, 1.0], [0.0, 1.0])
-
-    pp.Image(fig=existing, text=False)
-
-    assert existing.axes
-
-
 @pytest.mark.xfail(
     strict=True,
     reason="state.figsize is not updated when the figure is resized",
 )
 def test_figsize_follows_the_figure() -> None:
-    """Create two columns of axes and compare the reported size with the real one.
+    """Create two columns of axes, compare the reported size with the real one.
 
     `create_axes` resizes the figure without telling the state, so the
     property and the repr keep reporting the size the figure had before.
@@ -440,32 +387,6 @@ def test_negative_log_range_keeps_its_widest_value() -> None:
     assert ymax >= 100.0
 
 
-# ---- imagefuncs/set_axis.py ----
-@pytest.mark.xfail(
-    strict=True,
-    reason="the docstring promises bool | str, which raises TypeError",
-)
-@pytest.mark.parametrize("keyword", ["sharex", "sharey"])
-def test_share_axes_documents_what_it_accepts(keyword: str) -> None:
-    """Compare the documented type of `sharex` with the one declared.
-
-    `SetAxisKwargs` declares an `Axes`, and the value goes straight to
-    `ax.sharex()`, which takes an axis, so `sharex=True` raises TypeError
-    from matplotlib. The docstring promises `bool | str | Matplotlib axis`
-    and a default of False: it is the documentation that is wrong, and the
-    bool-like sharing is `sharexaxes`, read by create_axes.
-    """
-    documented = inspect.getdoc(AxisManager.share_axes) or ""
-    entry = next(
-        line
-        for line in documented.splitlines()
-        if line.startswith(f"- {keyword}:")
-    )
-
-    assert "bool" not in entry
-    assert "default False" not in entry
-
-
 # ---- imagefuncs/interactive.py ----
 @pytest.mark.xfail(
     strict=True, reason="the documented lint keyword is read nowhere"
@@ -515,24 +436,6 @@ def test_colors_keyword_is_applied(draw: Callable[..., object]) -> None:
     drawn = draw(pp.Image(text=False), mesh, grid)
 
     assert getattr(drawn, "colors", None) == "red"
-
-
-# ---- imagefuncs/colorbar.py ----
-@pytest.mark.xfail(
-    strict=True, reason="docstring gives cpos default of None, the code 'right'"
-)
-def test_colorbar_documents_its_real_default() -> None:
-    """Compare the documented default of `cpos` with the one the code uses.
-
-    `kwargs.get("cpos", "right")` is what runs, so a user reading "default
-    None" expects no colorbar to be placed and gets one on the right.
-    """
-    documented = inspect.getdoc(ColorbarManager.colorbar) or ""
-    entry = next(
-        line for line in documented.splitlines() if line.startswith("- cpos:")
-    )
-
-    assert "default 'right'" in entry
 
 
 # ---- imagekwargs.py ----
@@ -607,43 +510,6 @@ def test_text_accepts_the_documented_xycoords() -> None:
     image.text(text="hi", x=0.5, y=0.5, xycoords="figure fraction")
 
     assert image.ax[0].texts
-
-
-@pytest.mark.xfail(
-    strict=True, reason="a constant negative value gives an inverted range"
-)
-def test_constant_negative_data_keeps_the_axis_upright() -> None:
-    """Pad a range whose data is one negative constant.
-
-    The zero-width case pads from `ymax * 0.1`, which is negative here, so
-    the limits come back the wrong way round and matplotlib draws the axis
-    upside down.
-    """
-    image = _image()
-    manager = RangeManager(image.state)
-
-    ymin, ymax = manager.range_offset(-5.0, -5.0, "linear")
-
-    assert ymin < ymax
-
-
-@pytest.mark.xfail(
-    strict=True, reason="a constant zero gives no padding and a divide by zero"
-)
-def test_constant_zero_data_is_given_a_range() -> None:
-    """Pad a range whose data is all zeros.
-
-    The padding is computed from `ymax * 0.1`, which is zero, so the limits
-    are (0, 0) -- an empty window -- and `log10(0)` warns on the way.
-    """
-    image = _image()
-    manager = RangeManager(image.state)
-
-    with warnings.catch_warnings():
-        warnings.simplefilter("error", RuntimeWarning)
-        ymin, ymax = manager.range_offset(0.0, 0.0, "linear")
-
-    assert ymin < ymax
 
 
 # ---- utils/inspector.py ----

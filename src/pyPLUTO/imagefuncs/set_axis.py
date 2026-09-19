@@ -601,10 +601,12 @@ class AxisManager(ImageMixin):
         ----------
         - ax: ax
             the selected set of axes
-        - sharex: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the x-axis between the subplots.
-        - sharey: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the y-axis between the subplots.
+        - sharex: Matplotlib axis, default None
+            The axis to share the x-axis with. Sharing between all the
+            subplots of a figure is 'sharexaxes', read by create_axes.
+        - sharey: Matplotlib axis, default None
+            The axis to share the y-axis with. Sharing between all the
+            subplots of a figure is 'shareyaxes', read by create_axes.
 
         Returns
         -------

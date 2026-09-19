@@ -1,7 +1,32 @@
+import inspect
+
 import numpy as np
 import numpy.testing as npt
+import pytest
 
 import pyPLUTO as pp
+from pyPLUTO.imagefuncs.set_axis import AxisManager
+
+
+@pytest.mark.parametrize("keyword", ["sharex", "sharey"])
+def test_share_axes_documents_what_it_accepts(keyword: str) -> None:
+    """Compare the documented type of `sharex` with the one it really takes.
+
+    The value goes straight to `ax.sharex()`, which takes an axis, and
+    `SetAxisKwargs` declares exactly that. The docstring promised
+    `bool | str | Matplotlib axis` with a default of False, so `sharex=True`
+    raised a TypeError from inside matplotlib. Sharing between all the
+    subplots of a figure is `sharexaxes`, read by create_axes.
+    """
+    documented = inspect.getdoc(AxisManager.share_axes) or ""
+    entry = next(
+        line
+        for line in documented.splitlines()
+        if line.startswith(f"- {keyword}:")
+    )
+
+    assert "bool" not in entry
+    assert "default False" not in entry
 
 
 # Check the default values of the set_axes

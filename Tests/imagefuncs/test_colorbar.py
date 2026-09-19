@@ -1,11 +1,29 @@
 """Test of the colorbar.py file."""
 
+import inspect
+
 import numpy as np
 import numpy.testing as npt
 import pytest
 
 import pyPLUTO as pp
 from pyPLUTO.imagefuncs.colorbar import ColorbarManager
+
+
+def test_colorbar_documents_its_real_default() -> None:
+    """Compare the documented default of `cpos` with the one the code uses.
+
+    `kwargs.get("cpos", "right")` is what runs, while the docstring said
+    "default None", so a user read that no colorbar would be placed and got
+    one on the right.
+    """
+    documented = inspect.getdoc(ColorbarManager.colorbar) or ""
+    entry = next(
+        line for line in documented.splitlines() if line.startswith("- cpos:")
+    )
+
+    assert "default 'right'" in entry
+
 
 x = np.linspace(-1, 1, 20)
 x2d, y2d = np.meshgrid(x, x, indexing="ij")

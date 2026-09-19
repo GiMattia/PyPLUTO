@@ -66,7 +66,7 @@ class ColorbarManager(ImageMixin):
         - cpad: float, default 0.07
             Fraction of original axes between colorbar and the axes (in axes
             units).
-        - cpos: {'top','bottom','left','right'}, default None
+        - cpos: {'top','bottom','left','right'}, default 'right'
             Enables the colorbar and sets its position. If not defined, no
             colorbar is shown.
         - cticks: {[float], None}, default None

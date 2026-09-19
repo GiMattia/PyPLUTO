@@ -99,7 +99,7 @@ class Image(ImageMixin):
         Parameters
         ----------
         - close: bool, default True
-            If True, the existing figure with the same window number is closed.
+            Deprecated, use 'replace'. It warns and is read as 'replace'.
         - fig: Figure | None, default None
             The figure instance. If not None, the figure is used (only
             if we need to associate an Image to an existing figure).
@@ -122,8 +122,11 @@ class Image(ImageMixin):
             but the full list contains 24 colors (+ black or white).
         - nwin: int, default 1
             The window number.
-        - replace: bool, default False
-            If True, the existing figure with the same window is replaced.
+        - replace: bool, default varies
+            If True, the figure in that window is closed and a new one takes
+            its place. If False, that figure is inherited, keeping whatever
+            was drawn on it. The default is to replace, unless a figure is
+            given with 'fig', which is then the one used.
         - style: str, default 'default'
             The style of the figure. Possible values are: 'seaborn', 'ggplot',
             'fivethirtyeight', 'bmh', 'grayscale', 'dark_background', 'classic',

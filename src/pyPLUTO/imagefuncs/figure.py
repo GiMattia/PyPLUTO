@@ -77,10 +77,27 @@ class FigureManager(ImageMixin):
         """Initialize the FigureManager class with a given state."""
         self.state = state
 
-        close = kwargs.pop("close", True)
+        # `close` closed whatever was in the window, `replace` decided
+        # whether a new figure was built, and neither did anything on its
+        # own: replace could not replace without close having emptied the
+        # window first. They are one keyword now.
+        deprecated_close = kwargs.pop("close", None)
+        if deprecated_close is not None:
+            warn = "'close' argument is deprecated. Use 'replace' instead."
+            warnings.warn(warn, DeprecationWarning, stacklevel=2)
+
+        # A figure passed with `fig` is the one the user wants used, so it is
+        # kept unless replacing is asked for; anything else means taking over
+        # the window with a new figure.
+        default_replace = (
+            deprecated_close
+            if deprecated_close is not None
+            else "fig" not in kwargs
+        )
+        replace = kwargs.pop("replace", default_replace)
+
         self.state.fontweight = kwargs.pop("fontweight", self.state.fontweight)
         numcolors = kwargs.pop("numcolors", 10)
-        replace = kwargs.pop("replace", False)
         suptitle = kwargs.pop("suptitle", None)
         suptitlesize = kwargs.pop("suptitlesize", "large")
         withblack = kwargs.pop("withblack", False)
@@ -94,9 +111,29 @@ class FigureManager(ImageMixin):
         self.state.style = kwargs.get("style", self.state.style)
         self.state.tight = kwargs.get("tight", self.state.tight)
 
-        self.check_previous_fig(close)
+        self.check_previous_fig(replace)
+
+        # A figure carries its own window number and cannot be renumbered, so
+        # an nwin given together with `fig` is dropped. Said out loud only
+        # when the two disagree, since asking for the number it already has
+        # is no mistake.
+        if "nwin" in kwargs and kwargs["nwin"] != self.state.nwin:
+            warn = (
+                f"The figure given has window number {self.state.nwin}, "
+                f"so nwin={kwargs['nwin']} is ignored."
+            )
+            warnings.warn(warn, UserWarning, stacklevel=2)
+
+        # check_previous_fig copies the size, the fontsize and the layout off
+        # the figure being attached to, which would silently drop whatever
+        # was asked for here, so anything explicit is applied again.
         if "figsize" in kwargs:
+            self.state.figsize = kwargs["figsize"]
             self.state.set_size = True
+        if "fontsize" in kwargs:
+            self.state.fontsize = kwargs["fontsize"]
+        if "tight" in kwargs:
+            self.state.tight = kwargs["tight"]
 
         self.setup_style()
         self.state.color = self.choose_colorlines(
@@ -106,6 +143,13 @@ class FigureManager(ImageMixin):
         )
         self.assign_LaTeX(self.state.fontweight)
         self.create_figure(replace, suptitle, suptitlesize)
+
+        # create_figure sizes a figure it creates itself; one attached to
+        # with `fig` is resized here, so an explicit figsize reaches it too.
+        if "figsize" in kwargs and self.state.fig is not None:
+            self.state.fig.set_size_inches(
+                self.state.figsize[0], self.state.figsize[1]
+            )
 
     def setup_style(self) -> None:
         """Set the matplotlib style."""
@@ -304,15 +348,20 @@ class FigureManager(ImageMixin):
 
         # End of the function
 
-    def check_previous_fig(self, close: bool) -> None:
-        """Check if there is an existing figure.
+    def check_previous_fig(self, replace: bool) -> None:
+        """Read what an attached fig carries, and empty the window to replace.
 
-        If it exists, the code will check if it is closed or not.
+        A figure given with `fig` decides the size, the fontsize, the window
+        number and the layout of the Image, since those are properties of the
+        figure rather than of the Image attached to it. What the user asked
+        for explicitly is applied again afterwards, in `__init__`.
 
         Parameters
         ----------
-        - close: bool, default True
-            If True, the existing figure with the same window number is closed.
+        - replace: bool, default True
+            If True, the figure holding the window number is cleared and
+            closed, so that a new one can take its place. If False, that
+            figure is left alone and inherited.
 
         Returns
         -------
@@ -320,9 +369,13 @@ class FigureManager(ImageMixin):
 
         Examples
         --------
-        - Example #1: Check if there is an existing figure
+        - Example #1: empty the window, to replace what is in it
 
             >>> _check_previous_fig(True)
+
+        - Example #2: inherit the figure already in the window
+
+            >>> _check_previous_fig(False)
 
         """
         if isinstance(self.state.fig, Figure):
@@ -342,13 +395,18 @@ class FigureManager(ImageMixin):
                     stacklevel=2,
                 )
                 self.state.nwin = 1
-            self.state.tight = self.state.fig.get_tight_layout()
+            # get_tight_layout() reports matplotlib's layout engine, which
+            # pyPLUTO never installs: it calls tight_layout() once instead.
+            # So False means "no engine here", not "no tight layout wanted",
+            # and only a True is worth inheriting.
+            if self.state.fig.get_tight_layout():
+                self.state.tight = True
 
         # Close the existing figure if it exists (and 'close' is enabled).
         # `clf()` releases artists/axes payloads immediately, which prevents
         # stale Image instances (still holding axes/text refs) from retaining
         # heavy plot data in memory.
-        if plt.fignum_exists(self.state.nwin) and close is True:
+        if plt.fignum_exists(self.state.nwin) and replace is True:
             existing_fig = plt.figure(self.state.nwin)
             existing_fig.clf()
             plt.close(existing_fig)
@@ -398,10 +456,16 @@ class FigureManager(ImageMixin):
         """
         # Create a new figure instance with the provided window number
         if self.state.fig is None or replace is True:
-            self.state.fig = plt.figure(
-                self.state.nwin,
-                figsize=(self.state.figsize[0], self.state.figsize[1]),
-            )
+            if plt.fignum_exists(self.state.nwin):
+                # Inheriting the figure already in that window: pyplot hands
+                # it back and warns about every argument given with it, so
+                # the size is applied afterwards instead, in __init__.
+                self.state.fig = plt.figure(self.state.nwin)
+            else:
+                self.state.fig = plt.figure(
+                    self.state.nwin,
+                    figsize=(self.state.figsize[0], self.state.figsize[1]),
+                )
         plt.rcParams.update({"font.size": self.state.fontsize})
 
         if self.state.fig is None:

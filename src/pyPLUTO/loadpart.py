@@ -44,11 +44,17 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
     attributes. The data are loaded in a memory mapped numpy
     multidimensional array. Such approach does not load the full data
     until needed. Basic operations (i.e. no numpy) are possible, as well
-    as slicing the arrays, without fully loading the data. At the
-    moment, only one output can be loaded at a time.
+    as slicing the arrays, without fully loading the data. Several outputs
+    can be loaded at once, e.g. with nout='all'.
 
     Parameters
     ----------
+    - alone: bool | None, default False
+        If the files are standalone. If False, the code will look for the
+        grid file in the folder.
+    - code: str | None, default None
+        The code from which the particles are loaded. If None, the code
+        assumes PLUTO/gPLUTO.
     - datatype: str, default None
         The format of the data files to be loaded. If None, the code
         finds the format between dbl, flt and vtk.
@@ -56,18 +62,28 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         The endianess of the data files. If None, the code finds the
         endianess.
     - chnk: int | Sequence[int] | None, default None
-        The chunk(s) to load. If None, all chunks are loaded. If a requested
-        chunk does not exist for a given output, a ``UserWarning`` is issued and
-        that output is skipped; for multi-output loads only the outputs that
-        contain the requested chunk are returned.
+        The chunk(s) to load. If None, all chunks are loaded. Chunks exist
+        only for multi-file particle output, and are ignored otherwise. If a
+        requested chunk does not exist for a given output, a ``UserWarning``
+        is issued and that output is skipped; for multi-output loads only the
+        outputs that contain the requested chunk are returned.
     - nout: int | str | list | None, default 'last'
         The output number to be loaded. If 'last' the last output is loaded.
         If None, the data are not loaded.
     - path: str, default './'
         The path to the simulation directory.
+    - skip_units: str | list[str] | None, default None
+        The variables that keep plain arrays when units are attached. Has no
+        effect unless 'units' is given.
     - text: bool | None, default None
         Controls output verbosity. None (default) prints standard load info at
         INFO level. False silences all output. True enables full DEBUG logging.
+    - units: bool | str | list[str] | None, default None
+        The variables that are converted to astropy units while loading. True
+        converts every variable, a name or a list of names only those.
+    - user_units: dict[str, float] | None, default None
+        Unit scales given by the user, e.g. {'unit_density': 1.0}, taking
+        precedence over the ones read from the simulation.
     - var: str | list | bool | None, default True
         The variables to be loaded. If True, all the variables are loaded.
         If None, the data are not loaded.

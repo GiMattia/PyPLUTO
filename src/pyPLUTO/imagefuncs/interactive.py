@@ -167,9 +167,6 @@ class InteractiveManager(ImageMixin):
         - limfix: bool, default True
             If True, the colorbar limits are fixed through the entire
             animation.
-        - lint: bool, default None
-            If True, enables linear interpolation between frames in the
-            interactive plot.
         - ls: {'-', '--', '-.', ':', ' ', etc.}, default '-'
             Sets the linestyle. The choices available are the ones defined in
             the matplotlib package.

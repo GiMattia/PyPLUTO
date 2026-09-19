@@ -1,6 +1,7 @@
 """Test of the set_units.py file."""
 
 import ast
+import inspect
 from pathlib import Path
 
 import numpy as np
@@ -8,6 +9,7 @@ import numpy.testing as npt
 import pytest
 
 import pyPLUTO as pp
+from pyPLUTO.toolfuncs import set_units
 from pyPLUTO.toolfuncs.set_units import SetUnitsManager
 
 
@@ -24,7 +26,7 @@ def test_baseloadmixin_is_imported_from_its_own_module() -> None:
     reported `reportPrivateImportUsage` and the package was no longer clean
     under the checker it treats as the source of truth.
     """
-    source = Path("src/pyPLUTO/toolfuncs/set_units.py").read_text()
+    source = inspect.getsource(set_units)
     imports = {
         node.module
         for node in ast.walk(ast.parse(source))

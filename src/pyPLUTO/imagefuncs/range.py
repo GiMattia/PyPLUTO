@@ -225,10 +225,14 @@ class RangeManager(ImageMixin):
             >>> ymin, ymax = _range_offset(ymin, ymax, scale)
 
         """
-        # Find the data range
+        # Find the data range. Constant data has no range of its own, so the
+        # padding is taken from the value itself; absolute, or a negative
+        # constant would pad downwards and turn the axis upside down, and
+        # falling back to 1.0 keeps a constant zero from giving no range at
+        # all.
         data_range = ymax - ymin
         if data_range == 0:
-            data_range = ymax * 0.1
+            data_range = abs(ymax) * 0.1 or 1.0
 
         # Find the padding (with non-inear scale adjustments)
         padding = margin * data_range

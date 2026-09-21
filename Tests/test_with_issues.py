@@ -32,6 +32,7 @@ import numpy as np
 import pytest
 from helper_image import DELEGATION, DOCUMENTED_KWARGS
 from helper_image import KWARGS as IMAGE_KWARGS
+from matplotlib.axes import Axes
 from matplotlib.legend import Legend
 from matplotlib.lines import Line2D
 
@@ -402,6 +403,53 @@ def test_a_labelled_legend_follows_the_colour_cycle() -> None:
     handle = legend.legend_handles[0]
     assert isinstance(handle, Line2D)
     assert handle.get_color() == image.color[0]
+
+
+# ---- imagefuncs/plot.py ----
+@pytest.mark.xfail(
+    strict=True,
+    reason="c is declared as a sequence of colours, ax.plot takes only one",
+)
+def test_one_colour_per_line_of_a_2d_plot() -> None:
+    """Draw a 2D array with one colour per column.
+
+    A 2D array is drawn as one line per column, and `PlotKwargs.c` declares
+    `Sequence[str | ColorType]`, so a colour per line type-checks -- but the
+    whole array goes to a single `ax.plot` call, which takes one colour and
+    raises. Either the lines are drawn one at a time, or `c` is narrowed to
+    a single colour for `plot`.
+    """
+    image = pp.Image(text=False)
+    xval = np.tile(np.linspace(0.0, 1.0, 5), (3, 1)).T
+
+    image.plot(xval, xval * 2.0, c=["r", "b", "g"])
+
+    assert isinstance(image.ax[0], Axes)
+    colours = [line.get_color() for line in image.ax[0].lines]
+    assert colours == ["r", "b", "g"]
+
+
+@pytest.mark.xfail(
+    strict=True,
+    reason="an empty legend is built, and matplotlib warns in our place",
+)
+def test_a_legend_asked_for_without_any_label() -> None:
+    """Ask for a legend on an axis whose lines carry no label.
+
+    `legpos` builds the legend whatever is on the axis, so a plot without
+    `label` gets an empty frame and matplotlib's own "No artists with labels
+    found to put in legend" -- a warning about our call, phrased for someone
+    calling matplotlib. Nothing should be drawn, and if anything is said it
+    should be said by us.
+    """
+    image = pp.Image(text=False)
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        image.plot([0.0, 1.0], [0.0, 1.0], legpos="best")
+
+    assert isinstance(image.ax[0], Axes)
+    assert image.ax[0].get_legend() is None
 
 
 # ---- imagefuncs/set_axis.py ----

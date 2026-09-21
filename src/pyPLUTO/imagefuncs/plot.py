@@ -1,4 +1,14 @@
-"""PlotManager class."""
+"""PlotManager class.
+
+It draws the 1D lines, the one plot that takes its data as two arrays rather
+than as a grid. The order of the calls matters: the axis is set and the
+ranges are widened before the line is drawn, so a second line on the same
+axis extends the limits instead of replacing them.
+
+Two things are kept per axis rather than per call: `nline`, the count that
+walks the color palette when no color is given, and `legpos`, which once set
+makes every later line on that axis rebuild the legend.
+"""
 
 from __future__ import annotations
 
@@ -287,7 +297,8 @@ class PlotManager(ImageMixin):
         # If only one argument is given, it is the y-axis
         if y is None:
             y = np.asarray(x, dtype=float)
-            x = np.arange(y.size, dtype=float)
+            # One x per row, since a 2D array is one line per column
+            x = np.arange(y.shape[0], dtype=float)
         else:
             # Convert x and y in numpy arrays
             x = np.asarray(x, dtype=float)
@@ -323,12 +334,15 @@ class PlotManager(ImageMixin):
         )
 
         # Set color line and increase the number of lines (if default color)
-        col_line = kwargs.get(
-            "c",
-            self.state.color[self.state.nline[nax] % len(self.state.color)],
-        )
-        if not kwargs.get("c"):
+        # Compared to None, since an RGB array has no truth value
+        col_c = kwargs.get("c")
+        if col_c is None:
+            col_line = self.state.color[
+                self.state.nline[nax] % len(self.state.color)
+            ]
             self.state.nline[nax] = self.state.nline[nax] + 1
+        else:
+            col_line = col_c
 
         # Start plotting procedure
         ax.plot(

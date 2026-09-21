@@ -1,13 +1,13 @@
 # Tests recap
 
-**1912 tests** · 63 known bugs as expected failures · in-scope coverage
+**1933 tests** · 65 known bugs as expected failures · in-scope coverage
 **82.2%** · target 100%
 
 | Status | Files |
 |---|---|
-| reviewed | 22 |
+| reviewed | 23 |
 | almost | 0 |
-| to review | 42 |
+| to review | 41 |
 | to write | 5 |
 | out of scope | 5 |
 
@@ -63,7 +63,7 @@ test, or a test would compare the code with itself.
 | `imagefuncs/imagetools.py` | `imagefuncs/test_imagetools.py` | 46 | 100% | reviewed |
 | `imagefuncs/interactive.py` | `imagefuncs/test_interactive.py` | 8 | 74% | to review |
 | `imagefuncs/legend.py` | `imagefuncs/test_legend.py` | 19 | 100% | reviewed |
-| `imagefuncs/plot.py` | `imagefuncs/test_plot.py` | 11 | 100% | to review |
+| `imagefuncs/plot.py` | `imagefuncs/test_plot.py` | 32 | 100% | reviewed |
 | `imagefuncs/range.py` | `imagefuncs/test_range.py` | 25 | 100% | reviewed |
 | `imagefuncs/scatter.py` | `imagefuncs/test_scatter.py` | 10 | 78% | to review |
 | `imagefuncs/set_axis.py` | `imagefuncs/test_set_axis.py` | 31 | 100% | reviewed |
@@ -481,6 +481,8 @@ from scratch each time.
 | `loadfuncs/findformat.py:125` | **`alone=False` is silently ignored.** `check_format` builds `funcf` (lines 125–135) to gate which probes run given `alone`, then the loop at 138 hard-codes both probes and never reads `funcf`. `alone=True` happens to work via `type_out = []` at line 121, but `alone=False` does not: `check_typelon` still runs, finds the standalone files and sets `state.alone = True`. Confirmed on a folder holding only `data.0000.vtk`: `Load(..., alone=False).state.alone` is `True`. The user gets a standalone load with `timelist` full of NaN instead of the `FileNotFoundError` at line 157. |
 | `loadfuncs/initload.py:121` | **The deprecated `vars=` keyword is warned about, then discarded.** The shim warns but never assigns to `var`, which stays `True`. Confirmed: `Load(path=..., vars="rho")` warns, then loads `['prs','rho','vx1','vx2','vx3']`. It is also in the wrong layer — `var` was already bound as a positional parameter before the manager ran. The sibling `nfile_lp` shim (`loadpart.py:168`) sits in the facade and does forward its value. |
 | `loadfuncs/codeselection.py:69` | **Any non-default `code` on `LoadPart` raises `AttributeError`.** `self.echomanager` is only created `if isinstance(state, LoadState)` (line 42), but the `codedict` literal at line 69 references `self.echomanager.load_echo` eagerly, before the membership test. So it is evaluated on every call. Confirmed: `LoadPart(..., code="echo")` and even `LoadPart(..., code="nosuchcode")` both raise `AttributeError: 'CodeManager' object has no attribute 'echomanager'` — the intended `NotImplementedError` is unreachable for `LoadPart` entirely. |
+| `imagefuncs/plot.py:326` | **A 2D plot cannot have a colour per line.** A 2D array is drawn as one line per column, and `PlotKwargs.c` declares `Sequence[str \| ColorType]`, so `c=["r","b","g"]` type-checks -- but the whole array goes to a single `ax.plot`, which takes one colour and raises. Either the lines are drawn one at a time, or `c` is narrowed to a single colour for `plot` (it is inherited from `LegendKwargs`, where the sequence *is* right). Same family as the `grid="both"` and `sharexaxes` gaps, the other way round: declared wider than the code accepts. |
+| `imagefuncs/plot.py:348` | **A legend asked for without a label is empty, and matplotlib warns in our place.** `legpos` builds the legend whatever is on the axis, so a plot with no `label` gets an empty frame plus *"No artists with labels found to put in legend"* -- a warning about our call, phrased for someone calling matplotlib. Nothing should be drawn, and if anything is said it should be said by us. |
 | `imagefuncs/legend.py:289` | **Every legend is attached twice.** `ax.legend(...)` already attaches the legend it builds, and the `add_artist` that follows attaches the same object again, so it appears twice in `ax.get_children()` and is drawn twice. The `add_artist` is there for the double legend, where a second `ax.legend()` would otherwise replace the first -- but that needs the *previous* legend pinned before the new one is built, not the new one pinned after. |
 | `imagefuncs/legend.py:278` | **`mscale` is ignored when the labels are given by hand.** `markerscale` is passed only in the branch that legends the drawn lines; the branch that builds its own handles does not read it, so `legend(label=["a"], marker="o", ms=5.0, mscale=5.0)` leaves the handle at 5.0 instead of 15.0. The keyword is documented without saying it applies to one branch only. |
 | `imagefuncs/legend.py:236` | **The custom handles are black, not the plot's colours.** `kwargs.get("c", ["k"])` defaults every hand-built entry to black, while the docstring says the default is `self.color`, the image's palette. A two-line legend written with `label=` therefore describes two coloured curves with two black keys unless `c` is repeated by hand. |
@@ -535,6 +537,7 @@ afternoon, and none is urgent.
 
 | Where | What, and why |
 |---|---|
+| `imagefuncs/plot.py:347` | A legend built by hand is thrown away by the next line. `legpos` is kept on the axis, so `I.legend(label=["custom"])` followed by any `I.plot` on that axis is rebuilt from the drawn lines and the custom entries are gone. The stickiness is what makes a legend follow the curves as they are added, so this is a choice to make, not a slip: either a hand-built legend clears `legpos`, or it is kept as a second artist. |
 | `loadfuncs/read_files.py:128`, `loadfuncs/write_files.py:153` | The dispatch tables never dispatch. `read_file` builds `readers` then uses it only for a membership test: line 143 hard-codes `datatype in {"h5","dat"}` and everything else falls through to `_read_h5`, so `_read_vtk`, `_read_tab` and `_read_bin` are unreachable and their `NotImplementedError` is never seen. `write_files.py` mirrors it, and its two fallback blocks (162–173, 175–189) are byte-identical. Fix: populate the dict with implemented readers only, `reader = readers.get(datatype)`, one fallback. |
 | `loadfuncs/readtab.py:103`, `loadfuncs/offsetfluid.py:427` | `load_vars` is written as a plain attribute of throw-away manager instances, while `gui/services.py:44` and `gui/load_controller.py:180` look for it on the facade with `getattr(Data, "load_vars", ...)`. Confirmed: after a `tab` load, `hasattr(D, "load_vars")` is `False`, so the GUI always takes the fallback. Fix: make it a real state field written by `LoadVariables`, or drop it and let the GUI use `d_vars.keys()`, which already knows. |
 | `loadfuncs/initload.py:238-253` | `check_path` raises `TypeError(error)` where `error` is itself a `TypeError`, so the message renders as an exception repr; and lines 250–253 test `isinstance(self.state.pathdir, Path)` immediately after line 248 assigned `Path(path)`, which cannot fail. Tidy alongside the "normalise `pathdir` to `Path`" item above. |
@@ -567,6 +570,8 @@ afternoon, and none is urgent.
 
 | Where | What |
 |---|---|
+| `imagefuncs/plot.py:290` | **A single 2D array crashed.** `I.plot(arr2d)` built the x-axis with `np.arange(y.size)`, one point per *element* instead of one per *row*, and died in `range.py` with `IndexError: index 11 is out of bounds` -- naming neither the array nor the call. `y.shape[0]` draws the lines; for a 1D array the two are the same number, so nothing else changed. |
+| `imagefuncs/plot.py:326` | **The colour was weighed for emptiness.** The block read `c` twice and the second read was a truthiness test, so `c=None` -- how a caller forwards "the user did not choose" -- reached matplotlib and drew its C0 blue, outside the palette, while still consuming a palette step; and `c=np.array([0.1,0.2,0.3])`, an RGB triple the type declares and matplotlib accepts as a tuple, raised *"The truth value of an array with more than one element is ambiguous"* in our own line. It now reads `c` once and compares it to `None`. |
 | `image.py` | `Image.interactive` did not declare `ax`, which `InteractiveManager.interactive` takes: it worked at runtime through `**kwargs`, but pyright rejected `I.interactive(var, ax=1)` and `help()` did not show it. Its `_check` also sat where the manager has `limfix`, so `I.interactive(x, y, False)` switched off the kwargs check instead of `limfix`. The facade now matches the manager's signature; `test_signature_matches_the_manager` compares all facade signatures with their managers. |
 | `imagefuncs/set_axis.py` | `AxisManager.set_axis` required `ax`, although its docstring and the facade give it the default `None`. Default added. |
 | `toolfuncs/compute_units.py`, `set_units.py` | Both imported `BaseLoadMixin` from `pyPLUTO.loadmixin`, which only re-exports it, so pyright reported `reportPrivateImportUsage` twice and the package was no longer clean under it. Now imported from `pyPLUTO.baseloadmixin`, and each file's test checks its own import. |

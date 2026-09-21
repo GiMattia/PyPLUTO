@@ -254,9 +254,6 @@ class AxisManager(ImageMixin):
         kwargs["nrow"] = 1
         ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
-        if ax is None:
-            raise ValueError("No axis can be set!")
-
         # Set fontsize
         self.state.fontsize = kwargs.get("fontsize", self.state.fontsize)
         plt.rcParams.update({"font.size": self.state.fontsize})

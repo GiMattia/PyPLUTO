@@ -1,13 +1,13 @@
 # Tests recap
 
-**1874 tests** · 54 known bugs as expected failures · in-scope coverage
+**1896 tests** · 60 known bugs as expected failures · in-scope coverage
 **81.0%** · target 100%
 
 | Status | Files |
 |---|---|
-| reviewed | 20 |
+| reviewed | 21 |
 | almost | 0 |
-| to review | 44 |
+| to review | 43 |
 | to write | 5 |
 | out of scope | 5 |
 
@@ -66,7 +66,7 @@ test, or a test would compare the code with itself.
 | `imagefuncs/plot.py` | `imagefuncs/test_plot.py` | 11 | 100% | to review |
 | `imagefuncs/range.py` | `imagefuncs/test_range.py` | 25 | 100% | reviewed |
 | `imagefuncs/scatter.py` | `imagefuncs/test_scatter.py` | 10 | 78% | to review |
-| `imagefuncs/set_axis.py` | `imagefuncs/test_set_axis.py` | 7 | 80% | to review |
+| `imagefuncs/set_axis.py` | `imagefuncs/test_set_axis.py` | 31 | 100% | reviewed |
 | `imagefuncs/streamplot.py` | `imagefuncs/test_streamplot.py` | 8 | 84% | to review |
 | `imagefuncs/volengine.py` | `imagefuncs/test_volengine.py` | 49 | 59% | to review |
 | `imagefuncs/volume.py` | `imagefuncs/test_volume.py` | 5 | 91% | to review |
@@ -138,6 +138,21 @@ up to the ones that use them, so every review can lean on the ones before it.
    `plot_controller` → `custom_var_engine` → `panels` → `custom_var`.
 
 Checks still to add, beyond the per-file work:
+
+- **The managers together, not only alone.** Each file's tests build their
+  own manager and call it directly, which is what makes them precise, but a
+  user never does that: they call `I.plot(...)`, and one call runs through
+  `assign_ax`, `create_axes`, `set_axis`, `RangeManager` and back, all
+  sharing one state. Nothing covers the seams -- the order the managers run
+  in, what each leaves on the state for the next, and what a second call
+  finds there. Every bug of that shape found so far came from reading rather
+  than from a test: `text` restarting the keyword tracking, `create_axes`
+  resizing a figure the constructor had sized, `set_axis` forcing `ncol`,
+  the y-limits measured from all the data. A second pass over `imagefuncs/`
+  should add, per manager, a handful of tests that go through the facade and
+  assert what the *other* managers see afterwards. Worth doing once the
+  files themselves are reviewed, so the seams are the only thing left
+  untested.
 
 - **A page per public method.** `Docs/source/` holds one `.rst` per method,
   each an `automethod` pointing at the manager method and listed in a
@@ -466,6 +481,10 @@ from scratch each time.
 | `loadfuncs/findformat.py:125` | **`alone=False` is silently ignored.** `check_format` builds `funcf` (lines 125–135) to gate which probes run given `alone`, then the loop at 138 hard-codes both probes and never reads `funcf`. `alone=True` happens to work via `type_out = []` at line 121, but `alone=False` does not: `check_typelon` still runs, finds the standalone files and sets `state.alone = True`. Confirmed on a folder holding only `data.0000.vtk`: `Load(..., alone=False).state.alone` is `True`. The user gets a standalone load with `timelist` full of NaN instead of the `FileNotFoundError` at line 157. |
 | `loadfuncs/initload.py:121` | **The deprecated `vars=` keyword is warned about, then discarded.** The shim warns but never assigns to `var`, which stays `True`. Confirmed: `Load(path=..., vars="rho")` warns, then loads `['prs','rho','vx1','vx2','vx3']`. It is also in the wrong layer — `var` was already bound as a positional parameter before the manager ran. The sibling `nfile_lp` shim (`loadpart.py:168`) sits in the facade and does forward its value. |
 | `loadfuncs/codeselection.py:69` | **Any non-default `code` on `LoadPart` raises `AttributeError`.** `self.echomanager` is only created `if isinstance(state, LoadState)` (line 42), but the `codedict` literal at line 69 references `self.echomanager.load_echo` eagerly, before the membership test. So it is evaluated on every call. Confirmed: `LoadPart(..., code="echo")` and even `LoadPart(..., code="nosuchcode")` both raise `AttributeError: 'CodeManager' object has no attribute 'echomanager'` — the intended `NotImplementedError` is unreachable for `LoadPart` entirely. |
+| `imagefuncs/set_axis.py:285` | **The far-side ticks are switched on, not off.** `tick_params(right="off", top="off")` is written to remove them, but matplotlib takes a bool there and stores the string: `get_visible()` returns `'off'`, which is truthy, so they are drawn. Plain matplotlib leaves them at False. The string form was accepted by matplotlib years ago and removed since, so the call no longer means what it did. |
+| `imagefuncs/set_axis.py:307` | **`alpha` fades nothing.** It calls `ax.set_alpha()`, which stores the value on the Axes artist; the background patch and the lines keep their own alpha, so the figure is unchanged. Whatever the keyword is meant to fade has to be told. |
+| `imagefuncs/set_axis.py:401` | **Tick labels are applied after the call warns against them.** Given labels for automatic ticks, `set_ticks` warns that they should be fixed only when the ticks are, then sets the formatter anyway, so matplotlib warns in turn ("FixedFormatter should only be used together with FixedLocator") and the labels stay pinned to ticks that move with the data. Either the warning is right and they are dropped, or they are accepted and the warning goes. |
+| `imagekwargs.py:139` | `xtickslabels`/`ytickslabels` accept a single string -- `set_ticks` has a branch for it, and it labels the first tick -- while `SetAxisKwargs` declares `list[str] \| bool \| None`, so the call works and every checker refuses it. Same family as the `grid="both"` and `sharexaxes` index gaps. |
 | `imagefuncs/create_axes.py:468` | **`sharexaxes=False` raises `IndexError`.** `False` is an `int` in Python, so `isinstance(share, int)` is true and the flag is read as the index 0; on a fresh set of axes the list is still empty, so looking up `ax[0]` fails. Confirmed: `I.create_axes(ncol=2, sharexaxes=False)` raises, and `False` is the documented default. The `is True` case is checked first, so only the False one falls through. |
 | `imagefuncs/create_axes.py:167` | **A custom layout overrides an explicit `tight`.** Any border keyword writes `kwargs["tight"] = False` before the keyword is read, so `create_axes(ncol=2, left=0.2, tight=True)` silently comes out False. Defaulting to False there is right -- matplotlib cannot lay out axes it did not place -- but it should not overrule the user. |
 | `imagefuncs/create_axes.py:181` | **A size given to `create_axes` is forgotten.** It sets `state.figsize` without setting `set_size`, the flag that marks a size as chosen rather than computed, so the next `create_axes()` recomputes it: `create_axes(figsize=[10,4])` then `create_axes()` leaves the figure at 6x5 while the state still says `[10, 4]`. |

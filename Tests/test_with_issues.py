@@ -323,6 +323,92 @@ def test_declared_keywords_are_usable(
     assert [w for w in raised if "kwargs" in str(w.message)] == []
 
 
+# ---- imagefuncs/set_axis.py ----
+@pytest.mark.xfail(
+    strict=True,
+    reason="a single string as tick labels works but is declared nowhere",
+)
+@pytest.mark.parametrize("keyword", ["xtickslabels", "ytickslabels"])
+def test_a_single_string_of_tick_labels_is_declared(keyword: str) -> None:
+    """Check one string is in the declared type of the tick labels.
+
+    `set_ticks` handles a lone string on purpose -- it labels the first tick
+    and formats the rest with nothing, which is how a single annotated
+    value is drawn -- while `SetAxisKwargs` declares `list[str] | bool |
+    None`, so the call works and every checker refuses it.
+    """
+    declared = typing.get_type_hints(image_kwargs.SetAxisKwargs)[keyword]
+
+    assert str in typing.get_args(declared)
+
+
+@pytest.mark.xfail(
+    strict=True, reason="tick_params is given the string 'off', which is truthy"
+)
+@pytest.mark.parametrize("axis", ["yaxis", "xaxis"], ids=["right", "top"])
+def test_the_far_side_ticks_are_switched_off(axis: str) -> None:
+    """Check the ticks on the far side are off, as the call asks for.
+
+    `tick_params(right="off", top="off")` is written to switch them off, but
+    matplotlib takes a bool there and stores the string: `get_visible()`
+    returns `'off'`, which is truthy, so the ticks are drawn. Plain
+    matplotlib leaves them at False.
+
+    The string form was accepted by matplotlib years ago and removed since,
+    so this is a call that no longer means what it did.
+    """
+    image = pp.Image(text=False)
+    image.plot([0.0, 1.0], [0.0, 1.0])
+
+    tick = getattr(image.ax[0], axis).get_major_ticks()[0].tick2line
+
+    assert tick.get_visible() is False
+
+
+@pytest.mark.xfail(
+    strict=True, reason="the labels are applied after the call warns against it"
+)
+def test_labels_on_automatic_ticks_are_not_applied() -> None:
+    """Give tick labels while the ticks are left automatic.
+
+    `set_ticks` warns that labels should be fixed only when the ticks are,
+    and then sets the formatter regardless, so matplotlib warns in turn --
+    "FixedFormatter should only be used together with FixedLocator" -- and
+    the labels stay pinned to ticks that move with the data.
+
+    Either the warning is right and the labels are dropped, or they are
+    accepted and the warning goes; doing both is what makes two warnings
+    and a wrong axis.
+    """
+    image = pp.Image(text=False)
+    image.create_axes()
+
+    with warnings.catch_warnings(record=True) as raised:
+        warnings.simplefilter("always")
+        image.set_axis(xtickslabels=["a", "b"])
+
+    assert not [w for w in raised if "FixedFormatter" in str(w.message)]
+
+
+@pytest.mark.xfail(
+    strict=True, reason="alpha is set on the Axes, which draws nothing"
+)
+def test_alpha_reaches_something_that_is_drawn() -> None:
+    """Set the transparency and check something drawn actually carries it.
+
+    `set_axis(alpha=...)` calls `ax.set_alpha()`, which stores the value on
+    the Axes artist; the background patch and the lines keep their own
+    alpha, so the figure looks exactly the same. Whatever the keyword is
+    meant to fade -- the patch, or everything on the axis -- has to be told.
+    """
+    image = pp.Image(text=False)
+    image.plot([0.0, 1.0], [0.0, 1.0])
+
+    image.set_axis(alpha=0.3)
+
+    assert image.ax[0].patch.get_alpha() == 0.3
+
+
 # ---- imagefuncs/create_axes.py ----
 @pytest.mark.xfail(
     strict=True, reason="False is an int, so it is read as the index 0"

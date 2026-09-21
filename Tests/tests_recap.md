@@ -1,13 +1,13 @@
 # Tests recap
 
-**1933 tests** · 65 known bugs as expected failures · in-scope coverage
-**82.2%** · target 100%
+**1960 tests** · 65 known bugs as expected failures · in-scope coverage
+**82.5%** · target 100%
 
 | Status | Files |
 |---|---|
-| reviewed | 23 |
+| reviewed | 24 |
 | almost | 0 |
-| to review | 41 |
+| to review | 40 |
 | to write | 5 |
 | out of scope | 5 |
 
@@ -65,7 +65,7 @@ test, or a test would compare the code with itself.
 | `imagefuncs/legend.py` | `imagefuncs/test_legend.py` | 19 | 100% | reviewed |
 | `imagefuncs/plot.py` | `imagefuncs/test_plot.py` | 32 | 100% | reviewed |
 | `imagefuncs/range.py` | `imagefuncs/test_range.py` | 25 | 100% | reviewed |
-| `imagefuncs/scatter.py` | `imagefuncs/test_scatter.py` | 10 | 78% | to review |
+| `imagefuncs/scatter.py` | `imagefuncs/test_scatter.py` | 37 | 100% | reviewed |
 | `imagefuncs/set_axis.py` | `imagefuncs/test_set_axis.py` | 31 | 100% | reviewed |
 | `imagefuncs/streamplot.py` | `imagefuncs/test_streamplot.py` | 8 | 84% | to review |
 | `imagefuncs/volengine.py` | `imagefuncs/test_volengine.py` | 49 | 59% | to review |
@@ -570,6 +570,13 @@ afternoon, and none is urgent.
 
 | Where | What |
 |---|---|
+| `imagefuncs/scatter.py:296`, `imagefuncs/range.py:110` | **One scatter froze the axis for everything drawn after it.** Instead of the `RangeManager` it builds and never used, `scatter` faked an explicit range -- `kwargs["xrange"] = [x.min(), x.max()]` -- which `set_axis` recorded as *fixed by the user* (`setax = setay = 1`). A second scatter was then drawn outside the frame and invisible, and so was any `plot` that followed. It now goes through the manager, so the limits grow with what is added; `set_yrange` gained a `margin` argument (default 0.1, unchanged for every other caller) and the scatter passes 0.0, since a point is a position and not a curve to be followed. All the example figures still match. |
+| `imagefuncs/scatter.py:379` | **`label` was documented and never passed.** The scatter did not give matplotlib the label, so `scatter(label="particles", legpos="best")` built an empty legend and matplotlib warned *"No artists with labels found"* -- the keyword is in the docstring and was read by nothing. |
+| `imagefuncs/scatter.py:306` | **The default color was matplotlib's, not the palette's.** `c` is either a variable to color by or a color, and when missing it was left to matplotlib, which drew its own first blue: outside the palette the docstring promises, and outside the scheme every line follows. It now takes the next palette color and advances `nline`, exactly as `plot` does. |
+| `imagefuncs/scatter.py:308` | **A color per point was read as data.** Only a bare `str` was excluded from the `nanmin`/`nanmax` that compute `vmin`/`vmax`, so `c=["r", "b", ...]` -- one color per point, which matplotlib accepts -- reached `nanmin` as strings and raised `UFuncTypeError`. Numbers are data now (the `NUMERIC_KINDS` dtype kinds), anything else is colors. |
+| `imagefuncs/scatter.py:377` | **Every unfilled marker warned.** `edgecolors` defaulted to `"none"`, so `scatter(marker="x")` made matplotlib warn that it was ignoring an edge color for a marker with no inside. The default is now `None`, which is what the docstring said in the first place. |
+| `imagefuncs/scatter.py:352` | **An integer marker was silently redrawn as a circle.** matplotlib keeps 0 to 11 for the carets and the ticks, and `MarkerType` declares them, but the narrowing block accepted only `str`, `Path` and `MarkerStyle` and sent everything else to the default `"o"`. |
+| `imagefuncs/scatter.py:294` | **The figure check was dead code.** It ran after `assign_ax`, which raises the same `ValueError` first; it is now before it, as in `plot`. |
 | `imagefuncs/plot.py:290` | **A single 2D array crashed.** `I.plot(arr2d)` built the x-axis with `np.arange(y.size)`, one point per *element* instead of one per *row*, and died in `range.py` with `IndexError: index 11 is out of bounds` -- naming neither the array nor the call. `y.shape[0]` draws the lines; for a 1D array the two are the same number, so nothing else changed. |
 | `imagefuncs/plot.py:326` | **The colour was weighed for emptiness.** The block read `c` twice and the second read was a truthiness test, so `c=None` -- how a caller forwards "the user did not choose" -- reached matplotlib and drew its C0 blue, outside the palette, while still consuming a palette step; and `c=np.array([0.1,0.2,0.3])`, an RGB triple the type declares and matplotlib accepts as a tuple, raised *"The truth value of an array with more than one element is ambiguous"* in our own line. It now reads `c` once and compares it to `None`. |
 | `image.py` | `Image.interactive` did not declare `ax`, which `InteractiveManager.interactive` takes: it worked at runtime through `**kwargs`, but pyright rejected `I.interactive(var, ax=1)` and `help()` did not show it. Its `_check` also sat where the manager has `limfix`, so `I.interactive(x, y, False)` switched off the kwargs check instead of `limfix`. The facade now matches the manager's signature; `test_signature_matches_the_manager` compares all facade signatures with their managers. |

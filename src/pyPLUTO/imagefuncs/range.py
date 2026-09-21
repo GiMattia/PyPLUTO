@@ -107,6 +107,7 @@ class RangeManager(ImageMixin):
             None,
             None,
         ),
+        margin: float = 0.1,
     ) -> None:
         """Set the lower and upper limits of the y-axis of a set of axes.
 
@@ -114,6 +115,10 @@ class RangeManager(ImageMixin):
         x-data and the y-data.
 
         The two computing cases, 0 and 2, need the data and refuse without it.
+
+        The padding is a fraction of the data span, so that a curve does not
+        touch the frame; a scatter asks for none, since a marker is a point
+        and not a line to be followed.
 
         Parameters
         ----------
@@ -123,6 +128,9 @@ class RangeManager(ImageMixin):
             The case in exam (if range is fixed or variable).
         - data: tuple[np.ndarray | None, np.ndarray | None]
             The x and y data arrays.
+        - margin: float, default 0.1
+            The fraction of the data span left free above and below the data.
+            Zero gives the data range exactly.
         - nax (not optional): int
             The number of the selected set of axes.
         - ylim (not optional): list[float]
@@ -154,6 +162,7 @@ class RangeManager(ImageMixin):
                 smally.min(),
                 smally.max(),
                 self.state.yscale[nax],
+                margin,
             )
             ax.set_ylim(ymin, ymax)
 
@@ -178,6 +187,7 @@ class RangeManager(ImageMixin):
                 smally.min(),
                 smally.max(),
                 self.state.yscale[nax],
+                margin,
             )
 
             # Check if the limits should be changed

@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Unpack
+from typing import Unpack, cast
 
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.collections import PathCollection
 from matplotlib.markers import MarkerStyle
 from matplotlib.path import Path
+from matplotlib.typing import MarkerType
 
 from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
@@ -19,6 +20,11 @@ from pyPLUTO.imagekwargs import ScatterKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
+
+# The numpy dtype kinds that hold numbers: bool, signed and unsigned integer,
+# and float. An array of any other kind ('U' for a list of color names, say)
+# is not a variable to color the points by.
+NUMERIC_KINDS = "biuf"
 
 
 class ScatterManager(ImageMixin):
@@ -150,9 +156,9 @@ class ScatterManager(ImageMixin):
             the matplotlib package.
         - lw: float, default 1.3
             Sets the linewidth.
-        - marker: {'o', 'v', '^', '<', '>', 'X', ' ', etc.}, default ' '
-            Sets an optional symbol for every point. The default value is no
-            marker (' ').
+        - marker: {'o', 'v', '^', '<', '>', 'X', etc.}, default 'o'
+            Sets the symbol drawn for every point. The default value is a
+            filled circle ('o').
         - minorticks: str, default None
             If not None enables the minor ticks on the plot (for both grid
             axes).
@@ -285,36 +291,47 @@ class ScatterManager(ImageMixin):
         x = np.asarray(x)
         y = np.asarray(y)
 
-        # Set or create figure and axes
-        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
-
         if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first.",
             )
-        # Keywords xrange and yrange
-        if not kwargs.get("xrange") and self.state.setax[nax] != 1:
-            kwargs["xrange"] = [x.min(), x.max()]
-        if not kwargs.get("yrange") and self.state.setay[nax] != 1:
-            kwargs["yrange"] = [y.min(), y.max()]
 
+        # Set or create figure and axes
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
         # Set ax parameters
         self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)
 
-        # Keywords vmin and vmax
+        # Keywords xrange and yrange, without margin (the points are the range)
+        self.RangeManager.set_xrange(
+            ax,
+            nax,
+            [x.min(), x.max()],
+            self.state.setax[nax],
+        )
+        self.RangeManager.set_yrange(
+            ax,
+            nax,
+            [y.min(), y.max()],
+            self.state.setay[nax],
+            data=(x, y),
+            margin=0.0,
+        )
+
+        # The c keyword is either a variable to color the points by or a color
         c = kwargs.get("c")
-        # If c is a list convert to array
-        vmin = (
-            kwargs.get("vmin", 0.0)
-            if c is None or isinstance(c, str)
-            else kwargs.get("vmin", np.nanmin(np.asarray(c)))
-        )
-        vmax = (
-            kwargs.get("vmax", 0.0)
-            if c is None or isinstance(c, str)
-            else kwargs.get("vmax", np.nanmax(np.asarray(c)))
-        )
+        cdata = None if c is None else np.asarray(c)
+        if cdata is not None and cdata.dtype.kind not in NUMERIC_KINDS:
+            cdata = None
+
+        # No color given: take the next one of the palette, as plot does
+        if c is None:
+            c = self.state.color[self.state.nline[nax] % len(self.state.color)]
+            self.state.nline[nax] = self.state.nline[nax] + 1
+
+        # Keywords vmin and vmax
+        vmin = kwargs.get("vmin", 0.0 if cdata is None else np.nanmin(cdata))
+        vmax = kwargs.get("vmax", 0.0 if cdata is None else np.nanmax(cdata))
 
         # Keyword for colorbar and colorscale
         cpos = kwargs.get("cpos")
@@ -323,26 +340,28 @@ class ScatterManager(ImageMixin):
         self.state.vlims[nax] = [vmin, vmax, tresh]
 
         # Set the colorbar scale
-        if not isinstance(c, str) and c is not None:
+        if cdata is not None:
             norm = self.ImageToolsManager.set_cscale(cscale, vmin, vmax, tresh)
             cmap = self.ImageToolsManager.find_cmap(kwargs.get("cmap"))
         else:
             norm = None
             cmap = None
 
-        # Start scatter plot procedure
+        # Start scatter plot procedure. A marker can also be one of the
+        # integers matplotlib reserves for the carets and the ticks, and a
+        # list is the form the other plots take, where it is one per line
         raw_marker = kwargs.get("marker", "o")
-        marker: str | Path | MarkerStyle | None
+        marker: MarkerType | None
         if (
-            isinstance(raw_marker, (str, Path, MarkerStyle))
+            isinstance(raw_marker, (str, int, Path, MarkerStyle))
             or raw_marker is None
         ):
-            marker = raw_marker
+            marker = cast("MarkerType | None", raw_marker)
         elif isinstance(raw_marker, (list, tuple, np.ndarray)):
+            first = raw_marker[0] if len(raw_marker) > 0 else None
             marker = (
-                raw_marker[0]
-                if len(raw_marker) > 0
-                and isinstance(raw_marker[0], (str, Path, MarkerStyle))
+                cast("MarkerType", first)
+                if isinstance(first, (str, int, Path, MarkerStyle))
                 else None
             )
         else:
@@ -355,9 +374,10 @@ class ScatterManager(ImageMixin):
             norm=norm,
             c=c,
             s=kwargs.get("ms", 3),
-            edgecolors=kwargs.get("edgecolors", "none"),
+            edgecolors=kwargs.get("edgecolors"),
             alpha=kwargs.get("alpha", 1.0),
             marker=marker,
+            label=kwargs.get("label", ""),
         )
 
         # Creation of the legend

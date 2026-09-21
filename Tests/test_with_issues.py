@@ -32,6 +32,8 @@ import numpy as np
 import pytest
 from helper_image import DELEGATION, DOCUMENTED_KWARGS
 from helper_image import KWARGS as IMAGE_KWARGS
+from matplotlib.legend import Legend
+from matplotlib.lines import Line2D
 
 import pyPLUTO as pp
 import pyPLUTO.image as image_mod
@@ -321,6 +323,85 @@ def test_declared_keywords_are_usable(
         draw(image)
 
     assert [w for w in raised if "kwargs" in str(w.message)] == []
+
+
+# ---- imagefuncs/legend.py ----
+@pytest.mark.xfail(
+    strict=True,
+    reason="ax.legend() attaches it and add_artist attaches it again",
+)
+def test_a_legend_is_attached_once() -> None:
+    """Draw one legend and count how many the axis holds.
+
+    `ax.legend(...)` already attaches the legend it builds; the call then
+    adds the same object with `ax.add_artist`, so it appears twice among
+    the axis's children -- one object, two entries, drawn twice.
+
+    The `add_artist` is there for the double legend, where a second
+    `ax.legend()` would otherwise replace the first. That needs the
+    *previous* legend pinned before the new one is built, not the new one
+    added to itself.
+    """
+    image = pp.Image(text=False)
+    image.plot([0.0, 1.0], [0.0, 1.0], label="a")
+
+    image.legend()
+
+    legends = [
+        artist
+        for artist in image.ax[0].get_children()
+        if isinstance(artist, Legend)
+    ]
+    assert len(legends) == 1
+
+
+@pytest.mark.xfail(
+    strict=True, reason="mscale is read only in the branch without labels"
+)
+def test_the_marker_scale_applies_to_a_labelled_legend() -> None:
+    """Scale the markers of a legend built from custom labels.
+
+    `mscale` is passed to matplotlib only when the legend is built from the
+    artists already drawn; the branch that builds its own handles from
+    `label` leaves it out, so the keyword is accepted and does nothing.
+    Confirmed: the same call scales the handle to 15.0 without labels and
+    leaves it at 5.0 with them.
+
+    The scanner sees the name, so nothing reports it as unused either.
+    """
+    image = pp.Image(text=False)
+    image.plot([0.0, 1.0], [0.0, 1.0], marker="o", label="a")
+
+    image.legend(label=["a"], marker="o", ms=5.0, mscale=5.0)
+
+    legend = image.ax[0].get_legend()
+    assert legend is not None
+    handle = legend.legend_handles[0]
+    assert isinstance(handle, Line2D)
+    assert handle.get_markersize() == 25.0
+
+
+@pytest.mark.xfail(
+    strict=True, reason="the handles default to black, not to the colour cycle"
+)
+def test_a_labelled_legend_follows_the_colour_cycle() -> None:
+    """Build a legend from labels without saying which colour to use.
+
+    `c` is documented as defaulting to the image's own colours -- "the
+    program will loop over an array of 6 colors" -- while the code reads
+    `kwargs.get("c", ["k"])`, so every handle is black however the lines
+    were drawn.
+    """
+    image = pp.Image(text=False)
+    image.plot([0.0, 1.0], [0.0, 1.0], label="a")
+
+    image.legend(label=["a"])
+
+    legend = image.ax[0].get_legend()
+    assert legend is not None
+    handle = legend.legend_handles[0]
+    assert isinstance(handle, Line2D)
+    assert handle.get_color() == image.color[0]
 
 
 # ---- imagefuncs/set_axis.py ----

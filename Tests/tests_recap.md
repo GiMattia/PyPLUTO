@@ -1,13 +1,13 @@
 # Tests recap
 
-**1896 tests** · 60 known bugs as expected failures · in-scope coverage
-**81.0%** · target 100%
+**1912 tests** · 63 known bugs as expected failures · in-scope coverage
+**82.2%** · target 100%
 
 | Status | Files |
 |---|---|
-| reviewed | 21 |
+| reviewed | 22 |
 | almost | 0 |
-| to review | 43 |
+| to review | 42 |
 | to write | 5 |
 | out of scope | 5 |
 
@@ -62,7 +62,7 @@ test, or a test would compare the code with itself.
 | `imagefuncs/gridplot.py` | `imagefuncs/test_gridplot.py` | 16 | 97% | to review |
 | `imagefuncs/imagetools.py` | `imagefuncs/test_imagetools.py` | 46 | 100% | reviewed |
 | `imagefuncs/interactive.py` | `imagefuncs/test_interactive.py` | 8 | 74% | to review |
-| `imagefuncs/legend.py` | `imagefuncs/test_legend.py` | 3 | 100% | to review |
+| `imagefuncs/legend.py` | `imagefuncs/test_legend.py` | 19 | 100% | reviewed |
 | `imagefuncs/plot.py` | `imagefuncs/test_plot.py` | 11 | 100% | to review |
 | `imagefuncs/range.py` | `imagefuncs/test_range.py` | 25 | 100% | reviewed |
 | `imagefuncs/scatter.py` | `imagefuncs/test_scatter.py` | 10 | 78% | to review |
@@ -481,6 +481,9 @@ from scratch each time.
 | `loadfuncs/findformat.py:125` | **`alone=False` is silently ignored.** `check_format` builds `funcf` (lines 125–135) to gate which probes run given `alone`, then the loop at 138 hard-codes both probes and never reads `funcf`. `alone=True` happens to work via `type_out = []` at line 121, but `alone=False` does not: `check_typelon` still runs, finds the standalone files and sets `state.alone = True`. Confirmed on a folder holding only `data.0000.vtk`: `Load(..., alone=False).state.alone` is `True`. The user gets a standalone load with `timelist` full of NaN instead of the `FileNotFoundError` at line 157. |
 | `loadfuncs/initload.py:121` | **The deprecated `vars=` keyword is warned about, then discarded.** The shim warns but never assigns to `var`, which stays `True`. Confirmed: `Load(path=..., vars="rho")` warns, then loads `['prs','rho','vx1','vx2','vx3']`. It is also in the wrong layer — `var` was already bound as a positional parameter before the manager ran. The sibling `nfile_lp` shim (`loadpart.py:168`) sits in the facade and does forward its value. |
 | `loadfuncs/codeselection.py:69` | **Any non-default `code` on `LoadPart` raises `AttributeError`.** `self.echomanager` is only created `if isinstance(state, LoadState)` (line 42), but the `codedict` literal at line 69 references `self.echomanager.load_echo` eagerly, before the membership test. So it is evaluated on every call. Confirmed: `LoadPart(..., code="echo")` and even `LoadPart(..., code="nosuchcode")` both raise `AttributeError: 'CodeManager' object has no attribute 'echomanager'` — the intended `NotImplementedError` is unreachable for `LoadPart` entirely. |
+| `imagefuncs/legend.py:289` | **Every legend is attached twice.** `ax.legend(...)` already attaches the legend it builds, and the `add_artist` that follows attaches the same object again, so it appears twice in `ax.get_children()` and is drawn twice. The `add_artist` is there for the double legend, where a second `ax.legend()` would otherwise replace the first -- but that needs the *previous* legend pinned before the new one is built, not the new one pinned after. |
+| `imagefuncs/legend.py:278` | **`mscale` is ignored when the labels are given by hand.** `markerscale` is passed only in the branch that legends the drawn lines; the branch that builds its own handles does not read it, so `legend(label=["a"], marker="o", ms=5.0, mscale=5.0)` leaves the handle at 5.0 instead of 15.0. The keyword is documented without saying it applies to one branch only. |
+| `imagefuncs/legend.py:236` | **The custom handles are black, not the plot's colours.** `kwargs.get("c", ["k"])` defaults every hand-built entry to black, while the docstring says the default is `self.color`, the image's palette. A two-line legend written with `label=` therefore describes two coloured curves with two black keys unless `c` is repeated by hand. |
 | `imagefuncs/set_axis.py:285` | **The far-side ticks are switched on, not off.** `tick_params(right="off", top="off")` is written to remove them, but matplotlib takes a bool there and stores the string: `get_visible()` returns `'off'`, which is truthy, so they are drawn. Plain matplotlib leaves them at False. The string form was accepted by matplotlib years ago and removed since, so the call no longer means what it did. |
 | `imagefuncs/set_axis.py:307` | **`alpha` fades nothing.** It calls `ax.set_alpha()`, which stores the value on the Axes artist; the background patch and the lines keep their own alpha, so the figure is unchanged. Whatever the keyword is meant to fade has to be told. |
 | `imagefuncs/set_axis.py:401` | **Tick labels are applied after the call warns against them.** Given labels for automatic ticks, `set_ticks` warns that they should be fixed only when the ticks are, then sets the formatter anyway, so matplotlib warns in turn ("FixedFormatter should only be used together with FixedLocator") and the labels stay pinned to ticks that move with the data. Either the warning is right and they are dropped, or they are accepted and the warning goes. |

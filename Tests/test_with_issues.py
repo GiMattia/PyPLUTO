@@ -22,6 +22,7 @@ import re
 import shutil
 import subprocess
 import sys
+import textwrap
 import typing
 import warnings
 from collections.abc import Callable
@@ -37,6 +38,8 @@ import pyPLUTO.image as image_mod
 import pyPLUTO.imagekwargs as image_kwargs
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
+from pyPLUTO.utils import inspector
+from pyPLUTO.utils.inspector import track_kwargs
 
 
 def _image() -> pp.Image:
@@ -44,6 +47,15 @@ def _image() -> pp.Image:
     image = pp.Image(text=False)
     image.create_axes()
     return image
+
+
+def _sample_for_scanning(_check: bool = True, **kwargs: object) -> object:
+    """Read one keyword by name, for the scanner to find.
+
+    Defined here rather than inside the test because the scan works from the
+    source on disk, which a function built at runtime does not have.
+    """
+    return kwargs.get("real_key")
 
 
 def _documented(function: object) -> set[str]:
@@ -311,6 +323,97 @@ def test_declared_keywords_are_usable(
     assert [w for w in raised if "kwargs" in str(w.message)] == []
 
 
+# ---- imagefuncs/create_axes.py ----
+@pytest.mark.xfail(
+    strict=True, reason="False is an int, so it is read as the index 0"
+)
+def test_sharing_can_be_switched_off() -> None:
+    """Create axes with the sharing the docstring gives as the default.
+
+    `sharexaxes` is documented as `bool | ..., default False`, and passing
+    that default raises IndexError: `isinstance(False, int)` is true, so it
+    is taken for the index 0 and the first axis is looked up in a list that
+    is still empty.
+    """
+    image = pp.Image(text=False)
+    image.create_axes(ncol=2, sharexaxes=False)
+
+    assert len(image.ax) == 2
+    assert not image.ax[0].get_shared_x_axes().joined(image.ax[0], image.ax[1])
+
+
+@pytest.mark.xfail(
+    strict=True, reason="sharing by axis index works but is declared nowhere"
+)
+@pytest.mark.parametrize("keyword", ["sharexaxes", "shareyaxes"])
+def test_sharing_by_index_is_declared(keyword: str) -> None:
+    """Check the index form of the sharing keywords is in the declared type.
+
+    `_check_shareaxis` handles an int on purpose -- it is how a set of axes
+    is tied to one created earlier, and `test_sharing_with_an_axis_created_
+    earlier` relies on it -- while `CreateAxesKwargs` offers only
+    `bool | str | Axes`, so every checker refuses the call that works.
+    """
+    declared = typing.get_type_hints(image_kwargs.CreateAxesKwargs)[keyword]
+
+    assert int in typing.get_args(declared)
+
+
+@pytest.mark.xfail(
+    strict=True, reason="a custom layout overwrites the tight given with it"
+)
+def test_a_custom_layout_keeps_an_explicit_tight() -> None:
+    """Ask for a custom layout and a tight one at the same time.
+
+    A custom layout sets `tight` to False, because matplotlib cannot lay out
+    axes it did not place -- but it does so by writing into the keywords
+    before they are read, so it overrides the user rather than defaulting.
+    """
+    image = pp.Image(text=False)
+    image.create_axes(ncol=2, left=0.2, tight=True)
+
+    assert image.tight is True
+
+
+@pytest.mark.xfail(
+    strict=True, reason="create_axes sets rcParams but not state.fontsize"
+)
+def test_a_fontsize_given_to_create_axes_is_recorded() -> None:
+    """Give create_axes a fontsize and read it back off the image.
+
+    It reaches matplotlib -- `rcParams["font.size"]` becomes 13 -- but the
+    state keeps 17, so `image.fontsize` reports one size while the figure
+    is drawn at another, and everything reading the state (the legend, the
+    text box, the axis labels) uses the stale one.
+
+    The old test passed `fontsize=17`, the value already there, so it could
+    not fail.
+    """
+    image = pp.Image(text=False)
+    image.create_axes(fontsize=13)
+
+    assert image.fontsize == 13
+
+
+@pytest.mark.xfail(
+    strict=True, reason="create_axes sets figsize without recording set_size"
+)
+def test_a_size_given_to_create_axes_is_kept() -> None:
+    """Give create_axes a size, then create more axes, and check it survives.
+
+    `set_size` is what marks a size as chosen by the user rather than
+    computed. The constructor sets it and create_axes does not, so the next
+    call recomputes the size and the figure silently goes back to 6x5 while
+    the state still reports what was asked for.
+    """
+    image = pp.Image(text=False)
+    image.create_axes(figsize=[10.0, 4.0])
+    image.create_axes()
+
+    assert image.fig is not None
+    assert list(image.fig.get_size_inches()) == [10.0, 4.0]
+
+
 # ---- imagefuncs/imagetools.py ----
 @pytest.mark.xfail(
     strict=True,
@@ -513,6 +616,29 @@ def test_text_accepts_the_documented_xycoords() -> None:
 
 
 # ---- utils/inspector.py ----
+@pytest.mark.xfail(
+    strict=True, reason="the decorator mutates the cached scan in place"
+)
+def test_the_scan_cache_is_not_written_into() -> None:
+    """Decorate a function with extra keys, then scan its source again.
+
+    `_find_kwargs_keys_from_source` is cached and hands back a mutable set,
+    and `track_kwargs` does `used_keys |= extra_keys` on it, so the extra
+    keys are written back into the cache: scanning an untouched source then
+    reports keys that do not appear in it. Two functions with the same
+    source text share the entry, and any caller can poison it.
+
+    Asserting on the scan of an unrelated source is the visible half; the
+    cause is the in-place union, which a non-mutating one would fix.
+    """
+    source = textwrap.dedent(inspect.getsource(_sample_for_scanning))
+    before = set(inspector.find_kwargs_keys(_sample_for_scanning))
+
+    track_kwargs(extra_keys={"injected"})(_sample_for_scanning)
+
+    assert set(inspector._find_kwargs_keys_from_source(source)) == before
+
+
 @pytest.mark.xfail(
     strict=True,
     reason="stacklevel counts from the wrapper, not the user's frame",

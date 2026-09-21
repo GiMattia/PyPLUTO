@@ -1,13 +1,13 @@
 # Tests recap
 
-**1854 tests** · 47 known bugs as expected failures · in-scope coverage
+**1874 tests** · 54 known bugs as expected failures · in-scope coverage
 **81.0%** · target 100%
 
 | Status | Files |
 |---|---|
-| reviewed | 19 |
+| reviewed | 20 |
 | almost | 0 |
-| to review | 45 |
+| to review | 44 |
 | to write | 5 |
 | out of scope | 5 |
 
@@ -56,7 +56,7 @@ test, or a test would compare the code with itself.
 | `image.py` | `test_image.py` | 116 | 100% | reviewed |
 | `imagefuncs/colorbar.py` | `imagefuncs/test_colorbar.py` | 11 | 72% | to review |
 | `imagefuncs/contour.py` | `imagefuncs/test_contour.py` | 10 | 85% | to review |
-| `imagefuncs/create_axes.py` | `imagefuncs/test_create_axes.py` | 14 | 100% | to review |
+| `imagefuncs/create_axes.py` | `imagefuncs/test_create_axes.py` | 34 | 100% | reviewed |
 | `imagefuncs/display.py` | `imagefuncs/test_display.py` | 1 | 94% | to review |
 | `imagefuncs/figure.py` | `imagefuncs/test_figure.py` | 38 | 100% | reviewed |
 | `imagefuncs/gridplot.py` | `imagefuncs/test_gridplot.py` | 16 | 97% | to review |
@@ -182,28 +182,47 @@ the totals at the top.
 ## Fix order
 
 Every bug is recorded and covered by a test, so none is lost; what this
-decides is when each is fixed. The rule is the risk of the fix, not the
-severity of the bug: a wrong docstring is cheap to fix today, while emptying
-`d_vars` changes how the package holds its data.
+decides is when each is fixed. The rule is how far the fix reaches, not how
+severe the bug is or how hard it looks.
 
-**Now** -- one or two lines, no design decision, nothing downstream changes.
-Do these as their file comes up in the roadmap, or in one pass if that file
-is far away.
+A bug that stays inside the file being reviewed is fixed during that review
+(step 8 of the checklist). Everything below reaches further, so it waits --
+not because it is difficult, but because most files still have no real tests:
+a fix reaching into one of them cannot be verified, and a wrong one spreads
+quietly instead of failing. `close`/`replace` is the cautionary tale: fixing
+`close` on its own broke `replace`, because the two were halves of one
+keyword and neither file said so.
 
-| Fix | Where |
-|---|---|
-| Declare the keywords that already work | `colors` x2, `legpad`, `zoomcolor`, `zoomlines`, `grid="both"`, `chnk` sequence |
-| Import `BaseLoadMixin` from its own module | `toolfuncs/compute_units.py`, `set_units.py` |
-| Pass `_check=False` in the two nested calls | `toolfuncs/transform.py:403`, `amr.py:507` |
-| Correct the docstrings that name something false | `full3d`, `defh`, `xycoords`, `cpos`, `figsize` default, `sharex`/`sharey`, `lint`, LoadPart "one output", `chnk` warning |
-| Document the keywords that work and are listed nowhere | `units`, `skip_units`, `user_units`, `alone`, `code`, `multiple` |
-| Stop advertising `repeat` until it exists | `load.py:337` |
-| Pad constant data from an absolute range | `imagefuncs/range.py:213` |
+The waiting is therefore bounded by the review, not by anyone's memory. Once
+a family is covered, its batch can be fixed with the suite watching, which is
+why these are grouped by theme rather than listed one by one.
 
-**Next** -- bounded, but each needs a test rewritten or a decision about an
-error type or a default. These belong to the review of the file that owns
-them, except the first, which is cross-cutting and blocks the multiprocessing
-work.
+**During the review** -- a bug contained in the file being read is fixed
+there, so it never reaches this list. The first batch of them was cleared on
+2026-09-18 and 2026-09-19: the undeclared keywords, the `BaseLoadMixin`
+imports, the two nested `_check` calls, nine wrong docstrings, the
+undocumented keywords, `repeat`, the constant-data padding, and everything
+`figure.py` owned.
+
+**Waiting, though contained in one file** -- found after their file had been
+reviewed, or held back deliberately. Each is a small fix with its own
+`xfail`, and each needs a decision rather than time.
+
+| Fix | Where | Decision it needs |
+|---|---|---|
+| `False` read as the index 0, so `sharexaxes=False` raises | `imagefuncs/create_axes.py:468` | none, `is False` before the int test |
+| A custom layout overrules an explicit `tight` | `imagefuncs/create_axes.py:167` | whether the user or the layout wins |
+| A size given to `create_axes` is not marked as chosen | `imagefuncs/create_axes.py:181` | none, set `set_size` |
+| A fontsize given to `create_axes` never reaches the state | `imagefuncs/create_axes.py:158` | none |
+| The scan cache is mutated by the decorator | `utils/inspector.py:33` | none, a non-mutating union |
+| Sharing by axis index is declared nowhere | `imagekwargs.py:72` | whether the index form stays supported |
+| `colors` accepted and ignored | `imagefuncs/contour.py`, `streamplot.py` | alias of `c`, or warn as unknown |
+| `LoadPart` accepts `multiple`, which it cannot use | `loadpart.py`, `loadkwargs.py` | refuse it, or drop it from the table |
+
+**Next** -- each reaches into more than one file, so each waits until those
+files are covered. Bounded work once they are: a batch per theme, fixed with
+the suite watching. The first is the exception that cannot wait, since it
+blocks the multiprocessing work.
 
 | Fix | Where |
 |---|---|
@@ -383,14 +402,25 @@ pass: a file is finished when a new developer can read it.
    test does, what the check represents, and therefore what a failure would
    mean. Any leftover `LONG TEST: CHECK` marker is resolved and removed: a
    reviewed file has none.
-8. **Findings** — a bug that is easy to fix is fixed during the review,
+8. **Findings** — what decides whether a bug is fixed now is **how far it
+   reaches**, not how hard it looks.
+
+   A bug contained in the file being reviewed is fixed there and then,
    guarded by a test that fails without the fix, and recorded in *Fixed
-   bugs*. Anything larger goes in *Open bugs* (confirmed, with the
+   bugs*. The file is under the microscope anyway, its tests are being
+   rewritten, and nothing else can be disturbed.
+
+   A bug that reaches beyond it goes in *Open bugs* (confirmed, with the
    reproducer) **and gets a test in `test_with_issues.py`**, asserting the
    behaviour the code should have, marked `xfail(strict=True)`. It is fixed
    later, even when it sits in a file already marked reviewed: that file
-   keeps its status. Design smells go in *Deferred structural improvements*
-   or *Potential improvements*.
+   keeps its status. The reason to wait is that most files have no real
+   tests yet, so a fix reaching into one cannot be verified, and a wrong
+   one spreads instead of showing up. Once everything is covered, the same
+   fix is safe and the suite says so.
+
+   Design smells go in *Deferred structural improvements* or *Potential
+   improvements*.
 
    Never write a test that asserts what a bug currently does. It passes, so
    no run ever mentions the bug, and it fails on whoever fixes it -- which
@@ -436,6 +466,12 @@ from scratch each time.
 | `loadfuncs/findformat.py:125` | **`alone=False` is silently ignored.** `check_format` builds `funcf` (lines 125–135) to gate which probes run given `alone`, then the loop at 138 hard-codes both probes and never reads `funcf`. `alone=True` happens to work via `type_out = []` at line 121, but `alone=False` does not: `check_typelon` still runs, finds the standalone files and sets `state.alone = True`. Confirmed on a folder holding only `data.0000.vtk`: `Load(..., alone=False).state.alone` is `True`. The user gets a standalone load with `timelist` full of NaN instead of the `FileNotFoundError` at line 157. |
 | `loadfuncs/initload.py:121` | **The deprecated `vars=` keyword is warned about, then discarded.** The shim warns but never assigns to `var`, which stays `True`. Confirmed: `Load(path=..., vars="rho")` warns, then loads `['prs','rho','vx1','vx2','vx3']`. It is also in the wrong layer — `var` was already bound as a positional parameter before the manager ran. The sibling `nfile_lp` shim (`loadpart.py:168`) sits in the facade and does forward its value. |
 | `loadfuncs/codeselection.py:69` | **Any non-default `code` on `LoadPart` raises `AttributeError`.** `self.echomanager` is only created `if isinstance(state, LoadState)` (line 42), but the `codedict` literal at line 69 references `self.echomanager.load_echo` eagerly, before the membership test. So it is evaluated on every call. Confirmed: `LoadPart(..., code="echo")` and even `LoadPart(..., code="nosuchcode")` both raise `AttributeError: 'CodeManager' object has no attribute 'echomanager'` — the intended `NotImplementedError` is unreachable for `LoadPart` entirely. |
+| `imagefuncs/create_axes.py:468` | **`sharexaxes=False` raises `IndexError`.** `False` is an `int` in Python, so `isinstance(share, int)` is true and the flag is read as the index 0; on a fresh set of axes the list is still empty, so looking up `ax[0]` fails. Confirmed: `I.create_axes(ncol=2, sharexaxes=False)` raises, and `False` is the documented default. The `is True` case is checked first, so only the False one falls through. |
+| `imagefuncs/create_axes.py:167` | **A custom layout overrides an explicit `tight`.** Any border keyword writes `kwargs["tight"] = False` before the keyword is read, so `create_axes(ncol=2, left=0.2, tight=True)` silently comes out False. Defaulting to False there is right -- matplotlib cannot lay out axes it did not place -- but it should not overrule the user. |
+| `imagefuncs/create_axes.py:181` | **A size given to `create_axes` is forgotten.** It sets `state.figsize` without setting `set_size`, the flag that marks a size as chosen rather than computed, so the next `create_axes()` recomputes it: `create_axes(figsize=[10,4])` then `create_axes()` leaves the figure at 6x5 while the state still says `[10, 4]`. |
+| `imagefuncs/create_axes.py:158` | **A fontsize given to `create_axes` never reaches the state.** It is written into matplotlib's `rcParams` only, so `image.fontsize` keeps reporting 17 while the figure is drawn at 13, and everything reading the state -- the legend, the text box -- uses the stale value. The old test passed `fontsize=17`, the value already there, so it could not fail. |
+| `imagekwargs.py:72` | `sharexaxes` and `shareyaxes` accept an axis index, which is how a set of axes is tied to one created earlier, while `CreateAxesKwargs` declares `bool \| str \| Axes`: the call works and every checker refuses it. Same family as the `grid="both"` gap. |
+| `utils/inspector.py:33` | **The scan cache is written into.** `_find_kwargs_keys_from_source` is `@functools.cache`d and returns a mutable set; `track_kwargs` then does `used_keys \|= extra_keys`, mutating the cached object, so scanning an untouched source reports keys that do not appear in it -- `create_axes` scans as reading `left`, `right`, `top`... which are nowhere in its body. Any caller of `find_kwargs_keys` receives a set others can mutate, and two functions with identical source text share one entry. A non-mutating union fixes it, and returning a `frozenset` stops it recurring. Found while asking whether `extra_keys` are checked like other keywords: at runtime they are, but our guards only see them because of this. |
 | `utils/configure.py:260` | **Importing pyPLUTO resets the user's warning filters.** `Configure` calls `warnings.simplefilter("always")`, which clears the whole filter list, so `python -W ignore` and any `filterwarnings("ignore")` made beforehand stop working for the rest of the process. Confirmed in a subprocess. A filter scoped to `module="pyPLUTO"` would do the same job without touching anyone else's. |
 | `load.py:284`, `loadpart.py:210` | **`repr()` crashes on a load that read nothing.** `Load(nout=None)` is documented as "do not load", and `repr(D)` then raises `AttributeError: no attribute 'nout'`; `str(D)` raises on `geom`. A repr is what a debugger and the prompt call by themselves, so it must never raise. |
 | `baseloadstate.py:24`, `loadstate.py:17` | **Two states cannot be compared.** The generated `__eq__` reads the load-only fields: `LoadState() == LoadState()` raises `AttributeError`, and two real states raise `ValueError` on the array comparison. `eq=False` would at least give identity. |

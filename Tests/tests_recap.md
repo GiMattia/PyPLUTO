@@ -1,11 +1,11 @@
 # Tests recap
 
-**1960 tests** · 65 known bugs as expected failures · in-scope coverage
-**82.5%** · target 100%
+**1997 tests** · 65 known bugs as expected failures · in-scope coverage
+**82.6%** · target 100%
 
 | Status | Files |
 |---|---|
-| reviewed | 24 |
+| reviewed | 25 |
 | almost | 0 |
 | to review | 40 |
 | to write | 5 |
@@ -57,14 +57,14 @@ test, or a test would compare the code with itself.
 | `imagefuncs/colorbar.py` | `imagefuncs/test_colorbar.py` | 11 | 72% | to review |
 | `imagefuncs/contour.py` | `imagefuncs/test_contour.py` | 10 | 85% | to review |
 | `imagefuncs/create_axes.py` | `imagefuncs/test_create_axes.py` | 34 | 100% | reviewed |
-| `imagefuncs/display.py` | `imagefuncs/test_display.py` | 1 | 94% | to review |
+| `imagefuncs/display.py` | `imagefuncs/test_display.py` | 31 | 100% | reviewed |
 | `imagefuncs/figure.py` | `imagefuncs/test_figure.py` | 38 | 100% | reviewed |
 | `imagefuncs/gridplot.py` | `imagefuncs/test_gridplot.py` | 16 | 97% | to review |
 | `imagefuncs/imagetools.py` | `imagefuncs/test_imagetools.py` | 46 | 100% | reviewed |
 | `imagefuncs/interactive.py` | `imagefuncs/test_interactive.py` | 8 | 74% | to review |
 | `imagefuncs/legend.py` | `imagefuncs/test_legend.py` | 19 | 100% | reviewed |
 | `imagefuncs/plot.py` | `imagefuncs/test_plot.py` | 32 | 100% | reviewed |
-| `imagefuncs/range.py` | `imagefuncs/test_range.py` | 25 | 100% | reviewed |
+| `imagefuncs/range.py` | `imagefuncs/test_range.py` | 32 | 100% | reviewed |
 | `imagefuncs/scatter.py` | `imagefuncs/test_scatter.py` | 37 | 100% | reviewed |
 | `imagefuncs/set_axis.py` | `imagefuncs/test_set_axis.py` | 31 | 100% | reviewed |
 | `imagefuncs/streamplot.py` | `imagefuncs/test_streamplot.py` | 8 | 84% | to review |
@@ -98,7 +98,7 @@ test, or a test would compare the code with itself.
 | `loadstate.py` | `test_loadstate.py` | 83 | 100% | reviewed |
 | `template.py` | `test_template.py` | 42 | 100% | reviewed |
 | `toolfuncs/compute_units.py` | `toolfuncs/test_compute_units.py` | 14 | 88% | to review |
-| `toolfuncs/findlines.py` | — | — | 12% | out of scope |
+| `toolfuncs/findlines.py` | `toolfuncs/test_findlines.py` | 1 | 57% | out of scope |
 | `toolfuncs/fourier.py` | `toolfuncs/test_fourier.py` | 9 | 92% | to review |
 | `toolfuncs/loadtools.py` | `toolfuncs/test_loadtools.py` | 11 | 96% | to review |
 | `toolfuncs/nabla.py` | — | — | 4% | out of scope |
@@ -537,6 +537,7 @@ afternoon, and none is urgent.
 
 | Where | What, and why |
 |---|---|
+| `imagefuncs/display.py:355` | `map_extent` -- the edges of a map from its cell centers -- probably belongs in `RangeManager`, which is where limits live. It has one caller today, so it sits in `DisplayManager`; `contour.py` and `streamplot.py` take the same `x1`/`x2` grids and are next in the roadmap, so the move should happen when the second caller appears and the signature is settled by use. |
 | `imagefuncs/plot.py:347` | A legend built by hand is thrown away by the next line. `legpos` is kept on the axis, so `I.legend(label=["custom"])` followed by any `I.plot` on that axis is rebuilt from the drawn lines and the custom entries are gone. The stickiness is what makes a legend follow the curves as they are added, so this is a choice to make, not a slip: either a hand-built legend clears `legpos`, or it is kept as a second artist. |
 | `loadfuncs/read_files.py:128`, `loadfuncs/write_files.py:153` | The dispatch tables never dispatch. `read_file` builds `readers` then uses it only for a membership test: line 143 hard-codes `datatype in {"h5","dat"}` and everything else falls through to `_read_h5`, so `_read_vtk`, `_read_tab` and `_read_bin` are unreachable and their `NotImplementedError` is never seen. `write_files.py` mirrors it, and its two fallback blocks (162–173, 175–189) are byte-identical. Fix: populate the dict with implemented readers only, `reader = readers.get(datatype)`, one fallback. |
 | `loadfuncs/readtab.py:103`, `loadfuncs/offsetfluid.py:427` | `load_vars` is written as a plain attribute of throw-away manager instances, while `gui/services.py:44` and `gui/load_controller.py:180` look for it on the facade with `getattr(Data, "load_vars", ...)`. Confirmed: after a `tab` load, `hasattr(D, "load_vars")` is `False`, so the GUI always takes the fallback. Fix: make it a real state field written by `LoadVariables`, or drop it and let the GUI use `d_vars.keys()`, which already knows. |
@@ -570,7 +571,11 @@ afternoon, and none is urgent.
 
 | Where | What |
 |---|---|
-| `imagefuncs/scatter.py:296`, `imagefuncs/range.py:110` | **One scatter froze the axis for everything drawn after it.** Instead of the `RangeManager` it builds and never used, `scatter` faked an explicit range -- `kwargs["xrange"] = [x.min(), x.max()]` -- which `set_axis` recorded as *fixed by the user* (`setax = setay = 1`). A second scatter was then drawn outside the frame and invisible, and so was any `plot` that followed. It now goes through the manager, so the limits grow with what is added; `set_yrange` gained a `margin` argument (default 0.1, unchanged for every other caller) and the scatter passes 0.0, since a point is a position and not a curve to be followed. All the example figures still match. |
+| `toolfuncs/findlines.py:221` | **Field lines were drawn outside the domain.** The event that stops the integration was a flag -- 1 inside, 0 outside -- while `solve_ivp` finds an event by looking for a *zero* of the function, so the crossing was only noticed once a step had already landed beyond the wall and the line was drawn to wherever that step ended: ±1.00091 for a domain of ±1.0 in the KH example. It is a signed distance to the nearest border now, with `direction = -1`, so the line ends exactly on it, and the 1% margin that used to put the last point outside (`0.51` of a cell) is gone. Guarded by the new `Tests/toolfuncs/test_findlines.py`, the only test of a file that is otherwise out of scope. |
+| `imagefuncs/display.py:300` | **A map was framed on the cell centers, half a cell short of the domain.** `pcolormesh` paints each cell half a width around its center, so the outermost half cell of the domain was cut off by the axis, and anything sitting in it -- a field line ending on the border, a particle at the wall -- fell outside a map it belongs to. `map_extent` now returns the edges, and coordinates given as edges (one more than there are cells) are used as they are. `gouraud` interpolates between the centers and would leave that half cell unpainted, so the map is given a vertex on each border holding the value of the cell it belongs to: every shading now covers the same domain. Three example figures change, all of them by the missing half cell. |
+| `imagefuncs/display.py:288` | **`transpose=1` did nothing.** The keyword was compared with `is True`, so only the literal flag worked and every other true value -- a number, a numpy bool -- was silently ignored. |
+| `imagefuncs/display.py:278` | **The figure check was dead code**, and two docstring examples were wrong: `I.display(x1, x2, var)` (they are keywords, so the call raises) and `cbar='right'` (no such keyword, it warns as unused). |
+| `imagefuncs/scatter.py:296`, `imagefuncs/range.py:110` | **One scatter froze the axis for everything drawn after it.** Instead of the `RangeManager` it builds and never used, `scatter` faked an explicit range -- `kwargs["xrange"] = [x.min(), x.max()]` -- which `set_axis` recorded as *fixed by the user* (`setax = setay = 1`). A second scatter was then drawn outside the frame and invisible, and so was any `plot` that followed. It now goes through the manager, so the limits grow with what is added. `RangeManager` gained one case for it, 4 `strictrange`: the limits are the ones given, with none of the padding a curve gets, and the axis is left free to grow -- a point is a position, not a line to be followed. Like case 3 it is asked for by the caller rather than read off the axis, and it stands aside when the user has fixed the limits. |
 | `imagefuncs/scatter.py:379` | **`label` was documented and never passed.** The scatter did not give matplotlib the label, so `scatter(label="particles", legpos="best")` built an empty legend and matplotlib warned *"No artists with labels found"* -- the keyword is in the docstring and was read by nothing. |
 | `imagefuncs/scatter.py:306` | **The default color was matplotlib's, not the palette's.** `c` is either a variable to color by or a color, and when missing it was left to matplotlib, which drew its own first blue: outside the palette the docstring promises, and outside the scheme every line follows. It now takes the next palette color and advances `nline`, exactly as `plot` does. |
 | `imagefuncs/scatter.py:308` | **A color per point was read as data.** Only a bare `str` was excluded from the `nanmin`/`nanmax` that compute `vmin`/`vmax`, so `c=["r", "b", ...]` -- one color per point, which matplotlib accepts -- reached `nanmin` as strings and raised `UFuncTypeError`. Numbers are data now (the `NUMERIC_KINDS` dtype kinds), anything else is colors. |

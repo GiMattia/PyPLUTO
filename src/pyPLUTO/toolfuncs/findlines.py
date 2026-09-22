@@ -192,10 +192,12 @@ class FindLinesManager(LoadMixin):
         x0 = list(np.atleast_1d(x0))
         y0 = list(np.atleast_1d(y0))
 
-        xbeg = xc[0] - 0.51 * (xc[1] - xc[0])
-        xend = xc[-1] + 0.51 * (xc[-1] - xc[-2])
-        ybeg = yc[0] - 0.51 * (yc[1] - yc[0])
-        yend = yc[-1] + 0.51 * (yc[-1] - yc[-2])
+        # The border is the edge of the outermost cells, half a cell beyond
+        # their centers: where the domain ends and where a map of it reaches
+        xbeg = xc[0] - 0.5 * (xc[1] - xc[0])
+        xend = xc[-1] + 0.5 * (xc[-1] - xc[-2])
+        ybeg = yc[0] - 0.5 * (yc[1] - yc[0])
+        yend = yc[-1] + 0.5 * (yc[-1] - yc[-2])
 
         rtol = kwargs.get("rtol", 1.0e-3)
         atol = kwargs.get("atol", 1.0e-6)
@@ -219,10 +221,16 @@ class FindLinesManager(LoadMixin):
             return self._vector_field(t, y, varx, vary, xc, yc)
 
         def outside_domain(t: float, y: np.ndarray) -> float:
-            """Return 0 (terminal) when the integrator leaves the domain."""
-            if y[0] < xbeg or y[0] > xend or y[1] < ybeg or y[1] > yend:
-                return 0
-            return 1
+            """Return the distance to the border, negative outside it.
+
+            A distance rather than a flag, since solve_ivp finds an event by
+            looking for a zero of the function: a flag is only seen once a
+            step has already landed outside, and the line is then drawn to
+            wherever that step ended, up to one step beyond the domain.
+            """
+            return float(
+                min(y[0] - xbeg, xend - y[0], y[1] - ybeg, yend - y[1]),
+            )
 
         def close_to_start(t: float, y: np.ndarray) -> float:
             """Return 0 when the integrator returns near the seed point."""
@@ -244,7 +252,7 @@ class FindLinesManager(LoadMixin):
         close_to_start.direction = 0  # type: ignore
 
         outside_domain.terminal = True  # type: ignore
-        outside_domain.direction = 0  # type: ignore
+        outside_domain.direction = -1  # type: ignore
 
         max_num_steps.terminal = True  # type: ignore
         max_num_steps.direction = 0  # type: ignore

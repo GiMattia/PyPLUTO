@@ -255,7 +255,7 @@ class DisplayManager(ImageMixin):
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> I.display(x1, x2, var, xtitle = 'x', ytitle = 'y',
+            >>> I.display(var, x1 = x1, x2 = x2, xtitle = 'x', ytitle = 'y',
                     cpos = 'bottom', shading = 'gouraud', cpad = 0.3)
 
         - Example #3: create a 2d plot con custom range on axes and logarithmic
@@ -263,7 +263,7 @@ class DisplayManager(ImageMixin):
 
             >>> import pyPLUTO as pp
             >>> I = pp.Image()
-            >>> I.display(var, xrange = [2,3], yrange = [2,4], cbar = 'right',
+            >>> I.display(var, xrange = [2,3], yrange = [2,4], cpos = 'right',
                         cscale = 'log')
 
         - Example #4: create a 2d plot with a custom symmetric logarithmic
@@ -275,28 +275,45 @@ class DisplayManager(ImageMixin):
                         cscale = 'symlog', tresh = 0.001, vmin = -1, vmax = 1)
 
         """
-        # Set or create figure and axes
-        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
-
         if self.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first.",
             )
+
+        # Set or create figure and axes
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
+
         # Keyword x1 and x2
         var = np.asarray(var)
-        if kwargs.get("transpose", False) is True:
+        if kwargs.get("transpose", False):
             var = var.T
         x = np.asarray(kwargs.get("x1", np.arange(len(var[:, 0]) + 1)))
         y = np.asarray(kwargs.get("x2", np.arange(len(var[0, :]) + 1)))
 
-        # Keywords xrange and yrange
-        if not kwargs.get("xrange") and self.setax[nax] != 1:
-            kwargs["xrange"] = [float(x.min()), float(x.max())]
-        if not kwargs.get("yrange") and self.setay[nax] != 1:
-            kwargs["yrange"] = [float(y.min()), float(y.max())]
         # Set ax parameters
         self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)
+
+        # Keywords xrange and yrange: the range is the domain, with nothing
+        # added to it, and the axis is left free for what comes next
+        strict = self.RangeManager.strictrange
+        xlim = self.map_extent(x, var.shape[0])
+        ylim = self.map_extent(y, var.shape[1])
+        self.RangeManager.set_xrange(ax, nax, xlim, strict)
+        self.RangeManager.set_yrange(ax, nax, ylim, strict)
+
+        # gouraud interpolates between the centers and would leave the outer
+        # half cell of the domain unpainted. A vertex on each border, holding
+        # the value of the cell it belongs to, fills it with that value, as
+        # the other shadings do, and changes nothing in between
+        if (
+            kwargs.get("shading") == "gouraud"
+            and x.size == var.shape[0]
+            and y.size == var.shape[1]
+        ):
+            x = np.concatenate(([xlim[0]], x, [xlim[1]]))
+            y = np.concatenate(([ylim[0]], y, [ylim[1]]))
+            var = np.pad(var, 1, mode="edge")
 
         # Keywords vmin and vmax
         vmin = kwargs.get("vmin", np.nanmin(var))
@@ -339,3 +356,48 @@ class DisplayManager(ImageMixin):
             self.fig.tight_layout()
 
         return pcm
+
+    def map_extent(self, coord: np.ndarray, ncells: int) -> list[float]:
+        """Find the limits of a map along one direction.
+
+        The coordinates of a map are either the edges of the cells, one more
+        than there are cells, or their centers, one per cell. Given the
+        centers, the frame is still the edges, half a cell beyond the first
+        and the last of them: the domain ends there, and framing the centers
+        instead leaves whatever sits in that half cell -- a field line ending
+        on the border, a particle at the wall -- outside a map it belongs to.
+
+        Every shading reaches the same edges: 'gouraud' interpolates between
+        the centers only, so the map is given a vertex on each border to
+        paint the half cell beyond them.
+
+        Parameters
+        ----------
+        - coord (not optional): np.ndarray
+            The coordinates of the map along one direction.
+        - ncells (not optional): int
+            The number of cells of the variable along that direction.
+
+        Returns
+        -------
+        - list[float]
+
+        Examples
+        --------
+        - Example #1: the extent of a map drawn on three cell centers
+
+            >>> _map_extent(np.array([0.5, 1.5, 2.5]), 3)
+            [0.0, 3.0]
+
+        """
+        if coord.size != ncells:
+            return [float(coord.min()), float(coord.max())]
+
+        # A single cell has no spacing to take half of, so it is given the
+        # same width matplotlib gives it
+        if coord.size < 2:
+            return [float(coord[0]) - 0.5, float(coord[0]) + 0.5]
+
+        first = float(coord[0]) - (float(coord[1]) - float(coord[0])) / 2
+        last = float(coord[-1]) + (float(coord[-1]) - float(coord[-2])) / 2
+        return [min(first, last), max(first, last)]

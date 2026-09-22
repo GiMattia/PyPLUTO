@@ -4,10 +4,16 @@ RangeManager decides the limits of every plot that does not set them by hand,
 so a fault here is a plot that looks fine and shows the wrong window. Nothing
 it does raises: the tests compare numbers.
 
-The four cases it works with are the values of `setax`/`setay` per axis: 0 no
+The cases it works with are the values of `setax`/`setay` per axis: 0 no
 limits yet, 1 fixed by the user, 2 limits present and free to grow, 3 being
-fixed now. They are held by the manager as `changerange`, `adaptrange` and
-`fixrange`; case 1 has no name because it is the one where nothing happens.
+fixed now, 4 the limits are the data exactly. They are held by the manager as
+`changerange`, `adaptrange`, `fixrange` and `strictrange`; case 1 has no name
+because it is the one where nothing happens.
+
+The last two are asked for by the caller rather than read off the axis, so
+they are tested against each state the axis can be in: 3 fixes the limits
+whatever was there, while 4 sets them, widens them or stands aside according
+to that state.
 
 The expected limits below are written out by hand from the arithmetic in
 `range_offset`, since deriving them from the code would compare it with
@@ -182,7 +188,99 @@ def test_set_xrange_case_3_fixes_the_limits() -> None:
     assert image.state.setax[0] == 1
 
 
+def test_set_xrange_case_4_takes_the_limits_as_they_are() -> None:
+    """Ask for strict limits on an axis that has none yet.
+
+    Case 4 is what a map or a scatter asks for: the extent it was given,
+    with nothing added, since padding a map leaves a strip of empty frame.
+    The axis is left in case 2, free to grow.
+    """
+    manager, image = _manager()
+
+    manager.set_xrange(image.ax[0], 0, [0.0, 3.0], manager.strictrange)
+
+    assert image.ax[0].get_xlim() == pytest.approx((0.0, 3.0))
+    assert image.state.setax[0] == manager.adaptrange
+
+
+def test_set_xrange_case_4_widens_limits_that_are_already_there() -> None:
+    """Ask for strict limits on an axis that already has some.
+
+    Two maps side by side are one figure, so the second extends the window
+    rather than replacing it -- the same union as case 2, without padding.
+    """
+    manager, image = _manager()
+    image.ax[0].set_xlim(0.0, 1.0)
+    image.state.setax[0] = manager.adaptrange
+
+    manager.set_xrange(image.ax[0], 0, [2.0, 3.0], manager.strictrange)
+
+    assert image.ax[0].get_xlim() == pytest.approx((0.0, 3.0))
+
+
+def test_set_xrange_case_4_leaves_a_fixed_axis_alone() -> None:
+    """Ask for strict limits on an axis the user has fixed.
+
+    A range given by hand outranks the extent of what is drawn, so a map
+    displayed into a zoomed window is clipped instead of reopening it.
+    """
+    manager, image = _manager()
+    image.ax[0].set_xlim(0.0, 1.0)
+    image.state.setax[0] = 1
+
+    manager.set_xrange(image.ax[0], 0, [2.0, 3.0], manager.strictrange)
+
+    assert image.ax[0].get_xlim() == pytest.approx((0.0, 1.0))
+    assert image.state.setax[0] == 1
+
+
 # ---- Y range ----
+def test_set_yrange_case_4_takes_the_limits_as_they_are() -> None:
+    """Ask for strict y-limits, with no data to measure.
+
+    The counterpart on the y-axis, and the case that needs no data at all:
+    the caller knows its own extent, so there is nothing to compute and
+    nothing to pad.
+    """
+    manager, image = _manager()
+
+    manager.set_yrange(image.ax[0], 0, [0.0, 2.0], manager.strictrange)
+
+    assert image.ax[0].get_ylim() == pytest.approx((0.0, 2.0))
+    assert image.state.setay[0] == manager.adaptrange
+
+
+def test_set_yrange_case_4_widens_limits_that_are_already_there() -> None:
+    """Ask for strict y-limits on an axis that already has some.
+
+    The union again, which is what keeps a line drawn over a map inside the
+    frame instead of cut off at its edge.
+    """
+    manager, image = _manager()
+    image.ax[0].set_ylim(0.0, 1.0)
+    image.state.setay[0] = manager.adaptrange
+
+    manager.set_yrange(image.ax[0], 0, [-1.0, 0.5], manager.strictrange)
+
+    assert image.ax[0].get_ylim() == pytest.approx((-1.0, 1.0))
+
+
+def test_set_yrange_case_4_leaves_a_fixed_axis_alone() -> None:
+    """Ask for strict y-limits on an axis the user has fixed.
+
+    As on the x-axis: what the user chose wins over the extent of what is
+    drawn.
+    """
+    manager, image = _manager()
+    image.ax[0].set_ylim(0.0, 1.0)
+    image.state.setay[0] = 1
+
+    manager.set_yrange(image.ax[0], 0, [-1.0, 5.0], manager.strictrange)
+
+    assert image.ax[0].get_ylim() == pytest.approx((0.0, 1.0))
+    assert image.state.setay[0] == 1
+
+
 def test_set_yrange_case_0_pads_the_data() -> None:
     """Check the first y-limits are the data with a margin around it.
 

@@ -302,21 +302,11 @@ class ScatterManager(ImageMixin):
         self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)
 
-        # Keywords xrange and yrange, without margin (the points are the range)
-        self.RangeManager.set_xrange(
-            ax,
-            nax,
-            [x.min(), x.max()],
-            self.state.setax[nax],
-        )
-        self.RangeManager.set_yrange(
-            ax,
-            nax,
-            [y.min(), y.max()],
-            self.state.setay[nax],
-            data=(x, y),
-            margin=0.0,
-        )
+        # Keywords xrange and yrange: the points are the range, with nothing
+        # added to it, and the axis is left free for what is drawn next
+        strict = self.RangeManager.strictrange
+        self.RangeManager.set_xrange(ax, nax, [x.min(), x.max()], strict)
+        self.RangeManager.set_yrange(ax, nax, [y.min(), y.max()], strict)
 
         # The c keyword is either a variable to color the points by or a color
         c = kwargs.get("c")

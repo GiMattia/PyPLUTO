@@ -5,7 +5,13 @@ them in step as more is drawn on the same axis.
 
 Each axis carries a case in `setax`/`setay`, which is what the methods here
 switch between: 0 no limits yet, 1 fixed by the user, 2 limits present and
-free to grow, 3 being fixed now.
+free to grow, 3 being fixed now, 4 the limits are the data exactly.
+
+The last two are asked for by the caller rather than read off the axis: 3 is
+a range the user gave, and 4 belongs to what is drawn as an extent rather
+than followed as a curve -- a map, a scatter -- where padding would leave a
+strip of empty frame. Case 4 still leaves the axis free to grow, so whatever
+is drawn on top of a map is not cut off by it.
 """
 
 from __future__ import annotations
@@ -39,6 +45,7 @@ class RangeManager(ImageMixin):
         self.changerange = 0
         self.adaptrange = 2
         self.fixrange = 3
+        self.strictrange = 4
 
     def set_xrange(
         self,
@@ -95,6 +102,18 @@ class RangeManager(ImageMixin):
             # Case switched to 1 (no change unless stated explicitly otherwise)
             self.state.setax[nax] = 1
 
+        # Case 4: the limits are the ones given, exactly, and free to grow.
+        # The case on the axis decides between the two, and case 1 (fixed by
+        # the user) is left alone here as everywhere else
+        if case == self.strictrange:
+            if self.state.setax[nax] == self.adaptrange:
+                xmin = min(xlim[0], ax.get_xlim()[0])
+                xmax = max(xlim[1], ax.get_xlim()[1])
+                ax.set_xlim(xmin, xmax)
+            elif self.state.setax[nax] == self.changerange:
+                ax.set_xlim(xlim[0], xlim[1])
+                self.state.setax[nax] = self.adaptrange
+
         # End of the function
 
     def set_yrange(
@@ -107,18 +126,15 @@ class RangeManager(ImageMixin):
             None,
             None,
         ),
-        margin: float = 0.1,
     ) -> None:
         """Set the lower and upper limits of the y-axis of a set of axes.
 
         Unlike the x-axis, the y-axis limits are recovered depending on both the
         x-data and the y-data.
 
-        The two computing cases, 0 and 2, need the data and refuse without it.
-
-        The padding is a fraction of the data span, so that a curve does not
-        touch the frame; a scatter asks for none, since a marker is a point
-        and not a line to be followed.
+        The two computing cases, 0 and 2, need the data and refuse without it;
+        case 4 takes the limits it is given instead, which is how a map or a
+        scatter asks for its own extent without the padding a curve gets.
 
         Parameters
         ----------
@@ -128,9 +144,6 @@ class RangeManager(ImageMixin):
             The case in exam (if range is fixed or variable).
         - data: tuple[np.ndarray | None, np.ndarray | None]
             The x and y data arrays.
-        - margin: float, default 0.1
-            The fraction of the data span left free above and below the data.
-            Zero gives the data range exactly.
         - nax (not optional): int
             The number of the selected set of axes.
         - ylim (not optional): list[float]
@@ -162,7 +175,6 @@ class RangeManager(ImageMixin):
                 smally.min(),
                 smally.max(),
                 self.state.yscale[nax],
-                margin,
             )
             ax.set_ylim(ymin, ymax)
 
@@ -187,7 +199,6 @@ class RangeManager(ImageMixin):
                 smally.min(),
                 smally.max(),
                 self.state.yscale[nax],
-                margin,
             )
 
             # Check if the limits should be changed
@@ -201,6 +212,18 @@ class RangeManager(ImageMixin):
 
             # Case switched to 1 (no change unless stated explicitly otherwise)
             self.state.setay[nax] = 1
+
+        # Case 4: the limits are the ones given, without the padding a curve
+        # gets, and free to grow. The data is not needed, since the caller
+        # already knows its own extent
+        if case == self.strictrange:
+            if self.state.setay[nax] == self.adaptrange:
+                ymin = min(ylim[0], ax.get_ylim()[0])
+                ymax = max(ylim[1], ax.get_ylim()[1])
+                ax.set_ylim(ymin, ymax)
+            elif self.state.setay[nax] == self.changerange:
+                ax.set_ylim(ylim[0], ylim[1])
+                self.state.setay[nax] = self.adaptrange
 
         # End of the function
 

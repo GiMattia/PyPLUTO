@@ -5,6 +5,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.2.5] — 2026-09-23
+
+### Fixed
+- AMR boxes: in CARTESIAN geometry `oplotbox` passed the level colour to `plot` as `color`, which that method does not read, so every box took the next colour of the palette instead of the colour of its level. A single colour for the whole overplot can now be given with `c`, which used to clash with the per-level one.
+
+
 ## [1.2.4] — 2026-07-06
 
 ### Fixed

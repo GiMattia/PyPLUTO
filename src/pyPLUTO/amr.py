@@ -472,6 +472,12 @@ def oplotbox(
     npl = lrange[1] - lrange[0] + 1
     lpls = [lrange[0] + v for v in range(npl)]
     cols = cval[0:nlev] if cval is not None else self.color[0:nlev]
+
+    # A color given by hand paints every box, since it is the color of the
+    # plot method and would otherwise clash with the one of each level
+    if "c" in kwargs:
+        cols = [kwargs.pop("c")] * nlev
+
     # Get the offset and the type of slice
     Slice = 0
     inds = "k"
@@ -507,7 +513,7 @@ def oplotbox(
                     self.plot(
                         [x0, x1, x1, x0, x0],
                         [y0, y0, y1, y1, y0],
-                        color=cols[il],
+                        c=cols[il],
                         ax=ax,
                         **kwargs,
                     )

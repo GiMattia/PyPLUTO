@@ -6,12 +6,14 @@ import warnings
 from typing import Unpack
 
 from matplotlib.axes import Axes
+from matplotlib.cm import ScalarMappable
 from matplotlib.collections import LineCollection, PathCollection, QuadMesh
-from matplotlib.contour import QuadContourSet
-from matplotlib.ticker import FixedFormatter, FixedLocator
+from matplotlib.colorbar import Colorbar
+from matplotlib.contour import ContourSet, QuadContourSet
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
+from pyPLUTO.imagefuncs.set_axis import AxisManager
 from pyPLUTO.imagekwargs import ColorbarKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -29,6 +31,7 @@ class ColorbarManager(ImageMixin):
     def __init__(self, state: ImageState) -> None:
         """Initialize the ColorbarManager with the given state."""
         self.state = state
+        self.AxisManager = AxisManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
 
     @track_kwargs
@@ -41,43 +44,56 @@ class ColorbarManager(ImageMixin):
         cax: Axes | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[ColorbarKwargs],
-    ) -> None:
-        """Display a colorbar in a selected position.
+    ) -> Colorbar:
+        """Display the colorbar of a drawn collection.
 
-        The colorbar will be placed next to the axis axs. If the keyword cax is
-        enabled the colorbar is located in a specific axis, otherwise an axis
-        will be shrunk in order to place the colorbar.
+        The colorbar describes pcm, if given, otherwise the last collection of
+        the axis axs that is colored by data: a map, contour lines, points or
+        streamlines colored by a variable. Contour lines drawn in a single
+        color are not colored by data and are skipped, so black lines over a
+        map leave the colorbar to the map.
+
+        The colorbar is placed in cax, if given; otherwise a new axis is cut
+        from the side cpos of axs, which shrinks to make room for it. Contour
+        lines get a continuous colorbar on their color scale, as a map does,
+        instead of matplotlib's one block per level.
 
         Parameters
         ----------
-        - axs: axis object, default None
-            The axes where the display that will be used for the colorbar is
-            located. If None, the last considered axis will be used.
+        - axs: Axes | int, default None
+            The axis whose collection the colorbar describes, and next to which
+            it is placed. If None, the current axis of the figure is used when
+            it is one of the image axes, otherwise the last of them.
         - bottom: float, default varies
             The bottom limit of the axis / axes set. For the figure layout it
             is the space from the bottom border to the plot (default 0.1); for
             an inset zoom it is the bottom position of the inset (default 0.6 +
             height).
-        - cax: axis object, default None
-            The axes where the colorbar should be placed. If None, the colorbar
-            will be placed next to the axis axs.
+        - cax: Axes | int, default None
+            The axis where the colorbar should be placed. If None, a new axis
+            is created next to the axis axs.
         - clabel: str, default None
             Sets the label of the colorbar.
         - cpad: float, default 0.07
-            Fraction of original axes between colorbar and the axes (in axes
-            units).
+            The space between the axis and the colorbar, in inches. Not used
+            when cax is given.
         - cpos: {'top','bottom','left','right'}, default 'right'
             Enables the colorbar and sets its position. If not defined, no
             colorbar is shown.
-        - cticks: {[float], None}, default None
-            If enabled (and different from None), sets manually the ticks on
-            the colorbar.
-        - ctickslabels: str, default None
-            If enabled, sets manually ticks labels on the colorbar.
+        - cticks: list[float] | None | bool, default True
+            If enabled (and different from True), sets manually the ticks on
+            the colorbar. In order to completely remove the ticks the keyword
+            should be used with None. The same rules as xticks.
+        - ctickslabels: list[str] | None | bool, default True
+            If enabled (and different from True), sets manually the ticks
+            labels on the colorbar. In order to remove the labels, keeping the
+            ticks, the keyword should be used with None. Fixed labels should
+            always correspond to fixed ticks, as for xtickslabels.
         - extend: {'neither','both','min','max'}, default 'neither'
             Sets the extension of the triangular colorbar extension.
         - extendrect: bool, default False
-            If True, the colorbar extension will be triangular.
+            If True, the colorbar extensions are rectangular instead of
+            triangular.
         - figsize: list[float], default varies
             Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
             computed from the number of rows and columns (or [8,5] for a single
@@ -99,9 +115,11 @@ class ColorbarManager(ImageMixin):
             The number of columns of subplots.
         - nrow: int, default 1
             The number of rows of subplots.
-        - pcm: QuadMesh | PathCollection | None, default None
-            The collection to be used for the colorbar. If None, the axs will be
-            used. If both pcm and axs are not None, pcm will be used.
+        - pcm: QuadMesh | PathCollection | LineCollection | QuadContourSet
+            The collection the colorbar describes, as returned by display,
+            scatter, streamplot or contour. If None, the last collection of axs
+            colored by data is used. If both pcm and axs are given, pcm is used
+            and a warning is raised.
         - proj: str, default None
             Custom projection for the plot (e.g. 3D). Recommended only if
             needed. WARNING: pyPLUTO does not support 3D plotting for now, only
@@ -111,9 +129,9 @@ class ColorbarManager(ImageMixin):
             the space from the right border to the plot (default 0.9); for an
             inset zoom it is the right position of the inset (default left +
             0.15).
-        - sharex: bool | str | Matplotlib axis, default False
+        - sharexaxes: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the x-axis between the subplots.
-        - sharey: bool | str | Matplotlib axis, default False
+        - shareyaxes: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the y-axis between the subplots.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
@@ -137,7 +155,7 @@ class ColorbarManager(ImageMixin):
 
         Returns
         -------
-        - None
+        - Colorbar
 
         Examples
         --------
@@ -168,6 +186,13 @@ class ColorbarManager(ImageMixin):
             >>> I.display(var3, ax=ax[2])
             >>> I.colorbar(axs=ax[2], cax=ax[3])
 
+        - Example #4: a colorbar of contour lines, with no ticks
+
+            >>> import pyPLUTO as pp
+            >>> I = pp.Image()
+            >>> I.contour(var, levels=8)
+            >>> I.colorbar(cticks=None)
+
         """
         # Check parameters
         if not isinstance(_check, bool):
@@ -187,58 +212,71 @@ class ColorbarManager(ImageMixin):
         # Assign the source axis
         axs = self._find_ax(pcm, axs)
 
-        # Select the keywords to position the colorbar
+        # Without a collection, take the last one drawn on the axis that is
+        # colored by data: a map, contour lines, streamlines by magnitude.
+        # Contour lines keep their levels even when drawn in a fixed color
+        mappable: ScalarMappable
         if pcm is None:
-            collection = axs.collections[0]
-            if not isinstance(collection, QuadMesh):
-                raise TypeError("First collection is not a QuadMesh")
-            pcm = collection
+            drawn = [
+                c
+                for c in axs.collections
+                if c.get_array() is not None
+                and getattr(c, "colors", None) is None
+            ]
+            if len(drawn) == 0:
+                raise ValueError(
+                    "No collection colored by data is present on the axis.",
+                )
+            mappable = drawn[-1]
+        else:
+            mappable = pcm
+
+        # Contour lines give matplotlib's colorbar one block per level; a
+        # mappable with the same scale gives the continuous bar of a map
+        if isinstance(mappable, ContourSet) and not mappable.filled:
+            mappable = ScalarMappable(norm=mappable.norm, cmap=mappable.cmap)
+
+        # Select the keywords to position the colorbar
         cpad = kwargs.get("cpad", 0.07)
         cpos = kwargs.get("cpos", "right")
         ccor = "vertical" if cpos in ["left", "right"] else "horizontal"
 
         # Assign the colorbar axis, if cax is None create a new one
+        bar: Axes
         if cax is None:
             divider = make_axes_locatable(axs)
-            cax = divider.append_axes(cpos, size="7%", pad=cpad)
+            bar = divider.append_axes(cpos, size="7%", pad=cpad)
         else:
-            cax, naxc = self.ImageToolsManager.assign_ax(
+            bar, naxc = self.ImageToolsManager.assign_ax(
                 cax,
                 _check=False,
                 **kwargs,
             )
-            self.ImageToolsManager.hide_text(naxc, cax.texts)
-
-        # Check if the cax is an Axes instance
-        if not isinstance(cax, Axes):
-            raise TypeError("cax must be an Axes instance.")
+            self.ImageToolsManager.hide_text(naxc, bar.texts)
 
         # Place the colorbar
         cbar = self.state.fig.colorbar(
-            pcm,
-            cax=cax,
+            mappable,
+            cax=bar,
             label=kwargs.get("clabel", ""),
-            ticks=kwargs.get("cticks"),
             orientation=ccor,
             extend=kwargs.get("extend", "neither"),
             extendrect=kwargs.get("extendrect", False),
         )
 
-        # Set the tickslabels
-        if isinstance(
-            (ctkc := kwargs.get("ctickslabels", "Default")),
-            (list, tuple),
-        ):
-            axis = cbar.ax.yaxis if ccor == "vertical" else cbar.ax.xaxis
-            ticks = kwargs.get("cticks") or list(cbar.get_ticks())
-            axis.set_major_locator(FixedLocator(ticks))
-            axis.set_major_formatter(FixedFormatter(list(ctkc)))
+        # Keywords cticks and ctickslabels, through the same rules as xticks
+        # and xtickslabels: True is automatic, None removes, a list fixes
+        ctk = kwargs.get("cticks", True)
+        ctl = kwargs.get("ctickslabels", True)
+        if ctk is not True or ctl is not True:
+            axis = "y" if ccor == "vertical" else "x"
+            self.AxisManager.set_ticks(cbar.ax, ctk, ctl, axis, minor="off")
 
         # Ensure, if needed, the tight layout
         if self.state.tight:
             self.state.fig.tight_layout()
 
-        # End of function
+        return cbar
 
     @track_kwargs
     def _find_ax(
@@ -272,31 +310,14 @@ class ColorbarManager(ImageMixin):
             If the provided axs parameter is not of type Axes or int.
 
         """
-        # Standard check on the figure
-        if self.state.fig is None:
-            raise ValueError(
-                "No figure is present. Please create a figure first.",
-            )
-        # Standard check on the figure
-        # Select the source axis
+        # A collection knows the axis it was drawn on
         if pcm is not None:
-            # If the pcm is not none, use it and find the corresponding axes
             if not isinstance(pcm.axes, Axes):
                 raise TypeError("Expected an Axes instance.")
             axs = pcm.axes
-        elif axs is None:
-            # If axs is None, use the current axes
-            gca = self.state.fig.gca()
-            if not isinstance(gca, Axes):
-                raise TypeError("gca() did not return an Axes instance.")
-            axs = gca
-        axs, _ = self.ImageToolsManager.assign_ax(
-            axs,
-            _check=False,
-        )
-        if self.state.fig is None:
-            raise ValueError(
-                "No figure is present. Please create a figure first.",
-            )
+
+        # Without one, assign_ax picks the current pyPLUTO axis: never the
+        # axis of a colorbar, which matplotlib may hold as the current one
+        axs, _ = self.ImageToolsManager.assign_ax(axs, _check=False)
 
         return axs

@@ -21,6 +21,7 @@ from typing import Any, Unpack
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection, PathCollection, QuadMesh
+from matplotlib.colorbar import Colorbar
 from matplotlib.contour import QuadContourSet
 from numpy.typing import ArrayLike
 
@@ -348,7 +349,7 @@ class Image(ImageMixin):
         cax: Axes | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[ColorbarKwargs],
-    ) -> None:
+    ) -> Colorbar:
         """Colorbar method."""
         return self.ColorbarManager.colorbar(
             pcm=pcm,

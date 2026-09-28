@@ -187,7 +187,7 @@ class ColorbarKwargs(CreateAxesKwargs, total=False):
     clabel: str
     cpad: float
     cpos: str
-    cticks: list[float] | None
+    cticks: list[float] | bool | None
     ctickslabels: list[str] | bool | None
     extend: str
     extendrect: bool

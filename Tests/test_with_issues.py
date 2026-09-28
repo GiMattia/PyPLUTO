@@ -33,6 +33,7 @@ import pytest
 from helper_image import DELEGATION, DOCUMENTED_KWARGS
 from helper_image import KWARGS as IMAGE_KWARGS
 from matplotlib.axes import Axes
+from matplotlib.axis import Axis
 from matplotlib.legend import Legend
 from matplotlib.lines import Line2D
 
@@ -538,6 +539,67 @@ def test_alpha_reaches_something_that_is_drawn() -> None:
     assert image.ax[0].patch.get_alpha() == 0.3
 
 
+def _log_axis(target: str, ticks: list[float] | None) -> Axis:
+    """Return the y-axis of a log plot, or of a log colorbar, after drawing.
+
+    Both go through `set_ticks`, the axis through `yticks` and the colorbar
+    through `cticks`, so a fault there shows on both.
+    """
+    grid = np.logspace(-2.0, 1.0, 20)
+    image = pp.Image(text=False)
+    if target == "axis":
+        image.plot(grid, grid, yscale="log", yticks=ticks)
+        drawn = image.ax[0]
+    else:
+        image.display(
+            np.outer(grid, grid), cscale="log", cpos="right", cticks=ticks
+        )
+        assert image.fig is not None
+        drawn = image.fig.axes[-1]
+    assert isinstance(drawn, Axes)
+    assert image.fig is not None
+    image.fig.canvas.draw()
+    return drawn.yaxis
+
+
+@pytest.mark.xfail(
+    strict=True, reason="removing the ticks keeps the minor ones of a log scale"
+)
+@pytest.mark.parametrize("target", ["axis", "colorbar"])
+def test_removed_ticks_leave_no_minor_ticks_on_a_log_scale(
+    target: str,
+) -> None:
+    """Remove the ticks of a logarithmic axis with None.
+
+    `set_ticks` empties the major ticks only, and a log scale draws minor
+    ticks of its own at every integer multiple of each decade, so all of
+    them stay on the axis -- and on a colorbar, where `cticks=None` goes
+    through the same code.
+    """
+    axis = _log_axis(target, None)
+
+    assert list(axis.get_minorticklocs()) == []
+
+
+@pytest.mark.xfail(
+    strict=True,
+    reason="fixed ticks on a log scale are labelled only at decades",
+)
+@pytest.mark.parametrize("target", ["axis", "colorbar"])
+def test_fixed_ticks_on_a_log_scale_keep_their_labels(target: str) -> None:
+    """Fix the ticks of a logarithmic axis at 0.5 and 1.
+
+    The ticks are placed, but the formatter of a log scale labels powers of
+    ten only, so 0.5 is drawn with an empty label: asking for a tick at a
+    value is asking to read that value.
+    """
+    axis = _log_axis(target, [0.5, 1.0])
+
+    labels = [label.get_text() for label in axis.get_ticklabels()]
+    assert len(labels) == 2
+    assert all(labels)
+
+
 # ---- imagefuncs/create_axes.py ----
 @pytest.mark.xfail(
     strict=True, reason="False is an int, so it is read as the index 0"
@@ -659,6 +721,28 @@ def test_plot_on_an_empty_figure_honours_ncol() -> None:
     image = pp.Image(text=False)
     image.plot([0.0, 1.0], [0.0, 1.0], ncol=2)
     assert len(image.ax) == 2
+
+
+@pytest.mark.xfail(strict=True, reason="the last axis drawn on is not tracked")
+def test_the_last_considered_axis_is_the_last_drawn_on() -> None:
+    """Draw on the second panel, then on the first, and ask for a colorbar.
+
+    Every docstring promises that without `ax` "the last considered axis"
+    is used, but `assign_ax(None)` takes matplotlib's current axis, which is
+    the last one created, not the last one drawn on. So the colorbar lands
+    beside the second panel and describes its map, not the one just drawn.
+    Tracking it needs a state field that every manager updates.
+    """
+    grid = np.linspace(-1.0, 1.0, 10)
+    bowl = np.add.outer(grid**2, grid**2)
+    image = pp.Image(text=False)
+    image.create_axes(ncol=2)
+    image.display(bowl, ax=1)
+    mesh = image.display(bowl * 2.0, ax=0)
+
+    cbar = image.colorbar()
+
+    assert cbar.mappable is mesh
 
 
 # ---- imagefuncs/range.py ----

@@ -1,13 +1,13 @@
 # Tests recap
 
-**2041 tests** · 61 known bugs as expected failures · in-scope coverage
-**82.9%** · target 100%
+**2068 tests** · 65 known bugs as expected failures · in-scope coverage
+**83.3%** · target 100%
 
 | Status | Files |
 |---|---|
-| reviewed | 27 |
+| reviewed | 28 |
 | almost | 0 |
-| to review | 38 |
+| to review | 37 |
 | to write | 5 |
 | out of scope | 5 |
 
@@ -54,7 +54,7 @@ test, or a test would compare the code with itself.
 | `gui/services.py` | `gui/test_services.py` | 30 | 88% | to review |
 | `gui/state_accessors.py` | `gui/test_state_accessors.py` | 15 | 100% | to review |
 | `image.py` | `test_image.py` | 116 | 100% | reviewed |
-| `imagefuncs/colorbar.py` | `imagefuncs/test_colorbar.py` | 11 | 72% | to review |
+| `imagefuncs/colorbar.py` | `imagefuncs/test_colorbar.py` | 38 | 100% | reviewed |
 | `imagefuncs/contour.py` | `imagefuncs/test_contour.py` | 32 | 100% | reviewed |
 | `imagefuncs/create_axes.py` | `imagefuncs/test_create_axes.py` | 34 | 100% | reviewed |
 | `imagefuncs/display.py` | `imagefuncs/test_display.py` | 31 | 100% | reviewed |
@@ -232,6 +232,8 @@ reviewed, or held back deliberately. Each is a small fix with its own
 | The scan cache is mutated by the decorator | `utils/inspector.py:33` | none, a non-mutating union |
 | Sharing by axis index is declared nowhere | `imagekwargs.py:72` | whether the index form stays supported |
 | `LoadPart` accepts `multiple`, which it cannot use | `loadpart.py`, `loadkwargs.py` | refuse it, or drop it from the table |
+| Removed ticks keep the minor ones of a log scale | `imagefuncs/set_axis.py:379` | none, switch the minor locator off too |
+| Fixed ticks on a log scale lose their labels | `imagefuncs/set_axis.py:434` | none, a formatter that labels every fixed tick |
 
 **Next** -- each reaches into more than one file, so each waits until those
 files are covered. Bounded work once they are: a batch per theme, fixed with
@@ -247,6 +249,7 @@ blocks the multiprocessing work.
 | One `resolve_endianess()` for the four sites | `loadfuncs/offsetfluid.py`, `offsetpart.py`, `descriptor.py` |
 | Honour `alone=False`; forward the `vars=` shim; build `codedict` lazily | `loadfuncs/findformat.py`, `initload.py`, `codeselection.py` |
 | Keep `figsize` in step with the figure when `create_axes` resizes it | `imagefuncs/create_axes.py:185` |
+| Track the last axis drawn on, as every docstring promises | `imagefuncs/imagetools.py:383`, every drawing manager |
 | A default spacing for `fourier`; `d_vars` for a tab load | `toolfuncs/fourier.py`, `loadfuncs/readtab.py` |
 | Point the unused-keyword warning at the user's frame | `utils/inspector.py` |
 
@@ -489,6 +492,9 @@ from scratch each time.
 | `imagefuncs/set_axis.py:307` | **`alpha` fades nothing.** It calls `ax.set_alpha()`, which stores the value on the Axes artist; the background patch and the lines keep their own alpha, so the figure is unchanged. Whatever the keyword is meant to fade has to be told. |
 | `imagefuncs/set_axis.py:401` | **Tick labels are applied after the call warns against them.** Given labels for automatic ticks, `set_ticks` warns that they should be fixed only when the ticks are, then sets the formatter anyway, so matplotlib warns in turn ("FixedFormatter should only be used together with FixedLocator") and the labels stay pinned to ticks that move with the data. Either the warning is right and they are dropped, or they are accepted and the warning goes. |
 | `imagekwargs.py:139` | `xtickslabels`/`ytickslabels` accept a single string -- `set_ticks` has a branch for it, and it labels the first tick -- while `SetAxisKwargs` declares `list[str] \| bool \| None`, so the call works and every checker refuses it. Same family as the `grid="both"` and `sharexaxes` index gaps. |
+| `imagefuncs/set_axis.py:379` | **Removing the ticks of a log scale keeps its minor ones.** `set_ticks` with `None` empties the major ticks only, and a log scale draws its own minor ticks at every multiple of each decade, so `plot(..., yscale="log", yticks=None)` still shows 40 ticks. Since the colorbar review, `cticks=None` goes through the same code and a log colorbar keeps them too. |
+| `imagefuncs/set_axis.py:434` | **Fixed ticks on a log scale lose their labels.** `yticks=[0.5, 1]` places both, but the log formatter labels powers of ten only, so 0.5 is drawn with an empty label -- on an axis and, through `cticks`, on a log colorbar. |
+| `imagefuncs/imagetools.py:383` | **"The last considered axis" is not tracked.** Every drawing method and `colorbar` promise that without `ax` the last considered axis is used, while `assign_ax(None)` takes matplotlib's current axis -- the last one *created* -- when it is an image axis, and the last image axis otherwise. So `display(ax=1)`, `display(ax=0)`, `colorbar()` puts the bar beside the second panel, describing its map. It needs a state field every manager updates. |
 | `imagefuncs/create_axes.py:468` | **`sharexaxes=False` raises `IndexError`.** `False` is an `int` in Python, so `isinstance(share, int)` is true and the flag is read as the index 0; on a fresh set of axes the list is still empty, so looking up `ax[0]` fails. Confirmed: `I.create_axes(ncol=2, sharexaxes=False)` raises, and `False` is the documented default. The `is True` case is checked first, so only the False one falls through. |
 | `imagefuncs/create_axes.py:167` | **A custom layout overrides an explicit `tight`.** Any border keyword writes `kwargs["tight"] = False` before the keyword is read, so `create_axes(ncol=2, left=0.2, tight=True)` silently comes out False. Defaulting to False there is right -- matplotlib cannot lay out axes it did not place -- but it should not overrule the user. |
 | `imagefuncs/create_axes.py:181` | **A size given to `create_axes` is forgotten.** It sets `state.figsize` without setting `set_size`, the flag that marks a size as chosen rather than computed, so the next `create_axes()` recomputes it: `create_axes(figsize=[10,4])` then `create_axes()` leaves the figure at 6x5 while the state still says `[10, 4]`. |
@@ -512,7 +518,6 @@ from scratch each time.
 | `loadfuncs/loadvars.py:103` | `chnk` is silently ignored for non-chunked particle output: `chnk=99` loads normally instead of warning. The docstring now says chunks exist only for multi-file output, but a request that cannot be honoured should still say so. |
 | `toolfuncs/fourier.py:98` | `fourier(f)` without `dx` raises `KeyError`. |
 | `loadfuncs/readtab.py` | `datatype="tab"` leaves `d_vars` empty, so the GUI lists no variables. |
-| `imagefuncs/colorbar.py` | Docstring says no colorbar without `cpos`, but the default is `"right"`. |
 | `imagekwargs.py` | 259 declared kwargs are undocumented in the method docstrings. 15 per method are the figure-level ones inherited from `ImageKwargs`, documented on `Image.__init__` instead; after those, what is left is `sharexaxes`/`shareyaxes` in every method but `create_axes` (which documents them), `showgrid` (49 of 68), `volume` (51 of 87) and `scatter` (`transpose`, `x1`, `x2`). `test_every_parameter_is_documented` covers the parameters, which are all documented today; the keywords need a guard of the same shape once these are written. |
 | `imagefuncs/range.py:132,156` | **The y-limits are computed from all the data, not from the visible window.** Both computing cases filter with `np.where(np.logical_and(x >= x.min(), x <= x.max()))`, which is true for every point, so the mask selects the whole array (confirmed: 11 of 11). The comment says "find the limits of the x-axis", so the intent was the current x-limits: a point far outside the window still sets the y-range. Fixing it changes the limits of existing plots, so it needs the example figures rechecked. `test_set_yrange_measures_all_the_data` documents today's behaviour. |
 | `imagefuncs/range.py:227` | **A negative range on a log scale loses its lower limit.** `ymax = max(abs(ymin), abs(ymax))` reads `ymin` after the line above reassigned it, so the original value cannot be seen: `range_offset(-100, 10, "log")` gives `(5.0, 21.0)` instead of a range reaching 100. Only on the warned path. `test_range_offset_negative_log_loses_the_lower_limit` pins it. |
@@ -536,6 +541,7 @@ afternoon, and none is urgent.
 | Where | What, and why |
 |---|---|
 | `imagefuncs/display.py:355` | `map_extent` -- the edges of a map from its cell centers -- probably belongs in `RangeManager`, which is where limits live. It has one caller today, so it sits in `DisplayManager`, and the move should happen when a second caller appears and the signature is settled by use. Neither `contour` nor `streamplot` turned out to be one: both draw on the points themselves, and the axis already ends on the outermost of them. |
+| `imagefuncs/set_axis.py:335`, `imagefuncs/colorbar.py:273` | `set_ticks` lives in `AxisManager` but no longer belongs to it alone: since the colorbar review, `ColorbarManager` calls it on the colorbar axis for `cticks`/`ctickslabels`, and builds an `AxisManager` only to reach it. It probably belongs in a shared place -- `imagetools.py`, or a small module of its own -- which both managers call. To be decided later (noted 2026-09-28). |
 | `imagefuncs/streamplot.py:379` | A stretched or non-Cartesian grid cannot be drawn: matplotlib's streamplot wants evenly spaced `x1`/`x2`, and raises `'x' values must be equally spaced` otherwise. The docstring points to `Data.reshape_cartesian`, which the torus example already calls first. Regridding on the fly -- onto a uniform grid of the same extent and resolution -- would make it work on any PLUTO output, at the cost of one interpolation per call. |
 | `imagefuncs/plot.py:347` | A legend built by hand is thrown away by the next line. `legpos` is kept on the axis, so `I.legend(label=["custom"])` followed by any `I.plot` on that axis is rebuilt from the drawn lines and the custom entries are gone. The stickiness is what makes a legend follow the curves as they are added, so this is a choice to make, not a slip: either a hand-built legend clears `legpos`, or it is kept as a second artist. |
 | `loadfuncs/read_files.py:128`, `loadfuncs/write_files.py:153` | The dispatch tables never dispatch. `read_file` builds `readers` then uses it only for a membership test: line 143 hard-codes `datatype in {"h5","dat"}` and everything else falls through to `_read_h5`, so `_read_vtk`, `_read_tab` and `_read_bin` are unreachable and their `NotImplementedError` is never seen. `write_files.py` mirrors it, and its two fallback blocks (162–173, 175–189) are byte-identical. Fix: populate the dict with implemented readers only, `reader = readers.get(datatype)`, one fallback. |
@@ -571,6 +577,11 @@ afternoon, and none is urgent.
 | Where | What |
 |---|---|
 | `toolfuncs/findlines.py:221` | **Field lines were drawn outside the domain.** The event that stops the integration was a flag -- 1 inside, 0 outside -- while `solve_ivp` finds an event by looking for a *zero* of the function, so the crossing was only noticed once a step had already landed beyond the wall and the line was drawn to wherever that step ended: ±1.00091 for a domain of ±1.0 in the KH example. It is a signed distance to the nearest border now, with `direction = -1`, so the line ends exactly on it, and the 1% margin that used to put the last point outside (`0.51` of a cell) is gone. Guarded by the new `Tests/toolfuncs/test_findlines.py`, the only test of a file that is otherwise out of scope. |
+| `imagefuncs/colorbar.py:220` | **`colorbar()` only worked on a map drawn first.** Without `pcm` it took the first collection of the axis and raised `First collection is not a QuadMesh` for anything else: after `contour`, after `streamplot(cmap=...)`, even after lines with a map drawn over them; an empty axis gave a bare `IndexError`. It now takes the last collection colored by data -- `get_array()` set -- skipping contour lines drawn in one color, which keep their levels and would otherwise take the bar from the map under them; with nothing to describe, a `ValueError` says so. |
+| `imagefuncs/colorbar.py:321` | **A second `colorbar()` crashed.** `_find_ax` took `fig.gca()`, which after the first colorbar is that colorbar's axis, and looked it up among the image axes: `list.index(x): x not in list`. It passes `None` to `assign_ax`, which falls back to the last image axis. The two figure checks inside `_find_ax` could never fail and are gone. |
+| `imagefuncs/colorbar.py:236` | **Contour lines got a colorbar of blocks.** matplotlib builds a contour colorbar with one block per level band, 7 colors for 6 levels; it is now built from a `ScalarMappable` with the same norm and colormap, 256 steps like every other colorbar, on the same limits. |
+| `imagefuncs/colorbar.py:273` | **`ctickslabels` crashed on an array of `cticks`, and a bar without ticks needed `[]`.** The labels went through `cticks or ...`, which an array refuses, and `cticks=None` meant automatic. Ticks and labels now go through `AxisManager.set_ticks`, the code behind `xticks`/`xtickslabels`, with the same rules: True automatic, None removed, a list fixed. |
+| `imagefuncs/colorbar.py:279` | **`colorbar` returned `None`.** It returns the `Colorbar` now, in the manager and in the facade, as every drawing method returns what it drew. The docstring was rewritten: what the bar describes and where it goes, `cpad` in inches, `extendrect` rectangular rather than triangular, all four types of `pcm`, and `sharexaxes`/`shareyaxes`, which were documented as `sharex`/`sharey` -- keywords `colorbar` does not accept, so the documented call warned as unused. The `isinstance(cax, Axes)` check, only there for the type checker, is a typed local now. |
 | `imagefuncs/streamplot.py:316` | **`transpose=True` crashed on any rectangular field, and lists crashed always.** The default `x1`/`x2` were built before the transposition, from the wrong shape, so matplotlib raised `'u' and 'v' must match the shape of the (x, y) grid`; and the first row was read as `var1[:, 0]` before any conversion, which a list refuses. The components are converted first and transposed before the coordinates are built, as in `contour`, and the annotations are `ArrayLike` in the manager and in the facade. |
 | `imagefuncs/streamplot.py:334` | **Every streamplot copied the field twice.** Both components were copied into new float arrays so that NaN could be written where the magnitude falls outside `vmin`/`vmax`. They are views now, and the hidden cells a boolean mask on them, which matplotlib treats exactly as NaN (the example figures are pixel-identical); no mask is built at all when neither limit is given, and the magnitude takes one allocation (`np.hypot`) instead of three. The user's arrays are never written into, as before. |
 | `imagefuncs/streamplot.py:351` | **The colormap did nothing, and the colorbar described nothing.** The lines were never colored by data, since `c` is a color, yet `cpos` drew a colorbar of the field magnitude next to single-colored lines. Giving `cmap` or `cpos` now colors the lines by the magnitude, through the same scale the colorbar shows. Without either, and without `c`, the lines took matplotlib's own blue: they take the next palette color now and advance `nline`, as `plot` and `scatter` do. |

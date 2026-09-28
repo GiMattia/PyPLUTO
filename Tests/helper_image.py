@@ -151,7 +151,12 @@ UNDECLARED_KWARGS: dict[str, set[str]] = {}
 # declares, leaving out the figure-level ones documented on `Image.__init__`.
 # The others are expected failures in test_with_issues.py: move a name here
 # when its manager is reviewed and its keywords written up.
-DOCUMENTED_KWARGS: set[str] = {"contour", "create_axes", "streamplot"}
+DOCUMENTED_KWARGS: set[str] = {
+    "colorbar",
+    "contour",
+    "create_axes",
+    "streamplot",
+}
 
 # Keywords a docstring documents while nothing in the package declares or
 # reads them: a user copying the documentation gets an "Unused kwargs"

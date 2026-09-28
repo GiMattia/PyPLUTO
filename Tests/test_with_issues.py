@@ -725,37 +725,6 @@ def test_documented_lint_keyword_is_accepted() -> None:
     assert [w for w in raised if "kwargs" in str(w.message)] == []
 
 
-# ---- imagefuncs/contour.py, streamplot.py ----
-@pytest.mark.xfail(
-    strict=True, reason="colors is read as a presence test and never applied"
-)
-@pytest.mark.parametrize(
-    "draw",
-    [
-        lambda image, var, grid: image.contour(
-            var, x1=grid, x2=grid, colors="red"
-        ),
-        lambda image, var, grid: image.streamplot(
-            var, var, x1=grid, x2=grid, colors="red"
-        ),
-    ],
-    ids=["contour", "streamplot"],
-)
-def test_colors_keyword_is_applied(draw: Callable[..., object]) -> None:
-    """Draw with `colors` and check the drawing really is that colour.
-
-    `colors` is only tested for presence, to warn when it is given together
-    with `cmap`; the value applied comes from `c`. So `colors="red"` is
-    accepted, warns about nothing, and changes nothing -- the colormap stays
-    viridis. Either it applies, or it should not be silently swallowed.
-    """
-    grid = np.linspace(0.0, 1.0, 8)
-    mesh = np.outer(grid, grid)
-    drawn = draw(pp.Image(text=False), mesh, grid)
-
-    assert getattr(drawn, "colors", None) == "red"
-
-
 # ---- imagekwargs.py ----
 # The methods already written up are guarded by test_imagekwargs.py; the rest
 # are expected failures here until their manager is reviewed.

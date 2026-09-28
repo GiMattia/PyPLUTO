@@ -507,8 +507,8 @@ class Image(ImageMixin):
 
     def streamplot(
         self,
-        var1: np.ndarray,
-        var2: np.ndarray,
+        var1: ArrayLike,
+        var2: ArrayLike,
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[StreamplotKwargs],

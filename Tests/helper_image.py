@@ -145,19 +145,13 @@ KWARGS: dict[str, str] = {
 # open bug in tests_recap.md, to be fixed when that manager is reviewed. The
 # test reads it in both directions, so a new undeclared keyword fails here,
 # and so does an entry left behind once the keyword is declared.
-UNDECLARED_KWARGS: dict[str, set[str]] = {
-    # `colors` is read only as a presence test, to warn when it is given
-    # together with `cmap`; the value is never used, so declaring it would
-    # advertise a keyword that does nothing. See the Open bugs row.
-    "contour": {"colors"},
-    "streamplot": {"colors"},
-}
+UNDECLARED_KWARGS: dict[str, set[str]] = {}
 
 # The facade methods whose docstring documents every keyword their table
 # declares, leaving out the figure-level ones documented on `Image.__init__`.
 # The others are expected failures in test_with_issues.py: move a name here
 # when its manager is reviewed and its keywords written up.
-DOCUMENTED_KWARGS: set[str] = {"create_axes"}
+DOCUMENTED_KWARGS: set[str] = {"contour", "create_axes", "streamplot"}
 
 # Keywords a docstring documents while nothing in the package declares or
 # reads them: a user copying the documentation gets an "Unused kwargs"

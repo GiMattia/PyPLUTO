@@ -8,6 +8,7 @@ from typing import Unpack
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
+from numpy.typing import ArrayLike
 
 from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
@@ -34,21 +35,34 @@ class StreamplotManager(ImageMixin):
     @track_kwargs
     def streamplot(
         self,
-        var1: np.ndarray,
-        var2: np.ndarray,
+        var1: ArrayLike,
+        var2: ArrayLike,
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[StreamplotKwargs],
     ) -> LineCollection:
-        """Plot a streamplot of a vector field.
+        """Plot the streamlines of a 2D vector field.
 
-        The function uses the streamplot function from matplotlib.pyplot.
+        The lines are drawn with matplotlib's streamplot. The two components
+        are indexed as var[x, y], the PLUTO order, var1 along x and var2
+        along y, and are transposed on the way to matplotlib, which wants
+        var[y, x]. The coordinates x1 and x2 are the points where the values
+        sit, one per cell, and matplotlib requires them evenly spaced: a
+        stretched or non-Cartesian grid has to be interpolated first, e.g.
+        with Data.reshape_cartesian.
+
+        The lines take the color c if given, otherwise the next color of the
+        palette, as a curve does. Giving a colormap or a colorbar colors them
+        instead by the magnitude of the field, through the same color scales
+        a map uses (cscale, vmin, vmax, tresh). The limits vmin and vmax also
+        hide the lines wherever the magnitude falls outside them, which is
+        how the regions of a negligible field are left empty.
 
         Parameters
         ----------
         - alpha: float, default 1.0
-            Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is
-            fully transparent.
+            Sets the opacity of the lines and of their arrows, where 1.0 is
+            fully opaque and 0.0 is fully transparent.
         - arrowsize: float, default 1.0
             Sets the size of the arrows of the streamline.
         - arrowstyle: str, default '-|>'
@@ -69,13 +83,16 @@ class StreamplotManager(ImageMixin):
         - brokenlines: bool, default True
             Splits the streamlines in shorter segments.
         - c: str, default self.color
-            Determines the color. If not defined, the program will loop over an
-            array of 6 colors which are different for the most common vision
-            deficiencies.
+            The color of the lines. If not defined, the next color of the
+            palette is taken, which is suited to the most common vision
+            deficiencies, unless cmap or cpos color the lines by the magnitude
+            of the field. If given together with cmap, c is used and a warning
+            is raised.
         - clabel: str, default None
             Sets the label of the colorbar.
-        - cmap: str, default 'hot'
-            Selects the colormap. Some useful colormaps are: plasma, magma,
+        - cmap: str, default 'viridis'
+            Colors the lines by the magnitude of the field, with the given
+            colormap. Some useful colormaps are: plasma, magma,
             seismic. Please avoid colormaps like jet or rainbow, which are not
             perceptively uniform and not suited for people with vision
             deficiencies.
@@ -84,7 +101,8 @@ class StreamplotManager(ImageMixin):
             units).
         - cpos: {'top','bottom','left','right'}, default None
             Enables the colorbar and sets its position. If not defined, no
-            colorbar is shown.
+            colorbar is shown. A colorbar colors the lines by the magnitude of
+            the field, which is the quantity it shows.
         - cscale: {'linear','log','symlog','twoslope'}, default 'linear'
             Sets the colorbar scale. Default is the linear ('norm') scale.
         - cticks: {[float], None}, default None
@@ -152,6 +170,10 @@ class StreamplotManager(ImageMixin):
             Enables/disables the sharing of the x-axis between the subplots.
         - sharey: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the y-axis between the subplots.
+        - sharexaxes: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the x-axis between the subplots.
+        - shareyaxes: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the y-axis between the subplots.
         - start_points: np.ndarray, default None
             Sets the starting points of the streamlines, if a more controlled
             plot is wanted.
@@ -180,9 +202,9 @@ class StreamplotManager(ImageMixin):
             inset zoom it is the top position of the inset (default bottom +
             height).
         - transpose: True/False, default False
-            Transposes the variable matrix. Use is not recommended if not
-            really necessary (e.g. in case of highly customized variables and
-            plots).
+            Declares the components as var[y, x] instead of var[x, y]. Use is
+            not recommended if not really necessary (e.g. in case of highly
+            customized variables and plots).
         - tresh: float, default max(abs(vmin),vmax)*0.01
             Sets the threshold for the colormap (used with composite
             colorscales such as twoslope or symlog).
@@ -190,10 +212,14 @@ class StreamplotManager(ImageMixin):
             The x1-component of the vector field.
         - var2 (not optional): np.ndarray
             The x2-component of the vector field.
-        - vmax: float
-            The maximum value of the variable to be computed / plotted.
-        - vmin: float
-            The minimum value of the variable to be computed / plotted.
+        - vmax: float, default max(|field|)
+            The largest magnitude of the field that is drawn: the lines are
+            hidden where the field is stronger. It is also the top of the
+            color scale.
+        - vmin: float, default min(|field|)
+            The smallest magnitude of the field that is drawn: the lines are
+            hidden where the field is weaker. It is also the bottom of the
+            color scale.
         - wratio: [float], default [1.0]
             Ratio between the columns of the plot. The default is that every
             plot column has the same width.
@@ -264,55 +290,78 @@ class StreamplotManager(ImageMixin):
 
             >>> I.streamplot(D.Bx1, D.Bx2)
 
+        - Example #2: Black field lines, left out where the field is weak
+
+            >>> I.streamplot(D.Bx1, D.Bx2, x1=D.x1, x2=D.x2, c="k", vmin=1e-4)
+
+        - Example #3: Lines colored by the magnitude of the field
+
+            >>> I.streamplot(D.Bx1, D.Bx2, x1=D.x1, x2=D.x2, cpos="right")
+
         """
         if np.shape(var1) != np.shape(var2):
             raise ValueError("The shapes of the variables are different.")
-
-        # Set or create figure and axes
-        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first.",
             )
 
+        # Set or create figure and axes
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
+
+        var1, var2 = np.asarray(var1), np.asarray(var2)
+
+        # Transpose first, so the default coordinates follow the drawn shape
+        if kwargs.get("transpose", False) is True:
+            var1, var2 = var1.T, var2.T
+
+        # Keyword x1 and x2
         x = np.asarray(kwargs.get("x1", np.arange(len(var1[:, 0]))))
         y = np.asarray(kwargs.get("x2", np.arange(len(var1[0, :]))))
 
-        # Keyword x1 and x2
-        varx, vary = (
-            np.array(var2.T, dtype=float, copy=True),
-            np.array(var1.T, dtype=float, copy=True),
-        )
-        if kwargs.get("transpose", False) is True:
-            varx, vary = varx.T, vary.T
+        # matplotlib wants the components as var[y, x]: views, not copies
+        varx, vary = var1.T, var2.T
 
-        fieldmod = np.sqrt(varx**2 + vary**2)
+        fieldmod = np.hypot(varx, vary)
         vmax = kwargs.get("vmax", np.nanmax(fieldmod))
         vmin = kwargs.get("vmin", np.nanmin(fieldmod))
 
-        # Apply the masks to set the corresponding elements
-        # in varx and vary to NaN
-        mask = np.logical_or(fieldmod > vmax, fieldmod < vmin)
-        varx[mask] = vary[mask] = np.nan
+        # Hide the field where its magnitude is outside the limits: a mask on
+        # the views, which matplotlib treats as NaN, so no data is copied
+        if kwargs.keys() & {"vmin", "vmax"}:
+            mask = np.logical_or(fieldmod > vmax, fieldmod < vmin)
+            varx = np.ma.masked_array(varx, mask=mask)
+            vary = np.ma.masked_array(vary, mask=mask)
 
         # Set ax parameters
         self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
         self.ImageToolsManager.hide_text(nax, ax.texts)
 
         # Keyword for colorbar and colorscale
-        color = kwargs.get("c")
         cmap = self.ImageToolsManager.find_cmap(kwargs.get("cmap"))
         cpos = kwargs.get("cpos")
         cscale = kwargs.get("cscale", "norm")
         tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
 
-        if "colors" in kwargs and "cmap" in kwargs:
-            warn = "Both colors and cmap are defined. Using c."
+        # The lines take c if given; a colormap or a colorbar colors them by
+        # the magnitude of the field; otherwise the next palette color
+        color: ArrayLike | None = kwargs.get("c")
+        if color is None and ("cmap" in kwargs or cpos is not None):
+            color = fieldmod
+        elif color is None:
+            color = self.state.color[
+                self.state.nline[nax] % len(self.state.color)
+            ]
+            self.state.nline[nax] = self.state.nline[nax] + 1
+
+        # A color and a colormap cannot both apply, so c wins
+        if "c" in kwargs and "cmap" in kwargs:
+            warn = "Both c and cmap are defined. Using c."
             warnings.warn(warn, UserWarning, stacklevel=2)
 
         # Set the lines properties
-        linewidth = kwargs.get("lw", 1)
+        linewidth = kwargs.get("lw", 1.3)
         density = kwargs.get("density", 1)
         arrowstyle = kwargs.get("arrowstyle", "-|>")
         arrowsize = kwargs.get("arrowsize", 1)
@@ -325,12 +374,13 @@ class StreamplotManager(ImageMixin):
         # Set the colorbar scale (put in function)
         norm = self.ImageToolsManager.set_cscale(cscale, vmin, vmax, tresh)
 
-        # Plot the streamplot
+        # Plot the streamplot, counting the patches to find its arrows after
+        npatches = len(ax.patches)
         strm = ax.streamplot(
             x,
             y,
-            vary,
             varx,
+            vary,
             norm=norm,
             cmap=cmap,
             color=color,
@@ -345,13 +395,18 @@ class StreamplotManager(ImageMixin):
             broken_streamlines=broken_streamlines,
         )
 
+        # matplotlib's streamplot takes no opacity, so it is set afterwards;
+        # the arrows are separate patches on the axis, each set on its own
+        alpha = kwargs.get("alpha", 1.0)
+        strm.lines.set_alpha(alpha)
+        for arrow in ax.patches[npatches:]:
+            arrow.set_alpha(alpha)
+
         if cpos is not None:
             self.ColorbarManager.colorbar(strm.lines, _check=False, **kwargs)
 
         # If tight_layout is enabled, is re-inforced
         if self.state.tight:
             self.state.fig.tight_layout()
-
-        del varx, vary
 
         return strm.lines

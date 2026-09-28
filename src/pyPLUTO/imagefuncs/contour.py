@@ -44,10 +44,19 @@ class ContourManager(ImageMixin):
         _check: bool = True,
         **kwargs: Unpack[ContourKwargs],
     ) -> QuadContourSet:
-        """Plot a contour plot of a given variable.
+        """Plot the contour lines of a 2D variable.
 
-        The function uses the matplotlib.pyplot.contour function. The function
-        returns None.
+        The lines are drawn with matplotlib's contour. The variable is indexed
+        as var[x, y], the PLUTO order, and is transposed on the way to
+        matplotlib, which wants var[y, x]. The coordinates x1 and x2 are the
+        points where the values sit, one per cell, so without them the lines
+        are drawn on the cell indices.
+
+        The lines are colored by the colormap, through the same color scales
+        a map uses (cscale, vmin, vmax, tresh). The default colormap differs
+        from the one of display, so lines drawn over a map stand out from it.
+        A single color c replaces the colormap: matplotlib accepts only one of
+        the two, so c wins over cmap, with a warning.
 
         Parameters
         ----------
@@ -67,13 +76,13 @@ class ContourManager(ImageMixin):
             is the space from the bottom border to the plot (default 0.1); for
             an inset zoom it is the bottom position of the inset (default 0.6 +
             height).
-        - c: str, default self.color
-            Determines the color. If not defined, the program will loop over an
-            array of 6 colors which are different for the most common vision
-            deficiencies.
+        - c: str | list[str], default None
+            The color of the lines, or one color per level. If not defined,
+            the lines are colored by the colormap. If given together with
+            cmap, c is used and a warning is raised.
         - clabel: str, default None
             Sets the label of the colorbar.
-        - cmap: str, default 'hot'
+        - cmap: str, default 'viridis'
             Selects the colormap. Some useful colormaps are: plasma, magma,
             seismic. Please avoid colormaps like jet or rainbow, which are not
             perceptively uniform and not suited for people with vision
@@ -118,11 +127,12 @@ class ContourManager(ImageMixin):
             The left limit of the axis / axes set. For the figure layout it is
             the space from the left border to the plot (default 0.125); for an
             inset zoom it is the left position of the inset (default 0.6).
-        - levels: int | np.ndarray, default 10
-            The levels of number of levels or the list of levels for the
-            contours. If an integer is provided, the levels are generated using
-            a linear or logarithmic scale. If an array is provided, the levels
-            are taken from the array.
+        - levels: int | np.ndarray, default None
+            The number of levels or the list of levels for the contours. If
+            not defined, 10 levels are evenly spaced between vmin and vmax. An
+            integer is a hint to matplotlib, which picks round values following
+            the color scale (evenly spaced, or by decades with cscale='log').
+            An array is used as it is.
         - lw: float, default 1.3
             Sets the linewidth.
         - minorticks: str, default None
@@ -144,6 +154,10 @@ class ContourManager(ImageMixin):
         - sharex: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the x-axis between the subplots.
         - sharey: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the y-axis between the subplots.
+        - sharexaxes: bool | str | Matplotlib axis, default False
+            Enables/disables the sharing of the x-axis between the subplots.
+        - shareyaxes: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the y-axis between the subplots.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
@@ -170,9 +184,9 @@ class ContourManager(ImageMixin):
             inset zoom it is the top position of the inset (default bottom +
             height).
         - transpose: True/False, default False
-            Transposes the variable matrix. Use is not recommended if not
-            really necessary (e.g. in case of highly customized variables and
-            plots).
+            Declares the variable as var[y, x] instead of var[x, y]. Use is
+            not recommended if not really necessary (e.g. in case of highly
+            customized variables and plots).
         - tresh: float, default max(abs(vmin),vmax)*0.01
             Sets the threshold for the colormap (used with composite
             colorscales such as twoslope or symlog).
@@ -252,25 +266,32 @@ class ContourManager(ImageMixin):
 
             >>> I.contour(D.rho, levels=10)
 
+        - Example #2: Black contour lines over a map of the same variable
+
+            >>> I.display(D.rho, x1=D.x1, x2=D.x2, cpos="right")
+            >>> I.contour(D.rho, x1=D.x1, x2=D.x2, c="k", levels=[0.5, 1.0])
+
         """
-        var = np.asarray(var)
-
-        # Set or create figure and axes
-        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
-
         if self.state.fig is None:
             raise ValueError(
                 "No figure is present. Please create a figure first.",
             )
 
+        # Set or create figure and axes
+        ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
+
+        var = np.asarray(var)
+
+        # Transpose first, so the default coordinates follow the drawn shape
+        if kwargs.get("transpose", False) is True:
+            var = var.T
+
         # Keyword x1 and x2
         x = np.asarray(kwargs.get("x1", np.arange(len(var[:, 0]))))
         y = np.asarray(kwargs.get("x2", np.arange(len(var[0, :]))))
 
-        # Transpose if needed
-        var = np.asarray(var.T)
-        if kwargs.get("transpose", False) is True:
-            var = var.T
+        # matplotlib wants the variable as var[y, x]
+        var = var.T
 
         # Set ax parameters
         self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
@@ -291,9 +312,11 @@ class ContourManager(ImageMixin):
         tresh = kwargs.get("tresh", max(np.abs(vmin), vmax) * 0.01)
         lw = kwargs.get("lw", 1.3)
 
-        if "colors" in kwargs and "cmap" in kwargs:
-            warn = "Both colors and cmap are defined. Using c."
+        # matplotlib accepts only one of the two, so c wins
+        if "c" in kwargs and "cmap" in kwargs:
+            warn = "Both c and cmap are defined. Using c."
             warnings.warn(warn, UserWarning, stacklevel=2)
+            cmap = None
 
         # Set the colorbar scale (put in function)
         norm = self.ImageToolsManager.set_cscale(cscale, vmin, vmax, tresh)

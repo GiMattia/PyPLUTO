@@ -156,6 +156,7 @@ DOCUMENTED_KWARGS: set[str] = {
     "contour",
     "create_axes",
     "streamplot",
+    "zoom",
 }
 
 # Keywords a docstring documents while nothing in the package declares or

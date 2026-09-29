@@ -1,13 +1,13 @@
 # Tests recap
 
-**2068 tests** · 65 known bugs as expected failures · in-scope coverage
-**83.3%** · target 100%
+**2132 tests** · 64 known bugs as expected failures · in-scope coverage
+**83.7%** · target 100%
 
 | Status | Files |
 |---|---|
-| reviewed | 28 |
+| reviewed | 30 |
 | almost | 0 |
-| to review | 37 |
+| to review | 35 |
 | to write | 5 |
 | out of scope | 5 |
 
@@ -59,7 +59,7 @@ test, or a test would compare the code with itself.
 | `imagefuncs/create_axes.py` | `imagefuncs/test_create_axes.py` | 34 | 100% | reviewed |
 | `imagefuncs/display.py` | `imagefuncs/test_display.py` | 31 | 100% | reviewed |
 | `imagefuncs/figure.py` | `imagefuncs/test_figure.py` | 38 | 100% | reviewed |
-| `imagefuncs/gridplot.py` | `imagefuncs/test_gridplot.py` | 16 | 97% | to review |
+| `imagefuncs/gridplot.py` | `imagefuncs/test_gridplot.py` | 38 | 100% | reviewed |
 | `imagefuncs/imagetools.py` | `imagefuncs/test_imagetools.py` | 46 | 100% | reviewed |
 | `imagefuncs/interactive.py` | `imagefuncs/test_interactive.py` | 8 | 74% | to review |
 | `imagefuncs/legend.py` | `imagefuncs/test_legend.py` | 19 | 100% | reviewed |
@@ -70,7 +70,7 @@ test, or a test would compare the code with itself.
 | `imagefuncs/streamplot.py` | `imagefuncs/test_streamplot.py` | 28 | 100% | reviewed |
 | `imagefuncs/volengine.py` | `imagefuncs/test_volengine.py` | 49 | 59% | to review |
 | `imagefuncs/volume.py` | `imagefuncs/test_volume.py` | 5 | 91% | to review |
-| `imagefuncs/zoom.py` | `imagefuncs/test_zoom.py` | 8 | 87% | to review |
+| `imagefuncs/zoom.py` | `imagefuncs/test_zoom.py` | 49 | 100% | reviewed |
 | `imagekwargs.py` | `test_imagekwargs.py` | 109 | 100% | reviewed |
 | `imagemixin.py` | `test_imagemixin.py` | 107 | 100% | reviewed |
 | `imagestate.py` | `test_imagestate.py` | 49 | 100% | reviewed |
@@ -122,6 +122,10 @@ up to the ones that use them, so every review can lean on the ones before it.
    `legend` → `plot` → `scatter` → `display` → `contour` → `streamplot` →
    `colorbar` → `gridplot` → `zoom` → `interactive` → `volume` →
    `volengine` (last: likely needs the split noted below first).
+   Stopped after `zoom` (2026-09-29), on purpose: `interactive` can become
+   something much bigger and better, so it waits for a redesign rather
+   than a review; `volume` and `volengine` are to be read together first
+   and then decided on -- they are among the first parts planned in Rust.
 2. **`loadfuncs/`** — in the order of the load pipeline, where most open
    bugs are. `initload` → `findformat` → `findfiles` → `descriptor` →
    `readdefplini` → `codeselection` → `loadvars` → `offsetdata` →
@@ -175,6 +179,14 @@ Checks still to add, beyond the per-file work:
 - **pyright at zero.** The project treats pyright as the source of truth,
   and it is at two errors today with nothing to notice. It belongs in CI
   next to the suite, not in a test.
+- **pyright on the tests.** `[tool.pyright]` excludes `Tests/`, and naming
+  a test file on the command line does not override it: `pyright
+  Tests/x.py` reports "0 errors" having checked nothing. Found in the zoom
+  review (2026-09-29), where it hid a real fault -- `zoom(width=...)` is
+  rejected by pyright, and the tests calling it looked clean. Until the
+  tests are in pyright's scope, check a test file from a copy outside the
+  repository, where nothing excludes it. The "checked with pyright" of the
+  test files reviewed before this date means ty only.
 - **Annotations between facade and manager.** `test_signature_matches_the_manager`
   compares names, order, kinds and defaults, deliberately not annotations,
   and pyright does not catch a mismatch either. Worth finding a way to
@@ -472,6 +484,10 @@ from scratch each time.
 | `utils/inspector.py` | The whole kwargs scanner is to be rewritten in Rust as the `kwarden` package (already on PyPI). `Tests/utils/test_inspector.py` is in effect its specification: which forms are recognised, the nested-call protocol, the `_check` handling. A Rust parser also pins its own grammar version instead of inheriting the host interpreter's `ast`, which removes the "node shapes change with the Python release" risk noted in `_get_str_from_slice`. |
 | `__init__.py`, `utils/configure.py` | `Configure` runs at import with switches nobody can set beforehand (see the open bug). Either read them from environment variables (`PYPLUTO_GREET=0`), or make configuration a call the user can make after import that reconfigures the handlers, or both. Decide together with whatever `set_text` becomes. |
 | `baseloadstate.py`, `utils/resolver.py`, `loadfuncs/*` | **`d_vars` should be emptied once the load finishes** (decided 2026-09-18). Today it keeps the arrays for the whole session, next to the copies the resolver materialises onto the state, so every variable of a plain `Load` exists twice in memory and the two diverge: `D.rho[0,0] = -999` leaves `d_vars["rho"]` at `0.138`, `D.rho = D.rho * 2` never reaches it, and `D.myvar = arr` never appears in it, so the GUI does not list it. Everything downstream reads only the *keys* (`load.py:322`, `gui/custom_var_engine.py:94`, `gui/services.py`, `gui/load_controller.py`), while `storepart.py`, `offsetfluid.py`, `readtab.py` and `codes/echo_load.py` write the values during the load. So: keep the names, drop the data once loading is done, and the memory doubling and the divergence both disappear. This also decides the `__setattr__`/`__delattr__` question below. |
+| every manager, `utils/inspector.py` | **Explicit keywords for the internal methods (`extra_kwargs`)** (noted 2026-09-29). Methods that are not image methods -- `place_inset_loc`, `zoomcopy`, `copyartist`, the helpers a manager calls on itself -- take the whole `**kwargs` of the public call, so what they read is invisible to the table of that call: `place_inset_loc` read `width`/`height`, which `ZoomKwargs` never declared, and the undeclared-keyword guard could not see it, since it scans only the public method. An internal method should receive the keywords it uses, named, and not `**kwargs`. |
+| `imagefuncs/gridplot.py`, `load.py` | **`showgrid` by direction (option B), as the default** (decided 2026-09-29). Since the gridplot review `showgrid` takes coordinates only -- 1D drawn straight, a curved grid as its 2D projection (`x1rc`/`x2rc`, `x1rp`/`x2rp`, `x1rt`/`x2rt`) -- and converts nothing. The plan is to make the default a call by direction -- `showgrid(data=D, plane=("x1", "x3"))` -- which picks the right projection from `Load` for every geometry, plane and code, with the coordinates kept as the backup for anything else. A thin layer: it chooses the arrays and passes them in, so every combination the projections cover works through the path that is tested today. It waits for the cylindrical item below. |
+| `load.py`, `loadfuncs/readgridfile.py:220`, `imagefuncs/gridplot.py` | **gPLUTO's `CYLINDRICAL` is (r, phi, z)** (noted 2026-09-29). gPLUTO has no `POLAR`: its `CYLINDRICAL` is what classic PLUTO calls `POLAR`, while classic PLUTO's `CYLINDRICAL` is the axisymmetric (R, z). `readgridfile.py:220` projects `CYLINDRICAL` as polar, which is right for gPLUTO and wrong for PLUTO; the meaning should follow `state.code`, keeping classic PLUTO outputs readable. Every plane of both geometries should get its projection -- (r, phi), (r, z), (phi, z) for cylindrical, the same for spherical -- and option B above builds on them. |
+| `imagefuncs/set_axis.py`, every drawing manager | **Fewer tight layouts, and a faster `set_axis`** (noted 2026-09-29, for pyPLUTO 2). Profiling `showgrid` showed the layout is most of the cost of a plot: `set_axis` makes one at its end, and most managers make another after it, often redundant -- the grid dropped its own and loses nothing (same axis box). `set_axis` itself is the largest fixed overhead of every call. Worth an audit of every `tight_layout()` call, and a lighter `set_axis`; pyPLUTO 2, with parts in Rust, is to aim for speed throughout. |
 | `load.py` (`__setattr__`) | An unknown name is created silently, so a typo'd assignment fails nowhere. Cannot simply be forbidden: users deliberately attach composite variables (`data.my_composite = rho * T`) and pass the load into their own functions. Needs a design that blesses that case explicitly while still catching typos — to be discussed. |
 
 ## Open bugs
@@ -492,6 +508,7 @@ from scratch each time.
 | `imagefuncs/set_axis.py:307` | **`alpha` fades nothing.** It calls `ax.set_alpha()`, which stores the value on the Axes artist; the background patch and the lines keep their own alpha, so the figure is unchanged. Whatever the keyword is meant to fade has to be told. |
 | `imagefuncs/set_axis.py:401` | **Tick labels are applied after the call warns against them.** Given labels for automatic ticks, `set_ticks` warns that they should be fixed only when the ticks are, then sets the formatter anyway, so matplotlib warns in turn ("FixedFormatter should only be used together with FixedLocator") and the labels stay pinned to ticks that move with the data. Either the warning is right and they are dropped, or they are accepted and the warning goes. |
 | `imagekwargs.py:139` | `xtickslabels`/`ytickslabels` accept a single string -- `set_ticks` has a branch for it, and it labels the first tick -- while `SetAxisKwargs` declares `list[str] \| bool \| None`, so the call works and every checker refuses it. Same family as the `grid="both"` and `sharexaxes` index gaps. |
+| `Tests/test_imagekwargs.py:141` | **The conflicting-types guard cannot see the same type declared by two tables.** On Python 3.14 the annotations are `ForwardRef` objects, and two of them are equal only when they come from the same class: `float` declared in `SetLocKwargs` and in `CreateAxesKwargs` is reported as "two types". It holds today because no key is declared twice with the same type; comparing `__forward_arg__`, or the resolved hints of each table, would make it reliable. Found when `ZoomKwargs` briefly inherited `SetLocKwargs`. |
 | `imagefuncs/set_axis.py:379` | **Removing the ticks of a log scale keeps its minor ones.** `set_ticks` with `None` empties the major ticks only, and a log scale draws its own minor ticks at every multiple of each decade, so `plot(..., yscale="log", yticks=None)` still shows 40 ticks. Since the colorbar review, `cticks=None` goes through the same code and a log colorbar keeps them too. |
 | `imagefuncs/set_axis.py:434` | **Fixed ticks on a log scale lose their labels.** `yticks=[0.5, 1]` places both, but the log formatter labels powers of ten only, so 0.5 is drawn with an empty label -- on an axis and, through `cticks`, on a log colorbar. |
 | `imagefuncs/imagetools.py:383` | **"The last considered axis" is not tracked.** Every drawing method and `colorbar` promise that without `ax` the last considered axis is used, while `assign_ax(None)` takes matplotlib's current axis -- the last one *created* -- when it is an image axis, and the last image axis otherwise. So `display(ax=1)`, `display(ax=0)`, `colorbar()` puts the bar beside the second panel, describing its map. It needs a state field every manager updates. |
@@ -541,6 +558,7 @@ afternoon, and none is urgent.
 | Where | What, and why |
 |---|---|
 | `imagefuncs/display.py:355` | `map_extent` -- the edges of a map from its cell centers -- probably belongs in `RangeManager`, which is where limits live. It has one caller today, so it sits in `DisplayManager`, and the move should happen when a second caller appears and the signature is settled by use. Neither `contour` nor `streamplot` turned out to be one: both draw on the points themselves, and the axis already ends on the outermost of them. |
+| `imagefuncs/zoom.py:462` | The arrows of streamlines are not copied into an inset. matplotlib draws them as separate `FancyArrowPatch`es, whose geometry has no public getter, so `copyartist` leaves them out, as it does texts and legends: a zoom of streamlines shows the lines without their heads. Copying them means rebuilding each arrow from its path, or asking matplotlib for a public accessor. |
 | `imagefuncs/set_axis.py:335`, `imagefuncs/colorbar.py:273` | `set_ticks` lives in `AxisManager` but no longer belongs to it alone: since the colorbar review, `ColorbarManager` calls it on the colorbar axis for `cticks`/`ctickslabels`, and builds an `AxisManager` only to reach it. It probably belongs in a shared place -- `imagetools.py`, or a small module of its own -- which both managers call. To be decided later (noted 2026-09-28). |
 | `imagefuncs/streamplot.py:379` | A stretched or non-Cartesian grid cannot be drawn: matplotlib's streamplot wants evenly spaced `x1`/`x2`, and raises `'x' values must be equally spaced` otherwise. The docstring points to `Data.reshape_cartesian`, which the torus example already calls first. Regridding on the fly -- onto a uniform grid of the same extent and resolution -- would make it work on any PLUTO output, at the cost of one interpolation per call. |
 | `imagefuncs/plot.py:347` | A legend built by hand is thrown away by the next line. `legpos` is kept on the axis, so `I.legend(label=["custom"])` followed by any `I.plot` on that axis is rebuilt from the drawn lines and the custom entries are gone. The stickiness is what makes a legend follow the curves as they are added, so this is a choice to make, not a slip: either a hand-built legend clears `legpos`, or it is kept as a second artist. |
@@ -577,6 +595,14 @@ afternoon, and none is urgent.
 | Where | What |
 |---|---|
 | `toolfuncs/findlines.py:221` | **Field lines were drawn outside the domain.** The event that stops the integration was a flag -- 1 inside, 0 outside -- while `solve_ivp` finds an event by looking for a *zero* of the function, so the crossing was only noticed once a step had already landed beyond the wall and the line was drawn to wherever that step ended: ±1.00091 for a domain of ±1.0 in the KH example. It is a signed distance to the nearest border now, with `direction = -1`, so the line ends exactly on it, and the 1% margin that used to put the last point outside (`0.51` of a cell) is gone. Guarded by the new `Tests/toolfuncs/test_findlines.py`, the only test of a file that is otherwise out of scope. |
+| `imagefuncs/zoom.py:359` | **A zoom copied only a map or plain curves, and lost what was drawn over the map.** The inset was rebuilt by re-running `display` from the first collection -- reshaping its array, reading `vlims`, guessing the scale from `str(norm)` -- or `plot` per line, so a scatter, contour lines, streamlines or a grid raised `The zoom can be applied only to a QuadMesh object`, and field lines or contours over a map were silently dropped. Every line and collection is now copied in drawing order (`zoomcopy`, `copyartist`): the geometry rebuilt per kind, the style taken over by `update_from`, and only the parent's data transform and clipping pointed at the inset -- a scatter keeps its markers in points. A copied mesh keeps the antialiasing and rasterizing of the original, which a bare `QuadMesh` does not, and the inset hides its axis index. The map keywords without `var` restyle the copy; `var` replaces the map on its grid (`zoomdisplay`), a gouraud map's border included, with the overlays copied on top. Every example figure still matches its reference. |
+| `imagefuncs/zoom.py:679` | **The inset ended where it was not asked to.** With `top` and `height` both given, `height` won and `top` was ignored, while the warning said "Using top and height" and the docstring gave `top` priority; a `top` given alone kept the default bottom, so `top=0.5` made a negative height that matplotlib refused; `bottom=0.0` counted as not given. The end now wins in every case -- alone it moves the start, with a start it sets the size, with a size the start is taken back from the two -- and presence is tested with `is not None`. The same for `right`/`width`. |
+| `imagefuncs/zoom.py:316` | **A zoom switched off the tight layout of the whole figure, for good.** It is needed only for an inset with its own colorbar, whose axis `tight_layout` cannot handle; now it happens only then, and every other zoom keeps the layout of the figure. |
+| `imagekwargs.py:280`, `imagefuncs/zoom.py:583` | **`width` and `height` were documented and undeclared, `label` declared nowhere.** `ZoomKwargs` lacked the two keywords `place_inset_loc` reads, so pyright rejected `zoom(width=0.4)`; `label` was documented and warned as unused. `x1`/`x2` given alone with `var` failed on the other being completed from the map's grid; they go together now, with a clear error otherwise. `zoom` is in `DOCUMENTED_KWARGS`. |
+| `imagefuncs/gridplot.py:313` | **The grid froze the axis, and cut off what was drawn before it.** It faked `kwargs["xrange"]`, which `plot` recorded as fixed by the user (`setax = 1`): a line drawn after the grid was cut off at its extent, and so was one drawn before, since the grid shrank the frame to itself. The frame goes through `RangeManager` case 4 now, like `scatter` and `display`: the grid's extent exactly, and free to grow; a given `xrange`/`yrange` still fixes it. |
+| `imagefuncs/gridplot.py:99` | **Thinning shortened the other family and dropped the border.** `x1[::everyx]` thinned the points before the lines were built, so with `everyy=2` the lines at constant x1 stopped short of the top of the domain, and the last face, the border, was dropped whenever the count did not fall on it. Thinning picks whole lines now (`_every`), keeps the first and the last, and every line crosses the domain. |
+| `imagefuncs/gridplot.py:327` | **A label made one legend entry per line, and a large grid was slow.** Each family went through `plot`, one `Line2D` per line, all carrying the label; building 2050 artists and four tight layouts made a 1025 x 1025 grid take 620 ms (call and draw). Each family is one `LineCollection` now, with the label on the first -- one entry -- and a straight line is drawn from its two ends, which covers every line of a 1D grid and the rays of a curved mesh (`_straighten`; a closed circle, with no chord, is kept whole). 1025 x 1025 takes 96 ms, `Disk_Planet` 77 ms instead of 348, its polar mesh 131 instead of 354. `showgrid` returns the two collections. |
+| `imagefuncs/gridplot.py:291` | **`geom` converted the grid, and not always rightly.** `_to_cartesian` turned `x1`/`x2` into circles and rays for `POLAR`, `CYLINDRICAL` and `SPHERICAL`, took the geometry from `data.geom`, and so could not draw the raw (r, theta) grid of a loaded run; it also drew `CYLINDRICAL` as polar, which is wrong for classic PLUTO (see *Deferred structural improvements*). Both are gone: coordinates are drawn as given, a curved grid is passed as its 2D projection, and its lines then sit exactly on the cells of a map drawn on the same mesh. `geom` now warns as unknown. |
 | `imagefuncs/colorbar.py:220` | **`colorbar()` only worked on a map drawn first.** Without `pcm` it took the first collection of the axis and raised `First collection is not a QuadMesh` for anything else: after `contour`, after `streamplot(cmap=...)`, even after lines with a map drawn over them; an empty axis gave a bare `IndexError`. It now takes the last collection colored by data -- `get_array()` set -- skipping contour lines drawn in one color, which keep their levels and would otherwise take the bar from the map under them; with nothing to describe, a `ValueError` says so. |
 | `imagefuncs/colorbar.py:321` | **A second `colorbar()` crashed.** `_find_ax` took `fig.gca()`, which after the first colorbar is that colorbar's axis, and looked it up among the image axes: `list.index(x): x not in list`. It passes `None` to `assign_ax`, which falls back to the last image axis. The two figure checks inside `_find_ax` could never fail and are gone. |
 | `imagefuncs/colorbar.py:236` | **Contour lines got a colorbar of blocks.** matplotlib builds a contour colorbar with one block per level band, 7 colors for 6 levels; it is now built from a `ScalarMappable` with the same norm and colormap, 256 steps like every other colorbar, on the same limits. |

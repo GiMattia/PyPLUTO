@@ -266,15 +266,6 @@ class VolumeKwargs(Base2DplotKwargs, total=False):
     roll: float
 
 
-class ZoomKwargs(DisplayKwargs, total=False):
-    """Keyword arguments for base zoom functionality."""
-
-    pos: list[float]
-    var: ArrayLike
-    zoomcolor: str
-    zoomlines: bool
-
-
 class SetLocKwargs(TypedDict, total=False):
     """Keyword arguments for setting location."""
 
@@ -284,3 +275,14 @@ class SetLocKwargs(TypedDict, total=False):
     top: float
     width: float
     height: float
+
+
+class ZoomKwargs(DisplayKwargs, total=False):
+    """Keyword arguments for base zoom functionality."""
+
+    height: float
+    pos: list[float]
+    var: ArrayLike
+    width: float
+    zoomcolor: str
+    zoomlines: bool

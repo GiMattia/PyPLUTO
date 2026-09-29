@@ -193,3 +193,24 @@ We recommend to put one the following expressions in your manuscript:
 If you have any questions, suggestions or find a bug, feel free to open an issue or fork the repository and create a pull request.
 Any contribution aimed at helping the PLUTO code community to have better plots with less efforts will be greatly appreciated.
 If you want to contribute to PyPLUTO please follow the instruction present in the CONTRIBUTING.md file.
+
+## License
+
+PyPLUTO is released under the BSD 3-Clause License (see `LICENSE`).
+
+Some of its dependencies are distributed under other licenses, and are
+installed separately from PyPLUTO by pip or conda under their own terms:
+
+- `inifix`, used to read `pluto.ini`, is licensed under GPL-3.0.
+- The optional colormap packages installed with `pyPLUTO[cmaps]`,
+  `cblind` and `pastamarkers`, are licensed under GPL-3.0.
+- The optional GUI dependency `PySide6` is licensed under LGPL-3.0.
+
+Installing and using PyPLUTO is not affected by this. If you redistribute
+PyPLUTO *bundled together with* these packages -- for example in a
+standalone executable, a Docker image or a packed environment -- that
+bundle must comply with the licenses of the packages it contains.
+
+The default line colors come from Paul Tol's "Colour Schemes"
+(SRON/EPS/TN/09-002, https://personal.sron.nl/~pault/data/colourschemes.pdf),
+designed to be distinguishable under common color vision deficiencies.

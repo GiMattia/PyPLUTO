@@ -6,92 +6,206 @@ from typing import Unpack
 
 import numpy as np
 from matplotlib.axes import Axes
+from matplotlib.collections import LineCollection
+from numpy.typing import ArrayLike
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
-from pyPLUTO.imagefuncs.plot import PlotManager
+from pyPLUTO.imagefuncs.legend import LegendManager
+from pyPLUTO.imagefuncs.range import RangeManager
+from pyPLUTO.imagefuncs.set_axis import AxisManager
 from pyPLUTO.imagekwargs import ShowGridKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.load import Load
 from pyPLUTO.utils.inspector import track_kwargs
 
-SUPPORTED_GEOMETRIES = ("CARTESIAN", "POLAR", "CYLINDRICAL", "SPHERICAL")
 
+def _every(nlines: int, every: int) -> list[int]:
+    """Return the lines kept when only one every `every` is drawn.
 
-def _to_cartesian(
-    coord1: np.ndarray,
-    coord2: np.ndarray,
-    geom: str,
-) -> tuple[np.ndarray, np.ndarray]:
-    """Convert a pair of grid coordinates to Cartesian plot coordinates.
-
-    For 'POLAR'/'CYLINDRICAL' geometries `coord1`/`coord2` are the radius
-    and azimuthal angle (`x1`, `x2`) of the x-y plane. For 'SPHERICAL'
-    they are the radius and polar angle of the meridional (R, z) plane,
-    matching the `x1c`/`x2c` and `x1p`/`x2p` conventions used elsewhere in
-    pyPLUTO (see `readgridfile.py`).
+    The first and the last line are always kept, since they are the borders
+    of the domain: slicing alone would drop the last whenever the count does
+    not fall on it.
 
     Parameters
     ----------
-    - coord1 (not optional): array
-        The first grid coordinate (`x1`).
-    - coord2 (not optional): array
-        The second grid coordinate (`x2`).
-    - geom (not optional): str
-        The geometry, one of `SUPPORTED_GEOMETRIES`.
+    - nlines (not optional): int
+        The number of lines in that direction.
+    - every (not optional): int
+        Draw one line every this many.
 
     Returns
     -------
-    - tuple[array, array]
+    - list[int]
+
+    Examples
+    --------
+    - Example #1: six lines, one every two
+
+        >>> _every(6, 2)
+        [0, 2, 4, 5]
 
     """
-    if geom == "CARTESIAN":
-        return coord1, coord2
-    if geom in ("POLAR", "CYLINDRICAL"):
-        return coord1 * np.cos(coord2), coord1 * np.sin(coord2)
-    if geom == "SPHERICAL":
-        return coord1 * np.sin(coord2), coord1 * np.cos(coord2)
-    text = (
-        f"Unsupported geometry {geom!r}, expected one of {SUPPORTED_GEOMETRIES}"
+    index = list(range(0, nlines, every))
+    if index[-1] != nlines - 1:
+        index.append(nlines - 1)
+    return index
+
+
+def _straighten(lines: np.ndarray) -> list[np.ndarray]:
+    """Return the lines of a mesh, each straight one reduced to its ends.
+
+    A line of a mesh holds one point per grid face, but a straight one is
+    drawn the same from its two ends alone, and the points in between are
+    only work for the renderer: the rays of a polar mesh, or every line of
+    a mesh that is not curved at all. A line is straight when every point
+    lies on the chord between its ends, to a tolerance relative to the
+    length of the chord. A closed line, a full circle, has its two ends in
+    the same place and no chord, so it is never taken for straight.
+
+    Parameters
+    ----------
+    - lines (not optional): np.ndarray
+        The lines, as an array of shape (number of lines, points, 2).
+
+    Returns
+    -------
+    - list[np.ndarray]
+
+    Examples
+    --------
+    - Example #1: a straight line keeps its ends, a bent one every point
+
+        >>> lines = np.array([[[0, 0],[1, 1],[2, 2]],[[0, 0],[1, 2],[2, 0]]])
+        >>> [len(line) for line in _straighten(lines.astype(float))]
+        [2, 3]
+
+    """
+    start = lines[:, :1]
+    chord = lines[:, -1:] - start
+    offset = lines - start
+    cross = chord[..., 0] * offset[..., 1] - chord[..., 1] * offset[..., 0]
+    length = np.hypot(chord[..., 0], chord[..., 1])
+    straight = (length[:, 0] > 0) & np.all(
+        np.abs(cross) <= 1e-9 * length**2,
+        axis=1,
     )
+    return [
+        line[[0, -1]] if flat else line
+        for line, flat in zip(lines, straight, strict=True)
+    ]
+
+
+def _lines(
+    x1: np.ndarray,
+    x2: np.ndarray,
+    everyx: int,
+    everyy: int,
+) -> tuple[list[np.ndarray], list[np.ndarray]]:
+    """Return the two families of grid lines, as arrays of points.
+
+    The first family holds the lines at constant x1, the second those at
+    constant x2. Two 1D arrays are the coordinates of a straight grid, so
+    every line is built from its two ends and no mesh is ever made. Two 2D
+    arrays are a mesh in matplotlib order, [j, i] with i along x1 and j
+    along x2, which is how display takes them and how pyPLUTO builds its
+    projections (x1rc, x1rp, ...): its columns and rows are the lines, and
+    the straight ones among them are reduced to their ends. Thinning picks
+    whole lines before any of this, so every line still crosses the domain.
+
+    Parameters
+    ----------
+    - x1 (not optional): np.ndarray
+        The first coordinate: 1D, or the 2D mesh of the x-coordinates.
+    - x2 (not optional): np.ndarray
+        The second coordinate, with the same number of dimensions as x1.
+    - everyx (not optional): int
+        Keep one line every this many at constant x1.
+    - everyy (not optional): int
+        Keep one line every this many at constant x2.
+
+    Returns
+    -------
+    - tuple[list[np.ndarray], list[np.ndarray]]
+
+    Examples
+    --------
+    - Example #1: the ends of the lines of a straight 3 x 2 grid
+
+        >>> first, second = _lines(np.arange(3.0), np.arange(2.0), 1, 1)
+        >>> len(first), len(second), first[0].tolist()
+        (3, 2, [[0.0, 0.0], [0.0, 1.0]])
+
+    """
+    twodim = 2
+    if x1.ndim == 1 and x2.ndim == 1:
+        xs = x1[_every(x1.size, everyx)]
+        ys = x2[_every(x2.size, everyy)]
+        first = np.empty((xs.size, 2, 2))
+        first[:, :, 0] = xs[:, None]
+        first[:, :, 1] = x2[[0, -1]]
+        second = np.empty((ys.size, 2, 2))
+        second[:, :, 0] = x1[[0, -1]]
+        second[:, :, 1] = ys[:, None]
+        return list(first), list(second)
+    if x1.ndim == twodim and x1.shape == x2.shape:
+        cols = _every(x1.shape[1], everyx)
+        rows = _every(x1.shape[0], everyy)
+        first = np.stack((x1[:, cols].T, x2[:, cols].T), axis=-1)
+        second = np.stack((x1[rows, :], x2[rows, :]), axis=-1)
+        return _straighten(first), _straighten(second)
+    text = "x1 and x2 must be both 1D, or 2D meshes of the same shape."
     raise ValueError(text)
 
 
 class GridPlotManager(ImageMixin):
     """GridPlotManager class.
 
-    It provides the `showgrid` method, which draws the cell
-    interfaces of a simulation grid (or of any pair of 1D coordinate
-    arrays) as a mesh of straight lines. It relies on ImageToolsManager
-    to set up the target axis and on PlotManager to draw each grid
-    line.
+    It provides the `showgrid` method, which draws the cell interfaces of
+    a grid -- given as coordinates, as a 2D mesh, or read from a loaded
+    dataset -- as two collections of lines, one per family. It relies on
+    ImageToolsManager to set up the target axis, on RangeManager for the
+    frame, on AxisManager for the axis keywords and on LegendManager for
+    the legend.
     """
 
     def __init__(self, state: ImageState) -> None:
         """Initialize the GridPlotManager with the given state."""
         self.state = state
+        self.AxisManager = AxisManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
-        self.PlotManager = PlotManager(state)
+        self.LegendManager = LegendManager(state)
+        self.RangeManager = RangeManager(state)
 
     @track_kwargs
     def showgrid(
         self,
-        x1: np.ndarray | None = None,
-        x2: np.ndarray | None = None,
+        x1: ArrayLike | None = None,
+        x2: ArrayLike | None = None,
         data: Load | None = None,
-        geom: str | None = None,
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[ShowGridKwargs],
-    ) -> None:
+    ) -> tuple[LineCollection, LineCollection]:
         """Draw the grid lines of a mesh on the plot.
 
-        This function draws the cell interfaces of a 2D grid as a set
-        of straight lines, one per coordinate in `x1` and one per
-        coordinate in `x2`. It creates a simple figure and a single
-        axis if none are given prior. The coordinate arrays can either
-        be passed directly or read from a `Load` object through
-        `data`.
+        The lines are the columns (constant x1) and the rows (constant x2)
+        of a mesh, and nothing is converted: what is given is what is
+        drawn. Two 1D arrays are the coordinates of a straight grid, so the
+        faces of a spherical run given as they are draw a straight (r,
+        theta) grid. A curved grid is given as its 2D projection, in the
+        order display takes it -- D.x1rc/D.x2rc for a polar or cylindrical
+        mesh, D.x1rp/D.x2rp or D.x1rt/D.x2rt for the two planes of a
+        spherical one -- so the lines fall exactly on the edges of the
+        cells of a map drawn on the same mesh.
+
+        Each family is one collection of lines, a single artist however
+        many lines it holds, and a straight line is drawn from its two ends
+        only: a grid of a million cells is drawn in a fraction of a second.
+        The frame is the extent of the grid, with no padding, and the axis
+        is left free for what is drawn next. Thinning with everyx/everyy
+        drops whole lines, never points, so every line still crosses the
+        domain, and the first and last lines, its borders, are always kept.
 
         Parameters
         ----------
@@ -101,49 +215,48 @@ class GridPlotManager(ImageMixin):
         - c: str, default 'k'
             Sets the color of the grid lines.
         - data: Load, default None
-            A loaded dataset from which the grid face coordinates (`x1r`,
-            `x2r`) and the geometry (`geom`) are taken whenever `x1`, `x2`
-            or `geom` are not explicitly provided.
+            A loaded dataset whose faces (x1r, x2r) are drawn for whichever
+            of x1 and x2 is not given. They are drawn as they are, straight:
+            for a curved grid, pass its projection as x1 and x2.
         - everyx: int, default 1
-            Plots only one every `everyx` lines along the x1-direction.
+            Plots only one every `everyx` lines along the x1-direction. The
+            first and the last line are always drawn.
         - everyy: int, default 1
-            Plots only one every `everyy` lines along the x2-direction.
-        - geom: str, default None
-            The geometry of the grid. If None, it is taken from `data.geom`
-            when `data` is given, otherwise it defaults to 'CARTESIAN'.
-            Supported values are 'CARTESIAN', 'POLAR', 'CYLINDRICAL' and
-            'SPHERICAL'. For 'POLAR'/'CYLINDRICAL', `x1`/`x2` are
-            interpreted as the radius and azimuthal angle of the x-y
-            plane. For 'SPHERICAL', they are the radius and polar angle
-            of the meridional (R, z) plane. In both cases the
-            constant-`x1` lines become arcs/circles and the constant-`x2`
-            lines become straight rays through the origin, so an
-            `aspect='equal'` axis is recommended to keep circles looking
-            circular.
+            Plots only one every `everyy` lines along the x2-direction. The
+            first and the last line are always drawn.
+        - label: str, default None
+            The legend entry of the grid: one entry for the whole grid, not
+            one per line.
+        - ls: str, default '-'
+            Sets the linestyle of the grid lines.
         - lw: float, default 0.75
             Sets the linewidth of the grid lines.
-        - x1 (not optional unless data is given): 1D array
-            The grid coordinates along the first direction (e.g. the cell
-            interfaces).
-        - x2 (not optional unless data is given): 1D array
-            The grid coordinates along the second direction (e.g. the cell
-            interfaces).
+        - x1 (not optional unless data is given): 1D or 2D array
+            The coordinates of the faces along the first direction, or the
+            2D mesh of the x-coordinates of the grid points, as [j, i] with
+            i along the first direction.
+        - x2 (not optional unless data is given): 1D or 2D array
+            The coordinates of the faces along the second direction, or the
+            2D mesh of the y-coordinates of the grid points, with the same
+            shape as x1.
         - xrange: [float, float], default 'Default'
-            Sets the range in the x-direction. If not defined, the range is
-            computed automatically from the plotted (Cartesian) grid
-            coordinates.
+            Sets the range in the x-direction, which then stays fixed. If
+            not defined, the frame is the extent of the grid and the axis is
+            left free.
         - yrange: [float, float], default 'Default'
-            Sets the range in the y-direction. If not defined, the range is
-            computed automatically from the plotted (Cartesian) grid
-            coordinates.
+            Sets the range in the y-direction, which then stays fixed. If
+            not defined, the frame is the extent of the grid and the axis is
+            left free.
 
-        Any other keyword accepted by `PlotManager.plot` and
-        `ImageToolsManager.assign_ax` (e.g. figure/axis layout options)
-        is also forwarded to those methods.
+        Any other keyword accepted by `AxisManager.set_axis`,
+        `LegendManager.legend` and `ImageToolsManager.assign_ax` (e.g.
+        titles, legend position, figure/axis layout options) is also
+        forwarded to those methods.
 
         Returns
         -------
-        - None
+        - tuple[LineCollection, LineCollection]
+            The lines at constant x1, then the lines at constant x2.
 
         Examples
         --------
@@ -161,80 +274,74 @@ class GridPlotManager(ImageMixin):
             >>> I = pp.Image()
             >>> I.showgrid(x1=x1, x2=x2, everyx=2, everyy=2)
 
-        - Example #3: show a polar grid (x1 = radius, x2 = angle) with a
-            circular aspect ratio
+        - Example #3: the curved grid of a polar run over a map of it, with
+            a circular aspect ratio
 
             >>> import pyPLUTO as pp
+            >>> D = pp.Load()
             >>> I = pp.Image()
-            >>> I.showgrid(x1=r, x2=phi, geom="POLAR", aspect="equal")
+            >>> I.display(D.rho, x1=D.x1rc, x2=D.x2rc, aspect="equal")
+            >>> I.showgrid(x1=D.x1rc, x2=D.x2rc, everyx=4, everyy=4)
 
         """
         # Set or create figure and axes
         ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
-        # Fall back to the coordinates/geometry of the loaded dataset for
-        # whichever of x1, x2, geom was not explicitly provided
+        # The faces of a loaded dataset, for whichever of x1, x2 is missing
         if data is not None:
             x1 = data.x1r if x1 is None else x1
             x2 = data.x2r if x2 is None else x2
-            geom = data.geom if geom is None else geom
-        geom = "CARTESIAN" if geom is None else geom
 
         if x1 is None or x2 is None:
             raise ValueError("x1 and x2 cannot be None")
 
-        if geom not in SUPPORTED_GEOMETRIES:
-            text = (
-                f"Unsupported geometry {geom!r}, "
-                f"expected one of {SUPPORTED_GEOMETRIES}"
-            )
-            raise ValueError(text)
+        # The lines at constant x1 and at constant x2, as arrays of points
+        first, second = _lines(
+            np.asarray(x1, dtype=float),
+            np.asarray(x2, dtype=float),
+            kwargs.get("everyx", 1),
+            kwargs.get("everyy", 1),
+        )
 
-        if "c" not in kwargs:
-            kwargs["c"] = "k"
+        # The frame is the extent of the grid, exactly, and the axis is left
+        # free for what is drawn next; an xrange or yrange given is applied
+        # after, by set_axis, and fixes it
+        points = np.concatenate([*first, *second])
+        strict = self.RangeManager.strictrange
+        xlim = [float(points[:, 0].min()), float(points[:, 0].max())]
+        ylim = [float(points[:, 1].min()), float(points[:, 1].max())]
+        self.RangeManager.set_xrange(ax, nax, xlim, strict)
+        self.RangeManager.set_yrange(ax, nax, ylim, strict)
 
-        if "lw" not in kwargs:
-            kwargs["lw"] = 0.75
+        # Set ax parameters
+        self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)
+        self.ImageToolsManager.hide_text(nax, ax.texts)
 
-        # Subsample the grid lines: keep only one every everyx/everyy lines
-        everyx = kwargs.pop("everyx", 1)
-        everyy = kwargs.pop("everyy", 1)
+        # One collection per family, a single artist however many lines it
+        # holds; the label goes to the first, so the grid is one entry
+        label = kwargs.get("label")
+        color = kwargs.get("c", "k")
+        width = kwargs.get("lw", 0.75)
+        style = kwargs.get("ls", "-")
+        grid = (
+            LineCollection(
+                first,
+                colors=color,
+                linewidths=width,
+                linestyles=style,
+                label=label if isinstance(label, str) else "",
+            ),
+            LineCollection(
+                second, colors=color, linewidths=width, linestyles=style
+            ),
+        )
+        for lines in grid:
+            ax.add_collection(lines)
 
-        xs = x1[::everyx]
-        ys = x2[::everyy]
+        # The legend, built as a curve builds it: from the labelled artists
+        self.state.legpos[nax] = kwargs.get("legpos", self.state.legpos[nax])
+        if self.state.legpos[nax] is not None:
+            kwargs["label"] = None
+            self.LegendManager.legend(ax, _check=False, fromplot=True, **kwargs)
 
-        # Build the (x1, x2) meshes for the two line families (vertical:
-        # constant x1, varying x2; horizontal: constant x2, varying x1),
-        # then convert them to Cartesian plot coordinates according to the
-        # geometry. For CARTESIAN this is a no-op; for POLAR/CYLINDRICAL/
-        # SPHERICAL the constant-x1 lines become arcs and the constant-x2
-        # lines become straight rays.
-        vert_c1 = np.broadcast_to(xs, (len(ys), len(xs)))
-        vert_c2 = np.broadcast_to(np.asarray(ys)[:, None], (len(ys), len(xs)))
-        horiz_c1 = np.broadcast_to(np.asarray(xs)[:, None], (len(xs), len(ys)))
-        horiz_c2 = np.broadcast_to(ys, (len(xs), len(ys)))
-
-        vert_x, vert_y = _to_cartesian(vert_c1, vert_c2, geom)
-        horiz_x, horiz_y = _to_cartesian(horiz_c1, horiz_c2, geom)
-
-        # Keywords xrange and yrange, computed from the Cartesian extent of
-        # the grid actually being plotted
-        if not kwargs.get("xrange") and self.setax[nax] != 1:
-            kwargs["xrange"] = [
-                min(vert_x.min(), horiz_x.min()),
-                max(vert_x.max(), horiz_x.max()),
-            ]
-        if not kwargs.get("yrange") and self.setay[nax] != 1:
-            kwargs["yrange"] = [
-                min(vert_y.min(), horiz_y.min()),
-                max(vert_y.max(), horiz_y.max()),
-            ]
-
-        # Fast path: draw all the vertical lines with a single plot() call
-        # and all the horizontal lines with another, instead of one call
-        # per line. matplotlib natively draws one line per column when x/y
-        # are 2D arrays sharing a single style, so PlotManager.plot only
-        # has to run its (relatively expensive) axis/range/tight_layout
-        # setup twice in total rather than once per grid line.
-        self.PlotManager.plot(vert_x, vert_y, ax, _check=False, **kwargs)
-        self.PlotManager.plot(horiz_x, horiz_y, ax, _check=False, **kwargs)
+        return grid

@@ -491,17 +491,16 @@ class Image(ImageMixin):
 
     def showgrid(
         self,
-        x1: np.ndarray | None = None,
-        x2: np.ndarray | None = None,
+        x1: ArrayLike | None = None,
+        x2: ArrayLike | None = None,
         data: Load | None = None,
-        geom: str | None = None,
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[ShowGridKwargs],
-    ) -> None:
+    ) -> tuple[LineCollection, LineCollection]:
         """Showgrid method."""
         return self.GridPlotManager.showgrid(
-            x1=x1, x2=x2, data=data, geom=geom, ax=ax, _check=_check, **kwargs
+            x1=x1, x2=x2, data=data, ax=ax, _check=_check, **kwargs
         )
 
     showgrid.__doc__ = GridPlotManager.showgrid.__doc__

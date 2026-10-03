@@ -5,6 +5,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.2.6] — 2026-10-03
+
+### Fixed
+- Loading: the first access to a variable copied the whole variable into memory, so slicing a large output read the entire file (a slice of a 1024³ variable took 16 s and 13 GiB instead of 0.09 s and 0.15 GiB). Present since 1.2.0. Variables are now handed back as memory-mapped views, so a slice reads only the part of the file it covers. The files are mapped copy-on-write, so a variable can still be modified in memory without touching the file.
+
+
 ## [1.2.5] — 2026-09-23
 
 ### Fixed

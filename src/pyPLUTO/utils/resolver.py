@@ -13,9 +13,8 @@ class AttrResolver:
     """Materialise lazy mmap-backed attributes on first access.
 
     All three Load classes (Load, Image, LoadPart) call AttrResolver.resolve().
-    Only LoadPart carries mmap-backed data, so only it will hit the
-    materialisation branches; the others fall straight through to
-    ``return val``.
+    Only a chunked particle output is joined into a new array; a mapped
+    variable is handed back as it is, so a slice reads only its own pages.
     """
 
     @staticmethod
@@ -39,8 +38,6 @@ class AttrResolver:
             )
             if is_chunk_list:
                 return AttrResolver._chunk_dict(state, name, val)
-        if isinstance(val, np.ndarray) and val.base is not None:
-            return AttrResolver._mmap_array(state, name, val)
         return val
 
     @staticmethod
@@ -90,32 +87,6 @@ class AttrResolver:
         - dict
         """
         result = {k: AttrResolver._copy_chunks(v) for k, v in val.items()}
-        setattr(state, name, result)
-        return result
-
-    @staticmethod
-    def _mmap_array(state: object, name: str, val: np.ndarray) -> np.ndarray:
-        """Copy an mmap-backed array into owned memory and release the mapping.
-
-        The copy is performed via ``np.array(val)`` which forces a full
-        read into a new allocation.  After copying, ``MADV_DONTNEED`` is
-        issued on the backing mmap so the OS can reclaim the page-cache pages.
-
-        Parameters
-        ----------
-        - state: object
-            The owner object on which the owned array will be cached.
-        - name: str
-            Attribute name used to store the result back onto *state*.
-        - val: np.ndarray
-            An array whose ``.base`` chain ultimately leads to an mmap object.
-
-        Returns
-        -------
-        - np.ndarray
-        """
-        result = np.array(val)
-        AttrResolver._dontneed(val)
         setattr(state, name, result)
         return result
 

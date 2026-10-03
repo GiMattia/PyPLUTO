@@ -33,9 +33,6 @@ import pytest
 from helper_image import DELEGATION, DOCUMENTED_KWARGS
 from helper_image import KWARGS as IMAGE_KWARGS
 from matplotlib.axes import Axes
-from matplotlib.axis import Axis
-from matplotlib.legend import Legend
-from matplotlib.lines import Line2D
 
 import pyPLUTO as pp
 import pyPLUTO.image as image_mod
@@ -327,85 +324,6 @@ def test_declared_keywords_are_usable(
     assert [w for w in raised if "kwargs" in str(w.message)] == []
 
 
-# ---- imagefuncs/legend.py ----
-@pytest.mark.xfail(
-    strict=True,
-    reason="ax.legend() attaches it and add_artist attaches it again",
-)
-def test_a_legend_is_attached_once() -> None:
-    """Draw one legend and count how many the axis holds.
-
-    `ax.legend(...)` already attaches the legend it builds; the call then
-    adds the same object with `ax.add_artist`, so it appears twice among
-    the axis's children -- one object, two entries, drawn twice.
-
-    The `add_artist` is there for the double legend, where a second
-    `ax.legend()` would otherwise replace the first. That needs the
-    *previous* legend pinned before the new one is built, not the new one
-    added to itself.
-    """
-    image = pp.Image(text=False)
-    image.plot([0.0, 1.0], [0.0, 1.0], label="a")
-
-    image.legend()
-
-    legends = [
-        artist
-        for artist in image.ax[0].get_children()
-        if isinstance(artist, Legend)
-    ]
-    assert len(legends) == 1
-
-
-@pytest.mark.xfail(
-    strict=True, reason="mscale is read only in the branch without labels"
-)
-def test_the_marker_scale_applies_to_a_labelled_legend() -> None:
-    """Scale the markers of a legend built from custom labels.
-
-    `mscale` is passed to matplotlib only when the legend is built from the
-    artists already drawn; the branch that builds its own handles from
-    `label` leaves it out, so the keyword is accepted and does nothing.
-    Confirmed: the same call scales the handle to 15.0 without labels and
-    leaves it at 5.0 with them.
-
-    The scanner sees the name, so nothing reports it as unused either.
-    """
-    image = pp.Image(text=False)
-    image.plot([0.0, 1.0], [0.0, 1.0], marker="o", label="a")
-
-    image.legend(label=["a"], marker="o", ms=5.0, mscale=5.0)
-
-    legend = image.ax[0].get_legend()
-    assert legend is not None
-    handle = legend.legend_handles[0]
-    assert isinstance(handle, Line2D)
-    assert handle.get_markersize() == 25.0
-
-
-@pytest.mark.xfail(
-    strict=True, reason="the handles default to black, not to the colour cycle"
-)
-def test_a_labelled_legend_follows_the_colour_cycle() -> None:
-    """Build a legend from labels without saying which colour to use.
-
-    `c` is documented as defaulting to the image's own colours -- "the
-    program will loop over an array of 6 colors" -- while the code reads
-    `kwargs.get("c", ["k"])`, so every handle is black however the lines
-    were drawn.
-    """
-    image = pp.Image(text=False)
-    image.plot([0.0, 1.0], [0.0, 1.0], label="a")
-
-    image.legend(label=["a"])
-
-    legend = image.ax[0].get_legend()
-    assert legend is not None
-    handle = legend.legend_handles[0]
-    assert isinstance(handle, Line2D)
-    assert handle.get_color() == image.color[0]
-
-
 # ---- imagefuncs/plot.py ----
 @pytest.mark.xfail(
     strict=True,
@@ -473,29 +391,6 @@ def test_a_single_string_of_tick_labels_is_declared(keyword: str) -> None:
 
 
 @pytest.mark.xfail(
-    strict=True, reason="tick_params is given the string 'off', which is truthy"
-)
-@pytest.mark.parametrize("axis", ["yaxis", "xaxis"], ids=["right", "top"])
-def test_the_far_side_ticks_are_switched_off(axis: str) -> None:
-    """Check the ticks on the far side are off, as the call asks for.
-
-    `tick_params(right="off", top="off")` is written to switch them off, but
-    matplotlib takes a bool there and stores the string: `get_visible()`
-    returns `'off'`, which is truthy, so the ticks are drawn. Plain
-    matplotlib leaves them at False.
-
-    The string form was accepted by matplotlib years ago and removed since,
-    so this is a call that no longer means what it did.
-    """
-    image = pp.Image(text=False)
-    image.plot([0.0, 1.0], [0.0, 1.0])
-
-    tick = getattr(image.ax[0], axis).get_major_ticks()[0].tick2line
-
-    assert tick.get_visible() is False
-
-
-@pytest.mark.xfail(
     strict=True, reason="the labels are applied after the call warns against it"
 )
 def test_labels_on_automatic_ticks_are_not_applied() -> None:
@@ -537,158 +432,6 @@ def test_alpha_reaches_something_that_is_drawn() -> None:
     image.set_axis(alpha=0.3)
 
     assert image.ax[0].patch.get_alpha() == 0.3
-
-
-def _log_axis(target: str, ticks: list[float] | None) -> Axis:
-    """Return the y-axis of a log plot, or of a log colorbar, after drawing.
-
-    Both go through `set_ticks`, the axis through `yticks` and the colorbar
-    through `cticks`, so a fault there shows on both.
-    """
-    grid = np.logspace(-2.0, 1.0, 20)
-    image = pp.Image(text=False)
-    if target == "axis":
-        image.plot(grid, grid, yscale="log", yticks=ticks)
-        drawn = image.ax[0]
-    else:
-        image.display(
-            np.outer(grid, grid), cscale="log", cpos="right", cticks=ticks
-        )
-        assert image.fig is not None
-        drawn = image.fig.axes[-1]
-    assert isinstance(drawn, Axes)
-    assert image.fig is not None
-    image.fig.canvas.draw()
-    return drawn.yaxis
-
-
-@pytest.mark.xfail(
-    strict=True, reason="removing the ticks keeps the minor ones of a log scale"
-)
-@pytest.mark.parametrize("target", ["axis", "colorbar"])
-def test_removed_ticks_leave_no_minor_ticks_on_a_log_scale(
-    target: str,
-) -> None:
-    """Remove the ticks of a logarithmic axis with None.
-
-    `set_ticks` empties the major ticks only, and a log scale draws minor
-    ticks of its own at every integer multiple of each decade, so all of
-    them stay on the axis -- and on a colorbar, where `cticks=None` goes
-    through the same code.
-    """
-    axis = _log_axis(target, None)
-
-    assert list(axis.get_minorticklocs()) == []
-
-
-@pytest.mark.xfail(
-    strict=True,
-    reason="fixed ticks on a log scale are labelled only at decades",
-)
-@pytest.mark.parametrize("target", ["axis", "colorbar"])
-def test_fixed_ticks_on_a_log_scale_keep_their_labels(target: str) -> None:
-    """Fix the ticks of a logarithmic axis at 0.5 and 1.
-
-    The ticks are placed, but the formatter of a log scale labels powers of
-    ten only, so 0.5 is drawn with an empty label: asking for a tick at a
-    value is asking to read that value.
-    """
-    axis = _log_axis(target, [0.5, 1.0])
-
-    labels = [label.get_text() for label in axis.get_ticklabels()]
-    assert len(labels) == 2
-    assert all(labels)
-
-
-# ---- imagefuncs/create_axes.py ----
-@pytest.mark.xfail(
-    strict=True, reason="False is an int, so it is read as the index 0"
-)
-def test_sharing_can_be_switched_off() -> None:
-    """Create axes with the sharing the docstring gives as the default.
-
-    `sharexaxes` is documented as `bool | ..., default False`, and passing
-    that default raises IndexError: `isinstance(False, int)` is true, so it
-    is taken for the index 0 and the first axis is looked up in a list that
-    is still empty.
-    """
-    image = pp.Image(text=False)
-    image.create_axes(ncol=2, sharexaxes=False)
-
-    assert len(image.ax) == 2
-    assert not image.ax[0].get_shared_x_axes().joined(image.ax[0], image.ax[1])
-
-
-@pytest.mark.xfail(
-    strict=True, reason="sharing by axis index works but is declared nowhere"
-)
-@pytest.mark.parametrize("keyword", ["sharexaxes", "shareyaxes"])
-def test_sharing_by_index_is_declared(keyword: str) -> None:
-    """Check the index form of the sharing keywords is in the declared type.
-
-    `_check_shareaxis` handles an int on purpose -- it is how a set of axes
-    is tied to one created earlier, and `test_sharing_with_an_axis_created_
-    earlier` relies on it -- while `CreateAxesKwargs` offers only
-    `bool | str | Axes`, so every checker refuses the call that works.
-    """
-    declared = typing.get_type_hints(image_kwargs.CreateAxesKwargs)[keyword]
-
-    assert int in typing.get_args(declared)
-
-
-@pytest.mark.xfail(
-    strict=True, reason="a custom layout overwrites the tight given with it"
-)
-def test_a_custom_layout_keeps_an_explicit_tight() -> None:
-    """Ask for a custom layout and a tight one at the same time.
-
-    A custom layout sets `tight` to False, because matplotlib cannot lay out
-    axes it did not place -- but it does so by writing into the keywords
-    before they are read, so it overrides the user rather than defaulting.
-    """
-    image = pp.Image(text=False)
-    image.create_axes(ncol=2, left=0.2, tight=True)
-
-    assert image.tight is True
-
-
-@pytest.mark.xfail(
-    strict=True, reason="create_axes sets rcParams but not state.fontsize"
-)
-def test_a_fontsize_given_to_create_axes_is_recorded() -> None:
-    """Give create_axes a fontsize and read it back off the image.
-
-    It reaches matplotlib -- `rcParams["font.size"]` becomes 13 -- but the
-    state keeps 17, so `image.fontsize` reports one size while the figure
-    is drawn at another, and everything reading the state (the legend, the
-    text box, the axis labels) uses the stale one.
-
-    The old test passed `fontsize=17`, the value already there, so it could
-    not fail.
-    """
-    image = pp.Image(text=False)
-    image.create_axes(fontsize=13)
-
-    assert image.fontsize == 13
-
-
-@pytest.mark.xfail(
-    strict=True, reason="create_axes sets figsize without recording set_size"
-)
-def test_a_size_given_to_create_axes_is_kept() -> None:
-    """Give create_axes a size, then create more axes, and check it survives.
-
-    `set_size` is what marks a size as chosen by the user rather than
-    computed. The constructor sets it and create_axes does not, so the next
-    call recomputes the size and the figure silently goes back to 6x5 while
-    the state still reports what was asked for.
-    """
-    image = pp.Image(text=False)
-    image.create_axes(figsize=[10.0, 4.0])
-    image.create_axes()
-
-    assert image.fig is not None
-    assert list(image.fig.get_size_inches()) == [10.0, 4.0]
 
 
 # ---- imagefuncs/imagetools.py ----
@@ -768,25 +511,6 @@ def test_y_limits_come_from_the_visible_window() -> None:
     )
 
     assert image.ax[0].get_ylim()[1] < 50.0
-
-
-@pytest.mark.xfail(
-    strict=True, reason="ymax is recomputed from the already-reassigned ymin"
-)
-def test_negative_log_range_keeps_its_widest_value() -> None:
-    """Fold a range crossing zero onto a logarithmic scale.
-
-    Both limits should be read from the original values, so (-100, 10) gives
-    a range reaching 100. `ymin` is reassigned first and `ymax` is then
-    computed from it, so the 100 is lost and the result is (5, 21).
-    """
-    image = _image()
-    manager = RangeManager(image.state)
-
-    with pytest.warns(UserWarning, match="Negative range"):
-        _, ymax = manager.range_offset(-100.0, 10.0, "log")
-
-    assert ymax >= 100.0
 
 
 # ---- imagefuncs/interactive.py ----

@@ -2,25 +2,26 @@
 
 AttrResolver sits behind every attribute read of Load, Image and LoadPart, so
 these tests stand between a user and their data. What it promises is narrow
-but easy to break silently: the right values come back, a mapped array is
-copied into memory the state owns, the mapping is handed back to the system,
-and the result is cached so the second access costs nothing.
+but easy to break silently: the right values come back, a mapped variable is
+handed out as it is -- so a slice of it reads only that slice from the disk --
+and a chunked variable is joined once, its chunks released as they are
+copied, and the result cached so the second access costs nothing.
 
-Most of the tests below check one of those four promises on one kind of value.
-The awkward part is that the failures the class exists to prevent -- a mapping
-that is never released, a value that is copied when it should not be -- do not
-change any number a test can read, so several tests watch what the resolver
-*does* (by replacing a helper and recording the calls) rather than only what
-it returns.
+The awkward part is that the failures the class exists to prevent -- a whole
+file read to return a slice of it, a chunk whose pages are never released --
+do not change any number a test can read, so some tests watch what the
+resolver *does*, or what a read allocates, rather than only what it returns.
 """
 
 import mmap
+import tracemalloc
 from pathlib import Path
 
 import numpy as np
 import numpy.testing as npt
 import pytest
 
+import pyPLUTO as pp
 from pyPLUTO.utils.resolver import AttrResolver
 
 
@@ -60,10 +61,9 @@ def test_resolve_plain_value() -> None:
 def test_resolve_plain_array() -> None:
     """Pass an array that owns its memory and get the same object back.
 
-    The check is `is`, not equality: the array must not be copied. An array
-    with no base is either one that was never mapped or one that has already
-    been resolved, and copying it on every access would make each attribute
-    read cost the size of the data.
+    The check is `is`, not equality: the array must not be copied, since
+    copying it on every access would make each attribute read cost the size
+    of the data.
     """
     state = _State()
     arr = np.arange(4)
@@ -129,19 +129,13 @@ def test_resolve_keeps_unit_aware_values() -> None:
     assert AttrResolver.resolve(state, "a", val) is val
 
 
-def test_unit_check_comes_before_the_view_check() -> None:
-    """Pass a sliced Quantity through, which both branches could claim.
+def test_a_unit_aware_view_keeps_its_unit() -> None:
+    """Pass a sliced Quantity through and get the same object back.
 
-    This is the one case where the order of the checks in `resolve` can be
-    observed. A slice of a Quantity is unit-aware *and* a view, so whichever
-    check comes first wins: the unit branch returns it untouched, the view
-    branch would copy it with `np.array` and hand back a bare array with the
-    unit gone.
-
-    A failure here means someone reordered those two `if`s, and every unit
-    that a user attached is being quietly stripped on the next attribute
-    read. The second assertion is the sharper one: an untouched value must
-    also not be cached, since caching is what materialisation leaves behind.
+    A slice of a Quantity is a view with a unit attached. Anything that
+    rebuilt it -- a copy with `np.array`, say -- would hand back a bare array
+    with the unit gone, quietly stripping every unit a user attached on the
+    next attribute read. Being untouched, it is not cached either.
     """
     astropy_units = pytest.importorskip("astropy.units")
     state = _State()
@@ -306,91 +300,83 @@ def test_resolve_chunk_dict_joins_every_key() -> None:
 
 # ---- Arrays backed by something else ----
 # An array with a base is a window onto memory it does not own: a mapping, or
-# a slice of one. These are the arrays that have to be copied before the
-# mapping behind them can be released.
-def test_resolve_view_is_copied() -> None:
-    """Resolve a slice of an array and check the result owns its memory.
+# a slice of one. It is handed out as it is, so that slicing it reads only the
+# slice; copying it whole read an entire file to return a few planes of it.
+def test_a_view_is_handed_back_as_it_is() -> None:
+    """Resolve a slice of an array and get the very same object back.
 
-    `result.base is None` is the assertion that matters: it is what
-    distinguishes a copy from another window onto the same memory. A view
-    handed back unchanged would keep the array it came from alive, and for a
-    mapped array would keep the file mapped.
+    Nothing is copied and nothing is cached on the state: a window onto
+    memory stays a window, which is what lets a slice of a mapped variable
+    read only the part of the file it covers.
     """
     state = _State()
-    base = np.arange(6.0)
-    view = base[2:]
+    view = np.arange(6.0)[2:]
+
     result = AttrResolver.resolve(state, "a", view)
-    assert isinstance(result, np.ndarray)
-    npt.assert_allclose(result, [2.0, 3.0, 4.0, 5.0])
-    assert result.base is None
+
+    assert result is view
+    assert not hasattr(state, "a")
 
 
-def test_mmap_array_releases_the_mapping(
-    monkeypatch: pytest.MonkeyPatch,
+def test_a_mapped_file_is_read_lazily_and_written_in_memory(
+    tmp_path: Path,
 ) -> None:
-    """Resolve a view and record that its pages were released afterwards.
+    """Resolve a real copy-on-write mapping of a file, then write to it.
 
-    Copying is only half the job. Without the release the pages stay in the
-    page cache for the rest of the session although nothing will read them
-    again, which is the cost this class exists to avoid.
-
-    Nothing about the returned array shows whether the release happened, so
-    `_dontneed` is replaced by a recorder as in the chunk test above. The
-    size checks that it was handed the original window rather than the copy.
-    Deleting the release call from the source leaves every other test in
-    this file passing, which is why this one exists.
-    """
-    released: list[int] = []
-
-    def record(arr: np.ndarray) -> None:
-        """Stand in for _dontneed, noting the array it was handed."""
-        released.append(arr.size)
-
-    monkeypatch.setattr(AttrResolver, "_dontneed", staticmethod(record))
-
-    state = _State()
-    AttrResolver.resolve(state, "a", np.arange(6.0)[2:])
-    assert released == [4]
-
-
-def test_resolve_memmap_is_copied_and_cached(tmp_path: Path) -> None:
-    """Resolve a real memory-mapped array, end to end.
-
-    Every other test in this section uses a view, which takes the same
-    branch and is cheaper to build. This one uses an actual file so that the
-    case the class was written for is exercised at least once: LoadPart maps
-    its data files, and the first attribute read has to turn a window onto a
-    file into an ordinary array.
-
-    The four assertions are the four halves of that: the result is an array
-    and no longer a memmap, it owns its memory, it holds the file's values,
-    and it was left on the state for next time.
+    The loader maps its data files copy-on-write: the variable is the
+    mapping itself, values are read from the file only where they are
+    used, and a value written goes to memory and never reaches the file.
     """
     binary = tmp_path / "data.bin"
     binary.write_bytes(np.arange(8, dtype=np.float64).tobytes())
-    mapped = np.memmap(binary, dtype=np.float64, mode="r")
+    mapped = np.memmap(binary, dtype=np.float64, mode="c")
 
-    state = _State()
-    result = AttrResolver.resolve(state, "a", mapped)
-
+    result = AttrResolver.resolve(_State(), "a", mapped)
+    assert result is mapped
     assert isinstance(result, np.ndarray)
-    assert not isinstance(result, np.memmap)
-    assert result.base is None
-    npt.assert_allclose(result, np.arange(8.0))
-    assert state.a is result
+    result[0] = 99.0
+
+    assert result[0] == 99.0
+    npt.assert_allclose(
+        np.frombuffer(binary.read_bytes(), dtype=np.float64), np.arange(8.0)
+    )
 
     # Drop the mapping before the temporary file goes away.
-    del mapped
+    del result, mapped
+
+
+def test_a_slice_of_a_loaded_variable_reads_only_the_slice(
+    data_dir: Path,
+) -> None:
+    """Read ten values of a variable and measure what the read allocates.
+
+    The first access used to copy the whole variable into memory before the
+    slice was taken: 128 KiB for ten values here, and for one plane of a
+    2048^3 cube the whole 64 GiB file, read from disk, with a full copy in
+    memory. A slice now allocates the slice; the bound leaves room for
+    Python's own bookkeeping, far below the size of the variable.
+    """
+    data = pp.Load(path=data_dir / "single_file", text=False)
+    # Read from the state directly: through the facade, a copy would happen
+    # here, before the measurement, and the test could not see it
+    whole = vars(data.state)["rho"].nbytes
+
+    tracemalloc.start()
+    values = data.rho[10:20, 5]
+    _, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+
+    assert values.shape == (10,)
+    assert peak < whole // 10
 
 
 def test_resolve_is_idempotent() -> None:
     """Resolve a value, resolve the result again, and get the same object.
 
     This is the property that makes caching work rather than merely save
-    time. The materialised array has no base, so the second call falls
-    through the pass-through branch instead of copying again. If it did not,
-    caching would only move the cost rather than remove it, since every
-    access would copy the cached array afresh.
+    time. The joined array is an ordinary array, so the second call hands it
+    back as it is instead of joining again. If it did not, caching would only
+    move the cost rather than remove it.
     """
     state = _State()
     first = AttrResolver.resolve(state, "a", [np.arange(3.0)])

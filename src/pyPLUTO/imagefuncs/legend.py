@@ -114,7 +114,8 @@ class LegendManager(ImageMixin):
         - ms: float, default 3
             Sets the marker size.
         - mscale: float, default 1.0
-            Sets the marker scale. The default value is 1.0.
+            Scales the markers of the legend handles, whether they come from
+            the lines drawn or from custom labels.
         - ncol: int, default 1
             The number of columns of subplots.
         - nrow: int, default 1
@@ -223,17 +224,23 @@ class LegendManager(ImageMixin):
             self.state.legpar[nax][4],
         )
 
-        # Check if another unwanted legend is present and cancel it
-        # (only when the legend is called from the plot function)
-        if fromplot is True:
-            lleg = ax.get_legend()
-            if lleg is not None:
-                lleg.remove()
+        # A legend already on the axis: the plot's own call replaces it, as
+        # the lines change; any other call pins it as an artist before the
+        # new one is built, since ax.legend() keeps only the last one
+        if (previous := ax.get_legend()) is not None:
+            if fromplot is True:
+                previous.remove()
+            else:
+                ax.add_artist(previous)
 
-        # Check is custom labels are on and plot the legend
+        # The marker scale holds for both kinds of legend
+        mscale = kwargs.get("mscale", 1.0)
+
+        # Check is custom labels are on and plot the legend. The handles take
+        # the image's palette unless given colours, as the lines drawn do
         if (label := kwargs.get("label")) is not None:
             lab = label if isinstance(label, list) else [label]
-            col = list(np.atleast_1d(kwargs.get("c", ["k"])))
+            col = list(np.atleast_1d(kwargs.get("c", self.state.color)))
             ls = list(np.atleast_1d(kwargs.get("ls", ["-"])))
             lw = list(np.atleast_1d(kwargs.get("lw", [1.5])))
             raw_mrk = kwargs.get("marker", [""])
@@ -262,20 +269,8 @@ class LegendManager(ImageMixin):
                     ),
                 )
             # Create the legend
-            legg = ax.legend(
+            ax.legend(
                 handles=lines,
-                loc=self.state.legpos[nax],
-                fontsize=self.state.legpar[nax][0],
-                ncol=self.state.legpar[nax][1],
-                columnspacing=self.state.legpar[nax][2],
-                handletextpad=self.state.legpar[nax][3],
-                framealpha=self.state.legpar[nax][4],
-            )
-        else:
-            # Set the markerscale
-            mscale = kwargs.get("mscale", 1.0)
-            # Create the legend
-            legg = ax.legend(
                 loc=self.state.legpos[nax],
                 fontsize=self.state.legpar[nax][0],
                 ncol=self.state.legpar[nax][1],
@@ -284,8 +279,16 @@ class LegendManager(ImageMixin):
                 framealpha=self.state.legpar[nax][4],
                 markerscale=mscale,
             )
-
-        # Add the legend to the axis
-        ax.add_artist(legg)
+        else:
+            # Create the legend
+            ax.legend(
+                loc=self.state.legpos[nax],
+                fontsize=self.state.legpar[nax][0],
+                ncol=self.state.legpar[nax][1],
+                columnspacing=self.state.legpar[nax][2],
+                handletextpad=self.state.legpar[nax][3],
+                framealpha=self.state.legpar[nax][4],
+                markerscale=mscale,
+            )
 
         # End of the function

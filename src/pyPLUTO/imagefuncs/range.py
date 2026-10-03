@@ -277,14 +277,21 @@ class RangeManager(ImageMixin):
         if scale in ["linear", "symlog", "asinh"]:
             return (ymin - padding, ymax + padding)
         if scale == "log":
+            # Folded to absolute values together: reassigning one before the
+            # other lost the original of the first
             if ymin <= 0 or ymax <= 0:
-                ymin = min(np.abs(ymin), np.abs(ymax))
-                ymax = max(np.abs(ymin), np.abs(ymax))
+                ymin, ymax = sorted((abs(ymin), abs(ymax)))
                 warnings.warn(
                     "Negative range for logarithmic scale!",
                     UserWarning,
                     stacklevel=2,
                 )
+
+            # A log axis cannot show 0: with no positive value to start from,
+            # the range starts a decade below its top, or at 0.1 if all is 0
+            if ymin == 0:
+                ymin = ymax / 10 if ymax > 0 else 0.1
+                ymax = max(ymax, 10 * ymin)
             return (max(ymin - padding, ymin * 0.5), ymax + padding)
 
         return (ymin, ymax)

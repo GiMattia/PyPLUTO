@@ -95,10 +95,12 @@ class CreateAxesManager(ImageMixin):
             the space from the right border to the plot (default 0.9); for an
             inset zoom it is the right position of the inset (default left +
             0.15).
-        - sharexaxes: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the x-axis between the subplots.
-        - shareyaxes: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the y-axis between the subplots.
+        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
+            Shares the x-axis between the subplots: True or 'all' with the
+            first of them, 'row' and 'col' within each row or column, an
+            index with that axis of the image, an Axes with that axis.
+        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
+            Shares the y-axis between the subplots, as sharexaxes does.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
         - tight: bool, default True
@@ -154,21 +156,26 @@ class CreateAxesManager(ImageMixin):
             >>> ax = I.create_axes(left=0.75)
 
         """
-        # Change fontsize if requested
+        # Change fontsize if requested, in matplotlib and in the state, which
+        # the legend, the text box and the labels read theirs from
         if "fontsize" in kwargs:
             plt.rcParams.update({"font.size": kwargs["fontsize"]})
+            self.state.fontsize = kwargs["fontsize"]
 
         nrow = kwargs.get("nrow", 1)
         ncol = kwargs.get("ncol", 1)
 
         custom_plot = bool(defaults.keys() & kwargs.keys())
 
+        # A layout placed by hand cannot also be a tight one: the layout wins
         if custom_plot:
-            kwargs["tight"] = False
             filtered_kwargs = {
                 key: kwargs.get(key, value) for key, value in defaults.items()
             }
-            wplot, hplot = self._set_custom_axes(filtered_kwargs, nrow, ncol)
+            wplot, hplot = self.set_custom_axes(
+                filtered_kwargs, nrow, ncol, kwargs.get("tight")
+            )
+            kwargs["tight"] = False
         else:
             wplot, hplot = None, None
 
@@ -178,50 +185,31 @@ class CreateAxesManager(ImageMixin):
                 "You need to create a figure before creating axes.",
             )
 
+        # A size given is marked as chosen, so later calls keep it rather
+        # than computing one from their rows and columns
         if figsize := kwargs.get("figsize"):
             self.state.fig.set_size_inches(figsize[0], figsize[1])
             self.state.figsize = figsize
+            self.state.set_size = True
         elif not (custom_plot or self.state.set_size):
             self.state.fig.set_size_inches(6 * np.sqrt(ncol), 5 * np.sqrt(nrow))
 
         # Set the projection if requested
         proj = kwargs.get("proj")
 
-        # Set sharex and sharey
-        sharex: bool | str | Axes | int | None = kwargs.get("sharexaxes")
-        sharey: bool | str | Axes | int | None = kwargs.get("shareyaxes")
-
+        new: list[Axes] = []
         for i in range(ncol * nrow):
-            sharex_ref = self._check_shareaxis(i, sharex)
-            # Interpret True as: share with the first axis
-            # if sharex is True:
-            #     sharex_ref = self.state.ax[0] if i > 0 else None
-            # elif isinstance(sharex, int):
-            #     sharex_ref = self.state.ax[sharex]
-            # else:
-            #     sharex_ref = sharex  # None or an Axes reference
-
-            # Same for sharey
-            sharey_ref = self._check_shareaxis(i, sharey)
-            # if sharey is True:
-            #     sharey_ref = self.state.ax[0] if i > 0 else None
-            # elif isinstance(sharey, int):
-            #     sharey_ref = self.state.ax[sharey]
-            # else:
-            #     sharey_ref = sharey
-
             self.add_ax(
                 axis := self.state.fig.add_subplot(
                     nrow + self.state.nrow0,
                     ncol + self.state.ncol0,
                     i + 1,
                     projection=proj,
-                    sharex=sharex_ref,
-                    sharey=sharey_ref,
                 ),
                 len(self.state.ax),
             )
             self.state.ax.append(axis)
+            new.append(axis)
 
             # Compute row and column
             row = int(i / ncol)
@@ -237,6 +225,16 @@ class CreateAxesManager(ImageMixin):
                         hplot[row][1],
                     ),
                 )
+
+        # The axes share once they all exist, so an index, a row or a column
+        # can point at any of them, made in this call or before it
+        sharex = kwargs.get("sharexaxes")
+        sharey = kwargs.get("shareyaxes")
+        for i, axis in enumerate(new):
+            for share, join in ((sharex, axis.sharex), (sharey, axis.sharey)):
+                target = self.find_share_target(i, share, new, ncol)
+                if target is not None and target is not axis:
+                    join(target)
 
         # Updates rows and columns
         self.state.nrow0 = self.state.nrow0 + nrow
@@ -259,28 +257,50 @@ class CreateAxesManager(ImageMixin):
 
         return ret_ax
 
-    def _set_custom_axes(
+    def set_custom_axes(
         self,
         custom: dict[str, Any],
         nrow: int,
         ncol: int,
+        tight: bool | None = None,
     ) -> tuple[list[list[float]], list[list[float]]]:
-        """Set the axes position and spacing according to the parameters.
+        """Compute the position of every axis of a layout placed by hand.
+
+        The borders, spaces and ratios given -- or their defaults -- fix the
+        left side and width of every column and the bottom and height of
+        every row, in figure units. Such a layout cannot also be tight,
+        since a tight layout moves the axes: create_axes switches it off,
+        and a tight asked for with the layout is refused with a warning.
 
         Parameters
         ----------
-        - custom: dict[str, Any]
-            Dictionary with the custom parameters for the axes.
-        - nrow: int
-            Number of rows in the axes.
-        - ncol: int
-            Number of columns in the axes.
+        - custom (not optional): dict[str, Any]
+            The layout keywords with their defaults: left, right, top,
+            bottom, hspace, wspace, hratio, wratio.
+        - ncol (not optional): int
+            The number of columns.
+        - nrow (not optional): int
+            The number of rows.
+        - tight: bool | None, default None
+            The tight keyword given with the layout, if any.
 
         Returns
         -------
         - tuple[list[list[float]], list[list[float]]]
+            The [left, width] of every column and [bottom, height] of every
+            row.
+
+        Examples
+        --------
+        - Example #1: two columns with a wider left border
+
+            >>> self.set_custom_axes(dict(defaults, left=0.2), 1, 2)
 
         """
+        if tight is True:
+            warn = "A custom layout cannot be tight: tight is set to False."
+            warnings.warn(warn, UserWarning, stacklevel=3)
+
         hspace, hratio = self._check_rowcol(
             custom["hratio"],
             custom["hspace"],
@@ -426,50 +446,58 @@ class CreateAxesManager(ImageMixin):
         # Position the axis index in the middle of the axis
         ax.annotate(str(i), (0.47, 0.47), xycoords="axes fraction")
 
-    def _check_shareaxis(
+    def find_share_target(
         self,
         i: int,
-        share: bool | str | Axes | int | None,
-    ) -> Axes | str | None:
-        """Check the sharing of the x or y axis.
+        share: bool | int | str | Axes | None,
+        new: list[Axes],
+        ncol: int,
+    ) -> Axes | None:
+        """Find the axis a new axis shares its x- or y-axis with.
+
+        The axes of one create_axes call are laid out row by row, so the
+        i-th of them sits in row i // ncol and column i % ncol. True or
+        'all' share with the first of them, 'row' and 'col' with the first
+        of the same row or column, as in matplotlib's subplots; an index
+        points at any axis of the image, made in this call or before it,
+        and an Axes is itself the target. False and None share nothing, and
+        are tested first: False is an int, and would be read as the index 0.
 
         Parameters
         ----------
-        - i: int
-            The index of the current axis.
-        - share: bool | str | Axes | int | None
-            The sharing option.
+        - i (not optional): int
+            The position of the axis among the new ones.
+        - ncol (not optional): int
+            The number of columns of the new axes.
+        - new (not optional): list[Axes]
+            The axes this create_axes call made, in order.
+        - share (not optional): bool | int | str | Axes | None
+            The sharing asked for, sharexaxes or shareyaxes.
 
         Returns
         -------
-        - Axes | str | None
+        - Axes | None
+            The axis to share with, or None to share nothing.
 
         Examples
         --------
-        - Example #1: share is True
+        - Example #1: the third axis of a two-column grid, sharing by column
 
-            >>> _check_shareaxis(0, True)
-
-        - Example #2: share is False
-
-            >>> _check_shareaxis(0, False)
-
-        - Example #3: share is a string
-
-            >>> _check_shareaxis(0, "left")
-
-        - Example #4: share is an axis
-
-            >>> _check_shareaxis(0, ax)
+            >>> self.find_share_target(2, "col", new, 2)  # new[0]
 
         """
-        if share is True:
-            share_ref = self.state.ax[0] if i > 0 else None
-        elif isinstance(share, int):
-            share_ref = self.state.ax[share]
-        else:
-            share_ref = share
-
-        return share_ref
-
-        # End of the function
+        if share is None or share is False:
+            return None
+        if share is True or share == "all":
+            return new[0]
+        if share == "row":
+            return new[i // ncol * ncol]
+        if share == "col":
+            return new[i % ncol]
+        if isinstance(share, str):
+            text = f"Unknown sharing {share!r}: use True, 'row', 'col', "
+            text += "an axis index or an Axes."
+            raise ValueError(text)
+        if isinstance(share, int):
+            return self.state.ax[share]
+        return share

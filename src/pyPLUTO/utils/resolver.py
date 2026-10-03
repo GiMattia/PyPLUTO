@@ -1,16 +1,15 @@
-"""Lazy mmap-backed attribute materialisation shared across Load classes.
+"""Attribute resolution shared across the Load classes.
 
-Loading a simulation does not read the data files: it memory-maps them, which
-means the arrays on the state are windows onto the file rather than values in
-memory. That keeps a load instant and cheap even for a dataset larger than the
-available RAM, and it is why ``Data.rho`` exists long before any of it has
-been read from disk.
+Loading a simulation does not read the data files: it memory-maps them, so
+the arrays on the state are windows onto the files rather than values in
+memory. A load is therefore instant even for a dataset larger than the
+available RAM, and a slice of a variable reads only the part of the file it
+covers. The files are mapped copy-on-write, so a variable can be modified in
+memory without the file being touched.
 
-The price is that such an array is only valid while the mapping lives, and
-that every access to it touches the disk. This module pays that price once:
-the first time an attribute is read, the data is copied into memory the state
-owns, the mapping is handed back to the operating system, and the result is
-stored on the state so the next access is an ordinary attribute lookup.
+A mapped variable is handed out as it is. The one value built here is a
+variable split over several files, a chunked particle output, whose pieces
+are joined into a single array the first time it is read.
 """
 
 from __future__ import annotations
@@ -23,12 +22,12 @@ import numpy as np
 
 
 class AttrResolver:
-    """Materialise lazy mmap-backed attributes on first access.
+    """Resolve the attributes of a load on access.
 
-    All three Load classes (Load, Image, LoadPart) call AttrResolver.resolve().
-    Only LoadPart carries mmap-backed data, so only it will hit the
-    materialisation branches; the others fall straight through to
-    ``return val``.
+    All three facades (Load, Image, LoadPart) call AttrResolver.resolve().
+    Only a chunked particle output, a variable split over several files,
+    is built into a new value; everything else, mapped variables included,
+    is handed back as it is.
 
     The class is a namespace of static methods rather than an object: it holds
     no state of its own, and the state it works on is passed in, since the
@@ -37,17 +36,12 @@ class AttrResolver:
 
     @staticmethod
     def resolve(state: object, name: str, val: object) -> object:
-        """Dispatch val to the appropriate materialisation strategy.
+        """Return the value of an attribute, joining a chunked one.
 
-        Four kinds of value can arrive here and only three need work: a list
-        of array chunks (one per file of a multi-chunk particle output), a
-        dictionary of such lists (one entry per variable), and an array that
-        is a window onto something else. Anything else is already a value in
-        its own memory and is returned untouched.
-
-        The order of the checks matters. A unit-aware array is tested first
-        because an astropy Quantity is also a view, and copying it would
-        strip the unit off the result.
+        Two kinds of value need work: a list of array chunks (one per file
+        of a multi-chunk particle output) and a dictionary of such lists
+        (one entry per variable). Anything else -- a mapped variable, a
+        number, a unit-aware array -- is returned as it is.
 
         Parameters
         ----------
@@ -62,12 +56,12 @@ class AttrResolver:
         Returns
         -------
         - object
-            The materialised value, or ``val`` itself when there is nothing
-            to materialise.
+            The joined value for a chunked variable, ``val`` itself
+            otherwise.
 
         Examples
         --------
-        - Example #1: a value that owns its memory is handed straight back
+        - Example #1: anything not chunked is handed straight back
 
             >>> AttrResolver.resolve(state, "nx1", 128)
             128
@@ -77,10 +71,6 @@ class AttrResolver:
             >>> AttrResolver.resolve(state, "vx1", [chunk0, chunk1])
 
         """
-        # Keep unit-aware arrays untouched (e.g., astropy Quantity).
-        if hasattr(val, "unit"):
-            return val
-
         # A list of arrays is the chunked output of one variable. Only the
         # first element is examined: the list is built by the loader, so it
         # is homogeneous by construction.
@@ -102,12 +92,6 @@ class AttrResolver:
             )
             if is_chunk_list:
                 return AttrResolver._chunk_dict(state, name, val)
-
-        # A non-None base means the array is a window onto other memory: a
-        # mapping, or a slice of one. An array that owns its memory has no
-        # base, which is also what an already resolved attribute looks like.
-        if isinstance(val, np.ndarray) and val.base is not None:
-            return AttrResolver._mmap_array(state, name, val)
 
         return val
 
@@ -183,44 +167,6 @@ class AttrResolver:
 
         """
         result = {k: AttrResolver._copy_chunks(v) for k, v in val.items()}
-        setattr(state, name, result)
-        return result
-
-    @staticmethod
-    def _mmap_array(state: object, name: str, val: np.ndarray) -> np.ndarray:
-        """Copy an mmap-backed array into owned memory and release the mapping.
-
-        The copy is performed via ``np.array(val)`` which forces a full
-        read into a new allocation.  After copying, ``MADV_DONTNEED`` is
-        issued on the backing mmap so the OS can reclaim the page-cache pages.
-
-        Both halves matter: without the copy the value would still depend on
-        the mapping, and without the release the pages would stay resident
-        for the rest of the session even though nothing reads them again.
-
-        Parameters
-        ----------
-        - state: object
-            The owner object on which the owned array will be cached.
-        - name: str
-            Attribute name used to store the result back onto *state*.
-        - val: np.ndarray
-            An array whose ``.base`` chain ultimately leads to an mmap object.
-
-        Returns
-        -------
-        - np.ndarray
-
-        Examples
-        --------
-        - Example #1: materialise a mapped variable
-
-            >>> AttrResolver._mmap_array(state, "rho", mapped)
-
-        """
-        # np.array copies by default, which is what forces the read.
-        result = np.array(val)
-        AttrResolver._dontneed(val)
         setattr(state, name, result)
         return result
 

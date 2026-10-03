@@ -47,19 +47,12 @@ def _plotted(labels: list[str] | None = None) -> tuple[pp.Image, Axes]:
 
 
 def _legends(ax: Axes) -> list[Legend]:
-    """Return the distinct legends the axis holds.
+    """Return every legend the axis holds, as often as it holds it.
 
-    Counted by identity: every legend is attached twice, once by
-    `ax.legend()` and once by the `add_artist` that follows it, so the
-    children list holds each one more than once. That duplication is an
-    open bug with its own test in test_with_issues.py; here it only needs
-    to be seen through.
+    Not counted by identity on purpose: a legend attached twice would be
+    drawn twice, and appearing twice here is what makes the tests see it.
     """
-    seen: dict[int, Legend] = {}
-    for artist in ax.get_children():
-        if isinstance(artist, Legend):
-            seen[id(artist)] = artist
-    return list(seen.values())
+    return [a for a in ax.get_children() if isinstance(a, Legend)]
 
 
 def _handles(ax: Axes) -> list[Line2D]:
@@ -200,6 +193,37 @@ def test_the_markers_of_the_custom_handles() -> None:
     assert handle.get_markeredgecolor() == "r"
 
 
+def test_the_marker_scale_applies_to_custom_labels() -> None:
+    """Scale the markers of a legend built from custom labels.
+
+    `mscale` was passed to matplotlib only when the legend was built from
+    the lines drawn, so with custom labels it was accepted and did nothing:
+    a marker of size 5 scaled by 5 stayed at 5 instead of 25.
+    """
+    image, ax = _plotted()
+
+    image.legend(label=["a"], marker="o", ms=5.0, mscale=5.0)
+
+    (handle,) = _handles(ax)
+    assert isinstance(handle, Line2D)
+    assert handle.get_markersize() == 25.0
+
+
+def test_the_custom_handles_follow_the_palette() -> None:
+    """Build a legend from labels without saying which colours to use.
+
+    The handles take the image's palette in order, as the lines drawn do,
+    so a legend written with `label=` describes the curves it sits next to;
+    every handle used to be black.
+    """
+    image, ax = _plotted()
+
+    image.legend(label=["a", "b"])
+
+    colours = [handle.get_color() for handle in _handles(ax)]
+    assert colours == [image.color[0], image.color[1]]
+
+
 # ---- Placement and the per-axis parameters ----
 def test_the_position() -> None:
     """Put the legend in a named corner.
@@ -279,6 +303,44 @@ def test_two_legends_on_one_axis() -> None:
     image.legend(label=["black", "red"], legpos="lower right")
 
     assert len(_legends(ax)) == 2
+
+
+def test_a_legend_is_attached_once() -> None:
+    """Draw one legend and count how many the axis holds.
+
+    `ax.legend(...)` already attaches the legend it builds, and an
+    `add_artist` after it used to attach the same object again, so it was
+    drawn twice. The previous legend is pinned before a new one is built
+    instead, which is what two legends on one axis need.
+    """
+    image, ax = _plotted(["a"])
+
+    image.legend()
+
+    assert len(_legends(ax)) == 1
+
+
+def test_legends_on_two_subplots() -> None:
+    """Give each of two subplots two legends of its own.
+
+    Each axis keeps its own legend, and pinning one looks only at the axis
+    drawn on: the subplots do not reach into each other.
+    """
+    image = pp.Image(text=False)
+    image.create_axes(ncol=2)
+    for nax in (0, 1):
+        image.plot(x, y, ax=nax, label=f"line {nax}")
+        image.legend(ax=nax)
+        image.legend(ax=nax, label=[f"extra {nax}"], legpos="lower right")
+
+    for nax in (0, 1):
+        axis = image.ax[nax]
+        assert isinstance(axis, Axes)
+        texts = [
+            [t.get_text() for t in legend.get_texts()]
+            for legend in _legends(axis)
+        ]
+        assert texts == [[f"line {nax}"], [f"extra {nax}"]]
 
 
 def test_a_legend_asked_for_by_the_plot_replaces_the_previous_one() -> None:

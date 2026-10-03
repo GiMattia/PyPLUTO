@@ -129,10 +129,12 @@ class ColorbarManager(ImageMixin):
             the space from the right border to the plot (default 0.9); for an
             inset zoom it is the right position of the inset (default left +
             0.15).
-        - sharexaxes: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the x-axis between the subplots.
-        - shareyaxes: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the y-axis between the subplots.
+        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
+            Shares the x-axis between the subplots: True or 'all' with the
+            first of them, 'row' and 'col' within each row or column, an
+            index with that axis of the image, an Axes with that axis.
+        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
+            Shares the y-axis between the subplots, as sharexaxes does.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
         - tight: bool, default True

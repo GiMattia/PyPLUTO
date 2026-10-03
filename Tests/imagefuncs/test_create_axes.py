@@ -19,13 +19,17 @@ only calls `tight_layout()` once. So it answers True after a tight
 create_axes and False after a custom layout.
 """
 
+import typing
 from collections.abc import Callable
+from typing import Literal
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pytest
+from matplotlib.axes import Axes
 
 import pyPLUTO as pp
+import pyPLUTO.imagekwargs as image_kwargs
 
 # The per-axis lists in the state, one entry appended for every axis created.
 # They are kept in step only by the loop in add_ax, so a new one added there
@@ -236,17 +240,110 @@ def test_sharing_with_an_axis_created_earlier() -> None:
 
     An index refers to the image's own list of axes, so a set created later
     can be tied to one created before it.
-
-    The checkers refuse the call: `CreateAxesKwargs` declares
-    `bool | str | Axes` and the index form is declared nowhere, which is an
-    open bug with its own test in test_with_issues.py.
     """
     image = _image()
     image.create_axes(ncol=1, nrow=2)
-    axes = image.create_axes(ncol=1, nrow=2, sharexaxes=0)  # pyright: ignore[reportArgumentType] # ty: ignore[invalid-argument-type]
+    axes = image.create_axes(ncol=1, nrow=2, sharexaxes=0)
 
     assert isinstance(axes, list)
     assert axes[0].get_shared_x_axes().joined(axes[0], axes[2])
+
+
+def test_sharing_with_an_axis_given() -> None:
+    """Share with an axis passed as itself, not by its index."""
+    image = _image()
+    first = image.create_axes()
+    assert isinstance(first, Axes)
+
+    axes = image.create_axes(ncol=2, sharexaxes=first)
+
+    assert isinstance(axes, list)
+    assert first.get_shared_x_axes().joined(first, axes[1])
+    assert first.get_shared_x_axes().joined(first, axes[2])
+
+
+def test_sharing_with_an_axis_of_the_same_call() -> None:
+    """Share with the second axis of the set being created, by its index.
+
+    The axes share once they all exist, so an index can point at one made
+    later in the same call; sharing at creation raised IndexError, since
+    the axis pointed at did not exist yet.
+    """
+    image = _image()
+    axes = image.create_axes(ncol=3, sharexaxes=1)
+
+    assert isinstance(axes, list)
+    assert axes[1].get_shared_x_axes().joined(axes[0], axes[1])
+    assert axes[1].get_shared_x_axes().joined(axes[1], axes[2])
+
+
+@pytest.mark.parametrize("share", ["sharexaxes", "shareyaxes"])
+def test_sharing_by_index_is_declared(share: str) -> None:
+    """Check the index form of the sharing keywords is in the declared type.
+
+    It is how a set of axes is tied to one created earlier, and every
+    checker refused the call that worked: `CreateAxesKwargs` offered only
+    `bool | str | Axes`.
+    """
+    declared = typing.get_type_hints(image_kwargs.CreateAxesKwargs)[share]
+
+    assert int in typing.get_args(declared)
+
+
+def test_sharing_can_be_switched_off() -> None:
+    """Create axes with the sharing the docstring gives as the default.
+
+    False used to raise IndexError: `isinstance(False, int)` is true, so it
+    was taken for the index 0 and looked up in a list still empty. False
+    and None are tested first now, and share nothing.
+    """
+    image = _image()
+    axes = image.create_axes(ncol=2, sharexaxes=False)
+
+    assert isinstance(axes, list)
+    assert not axes[0].get_shared_x_axes().joined(axes[0], axes[1])
+
+
+@pytest.mark.parametrize(
+    ("share", "joined", "apart"),
+    [
+        ("all", [(0, 1), (0, 2), (0, 3)], []),
+        ("row", [(0, 1), (2, 3)], [(0, 2), (1, 3)]),
+        ("col", [(0, 2), (1, 3)], [(0, 1), (2, 3)]),
+    ],
+)
+def test_sharing_by_row_or_column(
+    share: Literal["all", "row", "col"],
+    joined: list[tuple[int, int]],
+    apart: list[tuple[int, int]],
+) -> None:
+    """Share within each row, within each column, or across the whole grid.
+
+    As in matplotlib's subplots, 'row' ties each axis to the first of its
+    row and 'col' to the first of its column, on a 2 x 2 grid laid out row
+    by row; 'all' is the same as True.
+    """
+    image = _image()
+    axes = image.create_axes(ncol=2, nrow=2, sharexaxes=share)
+
+    assert isinstance(axes, list)
+    shared = axes[0].get_shared_x_axes()
+    for first, second in joined:
+        assert shared.joined(axes[first], axes[second])
+    for first, second in apart:
+        assert not shared.joined(axes[first], axes[second])
+
+
+def test_an_unknown_sharing_is_refused() -> None:
+    """Ask for a sharing that has no meaning.
+
+    Any string used to reach matplotlib, which refused it with "'other'
+    must be an instance of _AxesBase"; the error now names the choices.
+    """
+    image = _image()
+
+    with pytest.raises(ValueError, match="Unknown sharing 'diag'"):
+        image.create_axes(ncol=2, sharexaxes="diag")  # pyright: ignore[reportArgumentType]  # ty: ignore[invalid-argument-type]
 
 
 # ---- The figure around the axes ----
@@ -275,6 +372,33 @@ def test_the_tight_layout_is_the_default() -> None:
 
     assert image.fig is not None
     assert image.fig.get_tight_layout() is True
+
+
+def test_a_custom_layout_is_never_tight() -> None:
+    """Place the axes by hand without saying anything about the layout.
+
+    A tight layout moves the axes, which would undo the borders given, so
+    a custom layout switches it off.
+    """
+    image = _image()
+    image.create_axes(ncol=2, left=0.2)
+
+    assert image.tight is False
+
+
+def test_a_custom_layout_refuses_an_explicit_tight() -> None:
+    """Ask for a custom layout and a tight one at the same time.
+
+    The two cannot both hold: the layout given wins, and the tight asked
+    for with it is refused with a warning instead of being dropped
+    without a word, as it was before.
+    """
+    image = _image()
+
+    with pytest.warns(UserWarning, match="custom layout cannot be tight"):
+        image.create_axes(ncol=2, left=0.2, tight=True)
+
+    assert image.tight is False
 
 
 def test_the_size_and_the_title_can_be_changed_afterwards() -> None:
@@ -312,20 +436,46 @@ def test_the_automatic_size_grows_with_the_grid() -> None:
     assert image.fig.get_figheight() == pytest.approx(5.0)
 
 
+def test_a_size_given_to_create_axes_is_kept() -> None:
+    """Give create_axes a size, then create more axes, and check it survives.
+
+    `set_size` is what marks a size as chosen by the user rather than
+    computed. The constructor set it and create_axes did not, so the next
+    call recomputed the size and the figure went back to 6x5 while the
+    state still reported what was asked for.
+    """
+    image = _image()
+    image.create_axes(figsize=[10.0, 4.0])
+    image.create_axes()
+
+    assert image.fig is not None
+    assert list(image.fig.get_size_inches()) == [10.0, 4.0]
+
+
 def test_the_fontsize_reaches_matplotlib() -> None:
     """Give a fontsize to create_axes and check matplotlib is set to it.
 
     It is written straight into the global parameters, so everything drawn
     afterwards uses it.
-
-    Only matplotlib's side is checked here: the state keeps its own
-    `fontsize` and create_axes does not update it, which is an open bug with
-    its own test in test_with_issues.py.
     """
     image = _image()
     image.create_axes(fontsize=13)
 
     assert plt.rcParams["font.size"] == 13
+
+
+def test_the_fontsize_given_to_create_axes_is_recorded() -> None:
+    """Give create_axes a fontsize and read it back off the image.
+
+    It reached matplotlib but not the state, which kept 17: the image
+    reported one size while the figure was drawn at another, and the
+    legend, the text box and the labels, which read the state, used the
+    stale one.
+    """
+    image = _image()
+    image.create_axes(fontsize=13)
+
+    assert image.fontsize == 13
 
 
 def test_a_projection_is_passed_on() -> None:

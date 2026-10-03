@@ -348,6 +348,41 @@ def test_no_ticks() -> None:
     assert list(cbar.ax.yaxis.get_minorticklocs()) == []
 
 
+def test_no_ticks_on_a_log_colorbar() -> None:
+    """Remove the ticks of a colorbar on a logarithmic scale.
+
+    A log colorbar has minor ticks of its own at every multiple of each
+    decade, which removing the major ones used to leave behind: cticks
+    goes through the same set_ticks as xticks.
+    """
+    image = pp.Image(text=False)
+    image.display(var + 0.01, cscale="log")
+    cbar = image.colorbar(cticks=None)
+    _box(cbar.ax)
+
+    assert list(cbar.ax.yaxis.get_majorticklocs()) == []
+    assert list(cbar.ax.yaxis.get_minorticklocs()) == []
+
+
+def test_fixed_ticks_on_a_log_colorbar_keep_their_labels() -> None:
+    """Fix the ticks of a log colorbar between the decades.
+
+    A log colorbar labels its powers of ten only, so a tick at 0.5 was
+    drawn without a label, as on a log axis: cticks goes through the same
+    set_ticks as xticks, and gets the same labels.
+    """
+    image = pp.Image(text=False)
+    image.display(var + 0.01, cscale="log")
+    cbar = image.colorbar(cticks=[0.5, 1.0])
+    _box(cbar.ax)
+
+    labels = [label.get_text() for label in cbar.ax.get_yticklabels()]
+    assert labels == [
+        r"$\mathdefault{5\times10^{-1}}$",
+        r"$\mathdefault{10^{0}}$",
+    ]
+
+
 def test_ticks_and_labels_from_an_array() -> None:
     """Fix the ticks with an array and label them.
 

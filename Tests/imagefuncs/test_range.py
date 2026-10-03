@@ -133,6 +133,44 @@ def test_range_offset_negative_log_warns() -> None:
     assert (ymin, ymax) == pytest.approx((0.5, 11.1))
 
 
+def test_negative_log_range_keeps_its_widest_value() -> None:
+    """Fold a range crossing zero onto a logarithmic scale.
+
+    Both limits are read from the original values, so (-100, 10) folds to
+    10 and 100 and the range reaches past 100. The two used to be folded
+    one after the other, so the second was computed from the first already
+    replaced: the 100 was lost and the result was (5, 21).
+    """
+    manager, _ = _manager()
+    with pytest.warns(UserWarning, match="Negative range"):
+        ymin, ymax = manager.range_offset(-100.0, 10.0, "log")
+
+    assert (ymin, ymax) == pytest.approx((5.0, 111.0))
+
+
+@pytest.mark.parametrize(
+    ("lower", "upper", "expected"),
+    [(0.0, 5.0, (0.25, 5.5)), (0.0, 0.0, (0.05, 1.1))],
+    ids=["from-zero", "all-zero"],
+)
+def test_a_log_range_from_zero_stays_positive(
+    lower: float, upper: float, expected: tuple[float, float]
+) -> None:
+    """Pad a range starting at 0 for a logarithmic axis.
+
+    A log axis cannot show 0, and the lower limit used to be exactly that,
+    which matplotlib ignores. With no positive value to start from, the
+    range starts a decade below its top -- 0.5 for a top of 5, then padded
+    to 0.25 -- or at 0.1 when every value is 0.
+    """
+    manager, _ = _manager()
+    with pytest.warns(UserWarning, match="Negative range"):
+        limits = manager.range_offset(lower, upper, "log")
+
+    assert limits == pytest.approx(expected)
+    assert limits[0] > 0.0
+
+
 # ---- X range ----
 def test_set_xrange_case_0_sets_limits_and_switches_case() -> None:
     """Set the first limits of an axis and check the case moves on.

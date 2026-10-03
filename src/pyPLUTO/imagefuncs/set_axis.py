@@ -11,6 +11,7 @@ from matplotlib.axes import Axes
 from matplotlib.ticker import (
     AutoMinorLocator,
     FixedFormatter,
+    LogFormatterSciNotation,
     NullFormatter,
     NullLocator,
 )
@@ -278,21 +279,23 @@ class AxisManager(ImageMixin):
         else:
             ax.tick_params(axis="both", labelsize=self.state.fontsize)
 
-        # Set ticks direction
+        # Set ticks direction, with ticks on all four sides: the far ones were
+        # set with the string "off", which matplotlib read as True, and that
+        # four-sided look is the one kept (decided 2026-09-29)
         if kwargs.get("ticksdir") or self.state.tickspar[nax] == 0:
             tckd = kwargs.get("ticksdir", "in")
             ax.tick_params(
                 axis="both",
                 which="major",
                 direction=tckd,
-                right="off",
-                top="off",
+                right=True,
+                top=True,
             )
             ax.tick_params(
                 which="minor",
                 direction=tckd,
-                right="off",
-                top="off",
+                right=True,
+                top=True,
             )
 
         # Set minor ticks
@@ -340,18 +343,28 @@ class AxisManager(ImageMixin):
         typeaxis: str,
         minor: str | int | None = "on",
     ) -> None:
-        """Setsthe ticks and ticks labels on the x-/y-axis of a selected axis.
+        """Set the ticks and the ticks labels on the x- or y-axis of an axis.
+
+        True leaves the ticks or the labels automatic, None removes them and
+        a list fixes them. Ticks removed take their labels with them, with a
+        warning if labels were given too; labels fixed on automatic ticks
+        are applied with a warning, since they do not follow the ticks when
+        the data changes. The labels themselves are set by set_tickslabels.
+        The same rules serve xticks/xtickslabels here and cticks/ctickslabels
+        on a colorbar.
 
         Parameters
         ----------
-        - ax: ax
-            the selected set of axes
-        - tc: list[float]
-            the ticks of the x-axis
-        - tl: list[float]
-            the ticks labels of the x-axis
-        - typeaxis: str
-            the type of axis (x or y)
+        - ax (not optional): Axes
+            The axis whose ticks are set.
+        - minor: str | int | None, default 'on'
+            'off' leaves no minor ticks next to fixed labels.
+        - tc (not optional): list[float] | bool | None
+            The ticks: True automatic, None removed, a list fixed.
+        - tl (not optional): str | list[str] | bool | None
+            The ticks labels: True automatic, None removed, a list fixed.
+        - typeaxis (not optional): str
+            The axis of the ticks, 'x' or 'y'.
 
         Returns
         -------
@@ -361,24 +374,26 @@ class AxisManager(ImageMixin):
         --------
         - Example #1: set ticks and ticks labels on the x-axis
 
-            >>> _set_ticks(ax, [0, 1, 2, 3], ["0", "1", "2", "3"], "x")
+            >>> self.set_ticks(ax, [0, 1, 2, 3], ["0", "1", "2", "3"], "x")
 
-        - Example #2: set ticks and ticks labels on the y-axis (no ticks)
+        - Example #2: remove the ticks of the y-axis
 
-            >>> _set_ticks(ax, None, None, "y")
+            >>> self.set_ticks(ax, None, True, "y")
 
-        - Example #3: set ticks and ticks labels on the x-axis (no ticks labels)
+        - Example #3: fixed ticks on the x-axis, without labels
 
-            >>> _set_ticks(ax, [0, 1, 2, 3], None, "x")
+            >>> self.set_ticks(ax, [0, 1, 2, 3], None, "x")
 
         """
         set_ticks = {"x": ax.set_xticks, "y": ax.set_yticks}
         set_label = {"x": ax.set_xticklabels, "y": ax.set_yticklabels}
 
-        # Ticks are None
+        # Ticks are None: the minor ones go too, since a log scale places
+        # its own at every multiple of each decade, with no major to follow
         if tc is None:
             set_ticks[typeaxis]([])
             set_label[typeaxis]([])
+            getattr(ax, f"{typeaxis}axis").set_minor_locator(NullLocator())
 
             # If tickslabels are not None raise a warning
             if tl is not None and tl is not True:
@@ -402,39 +417,86 @@ class AxisManager(ImageMixin):
                 )
                 warnings.warn(warn, UserWarning, stacklevel=2)
 
-            # Ticks are set custom, then tickslabels are set
-            # Use formatters directly: set_xticklabels is reset by log scale
-            axis = getattr(ax, f"{typeaxis}axis")
-            if tl is None:
-                if tc is True:
-                    axis.set_major_formatter(NullFormatter())
-                    axis.set_minor_formatter(NullFormatter())
-                else:
-                    set_label[typeaxis]([])
-            elif isinstance(tl, str):
-                axis.set_major_formatter(FixedFormatter([tl]))
-                axis.set_minor_formatter(NullFormatter())
-                scale = getattr(ax, f"get_{typeaxis}scale")()
-                if minor == "off" or scale != "linear":
-                    axis.set_minor_locator(NullLocator())
-                else:
-                    axis.set_minor_locator(AutoMinorLocator(5))
-            elif isinstance(tl, Iterable):
-                axis.set_major_formatter(FixedFormatter(list(tl)))
-                axis.set_minor_formatter(NullFormatter())
-                scale = getattr(ax, f"get_{typeaxis}scale")()
-                if minor == "off" or scale != "linear":
-                    axis.set_minor_locator(NullLocator())
-                else:
-                    axis.set_minor_locator(AutoMinorLocator(5))
-            else:
-                raise TypeError(f"Invalid tick labels: {tl!r}")
+            self.set_tickslabels(ax, tc, tl, typeaxis, minor)
 
-        # Ticks are custom, tickslabels are default
+        # Ticks are custom, tickslabels are default: a log scale labels its
+        # powers of ten only, so it is told to label every tick given, in
+        # the same notation as the decades
         elif tc is not True:
             set_ticks[typeaxis](tc)
+            if getattr(ax, f"get_{typeaxis}scale")() == "log":
+                every = (float("inf"), float("inf"))
+                formatter = LogFormatterSciNotation(
+                    labelOnlyBase=False, minor_thresholds=every
+                )
+                getattr(ax, f"{typeaxis}axis").set_major_formatter(formatter)
 
         # End of the function
+
+    def set_tickslabels(
+        self,
+        ax: Axes,
+        tc: str | list[float] | bool | None,
+        tl: str | list[str] | bool | None,
+        typeaxis: str,
+        minor: str | int | None = "on",
+    ) -> None:
+        """Set the ticks labels of an axis whose ticks are already set.
+
+        The labels go through the formatters of the axis rather than through
+        set_xticklabels, which a logarithmic scale resets. None removes them,
+        keeping the ticks; a string is a single label, a list one label per
+        tick. Fixed labels leave the minor ticks unlabelled, and switch them
+        off unless the scale is linear and minor is not 'off'.
+
+        Parameters
+        ----------
+        - ax (not optional): Axes
+            The axis whose ticks labels are set.
+        - minor: str | int | None, default 'on'
+            'off' leaves no minor ticks next to fixed labels.
+        - tc (not optional): list[float] | bool | None
+            The ticks, as set_ticks received them: True if automatic.
+        - tl (not optional): str | list[str] | bool | None
+            The ticks labels: None removed, a string or a list fixed.
+        - typeaxis (not optional): str
+            The axis of the ticks, 'x' or 'y'.
+
+        Returns
+        -------
+        - None
+
+        Examples
+        --------
+        - Example #1: label the fixed ticks of the x-axis
+
+            >>> self.set_tickslabels(ax, [0, 1], ["a", "b"], "x")
+
+        """
+        axis = getattr(ax, f"{typeaxis}axis")
+
+        # No labels: on automatic ticks the formatters are emptied, which
+        # survives a change of scale; on fixed ones the labels are cleared
+        if tl is None:
+            if tc is True:
+                axis.set_major_formatter(NullFormatter())
+                axis.set_minor_formatter(NullFormatter())
+            else:
+                getattr(ax, f"set_{typeaxis}ticklabels")([])
+            return
+
+        if not isinstance(tl, str | Iterable):
+            raise TypeError(f"Invalid tick labels: {tl!r}")
+
+        # A string is one label, a list one label per tick
+        labels = [tl] if isinstance(tl, str) else list(tl)
+        axis.set_major_formatter(FixedFormatter(labels))
+        axis.set_minor_formatter(NullFormatter())
+        scale = getattr(ax, f"get_{typeaxis}scale")()
+        if minor == "off" or scale != "linear":
+            axis.set_minor_locator(NullLocator())
+        else:
+            axis.set_minor_locator(AutoMinorLocator(5))
 
     @track_kwargs
     def set_titles(

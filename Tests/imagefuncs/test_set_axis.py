@@ -21,6 +21,7 @@ import inspect
 import warnings
 from typing import Literal
 
+import numpy as np
 import numpy.testing as npt
 import pytest
 from matplotlib.axes import Axes
@@ -289,6 +290,49 @@ def test_the_minor_ticks_are_dropped_on_a_log_scale() -> None:
     assert len(ax.get_xticks(minor=True)) == 0
 
 
+def test_removed_ticks_leave_no_minor_ticks_on_a_log_scale() -> None:
+    """Remove the ticks of a logarithmic axis with None.
+
+    A log scale places minor ticks of its own at every multiple of each
+    decade, with no major tick to follow, so removing the major ones used
+    to leave all of them on the axis. None removes every tick.
+    """
+    grid = np.logspace(-2.0, 1.0, 20)
+    image = pp.Image(text=False)
+    image.plot(grid, grid, yscale="log", yticks=None)
+    ax = image.ax[0]
+    assert isinstance(ax, Axes)
+    assert image.fig is not None
+    image.fig.canvas.draw()
+
+    assert list(ax.yaxis.get_majorticklocs()) == []
+    assert list(ax.yaxis.get_minorticklocs()) == []
+
+
+def test_fixed_ticks_on_a_log_scale_keep_their_labels() -> None:
+    """Fix the ticks of a logarithmic axis at 0.5, 1 and 3.
+
+    The formatter of a log scale labels powers of ten only, so 0.5 and 3
+    used to be drawn with an empty label: asking for a tick at a value is
+    asking to read that value. Every tick given is labelled now, in the
+    notation of the decades, and a decade keeps its usual label.
+    """
+    grid = np.logspace(-2.0, 1.0, 20)
+    image = pp.Image(text=False)
+    image.plot(grid, grid, yscale="log", yticks=[0.5, 1.0, 3.0])
+    ax = image.ax[0]
+    assert isinstance(ax, Axes)
+    assert image.fig is not None
+    image.fig.canvas.draw()
+
+    labels = [label.get_text() for label in ax.get_yticklabels()]
+    assert labels == [
+        r"$\mathdefault{5\times10^{-1}}$",
+        r"$\mathdefault{10^{0}}$",
+        r"$\mathdefault{3\times10^{0}}$",
+    ]
+
+
 # ---- Scales, grid and size ----
 def test_the_scales() -> None:
     """Set both axes to a logarithmic scale.
@@ -387,6 +431,25 @@ def test_the_tick_direction(direction: str, marker: int) -> None:
     image.set_axis(ticksdir=direction)
 
     assert ax.xaxis.get_major_ticks()[0].tick1line.get_marker() == marker
+
+
+@pytest.mark.parametrize("axis", ["yaxis", "xaxis"], ids=["right", "top"])
+def test_the_ticks_are_on_all_four_sides(axis: str) -> None:
+    """Check the ticks on the far side of the axis are drawn.
+
+    The look pyPLUTO keeps has ticks on the right and on top as well. They
+    used to be set with the string "off", which matplotlib stored and read
+    as true: the look was right by accident, and the value is a real True
+    now, so it stays right if matplotlib's reading changes.
+    """
+    image = pp.Image(text=False)
+    image.plot([0.0, 1.0], [0.0, 1.0])
+    ax = image.ax[0]
+    assert isinstance(ax, Axes)
+
+    tick = getattr(ax, axis).get_major_ticks()[0].tick2line
+
+    assert tick.get_visible() is True
 
 
 # ---- Sharing ----

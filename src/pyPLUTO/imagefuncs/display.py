@@ -395,7 +395,8 @@ class DisplayManager(ImageMixin):
 
         # A single cell has no spacing to take half of, so it is given the
         # same width matplotlib gives it
-        if coord.size < 2:
+        twodim = 2
+        if coord.size < twodim:
             return [float(coord[0]) - 0.5, float(coord[0]) + 0.5]
 
         first = float(coord[0]) - (float(coord[1]) - float(coord[0])) / 2

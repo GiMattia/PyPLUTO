@@ -69,8 +69,8 @@ class CreateAxesKwargs(ImageKwargs, total=False):
     nrow: int
     proj: str
     right: float
-    sharexaxes: bool | str | Axes
-    shareyaxes: bool | str | Axes
+    sharexaxes: bool | int | Literal["all", "row", "col"] | Axes | None
+    shareyaxes: bool | int | Literal["all", "row", "col"] | Axes | None
     top: float
     wratio: Sequence[float] | float
     wspace: Sequence[float] | float

@@ -155,10 +155,12 @@ class ContourManager(ImageMixin):
             Enables/disables the sharing of the x-axis between the subplots.
         - sharey: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the y-axis between the subplots.
-        - sharexaxes: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the x-axis between the subplots.
-        - shareyaxes: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the y-axis between the subplots.
+        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
+            Shares the x-axis between the subplots: True or 'all' with the
+            first of them, 'row' and 'col' within each row or column, an
+            index with that axis of the image, an Axes with that axis.
+        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
+            Shares the y-axis between the subplots, as sharexaxes does.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
         - ticksdir: {'in', 'out'}, default 'in'

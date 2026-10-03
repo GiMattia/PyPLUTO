@@ -89,8 +89,10 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         # or compute the offset and shape
 
         if self.state.d_info["typefile"][exout] == "single_file":
+            # Copy-on-write: a variable reads only the pages it is sliced on,
+            # and writing to it stays in memory, never reaching the file
             with open(self.state.filepath, "rb") as fd:
-                kwargs = {"access": mmap.ACCESS_READ}
+                kwargs = {"access": mmap.ACCESS_COPY}
                 # if sys.version_info >= (3, 13):
                 #    kwargs["trackfd"] = False
                 mm = mmap.mmap(fd.fileno(), 0, **kwargs)
@@ -154,7 +156,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             if self.state.d_info["typefile"][exout] == "multiple_files":
                 try:
                     with open(self.state.filepath, "rb") as fd:
-                        kwargs = {"access": mmap.ACCESS_READ}
+                        kwargs = {"access": mmap.ACCESS_COPY}
                         # if sys.version_info >= (3, 13):
                         #    kwargs["trackfd"] = False
                         mm = mmap.mmap(fd.fileno(), 0, **kwargs)

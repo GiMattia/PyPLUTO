@@ -170,10 +170,12 @@ class StreamplotManager(ImageMixin):
             Enables/disables the sharing of the x-axis between the subplots.
         - sharey: bool | str | Matplotlib axis, default False
             Enables/disables the sharing of the y-axis between the subplots.
-        - sharexaxes: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the x-axis between the subplots.
-        - shareyaxes: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the y-axis between the subplots.
+        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
+            Shares the x-axis between the subplots: True or 'all' with the
+            first of them, 'row' and 'col' within each row or column, an
+            index with that axis of the image, an Axes with that axis.
+        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
+            Shares the y-axis between the subplots, as sharexaxes does.
         - start_points: np.ndarray, default None
             Sets the starting points of the streamlines, if a more controlled
             plot is wanted.
@@ -346,14 +348,10 @@ class StreamplotManager(ImageMixin):
 
         # The lines take c if given; a colormap or a colorbar colors them by
         # the magnitude of the field; otherwise the next palette color
-        color: ArrayLike | None = kwargs.get("c")
-        if color is None and ("cmap" in kwargs or cpos is not None):
-            color = fieldmod
-        elif color is None:
-            color = self.state.color[
-                self.state.nline[nax] % len(self.state.color)
-            ]
-            self.state.nline[nax] = self.state.nline[nax] + 1
+        bymagnitude = "cmap" in kwargs or cpos is not None
+        color = self.choose_line_color(
+            nax, kwargs.get("c"), fieldmod, bymagnitude
+        )
 
         # A color and a colormap cannot both apply, so c wins
         if "c" in kwargs and "cmap" in kwargs:
@@ -410,3 +408,48 @@ class StreamplotManager(ImageMixin):
             self.state.fig.tight_layout()
 
         return strm.lines
+
+    def choose_line_color(
+        self,
+        nax: int,
+        color: ArrayLike | None,
+        fieldmod: np.ndarray,
+        bymagnitude: bool,
+    ) -> ArrayLike:
+        """Choose what the streamlines of an axis are colored by.
+
+        A color given is used as it is. Without one, the lines are colored
+        by the magnitude of the field when a colormap or a colorbar was
+        asked for, so the colorbar shows the scale the lines are drawn in;
+        otherwise they take the next color of the palette and advance it,
+        as a curve does.
+
+        Parameters
+        ----------
+        - bymagnitude (not optional): bool
+            Whether a colormap or a colorbar was asked for.
+        - color (not optional): ArrayLike | None
+            The color given by the user, or None.
+        - fieldmod (not optional): np.ndarray
+            The magnitude of the field, as var[y, x].
+        - nax (not optional): int
+            The index of the axis, whose palette is advanced.
+
+        Returns
+        -------
+        - ArrayLike
+
+        Examples
+        --------
+        - Example #1: lines colored by the magnitude of the field
+
+            >>> self.choose_line_color(0, None, fieldmod, True)
+
+        """
+        if color is not None:
+            return color
+        if bymagnitude:
+            return fieldmod
+        color = self.state.color[self.state.nline[nax] % len(self.state.color)]
+        self.state.nline[nax] = self.state.nline[nax] + 1
+        return color

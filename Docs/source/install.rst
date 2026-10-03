@@ -27,6 +27,7 @@ From PyPI
 ---------
 
 The recommended way to install PyPLUTO for most users:
+The recommended way to install PyPLUTO for most users:
 
 .. code-block:: console
 

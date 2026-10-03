@@ -167,7 +167,7 @@ Normalization Units:
     assert units["x1"].value == pytest.approx(1.496e13)
 
 
-def test_units_log_priority_with_defh_fallback_for_missing(tmp_path):
+def test_units_log_priority_over_physics_defaults(tmp_path):
     pytest.importorskip("astropy.units")
     log_text = """
 Normalization Units:
@@ -178,7 +178,7 @@ Normalization Units:
     (tmp_path / "pluto.log").write_text(log_text, encoding="utf-8")
 
     state = SimpleNamespace(
-        defh={"UNIT_DENSITY": 2.0e-24},
+        defh={},
         pathdir=tmp_path,
         unit_base={},
         unit_attached=set(),
@@ -192,7 +192,7 @@ Normalization Units:
     assert state.unit_base["UNIT_LENGTH"] == pytest.approx(3.0e10)
 
 
-def test_units_userdef_priority_over_log_and_defh(tmp_path):
+def test_units_userdef_priority_over_log(tmp_path):
     pytest.importorskip("astropy.units")
     log_text = """
 Normalization Units:
@@ -203,7 +203,7 @@ Normalization Units:
     (tmp_path / "pluto.log").write_text(log_text, encoding="utf-8")
 
     state = SimpleNamespace(
-        defh={"UNIT_DENSITY": 2.0e-24},
+        defh={},
         unit_userdef={"UNIT_DENSITY": 4.0e-24},
         pathdir=tmp_path,
         unit_base={},

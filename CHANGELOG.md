@@ -5,6 +5,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [Unreleased]
+
 ### Added (preliminary)
 - Volume rendering: `MPLVolumeRenderer` and the `Image.volume` method (`imagefuncs/volengine.py`, `imagefuncs/volume.py`), with new example scripts and tests
 - GUI: slider-based playback controls for stepping/replaying outputs (`⏮ ◀ ▶ ⏸ ⏩ ⏭`), lock lines, and color pinning
@@ -27,6 +29,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `Image.showgrid`: a misspelled keyword is now reported, the method being the only tracked one without the internal `_check` flag
 - `Image.interactive`: the `ax` keyword is declared on the facade, so type checkers accept it and `help()` shows it; `_check` no longer sits where the manager has `limfix`, which made a third positional argument switch off the keyword check
 - `AxisManager.set_axis`: `ax` now defaults to `None`, as its docstring and the facade already said
+
+---
+
+## [1.2.6] — 2026-10-03
+
+### Fixed
+- Loading: the first access to a variable copied the whole variable into memory, so slicing a large output read the entire file (a slice of a 1024³ variable took 16 s and 13 GiB instead of 0.09 s and 0.15 GiB). Present since 1.2.0. Variables are now handed back as memory-mapped views, so a slice reads only the part of the file it covers. The files are mapped copy-on-write, so a variable can still be modified in memory without touching the file.
+
+---
+
+## [1.2.5] — 2026-09-23
+
+### Fixed
+- AMR boxes: in CARTESIAN geometry `oplotbox` passed the level colour to `plot` as `color`, which that method does not read, so every box took the next colour of the palette instead of the colour of its level. A single colour for the whole overplot can now be given with `c`, which used to clash with the per-level one.
 
 ---
 
@@ -191,7 +207,9 @@ Initial public release.
 - Sphinx documentation with worked examples
 - CI on Linux, macOS, Windows across Python 3.11–3.13
 
-[Unreleased]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.4...HEAD
+[Unreleased]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.6...HEAD
+[1.2.6]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.5...v1.2.6
+[1.2.5]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.4...v1.2.5
 [1.2.4]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/GiMattia/pyPLUTO/compare/v1.2.1...v1.2.2

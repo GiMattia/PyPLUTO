@@ -16,7 +16,8 @@ src/pyPLUTO/toolfuncs/__pycache__/
 src/pyPLUTO/utils/__pycache__/
 src/pyPLUTO/utils/*json
 src/pyPLUTO/__pycache__/
-Tests/__pycache__/
+Tests/*/__pycache__/
+Tests/Test_load/
 Tests/.approval_test_temp/
 Tests/.mypy_cache/
 Tests/.coverage

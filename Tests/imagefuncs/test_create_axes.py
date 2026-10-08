@@ -41,11 +41,15 @@ PER_AXIS_FIELDS = [
     "ntext",
     "setax",
     "setay",
+    "setxticks",
+    "setyticks",
     "shade",
     "tickspar",
     "vlims",
     "xscale",
+    "xtickspin",
     "yscale",
+    "ytickspin",
 ]
 
 

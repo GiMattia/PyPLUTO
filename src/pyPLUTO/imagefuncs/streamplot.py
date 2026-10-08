@@ -14,6 +14,7 @@ from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagefuncs.ticks import TicksManager
 from pyPLUTO.imagekwargs import StreamplotKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -31,6 +32,7 @@ class StreamplotManager(ImageMixin):
         self.ColorbarManager = ColorbarManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
         self.RangeManager = RangeManager(state)
+        self.TicksManager = TicksManager(state)
 
     @track_kwargs
     def streamplot(
@@ -399,6 +401,9 @@ class StreamplotManager(ImageMixin):
         strm.lines.set_alpha(alpha)
         for arrow in ax.patches[npatches:]:
             arrow.set_alpha(alpha)
+
+        # The limits are matplotlib's, read off the axis once it is drawn
+        self.TicksManager.update_ticks(ax, nax)
 
         if cpos is not None:
             self.ColorbarManager.colorbar(strm.lines, _check=False, **kwargs)

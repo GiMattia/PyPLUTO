@@ -12,16 +12,21 @@ makes every later line on that axis rebuild the legend.
 
 from __future__ import annotations
 
-from typing import Unpack
+import warnings
+from collections.abc import Iterable
+from typing import Unpack, cast
 
 import numpy as np
 from matplotlib.axes import Axes
+from matplotlib.colors import is_color_like
+from matplotlib.typing import ColorType
 from numpy.typing import ArrayLike
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.legend import LegendManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagefuncs.ticks import TicksManager
 from pyPLUTO.imagekwargs import PlotKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -46,6 +51,7 @@ class PlotManager(ImageMixin):
         self.ImageToolsManager = ImageToolsManager(state)
         self.LegendManager = LegendManager(state)
         self.RangeManager = RangeManager(state)
+        self.TicksManager = TicksManager(state)
 
     @track_kwargs
     def plot(
@@ -82,10 +88,11 @@ class PlotManager(ImageMixin):
             is the space from the bottom border to the plot (default 0.1); for
             an inset zoom it is the bottom position of the inset (default 0.6 +
             height).
-        - c: str, default self.color
+        - c: str | list[str], default self.color
             Determines the color. If not defined, the program will loop
             over an array of 6 colors which are different for the most common
-            vision deficiencies.
+            vision deficiencies. A list gives one color per line of a 2D
+            array.
         - edgecolor: list[str], default [None]
             Sets the edge color of the legend. The default value is black
             ('k').
@@ -332,6 +339,7 @@ class PlotManager(ImageMixin):
             #    x=x.astype(np.float64),
             #    y=y,
         )
+        self.TicksManager.update_ticks(ax, nax)
 
         # Set color line and increase the number of lines (if default color)
         # Compared to None, since an RGB array has no truth value
@@ -344,11 +352,18 @@ class PlotManager(ImageMixin):
         else:
             col_line = col_c
 
+        # One color for all the lines, or else one color per line
+        colours = (
+            None
+            if is_color_like(col_line)
+            else list(cast("Iterable[ColorType]", col_line))
+        )
+
         # Start plotting procedure
-        ax.plot(
+        lines = ax.plot(
             x,
             y,
-            c=col_line,
+            c=col_line if colours is None else None,
             ls=kwargs.get("ls", "-"),
             lw=kwargs.get("lw", 1.3),
             marker=kwargs.get("marker", ""),
@@ -357,13 +372,29 @@ class PlotManager(ImageMixin):
             fillstyle=kwargs.get("fillstyle", "full"),
         )
 
-        # Creation of the legend
+        # A list of the wrong length is cycled through, as the legend does
+        if colours is not None:
+            if len(colours) != len(lines):
+                warn = f"c has {len(colours)} colors for {len(lines)} lines."
+                warnings.warn(warn, UserWarning, stacklevel=2)
+            for i, line in enumerate(lines):
+                line.set_color(colours[i % len(colours)])
+
+        # Creation of the legend, only if a line on the axis has a label
         self.state.legpos[nax] = kwargs.get("legpos", self.state.legpos[nax])
         if self.state.legpos[nax] is not None:
-            copy_label = kwargs.get("label")
-            kwargs["label"] = None
-            self.LegendManager.legend(ax, _check=False, fromplot=True, **kwargs)
-            kwargs["label"] = copy_label
+            if ax.get_legend_handles_labels()[1]:
+                copy_label = kwargs.get("label")
+                kwargs["label"] = None
+                self.LegendManager.legend(
+                    ax, _check=False, fromplot=True, **kwargs
+                )
+                kwargs["label"] = copy_label
+            else:
+                warn = (
+                    "legpos is set but no line has a label: no legend is drawn."
+                )
+                warnings.warn(warn, UserWarning, stacklevel=2)
 
         # If tight_layout is enabled, is re-inforced
         if self.state.tight:

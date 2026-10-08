@@ -13,7 +13,7 @@ from matplotlib.contour import ContourSet, QuadContourSet
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
-from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagefuncs.ticks import TicksManager
 from pyPLUTO.imagekwargs import ColorbarKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -31,8 +31,8 @@ class ColorbarManager(ImageMixin):
     def __init__(self, state: ImageState) -> None:
         """Initialize the ColorbarManager with the given state."""
         self.state = state
-        self.AxisManager = AxisManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
+        self.TicksManager = TicksManager(state)
 
     @track_kwargs
     def colorbar(
@@ -272,7 +272,7 @@ class ColorbarManager(ImageMixin):
         ctl = kwargs.get("ctickslabels", True)
         if ctk is not True or ctl is not True:
             axis = "y" if ccor == "vertical" else "x"
-            self.AxisManager.set_ticks(cbar.ax, ctk, ctl, axis, minor="off")
+            self.TicksManager.set_ticks(cbar.ax, ctk, ctl, axis, minor="off")
 
         # Ensure, if needed, the tight layout
         if self.state.tight:

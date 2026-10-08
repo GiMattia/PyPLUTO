@@ -14,6 +14,7 @@ from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagefuncs.ticks import TicksManager
 from pyPLUTO.imagekwargs import ContourKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -35,6 +36,7 @@ class ContourManager(ImageMixin):
         self.ColorbarManager = ColorbarManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
         self.RangeManager = RangeManager(state)
+        self.TicksManager = TicksManager(state)
 
     @track_kwargs
     def contour(
@@ -338,6 +340,9 @@ class ContourManager(ImageMixin):
             alpha=alpha,
             linewidths=lw,
         )
+
+        # The limits are matplotlib's, read off the axis once it is drawn
+        self.TicksManager.update_ticks(ax, nax)
 
         if cpos is not None:
             self.ColorbarManager.colorbar(cnt, _check=False, **kwargs)

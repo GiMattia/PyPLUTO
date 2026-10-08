@@ -1,8 +1,7 @@
 name: MacOS Tests
 
+# Pull requests only; every push is tested by the golden workflow
 on:
-  push:
-    branches: [ master ]
   pull_request:
 
 jobs:

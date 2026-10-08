@@ -18,7 +18,6 @@ back after the scale is set, which is where that distinction shows.
 """
 
 import inspect
-import warnings
 from typing import Literal
 
 import numpy as np
@@ -195,28 +194,6 @@ def test_labels_without_ticks_warn() -> None:
         image.set_axis(xticks=None, xtickslabels=["a", "b"])
 
 
-def test_labels_on_automatic_ticks_warn() -> None:
-    """Give labels while the ticks are left automatic.
-
-    Matplotlib chooses the ticks, so a fixed list of labels would be
-    attached to positions the user did not choose and would move with the
-    data; the manager says so.
-
-    The labels are then applied anyway, which makes matplotlib warn in turn
-    about a FixedFormatter without a FixedLocator. That second warning is
-    an open bug with its own test in test_with_issues.py; it is recorded
-    here so this test does not depend on it either way.
-    """
-    image, _ = _axis()
-
-    with warnings.catch_warnings(record=True) as raised:
-        warnings.simplefilter("always")
-        image.set_axis(xtickslabels=["a", "b"])
-
-    messages = [str(w.message) for w in raised]
-    assert any("should be fixed only" in message for message in messages)
-
-
 def test_labels_of_the_wrong_kind_are_refused() -> None:
     """Give a number as the tick labels.
 
@@ -259,21 +236,6 @@ def test_a_single_label_without_minor_ticks() -> None:
     )
 
     assert len(ax.get_xticks(minor=True)) == 0
-
-
-def test_set_ticks_does_nothing_when_both_are_automatic() -> None:
-    """Call set_ticks with both the ticks and the labels left automatic.
-
-    set_axis never makes this call -- it only calls the helper when one of
-    the two is given -- but the helper is public, and asking it to change
-    nothing must leave matplotlib's own ticks in place.
-    """
-    image, ax = _axis()
-    before = list(ax.get_xticks())
-
-    image.AxisManager.set_ticks(ax, True, True, "x")
-
-    assert list(ax.get_xticks()) == before
 
 
 def test_the_minor_ticks_are_dropped_on_a_log_scale() -> None:

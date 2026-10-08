@@ -18,7 +18,8 @@ through `LegendManager` with `label` blanked out, which is what makes it
 describe the lines that are drawn rather than build its own handles.
 """
 
-from collections.abc import Callable
+import warnings
+from collections.abc import Callable, Sequence
 
 import numpy as np
 import numpy.testing as npt
@@ -227,6 +228,44 @@ def test_a_colour_given_as_an_rgb_array() -> None:
     colour = np.asarray(_lines(image)[0].get_color(), dtype=float)
     npt.assert_allclose(colour, [0.1, 0.2, 0.3])
     assert image.nline[0] == 0
+
+
+@pytest.mark.parametrize(
+    "colours",
+    [["r", "b", "g"], ("r", "b", "g"), "rbg"],
+    ids=["list", "tuple", "string"],
+)
+def test_one_colour_per_line_of_a_2d_plot(colours: str | Sequence[str]) -> None:
+    """Draw a 2D array with one colour per column.
+
+    A 2D array is one line per column, and a colour that is not a single
+    one is read as one per line, whatever holds it: a list, a tuple, or a
+    string of one-letter colours. matplotlib takes one colour for the whole
+    call, so the colours are set on the lines once they are drawn.
+    """
+    image = pp.Image(text=False)
+    xval = np.tile(x, (3, 1)).T
+
+    image.plot(xval, np.column_stack([y, z, y + 1.0]), c=colours)
+
+    assert [line.get_color() for line in _lines(image)] == ["r", "b", "g"]
+    assert image.nline[0] == 0
+
+
+def test_too_few_colours_are_cycled_with_a_warning() -> None:
+    """Give two colours for three lines.
+
+    The colours are reused in turn, as the legend does with its lists, so
+    the plot is still drawn; but a count that does not match is most likely
+    a mistake, so the user is told.
+    """
+    image = pp.Image(text=False)
+    xval = np.tile(x, (3, 1)).T
+
+    with pytest.warns(UserWarning, match="c has 2 colors for 3 lines"):
+        image.plot(xval, np.column_stack([y, z, y + 1.0]), c=["r", "b"])
+
+    assert [line.get_color() for line in _lines(image)] == ["r", "b", "r"]
 
 
 # ---- The line itself ----
@@ -441,6 +480,45 @@ def test_the_position_is_remembered_by_the_axis() -> None:
     assert legend is not None
     assert [text.get_text() for text in legend.get_texts()] == ["rho", "prs"]
     assert image.legpos[0] == "upper left"
+
+
+def test_a_legend_without_any_label_is_not_drawn() -> None:
+    """Ask for a legend on an axis whose lines carry no label.
+
+    There is nothing to list, so no frame is drawn, and the user is told by
+    us, in terms of the call they made -- not by matplotlib's own "No
+    artists with labels found", which is phrased for someone calling it.
+    """
+    image = pp.Image(text=False)
+
+    with warnings.catch_warnings(record=True) as raised:
+        warnings.simplefilter("always")
+        image.plot(x, y, legpos="best")
+
+    assert [str(w.message) for w in raised] == [
+        "legpos is set but no line has a label: no legend is drawn."
+    ]
+    assert isinstance(image.ax[0], Axes)
+    assert image.ax[0].get_legend() is None
+
+
+def test_a_label_after_legpos_brings_the_legend() -> None:
+    """Ask for a legend with no label, then draw a labelled line.
+
+    The position is remembered even when nothing could be listed, so the
+    legend appears as soon as a line has a label, without repeating
+    `legpos`.
+    """
+    image = pp.Image(text=False)
+    with pytest.warns(UserWarning, match="no legend is drawn"):
+        image.plot(x, y, legpos="best")
+
+    image.plot(x, z, label="prs")
+
+    assert isinstance(image.ax[0], Axes)
+    legend = image.ax[0].get_legend()
+    assert legend is not None
+    assert [text.get_text() for text in legend.get_texts()] == ["prs"]
 
 
 # ---- The figure ----

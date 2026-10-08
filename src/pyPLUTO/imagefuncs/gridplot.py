@@ -13,6 +13,7 @@ from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.legend import LegendManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagefuncs.ticks import TicksManager
 from pyPLUTO.imagekwargs import ShowGridKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -176,6 +177,7 @@ class GridPlotManager(ImageMixin):
         self.ImageToolsManager = ImageToolsManager(state)
         self.LegendManager = LegendManager(state)
         self.RangeManager = RangeManager(state)
+        self.TicksManager = TicksManager(state)
 
     @track_kwargs
     def showgrid(
@@ -312,6 +314,7 @@ class GridPlotManager(ImageMixin):
         ylim = [float(points[:, 1].min()), float(points[:, 1].max())]
         self.RangeManager.set_xrange(ax, nax, xlim, strict)
         self.RangeManager.set_yrange(ax, nax, ylim, strict)
+        self.TicksManager.update_ticks(ax, nax)
 
         # Set ax parameters
         self.AxisManager.set_axis(ax=ax, _check=False, **kwargs)

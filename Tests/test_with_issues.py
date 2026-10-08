@@ -32,7 +32,6 @@ import numpy as np
 import pytest
 from helper_image import DELEGATION, DOCUMENTED_KWARGS
 from helper_image import KWARGS as IMAGE_KWARGS
-from matplotlib.axes import Axes
 
 import pyPLUTO as pp
 import pyPLUTO.image as image_mod
@@ -325,52 +324,6 @@ def test_declared_keywords_are_usable(
 
 
 # ---- imagefuncs/plot.py ----
-@pytest.mark.xfail(
-    strict=True,
-    reason="c is declared as a sequence of colours, ax.plot takes only one",
-)
-def test_one_colour_per_line_of_a_2d_plot() -> None:
-    """Draw a 2D array with one colour per column.
-
-    A 2D array is drawn as one line per column, and `PlotKwargs.c` declares
-    `Sequence[str | ColorType]`, so a colour per line type-checks -- but the
-    whole array goes to a single `ax.plot` call, which takes one colour and
-    raises. Either the lines are drawn one at a time, or `c` is narrowed to
-    a single colour for `plot`.
-    """
-    image = pp.Image(text=False)
-    xval = np.tile(np.linspace(0.0, 1.0, 5), (3, 1)).T
-
-    image.plot(xval, xval * 2.0, c=["r", "b", "g"])
-
-    assert isinstance(image.ax[0], Axes)
-    colours = [line.get_color() for line in image.ax[0].lines]
-    assert colours == ["r", "b", "g"]
-
-
-@pytest.mark.xfail(
-    strict=True,
-    reason="an empty legend is built, and matplotlib warns in our place",
-)
-def test_a_legend_asked_for_without_any_label() -> None:
-    """Ask for a legend on an axis whose lines carry no label.
-
-    `legpos` builds the legend whatever is on the axis, so a plot without
-    `label` gets an empty frame and matplotlib's own "No artists with labels
-    found to put in legend" -- a warning about our call, phrased for someone
-    calling matplotlib. Nothing should be drawn, and if anything is said it
-    should be said by us.
-    """
-    image = pp.Image(text=False)
-
-    with warnings.catch_warnings():
-        warnings.simplefilter("error")
-        image.plot([0.0, 1.0], [0.0, 1.0], legpos="best")
-
-    assert isinstance(image.ax[0], Axes)
-    assert image.ax[0].get_legend() is None
-
-
 # ---- imagefuncs/set_axis.py ----
 @pytest.mark.xfail(
     strict=True,
@@ -388,31 +341,6 @@ def test_a_single_string_of_tick_labels_is_declared(keyword: str) -> None:
     declared = typing.get_type_hints(image_kwargs.SetAxisKwargs)[keyword]
 
     assert str in typing.get_args(declared)
-
-
-@pytest.mark.xfail(
-    strict=True, reason="the labels are applied after the call warns against it"
-)
-def test_labels_on_automatic_ticks_are_not_applied() -> None:
-    """Give tick labels while the ticks are left automatic.
-
-    `set_ticks` warns that labels should be fixed only when the ticks are,
-    and then sets the formatter regardless, so matplotlib warns in turn --
-    "FixedFormatter should only be used together with FixedLocator" -- and
-    the labels stay pinned to ticks that move with the data.
-
-    Either the warning is right and the labels are dropped, or they are
-    accepted and the warning goes; doing both is what makes two warnings
-    and a wrong axis.
-    """
-    image = pp.Image(text=False)
-    image.create_axes()
-
-    with warnings.catch_warnings(record=True) as raised:
-        warnings.simplefilter("always")
-        image.set_axis(xtickslabels=["a", "b"])
-
-    assert not [w for w in raised if "FixedFormatter" in str(w.message)]
 
 
 @pytest.mark.xfail(

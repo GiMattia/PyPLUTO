@@ -432,10 +432,14 @@ class CreateAxesManager(ImageMixin):
             "ntext": None,
             "setax": 0,
             "setay": 0,
+            "setxticks": 0,
+            "setyticks": 0,
             "shade": "auto",
             "tickspar": 0,
             "xscale": "linear",
+            "xtickspin": None,
             "yscale": "linear",
+            "ytickspin": None,
             "vlims": [],
         }
 

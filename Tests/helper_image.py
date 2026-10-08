@@ -41,6 +41,8 @@ DEFAULTS: dict[str, object] = {
     "nwin": 1,
     "setax": [],
     "setay": [],
+    "setxticks": [],
+    "setyticks": [],
     "set_size": False,
     "shade": [],
     "style": "default",
@@ -49,7 +51,9 @@ DEFAULTS: dict[str, object] = {
     "vlims": [],
     "volumes": [],
     "xscale": [],
+    "xtickspin": [],
     "yscale": [],
+    "ytickspin": [],
 }
 
 # The fields with a real default, and the ones filled in later. WITHOUT_DEFAULT
@@ -94,8 +98,9 @@ NOT_DELEGATED = {"oplotbox"}
 
 # Every manager that Image.__init__ builds on the shared state.
 #
-# Longer than DELEGATION by two: FigureManager and RangeManager are built and
-# used internally but reached through no public method of their own.
+# Longer than DELEGATION by three: FigureManager, RangeManager and TicksManager
+# are built and used internally but reached through no public method of their
+# own.
 MANAGERS: list[str] = [
     "AxisManager",
     "ColorbarManager",
@@ -111,6 +116,7 @@ MANAGERS: list[str] = [
     "RangeManager",
     "ScatterManager",
     "StreamplotManager",
+    "TicksManager",
     "VolumeManager",
     "ZoomManager",
 ]

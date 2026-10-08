@@ -1,9 +1,12 @@
 name: Linux Tests
 
+# Pull requests only; every push is tested by the golden workflow
 on:
-  push:
-    branches: [master]
   pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   test:
@@ -20,6 +23,11 @@ jobs:
           - os: ubuntu-22.04
             python-version: "3.11"
             sync-args: --resolution=lowest-direct
+          # Flags an existing entry (no new job): the one that reports coverage
+          - os: ubuntu-24.04
+            python-version: "3.14"
+            sync-args: ""
+            coverage: true
 
     steps:
       - name: Checkout repository
@@ -47,9 +55,31 @@ jobs:
             libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 \
             libxcb-randr0 libxcb-render-util0 libxcb-shape0 libxcb-xinerama0
 
+      # A fork's PR gets no golden run, so check uv.lock against pyproject here
+      - name: Check lockfile consistency
+        if: matrix.coverage
+        run: uv lock --check
+
       - name: Sync environment
         run: uv sync --all-extras --all-groups ${{ matrix.sync-args }}
 
       - name: Run tests
+        if: ${{ !matrix.coverage }}
         run: uv run --no-sync pytest -v ./Tests
+
+      - name: Run tests with coverage
+        if: matrix.coverage
+        shell: bash
+        run: |
+          uv run --no-sync pytest --junitxml=pytest.xml \
+            --cov=pyPLUTO --cov-report=term-missing ./Tests \
+            | tee pytest-coverage.txt
+
+      # A fork's PR has a read-only token and cannot be commented on
+      - name: Pytest coverage comment
+        if: matrix.coverage && github.event.pull_request.head.repo.full_name == github.repository
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-coverage-path: ./pytest-coverage.txt
+          junitxml-path: ./pytest.xml
 

@@ -16,6 +16,7 @@ from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.legend import LegendManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
+from pyPLUTO.imagefuncs.ticks import TicksManager
 from pyPLUTO.imagekwargs import ScatterKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -42,6 +43,7 @@ class ScatterManager(ImageMixin):
         self.ImageToolsManager = ImageToolsManager(state)
         self.LegendManager = LegendManager(state)
         self.RangeManager = RangeManager(state)
+        self.TicksManager = TicksManager(state)
 
     @track_kwargs
     def scatter(
@@ -307,6 +309,7 @@ class ScatterManager(ImageMixin):
         strict = self.RangeManager.strictrange
         self.RangeManager.set_xrange(ax, nax, [x.min(), x.max()], strict)
         self.RangeManager.set_yrange(ax, nax, [y.min(), y.max()], strict)
+        self.TicksManager.update_ticks(ax, nax)
 
         # The c keyword is either a variable to color the points by or a color
         c = kwargs.get("c")

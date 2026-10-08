@@ -1,7 +1,7 @@
 """Module that contains the ImageState class.
 
 The plotting counterpart of BaseLoadState: one instance per Image, handed by
-reference to each of the sixteen managers, so what one of them records is
+reference to each of the seventeen managers, so what one of them records is
 immediately visible to the others and to the Image the user holds.
 """
 
@@ -13,7 +13,11 @@ from typing import Any
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from matplotlib.ticker import Formatter, Locator
 from matplotlib.typing import LegendLocType
+
+# Labels on automatic ticks, with the locator and formatter they replaced
+TicksPin = tuple[list[str], Locator, Formatter]
 
 
 @dataclass
@@ -90,6 +94,12 @@ class ImageState:
     # Per axis, whether the y range was set and by whom
     setay: list[Any | int] = field(default_factory=list)
 
+    # Per axis, whether the x ticks were set and by whom
+    setxticks: list[int] = field(default_factory=list)
+
+    # Per axis, whether the y ticks were set and by whom
+    setyticks: list[int] = field(default_factory=list)
+
     # Whether the user gave a figure size, which stops it being recomputed
     set_size: bool = False
 
@@ -114,5 +124,11 @@ class ImageState:
     # Per axis, the scale of the x axis
     xscale: list[str] = field(default_factory=list)
 
+    # Per axis, the x labels on automatic ticks, if any
+    xtickspin: list[TicksPin | None] = field(default_factory=list)
+
     # Per axis, the scale of the y axis
     yscale: list[str] = field(default_factory=list)
+
+    # Per axis, the y labels on automatic ticks, if any
+    ytickspin: list[TicksPin | None] = field(default_factory=list)

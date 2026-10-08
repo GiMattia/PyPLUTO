@@ -40,6 +40,7 @@ from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.scatter import ScatterManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
 from pyPLUTO.imagefuncs.streamplot import StreamplotManager
+from pyPLUTO.imagefuncs.ticks import TicksManager
 from pyPLUTO.imagefuncs.volengine import MPLVolumeRenderer
 from pyPLUTO.imagefuncs.volume import VolumeManager
 from pyPLUTO.imagefuncs.zoom import ZoomManager
@@ -208,6 +209,7 @@ class Image(ImageMixin):
         self.RangeManager = RangeManager(self.state)
         self.ScatterManager = ScatterManager(self.state)
         self.StreamplotManager = StreamplotManager(self.state)
+        self.TicksManager = TicksManager(self.state)
         self.VolumeManager = VolumeManager(self.state)
         self.GridPlotManager = GridPlotManager(self.state)
         self.ZoomManager = ZoomManager(self.state)

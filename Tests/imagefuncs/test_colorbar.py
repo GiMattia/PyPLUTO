@@ -421,6 +421,25 @@ def test_no_labels() -> None:
     assert {t.get_text() for t in cbar.ax.get_yticklabels()} == {""}
 
 
+def test_labels_on_automatic_ticks() -> None:
+    """Label the ticks of a bar without choosing them.
+
+    The labels go on the ticks matplotlib picks for the range of the bar,
+    which is set when the bar is drawn, so the ticks are pinned there once
+    and nothing warns. A bar keeps no case: nothing is drawn on it later.
+    """
+    image = _image()
+
+    with warnings.catch_warnings(record=True) as raised:
+        warnings.simplefilter("always")
+        cbar = image.colorbar(ctickslabels=["a", "b", "c"])
+    _box(cbar.ax)
+
+    assert [str(w.message) for w in raised] == []
+    labels = [t.get_text() for t in cbar.ax.get_yticklabels()]
+    assert labels[:3] == ["a", "b", "c"]
+
+
 def test_labels_without_ticks_warn() -> None:
     """Give labels while removing the ticks.
 

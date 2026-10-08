@@ -1,7 +1,7 @@
 """Mixin class for image handling.
 
 The plotting counterpart of BaseLoadMixin: one property pair per ImageState
-field, inherited by the Image the user holds and by every one of the sixteen
+field, inherited by the Image the user holds and by every one of the seventeen
 managers. That is what lets `I.nwin` and `self.nwin` inside a manager mean the
 same thing, both reaching the one shared state rather than a copy.
 
@@ -18,7 +18,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.typing import LegendLocType
 
-from pyPLUTO.imagestate import ImageState
+from pyPLUTO.imagestate import ImageState, TicksPin
 
 
 class ImageMixin:
@@ -211,6 +211,26 @@ class ImageMixin:
         self.state.setay = value
 
     @property
+    def setxticks(self) -> list[int]:
+        """Get the setxticks attribute of the image."""
+        return self.state.setxticks
+
+    @setxticks.setter
+    def setxticks(self, value: list[int]) -> None:
+        """Set the setxticks attribute of the image."""
+        self.state.setxticks = value
+
+    @property
+    def setyticks(self) -> list[int]:
+        """Get the setyticks attribute of the image."""
+        return self.state.setyticks
+
+    @setyticks.setter
+    def setyticks(self, value: list[int]) -> None:
+        """Set the setyticks attribute of the image."""
+        self.state.setyticks = value
+
+    @property
     def set_size(self) -> bool:
         """Get the set_size attribute of the image."""
         return self.state.set_size
@@ -291,6 +311,16 @@ class ImageMixin:
         self.state.xscale = value
 
     @property
+    def xtickspin(self) -> list[TicksPin | None]:
+        """Get the xtickspin attribute of the image."""
+        return self.state.xtickspin
+
+    @xtickspin.setter
+    def xtickspin(self, value: list[TicksPin | None]) -> None:
+        """Set the xtickspin attribute of the image."""
+        self.state.xtickspin = value
+
+    @property
     def yscale(self) -> list[str]:
         """Get the yscale attribute of the image."""
         return self.state.yscale
@@ -299,3 +329,13 @@ class ImageMixin:
     def yscale(self, value: list[str]) -> None:
         """Set the yscale attribute of the image."""
         self.state.yscale = value
+
+    @property
+    def ytickspin(self) -> list[TicksPin | None]:
+        """Get the ytickspin attribute of the image."""
+        return self.state.ytickspin
+
+    @ytickspin.setter
+    def ytickspin(self, value: list[TicksPin | None]) -> None:
+        """Set the ytickspin attribute of the image."""
+        self.state.ytickspin = value

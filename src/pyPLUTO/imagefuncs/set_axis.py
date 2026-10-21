@@ -7,16 +7,17 @@ from typing import Unpack
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 
+from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.ticks import TicksManager
 from pyPLUTO.imagekwargs import (
     CheckRangeKwargs,
+    CreateAxesKwargs,
     MinorTicksKwargs,
     SetAxisKwargs,
     SetScalesKwargs,
     SetTitleKwargs,
-    ShareAxesKwargs,
 )
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -33,6 +34,7 @@ class AxisManager(ImageMixin):
     def __init__(self, state: ImageState) -> None:
         """Initialize the AxisManager with the given state."""
         self.state = state
+        self.CreateAxesManager = CreateAxesManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
         self.RangeManager = RangeManager(state)
         self.TicksManager = TicksManager(state)
@@ -105,10 +107,18 @@ class AxisManager(ImageMixin):
             the space from the right border to the plot (default 0.9); for an
             inset zoom it is the right position of the inset (default left +
             0.15).
-        - sharex: Matplotlib axis, default False
-            Enables/disables the sharing of the x-axis between the subplots.
-        - sharey: Matplotlib axis, default False
-            Enables/disables the sharing of the y-axis between the subplots.
+        - sharex: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the x-axis: True or 'all' with the first axis (in
+            create_axes, the first of those it makes), an index with that
+            axis of the image, an Axes with that axis. 'row' and 'col' share
+            within each row or column of the axes a create_axes call makes,
+            and are refused for axes that already exist.
+        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharex.
+        - sharey: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the y-axis, as sharex does.
+        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharey.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
         - ticksdir: {'in', 'out'}, default 'in'
@@ -154,7 +164,7 @@ class AxisManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             x-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - xtickslabels: list[str] | None | bool, default True
+        - xtickslabels: str | list[str] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the x-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -177,7 +187,7 @@ class AxisManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             y-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - ytickslabels: list[str] | None | bool, default True
+        - ytickslabels: str | list[str] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the y-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -244,8 +254,6 @@ class AxisManager(ImageMixin):
 
         """
         # Take last axis if not specified
-        kwargs["ncol"] = 1
-        kwargs["nrow"] = 1
         ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 
         # Set fontsize
@@ -263,7 +271,7 @@ class AxisManager(ImageMixin):
         self.set_titles(ax, _check=False, **kwargs)
 
         # Share axis if needed
-        self.share_axes(ax, _check=False, **kwargs)
+        self.share_axes(ax, nax, _check=False, **kwargs)
 
         # Set ticks size
         if "tickssize" in kwargs and kwargs["tickssize"] is not True:
@@ -481,31 +489,52 @@ class AxisManager(ImageMixin):
     def share_axes(
         self,
         ax: Axes,
+        nax: int,
         _check: bool = True,
-        **kwargs: Unpack[ShareAxesKwargs],
+        **kwargs: Unpack[CreateAxesKwargs],
     ) -> None:
-        """Share the x- and y-axis of a selected axis.
+        """Share the x- and y-axis of an axis that already exists.
+
+        The values are the ones create_axes takes, resolved by the same
+        find_share_target with no grid: True or 'all' share with the first
+        axis of the image, an index or an Axes with that axis, and 'row' and
+        'col' are refused, since the axis may come from any create_axes call.
+        An axis already joined to its target is left alone, as when a
+        drawing method has just created it with the same keyword.
 
         Parameters
         ----------
-        - ax: ax
-            the selected set of axes
-        - sharex: Matplotlib axis, default None
-            The axis to share the x-axis with. Sharing between all the
-            subplots of a figure is 'sharexaxes', read by create_axes.
-        - sharey: Matplotlib axis, default None
-            The axis to share the y-axis with. Sharing between all the
-            subplots of a figure is 'shareyaxes', read by create_axes.
+        - ax (not optional): Axes
+            The axis that shares.
+        - nax (not optional): int
+            The index of the axis in the image.
+        - sharex: bool | int | 'all' | Axes, default None
+            The axis to share the x-axis with.
+        - sharey: bool | int | 'all' | Axes, default None
+            The axis to share the y-axis with.
 
         Returns
         -------
         - None
 
+        Examples
+        --------
+        - Example #1: share the x-axis of the second axis with the first
+
+            >>> self.share_axes(ax, 1, sharex=0)
+
         """
-        if "sharex" in kwargs and kwargs["sharex"] is not False:
-            ax.sharex(kwargs["sharex"])
-        if "sharey" in kwargs and kwargs["sharey"] is not False:
-            ax.sharey(kwargs["sharey"])
+        self.CreateAxesManager.warn_old_share(kwargs)
+        sharex = kwargs.get("sharex", kwargs.get("sharexaxes"))
+        sharey = kwargs.get("sharey", kwargs.get("shareyaxes"))
+        pairs = (
+            (sharex, ax.sharex, ax.get_shared_x_axes()),
+            (sharey, ax.sharey, ax.get_shared_y_axes()),
+        )
+        for share, join, shared in pairs:
+            target = self.CreateAxesManager.find_share_target(nax, share)
+            if target is not None and not shared.joined(ax, target):
+                join(target)
 
     @track_kwargs
     def check_minorticks(

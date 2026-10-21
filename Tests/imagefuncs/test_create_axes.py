@@ -232,7 +232,7 @@ def test_sharing_with_the_first_axis() -> None:
     one another keep the same x range while they are panned or zoomed.
     """
     image = _image()
-    axes = image.create_axes(ncol=1, nrow=2, sharexaxes=True, shareyaxes=True)
+    axes = image.create_axes(ncol=1, nrow=2, sharex=True, sharey=True)
 
     assert isinstance(axes, list)
     assert axes[0].get_shared_x_axes().joined(axes[0], axes[1])
@@ -247,7 +247,7 @@ def test_sharing_with_an_axis_created_earlier() -> None:
     """
     image = _image()
     image.create_axes(ncol=1, nrow=2)
-    axes = image.create_axes(ncol=1, nrow=2, sharexaxes=0)
+    axes = image.create_axes(ncol=1, nrow=2, sharex=0)
 
     assert isinstance(axes, list)
     assert axes[0].get_shared_x_axes().joined(axes[0], axes[2])
@@ -259,7 +259,7 @@ def test_sharing_with_an_axis_given() -> None:
     first = image.create_axes()
     assert isinstance(first, Axes)
 
-    axes = image.create_axes(ncol=2, sharexaxes=first)
+    axes = image.create_axes(ncol=2, sharex=first)
 
     assert isinstance(axes, list)
     assert first.get_shared_x_axes().joined(first, axes[1])
@@ -274,14 +274,14 @@ def test_sharing_with_an_axis_of_the_same_call() -> None:
     the axis pointed at did not exist yet.
     """
     image = _image()
-    axes = image.create_axes(ncol=3, sharexaxes=1)
+    axes = image.create_axes(ncol=3, sharex=1)
 
     assert isinstance(axes, list)
     assert axes[1].get_shared_x_axes().joined(axes[0], axes[1])
     assert axes[1].get_shared_x_axes().joined(axes[1], axes[2])
 
 
-@pytest.mark.parametrize("share", ["sharexaxes", "shareyaxes"])
+@pytest.mark.parametrize("share", ["sharex", "sharey"])
 def test_sharing_by_index_is_declared(share: str) -> None:
     """Check the index form of the sharing keywords is in the declared type.
 
@@ -302,7 +302,7 @@ def test_sharing_can_be_switched_off() -> None:
     and None are tested first now, and share nothing.
     """
     image = _image()
-    axes = image.create_axes(ncol=2, sharexaxes=False)
+    axes = image.create_axes(ncol=2, sharex=False)
 
     assert isinstance(axes, list)
     assert not axes[0].get_shared_x_axes().joined(axes[0], axes[1])
@@ -328,7 +328,7 @@ def test_sharing_by_row_or_column(
     by row; 'all' is the same as True.
     """
     image = _image()
-    axes = image.create_axes(ncol=2, nrow=2, sharexaxes=share)
+    axes = image.create_axes(ncol=2, nrow=2, sharex=share)
 
     assert isinstance(axes, list)
     shared = axes[0].get_shared_x_axes()
@@ -347,7 +347,7 @@ def test_an_unknown_sharing_is_refused() -> None:
     image = _image()
 
     with pytest.raises(ValueError, match="Unknown sharing 'diag'"):
-        image.create_axes(ncol=2, sharexaxes="diag")  # pyright: ignore[reportArgumentType]  # ty: ignore[invalid-argument-type]
+        image.create_axes(ncol=2, sharex="diag")  # pyright: ignore[reportArgumentType]  # ty: ignore[invalid-argument-type]
 
 
 # ---- The figure around the axes ----
@@ -438,6 +438,23 @@ def test_the_automatic_size_grows_with_the_grid() -> None:
     assert image.fig is not None
     assert image.fig.get_figwidth() == pytest.approx(12.0)
     assert image.fig.get_figheight() == pytest.approx(5.0)
+
+
+def test_the_automatic_size_is_recorded() -> None:
+    """Create two columns and compare the reported size with the real one.
+
+    The size computed from the grid reaches the state too, so the property,
+    the repr and the GUI canvas, which all read it, see the size the figure
+    has; they kept reporting the size it had before.
+    """
+    image = _image()
+    image.create_axes(ncol=2)
+
+    assert image.fig is not None
+    assert list(image.figsize) == pytest.approx(
+        list(image.fig.get_size_inches())
+    )
+    assert image.state.set_size is False
 
 
 def test_a_size_given_to_create_axes_is_kept() -> None:

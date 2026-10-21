@@ -451,7 +451,7 @@ class OffsetFluid(LoadMixin):
             self.varshape[varname] = np.shape(data)
             self.varoffset[varname] = 0
 
-            if self.lennout != 1:
+            if self.manyout:
                 if varname not in self.d_vars:
                     self.d_vars[varname] = {}
                 self.d_vars[varname][exout] = data

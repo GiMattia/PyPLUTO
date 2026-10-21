@@ -1,7 +1,8 @@
 """Test of the baseloadmixin.py file.
 
-BaseLoadMixin is thirty-odd property pairs, each two lines long, each reading
-or writing one field of the state. Nothing in it is hard; what is easy is
+BaseLoadMixin is thirty-odd accessors, each reading or writing one field of
+the state: property pairs, and a PerOutput descriptor for nout and ntime,
+which DESCRIPTORS in the helper names. Nothing in it is hard; what is easy is
 getting one of them wrong -- a getter pointing at the neighbouring field, a
 setter that was never written, a property left behind when its field was
 renamed. None of that raises, and all of it would be found by a user reading
@@ -18,7 +19,13 @@ for the same property, so neither side is held to a lower standard.
 """
 
 import pytest
-from helper_baseload import DEFAULTS, WITH_DEFAULT, WITHOUT_DEFAULT
+from helper_baseload import (
+    ACCESSOR,
+    ACCESSOR_KINDS,
+    DEFAULTS,
+    WITH_DEFAULT,
+    WITHOUT_DEFAULT,
+)
 
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
@@ -57,17 +64,30 @@ def test_every_property_is_listed() -> None:
     failing to say so. This is the test that makes the rest meaningful.
     """
     defined = {
-        name
+        name: type(attribute)
         for name, attribute in vars(BaseLoadMixin).items()
-        if isinstance(attribute, property)
+        if isinstance(attribute, ACCESSOR_KINDS)
     }
-    missing, stale = defined - set(DEFAULTS), set(DEFAULTS) - defined
+    missing, stale = set(defined) - set(DEFAULTS), set(DEFAULTS) - set(defined)
     assert not missing, (
         f"not listed in DEFAULTS, so untested: {sorted(missing)}"
     )
     assert not stale, (
         f"listed in DEFAULTS but no BaseLoadMixin property: {sorted(stale)}"
     )
+
+
+def test_every_field_is_served_by_its_kind() -> None:
+    """Check each field is a property, or a PerOutput where the table says.
+
+    A per-output field turned back into a plain property -- by hand, or by a
+    generator writing one property per field -- would still read and write
+    the state, so every other test here would pass, while the type checkers
+    lost what it holds. The table in the helper is what says which is which.
+    """
+    served = {name: type(vars(BaseLoadMixin)[name]) for name in DEFAULTS}
+
+    assert served == ACCESSOR
 
 
 @pytest.mark.parametrize(("name", "expected"), WITH_DEFAULT.items())

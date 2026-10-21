@@ -165,17 +165,7 @@ class RangeManager(ImageMixin):
         if case == self.changerange:
             if x is None or y is None:
                 raise ValueError("x and y arrays must be provided if case is 0")
-
-            # Find the limits of the x-axis
-            yrange = np.where(np.logical_and(x >= x.min(), x <= x.max()))
-            smally = y[yrange]
-
-            # Extend slightly the range
-            ymin, ymax = self.range_offset(
-                smally.min(),
-                smally.max(),
-                self.state.yscale[nax],
-            )
+            ymin, ymax = self.find_ylim(ax, nax, x, y)
             ax.set_ylim(ymin, ymax)
 
             # Switch to case 2 (previous limits are present now)
@@ -189,17 +179,7 @@ class RangeManager(ImageMixin):
         if case == self.adaptrange:
             if x is None or y is None:
                 raise ValueError("x and y arrays must be provided if case is 2")
-
-            # Find the limits of the x-axis
-            yrange = np.where(np.logical_and(x >= x.min(), x <= x.max()))
-            smally = y[yrange]
-
-            # Extend slightly the range (not perfect method)
-            ymin, ymax = self.range_offset(
-                smally.min(),
-                smally.max(),
-                self.state.yscale[nax],
-            )
+            ymin, ymax = self.find_ylim(ax, nax, x, y)
 
             # Check if the limits should be changed
             ymin = np.minimum(ymin, ax.get_ylim()[0])
@@ -226,6 +206,52 @@ class RangeManager(ImageMixin):
                 self.state.setay[nax] = self.adaptrange
 
         # End of the function
+
+    def find_ylim(
+        self,
+        ax: Axes,
+        nax: int,
+        x: np.ndarray,
+        y: np.ndarray,
+    ) -> tuple[float, float]:
+        """Return the padded y-limits of the data inside the x-limits.
+
+        The x-limits are already set when this is called, so they are the
+        window the user sees: a point outside it, past an x-range given by
+        hand, does not stretch the y-axis. If no point is inside, all of them
+        are taken, so the axis still shows the data rather than nothing.
+
+        Parameters
+        ----------
+        - ax (not optional): Axes
+            The axis whose x-limits are the window.
+        - nax (not optional): int
+            The index of the axis, for the scale of its y-axis.
+        - x (not optional): np.ndarray
+            The x data.
+        - y (not optional): np.ndarray
+            The y data, the same shape as x or one column per line.
+
+        Returns
+        -------
+        - tuple[float, float]
+            The lower and upper y-limits, padded.
+
+        Examples
+        --------
+        - Example #1: the y-limits of a curve on the first axis
+
+            >>> self.find_ylim(ax, 0, x, y)
+
+        """
+        xmin, xmax = sorted(ax.get_xlim())
+        inside = np.logical_and(x >= xmin, x <= xmax)
+        smally = y[inside] if inside.any() else y
+        return self.range_offset(
+            smally.min(),
+            smally.max(),
+            self.state.yscale[nax],
+        )
 
     def range_offset(
         self,

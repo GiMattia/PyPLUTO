@@ -98,7 +98,7 @@ class StorePart(BaseLoadMixin):
                     # LoadPart.__getattr__ so no file pages are faulted here.
                     part = [chunk[slc] for chunk in chunks]
 
-                if self.state.lennout != 1:
+                if self.state.manyout:
                     if var not in self.state.d_vars or not isinstance(
                         self.state.d_vars[var],
                         dict,

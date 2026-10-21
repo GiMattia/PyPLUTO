@@ -153,16 +153,18 @@ class ContourManager(ImageMixin):
             the space from the right border to the plot (default 0.9); for an
             inset zoom it is the right position of the inset (default left +
             0.15).
-        - sharex: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the x-axis between the subplots.
-        - sharey: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the y-axis between the subplots.
-        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
-            Shares the x-axis between the subplots: True or 'all' with the
-            first of them, 'row' and 'col' within each row or column, an
-            index with that axis of the image, an Axes with that axis.
-        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
-            Shares the y-axis between the subplots, as sharexaxes does.
+        - sharex: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the x-axis: True or 'all' with the first axis (in
+            create_axes, the first of those it makes), an index with that
+            axis of the image, an Axes with that axis. 'row' and 'col' share
+            within each row or column of the axes a create_axes call makes,
+            and are refused for axes that already exist.
+        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharex.
+        - sharey: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the y-axis, as sharex does.
+        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharey.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
         - ticksdir: {'in', 'out'}, default 'in'
@@ -227,7 +229,7 @@ class ContourManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             x-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - xtickslabels: list[str] | None | bool, default True
+        - xtickslabels: str | list[str] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the x-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -250,7 +252,7 @@ class ContourManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             y-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - ytickslabels: list[str] | None | bool, default True
+        - ytickslabels: str | list[str] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the y-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels

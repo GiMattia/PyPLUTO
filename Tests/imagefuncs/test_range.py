@@ -364,6 +364,56 @@ def test_set_yrange_case_2_widens_to_hold_both() -> None:
     assert image.ax[0].get_ylim() == pytest.approx((0.0, 2.1))
 
 
+def test_y_limits_come_from_the_visible_window() -> None:
+    """Compute y-limits with a point far outside the x-window.
+
+    The y-axis fits the points the user sees, those inside the x-limits
+    already set, so a far point does not stretch it: the window is 0 to 1,
+    and the point at x = 100 is left out.
+    """
+    manager, image = _manager()
+    image.ax[0].set_xlim(0.0, 1.0)
+    far_x = np.array([0.0, 0.5, 100.0])
+    far_y = np.array([1.0, 2.0, 50.0])
+
+    manager.set_yrange(
+        image.ax[0], 0, [0.0, 0.0], manager.changerange, data=(far_x, far_y)
+    )
+
+    assert image.ax[0].get_ylim() == pytest.approx((0.9, 2.1))
+
+
+def test_y_limits_with_no_point_in_the_window_take_all_the_data() -> None:
+    """Compute y-limits for data that lies entirely outside the x-window.
+
+    With nothing inside there is nothing to fit, so all the points are
+    taken, as before the window was considered: the axis still shows the
+    data's own values rather than failing on an empty selection.
+    """
+    manager, image = _manager()
+    image.ax[0].set_xlim(10.0, 20.0)
+
+    manager.set_yrange(
+        image.ax[0], 0, [0.0, 0.0], manager.changerange, data=(x, y)
+    )
+
+    assert image.ax[0].get_ylim() == pytest.approx((0.9, 2.1))
+
+
+def test_a_plot_with_an_x_range_fits_y_to_it() -> None:
+    """Plot a curve and zoom on part of it with xrange.
+
+    The case the fix is for, through the call a user makes: the y-axis
+    follows the part of the curve inside the x-range, not its peak outside.
+    """
+    image = pp.Image(text=False)
+    xval = np.linspace(0.0, 10.0, 101)
+
+    image.plot(xval, xval**2, xrange=[0.0, 1.0])
+
+    assert image.ax[0].get_ylim()[1] < 2.0
+
+
 def test_set_yrange_case_3_fixes_the_limits() -> None:
     """Set the y-limits by hand and check the axis is then left alone.
 

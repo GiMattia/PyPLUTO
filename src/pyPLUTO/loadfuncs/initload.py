@@ -135,15 +135,13 @@ class InitLoadManager(BaseLoadMixin[BaseLoadState]):
             typed_value = cast("np.ndarray", value)
             setattr(self.state, str(key), typed_value)
 
-        if (
-            isinstance(self.state.ntimelist, np.ndarray)
-            and len(self.state.ntimelist) == 1
-        ):
-            self.state.ntime = self.state.ntimelist[0]
-            self.state.nout = self.state.noutlist[0]
-        else:
+        # A single output is a value, a collection asked for is an array
+        if self.state.manyout:
             self.state.ntime = self.state.ntimelist
             self.state.nout = self.state.noutlist
+        else:
+            self.state.ntime = float(self.state.ntimelist[0])
+            self.state.nout = int(self.state.noutlist[0])
 
     def check_endian(self, endian: str | None) -> None:
         """Check the endian format.

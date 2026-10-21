@@ -129,10 +129,18 @@ class LegendManager(ImageMixin):
             the space from the right border to the plot (default 0.9); for an
             inset zoom it is the right position of the inset (default left +
             0.15).
-        - sharex: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the x-axis between the subplots.
-        - sharey: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the y-axis between the subplots.
+        - sharex: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the x-axis: True or 'all' with the first axis (in
+            create_axes, the first of those it makes), an index with that
+            axis of the image, an Axes with that axis. 'row' and 'col' share
+            within each row or column of the axes a create_axes call makes,
+            and are refused for axes that already exist.
+        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharex.
+        - sharey: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the y-axis, as sharex does.
+        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharey.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
         - tight: bool, default True

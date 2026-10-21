@@ -19,6 +19,7 @@ which axis was picked, what was drawn on it, what was written to disk.
 import sys
 from pathlib import Path
 from types import ModuleType
+from typing import Literal
 
 import matplotlib
 import matplotlib.colors as mcol
@@ -539,6 +540,49 @@ def test_assign_ax_without_a_figure() -> None:
         _stateless_manager().assign_ax(None, _check=False)
 
 
+def test_assign_ax_rejects_an_index_out_of_range() -> None:
+    """Ask for an axis number the figure does not have.
+
+    The same refusal as for anything else that is not an axis, naming how
+    many axes there are; the list lookup used to raise a bare IndexError.
+    """
+    image = pp.Image(text=False)
+    image.create_axes()
+    manager = ImageToolsManager(image.state)
+
+    with pytest.raises(ValueError, match="not valid: the image has 1 axes"):
+        manager.assign_ax(5, _check=False)
+
+
+def test_assign_ax_rejects_an_empty_list() -> None:
+    """Pass an empty list of axes.
+
+    A list stands for its first axis, and an empty one has none: it is
+    refused like any other value that is not an axis, rather than failing
+    on the lookup of its first element.
+    """
+    manager, _ = _manager()
+
+    with pytest.raises(ValueError, match="not valid"):
+        manager.assign_ax([], _check=False)
+
+
+def test_a_plot_on_an_empty_figure_creates_the_grid_asked_for() -> None:
+    """Plot with ncol=2 on a figure with no axes yet.
+
+    The grid is created whole, and the line goes on its first axis; ncol
+    and nrow used to be overwritten with 1, so one axis came out and
+    nothing said the keywords had been ignored.
+    """
+    image = pp.Image(text=False)
+
+    image.plot([0.0, 1.0], [0.0, 1.0], ncol=2)
+
+    assert len(image.ax) == 2
+    assert len(image.ax[0].lines) == 1
+    assert len(image.ax[1].lines) == 0
+
+
 # ---- Hidden text ----
 def test_hide_text_hides_the_axis_label() -> None:
     """Hide the label create_axes writes, and check it is marked as hidden.
@@ -631,7 +675,9 @@ def test_text_uses_the_given_style() -> None:
 
 
 @pytest.mark.parametrize("xycoords", ["fraction", "points"])
-def test_text_in_axis_coordinates_hides_the_axis_label(xycoords: str) -> None:
+def test_text_in_axis_coordinates_hides_the_axis_label(
+    xycoords: Literal["fraction", "points"],
+) -> None:
     """Write a text inside the axis and check the axis label is hidden.
 
     Both coordinate systems place the text in the axis, so both hide the
@@ -654,6 +700,20 @@ def test_text_in_figure_coordinates_keeps_the_axis_label() -> None:
     image.create_axes()
     image.text(text="outside", x=0.5, y=0.5, xycoords="figure")
     assert image.state.ntext[0] is None
+
+
+def test_an_unknown_coordinate_system_is_refused() -> None:
+    """Give xycoords a value that is not one of the three.
+
+    It used to reach the lookup and raise a bare KeyError, naming neither
+    the keyword nor the choices; matplotlib's own spelling 'figure
+    fraction', which the docstring once showed, is the typical case.
+    """
+    image = _image()
+    image.create_axes()
+
+    with pytest.raises(ValueError, match="Unknown xycoords 'figure fraction'"):
+        image.text(text="hi", x=0.5, y=0.5, xycoords="figure fraction")  # pyright: ignore[reportArgumentType] # ty: ignore[invalid-argument-type]
 
 
 def test_text_does_not_warn_about_its_own_keywords(

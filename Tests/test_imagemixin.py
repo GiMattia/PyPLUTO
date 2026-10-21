@@ -15,7 +15,13 @@ leaving a test that silently checks nothing.
 """
 
 import pytest
-from helper_image import DEFAULTS, WITH_DEFAULT, WITHOUT_DEFAULT
+from helper_image import (
+    ACCESSOR,
+    ACCESSOR_KINDS,
+    DEFAULTS,
+    WITH_DEFAULT,
+    WITHOUT_DEFAULT,
+)
 
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -33,7 +39,7 @@ class _Image(ImageMixin):
 
     A mixin cannot be instantiated on its own, since it expects a `state` its
     owner provides. Rather than use a real Image -- which would open a figure
-    and build sixteen managers -- the tests use this, which supplies a state
+    and build seventeen managers -- the tests use this, which supplies a state
     and nothing else, so whatever works here works because of the mixin.
     """
 
@@ -54,7 +60,7 @@ def test_every_property_is_listed() -> None:
     defined = {
         name
         for name, attribute in vars(ImageMixin).items()
-        if isinstance(attribute, property)
+        if isinstance(attribute, ACCESSOR_KINDS)
     }
     missing, stale = defined - set(DEFAULTS), set(DEFAULTS) - defined
     assert not missing, (
@@ -63,6 +69,17 @@ def test_every_property_is_listed() -> None:
     assert not stale, (
         f"listed in DEFAULTS but no ImageMixin property: {sorted(stale)}"
     )
+
+
+def test_every_field_is_served_by_its_kind() -> None:
+    """Check each field is a property, or the descriptor the table names.
+
+    ImageState has no descriptor fields today, so this says every field is
+    a property; a descriptor added later is one line in DESCRIPTORS.
+    """
+    served = {name: type(vars(ImageMixin)[name]) for name in DEFAULTS}
+
+    assert served == ACCESSOR
 
 
 @pytest.mark.parametrize(("name", "expected"), WITH_DEFAULT.items())

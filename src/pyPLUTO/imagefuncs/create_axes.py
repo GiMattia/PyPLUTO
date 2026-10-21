@@ -95,12 +95,18 @@ class CreateAxesManager(ImageMixin):
             the space from the right border to the plot (default 0.9); for an
             inset zoom it is the right position of the inset (default left +
             0.15).
-        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
-            Shares the x-axis between the subplots: True or 'all' with the
-            first of them, 'row' and 'col' within each row or column, an
-            index with that axis of the image, an Axes with that axis.
-        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
-            Shares the y-axis between the subplots, as sharexaxes does.
+        - sharex: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the x-axis: True or 'all' with the first axis (in
+            create_axes, the first of those it makes), an index with that
+            axis of the image, an Axes with that axis. 'row' and 'col' share
+            within each row or column of the axes a create_axes call makes,
+            and are refused for axes that already exist.
+        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharex.
+        - sharey: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the y-axis, as sharex does.
+        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharey.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
         - tight: bool, default True
@@ -192,7 +198,9 @@ class CreateAxesManager(ImageMixin):
             self.state.figsize = figsize
             self.state.set_size = True
         elif not (custom_plot or self.state.set_size):
-            self.state.fig.set_size_inches(6 * np.sqrt(ncol), 5 * np.sqrt(nrow))
+            size = [float(6 * np.sqrt(ncol)), float(5 * np.sqrt(nrow))]
+            self.state.fig.set_size_inches(size[0], size[1])
+            self.state.figsize = size
 
         # Set the projection if requested
         proj = kwargs.get("proj")
@@ -228,11 +236,12 @@ class CreateAxesManager(ImageMixin):
 
         # The axes share once they all exist, so an index, a row or a column
         # can point at any of them, made in this call or before it
-        sharex = kwargs.get("sharexaxes")
-        sharey = kwargs.get("shareyaxes")
+        self.warn_old_share(kwargs)
+        sharex = kwargs.get("sharex", kwargs.get("sharexaxes"))
+        sharey = kwargs.get("sharey", kwargs.get("shareyaxes"))
         for i, axis in enumerate(new):
             for share, join in ((sharex, axis.sharex), (sharey, axis.sharey)):
-                target = self.find_share_target(i, share, new, ncol)
+                target = self.find_share_target(i, share, (new, ncol))
                 if target is not None and target is not axis:
                     join(target)
 
@@ -454,29 +463,33 @@ class CreateAxesManager(ImageMixin):
         self,
         i: int,
         share: bool | int | str | Axes | None,
-        new: list[Axes],
-        ncol: int,
+        grid: tuple[list[Axes], int] | None = None,
     ) -> Axes | None:
-        """Find the axis a new axis shares its x- or y-axis with.
+        """Find the axis an axis shares its x- or y-axis with.
 
-        The axes of one create_axes call are laid out row by row, so the
-        i-th of them sits in row i // ncol and column i % ncol. True or
-        'all' share with the first of them, 'row' and 'col' with the first
-        of the same row or column, as in matplotlib's subplots; an index
-        points at any axis of the image, made in this call or before it,
-        and an Axes is itself the target. False and None share nothing, and
-        are tested first: False is an int, and would be read as the index 0.
+        The same values serve create_axes and set_axis, and grid tells which
+        of the two is asking. create_axes passes the axes it made and their
+        number of columns: they are laid out row by row, so the i-th of them
+        sits in row i // ncol and column i % ncol, and True or 'all' share
+        with the first of them, 'row' and 'col' with the first of the same
+        row or column, as in matplotlib's subplots. set_axis passes no grid,
+        since an axis that exists may come from any create_axes call: i is
+        then its index in the image, True or 'all' share with the first axis
+        of the image, and 'row' and 'col' are refused. An index points at any
+        axis of the image and an Axes is itself the target. False and None
+        share nothing, and are tested first: False is an int, and would be
+        read as the index 0.
 
         Parameters
         ----------
+        - grid: tuple[list[Axes], int] | None, default None
+            The axes a create_axes call made, in order, and their number of
+            columns; None for an axis that already exists.
         - i (not optional): int
-            The position of the axis among the new ones.
-        - ncol (not optional): int
-            The number of columns of the new axes.
-        - new (not optional): list[Axes]
-            The axes this create_axes call made, in order.
+            The position of the axis among the new ones, or its index in
+            the image without a grid.
         - share (not optional): bool | int | str | Axes | None
-            The sharing asked for, sharexaxes or shareyaxes.
+            The sharing asked for, sharex or sharey.
 
         Returns
         -------
@@ -487,17 +500,25 @@ class CreateAxesManager(ImageMixin):
         --------
         - Example #1: the third axis of a two-column grid, sharing by column
 
-            >>> self.find_share_target(2, "col", new, 2)  # new[0]
+            >>> self.find_share_target(2, "col", (new, 2))  # new[0]
+
+        - Example #2: an existing axis, sharing with the first of the image
+
+            >>> self.find_share_target(3, True)  # self.state.ax[0]
 
         """
         if share is None or share is False:
             return None
         if share is True or share == "all":
-            return new[0]
-        if share == "row":
-            return new[i // ncol * ncol]
-        if share == "col":
-            return new[i % ncol]
+            return self.state.ax[0] if grid is None else grid[0][0]
+        if share in ("row", "col"):
+            if grid is None:
+                text = f"Sharing by {share!r} needs the axes created "
+                text += "together: give it to create_axes, or share with "
+                text += "an axis index or an Axes."
+                raise ValueError(text)
+            new, ncol = grid
+            return new[i // ncol * ncol] if share == "row" else new[i % ncol]
         if isinstance(share, str):
             text = f"Unknown sharing {share!r}: use True, 'row', 'col', "
             text += "an axis index or an Axes."
@@ -505,3 +526,32 @@ class CreateAxesManager(ImageMixin):
         if isinstance(share, int):
             return self.state.ax[share]
         return share
+
+    def warn_old_share(self, kwargs: CreateAxesKwargs) -> None:
+        """Warn about the old names of sharex and sharey.
+
+        sharexaxes and shareyaxes are what create_axes called them before
+        the two keywords were one everywhere; they still work, read by the
+        callers after the new names, so the new name wins when both are
+        given.
+
+        Parameters
+        ----------
+        - kwargs (not optional): CreateAxesKwargs
+            The keywords of the call.
+
+        Returns
+        -------
+        - None
+
+        Examples
+        --------
+        - Example #1: a call that still uses the old name
+
+            >>> self.warn_old_share({"sharexaxes": True})
+
+        """
+        for old, new in (("sharexaxes", "sharex"), ("shareyaxes", "sharey")):
+            if old in kwargs:
+                warn = f"'{old}' argument is deprecated. Use '{new}' instead."
+                warnings.warn(warn, DeprecationWarning, stacklevel=3)

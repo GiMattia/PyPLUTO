@@ -56,6 +56,20 @@ def _chain(typed_dict: type) -> list[type]:
     return chain
 
 
+def _spelling(annotation: object) -> str:
+    """Return an annotation as it is written in the table.
+
+    On Python 3.14 an annotation is a ForwardRef that remembers the class it
+    belongs to, and two of them are equal only when that class is the same:
+    `float` in one table is not `float` in another. Their written text is
+    what can be compared, and is what a reader compares too.
+    """
+    if isinstance(annotation, str):
+        return annotation
+    written = getattr(annotation, "__forward_arg__", None)
+    return written if isinstance(written, str) else repr(annotation)
+
+
 def _documented_names(function: object) -> set[str]:
     """Return the names listed in the Parameters section of a docstring.
 
@@ -134,14 +148,29 @@ def test_no_conflicting_key_types(name: str) -> None:
     not keep its parents there, which is why this test could not fail at all
     until that was fixed.
     """
-    seen: dict[str, object] = {}
+    seen: dict[str, str] = {}
     conflicts = []
     for base in reversed(_chain(getattr(kwargs_mod, name))):
         for key, annotation in getattr(base, "__annotations__", {}).items():
-            if key in seen and seen[key] != annotation:
+            written = _spelling(annotation)
+            if key in seen and seen[key] != written:
                 conflicts.append(key)
-            seen[key] = annotation
+            seen[key] = written
     assert not conflicts, f"{name} declares with two types: {sorted(conflicts)}"
+
+
+def test_the_same_type_in_two_tables_is_not_a_conflict() -> None:
+    """Compare `left`, declared as a float in two tables.
+
+    The guard above compares what each table writes, so the same type
+    declared twice is one type. Compared as annotation objects, the two
+    would differ on Python 3.14 -- each remembers its own table -- and the
+    guard would report a conflict wherever two tables agree.
+    """
+    first = kwargs_mod.CreateAxesKwargs.__annotations__["left"]
+    second = kwargs_mod.SetLocKwargs.__annotations__["left"]
+
+    assert _spelling(first) == _spelling(second) == "float"
 
 
 @pytest.mark.parametrize(("method", "expected"), KWARGS.items())
@@ -269,6 +298,29 @@ def test_grid_declares_every_value_it_accepts() -> None:
     )
 
     assert set(get_args(literal)) == {"x", "y", "both"}
+
+
+@pytest.mark.parametrize(
+    ("table", "keyword"),
+    [
+        ("SetAxisKwargs", "xtickslabels"),
+        ("SetAxisKwargs", "ytickslabels"),
+        ("ColorbarKwargs", "ctickslabels"),
+    ],
+)
+def test_a_single_string_of_tick_labels_is_declared(
+    table: str, keyword: str
+) -> None:
+    """Check one string is in the declared type of the tick labels.
+
+    `TicksManager.find_labels` takes a lone string on purpose -- it labels
+    the first tick and leaves the rest blank, which is how a single value
+    is annotated -- so the declaration has to say so, or every checker
+    refuses a call that works.
+    """
+    declared = get_type_hints(getattr(kwargs_mod, table))[keyword]
+
+    assert str in get_args(declared)
 
 
 @pytest.mark.parametrize("method", sorted(DOCUMENTED_KWARGS))

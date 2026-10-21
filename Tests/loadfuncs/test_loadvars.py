@@ -223,3 +223,38 @@ def test_multipleout(data_dir: Path):
     assert isinstance(Data.rho, dict)
     assert list(Data.rho.keys()) == [0, 1]
     npt.assert_allclose(Data.rho[0], rho)
+
+
+@pytest.mark.parametrize(
+    ("folder", "nout"),
+    [("multiple_outputs", [0]), ("single_file", "all")],
+    ids=["list-of-one", "all-with-one-output"],
+)
+def test_a_collection_of_one_output_is_still_a_dict(
+    folder: str, nout: list[int | str] | str, data_dir: Path
+) -> None:
+    """Load a collection that finds a single output, and read a variable.
+
+    A list or 'all' gives one entry per output whatever their number, so
+    the variable is a dict here too, with output 0 as its only key, and
+    holds what output 0 loaded alone holds: only the form differs.
+    """
+    data = pp.Load(nout, path=data_dir / folder, datatype="dbl", text=False)
+    alone = pp.Load(0, path=data_dir / folder, datatype="dbl", text=False)
+
+    assert isinstance(data.rho, dict)
+    assert list(data.rho.keys()) == [0]
+    npt.assert_allclose(data.rho[0], alone.rho)
+
+
+def test_a_single_output_is_a_plain_array(data_dir: Path) -> None:
+    """Load one output by number and read a variable.
+
+    One output asked for gives the variable itself, with no output key.
+    """
+    data = pp.Load(
+        0, path=data_dir / "multiple_outputs", datatype="dbl", text=False
+    )
+
+    assert isinstance(data.rho, np.ndarray)
+    npt.assert_allclose(data.rho, rho)

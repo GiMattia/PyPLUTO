@@ -18,7 +18,9 @@ builds. Those are hand-written for the same reason -- a table read off the
 class could never disagree with it.
 """
 
+from helper_all import accessors
 from helper_baseload import DEFAULTS as BASELOAD_DEFAULTS
+from helper_baseload import DESCRIPTORS as BASELOAD_DESCRIPTORS
 from helper_baseload import UNSET
 
 # What every field LoadState adds holds on a fresh state. Only full3D and
@@ -83,6 +85,17 @@ WITHOUT_DEFAULT = [name for name, v in DEFAULTS.items() if v is UNSET]
 CONTAINERS = [
     name for name, v in WITH_DEFAULT.items() if isinstance(v, (dict, list, set))
 ]
+
+# The fields LoadState adds that the mixin serves through a descriptor other
+# than a property: none, the grid fields are all properties.
+OWN_DESCRIPTORS: dict[str, type] = {}
+
+# Every such field of LoadState: the inherited ones plus the ones above.
+DESCRIPTORS: dict[str, type] = {**BASELOAD_DESCRIPTORS, **OWN_DESCRIPTORS}
+
+# What serves each field on the mixin, and the kinds there are.
+ACCESSOR = accessors(DEFAULTS, DESCRIPTORS)
+ACCESSOR_KINDS = tuple(set(ACCESSOR.values()))
 
 # Every public method of Load and the manager it hands the call to. Checked by
 # test_delegation and test_docstring_is_copied, while

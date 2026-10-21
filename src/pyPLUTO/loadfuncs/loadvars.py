@@ -171,7 +171,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
                     continue
                 self.offsetdata.compute_offset(i, exout, offvar, mm)
 
-            if self.state.lennout != 1:
+            if self.state.manyout:
                 self.init_vardict(j)
 
             dtype = np.dtype(self.state.d_info["binformat"][exout])
@@ -258,7 +258,7 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
         """
         # Chunked LP particle files: keep all `tot` pieces for later merge.
         if var == "tot" and chunk_id is not None:
-            if self.state.lennout != 1:
+            if self.state.manyout:
                 if var not in self.state.d_vars or not isinstance(
                     self.state.d_vars[var],
                     dict,
@@ -280,12 +280,11 @@ class LoadVariables(BaseLoadMixin[BaseLoadState]):
             return
 
         # Assign the memmap object to the dictionary
-        if self.state.lennout != 1:
-            # If the number of outputs is not 1, the variable is stored at the
-            # corresponding output
+        if self.state.manyout:
+            # A collection asked for: the variable is stored at its output
             self.state.d_vars[var][time] = scrh
         else:
-            # If the number of outputs is 1, the variable is stored directly
+            # A single output: the variable is stored directly
             self.state.d_vars[var] = scrh
 
         # End of the function

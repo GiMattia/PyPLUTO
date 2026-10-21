@@ -2,9 +2,10 @@
 
 A mixin is a class that is never instantiated on its own: it exists to be
 inherited, adding the same behaviour to several unrelated classes. This one
-adds one property per BaseLoadState field, and it is inherited by both sides
-of the architecture -- the facades the user holds (Load, LoadPart) and every
-manager that does the work.
+adds one accessor per BaseLoadState field -- a property, or for nout and
+ntime a PerOutput descriptor, whose type follows the call -- and it is
+inherited by both sides of the architecture: the facades the user holds
+(Load, LoadPart) and every manager that does the work.
 
 That is what lets the same name be written the same way everywhere:
 `Data.nout` for a user, `self.nout` inside any manager, both reaching the one
@@ -27,8 +28,10 @@ from pathlib import Path
 from typing import Any, Generic, TypeVar
 
 import numpy as np
+from numpy.typing import NDArray
 
 from pyPLUTO.baseloadstate import BaseLoadState
+from pyPLUTO.utils.overtyper import PerOutput
 
 S = TypeVar("S", bound=BaseLoadState)
 
@@ -41,11 +44,11 @@ class BaseLoadMixin(Generic[S]):
     that `self.state` also carries the grid fields, while LoadPart uses
     `BaseLoadMixin[BaseLoadState]` and gets only these.
 
-    Each property is a pair: the getter reads the field off the state and the
-    setter writes it back. Neither keeps a value of its own, which is the
-    point -- the state is the single copy, shared by reference, so a manager
-    writing `self.nout` is seen immediately by the facade and by every other
-    manager.
+    Each accessor is a pair: the getter reads the field off the state and the
+    setter writes it back, as a property or as the __get__ and __set__ of a
+    PerOutput. Neither keeps a value of its own, which is the point -- the
+    state is the single copy, shared by reference, so a manager writing
+    `self.nout` is seen immediately by the facade and by every other manager.
     """
 
     # pylint: disable=too-many-public-methods
@@ -195,6 +198,16 @@ class BaseLoadMixin(Generic[S]):
         self.state.lennoutlist = value
 
     @property
+    def manyout(self) -> bool:
+        """Get the manyout attribute of the load state."""
+        return self.state.manyout
+
+    @manyout.setter
+    def manyout(self, value: bool) -> None:
+        """Set the manyout attribute of the load state."""
+        self.state.manyout = value
+
+    @property
     def matching_files(self) -> list[str] | None:
         """Get the matching_files attribute of the load state."""
         return self.state.matching_files
@@ -224,15 +237,8 @@ class BaseLoadMixin(Generic[S]):
         """Set the multiple attribute of the load state."""
         self.state.multiple = value
 
-    @property
-    def nout(self) -> int | np.ndarray:
-        """Get the nout attribute of the load state."""
-        return self.state.nout
-
-    @nout.setter
-    def nout(self, value: int | np.ndarray) -> None:
-        """Set the nout attribute of the load state."""
-        self.state.nout = value
+    # One value for a single output, an array for a collection
+    nout: PerOutput[int, NDArray[np.integer]] = PerOutput()
 
     @property
     def noutlist(self) -> np.ndarray:
@@ -254,15 +260,8 @@ class BaseLoadMixin(Generic[S]):
         """Set the nshp attribute of the load state."""
         self.state.nshp = value
 
-    @property
-    def ntime(self) -> int | np.ndarray:
-        """Get the ntime attribute of the load state."""
-        return self.state.ntime
-
-    @ntime.setter
-    def ntime(self, value: int | np.ndarray) -> None:
-        """Set the ntime attribute of the load state."""
-        self.state.ntime = value
+    # One value for a single output, an array for a collection
+    ntime: PerOutput[float, NDArray[np.floating]] = PerOutput()
 
     @property
     def ntimelist(self) -> np.ndarray:

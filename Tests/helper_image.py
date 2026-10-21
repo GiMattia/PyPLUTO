@@ -5,13 +5,15 @@ against, so it must never be derived from the code under test. The three
 views below are derived from the table itself, which is only bookkeeping.
 
 This module carries more than the load helpers do, because Image is the
-largest facade in the package: the field table, the sixteen managers and the
+largest facade in the package: the field table, the seventeen managers and the
 method each is reached through, and the kwargs table each method is
 annotated with.
 
 Everything except the three derived views is hand-written, so the tests have
 something independent to compare the code against.
 """
+
+from helper_all import accessors
 
 # Marks a field with no default: the code fills it in later, so reading it on
 # a fresh state raises AttributeError. ImageState has none today; the marker is
@@ -67,6 +69,14 @@ WITHOUT_DEFAULT = [name for name, v in DEFAULTS.items() if v is UNSET]
 CONTAINERS = [
     name for name, v in WITH_DEFAULT.items() if isinstance(v, (dict, list, set))
 ]
+
+# The fields the mixin serves through a descriptor other than a property: none
+# for ImageState, stated outright like the other empty parts of this table.
+DESCRIPTORS: dict[str, type] = {}
+
+# What serves each field on the mixin, and the kinds there are.
+ACCESSOR = accessors(DEFAULTS, DESCRIPTORS)
+ACCESSOR_KINDS = tuple(set(ACCESSOR.values()))
 
 
 # Every facade method of Image and the manager it hands the call to. Checked
@@ -161,7 +171,13 @@ DOCUMENTED_KWARGS: set[str] = {
     "colorbar",
     "contour",
     "create_axes",
+    "display",
+    "interactive",
+    "legend",
+    "plot",
+    "set_axis",
     "streamplot",
+    "text",
     "zoom",
 }
 

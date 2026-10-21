@@ -154,10 +154,18 @@ class ImageToolsManager(ImageMixin):
             the space from the right border to the plot (default 0.9); for an
             inset zoom it is the right position of the inset (default left +
             0.15).
-        - sharex: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the x-axis between the subplots.
-        - sharey: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the y-axis between the subplots.
+        - sharex: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the x-axis: True or 'all' with the first axis (in
+            create_axes, the first of those it makes), an index with that
+            axis of the image, an Axes with that axis. 'row' and 'col' share
+            within each row or column of the axes a create_axes call makes,
+            and are refused for axes that already exist.
+        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharex.
+        - sharey: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the y-axis, as sharex does.
+        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharey.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
         - text (not optional): str
@@ -245,6 +253,10 @@ class ImageToolsManager(ImageMixin):
 
         # Set the 'xycoords' keyword
         xycoord = kwargs.get("xycoords", "fraction")
+        if xycoord not in coordinates:
+            error = f"Unknown xycoords {xycoord!r}: use 'fraction', 'points' "
+            error += "or 'figure'."
+            raise ValueError(error)
 
         # If the text is inside a specific axis, hide the text of the
         # create_axes function
@@ -324,10 +336,18 @@ class ImageToolsManager(ImageMixin):
             the space from the right border to the plot (default 0.9); for an
             inset zoom it is the right position of the inset (default left +
             0.15).
-        - sharex: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the x-axis between the subplots.
-        - sharey: bool | str | Matplotlib axis, default False
-            Enables/disables the sharing of the y-axis between the subplots.
+        - sharex: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the x-axis: True or 'all' with the first axis (in
+            create_axes, the first of those it makes), an index with that
+            axis of the image, an Axes with that axis. 'row' and 'col' share
+            within each row or column of the axes a create_axes call makes,
+            and are refused for axes that already exist.
+        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharex.
+        - sharey: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the y-axis, as sharex does.
+        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharey.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
         - tight: bool, default True
@@ -371,11 +391,11 @@ class ImageToolsManager(ImageMixin):
             raise ValueError(
                 "No figure is present. Please create a figure first.",
             )
-        # Check if the axis is None and no axis is present (and create one)
+        # Check if the axis is None and no axis is present: the axes asked
+        # for are created, a grid if ncol or nrow say so, and the first is used
         if ax is None and len(self.state.ax) == 0:
-            kwargs["ncol"] = 1
-            kwargs["nrow"] = 1
-            ax = self.CreateAxesManager.create_axes(_check=False, **kwargs)
+            new = self.CreateAxesManager.create_axes(_check=False, **kwargs)
+            ax = new[0] if isinstance(new, list) else new
 
         # Check if the axis is None and an axis is present (and select the last
         # one, the current axis if it belongs to the one saved in the figure or
@@ -387,13 +407,19 @@ class ImageToolsManager(ImageMixin):
                 else self.state.ax[-1]
             )
 
-        # Check if the axis is a list and select the first element
-        elif isinstance(ax, list) and isinstance(ax[0], Axes):
+        # Check if the axis is a list and select the first element; an empty
+        # list falls through to the check below
+        elif isinstance(ax, list) and ax and isinstance(ax[0], Axes):
             ax = ax[0]
 
         # Check if the axis is an int, and select the corresponding axis from
-        # the list of axes
+        # the list of axes, counted from the end if negative
         elif isinstance(ax, int):
+            nmax = len(self.state.ax)
+            if not -nmax <= ax < nmax:
+                text = f"The provided axis is not valid: the image has {nmax} "
+                text += f"axes, so there is no axis {ax}."
+                raise ValueError(text)
             ax = self.state.ax[ax]
 
         # If none of the previous cases is satisfied assert that ax is an axis

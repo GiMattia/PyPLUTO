@@ -17,7 +17,6 @@ because a log scale resets the latter; the tests therefore read the labels
 back after the scale is set, which is where that distinction shows.
 """
 
-import inspect
 from typing import Literal
 
 import numpy as np
@@ -26,7 +25,6 @@ import pytest
 from matplotlib.axes import Axes
 
 import pyPLUTO as pp
-from pyPLUTO.imagefuncs.set_axis import AxisManager
 
 
 def _axis() -> tuple[pp.Image, Axes]:
@@ -159,13 +157,9 @@ def test_one_label_for_every_tick() -> None:
 
     A lone string labels the first tick and leaves the rest formatted by
     nothing, which is how a single annotated value is drawn.
-
-    `SetAxisKwargs` declares `list[str] | bool | None`, so the checkers
-    refuse the call the code supports; that gap is an open bug with its own
-    test in test_with_issues.py.
     """
     image, ax = _axis()
-    image.set_axis(xticks=[0, 0.5, 1], xtickslabels="only")  # pyright: ignore[reportArgumentType] # ty: ignore[invalid-argument-type]
+    image.set_axis(xticks=[0, 0.5, 1], xtickslabels="only")
 
     assert ax.get_xticklabels()[0].get_text() == "only"
 
@@ -231,7 +225,7 @@ def test_a_single_label_without_minor_ticks() -> None:
     image, ax = _axis()
     image.set_axis(
         xticks=[0, 0.5, 1],
-        xtickslabels="only",  # ty: ignore[invalid-argument-type] # pyright: ignore[reportArgumentType]
+        xtickslabels="only",
         minorticks="off",
     )
 
@@ -415,32 +409,80 @@ def test_the_ticks_are_on_all_four_sides(axis: str) -> None:
 
 
 # ---- Sharing ----
-@pytest.mark.parametrize("keyword", ["sharex", "sharey"])
-def test_share_axes_documents_what_it_accepts(keyword: str) -> None:
-    """Compare the documented type of `sharex` with the one it really takes.
+@pytest.mark.parametrize(
+    "share", [True, "all", 0], ids=["true", "all", "index"]
+)
+def test_sharing_an_existing_axis_with_the_first(
+    share: bool | Literal["all"] | int,
+) -> None:
+    """Share the second axis with the first, after both were created.
 
-    The value goes straight to `ax.sharex()`, which takes an axis, and
-    `SetAxisKwargs` declares exactly that. The docstring promised
-    `bool | str | Matplotlib axis` with a default of False, so `sharex=True`
-    raised a TypeError from inside matplotlib. Sharing between all the
-    subplots of a figure is `sharexaxes`, read by create_axes.
+    `sharex` takes the values `create_axes` takes, through the same
+    resolver: with no grid to read, True and 'all' mean the first axis of
+    the image, and an index means that axis. `sharex=True` used to go
+    straight to `ax.sharex()`, which takes an axis, and raised.
     """
-    documented = inspect.getdoc(AxisManager.share_axes) or ""
-    entry = next(
-        line
-        for line in documented.splitlines()
-        if line.startswith(f"- {keyword}:")
-    )
+    image = pp.Image(text=False)
+    axes = image.create_axes(ncol=2)
+    assert isinstance(axes, list)
 
-    assert "bool" not in entry
-    assert "default False" not in entry
+    image.set_axis(ax=axes[1], sharex=share)
+
+    assert axes[0].get_shared_x_axes().joined(axes[0], axes[1])
+
+
+@pytest.mark.parametrize("share", ["row", "col"])
+def test_sharing_by_row_or_column_is_refused_once_created(
+    share: Literal["row", "col"],
+) -> None:
+    """Ask an existing axis to share by row or by column.
+
+    A row and a column are those of the axes one `create_axes` call makes,
+    and an axis that exists may come from any of them, so the resolver,
+    called without a grid, refuses rather than guess.
+    """
+    image = pp.Image(text=False)
+    axes = image.create_axes(ncol=2)
+    assert isinstance(axes, list)
+
+    with pytest.raises(ValueError, match="needs the axes created together"):
+        image.set_axis(ax=axes[1], sharex=share)
+
+
+def test_a_plot_creating_its_axis_shares_it_once() -> None:
+    """Plot on an empty figure with sharex.
+
+    The plot creates its axis, which shares at creation, then sets it,
+    which would share again; matplotlib refuses a second sharing, so an
+    axis already joined to its target is left alone.
+    """
+    image = pp.Image(text=False)
+
+    image.plot([0.0, 1.0], [0.0, 1.0], sharex=True)
+
+    assert isinstance(image.ax[0], Axes)
+
+
+def test_the_old_name_still_shares_with_a_warning() -> None:
+    """Share with `sharexaxes`, the old name of `sharex`.
+
+    It is read after the new name, so it still works, and it says it is
+    deprecated, so the user knows to move to `sharex`.
+    """
+    image = pp.Image(text=False)
+
+    with pytest.warns(DeprecationWarning, match="'sharexaxes' argument"):
+        axes = image.create_axes(ncol=2, sharexaxes=True)
+    assert isinstance(axes, list)
+
+    assert axes[0].get_shared_x_axes().joined(axes[0], axes[1])
 
 
 @pytest.mark.parametrize("keyword", ["sharex", "sharey"])
 def test_an_axis_can_be_shared_with_another(keyword: str) -> None:
     """Tie one axis to another after both were created.
 
-    What `sharexaxes` does at creation, done afterwards for two axes that
+    What `sharex` does at creation, done afterwards for two axes that
     already exist: panning one then moves the other.
     """
     image = pp.Image(text=False)

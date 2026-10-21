@@ -36,8 +36,6 @@ from helper_image import KWARGS as IMAGE_KWARGS
 import pyPLUTO as pp
 import pyPLUTO.image as image_mod
 import pyPLUTO.imagekwargs as image_kwargs
-from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
-from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.utils import inspector
 from pyPLUTO.utils.inspector import track_kwargs
 
@@ -274,25 +272,6 @@ def test_fourier_without_dx(data_dir: Path) -> None:
 
 @pytest.mark.xfail(
     strict=True,
-    reason="state.figsize is not updated when the figure is resized",
-)
-def test_figsize_follows_the_figure() -> None:
-    """Create two columns of axes, compare the reported size with the real one.
-
-    `create_axes` resizes the figure without telling the state, so the
-    property and the repr keep reporting the size the figure had before.
-    """
-    image = pp.Image(text=False)
-    image.create_axes(ncol=2)
-    assert image.fig is not None
-
-    assert list(image.figsize) == pytest.approx(
-        list(image.fig.get_size_inches())
-    )
-
-
-@pytest.mark.xfail(
-    strict=True,
     reason="figure-only keywords are declared on every drawing method",
 )
 @pytest.mark.parametrize(
@@ -326,24 +305,6 @@ def test_declared_keywords_are_usable(
 # ---- imagefuncs/plot.py ----
 # ---- imagefuncs/set_axis.py ----
 @pytest.mark.xfail(
-    strict=True,
-    reason="a single string as tick labels works but is declared nowhere",
-)
-@pytest.mark.parametrize("keyword", ["xtickslabels", "ytickslabels"])
-def test_a_single_string_of_tick_labels_is_declared(keyword: str) -> None:
-    """Check one string is in the declared type of the tick labels.
-
-    `set_ticks` handles a lone string on purpose -- it labels the first tick
-    and formats the rest with nothing, which is how a single annotated
-    value is drawn -- while `SetAxisKwargs` declares `list[str] | bool |
-    None`, so the call works and every checker refuses it.
-    """
-    declared = typing.get_type_hints(image_kwargs.SetAxisKwargs)[keyword]
-
-    assert str in typing.get_args(declared)
-
-
-@pytest.mark.xfail(
     strict=True, reason="alpha is set on the Axes, which draws nothing"
 )
 def test_alpha_reaches_something_that_is_drawn() -> None:
@@ -363,37 +324,6 @@ def test_alpha_reaches_something_that_is_drawn() -> None:
 
 
 # ---- imagefuncs/imagetools.py ----
-@pytest.mark.xfail(
-    strict=True,
-    reason="an out-of-range index raises IndexError, not ValueError",
-)
-def test_assign_ax_rejects_an_index_out_of_range() -> None:
-    """Ask for an axis number the figure does not have.
-
-    The docstring and the neighbouring branch promise "The provided axis is
-    not valid", but the list lookup raises IndexError first.
-    """
-    image = _image()
-    manager = ImageToolsManager(image.state)
-
-    with pytest.raises(ValueError, match="not valid"):
-        manager.assign_ax(5, _check=False)
-
-
-@pytest.mark.xfail(
-    strict=True, reason="assign_ax forces ncol and nrow to 1 on an empty figure"
-)
-def test_plot_on_an_empty_figure_honours_ncol() -> None:
-    """Plot with `ncol=2` on a figure with no axes yet.
-
-    `assign_ax` overwrites both keywords before creating the axes, and they
-    still count as consumed, so the user gets one axis and no warning.
-    """
-    image = pp.Image(text=False)
-    image.plot([0.0, 1.0], [0.0, 1.0], ncol=2)
-    assert len(image.ax) == 2
-
-
 @pytest.mark.xfail(strict=True, reason="the last axis drawn on is not tracked")
 def test_the_last_considered_axis_is_the_last_drawn_on() -> None:
     """Draw on the second panel, then on the first, and ask for a colorbar.
@@ -414,31 +344,6 @@ def test_the_last_considered_axis_is_the_last_drawn_on() -> None:
     cbar = image.colorbar()
 
     assert cbar.mappable is mesh
-
-
-# ---- imagefuncs/range.py ----
-@pytest.mark.xfail(
-    strict=True,
-    reason="the y-window filter compares x with its own min and max",
-)
-def test_y_limits_come_from_the_visible_window() -> None:
-    """Compute y-limits with a point far outside the x-range.
-
-    The filter is meant to keep the points inside the x-window, but it
-    compares `x` with its own minimum and maximum, which is true everywhere,
-    so the far point sets the upper limit of the y-axis.
-    """
-    image = _image()
-    manager = RangeManager(image.state)
-    image.ax[0].set_xlim(0.0, 1.0)
-    far_x = np.array([0.0, 0.5, 100.0])
-    far_y = np.array([1.0, 2.0, 50.0])
-
-    manager.set_yrange(
-        image.ax[0], 0, [0.0, 0.0], manager.changerange, data=(far_x, far_y)
-    )
-
-    assert image.ax[0].get_ylim()[1] < 50.0
 
 
 # ---- imagefuncs/interactive.py ----
@@ -519,22 +424,6 @@ def test_importing_pypluto_keeps_the_warning_filters() -> None:
 
 
 # ---- imagefuncs/imagetools.py, range.py ----
-@pytest.mark.xfail(
-    strict=True, reason="the documented spelling is not one of the keys"
-)
-def test_text_accepts_the_documented_xycoords() -> None:
-    """Place a text with the coordinate system the docstring documents.
-
-    `text` documents `xycoords='figure fraction'` and the lookup knows
-    'fraction', 'points' and 'figure', so the documented spelling raises a
-    bare KeyError naming nothing useful.
-    """
-    image = _image()
-    image.text(text="hi", x=0.5, y=0.5, xycoords="figure fraction")
-
-    assert image.ax[0].texts
-
-
 # ---- utils/inspector.py ----
 @pytest.mark.xfail(
     strict=True, reason="the decorator mutates the cached scan in place"

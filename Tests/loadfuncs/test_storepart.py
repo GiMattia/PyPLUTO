@@ -4,6 +4,7 @@ from pathlib import Path
 
 import numpy as np
 import numpy.testing as npt
+import pytest
 
 import pyPLUTO as pp
 
@@ -53,3 +54,20 @@ def test_CRvtk(data_dir: Path):
     npt.assert_allclose(Data.ux2, yc2d.flatten())
     npt.assert_array_equal(Data.ux3, 0.5)
     npt.assert_array_equal(Data.tinj, 0.0)
+
+
+@pytest.mark.parametrize("nout", [[0], "all"], ids=["list-of-one", "all"])
+def test_a_collection_of_one_particle_output_is_a_dict(
+    nout: list[int | str] | str, data_dir: Path
+) -> None:
+    """Load particles as a collection from a folder with one output.
+
+    The same rule as for the fluid: a list or 'all' gives one entry per
+    output, so the particle ids are a dict keyed by output 0.
+    """
+    data = pp.LoadPart(
+        nout, path=data_dir / "particles_cr", datatype="vtk", text=False
+    )
+
+    assert isinstance(data.id, dict)
+    npt.assert_array_equal(data.id[0], np.linspace(1, 4096, 4096))

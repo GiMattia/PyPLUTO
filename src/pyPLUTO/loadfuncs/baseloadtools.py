@@ -53,9 +53,11 @@ class BaseLoadTools(BaseLoadMixin[BaseLoadState]):
 
             >>> _check_nout([0, 1, 2, 3])
         """
+        # A list or 'all' asks for a collection, however many outputs it finds
+        self.state.manyout = isinstance(nout, list) or nout == "all"
+
         # Assign the last possible output file
         last = self.state.outlist.tolist()[-1]
-
         # Check if nout is a list and change the keywords
         if not isinstance(nout, list):
             # If nout is a string, get the keywords

@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+from numpy.typing import NDArray
 
 
 @dataclass
@@ -83,6 +84,9 @@ class BaseLoadState:
     # Number of outputs available in the folder
     lennoutlist: int = field(init=False, repr=False)
 
+    # Whether nout asked for a collection (a list, or 'all')
+    manyout: bool = field(init=False, repr=False)
+
     # The data files found in the folder, before any selection
     matching_files: list[str] | None = None
 
@@ -93,7 +97,7 @@ class BaseLoadState:
     multiple: bool = False
 
     # The output number(s) loaded: an int for one, an array for several
-    nout: int | np.ndarray = field(init=False, repr=False)
+    nout: int | NDArray[np.integer] = field(init=False, repr=False)
 
     # Every output number loaded, always as an array
     noutlist: np.ndarray = field(init=False, repr=False)
@@ -102,7 +106,7 @@ class BaseLoadState:
     nshp: int | tuple[int, ...] = field(init=False, repr=False)
 
     # The simulation time(s) of the loaded output(s), matching nout
-    ntime: int | np.ndarray = field(init=False, repr=False)
+    ntime: float | NDArray[np.floating] = field(init=False, repr=False)
 
     # The simulation times of every loaded output, matching noutlist
     ntimelist: np.ndarray = field(init=False, repr=False)

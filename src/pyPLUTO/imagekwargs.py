@@ -69,8 +69,14 @@ class CreateAxesKwargs(ImageKwargs, total=False):
     nrow: int
     proj: str
     right: float
-    sharexaxes: bool | int | Literal["all", "row", "col"] | Axes | None
-    shareyaxes: bool | int | Literal["all", "row", "col"] | Axes | None
+    sharex: bool | int | Literal["all", "row", "col"] | Axes | None
+    sharexaxes: (
+        bool | int | Literal["all", "row", "col"] | Axes | None
+    )  # deprecated, use "sharex"
+    sharey: bool | int | Literal["all", "row", "col"] | Axes | None
+    shareyaxes: (
+        bool | int | Literal["all", "row", "col"] | Axes | None
+    )  # deprecated, use "sharey"
     top: float
     wratio: Sequence[float] | float
     wspace: Sequence[float] | float
@@ -83,7 +89,7 @@ class TextKwargs(CreateAxesKwargs, total=False):
     horalign: str
     textsize: float
     veralign: str
-    xycoords: str
+    xycoords: Literal["fraction", "points", "figure"]
 
 
 class SetScalesKwargs(TypedDict, total=False):
@@ -100,13 +106,6 @@ class CheckRangeKwargs(TypedDict, total=False):
 
     xrange: list[float]
     yrange: list[float]
-
-
-class ShareAxesKwargs(TypedDict, total=False):
-    """Keyword arguments for sharing axes."""
-
-    sharex: Axes
-    sharey: Axes
 
 
 class MinorTicksKwargs(TypedDict, total=False):
@@ -130,7 +129,6 @@ class SetTitleKwargs(TypedDict, total=False):
 
 class SetAxisKwargs(
     CreateAxesKwargs,
-    ShareAxesKwargs,
     MinorTicksKwargs,
     SetTitleKwargs,
     CheckRangeKwargs,
@@ -145,9 +143,9 @@ class SetAxisKwargs(
     ticksdir: str
     tickssize: float
     xticks: list[float] | bool | None
-    xtickslabels: list[str] | bool | None
+    xtickslabels: str | list[str] | bool | None
     yticks: list[float] | bool | None
-    ytickslabels: list[str] | bool | None
+    ytickslabels: str | list[str] | bool | None
 
 
 class LegendKwargs(CreateAxesKwargs, total=False):
@@ -188,7 +186,7 @@ class ColorbarKwargs(CreateAxesKwargs, total=False):
     cpad: float
     cpos: str
     cticks: list[float] | bool | None
-    ctickslabels: list[str] | bool | None
+    ctickslabels: str | list[str] | bool | None
     extend: str
     extendrect: bool
 

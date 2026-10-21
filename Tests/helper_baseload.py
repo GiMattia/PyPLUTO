@@ -21,6 +21,10 @@ grid on top of it, and helper_load.py extends this table rather than
 repeating it.
 """
 
+from helper_all import accessors
+
+from pyPLUTO.utils.overtyper import PerOutput
+
 # Marks a field with no default: the loading classes fill it in, so reading it
 # on a fresh state raises AttributeError.
 #
@@ -45,6 +49,7 @@ DEFAULTS: dict[str, object] = {
     "infogrid": True,
     "lennout": UNSET,
     "lennoutlist": UNSET,
+    "manyout": UNSET,
     "matching_files": None,
     "mmaps": [],
     "multiple": False,
@@ -82,3 +87,13 @@ WITHOUT_DEFAULT = [name for name, v in DEFAULTS.items() if v is UNSET]
 CONTAINERS = [
     name for name, v in WITH_DEFAULT.items() if isinstance(v, (dict, list, set))
 ]
+
+# The fields the mixin serves through a descriptor other than a property, and
+# which one. nout and ntime are one value for a single output and an array for
+# a collection, typed from the call (utils/overtyper.py).
+DESCRIPTORS: dict[str, type] = {"nout": PerOutput, "ntime": PerOutput}
+
+# What serves each field on the mixin, and the kinds there are: the mixin
+# tests read these, so a new descriptor field is one line in DESCRIPTORS.
+ACCESSOR = accessors(DEFAULTS, DESCRIPTORS)
+ACCESSOR_KINDS = tuple(set(ACCESSOR.values()))

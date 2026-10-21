@@ -15,8 +15,16 @@ both the grid ones it defines and the base ones it inherits, so the base
 pairs are exercised a second time against the subclass.
 """
 
+import inspect
+
 import pytest
-from helper_load import DEFAULTS, WITH_DEFAULT, WITHOUT_DEFAULT
+from helper_load import (
+    ACCESSOR,
+    ACCESSOR_KINDS,
+    DEFAULTS,
+    WITH_DEFAULT,
+    WITHOUT_DEFAULT,
+)
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
@@ -58,7 +66,7 @@ def test_every_property_is_listed() -> None:
         name
         for klass in LoadMixin.__mro__
         for name, attribute in vars(klass).items()
-        if isinstance(attribute, property)
+        if isinstance(attribute, ACCESSOR_KINDS)
     }
     missing, stale = defined - set(DEFAULTS), set(DEFAULTS) - defined
     assert not missing, (
@@ -67,6 +75,20 @@ def test_every_property_is_listed() -> None:
     assert not stale, (
         f"listed in DEFAULTS but no LoadMixin property: {sorted(stale)}"
     )
+
+
+def test_every_field_is_served_by_its_kind() -> None:
+    """Check each field is a property, or a PerOutput where the table says.
+
+    The same check as for BaseLoadMixin, over the inherited fields too:
+    `getattr_static` finds each one wherever it is defined along the MRO,
+    without calling it.
+    """
+    served = {
+        name: type(inspect.getattr_static(LoadMixin, name)) for name in DEFAULTS
+    }
+
+    assert served == ACCESSOR
 
 
 @pytest.mark.parametrize(("name", "expected"), WITH_DEFAULT.items())

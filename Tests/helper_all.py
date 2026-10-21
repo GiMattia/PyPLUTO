@@ -3,11 +3,15 @@
 The helper_<family> modules hold the expected values of one class family;
 this one holds the pieces that belong to none of them.
 
-Everything here is a test double: an object that stands in for a real one so
-a test can watch what happens to it. Nothing in this file asserts anything,
-and nothing in it is derived from the code under test -- a double that copied
-the real behaviour would let a test agree with whatever the code does.
+DummyManager is a test double: an object that stands in for a real one so a
+test can watch what happens to it. accessors is the one view every state
+helper derives the same way, kept here rather than written three times.
+Nothing in this file asserts anything, and nothing in it is derived from the
+code under test -- a double that copied the real behaviour would let a test
+agree with whatever the code does.
 """
+
+from collections.abc import Iterable
 
 
 class DummyManager:
@@ -45,3 +49,16 @@ class DummyManager:
         of any signature.
         """
         return lambda *a, **kw: name
+
+
+def accessors(
+    fields: Iterable[str], descriptors: dict[str, type]
+) -> dict[str, type]:
+    """Return what serves each field of a state on its mixin.
+
+    A field is served by a property unless the DESCRIPTORS table of its
+    helper names another descriptor for it, such as PerOutput. Both inputs
+    are hand-written tables, so this is bookkeeping over them, not a reading
+    of the code under test: the mixin tests compare the mixin with it.
+    """
+    return {name: descriptors.get(name, property) for name in fields}

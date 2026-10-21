@@ -84,7 +84,7 @@ class ColorbarManager(ImageMixin):
             If enabled (and different from True), sets manually the ticks on
             the colorbar. In order to completely remove the ticks the keyword
             should be used with None. The same rules as xticks.
-        - ctickslabels: list[str] | None | bool, default True
+        - ctickslabels: str | list[str] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the colorbar. In order to remove the labels, keeping the
             ticks, the keyword should be used with None. Fixed labels should
@@ -129,12 +129,18 @@ class ColorbarManager(ImageMixin):
             the space from the right border to the plot (default 0.9); for an
             inset zoom it is the right position of the inset (default left +
             0.15).
-        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
-            Shares the x-axis between the subplots: True or 'all' with the
-            first of them, 'row' and 'col' within each row or column, an
-            index with that axis of the image, an Axes with that axis.
-        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default False
-            Shares the y-axis between the subplots, as sharexaxes does.
+        - sharex: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the x-axis: True or 'all' with the first axis (in
+            create_axes, the first of those it makes), an index with that
+            axis of the image, an Axes with that axis. 'row' and 'col' share
+            within each row or column of the axes a create_axes call makes,
+            and are refused for axes that already exist.
+        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharex.
+        - sharey: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Shares the y-axis, as sharex does.
+        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None
+            Deprecated, use sharey.
         - suptitle: str, default None
             Creates a figure title over all the subplots.
         - tight: bool, default True

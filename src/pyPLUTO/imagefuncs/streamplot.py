@@ -62,9 +62,11 @@ class StreamplotManager(ImageMixin):
 
         Parameters
         ----------
-        - alpha: float, default 1.0
+        - alpha: float, default None
             Sets the opacity of the lines and of their arrows, where 1.0 is
-            fully opaque and 0.0 is fully transparent.
+            fully opaque and 0.0 is fully transparent. Without it they take the
+            axalpha of the axis, if any; given together with axalpha, the panel
+            takes axalpha and the streamlines alpha.
         - arrowsize: float, default 1.0
             Sets the size of the arrows of the streamline.
         - arrowstyle: str, default '-|>'
@@ -75,8 +77,17 @@ class StreamplotManager(ImageMixin):
             y. A float fixes the ratio between the y-scale and the x-scale (1.0
             is the same as 'equal').
         - ax: ax | int | None, default None
-            The axis where to plot. If None, the last considered axis will be
-            used.
+            The axis where to plot. If None, the last considered axis is used.
+            If the figure has no axes yet, or a layout keyword is given (ncol,
+            nrow, left, right, top, bottom, wspace, hspace, wratio, hratio),
+            new axes are created first, as with create_axes, and the
+            streamlines go on the last of them.
+        - axalpha: float, default None
+            Sets the opacity of the whole panel, where 1.0 is fully opaque and
+            0.0 is fully transparent: background, spines, ticks, labels,
+            title, grid, legend and everything drawn on it, own alpha
+            included. It is kept for the axis, so what is drawn there later
+            takes it too, unless given its own alpha.
         - bottom: float, default varies
             The bottom limit of the axis / axes set. For the figure layout it
             is the space from the bottom border to the plot (default 0.1); for
@@ -399,7 +410,7 @@ class StreamplotManager(ImageMixin):
 
         # matplotlib's streamplot takes no opacity, so it is set afterwards;
         # the arrows are separate patches on the axis, each set on its own
-        alpha = kwargs.get("alpha", 1.0)
+        alpha = kwargs.get("alpha", self.state.axalpha[nax])
         strm.lines.set_alpha(alpha)
         for arrow in ax.patches[npatches:]:
             arrow.set_alpha(alpha)

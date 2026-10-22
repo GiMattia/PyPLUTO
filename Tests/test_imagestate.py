@@ -4,12 +4,9 @@ The same checks as the two load state files, run against ImageState, and kept
 deliberately parallel to them: the same tests in the same order, so no state
 is held to a lower standard than the others.
 
-ImageState differs in one way that shows up throughout. Every field has a
-default, because an Image is usable the moment it is built, so there is
-nothing that only a later step can fill in. The load states check their
-load-only fields one by one; here that half of the table is empty, and
-test_no_field_is_unset states so outright rather than leaving a test that
-silently checks nothing.
+ImageState has a single field without a default, lastax, since there is no
+axis to point at before create_axes makes one. It is checked like the
+load-only fields of the load states, by test_unset_until_created.
 """
 
 from dataclasses import fields
@@ -22,7 +19,7 @@ from pyPLUTO.imagestate import ImageState
 # The hand-written table and its views live in helper_image.py: DEFAULTS is
 # what every field holds on a fresh state, WITH_DEFAULT and WITHOUT_DEFAULT
 # split it, and CONTAINERS lists the fields built by a default_factory. Each
-# entry is checked by test_default or by test_unset_until_loaded, and
+# entry is checked by test_default or by test_unset_until_created, and
 # test_every_field_is_listed makes sure no field is missing.
 
 
@@ -61,29 +58,24 @@ def test_default(name: str, expected: object) -> None:
     assert type(value) is type(expected)
 
 
-def test_no_field_is_unset() -> None:
-    """Check that no field is marked as having no default.
+@pytest.mark.parametrize("name", WITHOUT_DEFAULT)
+def test_unset_until_created(name: str) -> None:
+    """Read a field without a default on a fresh state and expect an error.
 
-    This replaces a test that would otherwise check nothing: parametrizing
-    over an empty WITHOUT_DEFAULT produces zero cases, which pytest reports
-    as a skip rather than a pass, and a reader would have to work out why.
-
-    States that do have load-only fields check them one by one instead, with
-    test_unset_until_loaded (see test_baseloadstate.py). If this fails, a
-    field was marked UNSET in the table and that test should come back here.
+    Before any axis exists there is no honest answer for the last considered
+    one, so reading it raises AttributeError rather than handing back a
+    made-up axis.
     """
-    assert WITHOUT_DEFAULT == []
+    with pytest.raises(AttributeError):
+        getattr(ImageState(), name)
 
 
 def test_constructor_accepts_the_fields_with_a_default() -> None:
     """Compare what the constructor accepts with the fields having defaults.
 
-    For ImageState these are the same set, since every field has a default.
-    The test is kept in the same shape as its counterparts in the load state
-    files, where the two sets genuinely differ.
-
-    A field declared init=False could not be passed to ImageState(...), and
-    would have to move to the WITHOUT_DEFAULT half of the table.
+    The two groups must line up exactly: lastax is declared init=False, so it
+    cannot be passed to ImageState(...) and point at an axis the Image never
+    made.
     """
     accepted = {field.name for field in fields(ImageState) if field.init}
     assert accepted == set(WITH_DEFAULT)

@@ -9,9 +9,8 @@ the field of the same name, in both directions, for every field. A getter
 pointing at its neighbour raises nothing, and would surface as a plot drawn
 with the wrong limits or the wrong scale.
 
-As in imagestate.py every field has a default, so the load-only half of the
-table is empty and test_no_property_is_unset says so outright instead of
-leaving a test that silently checks nothing.
+As in imagestate.py the one field without a default, lastax, is checked like
+the load-only fields of the load mixins, by test_unset_until_created.
 """
 
 import pytest
@@ -29,7 +28,7 @@ from pyPLUTO.imagestate import ImageState
 # The mixin exposes every ImageState field, so its expected values are the
 # state's own table from helper_image.py: DEFAULTS is what every property
 # returns on a fresh state, split into WITH_DEFAULT and WITHOUT_DEFAULT. Each
-# entry is checked by test_default or by test_unset_until_loaded, and
+# entry is checked by test_default or by test_unset_until_created, and
 # test_every_property_is_listed makes sure the properties match the state
 # fields: a new state field without a property fails there.
 
@@ -98,14 +97,16 @@ def test_default(name: str, expected: object) -> None:
     assert type(value) is type(expected)
 
 
-def test_no_property_is_unset() -> None:
-    """Give every ImageMixin property a default, so WITHOUT_DEFAULT is empty.
+@pytest.mark.parametrize("name", WITHOUT_DEFAULT)
+def test_unset_until_created(name: str) -> None:
+    """Read a property without a default on a fresh image and expect an error.
 
-    Mixins over a state with load-only fields check them one by one instead,
-    with test_unset_until_loaded (see test_baseloadmixin.py). If this fails, a
-    field was marked UNSET in the table and that test should come back here.
+    The property must not soften the state's behaviour: reading `lastax`
+    before any axis exists has to fail just as reading `state.lastax` does,
+    rather than return None because the getter caught the error.
     """
-    assert WITHOUT_DEFAULT == []
+    with pytest.raises(AttributeError):
+        getattr(_Image(), name)
 
 
 @pytest.mark.parametrize("name", DEFAULTS)

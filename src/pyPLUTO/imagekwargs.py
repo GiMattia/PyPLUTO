@@ -137,8 +137,8 @@ class SetAxisKwargs(
 ):
     """Keyword argument for set axis."""
 
-    alpha: float
     aspect: float | Literal["auto", "equal"]
+    axalpha: float
     grid: Literal["x", "y", "both"] | bool
     ticksdir: str
     tickssize: float
@@ -171,6 +171,8 @@ class LegendKwargs(CreateAxesKwargs, total=False):
 class PlotKwargs(LegendKwargs, SetAxisKwargs, total=False):
     """Keyword arguments for plotting."""
 
+    alpha: float
+
 
 class ShowGridKwargs(PlotKwargs, total=False):
     """Keyword arguments for showing grid lines."""
@@ -191,15 +193,21 @@ class ColorbarKwargs(CreateAxesKwargs, total=False):
     extendrect: bool
 
 
-class Base2DplotKwargs(ColorbarKwargs, SetAxisKwargs, total=False):
-    """Keyword arguments for base 2D plots."""
+class ColorScaleKwargs(ColorbarKwargs, SetAxisKwargs, total=False):
+    """Keyword arguments for the colour scale of a plot coloured by a value."""
 
+    alpha: float
     cmap: str | Colormap
     cscale: str
-    transpose: bool
     tresh: float
     vmin: float
     vmax: float
+
+
+class Base2DplotKwargs(ColorScaleKwargs, total=False):
+    """Keyword arguments for base 2D plots, drawn on a grid."""
+
+    transpose: bool
     x1: np.ndarray
     x2: np.ndarray
 
@@ -233,7 +241,7 @@ class StreamplotKwargs(Base2DplotKwargs, total=False):
     start_points: ArrayLike | None
 
 
-class ScatterKwargs(Base2DplotKwargs, LegendKwargs, total=False):
+class ScatterKwargs(ColorScaleKwargs, LegendKwargs, total=False):
     """Keyword arguments for creating scatter plots."""
 
     edgecolors: str | Sequence[str]

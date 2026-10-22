@@ -34,6 +34,21 @@ CMAP_PROVIDERS: dict[str, str] = {
     "seaborn": "cm",
 }
 
+# The keywords that lay out a grid of axes: given to a drawing method without
+# an axis, they create new axes, as create_axes does
+LAYOUT = {
+    "bottom",
+    "hratio",
+    "hspace",
+    "left",
+    "ncol",
+    "nrow",
+    "right",
+    "top",
+    "wratio",
+    "wspace",
+}
+
 
 class ImageToolsManager(ImageMixin):
     """ImageToolsManager class.
@@ -281,6 +296,7 @@ class ImageToolsManager(ImageMixin):
             horizontalalignment=hortx,
             verticalalignment=vertx,
             bbox=kwargs.get("bbox"),
+            alpha=self.state.axalpha[nax],
         )
 
     # End of the function
@@ -294,8 +310,10 @@ class ImageToolsManager(ImageMixin):
     ) -> tuple[Axes, int]:
         """Set the axes of the figure where the plot/feature should go.
 
-         If no axis is present, an axis is created. If the axis is
-         present but no axis is seletced, the last axis is selected.
+         If no axis is selected, the last considered axis is used, after
+         creating the axes asked for if the figure has none yet or if a
+         layout keyword is given. The axis found becomes the last considered
+         one.
 
         Parameters
         ----------
@@ -391,21 +409,19 @@ class ImageToolsManager(ImageMixin):
             raise ValueError(
                 "No figure is present. Please create a figure first.",
             )
-        # Check if the axis is None and no axis is present: the axes asked
-        # for are created, a grid if ncol or nrow say so, and the first is used
-        if ax is None and len(self.state.ax) == 0:
-            new = self.CreateAxesManager.create_axes(_check=False, **kwargs)
-            ax = new[0] if isinstance(new, list) else new
+        # Check if the axis is None and no axis is present, or a layout is
+        # given: the axes asked for are created, a grid if ncol or nrow say so
+        if ax is None and (not self.state.ax or LAYOUT & kwargs.keys()):
+            if self.state.ax:
+                warn = "Layout keywords given to a drawing method: new axes "
+                warn += "are created, as by create_axes, and the drawing goes "
+                warn += "on the last."
+                warnings.warn(warn, UserWarning, stacklevel=2)
+            self.CreateAxesManager.create_axes(_check=False, **kwargs)
 
-        # Check if the axis is None and an axis is present (and select the last
-        # one, the current axis if it belongs to the one saved in the figure or
-        # the last one saved
-        elif ax is None and len(self.state.ax) > 0:
-            ax = (
-                self.state.fig.gca()
-                if self.state.fig.gca() in self.state.ax
-                else self.state.ax[-1]
-            )
+        # Check if the axis is None and select the last considered one
+        if ax is None:
+            ax = self.state.lastax
 
         # Check if the axis is a list and select the first element; an empty
         # list falls through to the check below
@@ -436,6 +452,9 @@ class ImageToolsManager(ImageMixin):
 
         # Find the number of the axes and return it
         nax = self.state.ax.index(ax)
+
+        # Record the axis as the last considered one
+        self.state.lastax = ax
 
         # Return the axis and its index
         return ax, nax

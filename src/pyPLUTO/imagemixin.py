@@ -51,6 +51,16 @@ class ImageMixin:
         self.state.ax = value
 
     @property
+    def axalpha(self) -> list[float | None]:
+        """Get the axalpha attribute of the image."""
+        return self.state.axalpha
+
+    @axalpha.setter
+    def axalpha(self, value: list[float | None]) -> None:
+        """Set the axalpha attribute of the image."""
+        self.state.axalpha = value
+
+    @property
     def color(self) -> list[str]:
         """Get the color attribute of the image."""
         return self.state.color
@@ -109,6 +119,16 @@ class ImageMixin:
     def fontweight(self, value: str) -> None:
         """Set the fontweight attribute of the image."""
         self.state.fontweight = value
+
+    @property
+    def lastax(self) -> Axes:
+        """Get the lastax attribute of the image."""
+        return self.state.lastax
+
+    @lastax.setter
+    def lastax(self, value: Axes) -> None:
+        """Set the lastax attribute of the image."""
+        self.state.lastax = value
 
     @property
     def LaTeX(self) -> bool | str:

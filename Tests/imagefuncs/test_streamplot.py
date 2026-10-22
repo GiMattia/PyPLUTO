@@ -315,6 +315,23 @@ def test_colors_is_an_unknown_keyword() -> None:
     assert isinstance(lines, LineCollection)
 
 
+# ---- Opacity ----
+def test_streamlines_on_a_faded_panel_take_its_axalpha() -> None:
+    """Fade the panel, then draw streamlines without an alpha of their own.
+
+    The arrows are separate patches on the axis, so they are checked too.
+    """
+    image = pp.Image(text=False)
+    image.set_axis(axalpha=0.3)
+
+    lines = image.streamplot(*along_x)
+
+    arrows = [p for p in image.ax[0].patches if isinstance(p, FancyArrowPatch)]
+    assert lines.get_alpha() == 0.3
+    assert arrows
+    assert {arrow.get_alpha() for arrow in arrows} == {0.3}
+
+
 # ---- The style of the lines ----
 def test_the_default_linewidth() -> None:
     """Check the width of the lines when none is asked for.

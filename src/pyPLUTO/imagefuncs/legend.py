@@ -299,4 +299,10 @@ class LegendManager(ImageMixin):
                 markerscale=mscale,
             )
 
+        # On a faded panel every part of the legend takes its opacity
+        legend = ax.get_legend()
+        if (axalpha := self.state.axalpha[nax]) is not None and legend:
+            for part in legend.findobj():
+                part.set_alpha(axalpha)
+
         # End of the function

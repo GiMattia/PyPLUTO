@@ -29,9 +29,10 @@ class ImageState:
     the different classes that handle the plotting and display of the image at
     runtime.
 
-    Unlike the load states, every field here has a default: an Image is usable
-    the moment it is built, so there is nothing that only a later step can
-    fill in.
+    Unlike the load states, every field but one has a default: an Image is
+    usable the moment it is built. The exception is `lastax`, written as
+    `field(init=False, repr=False)` like the load-only fields, since there is
+    no axis to point at before `create_axes` makes one.
 
     Most of the lists are *per axis*, indexed by the axis number that the
     managers call `nax`, and they grow as axes are created. So `nline[2]` is
@@ -45,6 +46,9 @@ class ImageState:
 
     # The axes created so far; the index into every per-axis list below
     ax: list[Axes] = field(default_factory=list)
+
+    # Per axis, the opacity of the whole panel, None until axalpha is given
+    axalpha: list[float | None] = field(default_factory=list)
 
     # The colour cycle used for successive lines
     color: list[str] = field(default_factory=list)
@@ -63,6 +67,9 @@ class ImageState:
 
     # Base font weight for the figure
     fontweight: str = "normal"
+
+    # The last axis considered, used when a method is given no axis
+    lastax: Axes = field(init=False, repr=False)
 
     # LaTeX rendering: True, False, or the name of a backend such as "pgf"
     LaTeX: bool | str = True

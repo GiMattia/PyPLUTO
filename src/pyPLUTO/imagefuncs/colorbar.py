@@ -262,6 +262,10 @@ class ColorbarManager(ImageMixin):
             )
             self.ImageToolsManager.hide_text(naxc, bar.texts)
 
+            # The bar's axis is not drawn on: the panel it describes stays the
+            # last considered one
+            self.state.lastax = axs
+
         # Place the colorbar
         cbar = self.state.fig.colorbar(
             mappable,

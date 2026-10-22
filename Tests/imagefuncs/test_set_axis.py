@@ -23,6 +23,7 @@ import numpy as np
 import numpy.testing as npt
 import pytest
 from matplotlib.axes import Axes
+from matplotlib.colors import to_rgba
 
 import pyPLUTO as pp
 
@@ -406,6 +407,124 @@ def test_the_ticks_are_on_all_four_sides(axis: str) -> None:
     tick = getattr(ax, axis).get_major_ticks()[0].tick2line
 
     assert tick.get_visible() is True
+
+
+# ---- Opacity of the panel ----
+def test_a_new_axis_has_no_axalpha() -> None:
+    """Create an axis and check no opacity is recorded for it.
+
+    None means the panel was never faded, so what is drawn there keeps
+    matplotlib's own opacity rather than a made-up 1.0.
+    """
+    image, _ = _axis()
+
+    assert image.axalpha == [None]
+
+
+def test_axalpha_fades_everything_on_the_panel() -> None:
+    """Fade a panel holding a line, a legend, a title and a grid.
+
+    Each part is read back on its own, since each is reached differently:
+    the ticks through their colour, the grid through tick_params, the axis
+    labels through the axis, the legend part by part, and the rest as the
+    artists of the axis.
+    """
+    image = pp.Image(text=False)
+    image.plot([0.0, 1.0], [0.0, 1.0], label="a", legpos="best", title="T")
+    image.set_axis(xtitle="x", ytitle="y", grid=True, axalpha=0.3)
+    ax = image.ax[0]
+    tick = ax.xaxis.get_major_ticks()[0]
+    legend = ax.get_legend()
+    assert legend is not None
+
+    assert image.axalpha == [0.3]
+    assert ax.patch.get_alpha() == 0.3
+    assert {spine.get_alpha() for spine in ax.spines.values()} == {0.3}
+    assert ax.lines[0].get_alpha() == 0.3
+    assert ax.title.get_alpha() == 0.3
+    assert ax.xaxis.label.get_alpha() == 0.3
+    assert ax.yaxis.label.get_alpha() == 0.3
+    assert to_rgba(tick.tick1line.get_color())[3] == pytest.approx(0.3)
+    assert to_rgba(tick.label1.get_color())[3] == pytest.approx(0.3)
+    assert tick.gridline.get_alpha() == 0.3
+    assert legend.get_texts()[0].get_alpha() == 0.3
+
+
+def test_axalpha_reaches_the_ticks_created_later() -> None:
+    """Fade a panel, then change its range so matplotlib makes new ticks.
+
+    The tick objects are rebuilt when the limits change, so an alpha set on
+    the old ones would be lost; the faded colour is kept in tick_params.
+    """
+    image, ax = _axis()
+    image.set_axis(axalpha=0.3)
+
+    image.set_axis(xrange=[0.0, 100.0])
+
+    ticks = ax.xaxis.get_major_ticks()
+    alphas = [to_rgba(tick.tick1line.get_color())[3] for tick in ticks]
+    assert alphas == pytest.approx([0.3] * len(ticks))
+
+
+def test_axalpha_on_an_axis_without_ticks() -> None:
+    """Remove the ticks, then fade the panel.
+
+    The colours of the ticks are read from a tick object, which matplotlib
+    hands back even when none is placed, so the fading still works.
+    """
+    image, ax = _axis()
+    image.set_axis(xticks=None, yticks=None)
+
+    image.set_axis(axalpha=0.3)
+
+    assert ax.patch.get_alpha() == 0.3
+
+
+def test_axalpha_wins_over_an_own_alpha() -> None:
+    """Draw a map with its own alpha, then fade the panel.
+
+    axalpha is the opacity of everything on the panel, so it replaces the
+    map's own alpha rather than leaving it or multiplying it.
+    """
+    image = pp.Image(text=False)
+    mesh = image.display(np.ones((4, 4)), alpha=0.5)
+
+    image.set_axis(axalpha=0.3)
+
+    assert mesh.get_alpha() == 0.3
+
+
+def test_axalpha_leaves_an_inset_and_a_colorbar_alone() -> None:
+    """Fade a panel that holds a zoom inset and has a colorbar beside it.
+
+    Both are axes of their own: the inset is a child of the panel and keeps
+    its own axalpha, and the colorbar is a separate axis the panel never
+    reaches.
+    """
+    image = pp.Image(text=False)
+    mesh = image.display(np.ones((4, 4)), cpos="right")
+    inset = image.zoom(xrange=[0.0, 1.0], yrange=[0.0, 1.0])
+    colorbar = mesh.colorbar
+    assert colorbar is not None
+
+    image.set_axis(ax=0, axalpha=0.3)
+
+    assert inset.patch.get_alpha() is None
+    assert colorbar.ax.patch.get_alpha() is None
+
+
+def test_alpha_is_not_a_set_axis_keyword() -> None:
+    """Pass alpha to set_axis and expect it to be reported as unused.
+
+    It used to set the opacity of the Axes artist, which draws nothing;
+    the opacity of a panel is axalpha now.
+    """
+    image, ax = _axis()
+
+    with pytest.warns(UserWarning, match="Unused kwargs"):
+        image.set_axis(alpha=0.3)  # type: ignore[call-arg]
+
+    assert ax.patch.get_alpha() is None
 
 
 # ---- Sharing ----

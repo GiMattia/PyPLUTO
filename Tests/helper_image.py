@@ -16,8 +16,8 @@ something independent to compare the code against.
 from helper_all import accessors
 
 # Marks a field with no default: the code fills it in later, so reading it on
-# a fresh state raises AttributeError. ImageState has none today; the marker is
-# kept so this table has the same shape as the other state tables.
+# a fresh state raises AttributeError. For ImageState that is lastax, set by
+# create_axes once there is an axis to point at.
 #
 # Every state helper is written the same way even where a part is empty, so
 # the state and mixin test files can be read side by side and none of them is
@@ -27,12 +27,14 @@ UNSET = object()
 # What every ImageState field holds on a fresh state.
 DEFAULTS: dict[str, object] = {
     "ax": [],
+    "axalpha": [],
     "color": [],
     "dictcol": {},
     "fig": None,
     "figsize": [8.0, 5.0],
     "fontsize": 17,
     "fontweight": "normal",
+    "lastax": UNSET,
     "LaTeX": True,
     "legpar": [],
     "legpos": [],
@@ -58,9 +60,7 @@ DEFAULTS: dict[str, object] = {
     "ytickspin": [],
 }
 
-# The fields with a real default, and the ones filled in later. WITHOUT_DEFAULT
-# is empty for ImageState, which test_imagestate.py asserts rather than skips:
-# an empty parametrize set becomes a silent skip, so it is stated outright.
+# The fields with a real default, and the ones filled in later.
 WITH_DEFAULT = {name: v for name, v in DEFAULTS.items() if v is not UNSET}
 WITHOUT_DEFAULT = [name for name, v in DEFAULTS.items() if v is UNSET]
 
@@ -175,6 +175,7 @@ DOCUMENTED_KWARGS: set[str] = {
     "interactive",
     "legend",
     "plot",
+    "scatter",
     "set_axis",
     "streamplot",
     "text",

@@ -6,6 +6,9 @@ from typing import Unpack
 
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
+from matplotlib.axis import Axis
+from matplotlib.colors import to_rgba
+from matplotlib.legend import Legend
 
 from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
@@ -53,9 +56,6 @@ class AxisManager(ImageMixin):
 
         Parameters
         ----------
-        - alpha: float, default 1.0
-            Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is
-            fully transparent.
         - aspect: 'auto' | 'equal' | float, default 'auto'
             Sets the aspect ratio of the plot. The 'auto' keyword is the
             default option. The 'equal' keyword sets the same scaling for x and
@@ -63,6 +63,12 @@ class AxisManager(ImageMixin):
             is the same as 'equal').
         - ax: ax object, default None
             The axis to customize. If None the current axis will be selected.
+        - axalpha: float, default None
+            Sets the opacity of the whole panel, where 1.0 is fully opaque and
+            0.0 is fully transparent: background, spines, ticks, labels,
+            title, grid, legend and everything drawn on it, own alpha
+            included. It is kept for the axis, so what is drawn there later
+            takes it too, unless given its own alpha.
         - bottom: float, default varies
             The bottom limit of the axis / axes set. For the figure layout it
             is the space from the bottom border to the plot (default 0.1); for
@@ -305,11 +311,12 @@ class AxisManager(ImageMixin):
         # Set parameter that fixes the minorticks and ticksdir
         self.state.tickspar[nax] = 1
 
-        # Scales and alpha
+        # Scales
         self.set_scales(ax, nax, _check=False, **kwargs)
 
-        if alpha := kwargs.get("alpha"):
-            ax.set_alpha(alpha)
+        # Opacity of the whole panel
+        if (axalpha := kwargs.get("axalpha")) is not None:
+            self.set_axalpha(ax, nax, axalpha)
 
         # Set ticks and tickslabels
         xtc = kwargs.get("xticks", True)
@@ -535,6 +542,62 @@ class AxisManager(ImageMixin):
             target = self.CreateAxesManager.find_share_target(nax, share)
             if target is not None and not shared.joined(ax, target):
                 join(target)
+
+    def set_axalpha(self, ax: Axes, nax: int, axalpha: float) -> None:
+        """Fade everything on a panel, and record it for what comes later.
+
+        The opacity reaches the background, the spines, the ticks, the tick
+        labels, the grid, the titles, the axis labels and every artist
+        already on the axis, its own alpha included; it is stored per axis,
+        so the drawing methods give it to what they add afterwards. Inset
+        axes are children of the panel but axes of their own, and are left
+        to their own axalpha; a colorbar is a separate axis and is never
+        reached.
+
+        Parameters
+        ----------
+        - ax (not optional): Axes
+            The axis to fade.
+        - nax (not optional): int
+            The index of the axis in the image.
+        - axalpha (not optional): float
+            The opacity, where 1.0 is fully opaque and 0.0 fully transparent.
+
+        Returns
+        -------
+        - None
+
+        Examples
+        --------
+        - Example #1: fade the first axis to a third
+
+            >>> self.set_axalpha(ax, 0, 0.3)
+
+        """
+        self.state.axalpha[nax] = axalpha
+
+        # Ticks, tick labels and grid through tick_params, which also holds
+        # for the ticks matplotlib creates later; the axis labels and the
+        # offset text belong to the axis too
+        for axis in (ax.xaxis, ax.yaxis):
+            tick = axis.get_major_ticks(numticks=1)[0]
+            axis.set_tick_params(
+                which="both",
+                color=to_rgba(tick.tick1line.get_color(), axalpha),
+                labelcolor=to_rgba(tick.label1.get_color(), axalpha),
+                grid_alpha=axalpha,
+            )
+            axis.label.set_alpha(axalpha)
+            axis.get_offset_text().set_alpha(axalpha)
+
+        # Everything else on the panel: background, spines, titles, labels,
+        # lines, maps, texts, and every part of a legend
+        for artist in ax.get_children():
+            if isinstance(artist, (Axis, Axes)):
+                continue
+            parts = artist.findobj() if isinstance(artist, Legend) else [artist]
+            for part in parts:
+                part.set_alpha(axalpha)
 
     @track_kwargs
     def check_minorticks(

@@ -242,6 +242,17 @@ def test_the_default_threshold() -> None:
     assert lines.norm.linthresh == pytest.approx(0.08)
 
 
+# ---- Opacity ----
+def test_contours_on_a_faded_panel_take_its_axalpha() -> None:
+    """Fade the panel, then draw contours without an alpha of their own."""
+    image = pp.Image(text=False)
+    image.set_axis(axalpha=0.3)
+
+    lines = image.contour(bowl, x1=x, x2=y)
+
+    assert lines.get_alpha() == 0.3
+
+
 # ---- The colors ----
 def test_the_default_colormap_is_viridis() -> None:
     """Draw without a color or a colormap.

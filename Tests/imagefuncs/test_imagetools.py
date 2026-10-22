@@ -17,12 +17,14 @@ which axis was picked, what was drawn on it, what was written to disk.
 """
 
 import sys
+import warnings
 from pathlib import Path
 from types import ModuleType
 from typing import Literal
 
 import matplotlib
 import matplotlib.colors as mcol
+import numpy as np
 import pytest
 
 import pyPLUTO as pp
@@ -449,18 +451,17 @@ def test_assign_ax_by_index() -> None:
     assert ax is image.ax[1]
 
 
-def test_assign_ax_none_takes_the_current_axis() -> None:
-    """Leave the axis out and check the current one is used.
+def test_assign_ax_none_takes_the_last_considered_axis() -> None:
+    """Select the first of two axes, then leave the axis out.
 
-    A user who selected an axis expects the next plot to land there. The
-    current axis is set here to the first of two, so the answer cannot
-    coincide with "the last axis" below.
+    A user who drew on an axis expects the next call without one to land
+    there. The first of two is selected, so the answer cannot coincide with
+    the last axis created, which create_axes leaves as the last considered.
     """
     image = _image()
     image.create_axes(ncol=2)
-    assert image.fig is not None
-    image.fig.sca(image.ax[0])
     manager = ImageToolsManager(image.state)
+    manager.assign_ax(0, _check=False)
 
     ax, nax = manager.assign_ax(None, _check=False)
 
@@ -468,14 +469,12 @@ def test_assign_ax_none_takes_the_current_axis() -> None:
     assert ax is image.ax[0]
 
 
-def test_assign_ax_none_takes_the_last_axis_when_the_current_is_foreign() -> (
-    None
-):
-    """Leave the axis out while the current axis is one the Image never made.
+def test_assign_ax_none_ignores_an_axis_the_image_never_made() -> None:
+    """Leave the axis out after an axis is added to the figure directly.
 
     matplotlib's current axis is figure-wide, so anything drawn on the figure
-    can become it -- here an axis added directly. Falling back to the last
-    axis the Image knows keeps the plot inside the layout it built.
+    can become it -- here an axis added directly. The last considered axis is
+    one the Image made, so the plot stays inside the layout it built.
     """
     image = _image()
     image.create_axes(ncol=2)
@@ -570,17 +569,83 @@ def test_assign_ax_rejects_an_empty_list() -> None:
 def test_a_plot_on_an_empty_figure_creates_the_grid_asked_for() -> None:
     """Plot with ncol=2 on a figure with no axes yet.
 
-    The grid is created whole, and the line goes on its first axis; ncol
-    and nrow used to be overwritten with 1, so one axis came out and
-    nothing said the keywords had been ignored.
+    The grid is created whole, and the line goes on its last axis, as after
+    create_axes; ncol and nrow used to be overwritten with 1, so one axis
+    came out and nothing said the keywords had been ignored.
     """
     image = pp.Image(text=False)
 
     image.plot([0.0, 1.0], [0.0, 1.0], ncol=2)
 
     assert len(image.ax) == 2
-    assert len(image.ax[0].lines) == 1
-    assert len(image.ax[1].lines) == 0
+    assert len(image.ax[0].lines) == 0
+    assert len(image.ax[1].lines) == 1
+
+
+def test_a_layout_on_an_empty_figure_does_not_warn() -> None:
+    """Plot with a layout on a figure with no axes yet, and expect no warning.
+
+    Creating the axes is the normal path of a first drawing, so the layout
+    keywords say nothing unexpected there.
+    """
+    image = pp.Image(text=False)
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        image.plot([0.0, 1.0], [0.0, 1.0], left=0.6, ncol=2)
+
+    assert len(image.ax) == 2
+
+
+def test_a_layout_on_a_figure_with_axes_creates_new_ones() -> None:
+    """Plot with a layout on a figure that already has axes.
+
+    The layout keywords create new axes, as create_axes does, the line goes
+    on the last of them, and a warning says so, since a second call with the
+    same keywords adds axes again.
+    """
+    image = pp.Image(text=False)
+    image.create_axes(right=0.5, nrow=2)
+
+    with pytest.warns(UserWarning, match="new axes are created"):
+        image.plot([0.0, 1.0], [0.0, 1.0], left=0.6, ncol=2)
+
+    assert len(image.ax) == 4
+    assert [len(axis.lines) for axis in image.ax] == [0, 0, 0, 1]
+
+
+def test_a_layout_with_an_axis_creates_nothing() -> None:
+    """Plot on a given axis with a layout keyword, and expect no new axes.
+
+    The axis is chosen, so there is nothing to lay out: the keyword is left
+    unused and reported as such.
+    """
+    image = pp.Image(text=False)
+    image.create_axes(ncol=2)
+
+    with pytest.warns(UserWarning, match="Unused kwargs"):
+        image.plot([0.0, 1.0], [0.0, 1.0], ax=0, ncol=2)
+
+    assert len(image.ax) == 2
+
+
+def test_the_last_considered_axis_is_the_last_drawn_on() -> None:
+    """Draw on the second panel, then on the first, and ask for a colorbar.
+
+    Every docstring promises that without `ax` "the last considered axis" is
+    used. It used to be matplotlib's current axis, the last one created, so
+    the colorbar landed beside the second panel and described its map.
+    """
+    grid = np.linspace(-1.0, 1.0, 10)
+    bowl = np.add.outer(grid**2, grid**2)
+    image = pp.Image(text=False)
+    image.create_axes(ncol=2)
+    image.display(bowl, ax=1)
+    mesh = image.display(bowl * 2.0, ax=0)
+
+    cbar = image.colorbar()
+
+    assert cbar.mappable is mesh
 
 
 # ---- Hidden text ----
@@ -749,6 +814,18 @@ def test_text_warns_about_an_unknown_keyword() -> None:
 
     with pytest.warns(UserWarning, match=r"Unused kwargs: \{'nosuchkeyword'\}"):
         image.text(text="hello", x=0.5, y=0.5, nosuchkeyword=1)  # pyright: ignore[reportCallIssue]
+
+
+def test_a_text_on_a_faded_panel_takes_its_axalpha() -> None:
+    """Fade the panel, then write a text on it, and check its opacity."""
+    image = pp.Image(text=False)
+    image.create_axes()
+    image.set_axis(axalpha=0.3)
+
+    image.text(text="hello", x=0.5, y=0.5)
+
+    texts = [t for t in image.ax[0].texts if t.get_text() == "hello"]
+    assert [t.get_alpha() for t in texts] == [0.3]
 
 
 # ---- Saving ----

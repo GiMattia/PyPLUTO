@@ -19,6 +19,7 @@ from typing import Unpack, cast
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.colors import is_color_like
+from matplotlib.lines import Line2D
 from matplotlib.typing import ColorType
 from numpy.typing import ArrayLike
 
@@ -61,7 +62,7 @@ class PlotManager(ImageMixin):
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[PlotKwargs],
-    ) -> None:
+    ) -> list[Line2D]:
         """Creation of a 1D function plot (or a 1D slice plot).
 
         This function plots a 1D function or a 1D slice. It creates a
@@ -72,17 +73,28 @@ class PlotManager(ImageMixin):
 
         Parameters
         ----------
-        - alpha: float, default 1.0
-            Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is
-            fully transparent.
+        - alpha: float, default None
+            Sets the opacity of the lines, where 1.0 is fully opaque and 0.0
+            is fully transparent. Without it the lines take the axalpha of the
+            axis, if any; given together with axalpha, the panel takes axalpha
+            and the lines alpha.
         - aspect: 'auto' | 'equal' | float, default 'auto'
             Sets the aspect ratio of the plot. The 'auto' keyword is the
             default option. The 'equal' keyword sets the same scaling for x and
             y. A float fixes the ratio between the y-scale and the x-scale (1.0
             is the same as 'equal').
         - ax: ax | int | None, default None
-            The axis where to plot. If None, the last considered axis will be
-            used.
+            The axis where to plot. If None, the last considered axis is used.
+            If the figure has no axes yet, or a layout keyword is given (ncol,
+            nrow, left, right, top, bottom, wspace, hspace, wratio, hratio),
+            new axes are created first, as with create_axes, and the plot goes
+            on the last of them.
+        - axalpha: float, default None
+            Sets the opacity of the whole panel, where 1.0 is fully opaque and
+            0.0 is fully transparent: background, spines, ticks, labels,
+            title, grid, legend and everything drawn on it, own alpha
+            included. It is kept for the axis, so what is drawn there later
+            takes it too, unless given its own alpha.
         - bottom: float, default varies
             The bottom limit of the axis / axes set. For the figure layout it
             is the space from the bottom border to the plot (default 0.1); for
@@ -268,7 +280,8 @@ class PlotManager(ImageMixin):
 
         Returns
         -------
-        - None
+        - list[Line2D]
+            The lines drawn, one per column of a 2D y.
 
         Examples
         --------
@@ -378,6 +391,7 @@ class PlotManager(ImageMixin):
             ms=kwargs.get("ms", 3.0),
             label=kwargs.get("label", ""),
             fillstyle=kwargs.get("fillstyle", "full"),
+            alpha=kwargs.get("alpha", self.state.axalpha[nax]),
         )
 
         # A list of the wrong length is cycled through, as the legend does
@@ -408,4 +422,4 @@ class PlotManager(ImageMixin):
         if self.state.tight:
             self.state.fig.tight_layout()
 
-        # End of the function
+        return lines

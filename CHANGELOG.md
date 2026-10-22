@@ -5,7 +5,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
-## [Unreleased]
+## [1.3.0]
 
 ### Added (preliminary)
 - Volume rendering: `MPLVolumeRenderer` and the `Image.volume` method (`imagefuncs/volengine.py`, `imagefuncs/volume.py`), with new example scripts and tests
@@ -13,11 +13,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `GridPlotManager.showgrid`: new method drawing the cell interfaces of a 2D grid; supports `CARTESIAN`, `POLAR`, `CYLINDRICAL`, and `SPHERICAL` geometries, and draws all lines of each direction with a single `PlotManager.plot` call (instead of one call per line) for a large speedup on dense grids
 - `PlotManager.plot`: documented support for 2D `x`/`y` input to draw multiple lines sharing one style in a single call (the primitive `showgrid`'s fast path relies on)
 - `src/pyPLUTO/template.py`: reference template documenting the State/Kwargs/Mixin/Manager/Facade architecture used to add a new class
+- `axalpha`: the opacity of a whole panel, accepted by `set_axis` and every drawing method. It fades the background, spines, ticks, labels, title, grid, legend, texts and everything drawn on the axis, own alpha included, and is kept per axis (`Image.axalpha`), so what is drawn there later takes it too unless given its own `alpha`. In `zoom` it fades the inset only
 
 ### Changed (preliminary)
 - Updated golden reference images and the example test harness for a newer matplotlib version
 - Colormaps: `find_cmap` no longer looks only in `pastamarkers`. A name matplotlib does not know is searched for in the optional packages listed in `imagefuncs.imagetools.CMAP_PROVIDERS` (`cblind`, `pastamarkers`, `seaborn`), in order, each imported only when needed and skipped when not installed; a user can add their own package to the dictionary. A `_r` suffix is honoured by the package's own reversed colormap when it has one, and reversed here otherwise. An unknown name still warns and falls back to `plasma`. `cmasher` and `cmocean` are not searched, since importing them raises matplotlib deprecation warnings; importing either in the script makes its `cmr.`/`cmo.` names resolve through matplotlib. New `cmaps` extra in `pyproject.toml` installs the three searched packages
 - `Load`/`LoadPart`: the form of what a load gives back follows the form of `nout`, not the number of outputs found. A single output (`5`, `'last'`, `-1`) gives plain values: each variable an array, `ntime` a float, `nout` an int. A collection (a list, or `'all'`) gives one entry per output: each variable a dict keyed by output, `ntime` and `nout` arrays. This changes two cases, which used to give plain values: a list of one output (`Load([5])`), and `'all'` on a folder holding a single output. Code written for several outputs now works on them unchanged; code that relied on the plain values there should index the output (`D.rho[5]`) or ask for it as a number.
+- Axis sharing: one pair of keywords, `sharex`/`sharey`, read by `create_axes` and by every drawing method. They take `True`, `'all'`, `'row'` and `'col'` (the last two in `create_axes` only), an index or an `Axes`. In a drawing method `sharex=True` used to raise a `TypeError`, and in `create_axes` `sharexaxes=False`, the documented default, raised an `IndexError`. `sharexaxes`/`shareyaxes` still work, with a `DeprecationWarning`
+- `Image`: `close` and `replace` are one keyword, `replace`, which empties the window and builds a new figure. It defaults to replacing, except when a figure is given with `fig`, which is then left alone and used. `close` still works, as deprecated
+- `display`: a map is framed on the cell edges instead of the cell centres, so the outermost half cell of the domain is no longer cut off. Coordinates given as edges are used as they are, and `gouraud` shading covers the same domain. Three example figures change by that half cell
+- `contour`/`streamplot`: the `colors` keyword, which did nothing, is removed and warns as unknown; use `c`
+- `colorbar` returns the `Colorbar` it draws, instead of `None`
+- `legpos` with no labelled line on the axis draws no legend and warns, instead of an empty frame with matplotlib's warning. The position is remembered, so the first labelled line brings the legend
+- Layout keywords (`ncol`, `nrow`, `left`, `right`, `top`, `bottom`, `wspace`, `hspace`, `wratio`, `hratio`) given to a drawing method without `ax` create new axes, as `create_axes` does, also on a figure that already has some, with a warning; before, they were ignored there and reported as unused. The drawing goes on the last new axis
+- `alpha` is the opacity of one drawing only (the lines of `plot`, the map, the contours, the streamlines and their arrows, the points), and defaults to `None` instead of a fixed 1.0, so a drawing without it takes the panel's `axalpha`. `plot` now reads it too
+- `plot` returns the lines it draws, instead of `None`
 
 ### Fixed
 - `Load`/`LoadPart`: `ntime` was declared as an `int`; it is the simulation time, a float. `ntime` and `nout` are now typed from the call, as the variables already were: `Load(5).ntime` is a `float` and `Load([0, 1]).ntime` an array of floats for the type checkers, and `nout` an `int` or an array of integers. Indexing them is accepted only where it works.
@@ -31,6 +41,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `Image.showgrid`: a misspelled keyword is now reported, the method being the only tracked one without the internal `_check` flag
 - `Image.interactive`: the `ax` keyword is declared on the facade, so type checkers accept it and `help()` shows it; `_check` no longer sits where the manager has `limfix`, which made a third positional argument switch off the keyword check
 - `AxisManager.set_axis`: `ax` now defaults to `None`, as its docstring and the facade already said
+- `set_axis`: the `alpha` keyword faded nothing, since it was set on the Axes artist, which draws nothing. It is removed (and reported as unused); `axalpha` takes its place
+- Importing pyPLUTO no longer overrides the warning filters: only pyPLUTO's own warnings are shown every time, so `-W ignore` and earlier `filterwarnings` calls work again, and other packages' deprecations stay hidden as Python intends (matplotlib's Qt backend printed one per toolbar icon)
+- Without `ax`, every method uses the last axis considered, as documented, instead of matplotlib's current axis: `display(ax=1)`, `display(ax=0)`, `colorbar()` now puts the bar beside the first panel. After `create_axes`, and after a drawing on an empty figure, that is the last axis created. The axis is readable as `Image.lastax`
+- `plot`: `ncol`/`nrow` on an empty figure create the whole grid asked for, instead of one axis; a 2D plot can have one colour per line (`c=["r", "b", "g"]`), cycled with a warning when the count does not match; a single 2D array no longer crashes; `c=None` takes the palette and an RGB array as `c` no longer raises
+- Ranges and ticks: the y-limits come from the points inside the x-limits, so a hand-given `xrange` is respected; a log range keeps its widest value when negative and no longer starts at 0. Labels given without ticks no longer warn twice and follow the limits (new `TicksManager`, `imagefuncs/ticks.py`); a single string as `xtickslabels`/`ytickslabels`/`ctickslabels` is declared; fixed ticks on a log scale keep their labels, and removing them removes the minor ticks too
+- `scatter`: no longer freezes the axis for what is drawn after it; `label` reaches the legend; the default colour comes from the palette; a colour per point is no longer read as data; unfilled markers no longer warn; integer markers are no longer redrawn as circles
+- `legend`: custom labels honour `mscale` and take the palette instead of black; each legend is attached once, not twice
+- `create_axes`: a fontsize and a size given to it reach the state, and so does the size computed from the grid; a `tight` overruled by a custom layout now warns
+- `zoom`: the inset copies everything drawn on the axis (lines, scatter, contours, streamlines over a map), not only a map or plain curves; `top`/`right` given with a size or alone place the inset where asked; the tight layout of the figure is switched off only for an inset with its own colorbar; `width`, `height` and `label` are declared
+- `colorbar`: works after `contour`, `streamplot` or lines, taking the last collection coloured by data; a second colorbar no longer crashes; contour lines get a continuous bar instead of blocks; `ctickslabels` works with an array of `cticks`, and ticks follow the same rules as `xticks`
+- `contour`/`streamplot`/`display`: `transpose` works on rectangular fields (and `transpose=1` on `display`); `c` together with `cmap` warns and drops the colormap instead of crashing; `streamplot` colours the lines by the magnitude when given `cmap` or `cpos`, takes the palette otherwise, applies `alpha`, accepts lists and no longer copies the field
+- `Image(fig=...)`: the figure given is no longer closed, the keywords given with it are applied, `nwin` with it warns, and its tight layout is kept
+- Field lines (`find_fieldlines`) end exactly on the domain border instead of past it
+- Smaller fixes: `assign_ax` refuses an index out of range with a `ValueError`; a wrong `xycoords` and an unknown `cscale` are reported; `legpad`, `zoomcolor`, `zoomlines`, the `"both"` value of `grid` and a sequence for `chnk` are declared; `reshape_cartesian` and `oplotbox` no longer warn about keywords they use; the GUI no longer leaves its figure in pyplot; `repr()` of a fresh state no longer crashes; docstrings and `__str__` listings that named wrong or missing keywords are corrected
 
 ---
 

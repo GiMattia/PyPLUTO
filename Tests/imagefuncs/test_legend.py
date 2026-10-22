@@ -224,6 +224,36 @@ def test_the_custom_handles_follow_the_palette() -> None:
     assert colours == [image.color[0], image.color[1]]
 
 
+# ---- Opacity ----
+def test_a_legend_on_a_faded_panel_takes_its_axalpha() -> None:
+    """Fade the panel, then build a legend on it.
+
+    Every part takes the panel's opacity, the frame included, whose own
+    legalpha it replaces.
+    """
+    image, ax = _plotted(["a"])
+    image.set_axis(axalpha=0.3)
+
+    image.legend()
+
+    legend = ax.get_legend()
+    assert legend is not None
+    assert legend.get_frame().get_alpha() == 0.3
+    assert legend.get_texts()[0].get_alpha() == 0.3
+
+
+def test_a_legend_on_a_normal_panel_keeps_legalpha() -> None:
+    """Build a legend on a panel never faded and check the frame's opacity."""
+    image, ax = _plotted(["a"])
+
+    image.legend()
+
+    legend = ax.get_legend()
+    assert legend is not None
+    assert legend.get_frame().get_alpha() == 0.8
+    assert legend.get_texts()[0].get_alpha() is None
+
+
 # ---- Placement and the per-axis parameters ----
 def test_the_position() -> None:
     """Put the legend in a named corner.

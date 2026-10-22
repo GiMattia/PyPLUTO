@@ -1,5 +1,6 @@
 """Test of the configure.py file."""
 
+import subprocess
 import sys
 import warnings
 
@@ -222,17 +223,63 @@ def test_setup_handlers_sets_only_error_handler() -> None:
         sys.excepthook = original_error
 
 
-def test_setup_handlers_always_enables_warning_filter(
+def test_setup_handlers_shows_every_pypluto_warning(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    """Ensure that the warnings.simplefilter("always") is enabled."""
+    """Ensure the "always" filter is installed for pyPLUTO's warnings only."""
     c = Configure(greet=False)
     calls = []
 
     monkeypatch.setattr(
-        warnings, "simplefilter", lambda *args: calls.append(args)
+        warnings,
+        "filterwarnings",
+        lambda *args, **kwargs: calls.append((args, kwargs)),
     )
 
     c._setup_handlers(colorwarn=False, colorerr=False)
 
-    assert calls == [("always",)]
+    assert calls == [(("always",), {"module": "pyPLUTO"})]
+
+
+def test_importing_pypluto_keeps_the_warning_filters() -> None:
+    """Silence warnings, import pyPLUTO, and check they stay silent.
+
+    `Configure` used to call `simplefilter("always")` while the package
+    imported, which put a catch-all in front of every filter, so `-W ignore`
+    and any `filterwarnings` call made beforehand stopped working
+    process-wide. A subprocess, because the import happens once per process.
+    """
+    script = (
+        "import warnings; warnings.filterwarnings('ignore');"
+        "import pyPLUTO; warnings.warn('should be silent')"
+    )
+    result = subprocess.run(
+        [sys.executable, "-W", "ignore", "-c", script],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert "should be silent" not in result.stderr
+
+
+def test_importing_pypluto_leaves_library_deprecations_hidden() -> None:
+    """Raise a DeprecationWarning from a library module after the import.
+
+    Python hides a library's deprecations by default, and the catch-all
+    filter used to show them: matplotlib's Qt backend printed one per
+    toolbar icon. A subprocess, because the import happens once per process.
+    """
+    script = (
+        "import warnings; import pyPLUTO;"
+        "exec(compile(\"import warnings; warnings.warn('library', "
+        "DeprecationWarning)\", 'lib.py', 'exec'), {'__name__': 'lib'})"
+    )
+    result = subprocess.run(
+        [sys.executable, "-c", script],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert "library" not in result.stderr

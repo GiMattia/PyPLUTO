@@ -20,8 +20,6 @@ import inspect
 import pickle
 import re
 import shutil
-import subprocess
-import sys
 import textwrap
 import typing
 import warnings
@@ -303,49 +301,6 @@ def test_declared_keywords_are_usable(
 
 
 # ---- imagefuncs/plot.py ----
-# ---- imagefuncs/set_axis.py ----
-@pytest.mark.xfail(
-    strict=True, reason="alpha is set on the Axes, which draws nothing"
-)
-def test_alpha_reaches_something_that_is_drawn() -> None:
-    """Set the transparency and check something drawn actually carries it.
-
-    `set_axis(alpha=...)` calls `ax.set_alpha()`, which stores the value on
-    the Axes artist; the background patch and the lines keep their own
-    alpha, so the figure looks exactly the same. Whatever the keyword is
-    meant to fade -- the patch, or everything on the axis -- has to be told.
-    """
-    image = pp.Image(text=False)
-    image.plot([0.0, 1.0], [0.0, 1.0])
-
-    image.set_axis(alpha=0.3)
-
-    assert image.ax[0].patch.get_alpha() == 0.3
-
-
-# ---- imagefuncs/imagetools.py ----
-@pytest.mark.xfail(strict=True, reason="the last axis drawn on is not tracked")
-def test_the_last_considered_axis_is_the_last_drawn_on() -> None:
-    """Draw on the second panel, then on the first, and ask for a colorbar.
-
-    Every docstring promises that without `ax` "the last considered axis"
-    is used, but `assign_ax(None)` takes matplotlib's current axis, which is
-    the last one created, not the last one drawn on. So the colorbar lands
-    beside the second panel and describes its map, not the one just drawn.
-    Tracking it needs a state field that every manager updates.
-    """
-    grid = np.linspace(-1.0, 1.0, 10)
-    bowl = np.add.outer(grid**2, grid**2)
-    image = pp.Image(text=False)
-    image.create_axes(ncol=2)
-    image.display(bowl, ax=1)
-    mesh = image.display(bowl * 2.0, ax=0)
-
-    cbar = image.colorbar()
-
-    assert cbar.mappable is mesh
-
-
 # ---- imagefuncs/interactive.py ----
 @pytest.mark.xfail(
     strict=True, reason="the documented lint keyword is read nowhere"
@@ -394,33 +349,6 @@ def test_every_declared_keyword_is_documented(method: str, table: str) -> None:
     figure_level = set(typing.get_type_hints(image_kwargs.FigureKwargs))
 
     assert not declared - documented - figure_level
-
-
-# ---- utils/configure.py ----
-@pytest.mark.xfail(
-    strict=True,
-    reason="simplefilter('always') at import resets the user's filters",
-)
-def test_importing_pypluto_keeps_the_warning_filters() -> None:
-    """Silence warnings, import pyPLUTO, and check they stay silent.
-
-    `Configure` calls `simplefilter("always")` while the package imports,
-    which clears the whole filter list, so `-W ignore` and any
-    `filterwarnings` call made beforehand stop working process-wide. A
-    subprocess, because the import happens once per process.
-    """
-    script = (
-        "import warnings; warnings.filterwarnings('ignore');"
-        "import pyPLUTO; warnings.warn('should be silent')"
-    )
-    result = subprocess.run(
-        [sys.executable, "-W", "ignore", "-c", script],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-
-    assert "should be silent" not in result.stderr
 
 
 # ---- imagefuncs/imagetools.py, range.py ----

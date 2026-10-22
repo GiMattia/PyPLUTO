@@ -104,6 +104,20 @@ def test_custom_loc() -> None:
     npt.assert_allclose(_box(image, axins), (0.2, 0.1, 0.4, 0.3))
 
 
+def test_an_inset_position_lays_out_no_new_axes() -> None:
+    """Zoom with left and bottom, and check only the inset is added.
+
+    For a drawing method these keywords lay out new axes; for zoom they place
+    the inset, so the parent is the axis already drawn on.
+    """
+    image = pp.Image(text=False)
+    image.plot(x, y)
+
+    axins = image.zoom(left=0.2, bottom=0.1, height=0.3, width=0.4)
+
+    assert image.ax == [image.ax[0], axins]
+
+
 def test_cutom_pos() -> None:
     """Give the four edges at once, as [left, right, bottom, top]."""
     image = pp.Image(text=False)
@@ -291,6 +305,24 @@ def test_the_inset_shows_no_axis_index() -> None:
     axins = image.zoom(**WINDOW)
 
     assert not [t for t in axins.texts if t.get_visible() and t.get_text()]
+
+
+def test_axalpha_fades_the_inset_and_not_the_parent() -> None:
+    """Zoom with axalpha and check the inset and what it copies are faded.
+
+    The copies are made after the inset is set up, so they must be faded
+    afterwards; the inset has no ticks by default, which the fading has to
+    survive. The parent keeps its own opacity.
+    """
+    image = pp.Image(text=False)
+    image.plot(x, y)
+
+    axins = image.zoom(axalpha=0.3, **WINDOW)
+
+    assert image.axalpha == [None, 0.3]
+    assert axins.patch.get_alpha() == 0.3
+    assert axins.lines[0].get_alpha() == 0.3
+    assert _axis(image).lines[0].get_alpha() is None
 
 
 # ---- The tight layout ----

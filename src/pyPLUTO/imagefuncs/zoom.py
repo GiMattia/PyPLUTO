@@ -78,9 +78,10 @@ class ZoomManager(ImageMixin):
 
         Parameters
         ----------
-        - alpha: float, default 1.0
-            Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is
-            fully transparent.
+        - alpha: float, default None
+            Sets the opacity of the map that var draws in the inset, where 1.0
+            is fully opaque and 0.0 is fully transparent. Without var the
+            inset copies the opacity of what it shows.
         - aspect: 'auto' | 'equal' | float, default 'auto'
             Sets the aspect ratio of the plot. The 'auto' keyword is the
             default option. The 'equal' keyword sets the same scaling for x and
@@ -88,6 +89,10 @@ class ZoomManager(ImageMixin):
             is the same as 'equal').
         - ax: ax object, default None
             The axis to customize. If None the current axis will be selected.
+        - axalpha: float, default None
+            Sets the opacity of the whole inset, where 1.0 is fully opaque and
+            0.0 is fully transparent: background, spines, ticks, labels and
+            everything shown in it. The parent axis keeps its own.
         - bottom: float, default 0.6
             The bottom of the inset, in units of the parent axis.
         - clabel: str, default None
@@ -321,8 +326,9 @@ class ZoomManager(ImageMixin):
         if kwargs.get("cpos") is not None:
             self.state.tight = False
 
-        # Set or create figure and axes
-        ax, _ = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
+        # Find the axis to zoom into: its keywords are not passed, since left,
+        # right, top and bottom place the inset and must not lay out new axes
+        ax, _ = self.ImageToolsManager.assign_ax(ax, _check=False)
 
         # Sets position of the zoom
         if pos := kwargs.get("pos"):
@@ -348,6 +354,12 @@ class ZoomManager(ImageMixin):
 
         # The inset shows what the parent shows, or var in place of its map
         self.zoomcopy(ax, axins, _check=False, **kwargs)
+
+        # The copies are made after set_axis, so they take the inset's
+        # axalpha now
+        nins = self.state.ax.index(axins)
+        if (axalpha := self.state.axalpha[nins]) is not None:
+            self.AxisManager.set_axalpha(axins, nins, axalpha)
 
         # Indicates the inset zoom
         zoomc = kwargs.get("zoomcolor", "k")

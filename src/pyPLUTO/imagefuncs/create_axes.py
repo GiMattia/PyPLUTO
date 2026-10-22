@@ -234,6 +234,9 @@ class CreateAxesManager(ImageMixin):
                     ),
                 )
 
+        # The last axis created is the last considered one
+        self.state.lastax = new[-1]
+
         # The axes share once they all exist, so an index, a row or a column
         # can point at any of them, made in this call or before it
         self.warn_old_share(kwargs)
@@ -435,6 +438,7 @@ class CreateAxesManager(ImageMixin):
         """
         ax_pars = {
             #      "ax": ax,
+            "axalpha": None,
             "legpos": None,
             "legpar": [self.state.fontsize, 1, 2, 0.8, 0.8],
             "nline": 0,

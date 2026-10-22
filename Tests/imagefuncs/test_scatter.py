@@ -172,6 +172,17 @@ def test_the_size_and_the_opacity() -> None:
     assert points.get_alpha() == 0.5
 
 
+# ---- Opacity ----
+def test_points_on_a_faded_panel_take_its_axalpha() -> None:
+    """Fade the panel, then draw points without an alpha of their own."""
+    image = pp.Image(text=False)
+    image.set_axis(axalpha=0.3)
+
+    points = image.scatter(x, y)
+
+    assert points.get_alpha() == 0.3
+
+
 # ---- The color of the points ----
 def test_the_palette_is_walked_as_it_is_for_a_line() -> None:
     """Scatter twice without choosing a color.

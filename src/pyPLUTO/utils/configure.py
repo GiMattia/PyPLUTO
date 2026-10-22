@@ -256,8 +256,9 @@ class Configure:
         - None
 
         """
-        # Set up the "always" filter for warnings
-        warnings.simplefilter("always")
+        # Show every pyPLUTO warning every time; other packages keep Python's
+        # defaults and the user's own filters
+        warnings.filterwarnings("always", module="pyPLUTO")
 
         # Set up the handlers for warnings and errors
         if colorwarn:

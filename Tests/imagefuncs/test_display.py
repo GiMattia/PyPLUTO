@@ -413,6 +413,30 @@ def test_the_axis_is_chosen_by_index() -> None:
     assert image.ntext[1] == 1
 
 
+# ---- Opacity ----
+def test_a_map_is_opaque_by_default() -> None:
+    """Draw a map on a panel never faded and check no alpha is imposed.
+
+    None leaves matplotlib's own opacity; the map used to be given a fixed
+    1.0, which a later axalpha could not be told apart from.
+    """
+    image = pp.Image(text=False)
+
+    mesh = image.display(var)
+
+    assert mesh.get_alpha() is None
+
+
+def test_a_map_on_a_faded_panel_takes_its_axalpha() -> None:
+    """Fade the panel, then draw a map without an alpha of its own."""
+    image = pp.Image(text=False)
+    image.set_axis(axalpha=0.3)
+
+    mesh = image.display(var)
+
+    assert mesh.get_alpha() == 0.3
+
+
 # ---- The figure ----
 def test_a_display_without_a_figure() -> None:
     """Display on an image whose figure is gone.

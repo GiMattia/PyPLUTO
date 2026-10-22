@@ -23,6 +23,7 @@ from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection, PathCollection, QuadMesh
 from matplotlib.colorbar import Colorbar
 from matplotlib.contour import QuadContourSet
+from matplotlib.lines import Line2D
 from numpy.typing import ArrayLike
 
 from pyPLUTO.amr import oplotbox
@@ -444,7 +445,7 @@ class Image(ImageMixin):
         ax: Axes | list[Axes] | int | None = None,
         _check: bool = True,
         **kwargs: Unpack[PlotKwargs],
-    ) -> None:
+    ) -> list[Line2D]:
         """Plot method."""
         return self.PlotManager.plot(x, y, ax, _check=_check, **kwargs)
 

@@ -70,17 +70,28 @@ class InteractiveManager(ImageMixin):
 
         Parameters
         ----------
-        - alpha: float, default 1.0
-            Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is
-            fully transparent.
+        - alpha: float, default None
+            Sets the opacity of the map or of the line, where 1.0 is fully
+            opaque and 0.0 is fully transparent. Without it they take the
+            axalpha of the axis, if any; given together with axalpha, the
+            panel takes axalpha and the map or the line alpha.
         - aspect: 'auto' | 'equal' | float, default 'auto'
             Sets the aspect ratio of the plot. The 'auto' keyword is the
             default option. The 'equal' keyword sets the same scaling for x and
             y. A float fixes the ratio between the y-scale and the x-scale (1.0
             is the same as 'equal').
         - ax: ax | int | None, default None
-            The axis where to plot. If None, the last considered axis will be
-            used.
+            The axis where to plot. If None, the last considered axis is used.
+            If the figure has no axes yet, or a layout keyword is given (ncol,
+            nrow, left, right, top, bottom, wspace, hspace, wratio, hratio),
+            new axes are created first, as with create_axes, and the plot goes
+            on the last of them.
+        - axalpha: float, default None
+            Sets the opacity of the whole panel, where 1.0 is fully opaque and
+            0.0 is fully transparent: background, spines, ticks, labels,
+            title, grid, legend and everything drawn on it, own alpha
+            included. It is kept for the axis, so what is drawn there later
+            takes it too, unless given its own alpha.
         - bottom: float, default varies
             The bottom limit of the axis / axes set. For the figure layout it
             is the space from the bottom border to the plot (default 0.1); for

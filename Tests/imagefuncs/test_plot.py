@@ -46,7 +46,7 @@ LINE_DEFAULTS: dict[str, object] = {
 # One call per keyword, the getter that reads it back, and what it must say.
 # The calls are written out rather than built from the keyword name so that
 # every one of them is type-checked.
-LINE_KEYWORDS: list[tuple[Callable[[pp.Image], None], str, object]] = [
+LINE_KEYWORDS: list[tuple[Callable[[pp.Image], object], str, object]] = [
     (lambda image: image.plot(x, y, ls="--"), "get_linestyle", "--"),
     (lambda image: image.plot(x, y, lw=0.5), "get_linewidth", 0.5),
     (lambda image: image.plot(x, y, marker="o"), "get_marker", "o"),
@@ -305,7 +305,7 @@ def test_a_line_without_a_label_stays_out_of_the_legend() -> None:
 
 @pytest.mark.parametrize(("call", "getter", "expected"), LINE_KEYWORDS)
 def test_the_line_keywords(
-    call: Callable[[pp.Image], None], getter: str, expected: object
+    call: Callable[[pp.Image], object], getter: str, expected: object
 ) -> None:
     """Set one line keyword and read it back off the line.
 
@@ -519,6 +519,66 @@ def test_a_label_after_legpos_brings_the_legend() -> None:
     legend = image.ax[0].get_legend()
     assert legend is not None
     assert [text.get_text() for text in legend.get_texts()] == ["prs"]
+
+
+# ---- Opacity ----
+def test_plot_returns_its_lines() -> None:
+    """Draw two lines at once and check both are handed back.
+
+    Every drawing method returns what it drew, so the caller can restyle it
+    without fishing it out of the axis.
+    """
+    image = pp.Image(text=False)
+
+    lines = image.plot(x, np.column_stack([y, z]))
+
+    assert lines == _lines(image)
+    assert len(lines) == 2
+
+
+def test_a_line_on_a_faded_panel_takes_its_axalpha() -> None:
+    """Fade the panel, then draw a line without an alpha of its own.
+
+    What is drawn later on a faded panel belongs to it, so it is born with
+    the panel's opacity rather than fully opaque.
+    """
+    image = pp.Image(text=False)
+    image.plot(x, y, axalpha=0.3)
+
+    (line,) = image.plot(x, z)
+
+    assert line.get_alpha() == 0.3
+
+
+def test_a_line_keeps_its_own_alpha() -> None:
+    """Draw a line with its own alpha on a faded panel.
+
+    alpha is the opacity of that drawing alone, so it is kept until the
+    panel is faded again.
+    """
+    image = pp.Image(text=False)
+    image.plot(x, y, axalpha=0.3)
+
+    (line,) = image.plot(x, z, alpha=0.8)
+
+    assert line.get_alpha() == 0.8
+
+
+def test_alpha_and_axalpha_together_are_independent() -> None:
+    """Give both in one call and expect each to do its own job, silently.
+
+    axalpha fades the panel and what is already on it, then the new line is
+    drawn with its own alpha.
+    """
+    image = pp.Image(text=False)
+    (first,) = image.plot(x, y)
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        (line,) = image.plot(x, z, alpha=0.5, axalpha=0.3)
+
+    assert first.get_alpha() == 0.3
+    assert line.get_alpha() == 0.5
 
 
 # ---- The figure ----

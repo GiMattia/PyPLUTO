@@ -25,6 +25,11 @@ from pyPLUTO.utils.examples_api import (
     list_examples,
     run_example,
 )
+from pyPLUTO.utils.ppwarnings import (
+    PyPLUTODeprecationWarning,
+    PyPLUTOKeywordWarning,
+    PyPLUTOWarning,
+)
 from pyPLUTO.utils.pytools import find_example, ring, savefig, show
 
 # The version is read from the installed distribution rather than written
@@ -51,6 +56,9 @@ __all__ = [
     "Image",
     "Load",
     "LoadPart",
+    "PyPLUTODeprecationWarning",
+    "PyPLUTOKeywordWarning",
+    "PyPLUTOWarning",
     "copy_examples",
     "examples_path",
     "find_example",

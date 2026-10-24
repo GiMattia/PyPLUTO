@@ -24,8 +24,10 @@ needs real managers, while anything checking *which manager answered* is
 better off with a stub, which cannot draw and so cannot be slow or flaky.
 """
 
+import copy
 import inspect
 import logging
+import pickle
 import re
 from collections.abc import Callable
 
@@ -152,6 +154,37 @@ def test_replaced_state_receives_assignments() -> None:
     img.new_field = 42
     assert vars(new_state).get("new_field") == 42
     assert "new_field" not in vars(img)
+
+
+# ---- Copying ----
+@pytest.mark.parametrize(
+    "operation",
+    [copy.copy, copy.deepcopy, pickle.dumps],
+    ids=["copy", "deepcopy", "pickle"],
+)
+def test_an_image_cannot_be_copied(
+    operation: Callable[[object], object],
+) -> None:
+    """Copy or pickle an Image and expect a clear refusal.
+
+    A copy sharing the state would draw on the same figure, and a matplotlib
+    figure does not copy cleanly. It used to be a RecursionError, raised by
+    __getattr__ reading a state the new object did not have yet.
+    """
+    image = pp.Image(text=False)
+
+    with pytest.raises(TypeError, match="cannot be copied or pickled"):
+        operation(image)
+
+
+def test_an_unbuilt_image_has_no_state() -> None:
+    """Read an attribute of an Image built without __init__.
+
+    That is the object copy and pickle start from: the read must fail at
+    once with AttributeError, not recurse looking for the state.
+    """
+    with pytest.raises(AttributeError):
+        _ = Image.__new__(Image).state
 
 
 # ---- Printing ----

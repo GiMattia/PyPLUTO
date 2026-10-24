@@ -25,10 +25,8 @@ dependencies = [
     "numpy>=2.0.0",
     "matplotlib>=3.8.4",
     "scipy>=1.13.0",
-    "numexpr>=2.10.0",
     "h5py>=3.11.0",
     "inifix>=7.0.0",
-    "marimo>=0.23.9",
 ]
 
 [project.optional-dependencies]
@@ -37,6 +35,8 @@ gui = [
     # linux-64 target pixi resolves against; 6.10+ ship manylinux_2_34 only.
     # uv still picks the newest on a machine whose glibc allows it.
     "PySide6>=6.9.3",
+    # Evaluates the custom variables typed in the GUI, and nothing else
+    "numexpr>=2.10.0",
 ]
 
 # The colormap packages find_cmap searches, in CMAP_PROVIDERS order. All

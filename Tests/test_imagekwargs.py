@@ -22,6 +22,7 @@ from helper_image import (
     DELEGATION,
     DOCUMENTED_KWARGS,
     GHOST_KWARGS,
+    INIT_ONLY,
     KWARGS,
     NO_KWARGS,
     OTHER_KWARGS,
@@ -102,8 +103,12 @@ def _keys_read_by_the_managers() -> set[str]:
             for attribute in vars(obj).values():
                 if not callable(attribute):
                     continue
+                # A tracked method knows its keys, extra_keys included; any
+                # other function is scanned
                 try:
-                    keys |= find_kwargs_keys(inspect.unwrap(attribute))
+                    keys |= getattr(attribute, "__tracked_keys__", None) or (
+                        find_kwargs_keys(inspect.unwrap(attribute))
+                    )
                 except (OSError, TypeError, SyntaxError):
                     # Not every class attribute has readable source.
                     continue
@@ -197,9 +202,10 @@ def test_declared_keys_cover_what_the_manager_reads(
     A keyword read but not declared works at runtime and is rejected by the
     type checkers, so the table and the code disagree with nobody noticing.
 
-    The keys read come from the scanner track_kwargs uses, so the table must
-    declare whatever the manager accounts for at runtime. Parameters are
-    subtracted, `ax` being one rather than a keyword.
+    The keys read are the ones track_kwargs accounts for at runtime, read
+    off the wrapper: the scan of the source plus any extra_keys, which the
+    scan alone cannot see. Parameters are subtracted, `ax` being one rather
+    than a keyword.
 
     The reverse is not a fault: `text` declares the create_axes keywords
     because it forwards them. Known faults are listed in UNDECLARED_KWARGS,
@@ -211,7 +217,8 @@ def test_declared_keys_cover_what_the_manager_reads(
     declared = set(get_type_hints(getattr(kwargs_mod, expected)))
     parameters = set(inspect.signature(function).parameters)
 
-    undeclared = find_kwargs_keys(function) - declared - parameters
+    tracked = getattr(manager, method).__tracked_keys__
+    undeclared = tracked - declared - parameters
     known = UNDECLARED_KWARGS.get(method, set())
     missing, stale = undeclared - known, known - undeclared
 
@@ -343,6 +350,31 @@ def test_declared_keywords_are_documented(method: str) -> None:
 
     assert not undocumented, (
         f"{method} declares but does not document {sorted(undocumented)}"
+    )
+
+
+def test_the_constructor_declares_the_init_only_keywords() -> None:
+    """Check FigureKwargs declares every keyword read only by the constructor.
+
+    The other direction of the test below: keeping them off the drawing
+    methods must not take them away from Image itself.
+    """
+    declared = set(get_type_hints(kwargs_mod.FigureKwargs))
+
+    assert declared >= INIT_ONLY, sorted(INIT_ONLY - declared)
+
+
+@pytest.mark.parametrize("method", sorted(KWARGS))
+def test_no_method_declares_an_init_only_keyword(method: str) -> None:
+    """Check one facade method declares none of the init-only keywords.
+
+    They are read only when the Image is built, so on any other method they
+    would type-check and then be reported as unused.
+    """
+    declared = set(get_type_hints(getattr(kwargs_mod, KWARGS[method])))
+
+    assert not declared & INIT_ONLY, (
+        f"{method} declares {sorted(declared & INIT_ONLY)}"
     )
 
 

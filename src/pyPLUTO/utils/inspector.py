@@ -24,13 +24,14 @@ import contextvars
 import functools
 import inspect
 import textwrap
-import warnings
 from collections.abc import Callable
 from typing import Any, ParamSpec, TypeVar, cast, overload
 
+from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning, ppwarn
+
 
 @functools.cache
-def _find_kwargs_keys_from_source(source: str) -> set[str]:
+def _find_kwargs_keys_from_source(source: str) -> frozenset[str]:
     """Find kwargs keys from source code.
 
     Works through the Abstract Syntax Tree (AST) to identify keys used in
@@ -51,10 +52,10 @@ def _find_kwargs_keys_from_source(source: str) -> set[str]:
 
     Returns
     -------
-    - set[str]
+    - frozenset[str]
         Every keyword the function reads by a literal name. Empty for a
         function that takes no kwargs, or reads them in a way the scan cannot
-        follow.
+        follow. Frozen, since it is the cached object itself.
 
     Examples
     --------
@@ -62,7 +63,7 @@ def _find_kwargs_keys_from_source(source: str) -> set[str]:
 
         >>> source = inspect.getsource(plot)
         >>> _find_kwargs_keys_from_source(source)
-        {'cmap', 'title'}
+        frozenset({'cmap', 'title'})
 
     """
     # Parse the source code into an AST
@@ -229,10 +230,10 @@ def _find_kwargs_keys_from_source(source: str) -> set[str]:
             self.generic_visit(node)
 
     KwargsVisitor().visit(tree)
-    return kwargs_keys
+    return frozenset(kwargs_keys)
 
 
-def find_kwargs_keys(func: Callable[..., Any]) -> set[str]:
+def find_kwargs_keys(func: Callable[..., Any]) -> frozenset[str]:
     """Find kwargs keys from source code.
 
     Wraps the cached scan above with the two steps that need the function
@@ -247,7 +248,7 @@ def find_kwargs_keys(func: Callable[..., Any]) -> set[str]:
 
     Returns
     -------
-    - set[str]
+    - frozenset[str]
         The keywords the function reads by a literal name.
 
     Examples
@@ -363,9 +364,7 @@ def track_kwargs(
             >>> decorator(plot)
 
         """
-        used_keys = find_kwargs_keys(inner_func)
-        if extra_keys:
-            used_keys |= extra_keys
+        used_keys = find_kwargs_keys(inner_func) | (extra_keys or set())
 
         sig = inspect.signature(inner_func)
 
@@ -443,12 +442,11 @@ def track_kwargs(
             if bool(check):
                 current = _kwargs_remaining.get()
                 if current:
-                    warnings.warn(
+                    ppwarn(
                         f"Unused kwargs: {current} "
                         f"in function {func_name} "
                         f"of {mod_name}",
-                        UserWarning,
-                        stacklevel=2,
+                        PyPLUTOKeywordWarning,
                     )
 
                 # Clear the record, or the next call would inherit it.
@@ -461,6 +459,10 @@ def track_kwargs(
         cast("Any", wrapper).__signature__ = sig.replace(
             parameters=public_params
         )
+
+        # The keys the wrapper accounts for, extra_keys included, so a test
+        # can compare them with the table the method is annotated with
+        cast("Any", wrapper).__tracked_keys__ = frozenset(used_keys)
         return wrapper
 
     # Bare use, @track_kwargs, hands the function straight in; the called

@@ -7,6 +7,7 @@ import warnings
 import pytest
 
 from pyPLUTO.utils.configure import Configure
+from pyPLUTO.utils.ppwarnings import PyPLUTOWarning
 
 
 @pytest.fixture(autouse=True)
@@ -226,7 +227,12 @@ def test_setup_handlers_sets_only_error_handler() -> None:
 def test_setup_handlers_shows_every_pypluto_warning(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    """Ensure the "always" filter is installed for pyPLUTO's warnings only."""
+    """Ensure the "always" filter is installed for pyPLUTO's warnings only.
+
+    The category filter holds wherever a warning points, the user's own line
+    included; the module filter covers the warnings not raised through
+    ppwarn yet, which still point inside the package.
+    """
     c = Configure(greet=False)
     calls = []
 
@@ -238,7 +244,10 @@ def test_setup_handlers_shows_every_pypluto_warning(
 
     c._setup_handlers(colorwarn=False, colorerr=False)
 
-    assert calls == [(("always",), {"module": "pyPLUTO"})]
+    assert calls == [
+        (("always",), {"category": PyPLUTOWarning}),
+        (("always",), {"module": "pyPLUTO"}),
+    ]
 
 
 def test_importing_pypluto_keeps_the_warning_filters() -> None:

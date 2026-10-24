@@ -15,15 +15,11 @@ Tests are grouped by the file the fault is in, and the reason on each marker
 is one line saying what is wrong.
 """
 
-import copy
 import inspect
-import pickle
 import re
 import shutil
-import textwrap
 import typing
 import warnings
-from collections.abc import Callable
 from pathlib import Path
 
 import numpy as np
@@ -34,24 +30,6 @@ from helper_image import KWARGS as IMAGE_KWARGS
 import pyPLUTO as pp
 import pyPLUTO.image as image_mod
 import pyPLUTO.imagekwargs as image_kwargs
-from pyPLUTO.utils import inspector
-from pyPLUTO.utils.inspector import track_kwargs
-
-
-def _image() -> pp.Image:
-    """Build a quiet image with one axis."""
-    image = pp.Image(text=False)
-    image.create_axes()
-    return image
-
-
-def _sample_for_scanning(_check: bool = True, **kwargs: object) -> object:
-    """Read one keyword by name, for the scanner to find.
-
-    Defined here rather than inside the test because the scan works from the
-    source on disk, which a function built at runtime does not have.
-    """
-    return kwargs.get("real_key")
 
 
 def _documented(function: object) -> set[str]:
@@ -61,37 +39,6 @@ def _documented(function: object) -> set[str]:
         return set()
     section = doc.split("Parameters")[1].split("Returns")[0]
     return set(re.findall(r"^\s*- (\w+)", section, re.MULTILINE))
-
-
-# ---- load.py, loadpart.py, image.py ----
-@pytest.mark.xfail(
-    strict=True,
-    reason="__getattr__ recurses on 'state', so the facades cannot be copied",
-)
-@pytest.mark.parametrize("operation", [copy.copy, copy.deepcopy])
-def test_the_facades_can_be_copied(operation: object, data_dir: Path) -> None:
-    """Copy an Image and expect a copy rather than a RecursionError.
-
-    `copy` builds the new object without running `__init__` and then looks up
-    `__setstate__`, which reaches `__getattr__`, which reads `self.state`,
-    which calls `__getattr__` again. `Load` and `LoadPart` do the same.
-    """
-    assert callable(operation)
-    assert operation(_image()) is not None
-
-
-@pytest.mark.xfail(
-    strict=True,
-    reason="unpickling reaches __getattr__ before the state exists",
-)
-def test_a_load_survives_a_pickle_round_trip(data_dir: Path) -> None:
-    """Send a Load through pickle, as multiprocessing does.
-
-    Writing works; reading back raises RecursionError, so a Load cannot be
-    handed to a worker process.
-    """
-    data = pp.Load(path=data_dir / "single_file", text=False)
-    assert pickle.loads(pickle.dumps(data)) is not None
 
 
 # ---- loadfuncs/ ----
@@ -268,38 +215,6 @@ def test_fourier_without_dx(data_dir: Path) -> None:
     assert data.fourier(data.rho) is not None
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="figure-only keywords are declared on every drawing method",
-)
-@pytest.mark.parametrize(
-    "draw",
-    [
-        lambda image: image.plot([0.0, 1.0], [0.0, 1.0], withblack=True),
-        lambda image: image.plot([0.0, 1.0], [0.0, 1.0], style="classic"),
-        lambda image: image.plot([0.0, 1.0], [0.0, 1.0], nwin=2),
-        lambda image: image.plot([0.0, 1.0], [0.0, 1.0], numcolors=4),
-    ],
-    ids=["withblack", "style", "nwin", "numcolors"],
-)
-def test_declared_keywords_are_usable(
-    draw: Callable[[pp.Image], None],
-) -> None:
-    """Pass a keyword the type checkers accept on `plot` and check it is used.
-
-    `CreateAxesKwargs` inherits the figure-level table, so these type-check
-    on every drawing method and are then reported as unused at runtime: the
-    mirror of a keyword read but not declared.
-    """
-    image = pp.Image(text=False)
-
-    with warnings.catch_warnings(record=True) as raised:
-        warnings.simplefilter("always")
-        draw(image)
-
-    assert [w for w in raised if "kwargs" in str(w.message)] == []
-
-
 # ---- imagefuncs/plot.py ----
 # ---- imagefuncs/interactive.py ----
 @pytest.mark.xfail(
@@ -352,52 +267,6 @@ def test_every_declared_keyword_is_documented(method: str, table: str) -> None:
 
 
 # ---- imagefuncs/imagetools.py, range.py ----
-# ---- utils/inspector.py ----
-@pytest.mark.xfail(
-    strict=True, reason="the decorator mutates the cached scan in place"
-)
-def test_the_scan_cache_is_not_written_into() -> None:
-    """Decorate a function with extra keys, then scan its source again.
-
-    `_find_kwargs_keys_from_source` is cached and hands back a mutable set,
-    and `track_kwargs` does `used_keys |= extra_keys` on it, so the extra
-    keys are written back into the cache: scanning an untouched source then
-    reports keys that do not appear in it. Two functions with the same
-    source text share the entry, and any caller can poison it.
-
-    Asserting on the scan of an unrelated source is the visible half; the
-    cause is the in-place union, which a non-mutating one would fix.
-    """
-    source = textwrap.dedent(inspect.getsource(_sample_for_scanning))
-    before = set(inspector.find_kwargs_keys(_sample_for_scanning))
-
-    track_kwargs(extra_keys={"injected"})(_sample_for_scanning)
-
-    assert set(inspector._find_kwargs_keys_from_source(source)) == before
-
-
-@pytest.mark.xfail(
-    strict=True,
-    reason="stacklevel counts from the wrapper, not the user's frame",
-)
-def test_unused_kwargs_warning_points_at_the_caller() -> None:
-    """Misspell a keyword and check the warning names the user's own file.
-
-    It names `image.py` instead, because the outermost tracked call is the
-    manager method the facade invokes, one frame further in than
-    `stacklevel=2` reaches.
-    """
-    image = pp.Image(text=False)
-
-    with warnings.catch_warnings(record=True) as raised:
-        warnings.simplefilter("always")
-        image.plot([0.0, 1.0], [0.0, 1.0], nosuchkeyword=1)  # type: ignore[call-arg]
-
-    unused = [w for w in raised if "kwargs" in str(w.message)]
-    assert unused
-    assert Path(unused[0].filename).name == Path(__file__).name
-
-
 # ---- load.py, loadpart.py docstrings ----
 @pytest.mark.xfail(
     strict=True,

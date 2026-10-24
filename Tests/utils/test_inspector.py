@@ -23,11 +23,13 @@ port has to satisfy.
 """
 
 import inspect
+import textwrap
 import warnings
 from collections.abc import Callable
 
 import pytest
 
+import pyPLUTO as pp
 import pyPLUTO.utils.inspector as inspector_mod
 from pyPLUTO.utils.inspector import (
     _find_kwargs_keys_from_source,
@@ -35,6 +37,7 @@ from pyPLUTO.utils.inspector import (
     find_kwargs_keys,
     track_kwargs,
 )
+from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning
 
 
 # ---- Reading the keys out of the source ----
@@ -241,6 +244,33 @@ def f(**kwargs):
     return {k: v for k, v in kwargs.items()}
 """
     assert _find_kwargs_keys_from_source(source_code) == set()
+
+
+def _sample_for_scanning(_check: bool = True, **kwargs: object) -> object:
+    """Read one keyword by name, for the scanner to find.
+
+    Defined at module level rather than inside the test because the scan
+    works from the source on disk, which a function built at runtime does
+    not have.
+    """
+    return kwargs.get("real_key")
+
+
+def test_the_scan_cache_is_not_written_into() -> None:
+    """Decorate a function with extra keys, then scan its source again.
+
+    The scan is cached, so the set it hands back is the cached object
+    itself: track_kwargs used to add its extra keys to it in place, and a
+    later scan of the same source reported keys that do not appear in it.
+    The scan is a frozenset now, and the union builds a new set.
+    """
+    source = textwrap.dedent(inspect.getsource(_sample_for_scanning))
+    before = find_kwargs_keys(_sample_for_scanning)
+
+    track_kwargs(extra_keys={"injected"})(_sample_for_scanning)
+
+    assert _find_kwargs_keys_from_source(source) == before == {"real_key"}
+    assert isinstance(before, frozenset)
 
 
 # ---- The wrapper keeps the function usable ----
@@ -478,6 +508,22 @@ def test_warning_names_the_function_and_its_module() -> None:
     message = str(record[0].message)
     assert "in function f" in message
     assert __name__ in message
+
+
+def test_the_warning_points_at_the_users_line() -> None:
+    """Misspell a keyword of a real method and check where the warning lands.
+
+    The call goes through the facade and its tracked manager, several frames
+    inside pyPLUTO; the warning is attributed to the first frame outside, the
+    line of this test, and is a PyPLUTOKeywordWarning. With a fixed
+    stacklevel it used to name image.py instead.
+    """
+    image = pp.Image(text=False)
+
+    with pytest.warns(PyPLUTOKeywordWarning, match="nosuchkeyword") as record:
+        image.plot([0.0, 1.0], [0.0, 1.0], nosuchkeyword=1)  # type: ignore[call-arg]
+
+    assert record[0].filename == __file__
 
 
 def test_track_kwargs_with_extra_keys() -> None:

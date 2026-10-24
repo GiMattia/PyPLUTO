@@ -16,7 +16,7 @@ directly rather than a manager, which is why the tests list it separately.
 from __future__ import annotations
 
 import logging
-from typing import Any, Unpack
+from typing import Any, NoReturn, Unpack
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -304,7 +304,14 @@ class Image(ImageMixin):
         It goes through AttrResolver for symmetry with Load and LoadPart,
         although an Image holds no memory-mapped data of its own: the
         resolver passes anything that is not lazy straight back.
+
+        `state` itself and the special names are refused at once: before
+        __init__ has run, as on an object copy or pickle builds, there is no
+        state to read them from, and reading it would call __getattr__ again,
+        forever.
         """
+        if name == "state" or name.startswith("__"):
+            raise AttributeError(name)
         val = getattr(self.state, name)
         return AttrResolver.resolve(self.state, name, val)
 
@@ -321,6 +328,18 @@ class Image(ImageMixin):
         if name == "state" or not hasattr(self, "state"):
             return super().__setattr__(name, value)
         return setattr(self.state, name, value)
+
+    def __getstate__(self) -> NoReturn:
+        """Refuse to be copied or pickled, with a way out.
+
+        copy, deepcopy and pickle all ask for the state through this method.
+        A copy sharing the state would draw on the same figure, and a
+        matplotlib figure does not copy cleanly, with its canvas and its
+        place in pyplot; so none is made.
+        """
+        raise TypeError(
+            "An Image cannot be copied or pickled: build a new Image instead."
+        )
 
     def animate(
         self,

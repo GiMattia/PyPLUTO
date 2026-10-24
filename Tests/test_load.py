@@ -15,9 +15,12 @@ The hand-written tables live in helper_load.py, so a new method or manager
 fails a completeness guard here until it is listed and therefore tested.
 """
 
+import copy
 import inspect
 import logging
+import pickle
 import re
+from collections.abc import Callable
 from pathlib import Path
 
 import pytest
@@ -101,6 +104,39 @@ def test_unknown_attribute_raises(data_dir: Path) -> None:
     data = _load(data_dir)
     with pytest.raises(AttributeError):
         data.wrong  # noqa: B018
+
+
+# ---- Copying ----
+@pytest.mark.parametrize(
+    "operation",
+    [copy.copy, copy.deepcopy, pickle.dumps],
+    ids=["copy", "deepcopy", "pickle"],
+)
+def test_a_load_cannot_be_copied(
+    operation: Callable[[object], object], data_dir: Path
+) -> None:
+    """Copy or pickle a Load and expect a clear refusal.
+
+    A copy sharing the state would change with the original, a full one
+    would read every memory-mapped variable into RAM, and the open maps
+    cannot be pickled; the error points to loading inside each worker. It
+    used to be a RecursionError, raised by __getattr__ reading a state the
+    new object did not have yet.
+    """
+    data = _load(data_dir)
+
+    with pytest.raises(TypeError, match="cannot be copied or pickled"):
+        operation(data)
+
+
+def test_an_unbuilt_load_has_no_state() -> None:
+    """Read an attribute of a Load built without __init__.
+
+    That is the object copy and pickle start from: the read must fail at
+    once with AttributeError, not recurse looking for the state.
+    """
+    with pytest.raises(AttributeError):
+        _ = Load.__new__(Load).state
 
 
 # ---- Printing ----

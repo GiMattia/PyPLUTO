@@ -18,7 +18,7 @@ accepted here but read nowhere.
 from __future__ import annotations
 
 from collections.abc import Callable, Sequence
-from typing import Literal, TypedDict
+from typing import Any, Literal, TypedDict
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -30,32 +30,32 @@ from matplotlib.typing import (
     LineStyleType,
     MarkerType,
 )
-from numpy.typing import ArrayLike
+from numpy.typing import ArrayLike, NDArray
 
 
 class ImageKwargs(TypedDict, total=False):
-    """Base class for all keyword arguments accepted by pyPLUTOImage class."""
+    """Figure keywords that create_axes and set_axis read too."""
 
     figsize: Sequence[float]
     fontsize: float | int
+    suptitle: str | None
+    tight: bool
+
+
+class FigureKwargs(ImageKwargs, total=False):
+    """Keyword arguments for creating figures."""
+
+    close: bool  # deprecated, use "replace"
+    fig: Figure | None
     fontweight: str
     LaTeX: bool | str
     numcolors: int
     nwin: int
     replace: bool
     style: str
-    suptitle: str | None
     suptitlesize: int | str
-    tight: bool
     withblack: bool
     withwhite: bool
-
-
-class FigureKwargs(ImageKwargs, total=False):
-    """Keyword arguments for creating figures."""
-
-    fig: Figure | None
-    close: bool  # deprecated, use "replace"
 
 
 class CreateAxesKwargs(ImageKwargs, total=False):
@@ -151,7 +151,14 @@ class SetAxisKwargs(
 class LegendKwargs(CreateAxesKwargs, total=False):
     """Keyword arguments for setting legends."""
 
-    c: str | Sequence[str | ColorType] | ArrayLike | ColorType
+    # Not ArrayLike: from Python 3.13, ty drops str from a union holding it
+    c: (
+        ColorType
+        | Sequence[ColorType]
+        | Sequence[Sequence[float]]
+        | NDArray[Any]
+        | None
+    )
     edgecolor: str | Sequence[str]
     legpad: float
     fillstyle: str | Sequence[str]

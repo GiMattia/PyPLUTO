@@ -15,9 +15,12 @@ Load had and LoadPart had not: `__str__` advertised only half its methods,
 and `LoadPart(nout=None)` crashed although the docstring documents it.
 """
 
+import copy
 import inspect
 import logging
+import pickle
 import re
+from collections.abc import Callable
 from pathlib import Path
 
 import numpy as np
@@ -110,6 +113,39 @@ def test_state_is_set_on_the_instance(data_dir: Path) -> None:
     data = _loadpart(data_dir)
     assert "state" in vars(data)
     assert data.state is not data.state.__dict__.get("state")
+
+
+# ---- Copying ----
+@pytest.mark.parametrize(
+    "operation",
+    [copy.copy, copy.deepcopy, pickle.dumps],
+    ids=["copy", "deepcopy", "pickle"],
+)
+def test_a_loadpart_cannot_be_copied(
+    operation: Callable[[object], object], data_dir: Path
+) -> None:
+    """Copy or pickle a LoadPart and expect a clear refusal.
+
+    A copy sharing the state would change with the original, a full one
+    would read every memory-mapped variable into RAM, and the open maps
+    cannot be pickled; the error points to loading inside each worker. It
+    used to be a RecursionError, raised by __getattr__ reading a state the
+    new object did not have yet.
+    """
+    data = _loadpart(data_dir)
+
+    with pytest.raises(TypeError, match="cannot be copied or pickled"):
+        operation(data)
+
+
+def test_an_unbuilt_loadpart_has_no_state() -> None:
+    """Read an attribute of a LoadPart built without __init__.
+
+    That is the object copy and pickle start from: the read must fail at
+    once with AttributeError, not recurse looking for the state.
+    """
+    with pytest.raises(AttributeError):
+        _ = LoadPart.__new__(LoadPart).state
 
 
 # ---- Printing ----

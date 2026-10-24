@@ -11,6 +11,8 @@ from collections.abc import Callable
 from types import TracebackType
 from typing import TYPE_CHECKING, cast
 
+from pyPLUTO.utils.ppwarnings import PyPLUTOWarning
+
 if TYPE_CHECKING:
     from IPython.core.interactiveshell import InteractiveShell
 
@@ -256,8 +258,10 @@ class Configure:
         - None
 
         """
-        # Show every pyPLUTO warning every time; other packages keep Python's
-        # defaults and the user's own filters
+        # Show every pyPLUTO warning every time, wherever it points; other
+        # packages keep Python's defaults and the user's own filters. The
+        # module filter covers the warnings not raised through ppwarn yet
+        warnings.filterwarnings("always", category=PyPLUTOWarning)
         warnings.filterwarnings("always", module="pyPLUTO")
 
         # Set up the handlers for warnings and errors

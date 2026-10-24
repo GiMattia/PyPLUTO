@@ -13,6 +13,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `GridPlotManager.showgrid`: new method drawing the cell interfaces of a 2D grid; supports `CARTESIAN`, `POLAR`, `CYLINDRICAL`, and `SPHERICAL` geometries, and draws all lines of each direction with a single `PlotManager.plot` call (instead of one call per line) for a large speedup on dense grids
 - `PlotManager.plot`: documented support for 2D `x`/`y` input to draw multiple lines sharing one style in a single call (the primitive `showgrid`'s fast path relies on)
 - `src/pyPLUTO/template.py`: reference template documenting the State/Kwargs/Mixin/Manager/Facade architecture used to add a new class
+- Warning categories, exported from `pyPLUTO`: `PyPLUTOWarning` (all of pyPLUTO's warnings), `PyPLUTOKeywordWarning` (a keyword unused or in conflict) and `PyPLUTODeprecationWarning`. `warnings.filterwarnings("ignore", category=pp.PyPLUTOKeywordWarning)` silences one kind, and `-W error::pyPLUTO.PyPLUTOKeywordWarning` turns misspelled keywords into errors
 - `axalpha`: the opacity of a whole panel, accepted by `set_axis` and every drawing method. It fades the background, spines, ticks, labels, title, grid, legend, texts and everything drawn on the axis, own alpha included, and is kept per axis (`Image.axalpha`), so what is drawn there later takes it too unless given its own `alpha`. In `zoom` it fades the inset only
 
 ### Changed (preliminary)
@@ -28,6 +29,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Layout keywords (`ncol`, `nrow`, `left`, `right`, `top`, `bottom`, `wspace`, `hspace`, `wratio`, `hratio`) given to a drawing method without `ax` create new axes, as `create_axes` does, also on a figure that already has some, with a warning; before, they were ignored there and reported as unused. The drawing goes on the last new axis
 - `alpha` is the opacity of one drawing only (the lines of `plot`, the map, the contours, the streamlines and their arrows, the points), and defaults to `None` instead of a fixed 1.0, so a drawing without it takes the panel's `axalpha`. `plot` now reads it too
 - `plot` returns the lines it draws, instead of `None`
+- Dependencies: `marimo` is no longer installed (it was unused); `numexpr` is installed only with the `gui` extra, the only part that uses it
 
 ### Fixed
 - `Load`/`LoadPart`: `ntime` was declared as an `int`; it is the simulation time, a float. `ntime` and `nout` are now typed from the call, as the variables already were: `Load(5).ntime` is a `float` and `Load([0, 1]).ntime` an array of floats for the type checkers, and `nout` an `int` or an array of integers. Indexing them is accepted only where it works.
@@ -41,6 +43,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `Image.showgrid`: a misspelled keyword is now reported, the method being the only tracked one without the internal `_check` flag
 - `Image.interactive`: the `ax` keyword is declared on the facade, so type checkers accept it and `help()` shows it; `_check` no longer sits where the manager has `limfix`, which made a third positional argument switch off the keyword check
 - `AxisManager.set_axis`: `ax` now defaults to `None`, as its docstring and the facade already said
+- `Load`, `LoadPart`, `Image`: `copy`, `deepcopy` and `pickle` raised a `RecursionError`; they now raise a `TypeError` explaining that a pyPLUTO object is not copied, and for loads how to analyse outputs in parallel (pass the output numbers to the workers and load inside each)
+- The "Unused kwargs" warning points at the user's own line instead of a file inside pyPLUTO
+- `plot`/`legend`: with ty checking for Python 3.13 or later, a single colour such as `c="r"` or `c=I.color[i]` was rejected, since ty drops `str` from a union holding numpy's `ArrayLike`. `c` is declared as a colour, a sequence of colours, a sequence of RGB lists, an array or `None`
+- Drawing methods no longer declare the keywords only `Image` reads (`withblack`, `withwhite`, `style`, `nwin`, `numcolors`, `LaTeX`, `fontweight`, `suptitlesize`, `replace`): type checkers accepted `plot(withblack=True)`, which then warned as unused
 - `set_axis`: the `alpha` keyword faded nothing, since it was set on the Axes artist, which draws nothing. It is removed (and reported as unused); `axalpha` takes its place
 - Importing pyPLUTO no longer overrides the warning filters: only pyPLUTO's own warnings are shown every time, so `-W ignore` and earlier `filterwarnings` calls work again, and other packages' deprecations stay hidden as Python intends (matplotlib's Qt backend printed one per toolbar icon)
 - Without `ax`, every method uses the last axis considered, as documented, instead of matplotlib's current axis: `display(ax=1)`, `display(ax=0)`, `colorbar()` now puts the bar beside the first panel. After `create_axes`, and after a drawing on an empty figure, that is the last axis created. The axis is readable as `Image.lastax`

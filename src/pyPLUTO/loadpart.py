@@ -16,7 +16,15 @@ from __future__ import annotations
 import logging
 import warnings
 from collections.abc import Callable, Iterable
-from typing import Generic, Literal, TypeVar, Unpack, cast, overload
+from typing import (
+    Generic,
+    Literal,
+    NoReturn,
+    TypeVar,
+    Unpack,
+    cast,
+    overload,
+)
 
 import numpy as np
 
@@ -270,7 +278,14 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         class that really carries memory-mapped data: the first access to a
         variable copies it into memory the state owns and releases the
         mapping. See `utils/resolver.py`.
+
+        `state` itself and the special names are refused at once: before
+        __init__ has run, as on an object copy or pickle builds, there is no
+        state to read them from, and reading it would call __getattr__ again,
+        forever.
         """
+        if name == "state" or name.startswith("__"):
+            raise AttributeError(name)
         val = getattr(self.state, name)
         return cast("_VarT", AttrResolver.resolve(self.state, name, val))
 
@@ -288,6 +303,21 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         if name == "state" or not hasattr(self, "state"):
             return super().__setattr__(name, value)
         return setattr(self.state, name, value)
+
+    def __getstate__(self) -> NoReturn:
+        """Refuse to be copied or pickled, with a way out.
+
+        copy, deepcopy and pickle all ask for the state through this method.
+        A copy sharing the state would change with the original, a full one
+        would read every memory-mapped variable into RAM, and the open maps
+        cannot be pickled at all; so none is made. Parallel analysis does not
+        need it: each worker loads its own output.
+        """
+        raise TypeError(
+            "A LoadPart cannot be copied or pickled. To analyse several "
+            "outputs in parallel, pass the output numbers to the workers and "
+            "call pp.LoadPart inside each of them."
+        )
 
     def select(
         self,

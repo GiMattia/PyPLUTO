@@ -31,6 +31,7 @@ from dataclasses import dataclass, field
 from typing import TypedDict, Unpack
 
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning, ppwarn
 
 # ---------------------------------------------------------------------------
 # 1. STATE - normally in its own file, e.g. `pyPLUTO/imagestate.py`.
@@ -204,6 +205,24 @@ class ExampleManager(ExampleMixin):
             self.state.label = label
 
         self.state.values = [v * factor for v in self.state.values]
+
+        # Every warning goes through ppwarn, which points it at the user's own
+        # line, however deep inside pyPLUTO the call went. Its second argument
+        # is the category, which says what the warning is about:
+        #   PyPLUTOKeywordWarning      a keyword unused or in conflict
+        #   PyPLUTODeprecationWarning  a keyword or method being removed
+        #   PyPLUTOWarning             anything else (the default)
+        # All three derive from PyPLUTOWarning, so a user can silence or
+        # raise pyPLUTO's warnings alone, all of them or one kind:
+        #   warnings.filterwarnings("ignore", category=pp.PyPLUTOKeywordWarning)
+        # Never call warnings.warn with a fixed stacklevel.
+        if factor == 0.0:
+            ppwarn("A factor of 0 erases every value.")
+            if "label" in kwargs:
+                ppwarn(
+                    "label is set, but no value is left to label.",
+                    PyPLUTOKeywordWarning,
+                )
 
         # Filling in a field declared init=False: this is the only place such
         # a field may be set, and after this line reading it no longer raises.

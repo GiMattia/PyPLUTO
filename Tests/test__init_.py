@@ -27,13 +27,16 @@ import pyPLUTO as pp
 import pyPLUTO.image as image_mod
 import pyPLUTO.load as load_mod
 import pyPLUTO.loadpart as loadpart_mod
-from pyPLUTO.utils import configure, examples_api, pytools
+from pyPLUTO.utils import configure, examples_api, ppwarnings, pytools
 from pyPLUTO.utils.configure import Configure
 
 PUBLIC_API = [
     "Image",
     "Load",
     "LoadPart",
+    "PyPLUTODeprecationWarning",
+    "PyPLUTOKeywordWarning",
+    "PyPLUTOWarning",
     "copy_examples",
     "examples_path",
     "find_example",
@@ -50,6 +53,9 @@ SOURCE_MODULE = {
     "Image": image_mod,
     "Load": load_mod,
     "LoadPart": loadpart_mod,
+    "PyPLUTODeprecationWarning": ppwarnings,
+    "PyPLUTOKeywordWarning": ppwarnings,
+    "PyPLUTOWarning": ppwarnings,
     "copy_examples": examples_api,
     "examples_path": examples_api,
     "find_example": pytools,

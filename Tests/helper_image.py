@@ -200,3 +200,19 @@ OTHER_KWARGS: dict[str, str] = {
     "FigureKwargs": "pyPLUTO.image:Image.__init__",
     "SetLocKwargs": "pyPLUTO.imagefuncs.zoom:ZoomManager.place_inset_loc",
 }
+
+# The keywords read only when the Image is built, so the constructor takes
+# them and no other method may declare them.
+INIT_ONLY = {
+    "close",
+    "fig",
+    "fontweight",
+    "LaTeX",
+    "numcolors",
+    "nwin",
+    "replace",
+    "style",
+    "suptitlesize",
+    "withblack",
+    "withwhite",
+}

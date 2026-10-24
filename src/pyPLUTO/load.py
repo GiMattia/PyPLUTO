@@ -14,7 +14,6 @@ type a load is, the constructor, and the two attribute hooks that make
 
 from __future__ import annotations
 
-import logging
 from collections.abc import Iterable
 from typing import (
     Generic,
@@ -51,11 +50,9 @@ from pyPLUTO.toolfuncs.fourier import FourierManager
 from pyPLUTO.toolfuncs.nabla import NablaManager
 from pyPLUTO.toolfuncs.set_units import SetUnitsManager
 from pyPLUTO.toolfuncs.transform import TransformManager
-from pyPLUTO.utils.configure import set_text
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pplogging import pplog
 from pyPLUTO.utils.resolver import AttrResolver
-
-logger = logging.getLogger(__name__)
 
 _VarT = TypeVar("_VarT", bound="np.ndarray | dict[int, np.ndarray]")
 
@@ -123,8 +120,8 @@ class Load(LoadMixin, Generic[_VarT]):
         The variables that keep plain arrays when units are attached. Has no
         effect unless 'units' is given.
     - text: bool | None, default None
-        Controls output verbosity. None (default) prints standard load info at
-        INFO level. False silences all output. True enables full DEBUG logging.
+        What this object prints. None follows the package (pp.set_text);
+        False shows only the warnings, True also the debug details.
     - units: bool | str | list[str] | None, default None
         The variables that are converted to astropy units while loading. True
         converts every variable, a name or a list of names only those.
@@ -253,8 +250,7 @@ class Load(LoadMixin, Generic[_VarT]):
         self.state: LoadState = LoadState()
 
         # Verbosity is settled before anything can log.
-        self.state.text = kwargs.get("text", self.state.text)
-        set_text(self.state.text)
+        self.state.classlog = kwargs.get("text", self.state.classlog)
         self.state.class_name = self.__class__.__name__
         self.state.full3D = kwargs.get("full3D", self.state.full3D)
         self.state.level = kwargs.get("level", self.state.level)
@@ -285,18 +281,15 @@ class Load(LoadMixin, Generic[_VarT]):
         if units is not False:
             self.to_astropy_units(var=units, skip_units=skip_units)
 
-        if self.state.text is not False:
-            path = kwargs.get("path", self.state.pathdir)
-            if hasattr(self.state, "nout"):
-                if isinstance(self.state.nout, (int, np.integer)):
-                    nout_out = self.state.nout
-                else:
-                    nout_out = (
-                        np.atleast_1d(self.state.nout).astype(int).tolist()
-                    )
+        path = kwargs.get("path", self.state.pathdir)
+        if hasattr(self.state, "nout"):
+            if isinstance(self.state.nout, (int, np.integer)):
+                nout_out = self.state.nout
             else:
-                nout_out = None
-            logger.info("Load: folder %s,     output %s", path, nout_out)
+                nout_out = np.atleast_1d(self.state.nout).astype(int).tolist()
+        else:
+            nout_out = None
+        pplog.info("Load: folder %s,     output %s", path, nout_out)
 
     def __repr__(self) -> str:
         """Return the repr of the Load class."""
@@ -640,7 +633,7 @@ class Load(LoadMixin, Generic[_VarT]):
         y0: list | float | None = None,
         x1: np.ndarray | None = None,
         x2: np.ndarray | None = None,
-        text: bool = False,
+        text: bool | None = None,
         _check: bool = True,
         **kwargs: Unpack[FindFieldlinesKwargs],
     ) -> list:

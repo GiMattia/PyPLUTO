@@ -333,6 +333,20 @@ def test_text_logs_no_output_when_nothing_is_loaded(
     assert "output None" in caplog.text
 
 
+def test_text_leaves_the_level_of_the_package_alone(data_dir: Path) -> None:
+    """Load silently and check the pyPLUTO logger is untouched.
+
+    Each load used to set the level of the whole package from its own text,
+    so the last object built decided for every other: after
+    Load(text=False), a plain Image() turned the messages back on.
+    pp.set_text is the switch for the package.
+    """
+    logger = logging.getLogger("pyPLUTO")
+    before = logger.level
+    pp.Load(path=data_dir / "single_file", text=False)
+    assert logger.level == before
+
+
 # ---- Delegation to the managers ----
 def test_every_method_is_listed() -> None:
     """Compare the public methods Load defines with the table in the helper.

@@ -51,6 +51,10 @@ class BaseLoadState:
     # Name of the owning class, for managers that differ between them
     class_name: str = field(init=False, repr=False)
 
+    # How much this load prints, the text it was built with: None follows
+    # the package (set_text)
+    classlog: bool | None = None
+
     # Which chunk(s) of a particle output to read; None means all
     chnk: int | Sequence[int] | None = None
 
@@ -116,9 +120,6 @@ class BaseLoadState:
 
     # The folder being read
     pathdir: str | Path = "./"
-
-    # Verbosity: None prints the load line, False silences, True debugs
-    text: bool | None = None
 
     # The simulation time of every output present in the folder
     timelist: np.ndarray = field(init=False, repr=False)

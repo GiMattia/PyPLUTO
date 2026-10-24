@@ -31,6 +31,7 @@ from dataclasses import dataclass, field
 from typing import TypedDict, Unpack
 
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pplogging import pplog
 from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning, ppwarn
 
 # ---------------------------------------------------------------------------
@@ -69,6 +70,10 @@ class ExampleState:
 
     # The values to be rescaled, a setting with a per-instance default
     values: list[float] = field(default_factory=list)
+
+    # How much this object prints, the text it was built with: None follows
+    # the package (set_text). pplog reads it under this name
+    classlog: bool | None = None
 
     # The factor last applied, which exists only once rescale has run
     last_factor: float = field(init=False, repr=False)
@@ -223,6 +228,15 @@ class ExampleManager(ExampleMixin):
                     "label is set, but no value is left to label.",
                     PyPLUTOKeywordWarning,
                 )
+
+        # Every message goes through pplog, which reads self.state.classlog of
+        # the method calling it: None follows the package (pp.set_text),
+        # False or True decide for this object alone. Two kinds:
+        #   pplog.info   the ordinary information, shown by default
+        #   pplog.debug  the details, shown only with text=True
+        # Never call print or a module logger directly.
+        pplog.info("Rescaled by %s", factor)
+        pplog.debug("New values: %s", self.state.values)
 
         # Filling in a field declared init=False: this is the only place such
         # a field may be set, and after this line reading it no longer raises.

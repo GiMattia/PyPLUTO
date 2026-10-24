@@ -28,6 +28,7 @@ UNSET = object()
 DEFAULTS: dict[str, object] = {
     "ax": [],
     "axalpha": [],
+    "classlog": None,
     "color": [],
     "dictcol": {},
     "fig": None,

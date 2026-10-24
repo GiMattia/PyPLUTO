@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import logging
 import re
 from pathlib import Path
 
@@ -10,8 +9,7 @@ import inifix
 
 from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
-
-logger = logging.getLogger(__name__)
+from pyPLUTO.utils.pplogging import pplog
 
 
 class FiledefpliniManager(LoadMixin):
@@ -44,7 +42,8 @@ class FiledefpliniManager(LoadMixin):
             try:
                 self.state.defh = self.read_defh(pathdefh)
             except FileNotFoundError:
-                logger.info("No %s is read!", defhfile) if defh is True else ...
+                if defh is True:
+                    pplog.info("No %s is read!", defhfile)
 
         # Try to read the file pluto.ini
         pathplini = None
@@ -56,7 +55,8 @@ class FiledefpliniManager(LoadMixin):
             try:
                 self.state.plini = inifix.load(pathplini, sections="require")
             except FileNotFoundError:
-                logger.info("No pluto.ini is read!") if plini is True else ...
+                if plini is True:
+                    pplog.info("No pluto.ini is read!")
 
     def read_defh(self, filepath: Path) -> dict:
         """Read a header file and extract definitions.

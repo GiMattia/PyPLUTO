@@ -155,21 +155,43 @@ def test_color_error_writes_colored_traceback_and_message(
         c.color_error(type(exc), exc, exc.__traceback__)
 
     err = capsys.readouterr().err
-    assert "\033[91m" in err
-    assert "\33[31m" in err
-    assert "something went wrong" in err
+    assert err.startswith("\33[31mTraceback (most recent call last):")
+    assert "ValueError: something went wrong" in err
+    assert err.endswith("\33[0m")
 
 
-def test_setup_handlers_installs_both_handlers(
-    monkeypatch: pytest.MonkeyPatch,
+def test_color_error_keeps_the_chained_exception(
+    capsys: pytest.CaptureFixture[str],
 ) -> None:
+    """Raise an error from another and check both are reported.
+
+    The hook used to print the frames and the message only, so the type of
+    the error and the exception that caused it were lost.
+    """
+    c = Configure(greet=False)
+
+    try:
+        try:
+            raise KeyError("x")
+        except KeyError as cause:
+            raise ValueError("boom") from cause
+    except ValueError as exc:
+        c.color_error(type(exc), exc, exc.__traceback__)
+
+    err = capsys.readouterr().err
+    assert "KeyError: 'x'" in err
+    assert "direct cause" in err
+    assert "ValueError: boom" in err
+
+
+def test_setup_handlers_installs_both_handlers() -> None:
     """Ensure that both warning and error handlers are installed."""
     c = Configure(greet=False)
 
     original_warning = warnings.formatwarning
     original_error = sys.excepthook
     try:
-        c._setup_handlers(colorwarn=True, colorerr=True)
+        c.setup_handlers(colorwarn=True, colorerr=True)
         assert warnings.formatwarning == c.color_warning
         assert sys.excepthook == c.color_error
     finally:
@@ -186,7 +208,7 @@ def test_setup_handlers_leaves_existing_handlers_when_both_flags_false() -> (
     original_warning = warnings.formatwarning
     original_error = sys.excepthook
     try:
-        c._setup_handlers(colorwarn=False, colorerr=False)
+        c.setup_handlers(colorwarn=False, colorerr=False)
         assert warnings.formatwarning is original_warning
         assert sys.excepthook is original_error
     finally:
@@ -201,7 +223,7 @@ def test_setup_handlers_sets_only_warning_handler() -> None:
     original_warning = warnings.formatwarning
     original_error = sys.excepthook
     try:
-        c._setup_handlers(colorwarn=True, colorerr=False)
+        c.setup_handlers(colorwarn=True, colorerr=False)
         assert warnings.formatwarning == c.color_warning
         assert sys.excepthook is original_error
     finally:
@@ -216,7 +238,7 @@ def test_setup_handlers_sets_only_error_handler() -> None:
     original_warning = warnings.formatwarning
     original_error = sys.excepthook
     try:
-        c._setup_handlers(colorwarn=False, colorerr=True)
+        c.setup_handlers(colorwarn=False, colorerr=True)
         assert warnings.formatwarning is original_warning
         assert sys.excepthook == c.color_error
     finally:
@@ -242,7 +264,7 @@ def test_setup_handlers_shows_every_pypluto_warning(
         lambda *args, **kwargs: calls.append((args, kwargs)),
     )
 
-    c._setup_handlers(colorwarn=False, colorerr=False)
+    c.setup_handlers(colorwarn=False, colorerr=False)
 
     assert calls == [
         (("always",), {"category": PyPLUTOWarning}),

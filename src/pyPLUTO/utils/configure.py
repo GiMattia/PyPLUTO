@@ -7,19 +7,13 @@ import logging
 import sys
 import traceback
 import warnings
-from collections.abc import Callable
 from types import TracebackType
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Any, cast
 
 from pyPLUTO.utils.ppwarnings import PyPLUTOWarning
 
 if TYPE_CHECKING:
     from IPython.core.interactiveshell import InteractiveShell
-
-FormatWarning = Callable[
-    [Warning | str, type[Warning], str, int, str | None],
-    str,
-]
 
 
 class Configure:
@@ -59,13 +53,13 @@ class Configure:
         self.version: str = version
         self.colorerr: bool = colorerr
         self.colorwarn: bool = colorwarn
-        self.session: str = self._find_session()
-        self._setup_handlers(colorwarn, colorerr)
+        self.session: str = self.find_session()
+        self.setup_handlers(colorwarn, colorerr)
         if greet and not Configure.greeted:
             print(f"PyPLUTO version: {self.version}   session: {self.session}")
             Configure.greeted = True
 
-    def _find_session(self) -> str:
+    def find_session(self) -> str:
         """Find the session in which the code is running.
 
         Returns
@@ -76,41 +70,33 @@ class Configure:
         --------
         - Example #1: Standard Python interpreter
 
-            >>> find_session()
+            >>> Configure(greet=False).find_session()
             'Standard Python interpreter'
 
         - Example #2: Jupyter notebook or qtconsole
 
-            >>> find_session()
+            >>> Configure(greet=False).find_session()
             'Jupyter notebook or qtconsole'
 
         - Example #3: Terminal running IPython
 
-            >>> find_session()
+            >>> Configure(greet=False).find_session()
             'Terminal running IPython'
 
         - Example #4: Unknown session
 
-            >>> find_session()
+            >>> Configure(greet=False).find_session()
             'Unknown session'
 
         """
 
         # Try to get IPython. If not available, it's not an IPython session.
-        # Note the quotes around the return type of the get_ipython_wrapper
-        # function. This is because pylint would throw an error.
         def get_ipython_wrapper() -> InteractiveShell | None:
             """Return the IPython instance, or None if not available."""
-            warnings.filterwarnings(
-                "ignore",
-                message=r".*importing 'Const' from 'astroid' is deprecated.*",
-                category=DeprecationWarning,
-            )
-
             try:
                 ipy_mod = importlib.import_module("IPython.core.getipython")
                 get_ipython = ipy_mod.get_ipython
-                return cast("InteractiveShell | None", get_ipython())
+                return get_ipython()
             except (ImportError, AttributeError):
                 return None
 
@@ -140,7 +126,6 @@ class Configure:
         category: type[Warning],
         filename: str,
         lineno: int,
-        _file: str | None = None,
         _line: str | None = None,
     ) -> str:
         """Color the warnings in yellow.
@@ -155,10 +140,8 @@ class Configure:
             The name of the file where the warning occurred.
         - lineno: int
             The line number where the warning occurred.
-        - _file: str | None, optional
-            Not used, kept for compatibility.
-        - _line: str | None, optional
-            Not used, kept for compatibility.
+        - _line: str | None, default None
+            The source line, which the colored message does not show.
 
         Returns
         -------
@@ -173,15 +156,18 @@ class Configure:
 
     def color_error(
         self,
-        _type: type[BaseException] | None,
+        exc_type: type[BaseException] | None,
         value: BaseException | None,
         tb: TracebackType | None,
     ) -> None:
         """Color the errors in red.
 
+        The report is Python's own, coloured: the header, the frames, the
+        type and the message of the error, and any exception chained to it.
+
         Parameters
         ----------
-        - _type: type[BaseException] | None
+        - exc_type: type[BaseException] | None
             The type of the exception.
         - value: BaseException | None
             The exception instance.
@@ -193,58 +179,15 @@ class Configure:
         - None
 
         """
-        # Traces the error and writes it in red
-        traceback_str = "".join(traceback.format_tb(tb))
-        sys.stderr.write(f"\033[91m{traceback_str}\033[0m")
-        sys.stderr.write(f"\33[31m{value}\33[0m\n")  # Red color for errors
+        report = "".join(traceback.format_exception(exc_type, value, tb))
+        sys.stderr.write(f"\33[31m{report}\33[0m")
 
-    def _setup_handlers(
+    def setup_handlers(
         self,
         colorwarn: bool = True,
         colorerr: bool = True,
     ) -> None:
         """Set up the handlers for the warnings and errors.
-
-        Note that a type ignore is placed on the line where the warning handler
-        is set up because ty and pyrefly would throw the following error:
-
-        (Warning | str, type[Warning], str, int, str | None) -> str is not
-        assignable to attribute formatwarning with type (message: Warning | str,
-        category: type[Warning], filename: str, lineno: int, line: str |
-        None = None) -> str
-        Incompatible types in assignment (expression has type
-        "Callable[[Warning | str, type[Warning], str, int, str | None], str]",
-        variable has type "Callable[[Arg(Warning | str, 'message'),
-        Arg(type[Warning], 'category'), Arg(str, 'filename'),
-        Arg(int, 'lineno'), DefaultArg(str | None, 'line')], str]")
-
-        This is because the signature of the color_warning method does not
-        exactly match the expected signature of the formatwarning attribute.
-        However, since the color_warning method is designed to be compatible
-        with the formatwarning attribute, we can safely ignore this type error.
-
-        The correct approach would be to use the following piece of code:
-
-        if colorwarn:
-            def _formatwarning(
-                message: Warning | str,
-                category: type[Warning],
-                filename: str,
-                lineno: int,
-                line: str | None = None,
-            ) -> str:
-                return self.color_warning(
-                    message,
-                    category,
-                    filename,
-                    lineno,
-                    line
-                )
-
-            warnings.formatwarning = _formatwarning
-
-        but, for simplicity, we directly assign the color_warning method to the
-        formatwarning attribute and ignore the type error.
 
         Parameters
         ----------
@@ -266,52 +209,18 @@ class Configure:
 
         # Set up the handlers for warnings and errors
         if colorwarn:
-            warnings.formatwarning = self.color_warning  # type: ignore
+            # Python lets formatwarning be replaced, but ty types it as that
+            # very function and refuses any other; pyright needs no cast
+            warnings.formatwarning = cast("Any", self.color_warning)
         if colorerr:
             sys.excepthook = self.color_error
 
         # Attach a stdout handler so logger.info() calls are visible,
-        # matching the old print() behaviour.
+        # matching the old print() behaviour. The logger lets everything
+        # through, since pplog has already decided what is shown
         pkg_logger = logging.getLogger("pyPLUTO")
         if not pkg_logger.handlers:
             _handler = logging.StreamHandler(sys.stdout)
             _handler.setFormatter(logging.Formatter("%(message)s"))
             pkg_logger.addHandler(_handler)
-            pkg_logger.setLevel(logging.INFO)
-
-
-def set_text(text: bool | None) -> None:
-    """Set the verbosity of pyPLUTO logging.
-
-    Parameters
-    ----------
-    - text: bool | None
-        None (default) enables standard INFO messages. False silences all
-        output (WARNING level). True enables full debug output (DEBUG level).
-
-    Returns
-    -------
-    - None
-
-    Examples
-    --------
-    - Example #1: Silence all output
-
-        >>> set_text(False)
-
-    - Example #2: Default INFO output
-
-        >>> set_text(None)
-
-    - Example #3: Full debug output
-
-        >>> set_text(True)
-
-    """
-    pkg_logger = logging.getLogger("pyPLUTO")
-    if text is False:
-        pkg_logger.setLevel(logging.WARNING)
-    elif text is True:
-        pkg_logger.setLevel(logging.DEBUG)
-    else:
-        pkg_logger.setLevel(logging.INFO)
+            pkg_logger.setLevel(logging.DEBUG)

@@ -12,8 +12,6 @@ sixteen, since the grid operations have no meaning without a grid.
 
 from __future__ import annotations
 
-# noqa: RUF100
-import logging
 import warnings
 from collections.abc import Callable, Iterable
 from typing import (
@@ -35,11 +33,9 @@ from pyPLUTO.loadkwargs import LoadPartKwargs, SpectrumKwargs
 from pyPLUTO.toolfuncs.compute_units import UnitManager
 from pyPLUTO.toolfuncs.parttools import PartToolsManager
 from pyPLUTO.toolfuncs.set_units import SetUnitsManager
-from pyPLUTO.utils.configure import set_text
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pplogging import pplog
 from pyPLUTO.utils.resolver import AttrResolver
-
-logger = logging.getLogger(__name__)
 
 _VarT = TypeVar("_VarT", bound="np.ndarray | dict[int, np.ndarray]")
 
@@ -84,8 +80,8 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         The variables that keep plain arrays when units are attached. Has no
         effect unless 'units' is given.
     - text: bool | None, default None
-        Controls output verbosity. None (default) prints standard load info at
-        INFO level. False silences all output. True enables full DEBUG logging.
+        What this object prints. None follows the package (pp.set_text);
+        False shows only the warnings, True also the debug details.
     - units: bool | str | list[str] | None, default None
         The variables that are converted to astropy units while loading. True
         converts every variable, a name or a list of names only those.
@@ -186,8 +182,7 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         # try to store the state inside a state that does not exist yet.
         self.state: BaseLoadState = BaseLoadState()
         self.cached_vars = set()
-        self.state.text = kwargs.get("text", self.state.text)
-        set_text(self.state.text)
+        self.state.classlog = kwargs.get("text", self.state.classlog)
         self.state.class_name = self.__class__.__name__
         if "nfile_lp" in kwargs:
             warnings.warn(
@@ -218,18 +213,15 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         if units is not False:
             self.to_astropy_units(var=units, skip_units=skip_units)
 
-        if self.state.text is not False:
-            path = kwargs.get("path", self.state.pathdir)
-            if hasattr(self.state, "nout"):
-                if isinstance(self.state.nout, (int, np.integer)):
-                    nout_out = self.state.nout
-                else:
-                    nout_out = (
-                        np.atleast_1d(self.state.nout).astype(int).tolist()
-                    )
+        path = kwargs.get("path", self.state.pathdir)
+        if hasattr(self.state, "nout"):
+            if isinstance(self.state.nout, (int, np.integer)):
+                nout_out = self.state.nout
             else:
-                nout_out = None
-            logger.info("Load: folder %s,     output %s", path, nout_out)
+                nout_out = np.atleast_1d(self.state.nout).astype(int).tolist()
+        else:
+            nout_out = None
+        pplog.info("Load: folder %s,     output %s", path, nout_out)
 
     def __repr__(self) -> str:
         """Return the repr of the LoadPart class."""

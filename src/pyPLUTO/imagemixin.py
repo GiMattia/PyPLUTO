@@ -61,6 +61,16 @@ class ImageMixin:
         self.state.axalpha = value
 
     @property
+    def classlog(self) -> bool | None:
+        """Get the classlog attribute of the image."""
+        return self.state.classlog
+
+    @classlog.setter
+    def classlog(self, value: bool | None) -> None:
+        """Set the classlog attribute of the image."""
+        self.state.classlog = value
+
+    @property
     def color(self) -> list[str]:
         """Get the color attribute of the image."""
         return self.state.color

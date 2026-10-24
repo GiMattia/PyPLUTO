@@ -18,13 +18,14 @@ from importlib.metadata import version as _version
 from pyPLUTO.image import Image
 from pyPLUTO.load import Load
 from pyPLUTO.loadpart import LoadPart
-from pyPLUTO.utils.configure import Configure, set_text
+from pyPLUTO.utils.configure import Configure
 from pyPLUTO.utils.examples_api import (
     copy_examples,
     examples_path,
     list_examples,
     run_example,
 )
+from pyPLUTO.utils.pplogging import set_text
 from pyPLUTO.utils.ppwarnings import (
     PyPLUTODeprecationWarning,
     PyPLUTOKeywordWarning,

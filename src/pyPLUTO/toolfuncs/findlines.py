@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import logging
 from typing import Unpack
 
 import contourpy as cp
@@ -16,8 +15,8 @@ from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.toolfuncs.loadtools import LoadToolsManager
 from pyPLUTO.utils.inspector import track_kwargs
-
-logger = logging.getLogger(__name__)
+from pyPLUTO.utils.pplogging import pplog
+from pyPLUTO.utils.ppwarnings import PyPLUTODeprecationWarning, ppwarn
 
 
 class FindLinesManager(LoadMixin):
@@ -95,7 +94,7 @@ class FindLinesManager(LoadMixin):
         y0: list | float | None = None,
         x1: np.ndarray | None = None,
         x2: np.ndarray | None = None,
-        text: bool = False,
+        text: bool | None = None,
         _check: bool = True,
         **kwargs: Unpack[FindFieldlinesKwargs],
     ) -> list:
@@ -130,8 +129,10 @@ class FindLinesManager(LoadMixin):
         - step: float, default
           abs(min((xend-xbeg)/self.nx1, (yend-ybeg)/self.nx2))
             The initial step size for the integration.
-        - text: bool, default False
-            If True some additional information is printed.
+        - text: bool | None, default None
+            Deprecated, and without effect: the details of each line follow
+            the text of the load, Load(..., text=True), or of the package,
+            pp.set_text(True).
         - transpose: True/False, default False
             Transposes the variable matrix. Use is not recommended if not
             really necessary (e.g. in case of highly customized variables and
@@ -172,6 +173,14 @@ class FindLinesManager(LoadMixin):
             >>> find_fieldlines(var1, var2, [x1, x2], [y1, y2])
 
         """
+        if text is not None:
+            ppwarn(
+                "text in find_fieldlines is deprecated: set it on the Load, "
+                "Load(..., text=True), or for the package with "
+                "pp.set_text(True).",
+                PyPLUTODeprecationWarning,
+            )
+
         varx = self.LoadToolsManager.check_var(
             var1,
             kwargs.get("transpose", False),
@@ -316,21 +325,15 @@ class FindLinesManager(LoadMixin):
                 x_line = np.append(x_line, x_line[0])
                 y_line = np.append(y_line, y_line[0])
 
-            if text is True:
-                logger.debug("Line with footpoint at x = %s and y = %s", xp, yp)
-                logger.debug(
-                    "Final integration time forward:  %s",
-                    sol_forward.t[-1],
-                )
-                logger.debug(
-                    "Final integration time backward: %s",
-                    sol_backward.t[-1],
-                )
-                logger.debug("Final step number forward:       %s", forw_steps)
-                logger.debug(
-                    "Final step number backward:      %s",
-                    self.stepnum,
-                )
+            pplog.debug("Line with footpoint at x = %s and y = %s", xp, yp)
+            pplog.debug(
+                "Final integration time forward:  %s", sol_forward.t[-1]
+            )
+            pplog.debug(
+                "Final integration time backward: %s", sol_backward.t[-1]
+            )
+            pplog.debug("Final step number forward:       %s", forw_steps)
+            pplog.debug("Final step number backward:      %s", self.stepnum)
 
             if len(x_line) > 1:
                 lines_list.append([x_line, y_line])

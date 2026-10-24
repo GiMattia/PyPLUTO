@@ -1,5 +1,6 @@
 """Test of the readdefplini.py file."""
 
+import logging
 from pathlib import Path
 
 import pytest
@@ -70,6 +71,28 @@ def test_missing_definitions_file(data_dir: Path):
     FiledefpliniManager(Data.state, defh=True, plini=True)
     assert getattr(Data.state, "defh", None) is None
     assert getattr(Data.state, "plini", None) is None
+
+
+@pytest.mark.parametrize(
+    ("text", "shown"), [(None, True), (False, False)], ids=["default", "silent"]
+)
+def test_a_missing_file_asked_for_is_reported(
+    data_dir: Path,
+    caplog: pytest.LogCaptureFixture,
+    text: bool | None,
+    shown: bool,
+) -> None:
+    """Ask for both files where there are none; the text of the load decides.
+
+    The two messages used to ignore text, so Load(text=False, defh=True)
+    still printed them.
+    """
+    Data = pp.Load(path=data_dir / "single_file", text=False)
+    Data.state.classlog = text
+    with caplog.at_level(logging.INFO, logger="pyPLUTO"):
+        FiledefpliniManager(Data.state, defh=True, plini=True)
+    assert ("No definitions.h is read!" in caplog.text) is shown
+    assert ("No pluto.ini is read!" in caplog.text) is shown
 
 
 # A definitions file that is present is read into the state

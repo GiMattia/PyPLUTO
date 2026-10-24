@@ -374,6 +374,20 @@ def test_text_logs_the_window(
     assert ("Image class created at nwin" in caplog.text) is logged
 
 
+def test_text_leaves_the_level_of_the_package_alone() -> None:
+    """Build a silent image and check the pyPLUTO logger is untouched.
+
+    Each image used to set the level of the whole package from its own text,
+    so the last one built decided for every object: after Image(text=False),
+    a plain Image() turned the messages back on. pp.set_text is the switch
+    for the package.
+    """
+    logger = logging.getLogger("pyPLUTO")
+    before = logger.level
+    pp.Image(text=False)
+    assert logger.level == before
+
+
 # ---- Delegation to the managers ----
 def test_every_method_is_listed() -> None:
     """Compare the public methods Image defines with the tables in the helper.

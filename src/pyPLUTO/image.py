@@ -15,7 +15,6 @@ directly rather than a manager, which is why the tests list it separately.
 
 from __future__ import annotations
 
-import logging
 from typing import Any, NoReturn, Unpack
 
 import numpy as np
@@ -64,11 +63,9 @@ from pyPLUTO.imagekwargs import (
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.load import Load
-from pyPLUTO.utils.configure import set_text
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pplogging import pplog
 from pyPLUTO.utils.resolver import AttrResolver
-
-logger = logging.getLogger(__name__)
 
 
 class Image(ImageMixin):
@@ -144,9 +141,8 @@ class Image(ImageMixin):
             columns) the option is set by default to False since that option
             would not be available for standard matplotlib functions.
         - text: bool | None, default None
-            Controls output verbosity. None (default) logs the window number at
-            INFO level. False silences all output. True enables full DEBUG
-            logging.
+            What this object prints. None follows the package (pp.set_text);
+            False shows only the warnings, True also the debug details.
         - withblack: bool, default False
             If True, the black color is used as first color.
         - withwhite: bool, default False
@@ -189,7 +185,7 @@ class Image(ImageMixin):
         # the one exception to its forwarding: without that, this line would
         # try to store the state inside a state that does not exist yet.
         self.state = ImageState()
-        set_text(text)
+        self.state.classlog = text
 
         # Built apart from the others, and first, because it is the one that
         # creates the figure: it reads the keywords given here, while the rest
@@ -215,8 +211,7 @@ class Image(ImageMixin):
         self.GridPlotManager = GridPlotManager(self.state)
         self.ZoomManager = ZoomManager(self.state)
 
-        if text is not False:
-            logger.info("Image class created at nwin %s", self.nwin)
+        pplog.info("Image class created at nwin %s", self.nwin)
 
     def __repr__(self) -> str:
         """Return the repr of the Image class."""

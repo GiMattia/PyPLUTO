@@ -98,6 +98,16 @@ class BaseLoadMixin(Generic[S]):
         self.state.class_name = value
 
     @property
+    def classlog(self) -> bool | None:
+        """Get the classlog attribute of the load state."""
+        return self.state.classlog
+
+    @classlog.setter
+    def classlog(self, value: bool | None) -> None:
+        """Set the classlog attribute of the load state."""
+        self.state.classlog = value
+
+    @property
     def code(self) -> str:
         """Get the code attribute of the load state."""
         return self.state.code
@@ -292,16 +302,6 @@ class BaseLoadMixin(Generic[S]):
     def pathdir(self, value: str | Path) -> None:
         """Set the pathdir attribute of the load state."""
         self.state.pathdir = value
-
-    @property
-    def text(self) -> bool | None:
-        """Get the text attribute of the load state."""
-        return self.state.text
-
-    @text.setter
-    def text(self, value: bool | None) -> None:
-        """Set the text attribute of the load state."""
-        self.state.text = value
 
     @property
     def timelist(self) -> np.ndarray:

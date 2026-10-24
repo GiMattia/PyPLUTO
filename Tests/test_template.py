@@ -10,6 +10,7 @@ a pattern that no longer matches the code.
 import dataclasses
 import doctest
 import inspect
+import logging
 import re
 import typing
 import warnings
@@ -167,6 +168,47 @@ def test_each_state_gets_its_own_values() -> None:
     assert first.values is not second.values
     first.values.append(1.0)
     assert second.values == []
+
+
+@pytest.mark.parametrize(
+    ("text", "info", "debug"),
+    [(None, True, False), (True, True, True), (False, False, False)],
+    ids=["default", "debug", "silent"],
+)
+def test_rescale_logs_at_the_text_of_the_state(
+    caplog: pytest.LogCaptureFixture, text: bool | None, info: bool, debug: bool
+) -> None:
+    """Rescale at each text and check which of the two messages show."""
+    state = ExampleState(values=[1.0], classlog=text)
+    with caplog.at_level(logging.DEBUG, logger="pyPLUTO"):
+        ExampleManager(state).rescale(factor=2.0)
+    assert ("Rescaled by 2.0" in caplog.text) is info
+    assert ("New values: [2.0]" in caplog.text) is debug
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "categories"),
+    [
+        ({}, [pp.PyPLUTOWarning]),
+        ({"label": "x"}, [pp.PyPLUTOWarning, pp.PyPLUTOKeywordWarning]),
+    ],
+    ids=["plain", "with-label"],
+)
+def test_rescale_warns_from_the_users_line(
+    kwargs: ExampleKwargs, categories: list[type[Warning]]
+) -> None:
+    """Rescale by 0, with and without a label, and check the warnings.
+
+    The plain one is a PyPLUTOWarning, the keyword one, given only with a
+    label, a PyPLUTOKeywordWarning, and all point at this file, the caller's
+    line, as ppwarn promises.
+    """
+    state = ExampleState(values=[1.0])
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        ExampleManager(state).rescale(factor=0.0, **kwargs)
+    assert [w.category for w in caught] == categories
+    assert all(Path(w.filename).name == "test_template.py" for w in caught)
 
 
 # ---- track_kwargs ----

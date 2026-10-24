@@ -27,7 +27,7 @@ import pyPLUTO as pp
 import pyPLUTO.image as image_mod
 import pyPLUTO.load as load_mod
 import pyPLUTO.loadpart as loadpart_mod
-from pyPLUTO.utils import configure, examples_api, ppwarnings, pytools
+from pyPLUTO.utils import examples_api, pplogging, ppwarnings, pytools
 from pyPLUTO.utils.configure import Configure
 
 PUBLIC_API = [
@@ -63,7 +63,7 @@ SOURCE_MODULE = {
     "ring": pytools,
     "run_example": examples_api,
     "savefig": pytools,
-    "set_text": configure,
+    "set_text": pplogging,
     "show": pytools,
 }
 

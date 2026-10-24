@@ -50,6 +50,10 @@ class ImageState:
     # Per axis, the opacity of the whole panel, None until axalpha is given
     axalpha: list[float | None] = field(default_factory=list)
 
+    # How much this image prints, the text it was built with: None follows
+    # the package (set_text)
+    classlog: bool | None = None
+
     # The colour cycle used for successive lines
     color: list[str] = field(default_factory=list)
 

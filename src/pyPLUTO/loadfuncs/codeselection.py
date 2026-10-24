@@ -2,15 +2,12 @@
 
 from __future__ import annotations
 
-import logging
-
 from pyPLUTO.baseloadmixin import BaseLoadMixin
 from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.codes.echo_load import EchoLoadManager
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.utils.inspector import track_kwargs
-
-logger = logging.getLogger(__name__)
+from pyPLUTO.utils.pplogging import pplog
 
 
 class CodeManager(BaseLoadMixin[BaseLoadState]):
@@ -71,8 +68,7 @@ class CodeManager(BaseLoadMixin[BaseLoadState]):
 
         # If not code is provided (or the code is PLUTO/gPLUTO) just skip
         if self.state.code.lower() in codedict:
-            if self.state.text is not False:
-                logger.info("Loading data from code: %s", self.state.code)
+            pplog.info("Loading data from code: %s", self.state.code)
             codedict[self.state.code.lower()](nout, var, _check=False)
 
         else:

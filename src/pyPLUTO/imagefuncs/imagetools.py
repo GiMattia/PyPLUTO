@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import importlib
 import inspect
-import warnings
 from collections.abc import Sequence
 from pathlib import Path
 from typing import Unpack, cast
@@ -21,6 +20,16 @@ from pyPLUTO.imagekwargs import CreateAxesKwargs, TextKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pperrors import (
+    PyPLUTOAxisError,
+    PyPLUTOInternalError,
+    PyPLUTOOptionError,
+)
+from pyPLUTO.utils.ppwarnings import (
+    PPWarn,
+    PyPLUTOBehaviorWarning,
+    PyPLUTOOptionWarning,
+)
 
 # Optional packages searched when matplotlib does not know a colormap name,
 # in order: the first one that has it wins. The value is the attribute holding
@@ -98,7 +107,7 @@ class ImageToolsManager(ImageMixin):
 
         """
         if not self.state.fig:
-            raise ValueError("No figure to save. Please create a figure first.")
+            raise PyPLUTOInternalError("No figure to save.")
         out_path = Path(filename)
 
         if script_relative and not out_path.is_absolute():
@@ -271,7 +280,7 @@ class ImageToolsManager(ImageMixin):
         if xycoord not in coordinates:
             error = f"Unknown xycoords {xycoord!r}: use 'fraction', 'points' "
             error += "or 'figure'."
-            raise ValueError(error)
+            raise PyPLUTOOptionError(error)
 
         # If the text is inside a specific axis, hide the text of the
         # create_axes function
@@ -406,9 +415,7 @@ class ImageToolsManager(ImageMixin):
 
         """
         if self.state.fig is None:
-            raise ValueError(
-                "No figure is present. Please create a figure first.",
-            )
+            raise PyPLUTOInternalError("No figure is present.")
         # Check if the axis is None and no axis is present, or a layout is
         # given: the axes asked for are created, a grid if ncol or nrow say so
         if ax is None and (not self.state.ax or LAYOUT & kwargs.keys()):
@@ -416,7 +423,7 @@ class ImageToolsManager(ImageMixin):
                 warn = "Layout keywords given to a drawing method: new axes "
                 warn += "are created, as by create_axes, and the drawing goes "
                 warn += "on the last."
-                warnings.warn(warn, UserWarning, stacklevel=2)
+                PPWarn.warn(warn, PyPLUTOBehaviorWarning)
             self.CreateAxesManager.create_axes(_check=False, **kwargs)
 
         # Check if the axis is None and select the last considered one
@@ -435,12 +442,12 @@ class ImageToolsManager(ImageMixin):
             if not -nmax <= ax < nmax:
                 text = f"The provided axis is not valid: the image has {nmax} "
                 text += f"axes, so there is no axis {ax}."
-                raise ValueError(text)
+                raise PyPLUTOAxisError(text)
             ax = self.state.ax[ax]
 
         # If none of the previous cases is satisfied assert that ax is an axis
         if not isinstance(ax, Axes):
-            raise ValueError("The provided axis is not valid.")
+            raise PyPLUTOAxisError("The provided axis is not valid.")
 
         # Get the figure associated to the axes
         fig = ax.get_figure()
@@ -448,7 +455,7 @@ class ImageToolsManager(ImageMixin):
         # Check if the figure is the same as the one in the class
         if fig != self.state.fig:
             text = "The provided axis does not belong to the expected figure."
-            raise ValueError(text)
+            raise PyPLUTOAxisError(text)
 
         # Find the number of the axes and return it
         nax = self.state.ax.index(ax)
@@ -556,7 +563,7 @@ class ImageToolsManager(ImageMixin):
                 warn = (
                     f"Colorscale '{cscale}' not found. Defaulting to 'linear'."
                 )
-                warnings.warn(warn, UserWarning, stacklevel=2)
+                PPWarn.warn(warn, PyPLUTOOptionWarning)
             norm = mcol.Normalize(vmin=vmin, vmax=vmax)
 
         return norm
@@ -648,5 +655,5 @@ class ImageToolsManager(ImageMixin):
             f"Colormap '{name}' not found in matplotlib or in "
             f"{', '.join(CMAP_PROVIDERS)}. Defaulting to 'plasma'."
         )
-        warnings.warn(warn, UserWarning, stacklevel=2)
+        PPWarn.warn(warn, PyPLUTOOptionWarning)
         return plt.get_cmap("plasma")

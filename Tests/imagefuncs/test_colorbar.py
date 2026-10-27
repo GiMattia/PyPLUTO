@@ -32,6 +32,8 @@ from matplotlib.transforms import Bbox
 
 import pyPLUTO as pp
 from pyPLUTO.imagefuncs.colorbar import ColorbarManager
+from pyPLUTO.utils.pperrors import PyPLUTODataError, PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import PyPLUTOConflictWarning
 
 # A bowl-shaped variable from 0 at the center to 2 in the corners.
 x = np.linspace(-1, 1, 20)
@@ -186,7 +188,7 @@ def test_a_collection_wins_over_an_axis() -> None:
     image = pp.Image(text=False)
     mesh = image.display(var)
 
-    with pytest.warns(UserWarning, match="pcm will be used"):
+    with pytest.warns(PyPLUTOConflictWarning, match="pcm will be used"):
         cbar = image.colorbar(pcm=mesh, axs=0)
 
     assert cbar.mappable is mesh
@@ -269,7 +271,7 @@ def test_an_axis_with_nothing_to_describe() -> None:
     image = pp.Image(text=False)
     image.create_axes()
 
-    with pytest.raises(ValueError, match="No collection colored by data"):
+    with pytest.raises(PyPLUTODataError, match="No collection colored by data"):
         image.colorbar()
 
 
@@ -281,7 +283,7 @@ def test_a_collection_drawn_nowhere() -> None:
     """
     image = pp.Image(text=False)
 
-    with pytest.raises(TypeError, match="Expected an Axes instance"):
+    with pytest.raises(PyPLUTOInternalError, match="Expected an Axes instance"):
         image.colorbar(pcm=QuadMesh(np.zeros((2, 2, 2))))
 
 
@@ -495,7 +497,7 @@ def test_check_must_be_a_flag() -> None:
     """Pass a non-boolean `_check` and check it is refused."""
     image = _image()
 
-    with pytest.raises(TypeError, match="_check must be a boolean"):
+    with pytest.raises(PyPLUTOInternalError, match="_check must be a boolean"):
         image.colorbar(_check="yes")  # pyright: ignore[reportArgumentType]  # ty: ignore[invalid-argument-type]
 
 
@@ -504,7 +506,7 @@ def test_a_colorbar_without_a_figure() -> None:
     image = pp.Image(text=False)
     image.fig = None
 
-    with pytest.raises(ValueError, match="No figure is present"):
+    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
         image.colorbar()
 
 

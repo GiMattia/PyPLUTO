@@ -27,7 +27,10 @@ from pyPLUTO.template import (
     ExampleMixin,
     ExampleState,
 )
-from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning
+from pyPLUTO.utils.ppwarnings import (
+    PyPLUTOBehaviorWarning,
+    PyPLUTOKeywordWarning,
+)
 
 SOURCE = Path(template.__file__).read_text(encoding="utf-8")
 
@@ -190,8 +193,8 @@ def test_rescale_logs_at_the_text_of_the_state(
 @pytest.mark.parametrize(
     ("kwargs", "categories"),
     [
-        ({}, [pp.PyPLUTOWarning]),
-        ({"label": "x"}, [pp.PyPLUTOWarning, PyPLUTOKeywordWarning]),
+        ({}, [PyPLUTOBehaviorWarning]),
+        ({"label": "x"}, [PyPLUTOBehaviorWarning, PyPLUTOKeywordWarning]),
     ],
     ids=["plain", "with-label"],
 )
@@ -200,9 +203,9 @@ def test_rescale_warns_from_the_users_line(
 ) -> None:
     """Rescale by 0, with and without a label, and check the warnings.
 
-    The plain one is a PyPLUTOWarning, the keyword one, given only with a
+    The plain one is a PyPLUTOBehaviorWarning, the keyword one, given only with a
     label, a PyPLUTOKeywordWarning, and all point at this file, the caller's
-    line, as ppwarn promises.
+    line, as PPWarn.warn promises.
     """
     state = ExampleState(values=[1.0])
     with warnings.catch_warnings(record=True) as caught:

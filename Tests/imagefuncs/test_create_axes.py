@@ -30,6 +30,11 @@ from matplotlib.axes import Axes
 
 import pyPLUTO as pp
 import pyPLUTO.imagekwargs as image_kwargs
+from pyPLUTO.utils.pperrors import PyPLUTOAxisError, PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import (
+    PyPLUTOConflictWarning,
+    PyPLUTOOptionWarning,
+)
 
 # The per-axis lists in the state, one entry appended for every axis created.
 # They are kept in step only by the loop in add_ax, so a new one added there
@@ -346,7 +351,7 @@ def test_an_unknown_sharing_is_refused() -> None:
     """
     image = _image()
 
-    with pytest.raises(ValueError, match="Unknown sharing 'diag'"):
+    with pytest.raises(PyPLUTOAxisError, match="Unknown sharing 'diag'"):
         image.create_axes(ncol=2, sharex="diag")  # pyright: ignore[reportArgumentType]  # ty: ignore[invalid-argument-type]
 
 
@@ -399,7 +404,9 @@ def test_a_custom_layout_refuses_an_explicit_tight() -> None:
     """
     image = _image()
 
-    with pytest.warns(UserWarning, match="custom layout cannot be tight"):
+    with pytest.warns(
+        PyPLUTOConflictWarning, match="custom layout cannot be tight"
+    ):
         image.create_axes(ncol=2, left=0.2, tight=True)
 
     assert image.tight is False
@@ -566,7 +573,7 @@ def test_axes_need_a_figure() -> None:
     image.fig = None
 
     with pytest.raises(
-        ValueError, match="create a figure before creating axes"
+        PyPLUTOInternalError, match="create a figure before creating axes"
     ):
         image.create_axes()
 
@@ -596,5 +603,5 @@ def test_a_wrong_number_of_ratios_or_spaces_warns(
     """
     image = _image()
 
-    with pytest.warns(UserWarning, match=f"{wrong} has wrong length!"):
+    with pytest.warns(PyPLUTOOptionWarning, match=f"{wrong} has wrong length!"):
         create(image)

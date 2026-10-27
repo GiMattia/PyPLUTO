@@ -28,6 +28,8 @@ from matplotlib.lines import Line2D
 
 import pyPLUTO as pp
 from pyPLUTO.imagekwargs import CheckRangeKwargs, ZoomKwargs
+from pyPLUTO.utils.pperrors import PyPLUTODataError, PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import PyPLUTOConflictWarning
 
 x = np.linspace(0, 1, 101)
 y = np.linspace(1, 10, 101)
@@ -149,7 +151,7 @@ def test_an_end_wins_over_a_size(
     image = pp.Image(text=False)
     image.plot(x, y)
 
-    with pytest.warns(UserWarning, match=warning):
+    with pytest.warns(PyPLUTOConflictWarning, match=warning):
         axins = image.zoom(**keywords)
 
     npt.assert_allclose(_box(image, axins), box)
@@ -682,7 +684,7 @@ def test_var_needs_a_grid() -> None:
     image = pp.Image(text=False)
     image.plot(x, y)
 
-    with pytest.raises(ValueError, match="needs a grid"):
+    with pytest.raises(PyPLUTODataError, match="needs a grid"):
         image.zoom(var=saddle)
 
 
@@ -703,7 +705,7 @@ def test_half_a_grid_is_refused(zoom: Callable[[pp.Image], Axes]) -> None:
     image = pp.Image(text=False)
     image.display(bowl, x1=coord, x2=coord)
 
-    with pytest.raises(ValueError, match="must be given together"):
+    with pytest.raises(PyPLUTODataError, match="must be given together"):
         zoom(image)
 
 
@@ -754,5 +756,5 @@ def test_a_zoom_without_a_figure() -> None:
     image = pp.Image(text=False)
     image.fig = None
 
-    with pytest.raises(ValueError, match="No figure is present"):
+    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
         image.zoom()

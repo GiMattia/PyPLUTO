@@ -26,6 +26,11 @@ from matplotlib.axes import Axes
 from matplotlib.colors import to_rgba
 
 import pyPLUTO as pp
+from pyPLUTO.utils.pperrors import PyPLUTOAxisError
+from pyPLUTO.utils.ppwarnings import (
+    PyPLUTODeprecationWarning,
+    PyPLUTOKeywordWarning,
+)
 
 
 def _axis() -> tuple[pp.Image, Axes]:
@@ -521,7 +526,7 @@ def test_alpha_is_not_a_set_axis_keyword() -> None:
     """
     image, ax = _axis()
 
-    with pytest.warns(UserWarning, match="Unused kwargs"):
+    with pytest.warns(PyPLUTOKeywordWarning, match="Unused kwargs"):
         image.set_axis(alpha=0.3)  # type: ignore[call-arg]
 
     assert ax.patch.get_alpha() is None
@@ -564,7 +569,9 @@ def test_sharing_by_row_or_column_is_refused_once_created(
     axes = image.create_axes(ncol=2)
     assert isinstance(axes, list)
 
-    with pytest.raises(ValueError, match="needs the axes created together"):
+    with pytest.raises(
+        PyPLUTOAxisError, match="needs the axes created together"
+    ):
         image.set_axis(ax=axes[1], sharex=share)
 
 
@@ -590,7 +597,7 @@ def test_the_old_name_still_shares_with_a_warning() -> None:
     """
     image = pp.Image(text=False)
 
-    with pytest.warns(DeprecationWarning, match="'sharexaxes' argument"):
+    with pytest.warns(PyPLUTODeprecationWarning, match="'sharexaxes' argument"):
         axes = image.create_axes(ncol=2, sharexaxes=True)
     assert isinstance(axes, list)
 

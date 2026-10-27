@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import copy
-import warnings
 from itertools import islice
 from typing import Any, Unpack
 
@@ -15,6 +14,13 @@ from pyPLUTO.imagekwargs import CreateAxesKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pperrors import PyPLUTOAxisError, PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import (
+    PPWarn,
+    PyPLUTOConflictWarning,
+    PyPLUTODeprecationWarning,
+    PyPLUTOOptionWarning,
+)
 
 defaults: dict[str, Any] = {
     "left": 0.125,
@@ -187,7 +193,7 @@ class CreateAxesManager(ImageMixin):
 
         # Set figure size
         if self.state.fig is None:
-            raise ValueError(
+            raise PyPLUTOInternalError(
                 "You need to create a figure before creating axes.",
             )
 
@@ -311,7 +317,7 @@ class CreateAxesManager(ImageMixin):
         """
         if tight is True:
             warn = "A custom layout cannot be tight: tight is set to False."
-            warnings.warn(warn, UserWarning, stacklevel=3)
+            PPWarn.warn(warn, PyPLUTOConflictWarning)
 
         hspace, hratio = self._check_rowcol(
             custom["hratio"],
@@ -405,10 +411,10 @@ class CreateAxesManager(ImageMixin):
         # Check if the lists have the correct length
         if len(ratio) != length:
             warn = f"WARNING! {rat[func]} has wrong length!"
-            warnings.warn(warn, UserWarning, stacklevel=2)
+            PPWarn.warn(warn, PyPLUTOOptionWarning)
         if len(space) + 1 != length:
             warn = f"WARNING! {spc[func]} has wrong length!"
-            warnings.warn(warn, UserWarning, stacklevel=2)
+            PPWarn.warn(warn, PyPLUTOOptionWarning)
 
         # End of the function. Return the lists
         return space[: length - 1], ratio[:length]
@@ -520,13 +526,13 @@ class CreateAxesManager(ImageMixin):
                 text = f"Sharing by {share!r} needs the axes created "
                 text += "together: give it to create_axes, or share with "
                 text += "an axis index or an Axes."
-                raise ValueError(text)
+                raise PyPLUTOAxisError(text)
             new, ncol = grid
             return new[i // ncol * ncol] if share == "row" else new[i % ncol]
         if isinstance(share, str):
             text = f"Unknown sharing {share!r}: use True, 'row', 'col', "
             text += "an axis index or an Axes."
-            raise ValueError(text)
+            raise PyPLUTOAxisError(text)
         if isinstance(share, int):
             return self.state.ax[share]
         return share
@@ -558,4 +564,4 @@ class CreateAxesManager(ImageMixin):
         for old, new in (("sharexaxes", "sharex"), ("shareyaxes", "sharey")):
             if old in kwargs:
                 warn = f"'{old}' argument is deprecated. Use '{new}' instead."
-                warnings.warn(warn, DeprecationWarning, stacklevel=3)
+                PPWarn.warn(warn, PyPLUTODeprecationWarning)

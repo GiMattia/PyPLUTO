@@ -64,7 +64,8 @@ from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.load import Load
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pplogging import pplog
+from pyPLUTO.utils.pperrors import PyPLUTOAttributeError, PyPLUTOCopyError
+from pyPLUTO.utils.pplogging import PPLog
 from pyPLUTO.utils.resolver import AttrResolver
 from pyPLUTO.utils.settings import TextValue, check_text
 
@@ -213,7 +214,7 @@ class Image(ImageMixin):
         self.GridPlotManager = GridPlotManager(self.state)
         self.ZoomManager = ZoomManager(self.state)
 
-        pplog.info("Image class created at nwin %s", self.nwin)
+        PPLog.info("Image class created at nwin %s", self.nwin)
 
     def __repr__(self) -> str:
         """Return the repr of the Image class."""
@@ -308,7 +309,7 @@ class Image(ImageMixin):
         forever.
         """
         if name == "state" or name.startswith("__"):
-            raise AttributeError(name)
+            raise PyPLUTOAttributeError(name)
         val = getattr(self.state, name)
         return AttrResolver.resolve(self.state, name, val)
 
@@ -334,7 +335,7 @@ class Image(ImageMixin):
         matplotlib figure does not copy cleanly, with its canvas and its
         place in pyplot; so none is made.
         """
-        raise TypeError(
+        raise PyPLUTOCopyError(
             "An Image cannot be copied or pickled: build a new Image instead."
         )
 

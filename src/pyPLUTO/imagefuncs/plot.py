@@ -12,7 +12,6 @@ makes every later line on that axis rebuild the legend.
 
 from __future__ import annotations
 
-import warnings
 from collections.abc import Iterable
 from typing import Unpack, cast
 
@@ -32,6 +31,12 @@ from pyPLUTO.imagekwargs import PlotKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pperrors import PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import (
+    PPWarn,
+    PyPLUTOBehaviorWarning,
+    PyPLUTOOptionWarning,
+)
 
 
 class PlotManager(ImageMixin):
@@ -333,9 +338,7 @@ class PlotManager(ImageMixin):
             y = np.asarray(y, dtype=float)
 
         if self.state.fig is None:
-            raise ValueError(
-                "No figure is present. Please create a figure first.",
-            )
+            raise PyPLUTOInternalError("No figure is present.")
 
         # Set or create figure and axes
         ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
@@ -398,7 +401,7 @@ class PlotManager(ImageMixin):
         if colours is not None:
             if len(colours) != len(lines):
                 warn = f"c has {len(colours)} colors for {len(lines)} lines."
-                warnings.warn(warn, UserWarning, stacklevel=2)
+                PPWarn.warn(warn, PyPLUTOOptionWarning)
             for i, line in enumerate(lines):
                 line.set_color(colours[i % len(colours)])
 
@@ -416,7 +419,7 @@ class PlotManager(ImageMixin):
                 warn = (
                     "legpos is set but no line has a label: no legend is drawn."
                 )
-                warnings.warn(warn, UserWarning, stacklevel=2)
+                PPWarn.warn(warn, PyPLUTOBehaviorWarning)
 
         # If tight_layout is enabled, is re-inforced
         if self.state.tight:

@@ -26,6 +26,11 @@ from matplotlib.colors import to_hex
 from matplotlib.patches import FancyArrowPatch, Rectangle
 
 import pyPLUTO as pp
+from pyPLUTO.utils.pperrors import PyPLUTODataError, PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import (
+    PyPLUTOConflictWarning,
+    PyPLUTOKeywordWarning,
+)
 
 # Two uniform fields on a rectangular 6 x 4 grid, one along +x and one along
 # +y, so that a line running along the wrong axis cannot pass.
@@ -158,7 +163,7 @@ def test_components_of_different_shapes_are_refused() -> None:
     """
     image = pp.Image(text=False)
 
-    with pytest.raises(ValueError, match="shapes of the variables"):
+    with pytest.raises(PyPLUTODataError, match="shapes of the variables"):
         image.streamplot(vx, vy[:, :10])
 
 
@@ -262,7 +267,9 @@ def test_a_color_wins_over_a_colormap() -> None:
     """
     image = pp.Image(text=False)
 
-    with pytest.warns(UserWarning, match="Both c and cmap are defined"):
+    with pytest.warns(
+        PyPLUTOConflictWarning, match="Both c and cmap are defined"
+    ):
         lines = image.streamplot(vx, vy, x1=x, x2=y, c="red", cmap="magma")
 
     assert _color(lines) == "#ff0000"
@@ -309,7 +316,7 @@ def test_colors_is_an_unknown_keyword() -> None:
     """
     image = pp.Image(text=False)
 
-    with pytest.warns(UserWarning, match="Unused kwargs: {'colors'}"):
+    with pytest.warns(PyPLUTOKeywordWarning, match="Unused kwargs: {'colors'}"):
         lines = image.streamplot(vx, vy, colors="red")  # type: ignore[call-overload]
 
     assert isinstance(lines, LineCollection)
@@ -419,7 +426,7 @@ def test_a_streamplot_without_a_figure() -> None:
     image = pp.Image(text=False)
     image.fig = None
 
-    with pytest.raises(ValueError, match="No figure is present"):
+    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
         image.streamplot(vx, vy)
 
 

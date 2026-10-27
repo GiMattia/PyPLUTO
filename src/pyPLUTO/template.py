@@ -32,8 +32,12 @@ from typing import TypedDict, Unpack
 
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.pperrors import PyPLUTOError
-from pyPLUTO.utils.pplogging import pplog
-from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning, ppwarn
+from pyPLUTO.utils.pplogging import PPLog
+from pyPLUTO.utils.ppwarnings import (
+    PPWarn,
+    PyPLUTOBehaviorWarning,
+    PyPLUTOKeywordWarning,
+)
 
 # ---------------------------------------------------------------------------
 # 1. STATE - normally in its own file, e.g. `pyPLUTO/imagestate.py`.
@@ -73,7 +77,7 @@ class ExampleState:
     values: list[float] = field(default_factory=list)
 
     # How much this object prints, the text it was built with: None follows
-    # the package (set_text). pplog reads it under this name
+    # the package (set_text). PPLog reads it under this name
     classlog: bool | None = None
 
     # The factor last applied, which exists only once rescale has run
@@ -222,31 +226,34 @@ class ExampleManager(ExampleMixin):
 
         self.state.values = [v * factor for v in self.state.values]
 
-        # Every warning goes through ppwarn, which points it at the user's own
-        # line, however deep inside pyPLUTO the call went. Its second argument
-        # is the category, which says what the warning is about:
+        # Every warning goes through PPWarn.warn, written as warnings.warn is,
+        # which points it at the user's own line, however deep inside pyPLUTO
+        # the call went. Its second argument is the category, which says what
+        # the warning is about:
         #   PyPLUTOKeywordWarning      a keyword unused or in conflict
         #   PyPLUTODeprecationWarning  a keyword or method being removed
         #   PyPLUTOWarning             anything else (the default)
         # All three derive from PyPLUTOWarning, the one exported, which the
         # warnings setting acts on: pp.configure(warnings="ignore")
-        # Never call warnings.warn with a fixed stacklevel.
+        # Never call warnings.warn: a test in test_ppwarnings.py looks for it.
         if factor == 0.0:
-            ppwarn("A factor of 0 erases every value.")
+            PPWarn.warn(
+                "A factor of 0 erases every value.", PyPLUTOBehaviorWarning
+            )
             if "label" in kwargs:
-                ppwarn(
+                PPWarn.warn(
                     "label is set, but no value is left to label.",
                     PyPLUTOKeywordWarning,
                 )
 
-        # Every message goes through pplog, which reads self.state.classlog of
+        # Every message goes through PPLog, which reads self.state.classlog of
         # the method calling it: None follows the package (pp.configure), any
         # other text decides for this object alone. Two kinds:
-        #   pplog.info   the ordinary information, shown by default
-        #   pplog.debug  the details, shown only with text=True or "verbose"
+        #   PPLog.info   the ordinary information, shown by default
+        #   PPLog.debug  the details, shown only with text=True or "verbose"
         # Never call print or a module logger directly.
-        pplog.info("Rescaled by %s", factor)
-        pplog.debug("New values: %s", self.state.values)
+        PPLog.info("Rescaled by %s", factor)
+        PPLog.debug("New values: %s", self.state.values)
 
         # Filling in a field declared init=False: this is the only place such
         # a field may be set, and after this line reading it no longer raises.

@@ -51,7 +51,7 @@ from pyPLUTO.toolfuncs.nabla import NablaManager
 from pyPLUTO.toolfuncs.set_units import SetUnitsManager
 from pyPLUTO.toolfuncs.transform import TransformManager
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pplogging import pplog
+from pyPLUTO.utils.pplogging import PPLog
 from pyPLUTO.utils.resolver import AttrResolver
 from pyPLUTO.utils.settings import check_text
 
@@ -291,7 +291,7 @@ class Load(LoadMixin, Generic[_VarT]):
                 nout_out = np.atleast_1d(self.state.nout).astype(int).tolist()
         else:
             nout_out = None
-        pplog.info("Load: folder %s,     output %s", path, nout_out)
+        PPLog.info("Load: folder %s,     output %s", path, nout_out)
 
     def __repr__(self) -> str:
         """Return the repr of the Load class."""

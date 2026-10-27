@@ -41,6 +41,8 @@ import pyPLUTO.image as image_mod
 from pyPLUTO.image import Image
 from pyPLUTO.imagefuncs.figure import FigureManager
 from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.pperrors import PyPLUTOAttributeError, PyPLUTOCopyError
+from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning
 
 # The hand-written tables live in helper_image.py: DELEGATION maps each facade
 # method to the manager it hands the call to, NOT_DELEGATED lists the public
@@ -173,7 +175,7 @@ def test_an_image_cannot_be_copied(
     """
     image = pp.Image(text=False)
 
-    with pytest.raises(TypeError, match="cannot be copied or pickled"):
+    with pytest.raises(PyPLUTOCopyError, match="cannot be copied or pickled"):
         operation(image)
 
 
@@ -183,7 +185,7 @@ def test_an_unbuilt_image_has_no_state() -> None:
     That is the object copy and pickle start from: the read must fail at
     once with AttributeError, not recurse looking for the state.
     """
-    with pytest.raises(AttributeError):
+    with pytest.raises(PyPLUTOAttributeError):
         _ = Image.__new__(Image).state
 
 
@@ -352,7 +354,9 @@ def test_unknown_keyword_warns() -> None:
     whole point is that a misspelled keyword says so instead of being
     silently ignored. See utils/inspector.py.
     """
-    with pytest.warns(UserWarning, match=r"Unused kwargs: \{'attr'\}"):
+    with pytest.warns(
+        PyPLUTOKeywordWarning, match=r"Unused kwargs: \{'attr'\}"
+    ):
         pp.Image(attr=None)  # pyright: ignore[reportCallIssue]
 
 

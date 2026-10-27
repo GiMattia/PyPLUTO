@@ -33,6 +33,8 @@ from matplotlib.collections import QuadMesh
 from matplotlib.colors import LogNorm, Normalize, SymLogNorm, TwoSlopeNorm
 
 import pyPLUTO as pp
+from pyPLUTO.utils.pperrors import PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning
 
 # A rectangular variable, so that an accidental transposition cannot pass,
 # with values that say where they came from: var[i, j] is 4 * i + j.
@@ -447,7 +449,7 @@ def test_a_display_without_a_figure() -> None:
     image = pp.Image(text=False)
     image.fig = None
 
-    with pytest.raises(ValueError, match="No figure is present"):
+    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
         image.display(var)
 
 
@@ -491,7 +493,7 @@ def test_an_unknown_keyword_warns() -> None:
     """
     image = pp.Image(text=False)
 
-    with pytest.warns(UserWarning, match="Unused kwargs: {'cbar'}"):
+    with pytest.warns(PyPLUTOKeywordWarning, match="Unused kwargs: {'cbar'}"):
         image.display(var, cbar="right")  # type: ignore[call-overload]
 
     assert isinstance(_mesh(image), QuadMesh)

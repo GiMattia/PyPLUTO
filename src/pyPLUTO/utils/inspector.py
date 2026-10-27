@@ -27,7 +27,7 @@ import textwrap
 from collections.abc import Callable
 from typing import Any, ParamSpec, TypeVar, cast, overload
 
-from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning, ppwarn
+from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTOKeywordWarning
 
 
 @functools.cache
@@ -442,7 +442,7 @@ def track_kwargs(
             if bool(check):
                 current = _kwargs_remaining.get()
                 if current:
-                    ppwarn(
+                    PPWarn.warn(
                         f"Unused kwargs: {current} "
                         f"in function {func_name} "
                         f"of {mod_name}",

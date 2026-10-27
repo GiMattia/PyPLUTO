@@ -1,6 +1,6 @@
 """Messages of pyPLUTO, shown at the verbosity of the object sending them.
 
-pplog.info is the ordinary information, shown by default; pplog.debug is a
+PPLog.info is the ordinary information, shown by default; PPLog.debug is a
 detail, shown only with text=True or "verbose". The verbosity is read from
 self.state.classlog of the method calling them, where every object keeps the
 text it was built with: None, or a caller without one, follows the package,
@@ -32,15 +32,16 @@ class PPLog:
     --------
     - Example #1: The ordinary information
 
-        >>> pplog.info("Loaded output %s", 3)
+        >>> PPLog.info("Loaded output %s", 3)
 
     - Example #2: A detail
 
-        >>> pplog.debug("Final step number: %s", 120)
+        >>> PPLog.debug("Final step number: %s", 120)
 
     """
 
-    def info(self, msg: str, *args: object) -> None:
+    @staticmethod
+    def info(msg: str, *args: object) -> None:
         """Log the ordinary information, shown by default.
 
         Parameters
@@ -55,9 +56,10 @@ class PPLog:
         - None
 
         """
-        self.send(logging.INFO, msg, *args)
+        PPLog.send(logging.INFO, msg, *args)
 
-    def debug(self, msg: str, *args: object) -> None:
+    @staticmethod
+    def debug(msg: str, *args: object) -> None:
         """Log a detail, shown only with text=True or "verbose".
 
         Parameters
@@ -72,9 +74,10 @@ class PPLog:
         - None
 
         """
-        self.send(logging.DEBUG, msg, *args)
+        PPLog.send(logging.DEBUG, msg, *args)
 
-    def send(self, level: int, msg: str, *args: object) -> None:
+    @staticmethod
+    def send(level: int, msg: str, *args: object) -> None:
         """Log the message if the text of the calling object allows it.
 
         Parameters
@@ -100,10 +103,6 @@ class PPLog:
         if level >= LEVELS[SETTINGS["text"] if text is None else text]:
             # The record points at the method that called info or debug
             logging.getLogger("pyPLUTO").log(level, msg, *args, stacklevel=3)
-
-
-# The one instance, used as pplog.info(...) and pplog.debug(...)
-pplog = PPLog()
 
 
 def set_text(text: TextValue = None) -> None:

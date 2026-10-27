@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import warnings
 from typing import Unpack
 
 import numpy as np
@@ -19,6 +18,8 @@ from pyPLUTO.imagekwargs import StreamplotKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pperrors import PyPLUTODataError, PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTOConflictWarning
 
 
 class StreamplotManager(ImageMixin):
@@ -317,12 +318,10 @@ class StreamplotManager(ImageMixin):
 
         """
         if np.shape(var1) != np.shape(var2):
-            raise ValueError("The shapes of the variables are different.")
+            raise PyPLUTODataError("The shapes of the variables are different.")
 
         if self.state.fig is None:
-            raise ValueError(
-                "No figure is present. Please create a figure first.",
-            )
+            raise PyPLUTOInternalError("No figure is present.")
 
         # Set or create figure and axes
         ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
@@ -371,7 +370,7 @@ class StreamplotManager(ImageMixin):
         # A color and a colormap cannot both apply, so c wins
         if "c" in kwargs and "cmap" in kwargs:
             warn = "Both c and cmap are defined. Using c."
-            warnings.warn(warn, UserWarning, stacklevel=2)
+            PPWarn.warn(warn, PyPLUTOConflictWarning)
 
         # Set the lines properties
         linewidth = kwargs.get("lw", 1.3)

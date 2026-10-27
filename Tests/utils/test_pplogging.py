@@ -8,7 +8,7 @@ from typing import Any
 import pytest
 
 from pyPLUTO.utils.pperrors import PyPLUTOConfigError
-from pyPLUTO.utils.pplogging import LEVELS, pplog, set_text
+from pyPLUTO.utils.pplogging import LEVELS, PPLog, set_text
 from pyPLUTO.utils.settings import SETTINGS, TextValue
 
 
@@ -19,10 +19,10 @@ class Sender:
         self.state = SimpleNamespace(classlog=text)
 
     def info(self) -> None:
-        pplog.info("message %s", 1)
+        PPLog.info("message %s", 1)
 
     def debug(self) -> None:
-        pplog.debug("message %s", 1)
+        PPLog.debug("message %s", 1)
 
 
 @pytest.fixture(autouse=True)
@@ -85,7 +85,7 @@ def test_every_text_has_a_level() -> None:
     }
 
 
-# ---- pplog ----
+# ---- PPLog ----
 @pytest.mark.parametrize(
     ("package", "text", "kind", "shown"),
     [
@@ -138,7 +138,7 @@ def test_pplog_outside_an_object_follows_the_package(
     """Send a message from a plain function, which has no state to read."""
     set_text(package)
     with caplog.at_level(logging.DEBUG, logger="pyPLUTO"):
-        pplog.info("message %s", 1)
+        PPLog.info("message %s", 1)
     assert ("message 1" in caplog.text) is shown
 
 

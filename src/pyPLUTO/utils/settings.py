@@ -50,7 +50,7 @@ from typing import (
 )
 
 from pyPLUTO.utils.pperrors import PyPLUTOConfigError
-from pyPLUTO.utils.ppwarnings import ppwarn
+from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTOConfigWarning
 
 # The values each setting accepts, exactly as written here
 TextValue = Literal["default", "verbose"] | bool | None
@@ -281,7 +281,10 @@ def read_file(path: Path) -> dict[str, Any]:
         with path.open("rb") as file:
             found = tomllib.load(file)
     except (OSError, tomllib.TOMLDecodeError) as error:
-        ppwarn(f"{path} cannot be read, so it is ignored: {error}")
+        PPWarn.warn(
+            f"{path} cannot be read, so it is ignored: {error}",
+            PyPLUTOConfigWarning,
+        )
         return {}
     return {
         name: WORDS.get(value, value) if isinstance(value, str) else value
@@ -341,7 +344,9 @@ def merge(values: dict[str, Any], source: str) -> None:
         try:
             SETTINGS[name] = check(name, value)
         except PyPLUTOConfigError as error:
-            ppwarn(f"In {source}: {error} It is ignored.")
+            PPWarn.warn(
+                f"In {source}: {error} It is ignored.", PyPLUTOConfigWarning
+            )
 
 
 def load() -> None:

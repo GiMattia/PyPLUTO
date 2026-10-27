@@ -29,7 +29,7 @@ from pathlib import Path
 from types import TracebackType
 from typing import TYPE_CHECKING, Any, Unpack, cast
 
-from pyPLUTO.utils.pperrors import PyPLUTOError
+from pyPLUTO.utils.pperrors import PyPLUTOError, PyPLUTOInternalError
 from pyPLUTO.utils.ppwarnings import PyPLUTOWarning
 from pyPLUTO.utils.settings import SETTINGS, SettingsKwargs, check
 
@@ -41,6 +41,12 @@ PACKAGE = str(Path(__file__).resolve().parent.parent)
 
 # Python's own format of a warning, kept for the warnings not colored
 PYTHON_FORMATWARNING = warnings.formatwarning
+
+# The line that ends the report of a PyPLUTOInternalError
+BUG_REPORT = (
+    "This is a bug in PyPLUTO: please report it at "
+    "https://github.com/GiMattia/PyPLUTO/issues\n"
+)
 
 
 class Configure:
@@ -183,7 +189,9 @@ class Configure:
 
         The report is Python's own: the header, the frames, the type and the
         message of the error, and any exception chained to it. With
-        errors="short", a PyPLUTOError loses the frames inside pyPLUTO.
+        errors="short", a PyPLUTOError loses the frames inside pyPLUTO; a
+        PyPLUTOInternalError never does, and its report ends with a line
+        asking to report the bug.
 
         Parameters
         ----------
@@ -200,9 +208,14 @@ class Configure:
 
         """
         ours = exc_type is not None and issubclass(exc_type, PyPLUTOError)
-        if ours and SETTINGS["errors"] == "short":
+        internal = exc_type is not None and issubclass(
+            exc_type, PyPLUTOInternalError
+        )
+        if ours and not internal and SETTINGS["errors"] == "short":
             tb = self.user_frames(tb)
         report = "".join(traceback.format_exception(exc_type, value, tb))
+        if internal:
+            report += BUG_REPORT
 
         colors = SETTINGS["colors"]
         if colors == "always" or (colors == "PyPLUTO" and ours):
@@ -252,7 +265,7 @@ class Configure:
         - None
 
         """
-        # The warnings not raised through ppwarn yet are shown every time;
+        # The warnings not raised through PPWarn yet are shown every time;
         # this filter goes once they all are
         warnings.filterwarnings("always", module="pyPLUTO")
         apply_warnings()
@@ -265,7 +278,7 @@ class Configure:
 
         # Attach a stdout handler so logger.info() calls are visible,
         # matching the old print() behaviour. The logger lets everything
-        # through, since pplog has already decided what is shown
+        # through, since PPLog has already decided what is shown
         pkg_logger = logging.getLogger("pyPLUTO")
         if not pkg_logger.handlers:
             _handler = logging.StreamHandler(sys.stdout)

@@ -28,6 +28,12 @@ from matplotlib.axes import Axes
 from matplotlib.lines import Line2D
 
 import pyPLUTO as pp
+from pyPLUTO.utils.pperrors import PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import (
+    PyPLUTOBehaviorWarning,
+    PyPLUTOKeywordWarning,
+    PyPLUTOOptionWarning,
+)
 
 x = np.linspace(0.0, 1.0, 11)
 y = x**2
@@ -262,7 +268,7 @@ def test_too_few_colours_are_cycled_with_a_warning() -> None:
     image = pp.Image(text=False)
     xval = np.tile(x, (3, 1)).T
 
-    with pytest.warns(UserWarning, match="c has 2 colors for 3 lines"):
+    with pytest.warns(PyPLUTOOptionWarning, match="c has 2 colors for 3 lines"):
         image.plot(xval, np.column_stack([y, z, y + 1.0]), c=["r", "b"])
 
     assert [line.get_color() for line in _lines(image)] == ["r", "b", "r"]
@@ -510,7 +516,7 @@ def test_a_label_after_legpos_brings_the_legend() -> None:
     `legpos`.
     """
     image = pp.Image(text=False)
-    with pytest.warns(UserWarning, match="no legend is drawn"):
+    with pytest.warns(PyPLUTOBehaviorWarning, match="no legend is drawn"):
         image.plot(x, y, legpos="best")
 
     image.plot(x, z, label="prs")
@@ -592,7 +598,7 @@ def test_a_plot_without_a_figure() -> None:
     image = pp.Image(text=False)
     image.fig = None
 
-    with pytest.raises(ValueError, match="No figure is present"):
+    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
         image.plot(x, y)
 
 
@@ -639,7 +645,7 @@ def test_an_unknown_keyword_warns() -> None:
     """
     image = pp.Image(text=False)
 
-    with pytest.warns(UserWarning, match="Unused kwargs: {'colour'}"):
+    with pytest.warns(PyPLUTOKeywordWarning, match="Unused kwargs: {'colour'}"):
         image.plot(x, y, colour="r")  # type: ignore[call-overload]
 
     assert len(_lines(image)) == 1

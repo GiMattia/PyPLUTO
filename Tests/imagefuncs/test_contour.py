@@ -28,6 +28,11 @@ from matplotlib.colors import LogNorm, Normalize, SymLogNorm, TwoSlopeNorm
 from matplotlib.contour import QuadContourSet
 
 import pyPLUTO as pp
+from pyPLUTO.utils.pperrors import PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import (
+    PyPLUTOConflictWarning,
+    PyPLUTOKeywordWarning,
+)
 
 # A rectangular variable, so that an accidental transposition cannot pass,
 # with values that say where they came from: var[i, j] is 4 * i + j.
@@ -301,7 +306,9 @@ def test_a_color_wins_over_a_colormap() -> None:
     """
     image = pp.Image(text=False)
 
-    with pytest.warns(UserWarning, match="Both c and cmap are defined"):
+    with pytest.warns(
+        PyPLUTOConflictWarning, match="Both c and cmap are defined"
+    ):
         lines = image.contour(var, c="k", cmap="magma", levels=[10.0])
 
     npt.assert_allclose(_edgecolors(lines), [[0, 0, 0, 1]])
@@ -317,7 +324,7 @@ def test_colors_is_an_unknown_keyword() -> None:
     """
     image = pp.Image(text=False)
 
-    with pytest.warns(UserWarning, match="Unused kwargs: {'colors'}"):
+    with pytest.warns(PyPLUTOKeywordWarning, match="Unused kwargs: {'colors'}"):
         lines = image.contour(var, colors="red")  # type: ignore[call-overload]
 
     assert isinstance(lines, QuadContourSet)
@@ -409,7 +416,7 @@ def test_a_contour_without_a_figure() -> None:
     image = pp.Image(text=False)
     image.fig = None
 
-    with pytest.raises(ValueError, match="No figure is present"):
+    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
         image.contour(var)
 
 

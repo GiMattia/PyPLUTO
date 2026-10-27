@@ -33,6 +33,8 @@ from matplotlib.colors import (
 from matplotlib.markers import MarkerStyle
 
 import pyPLUTO as pp
+from pyPLUTO.utils.pperrors import PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning
 
 x = np.linspace(0.0, 1.0, 11)
 y = x**2
@@ -524,7 +526,7 @@ def test_a_scatter_without_a_figure() -> None:
     image = pp.Image(text=False)
     image.fig = None
 
-    with pytest.raises(ValueError, match="No figure is present"):
+    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
         image.scatter(x, y)
 
 
@@ -568,7 +570,7 @@ def test_an_unknown_keyword_warns() -> None:
     """
     image = pp.Image(text=False)
 
-    with pytest.warns(UserWarning, match="Unused kwargs: {'colour'}"):
+    with pytest.warns(PyPLUTOKeywordWarning, match="Unused kwargs: {'colour'}"):
         image.scatter(x, y, colour="r")  # type: ignore[call-overload]
 
     assert len(_points(image)) == 1

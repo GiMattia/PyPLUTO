@@ -21,6 +21,7 @@ from pyPLUTO.imagekwargs import ScatterKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pperrors import PyPLUTOInternalError
 
 # The numpy dtype kinds that hold numbers: bool, signed and unsigned integer,
 # and float. An array of any other kind ('U' for a list of color names, say)
@@ -313,9 +314,7 @@ class ScatterManager(ImageMixin):
         y = np.asarray(y)
 
         if self.state.fig is None:
-            raise ValueError(
-                "No figure is present. Please create a figure first.",
-            )
+            raise PyPLUTOInternalError("No figure is present.")
 
         # Set or create figure and axes
         ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)

@@ -29,6 +29,14 @@ from matplotlib.figure import Figure
 from pyPLUTO.image import Image
 from pyPLUTO.imagefuncs.figure import FigureManager
 from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.pperrors import PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import (
+    PyPLUTOBehaviorWarning,
+    PyPLUTOConflictWarning,
+    PyPLUTODependencyWarning,
+    PyPLUTODeprecationWarning,
+    PyPLUTOOptionWarning,
+)
 
 # The first four line colours, written out by hand. The palette is ordered so
 # that neighbouring colours stay distinguishable with a colour vision
@@ -79,7 +87,9 @@ def test_an_unknown_style_warns_and_falls_back(through: str) -> None:
     state has to end up holding what matplotlib is really using, or every
     later read of `style` would be wrong.
     """
-    with pytest.warns(UserWarning, match="Style 'nosuchstyle' not found"):
+    with pytest.warns(
+        PyPLUTOOptionWarning, match="Style 'nosuchstyle' not found"
+    ):
         if through == "manager":
             state = ImageState(style="nosuchstyle", LaTeX=True)
             manager = FigureManager(state)
@@ -167,7 +177,7 @@ def test_pgf_falls_back_when_latex_is_missing(
     monkeypatch.setattr(plt, "switch_backend", lambda *a, **kw: None)
     monkeypatch.setattr(mpl.rcParams, "update", lambda *a, **kw: None)
 
-    with pytest.warns(UserWarning, match="LaTeX not installed"):
+    with pytest.warns(PyPLUTODependencyWarning, match="LaTeX not installed"):
         image = Image(LaTeX="pgf", text=False)
 
     assert image.state.LaTeX is True
@@ -190,7 +200,9 @@ def test_pgf_falls_back_when_the_backend_is_missing(
     monkeypatch.setattr(plt, "switch_backend", failing_switch)
     monkeypatch.setattr(mpl.rcParams, "update", lambda *a, **kw: None)
 
-    with pytest.warns(UserWarning, match="pgf backend is not available"):
+    with pytest.warns(
+        PyPLUTODependencyWarning, match="pgf backend is not available"
+    ):
         image = Image(LaTeX="pgf", text=False)
 
     assert image.state.LaTeX is True
@@ -215,7 +227,9 @@ def test_latex_true_warns_when_the_font_is_missing(
     image = Image(LaTeX=True, text=False)
     monkeypatch.setattr(mpl, "rcParams", _FailingRcParams(mpl.rcParams))
 
-    with pytest.warns(UserWarning, match="LaTeX = True option is not"):
+    with pytest.warns(
+        PyPLUTODependencyWarning, match="LaTeX = True option is not"
+    ):
         image.FigureManager.assign_LaTeX("bold")
 
 
@@ -324,7 +338,9 @@ def test_create_figure_refuses_a_missing_figure(
     monkeypatch.setattr(plt, "figure", lambda *a, **kw: None)
     monkeypatch.setattr(mpl.rcParams, "update", lambda *a, **kw: None)
 
-    with pytest.raises(ValueError, match="The figure could not be created"):
+    with pytest.raises(
+        PyPLUTOInternalError, match="The figure could not be created"
+    ):
         manager.create_figure(
             replace=False, suptitle=None, suptitlesize="large"
         )
@@ -513,7 +529,9 @@ def test_a_figure_without_a_window_number() -> None:
     """
     figure = plt.Figure()
 
-    with pytest.warns(UserWarning, match="not associated to a window number"):
+    with pytest.warns(
+        PyPLUTOBehaviorWarning, match="not associated to a window number"
+    ):
         image = Image(fig=figure, text=False)
 
     assert image.nwin == 1
@@ -555,7 +573,7 @@ def test_a_conflicting_window_number_warns() -> None:
     """
     figure = _drawn_figure(3)
 
-    with pytest.warns(UserWarning, match="nwin=7 is ignored"):
+    with pytest.warns(PyPLUTOConflictWarning, match="nwin=7 is ignored"):
         image = Image(fig=figure, nwin=7, text=False)
 
     assert image.nwin == 3
@@ -588,7 +606,7 @@ def test_close_is_deprecated_and_read_as_replace(close: bool) -> None:
     """
     first = _drawn_figure(1)
 
-    with pytest.warns(DeprecationWarning, match="'close' argument is"):
+    with pytest.warns(PyPLUTODeprecationWarning, match="'close' argument is"):
         image = Image(close=close, text=False)
 
     assert (image.fig is not first) is close

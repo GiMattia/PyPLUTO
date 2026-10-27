@@ -29,6 +29,8 @@ import pytest
 
 import pyPLUTO as pp
 from pyPLUTO.imagefuncs.range import RangeManager
+from pyPLUTO.utils.pperrors import PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import PyPLUTOBehaviorWarning
 
 x = np.linspace(0.0, 1.0, 20)
 y = np.linspace(1.0, 2.0, 20)
@@ -126,7 +128,7 @@ def test_range_offset_negative_log_warns() -> None:
     something other than what was asked for.
     """
     manager, _ = _manager()
-    with pytest.warns(UserWarning, match="Negative range"):
+    with pytest.warns(PyPLUTOBehaviorWarning, match="Negative range"):
         ymin, ymax = manager.range_offset(-1.0, 10.0, "log")
 
     assert ymin > 0.0
@@ -142,7 +144,7 @@ def test_negative_log_range_keeps_its_widest_value() -> None:
     replaced: the 100 was lost and the result was (5, 21).
     """
     manager, _ = _manager()
-    with pytest.warns(UserWarning, match="Negative range"):
+    with pytest.warns(PyPLUTOBehaviorWarning, match="Negative range"):
         ymin, ymax = manager.range_offset(-100.0, 10.0, "log")
 
     assert (ymin, ymax) == pytest.approx((5.0, 111.0))
@@ -164,7 +166,7 @@ def test_a_log_range_from_zero_stays_positive(
     to 0.25 -- or at 0.1 when every value is 0.
     """
     manager, _ = _manager()
-    with pytest.warns(UserWarning, match="Negative range"):
+    with pytest.warns(PyPLUTOBehaviorWarning, match="Negative range"):
         limits = manager.range_offset(lower, upper, "log")
 
     assert limits == pytest.approx(expected)
@@ -344,7 +346,9 @@ def test_set_yrange_without_data_raises(case: int) -> None:
     every axis wrongly.
     """
     manager, image = _manager()
-    with pytest.raises(ValueError, match="x and y arrays must be provided"):
+    with pytest.raises(
+        PyPLUTOInternalError, match="x and y arrays must be provided"
+    ):
         manager.set_yrange(image.ax[0], 0, [0.0, 1.0], case)
 
 

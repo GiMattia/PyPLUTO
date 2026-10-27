@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import warnings
 from typing import Unpack
 
 from matplotlib.axes import Axes
@@ -18,6 +17,8 @@ from pyPLUTO.imagekwargs import ColorbarKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pperrors import PyPLUTODataError, PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTOConflictWarning
 
 
 class ColorbarManager(ImageMixin):
@@ -204,18 +205,16 @@ class ColorbarManager(ImageMixin):
         """
         # Check parameters
         if not isinstance(_check, bool):
-            raise TypeError("_check must be a boolean value.")
+            raise PyPLUTOInternalError("_check must be a boolean value.")
 
         # If pcm and a source axes are selected, raise a warning and use pcm
         if pcm is not None and axs is not None:
             warn = "Both pcm and axs are not None, pcm will be used"
-            warnings.warn(warn, UserWarning, stacklevel=2)
+            PPWarn.warn(warn, PyPLUTOConflictWarning)
 
         # Standard check on the figure
         if self.state.fig is None:
-            raise ValueError(
-                "No figure is present. Please create a figure first.",
-            )
+            raise PyPLUTOInternalError("No figure is present.")
 
         # Assign the source axis
         axs = self._find_ax(pcm, axs)
@@ -232,7 +231,7 @@ class ColorbarManager(ImageMixin):
                 and getattr(c, "colors", None) is None
             ]
             if len(drawn) == 0:
-                raise ValueError(
+                raise PyPLUTODataError(
                     "No collection colored by data is present on the axis.",
                 )
             mappable = drawn[-1]
@@ -325,7 +324,7 @@ class ColorbarManager(ImageMixin):
         # A collection knows the axis it was drawn on
         if pcm is not None:
             if not isinstance(pcm.axes, Axes):
-                raise TypeError("Expected an Axes instance.")
+                raise PyPLUTOInternalError("Expected an Axes instance.")
             axs = pcm.axes
 
         # Without one, assign_ax picks the current pyPLUTO axis: never the

@@ -31,6 +31,16 @@ import pyPLUTO as pp
 from pyPLUTO.imagefuncs import imagetools
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.pperrors import (
+    PyPLUTOAxisError,
+    PyPLUTOInternalError,
+    PyPLUTOOptionError,
+)
+from pyPLUTO.utils.ppwarnings import (
+    PyPLUTOBehaviorWarning,
+    PyPLUTOKeywordWarning,
+    PyPLUTOOptionWarning,
+)
 
 # Hand-written expectations. Each colour scale name maps to the matplotlib
 # normalization it must produce, and to the attribute that carries the
@@ -148,7 +158,7 @@ def test_set_cscale_unknown_scale_warns_and_falls_back() -> None:
     figure would silently use the wrong scale.
     """
     manager, _ = _manager()
-    with pytest.warns(UserWarning, match="'nosuchscale' not found"):
+    with pytest.warns(PyPLUTOOptionWarning, match="'nosuchscale' not found"):
         norm = manager.set_cscale("nosuchscale", 0.0, 1.0, 0.5)
 
     assert isinstance(norm, mcol.Normalize)
@@ -379,7 +389,7 @@ def test_find_cmap_skips_a_provider_without_the_expected_attribute(
     monkeypatch.setattr(imagetools, "CMAP_PROVIDERS", {"fakepkg": "nosuchattr"})
 
     manager, _ = _manager()
-    with pytest.warns(UserWarning, match="not found"):
+    with pytest.warns(PyPLUTOOptionWarning, match="not found"):
         found = manager.find_cmap("fakemap")
 
     assert found is not None
@@ -400,7 +410,7 @@ def test_find_cmap_ignores_an_attribute_that_is_not_a_colormap(
     monkeypatch.setattr(imagetools, "CMAP_PROVIDERS", {"fakepkg": ""})
 
     manager, _ = _manager()
-    with pytest.warns(UserWarning, match="not found"):
+    with pytest.warns(PyPLUTOOptionWarning, match="not found"):
         found = manager.find_cmap("count")
 
     assert found is not None
@@ -415,7 +425,7 @@ def test_find_cmap_unknown_name_warns_and_falls_back() -> None:
     colormap back, because a typo must not stop a plot from being drawn.
     """
     manager, _ = _manager()
-    with pytest.warns(UserWarning, match="'nosuchcmap' not found"):
+    with pytest.warns(PyPLUTOOptionWarning, match="'nosuchcmap' not found"):
         found = manager.find_cmap("nosuchcmap")
 
     assert found is not None
@@ -514,7 +524,7 @@ def test_assign_ax_rejects_an_axis_of_another_figure() -> None:
     other_ax = second.create_axes()
     manager = ImageToolsManager(first.state)
 
-    with pytest.raises(ValueError, match="does not belong"):
+    with pytest.raises(PyPLUTOAxisError, match="does not belong"):
         manager.assign_ax(other_ax, _check=False)
 
 
@@ -525,7 +535,7 @@ def test_assign_ax_rejects_something_that_is_not_an_axis() -> None:
     assumes a real axis.
     """
     manager, _ = _manager()
-    with pytest.raises(ValueError, match="not valid"):
+    with pytest.raises(PyPLUTOAxisError, match="not valid"):
         manager.assign_ax("nosuchaxis", _check=False)  # pyright: ignore[reportArgumentType]  # ty: ignore[invalid-argument-type]
 
 
@@ -535,7 +545,7 @@ def test_assign_ax_without_a_figure() -> None:
     Every manager is built on the state, so one built before the figure --
     or after it was closed -- must say so rather than fail further in.
     """
-    with pytest.raises(ValueError, match="No figure is present"):
+    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
         _stateless_manager().assign_ax(None, _check=False)
 
 
@@ -549,7 +559,9 @@ def test_assign_ax_rejects_an_index_out_of_range() -> None:
     image.create_axes()
     manager = ImageToolsManager(image.state)
 
-    with pytest.raises(ValueError, match="not valid: the image has 1 axes"):
+    with pytest.raises(
+        PyPLUTOAxisError, match="not valid: the image has 1 axes"
+    ):
         manager.assign_ax(5, _check=False)
 
 
@@ -562,7 +574,7 @@ def test_assign_ax_rejects_an_empty_list() -> None:
     """
     manager, _ = _manager()
 
-    with pytest.raises(ValueError, match="not valid"):
+    with pytest.raises(PyPLUTOAxisError, match="not valid"):
         manager.assign_ax([], _check=False)
 
 
@@ -607,7 +619,7 @@ def test_a_layout_on_a_figure_with_axes_creates_new_ones() -> None:
     image = pp.Image(text=False)
     image.create_axes(right=0.5, nrow=2)
 
-    with pytest.warns(UserWarning, match="new axes are created"):
+    with pytest.warns(PyPLUTOBehaviorWarning, match="new axes are created"):
         image.plot([0.0, 1.0], [0.0, 1.0], left=0.6, ncol=2)
 
     assert len(image.ax) == 4
@@ -623,7 +635,7 @@ def test_a_layout_with_an_axis_creates_nothing() -> None:
     image = pp.Image(text=False)
     image.create_axes(ncol=2)
 
-    with pytest.warns(UserWarning, match="Unused kwargs"):
+    with pytest.warns(PyPLUTOKeywordWarning, match="Unused kwargs"):
         image.plot([0.0, 1.0], [0.0, 1.0], ax=0, ncol=2)
 
     assert len(image.ax) == 2
@@ -777,7 +789,9 @@ def test_an_unknown_coordinate_system_is_refused() -> None:
     image = _image()
     image.create_axes()
 
-    with pytest.raises(ValueError, match="Unknown xycoords 'figure fraction'"):
+    with pytest.raises(
+        PyPLUTOOptionError, match="Unknown xycoords 'figure fraction'"
+    ):
         image.text(text="hi", x=0.5, y=0.5, xycoords="figure fraction")  # pyright: ignore[reportArgumentType] # ty: ignore[invalid-argument-type]
 
 
@@ -812,7 +826,9 @@ def test_text_warns_about_an_unknown_keyword() -> None:
     image = _image()
     image.plot([0, 1], [0, 1])
 
-    with pytest.warns(UserWarning, match=r"Unused kwargs: \{'nosuchkeyword'\}"):
+    with pytest.warns(
+        PyPLUTOKeywordWarning, match=r"Unused kwargs: \{'nosuchkeyword'\}"
+    ):
         image.text(text="hello", x=0.5, y=0.5, nosuchkeyword=1)  # pyright: ignore[reportCallIssue]
 
 
@@ -901,5 +917,5 @@ def test_savefig_without_a_figure() -> None:
     Saving nothing would write an empty file, or fail inside matplotlib; the
     message says which of the two mistakes the user made.
     """
-    with pytest.raises(ValueError, match="No figure to save"):
+    with pytest.raises(PyPLUTOInternalError, match="No figure to save"):
         _stateless_manager().savefig("nosuchfigure.png")

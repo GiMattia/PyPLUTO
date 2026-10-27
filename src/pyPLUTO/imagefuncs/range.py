@@ -16,13 +16,13 @@ is drawn on top of a map is not cut off by it.
 
 from __future__ import annotations
 
-import warnings
-
 import numpy as np
 from matplotlib.axes import Axes
 
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.pperrors import PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTOBehaviorWarning
 
 
 class RangeManager(ImageMixin):
@@ -164,7 +164,9 @@ class RangeManager(ImageMixin):
         # Case 0: the y-axis limits are set automatically (no previous limit)
         if case == self.changerange:
             if x is None or y is None:
-                raise ValueError("x and y arrays must be provided if case is 0")
+                raise PyPLUTOInternalError(
+                    "x and y arrays must be provided if case is 0"
+                )
             ymin, ymax = self.find_ylim(ax, nax, x, y)
             ax.set_ylim(ymin, ymax)
 
@@ -178,7 +180,9 @@ class RangeManager(ImageMixin):
         # (previous limit present)
         if case == self.adaptrange:
             if x is None or y is None:
-                raise ValueError("x and y arrays must be provided if case is 2")
+                raise PyPLUTOInternalError(
+                    "x and y arrays must be provided if case is 2"
+                )
             ymin, ymax = self.find_ylim(ax, nax, x, y)
 
             # Check if the limits should be changed
@@ -307,10 +311,9 @@ class RangeManager(ImageMixin):
             # other lost the original of the first
             if ymin <= 0 or ymax <= 0:
                 ymin, ymax = sorted((abs(ymin), abs(ymax)))
-                warnings.warn(
+                PPWarn.warn(
                     "Negative range for logarithmic scale!",
-                    UserWarning,
-                    stacklevel=2,
+                    PyPLUTOBehaviorWarning,
                 )
 
             # A log axis cannot show 0: with no positive value to start from,

@@ -17,8 +17,16 @@ import pytest
 
 from pyPLUTO.utils import configure as cfg
 from pyPLUTO.utils.configure import Configure, Settings, configure
-from pyPLUTO.utils.pperrors import PyPLUTOConfigError, PyPLUTOError
-from pyPLUTO.utils.ppwarnings import PyPLUTOWarning, ppwarn
+from pyPLUTO.utils.pperrors import (
+    PyPLUTOConfigError,
+    PyPLUTOError,
+    PyPLUTOInternalError,
+)
+from pyPLUTO.utils.ppwarnings import (
+    PPWarn,
+    PyPLUTOBehaviorWarning,
+    PyPLUTOWarning,
+)
 from pyPLUTO.utils.settings import SETTINGS, check
 
 YELLOW, RED, RESET = "\33[33m", "\33[31m", "\33[0m"
@@ -317,6 +325,35 @@ def test_user_frames_gives_none_when_every_frame_is_inside(
     assert "PyPLUTOConfigError: Unknown value 'loud'" in err
 
 
+def raise_internal_error() -> None:
+    """Raise an internal error from a function the test counts as pyPLUTO."""
+    raise PyPLUTOInternalError("a guard tripped")
+
+
+def test_an_internal_error_is_full_and_asks_to_be_reported(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """Count this folder as pyPLUTO and raise an internal error from it.
+
+    It is a PyPLUTOError, but only a bug in pyPLUTO trips it: errors="short"
+    keeps its frames, which are what fixing it needs, and the report ends
+    asking to report it.
+    """
+    monkeypatch.setattr(cfg, "PACKAGE", str(Path(__file__).parent))
+    with pytest.raises(PyPLUTOInternalError, match="a guard tripped") as info:
+        raise_internal_error()
+    err = report_of(info.value, capsys)
+    assert "raise_internal_error" in err
+    assert err.endswith(f"{cfg.BUG_REPORT}{RESET}")
+
+
+def test_an_ordinary_pypluto_error_is_not_reported_as_a_bug(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """Report a PyPLUTOError of the user's: no line about reporting a bug."""
+    assert cfg.BUG_REPORT not in report_of(raised_inside_pypluto(), capsys)
+
+
 # ---- The handlers ----
 def test_setup_handlers_installs_both_handlers() -> None:
     """Ensure that both warning and error handlers are installed."""
@@ -333,7 +370,7 @@ def test_setup_handlers_puts_the_setting_in_front(
 
     filterwarnings puts each new filter first, so the last call wins: the
     warnings setting holds over the filter kept for the old warnings, which
-    are not raised through ppwarn yet.
+    are not raised through PPWarn yet.
     """
     c = Configure()
     calls = []
@@ -438,12 +475,12 @@ def test_warnings_error_turns_a_pypluto_warning_into_an_error() -> None:
     """Set warnings to error and raise a pyPLUTO warning: it is raised."""
     configure(warnings="error")
     with pytest.raises(PyPLUTOWarning, match="raised"):
-        ppwarn("raised")
+        PPWarn.warn("raised", PyPLUTOBehaviorWarning)
 
 
 def test_warnings_ignore_hides_a_pypluto_warning() -> None:
     """Set warnings to ignore and raise a pyPLUTO warning: nothing shows."""
     with warnings.catch_warnings(record=True) as caught:
         configure(warnings="ignore")
-        ppwarn("hidden")
+        PPWarn.warn("hidden", PyPLUTOBehaviorWarning)
     assert caught == []

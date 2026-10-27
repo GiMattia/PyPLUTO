@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import warnings
 from typing import Unpack
 
 import numpy as np
@@ -28,6 +27,8 @@ from pyPLUTO.imagekwargs import SetLocKwargs, ZoomKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pperrors import PyPLUTODataError, PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTOConflictWarning
 
 
 class ZoomManager(ImageMixin):
@@ -316,9 +317,7 @@ class ZoomManager(ImageMixin):
 
         """
         if self.state.fig is None:
-            raise ValueError(
-                "No figure is present. Please create a figure first.",
-            )
+            raise PyPLUTOInternalError("No figure is present.")
 
         # The colorbar of an inset is an axis tight_layout cannot handle, so
         # it would warn on every later layout: switched off for the figure,
@@ -599,7 +598,7 @@ class ZoomManager(ImageMixin):
         # A grid is given whole or not at all: half of one would be completed
         # from the map's, which has another shape
         if len(kwargs.keys() & {"x1", "x2"}) == 1:
-            raise ValueError("x1 and x2 must be given together.")
+            raise PyPLUTODataError("x1 and x2 must be given together.")
 
         # The grid of the map, unless one is given. A gouraud map has a vertex
         # on each border holding the value of its cell, so var is given the
@@ -615,7 +614,7 @@ class ZoomManager(ImageMixin):
             kwargs["x2"] = kwargs.get("x2", grid[:, :, 1])
         elif "x1" not in kwargs or "x2" not in kwargs:
             text = "The zoom of var needs a grid: a map on the axis, or x1, x2."
-            raise ValueError(text)
+            raise PyPLUTODataError(text)
 
         self.DisplayManager.display(ax=axins, _check=False, **kwargs)
 
@@ -699,7 +698,7 @@ class ZoomManager(ImageMixin):
             if "width" in kwargs:
                 warn = "Both right and width are specified: left is set to "
                 warn += "right - width."
-                warnings.warn(warn, UserWarning, stacklevel=2)
+                PPWarn.warn(warn, PyPLUTOConflictWarning)
             if "left" in kwargs and "width" not in kwargs:
                 width = right - left
             else:
@@ -709,7 +708,7 @@ class ZoomManager(ImageMixin):
             if "height" in kwargs:
                 warn = "Both top and height are specified: bottom is set to "
                 warn += "top - height."
-                warnings.warn(warn, UserWarning, stacklevel=2)
+                PPWarn.warn(warn, PyPLUTOConflictWarning)
             if "bottom" in kwargs and "height" not in kwargs:
                 height = top - bottom
             else:

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import shutil
-import warnings
 from typing import Unpack
 
 import matplotlib as mpl
@@ -14,6 +13,15 @@ from pyPLUTO.imagekwargs import FigureKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pperrors import PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import (
+    PPWarn,
+    PyPLUTOBehaviorWarning,
+    PyPLUTOConflictWarning,
+    PyPLUTODependencyWarning,
+    PyPLUTODeprecationWarning,
+    PyPLUTOOptionWarning,
+)
 
 
 class FigureManager(ImageMixin):
@@ -84,7 +92,7 @@ class FigureManager(ImageMixin):
         deprecated_close = kwargs.pop("close", None)
         if deprecated_close is not None:
             warn = "'close' argument is deprecated. Use 'replace' instead."
-            warnings.warn(warn, DeprecationWarning, stacklevel=2)
+            PPWarn.warn(warn, PyPLUTODeprecationWarning)
 
         # A figure passed with `fig` is the one the user wants used, so it is
         # kept unless replacing is asked for; anything else means taking over
@@ -122,7 +130,7 @@ class FigureManager(ImageMixin):
                 f"The figure given has window number {self.state.nwin}, "
                 f"so nwin={kwargs['nwin']} is ignored."
             )
-            warnings.warn(warn, UserWarning, stacklevel=2)
+            PPWarn.warn(warn, PyPLUTOConflictWarning)
 
         # check_previous_fig copies the size, the fontsize and the layout off
         # the figure being attached to, which would silently drop whatever
@@ -158,7 +166,7 @@ class FigureManager(ImageMixin):
         except OSError:
             warn = f"Warning: Style '{self.state.style}' not found. \
                 Switching to 'default'"
-            warnings.warn(warn, UserWarning, stacklevel=2)
+            PPWarn.warn(warn, PyPLUTOOptionWarning)
             self.state.style = "default"
 
     def choose_colorlines(
@@ -302,7 +310,7 @@ class FigureManager(ImageMixin):
         # LaTeX option 'pgf' (requires XeLaTeX)
         if self.state.LaTeX == "pgf" and not shutil.which("latex"):
             warn = "LaTeX not installed, switching to LaTeX = True"
-            warnings.warn(warn, UserWarning, stacklevel=2)
+            PPWarn.warn(warn, PyPLUTODependencyWarning)
             self.state.LaTeX = True
 
         if self.state.LaTeX == "pgf":
@@ -334,7 +342,7 @@ class FigureManager(ImageMixin):
             # message is displayed
             except ImportError:
                 warn = "The pgf backend is not available, reverting to True\n"
-                warnings.warn(warn, UserWarning, stacklevel=2)
+                PPWarn.warn(warn, PyPLUTODependencyWarning)
                 self.state.LaTeX = True
 
         # LaTeX option True: default LaTeX font
@@ -344,7 +352,7 @@ class FigureManager(ImageMixin):
                 mpl.rcParams["font.family"] = "STIXGeneral"
             except ImportError:
                 warn = "The LaTeX = True option is not available."
-                warnings.warn(warn, UserWarning, stacklevel=2)
+                PPWarn.warn(warn, PyPLUTODependencyWarning)
 
         # End of the function
 
@@ -389,10 +397,9 @@ class FigureManager(ImageMixin):
                 if isinstance(fignum, int):
                     self.state.nwin = fignum
             except AttributeError:
-                warnings.warn(
+                PPWarn.warn(
                     "The figure is not associated to a window number",
-                    UserWarning,
-                    stacklevel=2,
+                    PyPLUTOBehaviorWarning,
                 )
                 self.state.nwin = 1
             # get_tight_layout() reports matplotlib's layout engine, which
@@ -469,7 +476,7 @@ class FigureManager(ImageMixin):
         plt.rcParams.update({"font.size": self.state.fontsize})
 
         if self.state.fig is None:
-            raise ValueError("The figure could not be created.")
+            raise PyPLUTOInternalError("The figure could not be created.")
 
         # Suptitle
         if suptitle is not None:

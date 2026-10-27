@@ -15,8 +15,8 @@ from pyPLUTO.loadmixin import LoadMixin
 from pyPLUTO.loadstate import LoadState
 from pyPLUTO.toolfuncs.loadtools import LoadToolsManager
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pplogging import pplog
-from pyPLUTO.utils.ppwarnings import PyPLUTODeprecationWarning, ppwarn
+from pyPLUTO.utils.pplogging import PPLog
+from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTODeprecationWarning
 
 
 class FindLinesManager(LoadMixin):
@@ -174,7 +174,7 @@ class FindLinesManager(LoadMixin):
 
         """
         if text is not None:
-            ppwarn(
+            PPWarn.warn(
                 "text in find_fieldlines is deprecated: set it on the Load, "
                 "Load(..., text=True), or for the package with "
                 "pp.set_text(True).",
@@ -325,15 +325,15 @@ class FindLinesManager(LoadMixin):
                 x_line = np.append(x_line, x_line[0])
                 y_line = np.append(y_line, y_line[0])
 
-            pplog.debug("Line with footpoint at x = %s and y = %s", xp, yp)
-            pplog.debug(
+            PPLog.debug("Line with footpoint at x = %s and y = %s", xp, yp)
+            PPLog.debug(
                 "Final integration time forward:  %s", sol_forward.t[-1]
             )
-            pplog.debug(
+            PPLog.debug(
                 "Final integration time backward: %s", sol_backward.t[-1]
             )
-            pplog.debug("Final step number forward:       %s", forw_steps)
-            pplog.debug("Final step number backward:      %s", self.stepnum)
+            PPLog.debug("Final step number forward:       %s", forw_steps)
+            PPLog.debug("Final step number backward:      %s", self.stepnum)
 
             if len(x_line) > 1:
                 lines_list.append([x_line, y_line])

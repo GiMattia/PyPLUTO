@@ -460,4 +460,8 @@ class OffsetFluid(LoadMixin):
 
         self.infogrid = False
 
-    from pyPLUTO.amr import _DataScanHDF5, _inspect_hdf5, _read_gridfile  # noqa: I001, PLC0415
+    from pyPLUTO.amr import (  # noqa: PLC0415
+        _DataScanHDF5,
+        _inspect_hdf5,
+        _read_gridfile,
+    )

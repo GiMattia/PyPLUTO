@@ -6,8 +6,9 @@ modules -- the managers, the states, the mixins -- are deliberately not
 re-exported: they are reached through the three classes.
 
 This file also runs at import time, which is unusual for a package __init__
-and intentional here: it settles the version and configures the logging and
-the greeting before any class exists.
+and intentional here: it settles the version, reads the settings (see
+utils/settings.py), and configures the handlers, the logging and the
+greeting before any class exists.
 """
 
 from __future__ import annotations
@@ -18,19 +19,17 @@ from importlib.metadata import version as _version
 from pyPLUTO.image import Image
 from pyPLUTO.load import Load
 from pyPLUTO.loadpart import LoadPart
-from pyPLUTO.utils.configure import Configure
+from pyPLUTO.utils import settings
+from pyPLUTO.utils.configure import Configure, configure
 from pyPLUTO.utils.examples_api import (
     copy_examples,
     examples_path,
     list_examples,
     run_example,
 )
+from pyPLUTO.utils.pperrors import PyPLUTOError
 from pyPLUTO.utils.pplogging import set_text
-from pyPLUTO.utils.ppwarnings import (
-    PyPLUTODeprecationWarning,
-    PyPLUTOKeywordWarning,
-    PyPLUTOWarning,
-)
+from pyPLUTO.utils.ppwarnings import PyPLUTOWarning
 from pyPLUTO.utils.pytools import find_example, ring, savefig, show
 
 # The version is read from the installed distribution rather than written
@@ -41,15 +40,11 @@ try:
 except PackageNotFoundError:
     __version__ = "unknown"
 
-# Module-level switches a user can flip before doing anything else: coloured
-# errors and warnings, and the greeting printed on import.
-colorerr: bool = True
-colorwarn: bool = True
-greet: bool = True
-
-# Sets up the logging and prints the greeting. Runs on import, which is why
-# the switches above are read here and not later.
-Configure(__version__, colorerr, colorwarn, greet)
+# The settings come from the files and the environment, read before the
+# greeting so that they can silence it; then the handlers, the logging and
+# the greeting follow them.
+settings.load()
+Configure(__version__)
 
 # The public API. Checked against this file by test__init_.py, so a name
 # exported without being listed, or listed without existing, fails there.
@@ -57,9 +52,9 @@ __all__ = [
     "Image",
     "Load",
     "LoadPart",
-    "PyPLUTODeprecationWarning",
-    "PyPLUTOKeywordWarning",
+    "PyPLUTOError",
     "PyPLUTOWarning",
+    "configure",
     "copy_examples",
     "examples_path",
     "find_example",

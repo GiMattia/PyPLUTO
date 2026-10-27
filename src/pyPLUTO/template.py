@@ -31,6 +31,7 @@ from dataclasses import dataclass, field
 from typing import TypedDict, Unpack
 
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pperrors import PyPLUTOError
 from pyPLUTO.utils.pplogging import pplog
 from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning, ppwarn
 
@@ -209,6 +210,16 @@ class ExampleManager(ExampleMixin):
         if (label := kwargs.get("label")) is not None:
             self.state.label = label
 
+        # Every error raised on purpose is a PyPLUTOError, or a subclass named
+        # after what went wrong that also derives from the closest built-in
+        # (see utils/pperrors.py, where a new one is added when a file first
+        # needs it). Users catch them all with one except, and the settings
+        # color them and show them short. Never raise a bare built-in.
+        if factor < 0:
+            raise PyPLUTOError(
+                f"factor cannot be negative, and it is {factor}."
+            )
+
         self.state.values = [v * factor for v in self.state.values]
 
         # Every warning goes through ppwarn, which points it at the user's own
@@ -217,9 +228,8 @@ class ExampleManager(ExampleMixin):
         #   PyPLUTOKeywordWarning      a keyword unused or in conflict
         #   PyPLUTODeprecationWarning  a keyword or method being removed
         #   PyPLUTOWarning             anything else (the default)
-        # All three derive from PyPLUTOWarning, so a user can silence or
-        # raise pyPLUTO's warnings alone, all of them or one kind:
-        #   warnings.filterwarnings("ignore", category=pp.PyPLUTOKeywordWarning)
+        # All three derive from PyPLUTOWarning, the one exported, which the
+        # warnings setting acts on: pp.configure(warnings="ignore")
         # Never call warnings.warn with a fixed stacklevel.
         if factor == 0.0:
             ppwarn("A factor of 0 erases every value.")
@@ -230,10 +240,10 @@ class ExampleManager(ExampleMixin):
                 )
 
         # Every message goes through pplog, which reads self.state.classlog of
-        # the method calling it: None follows the package (pp.set_text),
-        # False or True decide for this object alone. Two kinds:
+        # the method calling it: None follows the package (pp.configure), any
+        # other text decides for this object alone. Two kinds:
         #   pplog.info   the ordinary information, shown by default
-        #   pplog.debug  the details, shown only with text=True
+        #   pplog.debug  the details, shown only with text=True or "verbose"
         # Never call print or a module logger directly.
         pplog.info("Rescaled by %s", factor)
         pplog.debug("New values: %s", self.state.values)

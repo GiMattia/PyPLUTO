@@ -66,6 +66,7 @@ from pyPLUTO.load import Load
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.pplogging import pplog
 from pyPLUTO.utils.resolver import AttrResolver
+from pyPLUTO.utils.settings import TextValue, check_text
 
 
 class Image(ImageMixin):
@@ -85,7 +86,7 @@ class Image(ImageMixin):
     @track_kwargs
     def __init__(
         self,
-        text: bool | None = None,
+        text: TextValue = None,
         _check: bool = True,
         **kwargs: Unpack[FigureKwargs],
     ) -> None:
@@ -140,9 +141,10 @@ class Image(ImageMixin):
             highly customized plot (e.g. ratios or space between rows and
             columns) the option is set by default to False since that option
             would not be available for standard matplotlib functions.
-        - text: bool | None, default None
-            What this object prints. None follows the package (pp.set_text);
-            False shows only the warnings, True also the debug details.
+        - text: bool | "default" | "verbose" | None, default None
+            What this object prints. None follows the package (pp.configure);
+            False shows only the warnings, "default" the ordinary
+            information, True or "verbose" also the debug details.
         - withblack: bool, default False
             If True, the black color is used as first color.
         - withwhite: bool, default False
@@ -185,7 +187,7 @@ class Image(ImageMixin):
         # the one exception to its forwarding: without that, this line would
         # try to store the state inside a state that does not exist yet.
         self.state = ImageState()
-        self.state.classlog = text
+        self.state.classlog = check_text(text)
 
         # Built apart from the others, and first, because it is the one that
         # creates the figure: it reads the keywords given here, while the rest

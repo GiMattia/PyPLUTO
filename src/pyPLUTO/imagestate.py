@@ -16,6 +16,8 @@ from matplotlib.figure import Figure
 from matplotlib.ticker import Formatter, Locator
 from matplotlib.typing import LegendLocType
 
+from pyPLUTO.utils.settings import TextValue
+
 # Labels on automatic ticks, with the locator and formatter they replaced
 TicksPin = tuple[list[str], Locator, Formatter]
 
@@ -52,7 +54,7 @@ class ImageState:
 
     # How much this image prints, the text it was built with: None follows
     # the package (set_text)
-    classlog: bool | None = None
+    classlog: TextValue = None
 
     # The colour cycle used for successive lines
     color: list[str] = field(default_factory=list)

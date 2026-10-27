@@ -103,6 +103,51 @@ pp.Image().display(D.rho, x1=D.x1, x2=D.x2, cpos="right")
 pp.show()
 ```
 
+## Settings
+
+PyPLUTO allows for an initial customization regarding the following settings:
+
+| Setting    | Values                                                                          | Default     |
+| ---------- | ------------------------------------------------------------------------------- | ----------- |
+| `greet`    | `True`, `False`: the greeting on import                                         | `True`      |
+| `text`     | `False` (only warnings), `"default"`, `True` or `"verbose"` (also the details)  | `"default"` |
+| `colors`   | `"PyPLUTO"` (only PyPLUTO's errors and warnings), `"always"`, `None`            | `"PyPLUTO"` |
+| `warnings` | `"always"`, `"once"`, `"ignore"`, `"error"`: what happens to PyPLUTO's warnings | `"always"`  |
+| `errors`   | `"short"` (your own lines and the message), `"full"` (the whole traceback)      | `"short"`   |
+
+They can be set in three ways:
+
+```toml
+# pypluto.toml
+greet = false
+colors = "none"
+```
+
+```bash
+# environment variables
+PYPLUTO_GREET=false PYPLUTO_ERRORS=full python script.py
+```
+
+```python
+# in the script
+pp.configure(warnings="once", text=False)
+with pp.configure(text="verbose"):  # only inside the block
+    D = pp.Load()
+```
+
+The text can also be configured per-class, e.g. `pp.Load(text=False)`.
+
+The hierarchy is the following, each one overriding the one before:
+
+1. the defaults;
+2. `pypluto.toml` in `~/.config/pypluto/` (`%APPDATA%\pypluto\` on Windows);
+3. `pypluto.toml` in the current folder;
+4. the `PYPLUTO_*` environment variables;
+5. `pp.configure(...)`.
+
+Note that in Jupyter and IPython, `colors` and `errors` do not apply to
+errors yet; this issue will be fixed in later releases.
+
 ## Examples
 
 In order to test PyPLUTO capabilities, even without the PLUTO code, we provide

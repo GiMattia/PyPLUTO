@@ -18,6 +18,9 @@ surface and not a silent one.
 
 import importlib
 import importlib.metadata as md
+import os
+import subprocess
+import sys
 from collections.abc import Generator
 from types import ModuleType
 
@@ -27,16 +30,23 @@ import pyPLUTO as pp
 import pyPLUTO.image as image_mod
 import pyPLUTO.load as load_mod
 import pyPLUTO.loadpart as loadpart_mod
-from pyPLUTO.utils import examples_api, pplogging, ppwarnings, pytools
+from pyPLUTO.utils import (
+    configure,
+    examples_api,
+    pperrors,
+    pplogging,
+    ppwarnings,
+    pytools,
+)
 from pyPLUTO.utils.configure import Configure
 
 PUBLIC_API = [
     "Image",
     "Load",
     "LoadPart",
-    "PyPLUTODeprecationWarning",
-    "PyPLUTOKeywordWarning",
+    "PyPLUTOError",
     "PyPLUTOWarning",
+    "configure",
     "copy_examples",
     "examples_path",
     "find_example",
@@ -53,9 +63,9 @@ SOURCE_MODULE = {
     "Image": image_mod,
     "Load": load_mod,
     "LoadPart": loadpart_mod,
-    "PyPLUTODeprecationWarning": ppwarnings,
-    "PyPLUTOKeywordWarning": ppwarnings,
+    "PyPLUTOError": pperrors,
     "PyPLUTOWarning": ppwarnings,
+    "configure": configure,
     "copy_examples": examples_api,
     "examples_path": examples_api,
     "find_example": pytools,
@@ -148,13 +158,28 @@ def test_exports_are_the_real_objects(name: str, module: ModuleType) -> None:
     assert getattr(pp, name) is getattr(module, name)
 
 
-def test_configuration_flags() -> None:
-    """Check the three module-level switches start enabled.
+@pytest.mark.parametrize(
+    ("greet", "shown"), [("true", True), ("false", False)], ids=["on", "off"]
+)
+def test_the_settings_are_read_before_the_greeting(
+    greet: str, shown: bool
+) -> None:
+    """Import pyPLUTO with PYPLUTO_GREET set, and look for the greeting.
 
-    They are read once, while `__init__.py` runs, so their value at import is
-    the only one that matters: setting them afterwards has no effect.
+    The three module switches this replaced (colorerr, colorwarn, greet)
+    were read while __init__.py ran, before anyone could set them, so the
+    greeting could not be turned off. The settings are read first. A
+    subprocess, because the import happens once per process.
     """
-    assert (pp.colorerr, pp.colorwarn, pp.greet) == (True, True, True)
+    env = {**os.environ, "PYPLUTO_GREET": greet}
+    result = subprocess.run(
+        [sys.executable, "-c", "import pyPLUTO"],
+        capture_output=True,
+        text=True,
+        check=False,
+        env=env,
+    )
+    assert ("PyPLUTO version" in result.stdout) is shown
 
 
 def test_greeting_shows_version(

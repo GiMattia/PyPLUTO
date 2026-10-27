@@ -21,6 +21,8 @@ from typing import Any
 import numpy as np
 from numpy.typing import NDArray
 
+from pyPLUTO.utils.settings import TextValue
+
 
 @dataclass
 class BaseLoadState:
@@ -53,7 +55,7 @@ class BaseLoadState:
 
     # How much this load prints, the text it was built with: None follows
     # the package (set_text)
-    classlog: bool | None = None
+    classlog: TextValue = None
 
     # Which chunk(s) of a particle output to read; None means all
     chnk: int | Sequence[int] | None = None

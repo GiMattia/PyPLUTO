@@ -36,6 +36,7 @@ from pyPLUTO.toolfuncs.set_units import SetUnitsManager
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.pplogging import pplog
 from pyPLUTO.utils.resolver import AttrResolver
+from pyPLUTO.utils.settings import check_text
 
 _VarT = TypeVar("_VarT", bound="np.ndarray | dict[int, np.ndarray]")
 
@@ -79,9 +80,10 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
     - skip_units: str | list[str] | None, default None
         The variables that keep plain arrays when units are attached. Has no
         effect unless 'units' is given.
-    - text: bool | None, default None
-        What this object prints. None follows the package (pp.set_text);
-        False shows only the warnings, True also the debug details.
+    - text: bool | "default" | "verbose" | None, default None
+        What this object prints. None follows the package (pp.configure);
+        False shows only the warnings, "default" the ordinary information,
+        True or "verbose" also the debug details.
     - units: bool | str | list[str] | None, default None
         The variables that are converted to astropy units while loading. True
         converts every variable, a name or a list of names only those.
@@ -182,7 +184,7 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         # try to store the state inside a state that does not exist yet.
         self.state: BaseLoadState = BaseLoadState()
         self.cached_vars = set()
-        self.state.classlog = kwargs.get("text", self.state.classlog)
+        self.state.classlog = check_text(kwargs.get("text"))
         self.state.class_name = self.__class__.__name__
         if "nfile_lp" in kwargs:
             warnings.warn(

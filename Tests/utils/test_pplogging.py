@@ -3,16 +3,19 @@
 import logging
 from collections.abc import Generator
 from types import SimpleNamespace
+from typing import Any
 
 import pytest
 
+from pyPLUTO.utils.pperrors import PyPLUTOConfigError
 from pyPLUTO.utils.pplogging import LEVELS, pplog, set_text
+from pyPLUTO.utils.settings import SETTINGS, TextValue
 
 
 class Sender:
     """An object with a state holding classlog, as every manager has."""
 
-    def __init__(self, text: bool | None) -> None:
+    def __init__(self, text: TextValue) -> None:
         self.state = SimpleNamespace(classlog=text)
 
     def info(self) -> None:
@@ -26,32 +29,59 @@ class Sender:
 def reset_the_text_of_the_package() -> Generator[None, None, None]:
     """Give the package's text back its default after every test."""
     yield
-    pplog.text = None
+    SETTINGS["text"] = "default"
 
 
 # ---- set_text ----
 @pytest.mark.parametrize(
-    "text", [False, True, None], ids=["silent", "debug", "default"]
+    ("text", "stored"),
+    [
+        (False, False),
+        ("default", "default"),
+        (None, "default"),
+        ("verbose", "verbose"),
+        (True, "verbose"),
+    ],
+    ids=["silent", "default", "none", "verbose", "true"],
 )
-def test_set_text_sets_the_text_of_the_package(text: bool | None) -> None:
-    """Set the verbosity and read the package's text back."""
+def test_set_text_sets_the_text_of_the_package(
+    text: TextValue, stored: TextValue
+) -> None:
+    """Set the verbosity and read the package's text back.
+
+    True and None are stored as "verbose" and "default", one spelling per
+    meaning.
+    """
     set_text(text)
-    assert pplog.text is text
+    assert SETTINGS["text"] is stored
 
 
 def test_set_text_defaults_to_the_ordinary_information() -> None:
-    """Call set_text without arguments and expect None, the default."""
-    pplog.text = False
+    """Call set_text without arguments and expect "default"."""
+    SETTINGS["text"] = False
     set_text()
-    assert pplog.text is None
+    assert SETTINGS["text"] == "default"
+
+
+def test_set_text_refuses_a_wrong_value() -> None:
+    """Give set_text a value it does not accept and expect the error.
+
+    The value is typed Any because a checker rightly refuses it: this is
+    the check at runtime, for callers no checker sees.
+    """
+    wrong: Any = "loud"
+    with pytest.raises(PyPLUTOConfigError, match="Unknown value"):
+        set_text(wrong)
 
 
 def test_every_text_has_a_level() -> None:
-    """Check the table: False only warnings, None information, True debug."""
+    """Check the table: False only warnings, "default" information, True and
+    "verbose" the debug details too."""
     assert LEVELS == {
         False: logging.WARNING,
-        None: logging.INFO,
+        "default": logging.INFO,
         True: logging.DEBUG,
+        "verbose": logging.DEBUG,
     }
 
 
@@ -59,32 +89,36 @@ def test_every_text_has_a_level() -> None:
 @pytest.mark.parametrize(
     ("package", "text", "kind", "shown"),
     [
-        (None, None, "info", True),
-        (None, None, "debug", False),
+        ("default", None, "info", True),
+        ("default", None, "debug", False),
         (False, None, "info", False),
-        (True, None, "debug", True),
+        ("verbose", None, "debug", True),
         (False, True, "debug", True),
-        (True, False, "info", False),
+        (False, "verbose", "debug", True),
+        (False, "default", "info", True),
+        ("verbose", False, "info", False),
     ],
     ids=[
         "default-info",
         "default-debug",
         "package-silent",
-        "package-debug",
-        "object-debug-over-silent-package",
-        "object-silent-over-debug-package",
+        "package-verbose",
+        "object-true-over-silent-package",
+        "object-verbose-over-silent-package",
+        "object-default-over-silent-package",
+        "object-silent-over-verbose-package",
     ],
 )
 def test_pplog_follows_the_object_then_the_package(
     caplog: pytest.LogCaptureFixture,
-    package: bool | None,
-    text: bool | None,
+    package: TextValue,
+    text: TextValue,
     kind: str,
     shown: bool,
 ) -> None:
     """Send one message per pair of package and object text.
 
-    None on the object follows the package; True or False decide for the
+    None on the object follows the package; any other value decides for the
     message alone, with the same meaning as for the package.
     """
     set_text(package)
@@ -95,11 +129,11 @@ def test_pplog_follows_the_object_then_the_package(
 
 @pytest.mark.parametrize(
     ("package", "shown"),
-    [(None, True), (False, False)],
+    [("default", True), (False, False)],
     ids=["default", "silent"],
 )
 def test_pplog_outside_an_object_follows_the_package(
-    caplog: pytest.LogCaptureFixture, package: bool | None, shown: bool
+    caplog: pytest.LogCaptureFixture, package: TextValue, shown: bool
 ) -> None:
     """Send a message from a plain function, which has no state to read."""
     set_text(package)

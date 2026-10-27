@@ -13,8 +13,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `GridPlotManager.showgrid`: new method drawing the cell interfaces of a 2D grid; supports `CARTESIAN`, `POLAR`, `CYLINDRICAL`, and `SPHERICAL` geometries, and draws all lines of each direction with a single `PlotManager.plot` call (instead of one call per line) for a large speedup on dense grids
 - `PlotManager.plot`: documented support for 2D `x`/`y` input to draw multiple lines sharing one style in a single call (the primitive `showgrid`'s fast path relies on)
 - `src/pyPLUTO/template.py`: reference template documenting the State/Kwargs/Mixin/Manager/Facade architecture used to add a new class
-- Warning categories, exported from `pyPLUTO`: `PyPLUTOWarning` (all of pyPLUTO's warnings), `PyPLUTOKeywordWarning` (a keyword unused or in conflict) and `PyPLUTODeprecationWarning`. `warnings.filterwarnings("ignore", category=pp.PyPLUTOKeywordWarning)` silences one kind, and `-W error::pyPLUTO.PyPLUTOKeywordWarning` turns misspelled keywords into errors
+- `pp.PyPLUTOWarning`, the base of PyPLUTO's warnings, so they can be filtered apart from the others
 - `axalpha`: the opacity of a whole panel, accepted by `set_axis` and every drawing method. It fades the background, spines, ticks, labels, title, grid, legend, texts and everything drawn on the axis, own alpha included, and is kept per axis (`Image.axalpha`), so what is drawn there later takes it too unless given its own `alpha`. In `zoom` it fades the inset only
+- Settings: `greet`, `text`, `colors`, `warnings` and `errors`, set in a `pypluto.toml` (in `~/.config/pypluto/` or in the current folder), with the `PYPLUTO_*` environment variables, or with `pp.configure(...)`, also in a `with` block. `pp.configure()` gives back the settings in use
+- `pp.PyPLUTOError`, the base of the errors PyPLUTO raises on purpose; a wrong setting raises one
 
 ### Changed (preliminary)
 - Updated golden reference images and the example test harness for a newer matplotlib version
@@ -32,6 +34,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Dependencies: `marimo` is no longer installed (it was unused); `numexpr` is installed only with the `gui` extra, the only part that uses it
 - `text`: the same three values for each object and for the package. `pp.set_text(False | None | True)` sets the package (only warnings / the ordinary information / also the debug details), and `text=` on `Image`, `Load` and `LoadPart` decides for that object alone, `None` following the package. The value given is kept as `classlog`, so `Load(...).text` is now `Load(...).classlog`
 - `find_fieldlines`: `text` is deprecated and has no effect; the details of each line follow the text of the load, or `pp.set_text(True)`
+- `text` also takes `"default"` and `"verbose"` (`True` is `"verbose"`); on `Image`, `Load` and `LoadPart`, leaving it out follows the package
+- Only PyPLUTO's own errors and warnings are colored by default; the others keep Python's format
+- A PyPLUTO error is shown without the frames inside PyPLUTO; `errors="full"` gives the whole traceback
+- `pp.colorerr`, `pp.colorwarn` and `pp.greet` are removed: they were read before they could be set. Use the settings instead
 
 ### Fixed
 - `Load`/`LoadPart`: `ntime` was declared as an `int`; it is the simulation time, a float. `ntime` and `nout` are now typed from the call, as the variables already were: `Load(5).ntime` is a `float` and `Load([0, 1]).ntime` an array of floats for the type checkers, and `nout` an `int` or an array of integers. Indexing them is accepted only where it works.
@@ -52,6 +58,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `set_axis`: the `alpha` keyword faded nothing, since it was set on the Axes artist, which draws nothing. It is removed (and reported as unused); `axalpha` takes its place
 - Importing pyPLUTO no longer overrides the warning filters: only pyPLUTO's own warnings are shown every time, so `-W ignore` and earlier `filterwarnings` calls work again, and other packages' deprecations stay hidden as Python intends (matplotlib's Qt backend printed one per toolbar icon)
 - Errors: the colored report of an uncaught error shows its type and any error chained to it, as Python's own report does, instead of only the frames and the message. `set_text()` can be called without arguments, giving the ordinary information, and importing pyPLUTO no longer adds a filter hiding a deprecation from `astroid`, a package pyPLUTO does not use
+- The greeting can be turned off, with `greet = false` in `pypluto.toml` or `PYPLUTO_GREET=false`
 - `text=False` on one object no longer silences every other: each `Image`, `Load` and `LoadPart` used to set the level of the whole package, so the last one built decided for all. The "No definitions.h is read!" and "No pluto.ini is read!" messages now follow `text` too, and `find_fieldlines` details no longer depend on an earlier `Load(text=True)`
 - Without `ax`, every method uses the last axis considered, as documented, instead of matplotlib's current axis: `display(ax=1)`, `display(ax=0)`, `colorbar()` now puts the bar beside the first panel. After `create_axes`, and after a drawing on an empty figure, that is the last axis created. The axis is readable as `Image.lastax`
 - `plot`: `ncol`/`nrow` on an empty figure create the whole grid asked for, instead of one axis; a 2D plot can have one colour per line (`c=["r", "b", "g"]`), cycled with a warning when the count does not match; a single 2D array no longer crashes; `c=None` takes the palette and an RGB array as `c` no longer raises

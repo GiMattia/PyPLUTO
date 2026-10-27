@@ -73,14 +73,11 @@ def main() -> int:
         print(dest)
         return 0
 
-    if args.command == "run":
-        forwarded = args.args
-        if forwarded and forwarded[0] == "--":
-            forwarded = forwarded[1:]
-        return run_example(args.example, *forwarded)
-
-    parser.print_help()
-    return 1
+    # The only command left is run: argparse refuses any other
+    forwarded = args.args
+    if forwarded and forwarded[0] == "--":
+        forwarded = forwarded[1:]
+    return run_example(args.example, *forwarded)
 
 
 if __name__ == "__main__":

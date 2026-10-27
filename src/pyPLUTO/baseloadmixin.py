@@ -32,6 +32,7 @@ from numpy.typing import NDArray
 
 from pyPLUTO.baseloadstate import BaseLoadState
 from pyPLUTO.utils.overtyper import PerOutput
+from pyPLUTO.utils.settings import TextValue
 
 S = TypeVar("S", bound=BaseLoadState)
 
@@ -98,12 +99,12 @@ class BaseLoadMixin(Generic[S]):
         self.state.class_name = value
 
     @property
-    def classlog(self) -> bool | None:
+    def classlog(self) -> TextValue:
         """Get the classlog attribute of the load state."""
         return self.state.classlog
 
     @classlog.setter
-    def classlog(self, value: bool | None) -> None:
+    def classlog(self, value: TextValue) -> None:
         """Set the classlog attribute of the load state."""
         self.state.classlog = value
 

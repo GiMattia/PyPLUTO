@@ -27,6 +27,7 @@ from pyPLUTO.template import (
     ExampleMixin,
     ExampleState,
 )
+from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning
 
 SOURCE = Path(template.__file__).read_text(encoding="utf-8")
 
@@ -190,7 +191,7 @@ def test_rescale_logs_at_the_text_of_the_state(
     ("kwargs", "categories"),
     [
         ({}, [pp.PyPLUTOWarning]),
-        ({"label": "x"}, [pp.PyPLUTOWarning, pp.PyPLUTOKeywordWarning]),
+        ({"label": "x"}, [pp.PyPLUTOWarning, PyPLUTOKeywordWarning]),
     ],
     ids=["plain", "with-label"],
 )
@@ -209,6 +210,19 @@ def test_rescale_warns_from_the_users_line(
         ExampleManager(state).rescale(factor=0.0, **kwargs)
     assert [w.category for w in caught] == categories
     assert all(Path(w.filename).name == "test_template.py" for w in caught)
+
+
+def test_a_negative_factor_raises_and_changes_nothing() -> None:
+    """Rescale by a negative factor: a PyPLUTOError, and the values intact.
+
+    The example raises before touching the state, so a refused call leaves
+    nothing half done; the error is the package's, so a user catches it
+    with pp.PyPLUTOError.
+    """
+    state = ExampleState(values=[1.0, 2.0])
+    with pytest.raises(pp.PyPLUTOError, match="cannot be negative"):
+        ExampleManager(state).rescale(factor=-1.0)
+    assert state.values == [1.0, 2.0]
 
 
 # ---- track_kwargs ----

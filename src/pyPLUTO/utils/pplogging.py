@@ -1,12 +1,12 @@
 """Messages of pyPLUTO, shown at the verbosity of the object sending them.
 
 pplog.info is the ordinary information, shown by default; pplog.debug is a
-detail, shown only with text=True. The verbosity is read from
+detail, shown only with text=True or "verbose". The verbosity is read from
 self.state.classlog of the method calling them, where every object keeps the
 text it was built with: None, or a caller without one, follows the package,
-set with set_text. Every object built with text=None therefore follows
-set_text, and one given its own text decides for its messages alone, with
-the same meaning.
+whose text is the setting of the same name (see settings.py). Every object
+built with text=None therefore follows the package, and one given its own
+text decides for its messages alone, with the same meaning.
 """
 
 from __future__ import annotations
@@ -14,8 +14,15 @@ from __future__ import annotations
 import inspect
 import logging
 
+from pyPLUTO.utils.settings import SETTINGS, TextValue, check
+
 # The level each text value shows, for the package and for each object
-LEVELS = {False: logging.WARNING, None: logging.INFO, True: logging.DEBUG}
+LEVELS = {
+    False: logging.WARNING,
+    "default": logging.INFO,
+    True: logging.DEBUG,
+    "verbose": logging.DEBUG,
+}
 
 
 class PPLog:
@@ -32,9 +39,6 @@ class PPLog:
         >>> pplog.debug("Final step number: %s", 120)
 
     """
-
-    # The text of the package, set by set_text
-    text: bool | None = None
 
     def info(self, msg: str, *args: object) -> None:
         """Log the ordinary information, shown by default.
@@ -54,7 +58,7 @@ class PPLog:
         self.send(logging.INFO, msg, *args)
 
     def debug(self, msg: str, *args: object) -> None:
-        """Log a detail, shown only with text=True.
+        """Log a detail, shown only with text=True or "verbose".
 
         Parameters
         ----------
@@ -93,7 +97,7 @@ class PPLog:
             frame = frame.f_back if frame is not None else None
         caller = frame.f_locals.get("self") if frame is not None else None
         text = getattr(getattr(caller, "state", None), "classlog", None)
-        if level >= LEVELS[self.text if text is None else text]:
+        if level >= LEVELS[SETTINGS["text"] if text is None else text]:
             # The record points at the method that called info or debug
             logging.getLogger("pyPLUTO").log(level, msg, *args, stacklevel=3)
 
@@ -102,35 +106,40 @@ class PPLog:
 pplog = PPLog()
 
 
-def set_text(text: bool | None = None) -> None:
-    """Set the verbosity of pyPLUTO logging.
+def set_text(text: TextValue = None) -> None:
+    """Set the verbosity of pyPLUTO logging, the text setting.
 
-    Every object built with text=None follows it; an object given its own
-    text decides for its messages alone.
+    A shortcut for pp.configure(text=...). Every object built with text=None
+    follows it; an object given its own text decides for its messages alone.
 
     Parameters
     ----------
-    - text: bool | None
-        None (default) enables standard INFO messages. False silences all
-        output (WARNING level). True enables full debug output (DEBUG level).
+    - text: TextValue, default None
+        False shows only the warnings, "default" (or None) the ordinary
+        information, True or "verbose" also the debug details.
 
     Returns
     -------
     - None
 
+    Raises
+    ------
+    - PyPLUTOConfigError
+        If text is not one of the values above.
+
     Examples
     --------
-    - Example #1: Silence all output
+    - Example #1: Only the warnings
 
         >>> set_text(False)
 
-    - Example #2: Default INFO output
+    - Example #2: The ordinary information
 
-        >>> set_text(None)
+        >>> set_text("default")
 
-    - Example #3: Full debug output
+    - Example #3: Also the debug details
 
-        >>> set_text(True)
+        >>> set_text("verbose")
 
     """
-    pplog.text = text
+    SETTINGS["text"] = check("text", text)

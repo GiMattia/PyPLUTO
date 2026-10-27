@@ -19,6 +19,7 @@ from matplotlib.figure import Figure
 from matplotlib.typing import LegendLocType
 
 from pyPLUTO.imagestate import ImageState, TicksPin
+from pyPLUTO.utils.settings import TextValue
 
 
 class ImageMixin:
@@ -61,12 +62,12 @@ class ImageMixin:
         self.state.axalpha = value
 
     @property
-    def classlog(self) -> bool | None:
+    def classlog(self) -> TextValue:
         """Get the classlog attribute of the image."""
         return self.state.classlog
 
     @classlog.setter
-    def classlog(self, value: bool | None) -> None:
+    def classlog(self, value: TextValue) -> None:
         """Set the classlog attribute of the image."""
         self.state.classlog = value
 

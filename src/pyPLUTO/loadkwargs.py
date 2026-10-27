@@ -17,6 +17,8 @@ from typing import Literal, TypedDict
 
 import numpy as np
 
+from pyPLUTO.utils.settings import TextValue
+
 
 class BaseLoadKwargs(TypedDict, total=False):
     """Base type for keyword arguments accepted by Loading classes."""
@@ -26,7 +28,7 @@ class BaseLoadKwargs(TypedDict, total=False):
     endian: str | None
     multiple: bool
     path: str | Path
-    text: bool | None
+    text: TextValue
     units: str | Iterable[str] | bool | None
     skip_units: str | Iterable[str] | None
     user_units: dict[str, float]

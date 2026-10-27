@@ -16,8 +16,9 @@
 - **almost** — the checklist is done, but coverage is not yet 100%.
 - **to review** — tests exist, not yet checked.
 - **to write** — no test file of its own (coverage comes from other files).
-- **out of scope** — `amr`, `findlines`, `nabla`, `transform`, and
-  `codes/echo_load` (waiting on ECHO test data, not in the repository yet).
+- **out of scope** — `amr`, `findlines`, `nabla`, `transform`, which are to
+  be rewritten, so only their imports move; and `codes/echo_load` (waiting
+  on ECHO test data, not in the repository yet).
 
 ## Layout
 
@@ -106,20 +107,26 @@ test, or a test would compare the code with itself.
 | `toolfuncs/parttools.py` | `toolfuncs/test_parttools.py` | 11 | 94% | to review |
 | `toolfuncs/set_units.py` | `toolfuncs/test_set_units.py` | 13 | 82% | to review |
 | `toolfuncs/transform.py` | — | — | 12% | out of scope |
-| `utils/configure.py` | `utils/test_configure.py` | 19 | 100% | reviewed |
+| `utils/configure.py` | `utils/test_configure.py` | 34 | 100% | reviewed |
 | `utils/examples_api.py` | `utils/test_examples_api.py` | 14 | 51% | to review |
 | `utils/examples_cli.py` | `utils/test_examples_cli.py` | 12 | 87% | to review |
 | `utils/inspector.py` | `utils/test_inspector.py` | 35 | 100% | reviewed |
 | `utils/overtyper.py` | `utils/test_overtyper.py` | 5 | 100% | to review |
-| `utils/pplogging.py` | `utils/test_pplogging.py` | 14 | 100% | reviewed |
+| `utils/pperrors.py` | `utils/test_pperrors.py` | 6 | 100% | reviewed |
+| `utils/pplogging.py` | `utils/test_pplogging.py` | 19 | 100% | reviewed |
 | `utils/ppwarnings.py` | `utils/test_ppwarnings.py` | 5 | 100% | to review |
 | `utils/pytools.py` | `utils/test_pytools.py` | 10 | 92% | to review |
 | `utils/resolver.py` | `utils/test_resolver.py` | 26 | 100% | reviewed |
+| `utils/settings.py` | `utils/test_settings.py` | 34 | 100% | reviewed |
 
 ## Roadmap
 
 One family at a time, and inside each family from the files others depend on
 up to the ones that use them, so every review can lean on the ones before it.
+Two constraints hold throughout: Python 3.11 stays supported, so there is no
+`lazy import` syntax and a deferred import is function-level or a module
+`__getattr__` (PEP 562); and the raw-mmap loader stays
+(`mmap.ACCESS_COPY` + `np.ndarray(buffer=mm)`), never `np.memmap`.
 
 1. **`imagefuncs/`** — the managers `image.py` delegates to.
    `imagetools` → `range` → `figure` → `create_axes` → `set_axis` →
@@ -140,10 +147,51 @@ up to the ones that use them, so every review can lean on the ones before it.
    `resolve_endianess`).
 3. **`toolfuncs/`** (built on `Load`) — `loadtools` → `parttools` →
    `fourier` → `compute_units` → `set_units`; then **`utils/`** —
-   `configure` → `pytools` → `examples_cli` → `examples_api`.
+   `configure` → `examples_cli` → `pytools` → `examples_api`, then a read of
+   `overtyper` and `ppwarnings`. Started early (2026-10-24): `configure` is
+   done, together with the new `pplogging`.
 4. **`gui/`** (built on both `Load` and `Image`) — `globals` → `app_state` →
    `state_accessors` → `services` → `main_window` → `load_controller` →
    `plot_controller` → `custom_var_engine` → `panels` → `custom_var`.
+5. **Dependencies and import time** (decided 2026-10-22). Hard dependencies
+   are numpy, matplotlib and Rastra only. Every other one is imported on
+   first use and lives in an extra, and a missing one raises an
+   `ImportError` naming that extra; astropy builds `D.units` at the first
+   conversion, not at load. h5py and inifix get in-house replacements (a
+   small `pluto.ini` parser); contourpy, numexpr and scipy go to Rastra,
+   which receives grids in its own generic model, with no PLUTO knowledge
+   inside it. `Image`, and with it matplotlib, is deferred through
+   `__getattr__` in `__init__.py`, keeping `TYPE_CHECKING` imports for
+   pyright; a test checks that `import pyPLUTO` loads none of scipy,
+   astropy, h5py, inifix, PySide6 or matplotlib, and `python -X importtime`
+   is compared before and after. The minimum versions become honest
+   (matplotlib >= 3.11, for `matplotlib.typing.LegendLocType`), checked by
+   a CI job with `uv sync --resolution lowest-direct`. Python 3.15 joins
+   the CI matrices once the hard dependencies ship wheels.
+6. **Large data, in parallel and with the ecosystem** (the multiprocessing
+   and HPC topic, deferred 2026-10-23).
+   - *Many files*: a load parses only the metadata, and each file is mapped
+     on the first access to one of its variables. From Python 3.13 with
+     `trackfd=False`; on 3.11/3.12, on `EMFILE`, the soft `RLIMIT_NOFILE` is
+     raised toward the hard one (capped, Unix only, never at import) and the
+     map retried, and if that still fails the variable is read with a
+     positioned read into a fresh array, with one warning. Tested with a
+     soft limit of 256 and 1000 small outputs.
+   - *Resources*: `close()` and `with` on `Load` and `LoadPart`, releasing
+     every mapping (see *Fix order*); a test deletes the files afterwards.
+   - *Mapping protocol*: `Load` gets `__getitem__`, `__iter__` and
+     `__len__` with Mapping semantics (`keys`, `items`, `get`, `in`).
+     Attribute access stays, and a variable shadowed by an attribute is
+     reached with `[]`.
+   - *xarray and dask*: an optional backend (`engine="pluto"`, a new
+     `[xarray]` extra) with `Load.to_xarray()` on top. A dask task carries
+     (path, offset, shape, dtype, slice), opens its own mapping, copies its
+     slice and closes it: never the Load's mmap, or a view of it, in the
+     graph. Tested by summing a dask-chunked variable with peak RSS near one
+     chunk, not the file size.
+   - *Workers*: pickling a `Load` by its recipe (path, `nout`, `var`,
+     `datatype`, keywords) and a `pp.parallel` helper over outputs; the
+     facades refuse to be copied until then.
 
 Checks still to add, beyond the per-file work:
 
@@ -195,6 +243,14 @@ Checks still to add, beyond the per-file work:
   compares names, order, kinds and defaults, deliberately not annotations,
   and pyright does not catch a mismatch either. Worth finding a way to
   compare them that tolerates a type spelled differently.
+- **Tests without the GUI.** `Tests/conftest.py` imports PySide6, so the
+  whole suite needs the `gui` extra. Those imports move to
+  `Tests/gui/conftest.py`, and everything else runs without it.
+- **Benchmarks.** A small suite (asv or pytest-benchmark) timing a load, a
+  slice and a `display` on the test data, run in CI, so a slowdown is seen
+  when it happens rather than reported by a user.
+- **sp-repo-review.** Run it once the phases above are done, and record
+  what it still finds.
 
 At the end of phase 1, `Tests/test_all.py`: the guards that are about the
 State/Kwargs/Mixin/Manager/Facade pattern rather than about one file, run once
@@ -206,7 +262,6 @@ the ones the facade exposes and the internal helpers, which is the one
 direction the facade guards do not cover -- a manager growing a public method
 nothing reaches.
 
-Before the multiprocessing work: fix the copy/pickle bug of the facades.
 After every phase: run `_test_examples.py`, a full coverage run, and update
 the totals at the top.
 
@@ -251,6 +306,8 @@ the suite watching.
 | Honour `alone=False`; forward the `vars=` shim; build `codedict` lazily | `loadfuncs/findformat.py`, `initload.py`, `codeselection.py` |
 | Keep `figsize` in step with the figure when `create_axes` resizes it | `imagefuncs/create_axes.py:185` |
 | A default spacing for `fourier`; `d_vars` for a tab load | `toolfuncs/fourier.py`, `loadfuncs/readtab.py` |
+| Advise only a chunk's own pages: `_dontneed` advises the whole mapping, and on an `ACCESS_COPY` map `MADV_DONTNEED` would discard in-place edits of the other variables. To confirm first (edit `D.rho` in place, read a chunked variable of the same file, `rho` must be unchanged); the fix advises the chunk's byte range, aligned inward to `mmap.PAGESIZE` | `utils/resolver.py`, `loadfuncs/loadvars.py` |
+| A silent import: nothing printed by `import pyPLUTO`, the greeting through logging or on request, and module switches that work (see *Open bugs* and *Deferred structural improvements*) | `__init__.py`, `utils/configure.py` |
 
 **Later** -- these change the shape of the code, and each wants its own
 session with the examples re-checked afterwards.
@@ -259,8 +316,9 @@ session with the examples re-checked afterwards.
 |---|---|
 | Empty `d_vars` once the load finishes | Touches every loadfuncs writer, `__str__` and the GUI variable list; settles the divergence on rebinding and the `__setattr__` question at once (the memory doubling went with the resolver's copy) |
 | A kwargs table for `interactive` that matches what it forwards | Same hierarchy, and needs the union decided first |
-| Close the memory maps | Only makes sense together with `d_vars` |
-| Configuration readable before import | Needs the `set_text`/`Configure` design settled |
+| Close the memory maps: `close()` and `with` on `Load`/`LoadPart` | Only makes sense together with `d_vars`; part of step 6 of the *Roadmap* |
+| `colors` and `errors` for errors in Jupyter and IPython, through IPython's own hook (`set_custom_exc`) | IPython never calls `sys.excepthook`; the README says it comes in a later release |
+| The settings in the user guide: a page for `pp.configure`, and `set_text.rst`, whose `autofunction` still points at `utils.configure.set_text`, which moved to `utils/pplogging.py`, so the page is empty | The user guide is postponed |
 | Split `volengine.py` | 838 statements at 59%; the split is what makes the coverage reachable |
 | Document the 259 declared keywords | Bulk work, one manager at a time as each is reviewed |
 
@@ -468,7 +526,6 @@ from scratch each time.
 | `load.py` (`__getattr__`) | A failed attribute read could suggest the closest known name (`difflib` over the fields plus `d_vars` keys): `'rho2' — did you mean 'rho'?`. It runs only on the failure path, so it costs nothing in normal use. |
 | `imagekwargs.py`, `utils/inspector.py` | **Keyword aliases**, e.g. `c` / `color` / `colour`, `cmap` / `colormap`. Idea of 2026-09-18, not yet designed. One table maps every alias to its canonical name, and `track_kwargs` rewrites the keys before the function body reads them, so managers keep reading one name and the scanner keeps counting one key. Three things to decide: whether the TypedDicts declare every alias (needed for the checkers to accept them, and it doubles the tables unless they are generated from the alias table), what happens when two aliases of the same keyword arrive together (warn and take one, or refuse), and how the docstrings list them, since a page per alias would be noise. The `colors` bug it was meant to settle is gone: `colors` was removed from `contour` (2026-09-25) and `streamplot` (2026-09-28) and warns as unknown, so an alias table would bring it back only by choice. |
 | `utils/inspector.py` | The whole kwargs scanner is to be rewritten in Rust as the `kwarden` package (already on PyPI). `Tests/utils/test_inspector.py` is in effect its specification: which forms are recognised, the nested-call protocol, the `_check` handling. A Rust parser also pins its own grammar version instead of inheriting the host interpreter's `ast`, which removes the "node shapes change with the Python release" risk noted in `_get_str_from_slice`. |
-| `__init__.py`, `utils/configure.py` | `Configure` runs at import with switches nobody can set beforehand (see the open bug). Either read them from environment variables (`PYPLUTO_GREET=0`), or make configuration a call the user can make after import that reconfigures the handlers, or both. `set_text` is already such a call, for the verbosity. |
 | `baseloadstate.py`, `utils/resolver.py`, `loadfuncs/*` | **`d_vars` should be emptied once the load finishes** (decided 2026-09-18). Since the resolver stopped copying (2026-10-03) the state's variable and `d_vars` hold the same mapped array, so the memory doubling is gone and an in-place write is seen by both; but the two still diverge on rebinding: `D.rho = D.rho * 2` never reaches `d_vars`, and `D.myvar = arr` never appears in it, so the GUI does not list it. Everything downstream reads only the *keys* (`load.py:322`, `gui/custom_var_engine.py:94`, `gui/services.py`, `gui/load_controller.py`), while `storepart.py`, `offsetfluid.py`, `readtab.py` and `codes/echo_load.py` write the values during the load. So: keep the names, drop the data once loading is done, and the memory doubling and the divergence both disappear. This also decides the `__setattr__`/`__delattr__` question below. |
 | `gui/*`, `loadfuncs/readgridalone.py`, `readgridfile.py`, `toolfuncs/transform.py`, `imagefuncs/display.py`, `gridplot.py` | **One definition for the dimension constants** (noted 2026-09-29). Ruff refuses magic numbers in comparisons, so thirteen functions in ten files each define their own -- `twod = 2`, `twodim = 2`, `threed = 3`, three spellings -- a few lines before an `ndim ==` test. One small shared module (e.g. `ONED`, `TWOD`, `THREED`) would replace them all; where it lives is to be decided. |
 | every manager, `utils/inspector.py` | **Explicit keywords for the internal methods (`extra_kwargs`)** (noted 2026-09-29). Methods that are not image methods -- `place_inset_loc`, `zoomcopy`, `copyartist`, the helpers a manager calls on itself -- take the whole `**kwargs` of the public call, so what they read is invisible to the table of that call: `place_inset_loc` read `width`/`height`, which `ZoomKwargs` never declared, and the undeclared-keyword guard could not see it, since it scans only the public method. An internal method should receive the keywords it uses, named, and not `**kwargs`. |
@@ -501,9 +558,10 @@ from scratch each time.
 | `imagefuncs/interactive.py:170` | **The `lint` keyword is documented but does not exist**: "If True, enables linear interpolation between frames in the interactive plot", read nowhere and declared nowhere, so `I.interactive(var, lint=True)` warns "Unused kwargs" -- the documentation produces the warning. Either implement it or drop the entry; listed in `GHOST_KWARGS` in `helper_image.py` meanwhile, and checked by `test_documented_keywords_exist`. |
 | `load.py`, `loadpart.py` | Docstring examples use keywords that warn or do not exist: `vars=` (deprecated, `load.py:163,174`, `loadpart.py:93`), `nfile_lp=` (deprecated, `loadpart.py:108`) and `data=` (not a keyword at all, `load.py:168,174` — it is `datatype`). A user copying Example #9 gets an "Unused kwargs: {'data'}" warning from the documentation itself. |
 | `loadpart.py` | Class docstring says "only one output can be loaded at a time". False: `nout="all"` loads several, and `test_text_logs_every_output_as_plain_ints` relies on it. |
-| `__init__.py`, `utils/configure.py` | `greet`, `colorerr` and `colorwarn` are read once, while `__init__.py` runs, and no environment variable is consulted. A user therefore cannot turn the greeting off: the switch exists but nothing can reach it before import. |
 | `baseloadstate.py`, `loadfuncs/loadvars.py:301` | `mmaps` is appended to and never closed anywhere. The file handles live for the whole process, including after `AttrResolver` has copied the data out and the mapping is dead weight. |
 | `loadpart.py:164` | `self.cached_vars = set()` is assigned and never read. |
+| `imagefuncs/plot.py`, `imagefuncs/scatter.py` | **Legend keywords given with `legpos=None` are reported as unused.** The legend keywords (`legsize`, `legcols`, `legspace`, `legpad`, `legalpha`) reach `legend` only when a legend is drawn, so in a loop with `legpos=0 if j == 1 else None, legsize=15` every other panel warns "Unused kwargs: {'legsize'}" (found in a gPLUTO script, 2026-10-26). Rule decided: `legpos` is the one switch of the legend. Given in the call, with any value, it makes the other legend keywords legitimate, and with no legend drawn they are forgotten, not stored, since they describe a legend that does not exist; without `legpos` in the call and none remembered on the axis, a legend keyword is a mistake and keeps its warning. The same for every plotting routine with legend keywords (`interactive` when it is reopened). To fix with the reviewed image files, right after the settings step. Strict xfail `test_legend_keywords_are_accepted_with_legpos`. |
+| `imagefuncs/set_axis.py`, `imagefuncs/ticks.py`, `imagestate.py` | **A scale given again undoes the ticks set before.** matplotlib's `set_xscale`/`set_yscale` give the axis the default locator and formatter of the scale, even when the scale does not change, so `plot(..., xscale="log", xtickslabels=None)` followed by `plot(..., ax=0, xscale="log")` brings the labels back (found in a gPLUTO script, 2026-10-26); fixed ticks and pinned labels are undone the same way, and so is `plot(xtickslabels=...)` followed by `plot(xscale="log")`. Fix decided: the ticks and the ticks labels given with anything but the default `True` are stored per axis and applied again after every scale change, so they hold whatever the order of the calls. To fix with the reviewed image files, right after the settings step. Strict xfail `test_a_scale_given_again_keeps_the_ticks`, for a scale given again and for a real change of scale. |
 | `_test_examples.py:313` | The `mkdtemp` folder that keeps differing images is never removed, so each `--check` with differences leaves a directory behind in `/tmp`. |
 
 ## Potential improvements
@@ -549,6 +607,7 @@ afternoon, and none is urgent.
 
 | Where | What |
 |---|---|
+| `utils/settings.py` (new), `utils/pperrors.py` (new), `utils/configure.py`, `utils/pplogging.py`, `__init__.py`, the states, mixins and facades, `loadkwargs.py`, `template.py` | **The greeting could not be turned off, and nothing about errors, warnings or colors could be set.** `pp.colorerr`, `pp.colorwarn` and `pp.greet` were read while `__init__.py` ran, before anyone could set them. Now five settings (decided 2026-10-26): `greet`, `text` (`False`, `"default"`, `True`/`"verbose"`, `None`), `colors` (`"PyPLUTO"`, `"always"`, `None`), `warnings` (`"always"`, `"once"`, `"ignore"`, `"error"`) and `errors` (`"short"`, `"full"`), with exact spelling. `SettingsKwargs` and its `Literal` aliases are the one place they are written: the checkers read it for `pp.configure`, and `ALLOWED` is read from it at runtime. Sources, each overriding the one before: the defaults, `~/.config/pypluto/pypluto.toml`, `./pypluto.toml`, `PYPLUTO_*`, `pp.configure(...)`; the first four are read before the greeting, and a wrong value there warns and is ignored. `pp.configure` checks every value before storing any, returns the settings in use and works in a `with`. `PyPLUTOError` (and `PyPLUTOConfigError`, also a `ValueError`) is the base of the errors raised on purpose; only it is colored with `colors="PyPLUTO"`, and `errors="short"` drops its frames inside the package. On an object, `text` left out follows the package, and a given one is checked. The module switches are removed. Guarded by `test_settings.py`, `test_pperrors.py`, `test_configure.py`, `test_pplogging.py` and `test_the_settings_are_read_before_the_greeting`. |
 | `utils/pplogging.py` (new), `utils/configure.py`, `image.py`, `load.py`, `loadpart.py`, `imagestate.py`, `baseloadstate.py`, the mixins, `loadfuncs/codeselection.py`, `loadfuncs/readdefplini.py`, `toolfuncs/findlines.py`, `template.py` | **`text` was per object, but set the level of the whole package.** Each `Image`, `Load` and `LoadPart` called `set_text` with its own `text`, so the last one built decided for all: after `Image(text=False)`, a plain `Image()` turned the messages back on. The two "No ... is read!" messages ignored `text`, and `find_fieldlines(text=True)` showed its details only if an earlier `Load(text=True)` had put the package at DEBUG. Now one meaning for both (decided 2026-10-24): `pp.set_text` sets the package, `text=` decides for one object, `None` following the package. Every message goes through `pplog.info` / `pplog.debug` (`utils/pplogging.py`, next to `ppwarn`), which reads `self.state.classlog` of the method calling it; the package's value is `pplog.text`, and the `pyPLUTO` logger stays at DEBUG since `pplog` has already decided. The field is `classlog`, not `text`, because `Image.text` is a method. `find_fieldlines(text=...)` is deprecated. The template shows `pplog`. Guarded by `Tests/utils/test_pplogging.py`, `test_text_leaves_the_level_of_the_package_alone` in `test_image.py`/`test_load.py`/`test_loadpart.py`, `test_a_missing_file_asked_for_is_reported`, the two `text` tests of `test_findlines.py` and `test_rescale_logs_at_the_text_of_the_state`. |
 | `utils/configure.py` | **An uncaught error lost its type and its cause.** `color_error` printed the frames and the message only, so `ValueError` and any error chained to it (`raise ... from ...`) were missing from the report. It now colors Python's own report, `traceback.format_exception`. In the same review: `set_text` defaults to `None` (ordinary information), so it can be called without arguments; the `DeprecationWarning` filter for `astroid`, added to the user's filters on every `Configure`, is removed, since astroid is not a dependency and IPython raises no such warning; `_find_session` and `_setup_handlers` are public. Guarded by `test_color_error_keeps_the_chained_exception` and `test_set_text_defaults_to_the_ordinary_information`. |
 | `load.py`, `loadpart.py`, `image.py` | **The facades could not be copied or unpickled: `RecursionError`.** `copy`, `deepcopy` and `pickle.loads` build the object without `__init__`, then look up special methods, which reached `__getattr__`, which read `self.state`, which called `__getattr__` again. `__getattr__` now refuses `state` and dunder names at once. A copy is refused on purpose (decided 2026-10-23): `__getstate__` raises a `TypeError`, since a shared state would change with the original, a full copy would read every memory-mapped variable into RAM, and open `mmap`s cannot be pickled; for `Load`/`LoadPart` the message points to the parallel pattern (send output numbers, load inside each worker). Pickling a `Load` by its recipe is part of the deferred multiprocessing/HPC work. Guarded by the *Copying* tests of `test_load.py`, `test_loadpart.py` and `test_image.py`. |

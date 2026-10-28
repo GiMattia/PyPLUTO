@@ -6,9 +6,13 @@ also a built-in so old except clauses keep working, and classes plain enough
 to come back from a worker process.
 """
 
+import ast
+import builtins
 import pickle
+import warnings
 
 import pytest
+from helper_scan import scanned_sources
 
 from pyPLUTO.utils import pperrors
 from pyPLUTO.utils.pperrors import (
@@ -19,6 +23,7 @@ from pyPLUTO.utils.pperrors import (
     PyPLUTODataError,
     PyPLUTOError,
     PyPLUTOInternalError,
+    PyPLUTOMissingFeatureError,
     PyPLUTOOptionError,
 )
 
@@ -30,9 +35,19 @@ BUILTIN = {
     PyPLUTOCopyError: TypeError,
     PyPLUTODataError: ValueError,
     PyPLUTOInternalError: RuntimeError,
+    PyPLUTOMissingFeatureError: NotImplementedError,
     PyPLUTOOptionError: ValueError,
 }
-IDS = ["attribute", "axis", "config", "copy", "data", "internal", "option"]
+IDS = [
+    "attribute",
+    "axis",
+    "config",
+    "copy",
+    "data",
+    "internal",
+    "missing-feature",
+    "option",
+]
 
 
 # ---- The categories ----
@@ -87,3 +102,42 @@ def test_an_error_survives_pickling(error: type[PyPLUTOError]) -> None:
     copy = pickle.loads(pickle.dumps(error("message")))
     assert type(copy) is error
     assert str(copy) == "message"
+
+
+# ---- The scan of the sources ----
+# The names of Python's own errors, which a raise in pyPLUTO should not use
+BUILTIN_ERRORS = {
+    name
+    for name, obj in vars(builtins).items()
+    if isinstance(obj, type) and issubclass(obj, BaseException)
+}
+
+
+def raised_name(exc: ast.expr | None) -> str | None:
+    """Return the name of the class a raise uses, as written in the source."""
+    if isinstance(exc, ast.Call):
+        exc = exc.func
+    return exc.id if isinstance(exc, ast.Name) else None
+
+
+def test_every_raise_uses_a_category_of_its_own() -> None:
+    """Scan the sources and report each raise of a generic error, by file.
+
+    A raise of a built-in error, or of the base PyPLUTOError, does not say
+    what went wrong. The scan only reports, with one warning per file listing
+    the lines, so the work left shows in every run without failing it. A bare
+    raise, which raises again the error being handled, is not reported.
+    """
+    generic = BUILTIN_ERRORS | {"PyPLUTOError"}
+    for path, tree in scanned_sources():
+        lines = sorted(
+            node.lineno
+            for node in ast.walk(tree)
+            if isinstance(node, ast.Raise) and raised_name(node.exc) in generic
+        )
+        if lines:
+            warnings.warn(
+                f"{path} raises generic errors at lines {lines}",
+                UserWarning,
+                stacklevel=1,
+            )

@@ -30,6 +30,8 @@ from helper_loadpart import DELEGATION, MANAGERS
 
 import pyPLUTO as pp
 from pyPLUTO.loadpart import LoadPart
+from pyPLUTO.utils.pperrors import PyPLUTOAttributeError, PyPLUTOCopyError
+from pyPLUTO.utils.ppwarnings import PyPLUTODeprecationWarning
 
 # The hand-written tables live in helper_loadpart.py: DELEGATION maps each
 # public method to the manager it hands the call to, and MANAGERS lists the
@@ -134,7 +136,7 @@ def test_a_loadpart_cannot_be_copied(
     """
     data = _loadpart(data_dir)
 
-    with pytest.raises(TypeError, match="cannot be copied or pickled"):
+    with pytest.raises(PyPLUTOCopyError, match="cannot be copied or pickled"):
         operation(data)
 
 
@@ -144,7 +146,7 @@ def test_an_unbuilt_loadpart_has_no_state() -> None:
     That is the object copy and pickle start from: the read must fail at
     once with AttributeError, not recurse looking for the state.
     """
-    with pytest.raises(AttributeError):
+    with pytest.raises(PyPLUTOAttributeError):
         _ = LoadPart.__new__(LoadPart).state
 
 
@@ -287,7 +289,7 @@ def test_nfile_lp_is_deprecated(data_dir: Path) -> None:
     told to move on. Both halves matter: a warning that broke the call would
     be worse than the rename, and a silent rename would never be adopted.
     """
-    with pytest.warns(DeprecationWarning, match="nfile_lp"):
+    with pytest.warns(PyPLUTODeprecationWarning, match="nfile_lp"):
         data = pp.LoadPart(
             path=data_dir / "particles_cr", text=False, nfile_lp=0
         )
@@ -301,7 +303,7 @@ def test_chnk_wins_over_nfile_lp(data_dir: Path) -> None:
     round: an old script that was half-updated would then be silently
     overridden by the keyword it was migrating away from.
     """
-    with pytest.warns(DeprecationWarning, match="nfile_lp"):
+    with pytest.warns(PyPLUTODeprecationWarning, match="nfile_lp"):
         data = pp.LoadPart(
             path=data_dir / "particles_cr", text=False, chnk=0, nfile_lp=1
         )

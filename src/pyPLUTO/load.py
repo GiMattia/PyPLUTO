@@ -51,6 +51,7 @@ from pyPLUTO.toolfuncs.nabla import NablaManager
 from pyPLUTO.toolfuncs.set_units import SetUnitsManager
 from pyPLUTO.toolfuncs.transform import TransformManager
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pperrors import PyPLUTOAttributeError, PyPLUTOCopyError
 from pyPLUTO.utils.pplogging import PPLog
 from pyPLUTO.utils.resolver import AttrResolver
 from pyPLUTO.utils.settings import check_text
@@ -373,7 +374,7 @@ class Load(LoadMixin, Generic[_VarT]):
         forever.
         """
         if name == "state" or name.startswith("__"):
-            raise AttributeError(name)
+            raise PyPLUTOAttributeError(name)
         val = getattr(self.state, name)
         return cast("_VarT", AttrResolver.resolve(self.state, name, val))
 
@@ -401,7 +402,7 @@ class Load(LoadMixin, Generic[_VarT]):
         cannot be pickled at all; so none is made. Parallel analysis does not
         need it: each worker loads its own output.
         """
-        raise TypeError(
+        raise PyPLUTOCopyError(
             "A Load cannot be copied or pickled. To analyse several outputs "
             "in parallel, pass the output numbers to the workers and call "
             "pp.Load inside each of them."

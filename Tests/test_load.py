@@ -29,6 +29,7 @@ from helper_load import DELEGATION, MANAGERS, UNIMPLEMENTED
 
 import pyPLUTO as pp
 from pyPLUTO.load import Load
+from pyPLUTO.utils.pperrors import PyPLUTOAttributeError, PyPLUTOCopyError
 
 # The hand-written tables live in helper_load.py: DELEGATION maps each public
 # method to the manager it hands the call to, and MANAGERS lists the managers
@@ -125,7 +126,7 @@ def test_a_load_cannot_be_copied(
     """
     data = _load(data_dir)
 
-    with pytest.raises(TypeError, match="cannot be copied or pickled"):
+    with pytest.raises(PyPLUTOCopyError, match="cannot be copied or pickled"):
         operation(data)
 
 
@@ -135,7 +136,7 @@ def test_an_unbuilt_load_has_no_state() -> None:
     That is the object copy and pickle start from: the read must fail at
     once with AttributeError, not recurse looking for the state.
     """
-    with pytest.raises(AttributeError):
+    with pytest.raises(PyPLUTOAttributeError):
         _ = Load.__new__(Load).state
 
 

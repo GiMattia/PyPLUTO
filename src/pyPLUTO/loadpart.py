@@ -12,7 +12,6 @@ sixteen, since the grid operations have no meaning without a grid.
 
 from __future__ import annotations
 
-import warnings
 from collections.abc import Callable, Iterable
 from typing import (
     Generic,
@@ -34,7 +33,9 @@ from pyPLUTO.toolfuncs.compute_units import UnitManager
 from pyPLUTO.toolfuncs.parttools import PartToolsManager
 from pyPLUTO.toolfuncs.set_units import SetUnitsManager
 from pyPLUTO.utils.inspector import track_kwargs
+from pyPLUTO.utils.pperrors import PyPLUTOAttributeError, PyPLUTOCopyError
 from pyPLUTO.utils.pplogging import PPLog
+from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTODeprecationWarning
 from pyPLUTO.utils.resolver import AttrResolver
 from pyPLUTO.utils.settings import check_text
 
@@ -187,10 +188,9 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         self.state.classlog = check_text(kwargs.get("text"))
         self.state.class_name = self.__class__.__name__
         if "nfile_lp" in kwargs:
-            warnings.warn(
+            PPWarn.warn(
                 "'nfile_lp' is deprecated, use 'chnk' instead.",
-                DeprecationWarning,
-                stacklevel=2,
+                PyPLUTODeprecationWarning,
             )
             kwargs.setdefault("chnk", kwargs.pop("nfile_lp"))
         self.state.chnk = kwargs.get("chnk")
@@ -279,7 +279,7 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         forever.
         """
         if name == "state" or name.startswith("__"):
-            raise AttributeError(name)
+            raise PyPLUTOAttributeError(name)
         val = getattr(self.state, name)
         return cast("_VarT", AttrResolver.resolve(self.state, name, val))
 
@@ -307,7 +307,7 @@ class LoadPart(BaseLoadMixin[BaseLoadState], Generic[_VarT]):
         cannot be pickled at all; so none is made. Parallel analysis does not
         need it: each worker loads its own output.
         """
-        raise TypeError(
+        raise PyPLUTOCopyError(
             "A LoadPart cannot be copied or pickled. To analyse several "
             "outputs in parallel, pass the output numbers to the workers and "
             "call pp.LoadPart inside each of them."

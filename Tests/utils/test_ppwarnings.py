@@ -7,11 +7,14 @@ call goes through one manager more than expected, while PPWarn.warn walks
 out of the package to the user's own line.
 """
 
+import ast
 import inspect
 import sys
+import warnings
 from pathlib import Path
 
 import pytest
+from helper_scan import scanned_sources
 
 from pyPLUTO.utils import ppwarnings
 from pyPLUTO.utils.ppwarnings import (
@@ -153,3 +156,49 @@ def test_the_frames_inside_the_package_are_skipped(
         _inside_the_package()
 
     assert Path(record[0].filename).parent != Path(__file__).parent
+
+
+# ---- The scan of the sources ----
+def is_generic_warning(node: ast.Call) -> bool:
+    """Tell whether a call is a warning without a category of its own.
+
+    That is warnings.warn, which PPWarn.warn replaces, or PPWarn.warn with
+    no category or with the base PyPLUTOWarning.
+    """
+    if not isinstance(node.func, ast.Attribute):
+        return False
+    owner = node.func.value
+    if not isinstance(owner, ast.Name) or node.func.attr != "warn":
+        return False
+    if owner.id == "warnings":
+        return True
+    if owner.id != "PPWarn":
+        return False
+    given = [kw.value for kw in node.keywords if kw.arg == "category"]
+    category = node.args[1] if len(node.args) > 1 else next(iter(given), None)
+    return not isinstance(category, ast.Name) or category.id == "PyPLUTOWarning"
+
+
+def test_every_warning_uses_a_category_of_its_own() -> None:
+    """Scan the sources and report each generic warning, by file.
+
+    A warnings.warn, or a PPWarn.warn with no category or with the base, does
+    not say what the warning is about. The scan only reports, with one
+    warning per file listing the lines, so the work left shows in every run
+    without failing it. ppwarnings.py itself is left out: PPWarn.warn is
+    where warnings.warn is called on purpose.
+    """
+    for path, tree in scanned_sources():
+        if path == "utils/ppwarnings.py":
+            continue
+        lines = sorted(
+            node.lineno
+            for node in ast.walk(tree)
+            if isinstance(node, ast.Call) and is_generic_warning(node)
+        )
+        if lines:
+            warnings.warn(
+                f"{path} raises generic warnings at lines {lines}",
+                UserWarning,
+                stacklevel=1,
+            )

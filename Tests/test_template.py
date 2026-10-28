@@ -27,7 +27,11 @@ from pyPLUTO.template import (
     ExampleMixin,
     ExampleState,
 )
+from pyPLUTO.utils import pperrors, ppwarnings
+from pyPLUTO.utils.pperrors import PyPLUTOOptionError
+from pyPLUTO.utils.pplogging import PPLog
 from pyPLUTO.utils.ppwarnings import (
+    PPWarn,
     PyPLUTOBehaviorWarning,
     PyPLUTOKeywordWarning,
 )
@@ -53,6 +57,22 @@ REFERENCED = sorted(
     for path in set(re.findall(r"`([\w./<>-]+\.(?:py|rst|md))`", SOURCE))
     if "<" not in path and path != PLACEHOLDER
 )
+
+# Every pyPLUTO name the template teaches in its text: the error and warning
+# classes, the methods of PPWarn and PPLog, the pp. functions and the test
+# files it says check the rules. They are checked one by one below, so a
+# rename cannot leave the template teaching a name that no longer exists.
+NAMED = sorted(
+    set(
+        re.findall(
+            r"\b(PyPLUTO\w+|PPWarn\.\w+|PPLog\.\w+|pp\.\w+|test_\w+\.py)",
+            SOURCE,
+        )
+    )
+)
+
+# Where each kind of name above is defined
+OWNERS = {"PPWarn": PPWarn, "PPLog": PPLog, "pp": pp}
 
 
 # ---- The example works ----
@@ -216,14 +236,14 @@ def test_rescale_warns_from_the_users_line(
 
 
 def test_a_negative_factor_raises_and_changes_nothing() -> None:
-    """Rescale by a negative factor: a PyPLUTOError, and the values intact.
+    """Rescale by a negative factor: an option error, and the values intact.
 
     The example raises before touching the state, so a refused call leaves
-    nothing half done; the error is the package's, so a user catches it
-    with pp.PyPLUTOError.
+    nothing half done; the error is the package's, a PyPLUTOOptionError, so
+    a user also catches it with pp.PyPLUTOError.
     """
     state = ExampleState(values=[1.0, 2.0])
-    with pytest.raises(pp.PyPLUTOError, match="cannot be negative"):
+    with pytest.raises(PyPLUTOOptionError, match="cannot be negative"):
         ExampleManager(state).rescale(factor=-1.0)
     assert state.values == [1.0, 2.0]
 
@@ -358,6 +378,29 @@ def test_referenced_file_exists(path: str) -> None:
     renamed one would leave them looking for something that is not there.
     """
     assert any((base / path).exists() for base in BASES), path
+
+
+def test_template_names_pypluto_objects() -> None:
+    """Find the named objects, so the test below is not vacuous."""
+    assert NAMED
+
+
+@pytest.mark.parametrize("name", NAMED)
+def test_named_object_exists(name: str) -> None:
+    """Name only classes, methods, functions and test files that exist.
+
+    The comments of the template teach the rules by name: PPWarn.warn, the
+    categories, pp.configure, the test that scans for generic errors. A
+    rename elsewhere would leave a contributor following a rule that points
+    at nothing.
+    """
+    owner, _, attr = name.rpartition(".")
+    if name.endswith(".py"):
+        assert list((ROOT / "Tests").rglob(name)), name
+    elif owner:
+        assert hasattr(OWNERS[owner], attr), name
+    else:
+        assert hasattr(pperrors, name) or hasattr(ppwarnings, name), name
 
 
 # ---- The facade of section 5 ----

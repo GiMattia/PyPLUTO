@@ -29,7 +29,11 @@ from pathlib import Path
 from types import TracebackType
 from typing import TYPE_CHECKING, Any, Unpack, cast
 
-from pyPLUTO.utils.pperrors import PyPLUTOError, PyPLUTOInternalError
+from pyPLUTO.utils.pperrors import (
+    PyPLUTOError,
+    PyPLUTOInternalError,
+    PyPLUTOMissingFeatureError,
+)
 from pyPLUTO.utils.ppwarnings import PyPLUTOWarning
 from pyPLUTO.utils.settings import SETTINGS, SettingsKwargs, check
 
@@ -45,6 +49,12 @@ PYTHON_FORMATWARNING = warnings.formatwarning
 # The line that ends the report of a PyPLUTOInternalError
 BUG_REPORT = (
     "This is a bug in PyPLUTO: please report it at "
+    "https://github.com/GiMattia/PyPLUTO/issues\n"
+)
+
+# The line that ends the report of a PyPLUTOMissingFeatureError
+FEATURE_REQUEST = (
+    "This feature is not in PyPLUTO yet: you can ask for it at "
     "https://github.com/GiMattia/PyPLUTO/issues\n"
 )
 
@@ -191,7 +201,8 @@ class Configure:
         message of the error, and any exception chained to it. With
         errors="short", a PyPLUTOError loses the frames inside pyPLUTO; a
         PyPLUTOInternalError never does, and its report ends with a line
-        asking to report the bug.
+        asking to report the bug. The report of a PyPLUTOMissingFeatureError
+        ends with a line saying where to ask for the feature.
 
         Parameters
         ----------
@@ -216,6 +227,10 @@ class Configure:
         report = "".join(traceback.format_exception(exc_type, value, tb))
         if internal:
             report += BUG_REPORT
+        if exc_type is not None and issubclass(
+            exc_type, PyPLUTOMissingFeatureError
+        ):
+            report += FEATURE_REQUEST
 
         colors = SETTINGS["colors"]
         if colors == "always" or (colors == "PyPLUTO" and ours):

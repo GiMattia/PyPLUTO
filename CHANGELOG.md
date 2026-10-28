@@ -17,6 +17,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `axalpha`: the opacity of a whole panel, accepted by `set_axis` and every drawing method. It fades the background, spines, ticks, labels, title, grid, legend, texts and everything drawn on the axis, own alpha included, and is kept per axis (`Image.axalpha`), so what is drawn there later takes it too unless given its own `alpha`. In `zoom` it fades the inset only
 - Settings: `greet`, `text`, `colors`, `warnings` and `errors`, set in a `pypluto.toml` (in `~/.config/pypluto/` or in the current folder), with the `PYPLUTO_*` environment variables, or with `pp.configure(...)`, also in a `with` block. `pp.configure()` gives back the settings in use
 - `pp.PyPLUTOError`, the base of the errors PyPLUTO raises on purpose; a wrong setting raises one
+- Errors and warnings named by what went wrong, each also its closest built-in, in `pyPLUTO.utils.pperrors` (attribute, axis, config, copy, data, internal, missing-feature and option errors) and `pyPLUTO.utils.ppwarnings` (behavior, config, conflict, dependency, deprecation, keyword and option warnings). An internal error, a bug in PyPLUTO, is always shown in full and ends asking to report it; a missing feature ends saying where to ask for it
 
 ### Changed (preliminary)
 - Updated golden reference images and the example test harness for a newer matplotlib version

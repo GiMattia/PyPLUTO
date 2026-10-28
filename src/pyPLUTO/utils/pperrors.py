@@ -32,14 +32,16 @@ class PyPLUTOError(Exception):
 
 
 class PyPLUTOAttributeError(PyPLUTOError, AttributeError):
-    """The attribute or variable asked for does not exist.
+    """The attribute asked for does not exist.
 
     Still an AttributeError, so hasattr and getattr with a default work as
-    usual.
+    usual, and so do copy and pickle, which look for special methods this
+    way.
 
     Examples
     --------
-    - D.rho2 on a Load that holds rho, prs and vx1.
+    - Load.__new__(Load).state, a Load built without __init__, which is
+      what copy and pickle start from.
 
     """
 
@@ -110,6 +112,19 @@ class PyPLUTOInternalError(PyPLUTOError, RuntimeError):
     Examples
     --------
     - a drawing method reached before the Image has a figure.
+
+    """
+
+
+class PyPLUTOMissingFeatureError(PyPLUTOError, NotImplementedError):
+    """A feature that PyPLUTO does not have yet.
+
+    Raised where a method or an option exists but is not written yet. The
+    report ends with a line saying where to ask for it.
+
+    Examples
+    --------
+    - D.repeat(...), documented but not written yet.
 
     """
 

@@ -31,7 +31,7 @@ from dataclasses import dataclass, field
 from typing import TypedDict, Unpack
 
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pperrors import PyPLUTOError
+from pyPLUTO.utils.pperrors import PyPLUTOOptionError
 from pyPLUTO.utils.pplogging import PPLog
 from pyPLUTO.utils.ppwarnings import (
     PPWarn,
@@ -214,13 +214,13 @@ class ExampleManager(ExampleMixin):
         if (label := kwargs.get("label")) is not None:
             self.state.label = label
 
-        # Every error raised on purpose is a PyPLUTOError, or a subclass named
-        # after what went wrong that also derives from the closest built-in
-        # (see utils/pperrors.py, where a new one is added when a file first
-        # needs it). Users catch them all with one except, and the settings
-        # color them and show them short. Never raise a bare built-in.
+        # Every error raised on purpose is a subclass of PyPLUTOError named
+        # after what went wrong, which also derives from the closest built-in
+        # (see utils/pperrors.py for the list). Users catch them all with one
+        # except, and the settings color them and show them short. Never
+        # raise a built-in or the base: a test in test_pperrors.py looks.
         if factor < 0:
-            raise PyPLUTOError(
+            raise PyPLUTOOptionError(
                 f"factor cannot be negative, and it is {factor}."
             )
 

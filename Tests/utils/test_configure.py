@@ -21,6 +21,7 @@ from pyPLUTO.utils.pperrors import (
     PyPLUTOConfigError,
     PyPLUTOError,
     PyPLUTOInternalError,
+    PyPLUTOMissingFeatureError,
 )
 from pyPLUTO.utils.ppwarnings import (
     PPWarn,
@@ -352,6 +353,21 @@ def test_an_ordinary_pypluto_error_is_not_reported_as_a_bug(
 ) -> None:
     """Report a PyPLUTOError of the user's: no line about reporting a bug."""
     assert cfg.BUG_REPORT not in report_of(raised_inside_pypluto(), capsys)
+
+
+def test_a_missing_feature_says_where_to_ask_for_it(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """Report a missing feature: it ends with the line asking for it.
+
+    The line about a bug is not there: the user asked for something that
+    does not exist yet, which is not a bug.
+    """
+    with pytest.raises(PyPLUTOMissingFeatureError) as info:
+        raise PyPLUTOMissingFeatureError("repeat is not written yet")
+    err = report_of(info.value, capsys)
+    assert err.endswith(f"{cfg.FEATURE_REQUEST}{RESET}")
+    assert cfg.BUG_REPORT not in err
 
 
 # ---- The handlers ----

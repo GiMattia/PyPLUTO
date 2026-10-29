@@ -26,7 +26,6 @@ from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.legend import LegendManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
-from pyPLUTO.imagefuncs.ticks import TicksManager
 from pyPLUTO.imagekwargs import PlotKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -57,7 +56,6 @@ class PlotManager(ImageMixin):
         self.ImageToolsManager = ImageToolsManager(state)
         self.LegendManager = LegendManager(state)
         self.RangeManager = RangeManager(state)
-        self.TicksManager = TicksManager(state)
 
     @track_kwargs
     def plot(
@@ -248,7 +246,7 @@ class PlotManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             x-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - xtickslabels: str | list[str] | None | bool, default True
+        - xtickslabels: str | list[str] | list[float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the x-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -273,7 +271,7 @@ class PlotManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             y-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - ytickslabels: str | list[str] | None | bool, default True
+        - ytickslabels: str | list[str] | list[float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the y-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -363,7 +361,6 @@ class PlotManager(ImageMixin):
             #    x=x.astype(np.float64),
             #    y=y,
         )
-        self.TicksManager.update_ticks(ax, nax)
 
         # Set color line and increase the number of lines (if default color)
         # Compared to None, since an RGB array has no truth value

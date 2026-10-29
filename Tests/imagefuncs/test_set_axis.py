@@ -8,16 +8,17 @@ state -- what the user sees is the axis, not the record of it.
 The tick machinery is the part worth knowing. `xticks` and `xtickslabels`
 each accept three kinds of value, and the meaning is not the same: True
 means "leave matplotlib's own", None means "remove them", and a list means
-"use these". The combinations are what most of this file covers, including
-the two that make no sense and warn -- labels without ticks, and labels on
-ticks left automatic.
+"use these". The combinations are what most of this file covers; the rule
+that labels go only on known ticks is tested in test_ticks.py. A scale
+puts back matplotlib's own ticks and minor ticks, so what was given before
+is applied again after it, which is tested here.
 
 Labels are set through the axis formatters rather than `set_xticklabels`,
 because a log scale resets the latter; the tests therefore read the labels
 back after the scale is set, which is where that distinction shows.
 """
 
-from typing import Literal
+from typing import Any, Literal
 
 import numpy as np
 import numpy.testing as npt
@@ -26,8 +27,9 @@ from matplotlib.axes import Axes
 from matplotlib.colors import to_rgba
 
 import pyPLUTO as pp
-from pyPLUTO.utils.pperrors import PyPLUTOAxisError
+from pyPLUTO.utils.pperrors import PyPLUTOAxisError, PyPLUTOOptionError
 from pyPLUTO.utils.ppwarnings import (
+    PyPLUTOConflictWarning,
     PyPLUTODeprecationWarning,
     PyPLUTOKeywordWarning,
 )
@@ -159,15 +161,15 @@ def test_the_tick_labels_are_set_or_blanked() -> None:
 
 
 def test_one_label_for_every_tick() -> None:
-    """Give a single string as the labels and check it is used.
+    """Give a single string as the label of a single tick.
 
-    A lone string labels the first tick and leaves the rest formatted by
-    nothing, which is how a single annotated value is drawn.
+    A lone string is one label, which is how a single annotated value is
+    drawn. A failure means the string was split or not written.
     """
     image, ax = _axis()
-    image.set_axis(xticks=[0, 0.5, 1], xtickslabels="only")
+    image.set_axis(xticks=[0.5], xtickslabels="only")
 
-    assert ax.get_xticklabels()[0].get_text() == "only"
+    assert [t.get_text() for t in ax.get_xticklabels()] == ["only"]
 
 
 def test_labels_are_blanked_when_the_ticks_are_automatic() -> None:
@@ -190,7 +192,7 @@ def test_labels_without_ticks_warn() -> None:
     """
     image, _ = _axis()
 
-    with pytest.warns(UserWarning, match="tickslabels are defined with no"):
+    with pytest.warns(PyPLUTOConflictWarning, match="without ticks"):
         image.set_axis(xticks=None, xtickslabels=["a", "b"])
 
 
@@ -202,9 +204,10 @@ def test_labels_of_the_wrong_kind_are_refused() -> None:
     from something meaningless.
     """
     image, _ = _axis()
+    wrong: Any = 42
 
-    with pytest.raises(TypeError, match="Invalid tick labels"):
-        image.set_axis(xticks=[0, 1], xtickslabels=42)  # pyright: ignore[reportArgumentType] # ty: ignore[invalid-argument-type]
+    with pytest.raises(PyPLUTOOptionError, match="Invalid tick labels"):
+        image.set_axis(xticks=[0, 1], xtickslabels=wrong)
 
 
 @pytest.mark.parametrize("minor", ["on", "off"])
@@ -230,7 +233,7 @@ def test_a_single_label_without_minor_ticks() -> None:
     """
     image, ax = _axis()
     image.set_axis(
-        xticks=[0, 0.5, 1],
+        xticks=[0.5],
         xtickslabels="only",
         minorticks="off",
     )
@@ -293,6 +296,105 @@ def test_fixed_ticks_on_a_log_scale_keep_their_labels() -> None:
         r"$\mathdefault{10^{0}}$",
         r"$\mathdefault{3\times10^{0}}$",
     ]
+
+
+# ---- What a scale puts back ----
+@pytest.mark.parametrize(
+    "first", ["log", "linear"], ids=["same-scale", "scale-change"]
+)
+def test_a_scale_given_again_keeps_the_ticks(first: str) -> None:
+    """Remove the labels, then plot again on the axis with xscale="log".
+
+    matplotlib's set_xscale gives the axis the default ticks of the scale,
+    even when the scale does not change, so a second plot(xscale="log")
+    brought back the labels the first had removed. The labels given are to
+    hold whatever the order of the calls, so the case where the scale really
+    changes, from linear to log, keeps them removed too.
+    """
+    image = pp.Image()
+    x = np.array([64.0, 128.0, 256.0, 512.0, 1024.0])
+    image.plot(x, 1 / x, xscale=first, xtickslabels=None)
+    image.plot(x, 2 / x, ax=0, xscale="log")
+    ax = image.ax[0]
+    ax.figure.canvas.draw()
+    assert not [t.get_text() for t in ax.get_xticklabels() if t.get_text()]
+
+
+def test_a_scale_given_again_keeps_fixed_labels() -> None:
+    """Fix ticks and labels, then plot again on the axis with xscale="log".
+
+    The ticks and labels kept are applied again after the scale, so the
+    labels stay on their ticks. A failure means the scale put back the
+    default ticks of a log axis.
+    """
+    image = pp.Image(text=False)
+    x = np.array([64.0, 128.0, 256.0, 512.0, 1024.0])
+    image.plot(x, 1 / x, xticks=[128.0, 512.0], xtickslabels=["a", "b"])
+    image.plot(x, 2 / x, ax=0, xscale="log")
+    ax = image.ax[0]
+    ax.figure.canvas.draw()
+    assert [t.get_text() for t in ax.get_xticklabels()] == ["a", "b"]
+
+
+# Calls after minorticks="off" that would put the minor ticks back.
+MINOR_OFF = [
+    pytest.param(
+        [
+            {"minorticks": "off"},
+            {"xticks": [0.5], "xtickslabels": "a"},
+            {"xticks": [0.25, 0.75]},
+        ],
+        id="labels-forgotten",
+    ),
+    pytest.param(
+        [{"minorticks": "off"}, {"xscale": "log"}],
+        id="scale-given-later",
+    ),
+    pytest.param(
+        [{"minorticks": "off", "xscale": "log"}],
+        id="scale-in-the-same-call",
+    ),
+]
+
+
+@pytest.mark.parametrize("calls", MINOR_OFF)
+def test_minor_ticks_switched_off_stay_off(calls: list[dict[str, Any]]) -> None:
+    """Switch the minor ticks off, then make calls that put them back.
+
+    'off' is kept per axis until another value is given, so neither labels
+    forgotten by new ticks nor a scale bring the minor ticks back. A failure
+    means only the call that gave 'off' was honored.
+    """
+    image, ax = _axis()
+    for call in calls:
+        image.set_axis(**call)
+
+    assert len(ax.get_xticks(minor=True)) == 0
+    assert image.minorticks[0] == {"x": "off", "y": "off"}
+
+
+def test_minor_ticks_follow_the_shared_direction_only() -> None:
+    """Switch the minor ticks off on one of two axes sharing x, then scale
+    the other.
+
+    Shared axes share their minor ticks per direction, so the x minor ticks
+    stay off on both after the scale, while the y minor ticks of the second
+    axis, not shared, stay on. A failure means either the setting was kept
+    only by the axis named in the call, or it leaked to a direction that is
+    not shared.
+    """
+    image = pp.Image(text=False)
+    image.create_axes(ncol=2, sharex=True)
+    image.set_axis(ax=0, minorticks="off")
+    image.set_axis(ax=1)
+
+    image.set_axis(ax=1, xscale="log")
+
+    second = image.ax[1]
+    assert isinstance(second, Axes)
+    assert image.minorticks[1] == {"x": "off", "y": "on"}
+    assert len(second.get_xticks(minor=True)) == 0
+    assert len(second.get_yticks(minor=True)) > 0
 
 
 # ---- Scales, grid and size ----

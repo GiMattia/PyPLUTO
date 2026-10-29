@@ -85,7 +85,7 @@ class ColorbarManager(ImageMixin):
             If enabled (and different from True), sets manually the ticks on
             the colorbar. In order to completely remove the ticks the keyword
             should be used with None. The same rules as xticks.
-        - ctickslabels: str | list[str] | None | bool, default True
+        - ctickslabels: str | list[str] | list[float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the colorbar. In order to remove the labels, keeping the
             ticks, the keyword should be used with None. Fixed labels should

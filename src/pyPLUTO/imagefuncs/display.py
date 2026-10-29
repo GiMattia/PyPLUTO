@@ -13,7 +13,6 @@ from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
-from pyPLUTO.imagefuncs.ticks import TicksManager
 from pyPLUTO.imagekwargs import DisplayKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -35,7 +34,6 @@ class DisplayManager(ImageMixin):
         self.ColorbarManager = ColorbarManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
         self.RangeManager = RangeManager(state)
-        self.TicksManager = TicksManager(state)
         self.AxisManager = AxisManager(state)
 
     @track_kwargs
@@ -226,7 +224,7 @@ class DisplayManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             x-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - xtickslabels: str | list[str] | None | bool, default True
+        - xtickslabels: str | list[str] | list[float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the x-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -249,7 +247,7 @@ class DisplayManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             y-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - ytickslabels: str | list[str] | None | bool, default True
+        - ytickslabels: str | list[str] | list[float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the y-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -321,7 +319,6 @@ class DisplayManager(ImageMixin):
         ylim = self.map_extent(y, var.shape[1])
         self.RangeManager.set_xrange(ax, nax, xlim, strict)
         self.RangeManager.set_yrange(ax, nax, ylim, strict)
-        self.TicksManager.update_ticks(ax, nax)
 
         # gouraud interpolates between the centers and would leave the outer
         # half cell of the domain unpainted. A vertex on each border, holding

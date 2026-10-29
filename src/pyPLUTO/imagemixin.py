@@ -18,7 +18,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.typing import LegendLocType
 
-from pyPLUTO.imagestate import ImageState, TicksPin
+from pyPLUTO.imagestate import ImageState, Ticks
 from pyPLUTO.utils.settings import TextValue
 
 
@@ -172,6 +172,16 @@ class ImageMixin:
         self.state.legpos = value
 
     @property
+    def minorticks(self) -> list[dict[str, str]]:
+        """Get the minorticks attribute of the image."""
+        return self.state.minorticks
+
+    @minorticks.setter
+    def minorticks(self, value: list[dict[str, str]]) -> None:
+        """Set the minorticks attribute of the image."""
+        self.state.minorticks = value
+
+    @property
     def ncol0(self) -> int:
         """Get the ncol0 attribute of the image."""
         return self.state.ncol0
@@ -242,26 +252,6 @@ class ImageMixin:
         self.state.setay = value
 
     @property
-    def setxticks(self) -> list[int]:
-        """Get the setxticks attribute of the image."""
-        return self.state.setxticks
-
-    @setxticks.setter
-    def setxticks(self, value: list[int]) -> None:
-        """Set the setxticks attribute of the image."""
-        self.state.setxticks = value
-
-    @property
-    def setyticks(self) -> list[int]:
-        """Get the setyticks attribute of the image."""
-        return self.state.setyticks
-
-    @setyticks.setter
-    def setyticks(self, value: list[int]) -> None:
-        """Set the setyticks attribute of the image."""
-        self.state.setyticks = value
-
-    @property
     def set_size(self) -> bool:
         """Get the set_size attribute of the image."""
         return self.state.set_size
@@ -290,6 +280,16 @@ class ImageMixin:
     def style(self, value: str) -> None:
         """Set the style attribute of the image."""
         self.state.style = value
+
+    @property
+    def ticks(self) -> list[dict[str, Ticks]]:
+        """Get the ticks attribute of the image."""
+        return self.state.ticks
+
+    @ticks.setter
+    def ticks(self, value: list[dict[str, Ticks]]) -> None:
+        """Set the ticks attribute of the image."""
+        self.state.ticks = value
 
     @property
     def tickspar(self) -> list[Any | int]:
@@ -342,16 +342,6 @@ class ImageMixin:
         self.state.xscale = value
 
     @property
-    def xtickspin(self) -> list[TicksPin | None]:
-        """Get the xtickspin attribute of the image."""
-        return self.state.xtickspin
-
-    @xtickspin.setter
-    def xtickspin(self, value: list[TicksPin | None]) -> None:
-        """Set the xtickspin attribute of the image."""
-        self.state.xtickspin = value
-
-    @property
     def yscale(self) -> list[str]:
         """Get the yscale attribute of the image."""
         return self.state.yscale
@@ -360,13 +350,3 @@ class ImageMixin:
     def yscale(self, value: list[str]) -> None:
         """Set the yscale attribute of the image."""
         self.state.yscale = value
-
-    @property
-    def ytickspin(self) -> list[TicksPin | None]:
-        """Get the ytickspin attribute of the image."""
-        return self.state.ytickspin
-
-    @ytickspin.setter
-    def ytickspin(self, value: list[TicksPin | None]) -> None:
-        """Set the ytickspin attribute of the image."""
-        self.state.ytickspin = value

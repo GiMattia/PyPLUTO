@@ -143,9 +143,9 @@ class SetAxisKwargs(
     ticksdir: str
     tickssize: float
     xticks: list[float] | bool | None
-    xtickslabels: str | list[str] | bool | None
+    xtickslabels: str | list[str] | list[float] | bool | None
     yticks: list[float] | bool | None
-    ytickslabels: str | list[str] | bool | None
+    ytickslabels: str | list[str] | list[float] | bool | None
 
 
 class LegendKwargs(CreateAxesKwargs, total=False):
@@ -195,7 +195,7 @@ class ColorbarKwargs(CreateAxesKwargs, total=False):
     cpad: float
     cpos: str
     cticks: list[float] | bool | None
-    ctickslabels: str | list[str] | bool | None
+    ctickslabels: str | list[str] | list[float] | bool | None
     extend: str
     extendrect: bool
 

@@ -39,6 +39,7 @@ DEFAULTS: dict[str, object] = {
     "LaTeX": True,
     "legpar": [],
     "legpos": [],
+    "minorticks": [],
     "ncol0": 0,
     "nline": [],
     "nrow0": 0,
@@ -46,19 +47,16 @@ DEFAULTS: dict[str, object] = {
     "nwin": 1,
     "setax": [],
     "setay": [],
-    "setxticks": [],
-    "setyticks": [],
     "set_size": False,
     "shade": [],
     "style": "default",
+    "ticks": [],
     "tickspar": [],
     "tight": True,
     "vlims": [],
     "volumes": [],
     "xscale": [],
-    "xtickspin": [],
     "yscale": [],
-    "ytickspin": [],
 }
 
 # The fields with a real default, and the ones filled in later.

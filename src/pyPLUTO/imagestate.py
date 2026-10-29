@@ -13,13 +13,12 @@ from typing import Any
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
-from matplotlib.ticker import Formatter, Locator
 from matplotlib.typing import LegendLocType
 
 from pyPLUTO.utils.settings import TextValue
 
-# Labels on automatic ticks, with the locator and formatter they replaced
-TicksPin = tuple[list[str], Locator, Formatter]
+# The ticks and the ticks labels of one axis: True automatic, None removed
+Ticks = tuple[list[float] | bool | None, list[str] | bool | None]
 
 
 @dataclass
@@ -86,6 +85,9 @@ class ImageState:
     # Per axis, where the legend sits
     legpos: list[LegendLocType | None] = field(default_factory=list)
 
+    # Per axis, the x and y minor ticks last asked for, 'on' or 'off'
+    minorticks: list[dict[str, str]] = field(default_factory=list)
+
     # Number of columns already created, so a later create_axes continues on
     ncol0: int = 0
 
@@ -107,12 +109,6 @@ class ImageState:
     # Per axis, whether the y range was set and by whom
     setay: list[Any | int] = field(default_factory=list)
 
-    # Per axis, whether the x ticks were set and by whom
-    setxticks: list[int] = field(default_factory=list)
-
-    # Per axis, whether the y ticks were set and by whom
-    setyticks: list[int] = field(default_factory=list)
-
     # Whether the user gave a figure size, which stops it being recomputed
     set_size: bool = False
 
@@ -121,6 +117,9 @@ class ImageState:
 
     # The matplotlib style in use
     style: str = "default"
+
+    # Per axis, the x and y ticks and labels last given, (True, True) if never
+    ticks: list[dict[str, Ticks]] = field(default_factory=list)
 
     # Per axis, whether the ticks have been configured
     tickspar: list[Any | int] = field(default_factory=list)
@@ -137,11 +136,5 @@ class ImageState:
     # Per axis, the scale of the x axis
     xscale: list[str] = field(default_factory=list)
 
-    # Per axis, the x labels on automatic ticks, if any
-    xtickspin: list[TicksPin | None] = field(default_factory=list)
-
     # Per axis, the scale of the y axis
     yscale: list[str] = field(default_factory=list)
-
-    # Per axis, the y labels on automatic ticks, if any
-    ytickspin: list[TicksPin | None] = field(default_factory=list)

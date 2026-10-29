@@ -239,32 +239,6 @@ def test_legend_keywords_are_accepted_with_legpos(method: str) -> None:
     assert not [w for w in caught if w.category is PyPLUTOKeywordWarning]
 
 
-# ---- imagefuncs/set_axis.py ----
-@pytest.mark.xfail(
-    strict=True,
-    reason="a scale given again resets the ticks set before",
-)
-@pytest.mark.parametrize(
-    "first", ["log", "linear"], ids=["same-scale", "scale-change"]
-)
-def test_a_scale_given_again_keeps_the_ticks(first: str) -> None:
-    """Remove the labels, then plot again on the axis with xscale="log".
-
-    matplotlib's set_xscale gives the axis the default ticks of the scale,
-    even when the scale does not change, so a second plot(xscale="log")
-    brought back the labels the first had removed. The labels given are to
-    hold whatever the order of the calls, so the case where the scale really
-    changes, from linear to log, keeps them removed too.
-    """
-    image = pp.Image()
-    x = np.array([64.0, 128.0, 256.0, 512.0, 1024.0])
-    image.plot(x, 1 / x, xscale=first, xtickslabels=None)
-    image.plot(x, 2 / x, ax=0, xscale="log")
-    ax = image.ax[0]
-    ax.figure.canvas.draw()
-    assert not [t.get_text() for t in ax.get_xticklabels() if t.get_text()]
-
-
 # ---- imagefuncs/interactive.py ----
 @pytest.mark.xfail(
     strict=True, reason="the documented lint keyword is read nowhere"

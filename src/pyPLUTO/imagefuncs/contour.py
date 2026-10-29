@@ -13,7 +13,6 @@ from pyPLUTO.imagefuncs.colorbar import ColorbarManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
-from pyPLUTO.imagefuncs.ticks import TicksManager
 from pyPLUTO.imagekwargs import ContourKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -37,7 +36,6 @@ class ContourManager(ImageMixin):
         self.ColorbarManager = ColorbarManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
         self.RangeManager = RangeManager(state)
-        self.TicksManager = TicksManager(state)
 
     @track_kwargs
     def contour(
@@ -241,7 +239,7 @@ class ContourManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             x-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - xtickslabels: str | list[str] | None | bool, default True
+        - xtickslabels: str | list[str] | list[float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the x-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -264,7 +262,7 @@ class ContourManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             y-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - ytickslabels: str | list[str] | None | bool, default True
+        - ytickslabels: str | list[str] | list[float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the y-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -352,9 +350,6 @@ class ContourManager(ImageMixin):
             alpha=alpha,
             linewidths=lw,
         )
-
-        # The limits are matplotlib's, read off the axis once it is drawn
-        self.TicksManager.update_ticks(ax, nax)
 
         if cpos is not None:
             self.ColorbarManager.colorbar(cnt, _check=False, **kwargs)

@@ -22,7 +22,6 @@ from pyPLUTO.imagefuncs.display import DisplayManager
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.range import RangeManager
 from pyPLUTO.imagefuncs.set_axis import AxisManager
-from pyPLUTO.imagefuncs.ticks import TicksManager
 from pyPLUTO.imagekwargs import SetLocKwargs, ZoomKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
@@ -48,7 +47,6 @@ class ZoomManager(ImageMixin):
         self.DisplayManager = DisplayManager(state)
         self.ImageToolsManager = ImageToolsManager(state)
         self.RangeManager = RangeManager(state)
-        self.TicksManager = TicksManager(state)
 
     @track_kwargs
     def zoom(
@@ -244,7 +242,7 @@ class ZoomManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             x-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - xtickslabels: str | list[str] | None | bool, default True
+        - xtickslabels: str | list[str] | list[float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the x-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -266,7 +264,7 @@ class ZoomManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             y-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - ytickslabels: str | list[str] | None | bool, default True
+        - ytickslabels: str | list[str] | list[float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the y-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -475,7 +473,6 @@ class ZoomManager(ImageMixin):
         if "yrange" not in kwargs:
             ylim = list(ax.get_ylim())
             self.RangeManager.set_yrange(axins, nins, ylim, fix)
-        self.TicksManager.update_ticks(axins, nins)
 
     def copyartist(self, artist: Artist, axins: Axes) -> Artist | None:
         """Copy one line or collection of the parent axis into the inset.

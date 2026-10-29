@@ -42,19 +42,17 @@ from pyPLUTO.utils.ppwarnings import (
 PER_AXIS_FIELDS = [
     "legpar",
     "legpos",
+    "minorticks",
     "nline",
     "ntext",
     "setax",
     "setay",
-    "setxticks",
-    "setyticks",
     "shade",
+    "ticks",
     "tickspar",
     "vlims",
     "xscale",
-    "xtickspin",
     "yscale",
-    "ytickspin",
 ]
 
 

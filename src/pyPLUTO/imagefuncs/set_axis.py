@@ -170,7 +170,7 @@ class AxisManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             x-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - xtickslabels: str | list[str] | None | bool, default True
+        - xtickslabels: str | list[str] | list[float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the x-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -193,7 +193,7 @@ class AxisManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             y-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - ytickslabels: str | list[str] | None | bool, default True
+        - ytickslabels: str | list[str] | list[float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the y-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -305,14 +305,16 @@ class AxisManager(ImageMixin):
                 top=True,
             )
 
-        # Set minor ticks
-        self.check_minorticks(ax, nax, _check=False, **kwargs)
+        # Scales, which put back their own minor ticks
+        self.set_scales(ax, nax, _check=False, **kwargs)
+
+        # Set minor ticks, again after a scale
+        xscaled = kwargs.get("xscale", True) is not True
+        scaled = xscaled or kwargs.get("yscale", True) is not True
+        self.check_minorticks(ax, nax, scaled, _check=False, **kwargs)
 
         # Set parameter that fixes the minorticks and ticksdir
         self.state.tickspar[nax] = 1
-
-        # Scales
-        self.set_scales(ax, nax, _check=False, **kwargs)
 
         # Opacity of the whole panel
         if (axalpha := kwargs.get("axalpha")) is not None:
@@ -323,11 +325,18 @@ class AxisManager(ImageMixin):
         ytc = kwargs.get("yticks", True)
         xtl = kwargs.get("xtickslabels", True)
         ytl = kwargs.get("ytickslabels", True)
-        minor = kwargs.get("minorticks", "on")
+        xminor = self.state.minorticks[nax]["x"]
+        yminor = self.state.minorticks[nax]["y"]
+        kept = self.state.ticks[nax]
+        # A scale puts back its default ticks, so the kept ones are applied again
         if xtc is not True or xtl is not True:
-            self.TicksManager.set_ticks(ax, xtc, xtl, "x", minor, nax)
+            self.TicksManager.set_ticks(ax, xtc, xtl, "x", xminor, nax)
+        elif kwargs.get("xscale", True) is not True:
+            self.TicksManager.apply_ticks(ax, *kept["x"], "x", xminor)
         if ytc is not True or ytl is not True:
-            self.TicksManager.set_ticks(ax, ytc, ytl, "y", minor, nax)
+            self.TicksManager.set_ticks(ax, ytc, ytl, "y", yminor, nax)
+        elif kwargs.get("yscale", True) is not True:
+            self.TicksManager.apply_ticks(ax, *kept["y"], "y", yminor)
 
         # Sets grid on the axis
         grid = kwargs.get("grid", False)
@@ -604,29 +613,44 @@ class AxisManager(ImageMixin):
         self,
         ax: Axes,
         nax: int,
+        scaled: bool = False,
         _check: bool = True,
         **kwargs: Unpack[MinorTicksKwargs],
     ) -> None:
         """Check and set the minor ticks of the x- and y-axes.
 
+        The value given is kept per axis and direction, also for the axes
+        sharing that direction, and stays until another is given. It is
+        applied when given, on the first call for the axis, and after a
+        scale, which puts back the minor ticks of its own.
+
         Parameters
         ----------
         - ax: ax
             the selected set of axes
-        - minorticks: str, default None
-            If not None enables the minor ticks on the plot (for both grid
-            axes).
+        - minorticks: str, default 'on'
+            'off' removes the minor ticks on both axes, any other value
+            shows them.
         - nax: int
             the index of the selected axis
+        - scaled: bool, default False
+            Whether a scale was just given.
 
         Returns
         -------
         - None
 
         """
-        if kwargs.get("minorticks") or self.state.tickspar[nax] == 0:
-            mintks = kwargs.get("minorticks", "on")
-            if mintks != "off":
-                ax.minorticks_on()
+        # Shared axes share their minor ticks, so every one of them keeps them
+        if "minorticks" in kwargs:
+            for typeaxis in ("x", "y"):
+                for i in self.TicksManager.shared(ax, typeaxis):
+                    self.state.minorticks[i][typeaxis] = kwargs["minorticks"]
+        elif not scaled and self.state.tickspar[nax] != 0:
+            return
+        for typeaxis, minor in self.state.minorticks[nax].items():
+            axis = getattr(ax, f"{typeaxis}axis")
+            if minor != "off":
+                axis.minorticks_on()
             else:
-                ax.minorticks_off()
+                axis.minorticks_off()

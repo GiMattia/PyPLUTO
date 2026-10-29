@@ -426,20 +426,20 @@ def test_no_labels() -> None:
 def test_labels_on_automatic_ticks() -> None:
     """Label the ticks of a bar without choosing them.
 
-    The labels go on the ticks matplotlib picks for the range of the bar,
-    which is set when the bar is drawn, so the ticks are pinned there once
-    and nothing warns. A bar keeps no case: nothing is drawn on it later.
+    A bar keeps no ticks from earlier calls, so labels given without ticks
+    have nothing known to go on: they are ignored with a warning and the
+    bar keeps matplotlib's own labels. A failure means labels were written
+    on ticks nobody chose.
     """
     image = _image()
 
-    with warnings.catch_warnings(record=True) as raised:
-        warnings.simplefilter("always")
+    with pytest.warns(PyPLUTOConflictWarning, match="without ticks"):
         cbar = image.colorbar(ctickslabels=["a", "b", "c"])
     _box(cbar.ax)
 
-    assert [str(w.message) for w in raised] == []
     labels = [t.get_text() for t in cbar.ax.get_yticklabels()]
-    assert labels[:3] == ["a", "b", "c"]
+    assert all(labels)
+    assert not {"a", "b", "c"} & set(labels)
 
 
 def test_labels_without_ticks_warn() -> None:
@@ -450,7 +450,7 @@ def test_labels_without_ticks_warn() -> None:
     """
     image = _image()
 
-    with pytest.warns(UserWarning, match="tickslabels are defined with no"):
+    with pytest.warns(PyPLUTOConflictWarning, match="without ticks"):
         cbar = image.colorbar(cticks=None, ctickslabels=["a"])
 
     assert list(cbar.ax.get_yticks()) == []

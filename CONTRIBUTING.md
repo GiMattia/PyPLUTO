@@ -36,20 +36,35 @@ To keep PyPLUTO maintainable, autonomous agents must not contribute without huma
 
 - Python `>=3.11` (the CI matrix currently tests `3.12`, `3.13`, and `3.14`)
 - Git
-- A virtual environment tool (`uv`, `pixi`, `venv`, `conda`, etc.)
+- [`uv`](https://docs.astral.sh/uv/) (required); [`pixi`](https://pixi.sh) is optional
 
 ## Local Setup
 
-1. Fork and clone:
+> **First time?** You only need `git` and `uv`: uv installs Python and
+> everything else for you.
+>
+> 1. Install uv (other methods, Windows included, are on the
+>    [uv installation page](https://docs.astral.sh/uv/getting-started/installation/)):
+>
+>    ```bash
+>    curl -LsSf https://astral.sh/uv/install.sh | sh
+>    # or, without curl:
+>    wget -qO- https://astral.sh/uv/install.sh | sh
+>    ```
+>
+> 2. Fork PyPLUTO on GitHub, then clone your fork and set it up:
+>
+>    ```bash
+>    git clone https://github.com/<your-username>/PyPLUTO.git
+>    cd PyPLUTO
+>    ./dev-sync.sh
+>    ```
+>
+> pixi is optional: you never need it to contribute.
 
-```bash
-git clone https://github.com/GiMattia/PyPLUTO.git
-cd PyPLUTO
-```
+### `uv` (required)
 
-### Option A: `uv` (recommended)
-
-Create a reproducible environment from the lockfile:
+`./dev-sync.sh` creates a reproducible environment from `uv.lock`, the same as:
 
 ```bash
 uv sync --all-extras --all-groups
@@ -62,30 +77,15 @@ uv run pre-commit run --all-files
 uv run pytest -v ./Tests
 ```
 
-### Option B: `pixi` (uses `pixi.lock`)
+### `pixi` (optional)
 
-Install the `all` environment declared in `pyproject.toml`:
+For those who already use pixi: `pixi.lock` gives an environment with PyPLUTO
+and all its extras (no development tools, which come with uv). If pixi is
+installed, `./dev-sync.sh` installs it too:
 
 ```bash
 pixi install -e full
 ```
-
-Run tools in that environment:
-
-```bash
-pixi run -e all pre-commit run --all-files
-pixi run -e all pytest -v ./Tests
-```
-
-### Option C: `pip` fallback (not lockfile-based)
-
-If you prefer a classic setup:
-
-```bash
-pip install -r requirements_dev.txt
-```
-
-`requirements_dev.txt` installs the project in editable mode with development extras.
 
 ## Pre-commit and Quality Checks
 
@@ -112,7 +112,8 @@ Current checks include:
 
 - standard `pre-commit-hooks` sanity checks
 - `ruff` lint/format
-- lock consistency checks (`uv lock --check`, `pixi lock --check`)
+- lock consistency checks: `uv lock --check`; `pixi lock --check` only where
+  pixi is installed, and always in CI
 - `pyright` type checking (`pre-push` and `manual`)
 - `pytest` with coverage threshold (`manual`, fail-under `45`)
 
@@ -141,7 +142,7 @@ above. The intent is to switch to one of them once they mature. Install them
 only if you want to experiment:
 
 ```bash
-uv sync --group typefuture     # or: pixi install -e typefuture
+uv sync --group typefuture
 ```
 
 A couple of legacy modules (`amr.py`, `nabla.py`) are excluded from type
@@ -183,6 +184,8 @@ make -C Docs html
    - notes on tests performed
 
 CI runs style checks and tests across multiple OSes and Python versions. A PR is expected to pass all checks.
+
+If your PR changes the dependencies in `pyproject.toml`, the pixi lock check in CI may fail. Nothing to do on your side: the maintainers update `pixi.lock` on your branch, so please leave "Allow edits by maintainers" checked.
 
 ## Project Structure (Quick Guide)
 

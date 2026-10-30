@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Sync or upgrade the project for uv and pixi.
+# Sync or upgrade the project with uv (required) and pixi (optional, skipped
+# when not installed).
 #
 # Usage:
 #   ./dev-sync.sh                # sync/install existing lockfiles
@@ -34,8 +35,8 @@ have_cmd() {
 
 run_uv_sync() {
   if ! have_cmd uv; then
-    echo ">>> uv not found; skipping uv"
-    return 0
+    echo "Error: uv is required (https://docs.astral.sh/uv/getting-started/installation/)." >&2
+    exit 1
   fi
 
   if [[ "$mode" == "upgrade" ]]; then

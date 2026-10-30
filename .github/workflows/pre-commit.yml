@@ -25,11 +25,12 @@ jobs:
       - name: Sync environment
         run: uv sync --group dev
 
+      # pixi is optional locally; here it is installed, so the pixi-lock-check
+      # hook always checks pixi.lock
       - name: Install pixi
         uses: prefix-dev/setup-pixi@v0.10.2
-
-      - name: Check pixi lock consistency
-        run: pixi lock --check
+        with:
+          run-install: false
 
       # Run pre-commit hooks
       - name: Run pre-commit

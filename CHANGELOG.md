@@ -41,6 +41,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `pp.colorerr`, `pp.colorwarn` and `pp.greet` are removed: they were read before they could be set. Use the settings instead
 - Ticks labels go only on known ticks: those given in the same call or, on an axis of the figure, in an earlier one (new `TicksManager`, `imagefuncs/ticks.py`). Labels without ticks, or in a number different from the ticks, are ignored with a warning; ticks given alone get automatic labels again. Labels can be numbers, written as matplotlib writes a value (`3e4` as 3×10⁴). `minorticks="off"` stays until `"on"` is given
 - Requires matplotlib 3.9 or later
+- Development: uv is required and pixi is optional. The pixi lock check is skipped where pixi is not installed and always runs in CI; `dev-sync.sh` stops without uv; the contributing guide has a first-time setup and no longer offers pip
 
 ### Fixed
 - `Load`/`LoadPart`: `ntime` was declared as an `int`; it is the simulation time, a float. `ntime` and `nout` are now typed from the call, as the variables already were: `Load(5).ntime` is a `float` and `Load([0, 1]).ntime` an array of floats for the type checkers, and `nout` an `int` or an array of integers. Indexing them is accepted only where it works.

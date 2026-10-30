@@ -59,14 +59,27 @@ repos:
 
 
   # -----------------------------
-  # Check pixi lock
-  # ----------------------------- 
-
+  # Check pixi lock (only if pixi is installed; always in CI)
+  # -----------------------------
   - repo: local
     hooks:
       - id: pixi-lock-check
         name: pixi lock consistency
-        entry: bash -c 'PIX="${HOME}/.pixi/bin/pixi"; if command -v pixi >/dev/null 2>&1; then pixi lock --check; elif [ -x "$PIX" ]; then "$PIX" lock --check; else echo "pixi not found (PATH and ${HOME}/.pixi/bin/pixi). Install pixi first."; exit 1; fi'
+        entry: |
+          bash -c '
+          PIX="${HOME}/.pixi/bin/pixi"
+          if command -v pixi >/dev/null 2>&1; then
+            PIX=pixi
+          elif [ ! -x "$PIX" ]; then
+            echo "pixi not found: pixi.lock not checked (pixi is optional)."
+            exit 0
+          fi
+          "$PIX" lock --check || {
+            echo "pixi.lock is out of step with pyproject.toml. In a pull request"
+            echo "there is nothing to do on your side: the maintainers update"
+            echo "pixi.lock on your branch."
+            exit 1
+          }'
         language: system
         pass_filenames: false
 

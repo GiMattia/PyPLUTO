@@ -504,7 +504,7 @@ def test_a_legend_without_any_label_is_not_drawn() -> None:
         image.plot(x, y, legpos="best")
 
     assert [str(w.message) for w in raised] == [
-        "legpos is set but no line has a label: no legend is drawn."
+        "legpos is set but nothing on the axis has a label: no legend is drawn."
     ]
     assert isinstance(image.ax[0], Axes)
     assert image.ax[0].get_legend() is None
@@ -561,7 +561,7 @@ def test_legend_keywords_without_a_label_give_one_warning() -> None:
         image.plot(x, y, legpos="best", legsize=15)
 
     assert [str(w.message) for w in raised] == [
-        "legpos is set but no line has a label: no legend is drawn."
+        "legpos is set but nothing on the axis has a label: no legend is drawn."
     ]
 
 

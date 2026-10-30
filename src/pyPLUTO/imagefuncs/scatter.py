@@ -21,6 +21,7 @@ from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
 from pyPLUTO.utils.pperrors import PyPLUTOInternalError
+from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTOBehaviorWarning
 
 # The numpy dtype kinds that hold numbers: bool, signed and unsigned integer,
 # and float. An array of any other kind ('U' for a list of color names, say)
@@ -388,13 +389,22 @@ class ScatterManager(ImageMixin):
             label=kwargs.get("label", ""),
         )
 
-        # Creation of the legend
+        # Creation of the legend, only if something on the axis has a label
         self.state.legpos[nax] = kwargs.get("legpos", self.state.legpos[nax])
         if self.state.legpos[nax] is not None:
-            copy_label = kwargs.get("label")
-            kwargs["label"] = None
-            self.LegendManager.legend(ax, _check=False, fromplot=True, **kwargs)
-            kwargs["label"] = copy_label
+            if ax.get_legend_handles_labels()[1]:
+                copy_label = kwargs.get("label")
+                kwargs["label"] = None
+                self.LegendManager.legend(
+                    ax, _check=False, fromplot=True, **kwargs
+                )
+                kwargs["label"] = copy_label
+            else:
+                warn = (
+                    "legpos is set but nothing on the axis has a label: "
+                    "no legend is drawn."
+                )
+                PPWarn.warn(warn, PyPLUTOBehaviorWarning)
 
         # Place the colorbar (use colorbar function)
         if cpos is not None:

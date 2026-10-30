@@ -113,7 +113,7 @@ def set_text(text: TextValue = None) -> None:
 
     Parameters
     ----------
-    - text: TextValue, default None
+    - text: bool | "default" | "verbose" | None, default None
         False shows only the warnings, "default" (or None) the ordinary
         information, True or "verbose" also the debug details.
 

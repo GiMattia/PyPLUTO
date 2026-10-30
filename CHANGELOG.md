@@ -28,7 +28,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `display`: a map is framed on the cell edges instead of the cell centres, so the outermost half cell of the domain is no longer cut off. Coordinates given as edges are used as they are, and `gouraud` shading covers the same domain. Three example figures change by that half cell
 - `contour`/`streamplot`: the `colors` keyword, which did nothing, is removed and warns as unknown; use `c`
 - `colorbar` returns the `Colorbar` it draws, instead of `None`
-- `legpos` with no labelled line on the axis draws no legend and warns, instead of an empty frame with matplotlib's warning. The position is remembered, so the first labelled line brings the legend
+- `legpos` in `plot` and `scatter`, with nothing labeled on the axis, draws no legend and warns, instead of an empty frame with matplotlib's warning. The position is remembered, so the first labeled drawing brings the legend
 - Layout keywords (`ncol`, `nrow`, `left`, `right`, `top`, `bottom`, `wspace`, `hspace`, `wratio`, `hratio`) given to a drawing method without `ax` create new axes, as `create_axes` does, also on a figure that already has some, with a warning; before, they were ignored there and reported as unused. The drawing goes on the last new axis
 - `alpha` is the opacity of one drawing only (the lines of `plot`, the map, the contours, the streamlines and their arrows, the points), and defaults to `None` instead of a fixed 1.0, so a drawing without it takes the panel's `axalpha`. `plot` now reads it too
 - `plot` returns the lines it draws, instead of `None`

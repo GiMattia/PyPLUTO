@@ -34,7 +34,10 @@ from matplotlib.markers import MarkerStyle
 
 import pyPLUTO as pp
 from pyPLUTO.utils.pperrors import PyPLUTOInternalError
-from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning
+from pyPLUTO.utils.ppwarnings import (
+    PyPLUTOBehaviorWarning,
+    PyPLUTOKeywordWarning,
+)
 
 x = np.linspace(0.0, 1.0, 11)
 y = x**2
@@ -514,6 +517,45 @@ def test_the_position_is_remembered_by_the_axis() -> None:
     assert legend is not None
     texts = [text.get_text() for text in legend.get_texts()]
     assert texts == ["one", "two"]
+
+
+def test_a_legend_without_any_label_is_not_drawn() -> None:
+    """Ask for a legend on an axis whose points carry no label.
+
+    There is nothing to list, so no frame is drawn, and the user is told by
+    us, in terms of the call they made -- not by matplotlib's own "No
+    artists with labels found", which is phrased for someone calling it.
+    """
+    image = pp.Image(text=False)
+
+    with warnings.catch_warnings(record=True) as raised:
+        warnings.simplefilter("always")
+        image.scatter(x, y, legpos="best")
+
+    assert [str(w.message) for w in raised] == [
+        "legpos is set but nothing on the axis has a label: no legend is drawn."
+    ]
+    assert isinstance(image.ax[0], Axes)
+    assert image.ax[0].get_legend() is None
+
+
+def test_a_label_after_legpos_brings_the_legend() -> None:
+    """Ask for a legend with no label, then scatter a labelled set.
+
+    The position is remembered even when nothing could be listed, so the
+    legend appears as soon as something has a label, without repeating
+    `legpos`.
+    """
+    image = pp.Image(text=False)
+    with pytest.warns(PyPLUTOBehaviorWarning, match="no legend is drawn"):
+        image.scatter(x, y, legpos="best")
+
+    image.scatter(x, z, label="two")
+
+    assert isinstance(image.ax[0], Axes)
+    legend = image.ax[0].get_legend()
+    assert legend is not None
+    assert [text.get_text() for text in legend.get_texts()] == ["two"]
 
 
 def test_legend_keywords_are_accepted_with_legpos_none() -> None:

@@ -210,6 +210,10 @@ Package subfolders inside `src/pyPLUTO/`:
 manager classes in the subfolders implement individual operations and receive
 the state object at construction time.
 
+To add a class or a manager, start from `src/pyPLUTO/template.py`: a small
+working example of this pattern, with comments on the conventions every manager
+follows (tracked keywords, pyPLUTO errors and warnings).
+
 ## Questions
 
 For questions or suggestions, open an issue in this repository or directly contact the developers.

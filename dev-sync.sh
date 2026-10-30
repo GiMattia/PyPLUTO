@@ -61,11 +61,6 @@ run_pixi_sync() {
 
   echo ">>> pixi: installing full environment"
   pixi install -e full
-
-  if pixi project environment list >/dev/null 2>&1; then
-    echo ">>> pixi: installing local-dev environment"
-    pixi install -e local-dev || true
-  fi
 }
 
 echo ">>> Mode: $mode"

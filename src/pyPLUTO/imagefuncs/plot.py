@@ -402,7 +402,7 @@ class PlotManager(ImageMixin):
             for i, line in enumerate(lines):
                 line.set_color(colours[i % len(colours)])
 
-        # Creation of the legend, only if a line on the axis has a label
+        # Creation of the legend, only if something on the axis has a label
         self.state.legpos[nax] = kwargs.get("legpos", self.state.legpos[nax])
         if self.state.legpos[nax] is not None:
             if ax.get_legend_handles_labels()[1]:
@@ -414,7 +414,8 @@ class PlotManager(ImageMixin):
                 kwargs["label"] = copy_label
             else:
                 warn = (
-                    "legpos is set but no line has a label: no legend is drawn."
+                    "legpos is set but nothing on the axis has a label: "
+                    "no legend is drawn."
                 )
                 PPWarn.warn(warn, PyPLUTOBehaviorWarning)
 

@@ -15,7 +15,9 @@ range given by hand is never widened again.
 The third is the legend: `legpos` is stored on the axis, so once one line has
 asked for a legend every later line on that axis rebuilds it. The rebuild goes
 through `LegendManager` with `label` blanked out, which is what makes it
-describe the lines that are drawn rather than build its own handles.
+describe the lines that are drawn rather than build its own handles. Given in
+the call, with any value, `legpos` also makes the other legend keywords
+legitimate, legend or not.
 """
 
 import warnings
@@ -525,6 +527,73 @@ def test_a_label_after_legpos_brings_the_legend() -> None:
     legend = image.ax[0].get_legend()
     assert legend is not None
     assert [text.get_text() for text in legend.get_texts()] == ["prs"]
+
+
+def test_legend_keywords_are_accepted_with_legpos_none() -> None:
+    """Draw with legpos=None and a legend keyword: nothing is reported.
+
+    `legpos` is the switch of the legend. Given in the call, with any value,
+    it makes the other legend keywords legitimate, as in a loop where only
+    one panel gets a legend; with no legend drawn they are simply forgotten.
+    A keyword warning means the switch is lost on plot's decorator.
+    """
+    image = pp.Image(text=False)
+
+    with warnings.catch_warnings(record=True) as raised:
+        warnings.simplefilter("always")
+        image.plot(x, y, label="rho", legpos=None, legsize=15)
+
+    assert [w for w in raised if w.category is PyPLUTOKeywordWarning] == []
+    assert isinstance(image.ax[0], Axes)
+    assert image.ax[0].get_legend() is None
+
+
+def test_legend_keywords_without_a_label_give_one_warning() -> None:
+    """Ask for a legend with a legend keyword, on a line with no label.
+
+    No legend is drawn, and the only message is the one saying why: the
+    legend keyword came with `legpos`, so it is not reported as unused.
+    """
+    image = pp.Image(text=False)
+
+    with warnings.catch_warnings(record=True) as raised:
+        warnings.simplefilter("always")
+        image.plot(x, y, legpos="best", legsize=15)
+
+    assert [str(w.message) for w in raised] == [
+        "legpos is set but no line has a label: no legend is drawn."
+    ]
+
+
+def test_legend_keywords_without_legpos_are_reported() -> None:
+    """Give a legend keyword on an axis that never asked for a legend.
+
+    Without `legpos` in the call, or kept by the axis, nothing reads it, so
+    it is a mistake and reported. No warning means the legend keywords are
+    accepted always, and a stray one goes unnoticed.
+    """
+    image = pp.Image(text=False)
+
+    with pytest.warns(
+        PyPLUTOKeywordWarning, match="Unused kwargs: {'legsize'}"
+    ):
+        image.plot(x, y, label="rho", legsize=15)
+
+
+def test_legend_keywords_reach_the_legend_drawn() -> None:
+    """Draw a legend with a font size given in the same call.
+
+    The switch only counts the legend keywords as read; they still travel
+    with the call to the legend. A different size means they were removed
+    on the way.
+    """
+    image = pp.Image(text=False)
+    image.plot(x, y, label="rho", legpos="best", legsize=15)
+
+    assert isinstance(image.ax[0], Axes)
+    legend = image.ax[0].get_legend()
+    assert legend is not None
+    assert legend.get_texts()[0].get_fontsize() == 15
 
 
 # ---- Opacity ----

@@ -580,6 +580,62 @@ def test_track_kwargs_extra_keys_none_and_func_none() -> None:
     assert f(x=5) == 5
 
 
+def legend_like(**kwargs: object) -> object:
+    """Read one keyword, standing for the method a switch keyword enables."""
+    return kwargs.get("size")
+
+
+def test_a_switch_keyword_makes_the_method_keys_read() -> None:
+    """Give the switch keyword and a keyword of the switched method.
+
+    `size` is read only by `legend_like`, which is never called: as `legpos`
+    does for the legend, `switch` in the call makes it legitimate anyway. A
+    warning means the switch is ignored, and every legend keyword given with
+    `legpos=None` is reported as a mistake again.
+    """
+
+    @track_kwargs(switch_keys={"switch": legend_like})
+    def f(_check: bool = True, **kwargs: object) -> object:
+        return kwargs.get("switch")
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        assert f(switch=None, size=1) is None
+
+
+def test_without_the_switch_keyword_the_method_keys_are_reported() -> None:
+    """Give a keyword of the switched method without the switch keyword.
+
+    The switch is a condition, not a declaration like extra_keys: without
+    `switch` in the call, `size` is read by nobody and reported. No warning
+    means the switched keys are accepted always, and a stray legend keyword
+    without `legpos` goes unnoticed.
+    """
+
+    @track_kwargs(switch_keys={"switch": legend_like})
+    def f(_check: bool = True, **kwargs: object) -> object:
+        return kwargs.get("switch")
+
+    with pytest.warns(PyPLUTOKeywordWarning, match="Unused kwargs: {'size'}"):
+        f(size=1)
+
+
+def test_a_switch_keyword_leaves_the_call_unchanged() -> None:
+    """Give the switch keyword and check what the function receives.
+
+    The switch only counts keys as read; it never takes them out of the call,
+    since a method like plot forwards them to the legend it does draw. A
+    different result means the keywords were removed on the way in.
+    """
+
+    @track_kwargs(switch_keys={"switch": legend_like})
+    def f(_check: bool = True, **kwargs: object) -> dict[str, object]:
+        kwargs.get("switch")
+        return kwargs
+
+    assert f(switch="on", size=1) == {"switch": "on", "size": 1}
+
+
 # ---- Nested calls ----
 # A real call is a chain: a facade method calls a manager, which calls other
 # managers, all sharing one set of keywords. Each reads a few and forwards the

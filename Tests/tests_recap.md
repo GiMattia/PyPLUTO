@@ -1,11 +1,11 @@
 # Tests recap
 
-**2149 tests** · 54 known bugs as expected failures · in-scope coverage
-**83.8%** · target 100%
+**2521 tests** · 19 known bugs as expected failures · in-scope coverage
+**84.9%** (88.5% without the parked files) · target 100%
 
 | Status | Files |
 |---|---|
-| reviewed | 30 |
+| reviewed | 35 |
 | almost | 0 |
 | to review | 35 |
 | to write | 5 |
@@ -38,10 +38,10 @@ test, or a test would compare the code with itself.
 
 | Source | Test file | Tests | Coverage | Status |
 |---|---|---|---|---|
-| `__init__.py` | `test_init.py` | 29 | 100% | reviewed |
+| `__init__.py` | `test_init.py` | 36 | 100% | reviewed |
 | `amr.py` | — | — | 3% | out of scope |
 | `baseloadmixin.py` | `test_baseloadmixin.py` | 135 | 100% | reviewed |
-| `baseloadstate.py` | `test_baseloadstate.py` | 45 | 100% | reviewed |
+| `baseloadstate.py` | `test_baseloadstate.py` | 46 | 100% | reviewed |
 | `codes/echo_load.py` | — | — | 20% | out of scope |
 | `gui/app_state.py` | `gui/test_app_state.py` | 22 | 100% | to review |
 | `gui/custom_var.py` | — | — | 19% | to write |
@@ -54,70 +54,70 @@ test, or a test would compare the code with itself.
 | `gui/plot_controller.py` | `gui/test_plot_controller.py` | 17 | 70% | to review |
 | `gui/services.py` | `gui/test_services.py` | 30 | 88% | to review |
 | `gui/state_accessors.py` | `gui/test_state_accessors.py` | 15 | 100% | to review |
-| `image.py` | `test_image.py` | 116 | 100% | reviewed |
+| `image.py` | `test_image.py` | 122 | 100% | reviewed |
 | `imagefuncs/colorbar.py` | `imagefuncs/test_colorbar.py` | 41 | 100% | reviewed |
-| `imagefuncs/contour.py` | `imagefuncs/test_contour.py` | 32 | 100% | reviewed |
+| `imagefuncs/contour.py` | `imagefuncs/test_contour.py` | 33 | 100% | reviewed |
 | `imagefuncs/create_axes.py` | `imagefuncs/test_create_axes.py` | 50 | 100% | reviewed |
-| `imagefuncs/display.py` | `imagefuncs/test_display.py` | 31 | 100% | reviewed |
+| `imagefuncs/display.py` | `imagefuncs/test_display.py` | 33 | 100% | reviewed |
 | `imagefuncs/figure.py` | `imagefuncs/test_figure.py` | 38 | 100% | reviewed |
 | `imagefuncs/gridplot.py` | `imagefuncs/test_gridplot.py` | 38 | 100% | reviewed |
-| `imagefuncs/imagetools.py` | `imagefuncs/test_imagetools.py` | 46 | 100% | reviewed |
-| `imagefuncs/interactive.py` | `imagefuncs/test_interactive.py` | 8 | 74% | to review |
-| `imagefuncs/legend.py` | `imagefuncs/test_legend.py` | 19 | 100% | reviewed |
-| `imagefuncs/plot.py` | `imagefuncs/test_plot.py` | 38 | 100% | reviewed |
-| `imagefuncs/range.py` | `imagefuncs/test_range.py` | 32 | 100% | reviewed |
-| `imagefuncs/scatter.py` | `imagefuncs/test_scatter.py` | 37 | 100% | reviewed |
+| `imagefuncs/imagetools.py` | `imagefuncs/test_imagetools.py` | 58 | 100% | reviewed |
+| `imagefuncs/interactive.py` | `imagefuncs/test_interactive.py` | 8 | 75% | to review |
+| `imagefuncs/legend.py` | `imagefuncs/test_legend.py` | 25 | 100% | reviewed |
+| `imagefuncs/plot.py` | `imagefuncs/test_plot.py` | 46 | 100% | reviewed |
+| `imagefuncs/range.py` | `imagefuncs/test_range.py` | 38 | 100% | reviewed |
+| `imagefuncs/scatter.py` | `imagefuncs/test_scatter.py` | 41 | 100% | reviewed |
 | `imagefuncs/set_axis.py` | `imagefuncs/test_set_axis.py` | 52 | 100% | reviewed |
-| `imagefuncs/streamplot.py` | `imagefuncs/test_streamplot.py` | 28 | 100% | reviewed |
+| `imagefuncs/streamplot.py` | `imagefuncs/test_streamplot.py` | 29 | 100% | reviewed |
 | `imagefuncs/ticks.py` | `imagefuncs/test_ticks.py` | 18 | 100% | to review |
 | `imagefuncs/volengine.py` | `imagefuncs/test_volengine.py` | 49 | 59% | to review |
 | `imagefuncs/volume.py` | `imagefuncs/test_volume.py` | 5 | 91% | to review |
-| `imagefuncs/zoom.py` | `imagefuncs/test_zoom.py` | 49 | 100% | reviewed |
-| `imagekwargs.py` | `test_imagekwargs.py` | 109 | 100% | reviewed |
+| `imagefuncs/zoom.py` | `imagefuncs/test_zoom.py` | 51 | 100% | reviewed |
+| `imagekwargs.py` | `test_imagekwargs.py` | 141 | 100% | reviewed |
 | `imagemixin.py` | `test_imagemixin.py` | 127 | 100% | reviewed |
 | `imagestate.py` | `test_imagestate.py` | 56 | 100% | reviewed |
-| `load.py` | `test_load.py` | 69 | 100% | reviewed |
-| `loadfuncs/baseloadtools.py` | `loadfuncs/test_baseloadtools.py` | 6 | 89% | to write (only the form of `nout` so far) |
-| `loadfuncs/codeselection.py` | `loadfuncs/test_codeselection.py` | 6 | 88% | to review |
+| `load.py` | `test_load.py` | 78 | 100% | reviewed |
+| `loadfuncs/baseloadtools.py` | `loadfuncs/test_baseloadtools.py` | 6 | 90% | to write (only the form of `nout` so far) |
+| `loadfuncs/codeselection.py` | `loadfuncs/test_codeselection.py` | 6 | 100% | to review |
 | `loadfuncs/descriptor.py` | `loadfuncs/test_descriptor.py` | 4 | 100% | to review |
 | `loadfuncs/findfiles.py` | `loadfuncs/test_findfiles.py` | 4 | 75% | to review |
 | `loadfuncs/findformat.py` | `loadfuncs/test_findformat.py` | 18 | 96% | to review |
-| `loadfuncs/initload.py` | `loadfuncs/test_initload.py` | 14 | 89% | to review |
+| `loadfuncs/initload.py` | `loadfuncs/test_initload.py` | 14 | 94% | to review |
 | `loadfuncs/loadvars.py` | `loadfuncs/test_loadvars.py` | 18 | 65% | to review |
 | `loadfuncs/offsetdata.py` | — | — | 100% | to write |
 | `loadfuncs/offsetfluid.py` | `loadfuncs/test_offsetfluid.py` | 9 | 61% | to review |
 | `loadfuncs/offsetpart.py` | `loadfuncs/test_offsetpart.py` | 3 | 79% | to review |
 | `loadfuncs/read_files.py` | `loadfuncs/test_read_files.py` | 12 | 92% | to review |
-| `loadfuncs/readdefplini.py` | `loadfuncs/test_readdefplini.py` | 15 | 97% | to review |
+| `loadfuncs/readdefplini.py` | `loadfuncs/test_readdefplini.py` | 17 | 97% | to review |
 | `loadfuncs/readgridalone.py` | `loadfuncs/test_readgridalone.py` | 2 | 60% | to review |
 | `loadfuncs/readgridfile.py` | `loadfuncs/test_readgridfile.py` | 1 | 65% | to review |
 | `loadfuncs/readtab.py` | — | — | 92% | to write |
-| `loadfuncs/storepart.py` | `loadfuncs/test_storepart.py` | 5 | 63% | to review |
+| `loadfuncs/storepart.py` | `loadfuncs/test_storepart.py` | 5 | 83% | to review |
 | `loadfuncs/write_files.py` | `loadfuncs/test_write_files.py` | 11 | 99% | to review |
-| `loadkwargs.py` | `test_loadkwargs.py` | 50 | 100% | reviewed |
+| `loadkwargs.py` | `test_loadkwargs.py` | 51 | 100% | reviewed |
 | `loadmixin.py` | `test_loadmixin.py` | 287 | 100% | reviewed |
-| `loadpart.py` | `test_loadpart.py` | 32 | 100% | reviewed |
-| `loadstate.py` | `test_loadstate.py` | 83 | 100% | reviewed |
-| `template.py` | `test_template.py` | 42 | 100% | reviewed |
-| `toolfuncs/compute_units.py` | `toolfuncs/test_compute_units.py` | 14 | 88% | to review |
-| `toolfuncs/findlines.py` | `toolfuncs/test_findlines.py` | 1 | 57% | out of scope |
-| `toolfuncs/fourier.py` | `toolfuncs/test_fourier.py` | 9 | 92% | to review |
+| `loadpart.py` | `test_loadpart.py` | 43 | 100% | reviewed |
+| `loadstate.py` | `test_loadstate.py` | 84 | 100% | reviewed |
+| `template.py` | `test_template.py` | 61 | 100% | reviewed |
+| `toolfuncs/compute_units.py` | `toolfuncs/test_compute_units.py` | 15 | 88% | to review |
+| `toolfuncs/findlines.py` | `toolfuncs/test_findlines.py` | 4 | 60% | out of scope |
+| `toolfuncs/fourier.py` | `toolfuncs/test_fourier.py` | 9 | 94% | to review |
 | `toolfuncs/loadtools.py` | `toolfuncs/test_loadtools.py` | 11 | 96% | to review |
 | `toolfuncs/nabla.py` | — | — | 4% | out of scope |
 | `toolfuncs/parttools.py` | `toolfuncs/test_parttools.py` | 11 | 94% | to review |
-| `toolfuncs/set_units.py` | `toolfuncs/test_set_units.py` | 13 | 82% | to review |
-| `toolfuncs/transform.py` | — | — | 12% | out of scope |
+| `toolfuncs/set_units.py` | `toolfuncs/test_set_units.py` | 14 | 82% | to review |
+| `toolfuncs/transform.py` | — | — | 44% | out of scope |
 | `utils/configure.py` | `utils/test_configure.py` | 37 | 100% | reviewed |
 | `utils/examples_api.py` | `utils/test_examples_api.py` | 14 | 51% | to review |
-| `utils/examples_cli.py` | `utils/test_examples_cli.py` | 12 | 87% | to review |
-| `utils/inspector.py` | `utils/test_inspector.py` | 35 | 100% | reviewed |
+| `utils/examples_cli.py` | `utils/test_examples_cli.py` | 12 | 92% | to review |
+| `utils/inspector.py` | `utils/test_inspector.py` | 40 | 100% | reviewed |
 | `utils/overtyper.py` | `utils/test_overtyper.py` | 5 | 100% | to review |
 | `utils/pperrors.py` | `utils/test_pperrors.py` | 36 | 100% | reviewed |
 | `utils/pplogging.py` | `utils/test_pplogging.py` | 19 | 100% | reviewed |
 | `utils/ppwarnings.py` | `utils/test_ppwarnings.py` | 16 | 100% | reviewed |
 | `utils/pytools.py` | `utils/test_pytools.py` | 10 | 92% | to review |
 | `utils/resolver.py` | `utils/test_resolver.py` | 26 | 100% | reviewed |
-| `utils/settings.py` | `utils/test_settings.py` | 34 | 100% | reviewed |
+| `utils/settings.py` | `utils/test_settings.py` | 38 | 100% | reviewed |
 
 ## Roadmap
 
@@ -560,7 +560,6 @@ from scratch each time.
 | `loadpart.py` | Class docstring says "only one output can be loaded at a time". False: `nout="all"` loads several, and `test_text_logs_every_output_as_plain_ints` relies on it. |
 | `baseloadstate.py`, `loadfuncs/loadvars.py:301` | `mmaps` is appended to and never closed anywhere. The file handles live for the whole process, including after `AttrResolver` has copied the data out and the mapping is dead weight. |
 | `loadpart.py:164` | `self.cached_vars = set()` is assigned and never read. |
-| `imagefuncs/plot.py`, `imagefuncs/scatter.py` | **Legend keywords given with `legpos=None` are reported as unused.** The legend keywords (`legsize`, `legcols`, `legspace`, `legpad`, `legalpha`) reach `legend` only when a legend is drawn, so in a loop with `legpos=0 if j == 1 else None, legsize=15` every other panel warns "Unused kwargs: {'legsize'}" (found in a gPLUTO script, 2026-10-26). Rule decided: `legpos` is the one switch of the legend. Given in the call, with any value, it makes the other legend keywords legitimate, and with no legend drawn they are forgotten, not stored, since they describe a legend that does not exist; without `legpos` in the call and none remembered on the axis, a legend keyword is a mistake and keeps its warning. The same for every plotting routine with legend keywords (`interactive` when it is reopened). To fix with the reviewed image files, right after the settings step. Strict xfail `test_legend_keywords_are_accepted_with_legpos`. |
 | `_test_examples.py:313` | The `mkdtemp` folder that keeps differing images is never removed, so each `--check` with differences leaves a directory behind in `/tmp`. |
 
 ## Potential improvements
@@ -607,6 +606,7 @@ afternoon, and none is urgent.
 
 | Where | What |
 |---|---|
+| `utils/inspector.py`, `imagefuncs/plot.py`, `imagefuncs/scatter.py`, `template.py` | **Legend keywords given with `legpos=None` were reported as unused.** The legend keywords reach `legend` only when a legend is drawn, so in a loop with `legpos=0 if j == 1 else None, legsize=15` every other panel warned "Unused kwargs: {'legsize'}" (found in a gPLUTO script, 2026-10-26). Rule decided: `legpos` given in the call, with any value, makes the other legend keywords legitimate, forgotten if no legend is drawn; without it they are still reported. `track_kwargs` gained `switch_keys` (decided 2026-10-30), next to `extra_keys`: `{"legpos": LegendManager.legend}` counts the keys `legend` reads as read whenever `legpos` is in the call. Like `extra_keys` it only counts them, never takes them out of the call, so a legend that is drawn still gets them. The module docstring of `inspector.py` and the template explain both options. Guarded by the three switch tests in `test_inspector.py` and the legend-keyword tests in `test_plot.py` and `test_scatter.py` (the former strict xfail). |
 | `imagefuncs/ticks.py`, `imagefuncs/set_axis.py`, `imagestate.py`, `imagemixin.py`, `imagefuncs/create_axes.py`, `imagekwargs.py`, the drawing managers, `pyproject.toml` | **A scale given again undid the ticks and the minor ticks set before.** matplotlib's `set_xscale`/`set_yscale` give the axis the default locator and formatter of the scale, even when the scale does not change, so `plot(..., xscale="log", xtickslabels=None)` followed by `plot(..., ax=0, xscale="log")` brought the labels back (found in a gPLUTO script, 2026-10-26). The fix came with a new rule for the labels (decided 2026-10-28): labels go only on known ticks, those of the same call or, on an axis of the figure, those kept from an earlier one. Labels without ticks are ignored with a `PyPLUTOConflictWarning`, a count different from the ticks with a `PyPLUTOOptionWarning`, and what was kept stays; `None` hides the labels without ticks; ticks given alone forget the old labels and get matplotlib's automatic ones back (every tick labeled on a non-linear scale), with the minor ticks of the scale; numbers as labels are written by `ScalarFormatter(useMathText=True).format_data`. This replaces the case design of `setxticks`/`setyticks`, `xtickspin`/`ytickspin` and `update_ticks` (the `ticks.py` row below), which is removed: `TicksManager` has `set_ticks`, `shared`, `check_labels` and `apply_ticks`, and the state one per-axis field `ticks`, `{"x": (ticks, labels), "y": ...}`. `set_axis` applies the kept ticks again when a scale is given without ticks. `minorticks` is kept per axis and direction (`"off"` stays until `"on"`), and the scale is set before the minor ticks, which are applied again after it. Shared axes share their ticks and minor ticks per direction, so both are kept for every axis sharing that direction. `Axis.minorticks_on` needs matplotlib 3.9, now the minimum. Guarded by `test_a_sequence_of_calls` and the shared-axes, log and minor-ticks tests in `test_ticks.py`, and by `test_a_scale_given_again_keeps_the_ticks` (the former strict xfail), `test_a_scale_given_again_keeps_fixed_labels`, `test_minor_ticks_switched_off_stay_off` and `test_minor_ticks_follow_the_shared_direction_only` in `test_set_axis.py`. |
 | `utils/pperrors.py`, `utils/ppwarnings.py`, `utils/pplogging.py`, `utils/configure.py`, the reviewed image managers, `image.py`, `load.py`, `loadpart.py`, `template.py`; `Tests/helper_scan.py` (new) | **Errors and warnings said nothing about what went wrong.** Every raise was a built-in (`ValueError`, `TypeError`) and every warning a `UserWarning`, so a user could not tell a mistake of theirs from a bug of pyPLUTO, nor filter one kind. Decided 2026-10-27: categories named by meaning, each also deriving from its closest built-in, the bases never raised. Errors: `PyPLUTOAttributeError`, `AxisError`, `ConfigError`, `CopyError`, `DataError`, `InternalError` (a guard only a bug can trip: always shown in full, with a line asking to report it), `MissingFeatureError` (a line saying where to ask for it), `OptionError`. Warnings: `PyPLUTOBehaviorWarning`, `ConfigWarning`, `ConflictWarning`, `DependencyWarning`, `DeprecationWarning`, `KeywordWarning` (only the unused keywords of the inspector), `OptionWarning`. Each class has a description with examples. Raised the standard way with our names: `raise PyPLUTOAxisError(...)` and `PPWarn.warn(message, category)`, a static method that uses `skip_file_prefixes` from Python 3.12 and counts the frames on 3.11; `PPLog.info`/`PPLog.debug` became static methods too. The reviewed image managers and the three facades moved to them, with their tests on the exact class. Two scans (`test_every_raise_uses_a_category_of_its_own`, `test_every_warning_uses_a_category_of_its_own`, reading `helper_scan.py`) report, as one warning per file, every raise or warning still generic, leaving out the parked and to-be-rewritten files; the list shrinks as files are reviewed. `test_named_object_exists` keeps the names taught by the template in step with the code. |
 | `utils/settings.py` (new), `utils/pperrors.py` (new), `utils/configure.py`, `utils/pplogging.py`, `__init__.py`, the states, mixins and facades, `loadkwargs.py`, `template.py` | **The greeting could not be turned off, and nothing about errors, warnings or colors could be set.** `pp.colorerr`, `pp.colorwarn` and `pp.greet` were read while `__init__.py` ran, before anyone could set them. Now five settings (decided 2026-10-26): `greet`, `text` (`False`, `"default"`, `True`/`"verbose"`, `None`), `colors` (`"PyPLUTO"`, `"always"`, `None`), `warnings` (`"always"`, `"once"`, `"ignore"`, `"error"`) and `errors` (`"short"`, `"full"`), with exact spelling. `SettingsKwargs` and its `Literal` aliases are the one place they are written: the checkers read it for `pp.configure`, and `ALLOWED` is read from it at runtime. Sources, each overriding the one before: the defaults, `~/.config/pypluto/pypluto.toml`, `./pypluto.toml`, `PYPLUTO_*`, `pp.configure(...)`; the first four are read before the greeting, and a wrong value there warns and is ignored. `pp.configure` checks every value before storing any, returns the settings in use and works in a `with`. `PyPLUTOError` (and `PyPLUTOConfigError`, also a `ValueError`) is the base of the errors raised on purpose; only it is colored with `colors="PyPLUTO"`, and `errors="short"` drops its frames inside the package. On an object, `text` left out follows the package, and a given one is checked. The module switches are removed. Guarded by `test_settings.py`, `test_pperrors.py`, `test_configure.py`, `test_pplogging.py` and `test_the_settings_are_read_before_the_greeting`. |

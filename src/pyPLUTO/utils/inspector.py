@@ -15,6 +15,16 @@ at all: the keys a function reads are spelled out in it, while at runtime an
 unused keyword is indistinguishable from one that was consumed. The cost is
 that only literal keys can be found, so a function reading `kwargs[name]`
 must declare its keywords through `extra_keys` instead.
+
+Two options of the decorator add keys to those a function counts as read,
+and neither ever changes what the function receives:
+
+- `extra_keys`, always: keys the scan cannot see, such as computed ones or
+  those forwarded unchanged to another library.
+- `switch_keys`, only when a given keyword is in the call: the keys read by
+  another method. `plot` declares `{"legpos": LegendManager.legend}`, so the
+  legend keywords given with `legpos` are legitimate even when no legend is
+  drawn, while without `legpos` a stray `legsize` is still reported.
 """
 
 from __future__ import annotations
@@ -288,6 +298,7 @@ def track_kwargs(func: Callable[P, R]) -> Callable[P, R]: ...
 def track_kwargs(
     *,
     extra_keys: set[str] | None = None,
+    switch_keys: dict[str, Callable[..., Any]] | None = None,
 ) -> Callable[[Callable[P, R]], Callable[P, R]]: ...
 
 
@@ -295,6 +306,7 @@ def track_kwargs(
     func: Callable[P, R] | None = None,
     *,
     extra_keys: set[str] | None = None,
+    switch_keys: dict[str, Callable[..., Any]] | None = None,
 ) -> Callable[P, R] | Callable[[Callable[P, R]], Callable[P, R]]:
     """Track kwargs keys from source code.
 
@@ -320,6 +332,10 @@ def track_kwargs(
         Keywords to treat as read although the source scan cannot see them:
         those read through a computed key, and those forwarded unchanged to
         another library.
+    - switch_keys: dict[str, Callable] | None, default None
+        Keywords that, when given in the call, make the keywords of another
+        method legitimate too, even if that method is never called. The keys
+        are read from the method's source, so they follow it as it changes.
 
     Returns
     -------
@@ -337,6 +353,11 @@ def track_kwargs(
 
         >>> @track_kwargs(extra_keys={"left", "right"})
         ... def create_axes(self, _check=True, **kwargs): ...
+
+    - Example #3: legend keywords legitimate whenever legpos is given
+
+        >>> @track_kwargs(switch_keys={"legpos": LegendManager.legend})
+        ... def plot(self, x, y=None, _check=True, **kwargs): ...
 
     """
 
@@ -365,6 +386,12 @@ def track_kwargs(
 
         """
         used_keys = find_kwargs_keys(inner_func) | (extra_keys or set())
+
+        # The keys each switch keyword makes legitimate, read once
+        switched = {
+            key: find_kwargs_keys(method)
+            for key, method in (switch_keys or {}).items()
+        }
 
         sig = inspect.signature(inner_func)
 
@@ -434,6 +461,10 @@ def track_kwargs(
             if current is not None:
                 current -= used_keys
                 current -= param_keys
+                # A switch keyword in the call makes its method's keys read
+                for key, keys in switched.items():
+                    if key in kwargs:
+                        current -= keys
 
             result = inner_func(*args, **kwargs)
 

@@ -516,6 +516,56 @@ def test_the_position_is_remembered_by_the_axis() -> None:
     assert texts == ["one", "two"]
 
 
+def test_legend_keywords_are_accepted_with_legpos_none() -> None:
+    """Scatter with legpos=None and a legend keyword: nothing is reported.
+
+    `legpos` is the switch of the legend. Given in the call, with any value,
+    it makes the other legend keywords legitimate, as in a loop where only
+    one panel gets a legend; with no legend drawn they are simply forgotten.
+    A keyword warning means the switch is lost on scatter's decorator.
+    """
+    image = pp.Image(text=False)
+
+    with warnings.catch_warnings(record=True) as raised:
+        warnings.simplefilter("always")
+        image.scatter(x, y, label="one", legpos=None, legsize=15)
+
+    assert [w for w in raised if w.category is PyPLUTOKeywordWarning] == []
+    assert isinstance(image.ax[0], Axes)
+    assert image.ax[0].get_legend() is None
+
+
+def test_legend_keywords_without_legpos_are_reported() -> None:
+    """Give a legend keyword on an axis that never asked for a legend.
+
+    Without `legpos` in the call, or kept by the axis, nothing reads it, so
+    it is a mistake and reported. No warning means the legend keywords are
+    accepted always, and a stray one goes unnoticed.
+    """
+    image = pp.Image(text=False)
+
+    with pytest.warns(
+        PyPLUTOKeywordWarning, match="Unused kwargs: {'legsize'}"
+    ):
+        image.scatter(x, y, label="one", legsize=15)
+
+
+def test_legend_keywords_reach_the_legend_drawn() -> None:
+    """Draw a legend with a font size given in the same call.
+
+    The switch only counts the legend keywords as read; they still travel
+    with the call to the legend. A different size means they were removed
+    on the way.
+    """
+    image = pp.Image(text=False)
+    image.scatter(x, y, label="one", legpos="best", legsize=15)
+
+    assert isinstance(image.ax[0], Axes)
+    legend = image.ax[0].get_legend()
+    assert legend is not None
+    assert legend.get_texts()[0].get_fontsize() == 15
+
+
 # ---- The figure ----
 def test_a_scatter_without_a_figure() -> None:
     """Scatter on an image whose figure is gone.

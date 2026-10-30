@@ -57,7 +57,7 @@ class PlotManager(ImageMixin):
         self.LegendManager = LegendManager(state)
         self.RangeManager = RangeManager(state)
 
-    @track_kwargs
+    @track_kwargs(switch_keys={"legpos": LegendManager.legend})
     def plot(
         self,
         x: ArrayLike,

@@ -56,6 +56,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `AxisManager.set_axis`: `ax` now defaults to `None`, as its docstring and the facade already said
 - `Load`, `LoadPart`, `Image`: `copy`, `deepcopy` and `pickle` raised a `RecursionError`; they now raise a `TypeError` explaining that a pyPLUTO object is not copied, and for loads how to analyse outputs in parallel (pass the output numbers to the workers and load inside each)
 - The "Unused kwargs" warning points at the user's own line instead of a file inside pyPLUTO
+- `plot`/`scatter`: the legend keywords given with `legpos`, also `legpos=None`, are no longer reported as unused when no legend is drawn; without `legpos` they still are (new `switch_keys` option of `track_kwargs`)
 - `plot`/`legend`: with ty checking for Python 3.13 or later, a single colour such as `c="r"` or `c=I.color[i]` was rejected, since ty drops `str` from a union holding numpy's `ArrayLike`. `c` is declared as a colour, a sequence of colours, a sequence of RGB lists, an array or `None`
 - Drawing methods no longer declare the keywords only `Image` reads (`withblack`, `withwhite`, `style`, `nwin`, `numcolors`, `LaTeX`, `fontweight`, `suptitlesize`, `replace`): type checkers accepted `plot(withblack=True)`, which then warned as unused
 - `set_axis`: the `alpha` keyword faded nothing, since it was set on the Axes artist, which draws nothing. It is removed (and reported as unused); `axalpha` takes its place

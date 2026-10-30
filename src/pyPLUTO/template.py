@@ -189,28 +189,26 @@ class ExampleManager(ExampleMixin):
             [2.0, 4.0, 6.0]
 
         """
-        # `track_kwargs` (applied above) inspects this function's source to
-        # discover every key it reads, so that unrecognized keys can be warned
-        # about at the outermost call (`_check=True`, the default for methods
-        # called directly by users) while calls a manager makes to *other*
-        # managers internally pass `_check=False` (see below) to avoid
-        # premature/duplicate warnings before the full kwargs set is known.
+        # `track_kwargs` (above) scans this function's source for the keys it
+        # reads; the outermost call (`_check=True`) warns about the others,
+        # and a manager calling another passes `_check=False` (see below).
         #
-        # The source is parsed and never run, so a key is found only where it
-        # is written out as a literal string. Use one of these four forms:
+        # The source is parsed, never run, so write every key as a literal:
         #
-        #   kwargs["label"]             read, write or delete by subscript
-        #   kwargs.get("label")         same for .pop() and .setdefault()
-        #   "label" in kwargs           same for "label" not in kwargs
-        #   @track_kwargs(extra_keys={"label"})    declared by hand
+        #   kwargs["label"]      also kwargs.get/.pop/.setdefault("label")
+        #   "label" in kwargs    also "label" not in kwargs
         #
-        # Anything else is invisible to the scan, and every caller passing
-        # that keyword is then warned that it is unused although it worked.
-        # In particular avoid a computed key, as in `kwargs[name]`, and a
-        # whole-mapping read, as in `kwargs.items()`: prefer one of the first
-        # three forms, and when the keyword genuinely cannot be written that
-        # way -- or is only forwarded to another library, straight into a
-        # matplotlib call for instance -- use the fourth and declare it.
+        # A computed key (`kwargs[name]`) or a whole-mapping read
+        # (`kwargs.items()`) is invisible, and the keyword is reported as
+        # unused although it worked. Two options declare keys by hand; both
+        # only count them as read, never change what the function receives:
+        #
+        #   @track_kwargs(extra_keys={"left", "right"})
+        #       always: computed keys, or keys forwarded to matplotlib
+        #       (as in create_axes)
+        #   @track_kwargs(switch_keys={"legpos": LegendManager.legend})
+        #       when `legpos` is in the call, even if no legend is drawn
+        #       (as in plot and scatter)
         if (label := kwargs.get("label")) is not None:
             self.state.label = label
 

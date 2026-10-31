@@ -1,4 +1,6 @@
-"""Classical MHD Rayleigh-Taylor instability test.
+"""
+Test 03 - MHD Rayleigh-Taylor instability
+=========================================
 
 This test shows how to display a 2D quantity from a test problem at different
 times in different subplots.
@@ -19,14 +21,20 @@ in the timelist attribute of the pload object D. In order to display a fixed
 number of decimal digits, the f-string formatting is used.
 
 IMPORTANT: During the setup of the test, in the pluto.ini file, the simulation
-time at which a .flt output file is printed should be changed in
+time at which a .flt output file is printed should be changed in::
 
-dbl     -1.0   -1   single_file
-flt      7.5   -1   single_file
+    dbl     -1.0   -1   single_file
+    flt      7.5   -1   single_file
 
 in the static grid output section.
 
+.. image:: /../../Examples/test03_rti.png
+   :align: center
+   :width: 600px
+
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test03_rti.png"
 
 # Loading the relevant packages
 import pyPLUTO

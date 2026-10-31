@@ -113,13 +113,19 @@ class ContourManager(ImageMixin):
         - ctickslabels: str, default None
             If enabled, sets manually ticks labels on the colorbar.
         - extend: {'neither','both','min','max'}, default 'neither'
-            Sets the extension of the triangular colorbar extension.
+            The ends of the colorbar that get an extension, for the values
+            beyond its limits.
         - extendrect: bool, default False
-            If True, the colorbar extension will be triangular.
+            If True, the colorbar extensions are rectangular instead of
+            triangular.
         - figsize: list[float], default varies
             Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
             computed from the number of rows and columns (or [8,5] for a single
             plot).
+        - fillmap: bool, default True
+            For contour lines only: if True, the colorbar is continuous on
+            their color scale, as for a map; if False, it is matplotlib's own,
+            with a line at each level.
         - fontsize: float, default 17.0
             Sets the fontsize for all the axis components.
         - grid: bool | string, default False

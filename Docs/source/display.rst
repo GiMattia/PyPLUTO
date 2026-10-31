@@ -5,6 +5,10 @@ Image.display
 
 .. automethod:: pyPLUTO.imagefuncs.display.DisplayManager.display
 
+.. rubric:: Examples in the gallery
+
+.. minigallery:: pyPLUTO.Image.display
+
 |
 
 ----

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyPLUTO.imagefuncs.plot &#8212; PyPLUTO 1.1.1 documentation</title>
+    <title>pyPLUTO.imagefuncs.plot &#8212; PyPLUTO 1.3 documentation</title>
   
   
   
@@ -26,26 +25,32 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=c83e6b79" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../../_static/documentation_options.js?v=c55cb9cb"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyPLUTO/imagefuncs/plot';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
   
@@ -95,7 +100,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -115,7 +120,7 @@
   
   
   
-    <p class="title logo__title">PyPLUTO 1.1.1 documentation</p>
+    <p class="title logo__title">PyPLUTO 1.3 documentation</p>
   
 </a></div>
     
@@ -172,6 +177,13 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../gallery/index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../../examples.html">
     Examples
   </a>
@@ -205,7 +217,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -216,15 +228,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -235,7 +247,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -308,6 +320,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../gallery/index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../examples.html">
     Examples
   </a>
@@ -340,15 +359,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -412,14 +431,28 @@
                 <article class="bd-article">
                   
   <h1>Source code for pyPLUTO.imagefuncs.plot</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;PlotManager class.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""PlotManager class.</span>
+
+<span class="sd">It draws the 1D lines, the one plot that takes its data as two arrays rather</span>
+<span class="sd">than as a grid. The order of the calls matters: the axis is set and the</span>
+<span class="sd">ranges are widened before the line is drawn, so a second line on the same</span>
+<span class="sd">axis extends the limits instead of replacing them.</span>
+
+<span class="sd">Two things are kept per axis rather than per call: `nline`, the count that</span>
+<span class="sd">walks the color palette when no color is given, and `legpos`, which once set</span>
+<span class="sd">makes every later line on that axis rebuild the legend.</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Unpack</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Unpack</span><span class="p">,</span> <span class="n">cast</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.axes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_color_like</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayLike</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.imagetools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageToolsManager</span>
@@ -430,10 +463,16 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagemixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageMixin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagestate</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageState</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.pperrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyPLUTOInternalError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.ppwarnings</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PPWarn</span><span class="p">,</span>
+    <span class="n">PyPLUTOBehaviorWarning</span><span class="p">,</span>
+    <span class="n">PyPLUTOOptionWarning</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">PlotManager</span><span class="p">(</span><span class="n">ImageMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;PlotManager class.</span>
+<span class="w">    </span><span class="sd">"""PlotManager class.</span>
 
 <span class="sd">    It provides methods to create and manage plots in the</span>
 <span class="sd">    image. It is designed to work with the Image class and allows for dynamic</span>
@@ -441,10 +480,10 @@
 <span class="sd">    the AxisManager, ImageToolsManager, LegendManager, and RangeManager to</span>
 <span class="sd">    handle the display and plotting of the images, axes, legends, and ranges,</span>
 <span class="sd">    respectively.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the PlotManager with the given state.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Initialize the PlotManager with the given state."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span> <span class="o">=</span> <span class="n">AxisManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
@@ -453,7 +492,7 @@
 
 <div class="viewcode-block" id="PlotManager.plot">
 <a class="viewcode-back" href="../../../plot.html#pyPLUTO.imagefuncs.plot.PlotManager.plot">[docs]</a>
-    <span class="nd">@track_kwargs</span>
+    <span class="nd">@track_kwargs</span><span class="p">(</span><span class="n">switch_keys</span><span class="o">=</span><span class="p">{</span><span class="s2">"legpos"</span><span class="p">:</span> <span class="n">LegendManager</span><span class="o">.</span><span class="n">legend</span><span class="p">})</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
@@ -461,8 +500,8 @@
         <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Axes</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">PlotKwargs</span><span class="p">],</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creation of a 1D function plot (or a 1D slice plot).</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Creation of a 1D function plot (or a 1D slice plot).</span>
 
 <span class="sd">        This function plots a 1D function or a 1D slice. It creates a</span>
 <span class="sd">        simple figure and a single axis if none are given prior. If a single</span>
@@ -472,42 +511,54 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        - alpha: float, default 1.0</span>
-<span class="sd">            Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is</span>
-<span class="sd">            fully transparent.</span>
-<span class="sd">        - aspect: &#39;auto&#39; | &#39;equal&#39; | float, default &#39;auto&#39;</span>
-<span class="sd">            Sets the aspect ratio of the plot. The &#39;auto&#39; keyword is the</span>
-<span class="sd">            default option. The &#39;equal&#39; keyword sets the same scaling for x and</span>
+<span class="sd">        - alpha: float, default None</span>
+<span class="sd">            Sets the opacity of the lines, where 1.0 is fully opaque and 0.0</span>
+<span class="sd">            is fully transparent. Without it the lines take the axalpha of the</span>
+<span class="sd">            axis, if any; given together with axalpha, the panel takes axalpha</span>
+<span class="sd">            and the lines alpha.</span>
+<span class="sd">        - aspect: 'auto' | 'equal' | float, default 'auto'</span>
+<span class="sd">            Sets the aspect ratio of the plot. The 'auto' keyword is the</span>
+<span class="sd">            default option. The 'equal' keyword sets the same scaling for x and</span>
 <span class="sd">            y. A float fixes the ratio between the y-scale and the x-scale (1.0</span>
-<span class="sd">            is the same as &#39;equal&#39;).</span>
+<span class="sd">            is the same as 'equal').</span>
 <span class="sd">        - ax: ax | int | None, default None</span>
-<span class="sd">            The axis where to plot. If None, the last considered axis will be</span>
-<span class="sd">            used.</span>
+<span class="sd">            The axis where to plot. If None, the last considered axis is used.</span>
+<span class="sd">            If the figure has no axes yet, or a layout keyword is given (ncol,</span>
+<span class="sd">            nrow, left, right, top, bottom, wspace, hspace, wratio, hratio),</span>
+<span class="sd">            new axes are created first, as with create_axes, and the plot goes</span>
+<span class="sd">            on the last of them.</span>
+<span class="sd">        - axalpha: float, default None</span>
+<span class="sd">            Sets the opacity of the whole panel, where 1.0 is fully opaque and</span>
+<span class="sd">            0.0 is fully transparent: background, spines, ticks, labels,</span>
+<span class="sd">            title, grid, legend and everything drawn on it, own alpha</span>
+<span class="sd">            included. It is kept for the axis, so what is drawn there later</span>
+<span class="sd">            takes it too, unless given its own alpha.</span>
 <span class="sd">        - bottom: float, default varies</span>
 <span class="sd">            The bottom limit of the axis / axes set. For the figure layout it</span>
 <span class="sd">            is the space from the bottom border to the plot (default 0.1); for</span>
 <span class="sd">            an inset zoom it is the bottom position of the inset (default 0.6 +</span>
 <span class="sd">            height).</span>
-<span class="sd">        - c: str, default self.color</span>
+<span class="sd">        - c: str | list[str], default self.color</span>
 <span class="sd">            Determines the color. If not defined, the program will loop</span>
 <span class="sd">            over an array of 6 colors which are different for the most common</span>
-<span class="sd">            vision deficiencies.</span>
+<span class="sd">            vision deficiencies. A list gives one color per line of a 2D</span>
+<span class="sd">            array.</span>
 <span class="sd">        - edgecolor: list[str], default [None]</span>
 <span class="sd">            Sets the edge color of the legend. The default value is black</span>
-<span class="sd">            (&#39;k&#39;).</span>
+<span class="sd">            ('k').</span>
 <span class="sd">        - figsize: list[float], default varies</span>
 <span class="sd">            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],</span>
 <span class="sd">            computed from the number of rows and columns (or [8,5] for a single</span>
 <span class="sd">            plot).</span>
-<span class="sd">        - fillstyle: {&#39;full&#39;, &#39;left&#39;, &#39;right&#39;, &#39;bottom&#39;, &#39;top&#39;, &#39;none&#39;},</span>
-<span class="sd">            default &#39;full&#39;</span>
+<span class="sd">        - fillstyle: {'full', 'left', 'right', 'bottom', 'top', 'none'},</span>
+<span class="sd">            default 'full'</span>
 <span class="sd">            Sets the marker filling. The default value is the fully filled</span>
-<span class="sd">            marker (&#39;full&#39;).</span>
+<span class="sd">            marker ('full').</span>
 <span class="sd">        - fontsize: float, default 17.0</span>
 <span class="sd">            Sets the fontsize for all the axis components.</span>
 <span class="sd">        - grid: bool | string, default False</span>
 <span class="sd">            Enables/disables the grid on the plot. If True it enables both axes</span>
-<span class="sd">            grids. If &#39;x&#39; or &#39;y&#39; it enables only the x- or y-axis grid.</span>
+<span class="sd">            grids. If 'x' or 'y' it enables only the x- or y-axis grid.</span>
 <span class="sd">        - hratio: [float], default [1.0]</span>
 <span class="sd">            Ratio between the rows of the plot. The default is that every plot</span>
 <span class="sd">            row has the same height.</span>
@@ -520,7 +571,7 @@
 <span class="sd">            legend.</span>
 <span class="sd">        - labelsize: float, default fontsize</span>
 <span class="sd">            Sets the labels fontsize (which is the same for both labels). The</span>
-<span class="sd">            default value corresponds to the value of the keyword &#39;fontsize&#39;.</span>
+<span class="sd">            default value corresponds to the value of the keyword 'fontsize'.</span>
 <span class="sd">        - left: float, default varies</span>
 <span class="sd">            The left limit of the axis / axes set. For the figure layout it is</span>
 <span class="sd">            the space from the left border to the plot (default 0.125); for an</span>
@@ -539,14 +590,14 @@
 <span class="sd">            fontsize value.</span>
 <span class="sd">        - legspace: float, default 2</span>
 <span class="sd">            Sets the space between the legend columns, in font-size units.</span>
-<span class="sd">        - ls: {&#39;-&#39;, &#39;--&#39;, &#39;-.&#39;, &#39;:&#39;, &#39; &#39;, etc.}, default &#39;-&#39;</span>
+<span class="sd">        - ls: {'-', '--', '-.', ':', ' ', etc.}, default '-'</span>
 <span class="sd">            Sets the linestyle. The choices available are the ones defined in</span>
 <span class="sd">            the matplotlib package.</span>
 <span class="sd">        - lw: float, default 1.3</span>
 <span class="sd">            Sets the linewidth.</span>
-<span class="sd">        - marker: {&#39;o&#39;, &#39;v&#39;, &#39;^&#39;, &#39;&lt;&#39;, &#39;&gt;&#39;, &#39;X&#39;, &#39; &#39;, etc.}, default &#39; &#39;</span>
+<span class="sd">        - marker: {'o', 'v', '^', '&lt;', '&gt;', 'X', ' ', etc.}, default ' '</span>
 <span class="sd">            Sets an optional symbol for every point. The default value is no</span>
-<span class="sd">            marker (&#39; &#39;).</span>
+<span class="sd">            marker (' ').</span>
 <span class="sd">        - minorticks: str, default None</span>
 <span class="sd">            If not None enables the minor ticks on the plot (for both grid</span>
 <span class="sd">            axes).</span>
@@ -567,17 +618,25 @@
 <span class="sd">            the space from the right border to the plot (default 0.9); for an</span>
 <span class="sd">            inset zoom it is the right position of the inset (default left +</span>
 <span class="sd">            0.15).</span>
-<span class="sd">        - sharex: bool | str | Matplotlib axis, default False</span>
-<span class="sd">            Enables/disables the sharing of the x-axis between the subplots.</span>
-<span class="sd">        - sharey: bool | str | Matplotlib axis, default False</span>
-<span class="sd">            Enables/disables the sharing of the y-axis between the subplots.</span>
+<span class="sd">        - sharex: bool | int | 'all' | 'row' | 'col' | Axes, default None</span>
+<span class="sd">            Shares the x-axis: True or 'all' with the first axis (in</span>
+<span class="sd">            create_axes, the first of those it makes), an index with that</span>
+<span class="sd">            axis of the image, an Axes with that axis. 'row' and 'col' share</span>
+<span class="sd">            within each row or column of the axes a create_axes call makes,</span>
+<span class="sd">            and are refused for axes that already exist.</span>
+<span class="sd">        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None</span>
+<span class="sd">            Deprecated, use sharex.</span>
+<span class="sd">        - sharey: bool | int | 'all' | 'row' | 'col' | Axes, default None</span>
+<span class="sd">            Shares the y-axis, as sharex does.</span>
+<span class="sd">        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None</span>
+<span class="sd">            Deprecated, use sharey.</span>
 <span class="sd">        - suptitle: str, default None</span>
 <span class="sd">            Creates a figure title over all the subplots.</span>
-<span class="sd">        - ticksdir: {&#39;in&#39;, &#39;out&#39;}, default &#39;in&#39;</span>
-<span class="sd">            Sets the ticks direction. The default option is &#39;in&#39;.</span>
+<span class="sd">        - ticksdir: {'in', 'out'}, default 'in'</span>
+<span class="sd">            Sets the ticks direction. The default option is 'in'.</span>
 <span class="sd">        - tickssize: float | bool, default True</span>
 <span class="sd">            Sets the ticks fontsize (which is the same for both grid axes). The</span>
-<span class="sd">            default value corresponds to the value of the keyword &#39;fontsize&#39;.</span>
+<span class="sd">            default value corresponds to the value of the keyword 'fontsize'.</span>
 <span class="sd">        - tight: bool, default True</span>
 <span class="sd">            Enables/disables tight layout options for the figure. In case of a</span>
 <span class="sd">            highly customized plot (e.g. ratios or space between rows and</span>
@@ -589,7 +648,7 @@
 <span class="sd">            Sets the distance between the title and the top of the plot.</span>
 <span class="sd">        - titlesize: float, default fontsize</span>
 <span class="sd">            Sets the title fontsize. The default value corresponds to the value</span>
-<span class="sd">            of the keyword &#39;fontsize&#39;.</span>
+<span class="sd">            of the keyword 'fontsize'.</span>
 <span class="sd">        - top: float, default varies</span>
 <span class="sd">            The top limit of the axis / axes set. For the figure layout it is</span>
 <span class="sd">            the space from the top border to the plot (default 0.9); for an</span>
@@ -604,22 +663,25 @@
 <span class="sd">            and fill the lacks with [0.1].</span>
 <span class="sd">        - x (not optional): 1D array</span>
 <span class="sd">            This is the x-axis variable. If y is not defined, then this becomes</span>
-<span class="sd">            the y-axis variable.</span>
+<span class="sd">            the y-axis variable. Can also be a 2D array to draw multiple lines</span>
+<span class="sd">            sharing the same style in a single call: matplotlib treats each</span>
+<span class="sd">            column as a separate line (requires y to be 2D too, with the same</span>
+<span class="sd">            shape).</span>
 <span class="sd">        - xlabelpad: float, default 4.0</span>
 <span class="sd">            The padding between the x-axis label and the axis.</span>
-<span class="sd">        - xrange: [float, float], default &#39;Default&#39;</span>
+<span class="sd">        - xrange: [float, float], default 'Default'</span>
 <span class="sd">            Sets the range in the x-direction. If not defined, the range is</span>
 <span class="sd">            computed automatically from the x-array.</span>
-<span class="sd">        - xscale: {&#39;linear&#39;,&#39;log&#39;}, default &#39;linear&#39;</span>
-<span class="sd">            If enabled (and different from &#39;Default&#39;), sets automatically the</span>
+<span class="sd">        - xscale: {'linear','log'}, default 'linear'</span>
+<span class="sd">            If enabled (and different from 'Default'), sets automatically the</span>
 <span class="sd">            scale on the x-axis. Data in log scale should be used with the</span>
-<span class="sd">            keyword &#39;log&#39;, while data in linear scale should be used with the</span>
-<span class="sd">            keyword &#39;linear&#39;.</span>
+<span class="sd">            keyword 'log', while data in linear scale should be used with the</span>
+<span class="sd">            keyword 'linear'.</span>
 <span class="sd">        - xticks: list[float] | None | bool, default True</span>
 <span class="sd">            If enabled (and different from True), sets manually ticks on the</span>
 <span class="sd">            x-axis. In order to completely remove the ticks the keyword should</span>
 <span class="sd">            be used with None.</span>
-<span class="sd">        - xtickslabels: list[str] | None | bool, default True</span>
+<span class="sd">        - xtickslabels: str | list[str] | list[float] | None | bool, default True</span>
 <span class="sd">            If enabled (and different from True), sets manually the ticks</span>
 <span class="sd">            labels on the x-axis. In order to completely remove the ticks the</span>
 <span class="sd">            keyword should be used with None. Note that fixed tickslabels</span>
@@ -629,22 +691,22 @@
 <span class="sd">        - xtresh: float</span>
 <span class="sd">            The threshold parameter for the x-axis symlog/asinh scale.</span>
 <span class="sd">        - y: 1D array, default [None]</span>
-<span class="sd">            The y-axis variable.</span>
+<span class="sd">            The y-axis variable. Can also be a 2D array, see `x`.</span>
 <span class="sd">        - ylabelpad: float, default 4.0</span>
 <span class="sd">            The padding between the y-axis label and the axis.</span>
-<span class="sd">        - yrange: [float, float], default &#39;Default&#39;</span>
+<span class="sd">        - yrange: [float, float], default 'Default'</span>
 <span class="sd">            Sets the range in the y-direction. If not defined, the range is</span>
 <span class="sd">            computed automatically from the y-array.</span>
-<span class="sd">        - yscale: {&#39;linear&#39;,&#39;log&#39;}, default &#39;linear&#39;</span>
-<span class="sd">            If enabled (and different from &#39;Default&#39;), sets automatically the</span>
+<span class="sd">        - yscale: {'linear','log'}, default 'linear'</span>
+<span class="sd">            If enabled (and different from 'Default'), sets automatically the</span>
 <span class="sd">            scale on the y-axis. Data in log scale should be used with the</span>
-<span class="sd">            keyword &#39;log&#39;, while data in linear scale should be used with the</span>
-<span class="sd">            keyword &#39;linear&#39;.</span>
+<span class="sd">            keyword 'log', while data in linear scale should be used with the</span>
+<span class="sd">            keyword 'linear'.</span>
 <span class="sd">        - yticks: list[float] | None | bool, default True</span>
 <span class="sd">            If enabled (and different from True), sets manually ticks on the</span>
 <span class="sd">            y-axis. In order to completely remove the ticks the keyword should</span>
 <span class="sd">            be used with None.</span>
-<span class="sd">        - ytickslabels: list[str] | None | bool, default True</span>
+<span class="sd">        - ytickslabels: str | list[str] | list[float] | None | bool, default True</span>
 <span class="sd">            If enabled (and different from True), sets manually the ticks</span>
 <span class="sd">            labels on the y-axis. In order to completely remove the ticks the</span>
 <span class="sd">            keyword should be used with None. Note that fixed tickslabels</span>
@@ -656,7 +718,8 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        - None</span>
+<span class="sd">        - list[Line2D]</span>
+<span class="sd">            The lines drawn, one per column of a 2D y.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -672,19 +735,19 @@
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
 <span class="sd">            &gt;&gt;&gt; I.plot(x, y, xrange = [0,100], yrange = [0.0,1.0],</span>
-<span class="sd">                title = &#39;y in function of x&#39;, xtitle = &#39;x&#39;, ytitle = &#39;y&#39;)</span>
+<span class="sd">                title = 'y in function of x', xtitle = 'x', ytitle = 'y')</span>
 
 <span class="sd">        - Example #3: create a plot with logarithmic scale on y-axis</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x, y, yscale=&quot;log&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x, y, yscale="log")</span>
 
 <span class="sd">        - Example #4: create a plot with a legend and custom ticks on x-axis</span>
 
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
-<span class="sd">            &gt;&gt;&gt; I.plot(x, y, label = &#39;y&#39;, legpos = &#39;lower right&#39;,</span>
+<span class="sd">            &gt;&gt;&gt; I.plot(x, y, label = 'y', legpos = 'lower right',</span>
 <span class="sd">                xticks = [0.2,0.4,0.6,0.8])</span>
 
 <span class="sd">        - Example #5: create plots on already existing axes</span>
@@ -696,20 +759,19 @@
 <span class="sd">            &gt;&gt;&gt; I.plot(x, y * y, ax=I.ax[1])</span>
 <span class="sd">            &gt;&gt;&gt; I.plot(x, z, ax=I.ax[0])</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># If only one argument is given, it is the y-axis</span>
         <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="c1"># One x per row, since a 2D array is one line per column</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Convert x and y in numpy arrays</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PyPLUTOInternalError</span><span class="p">(</span><span class="s2">"No figure is present."</span><span class="p">)</span>
 
         <span class="c1"># Set or create figure and axes</span>
         <span class="n">ax</span><span class="p">,</span> <span class="n">nax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">assign_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -736,40 +798,68 @@
         <span class="p">)</span>
 
         <span class="c1"># Set color line and increase the number of lines (if default color)</span>
-        <span class="n">col_line</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;c&quot;</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">color</span><span class="p">)],</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">):</span>
+        <span class="c1"># Compared to None, since an RGB array has no truth value</span>
+        <span class="n">col_c</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"c"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">col_c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">col_line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">color</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+            <span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nline</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">col_line</span> <span class="o">=</span> <span class="n">col_c</span>
+
+        <span class="c1"># One color for all the lines, or else one color per line</span>
+        <span class="n">colours</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">is_color_like</span><span class="p">(</span><span class="n">col_line</span><span class="p">)</span>
+            <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="s2">"Iterable[ColorType]"</span><span class="p">,</span> <span class="n">col_line</span><span class="p">))</span>
+        <span class="p">)</span>
 
         <span class="c1"># Start plotting procedure</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span>
             <span class="n">y</span><span class="p">,</span>
-            <span class="n">c</span><span class="o">=</span><span class="n">col_line</span><span class="p">,</span>
-            <span class="n">ls</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ls&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">),</span>
-            <span class="n">lw</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lw&quot;</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">),</span>
-            <span class="n">marker</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;marker&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-            <span class="n">ms</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ms&quot;</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span>
-            <span class="n">label</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-            <span class="n">fillstyle</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fillstyle&quot;</span><span class="p">,</span> <span class="s2">&quot;full&quot;</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">=</span><span class="n">col_line</span> <span class="k">if</span> <span class="n">colours</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">ls</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ls"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">),</span>
+            <span class="n">lw</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"lw"</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">),</span>
+            <span class="n">marker</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"marker"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
+            <span class="n">ms</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ms"</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"label"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
+            <span class="n">fillstyle</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fillstyle"</span><span class="p">,</span> <span class="s2">"full"</span><span class="p">),</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">axalpha</span><span class="p">[</span><span class="n">nax</span><span class="p">]),</span>
         <span class="p">)</span>
 
-        <span class="c1"># Creation of the legend</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;legpos&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">])</span>
+        <span class="c1"># A list of the wrong length is cycled through, as the legend does</span>
+        <span class="k">if</span> <span class="n">colours</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">colours</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+                <span class="n">warn</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"c has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">colours</span><span class="p">)</span><span class="si">}</span><span class="s2"> colors for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span><span class="si">}</span><span class="s2"> lines."</span>
+                <span class="n">PPWarn</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="n">PyPLUTOOptionWarning</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+                <span class="n">line</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">colours</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colours</span><span class="p">)])</span>
+
+        <span class="c1"># Creation of the legend, only if something on the axis has a label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"legpos"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">legpos</span><span class="p">[</span><span class="n">nax</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">copy_label</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">LegendManager</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fromplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy_label</span>
+            <span class="k">if</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">copy_label</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"label"</span><span class="p">)</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">LegendManager</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+                    <span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fromplot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy_label</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">warn</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">"legpos is set but nothing on the axis has a label: "</span>
+                    <span class="s2">"no legend is drawn."</span>
+                <span class="p">)</span>
+                <span class="n">PPWarn</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="n">PyPLUTOBehaviorWarning</span><span class="p">)</span>
 
         <span class="c1"># If tight_layout is enabled, is re-inforced</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tight</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 
+        <span class="k">return</span> <span class="n">lines</span></div>
 
-        <span class="c1"># End of the function</span>
 </pre></div>
 
                 </article>
@@ -799,8 +889,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -820,8 +910,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.2.0.
   </p>
 </div>
       
@@ -834,7 +923,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

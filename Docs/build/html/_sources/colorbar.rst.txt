@@ -5,6 +5,10 @@ Image.colorbar
 
 .. automethod:: pyPLUTO.imagefuncs.colorbar.ColorbarManager.colorbar
 
+.. rubric:: Examples in the gallery
+
+.. minigallery:: pyPLUTO.Image.colorbar
+
 |
 
 ----

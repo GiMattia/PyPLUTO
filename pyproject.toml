@@ -51,6 +51,7 @@ cmaps = [
 docs = [
     "sphinx>=9.0.0",
     "sphinx-automodapi>=0.20.0",
+    "sphinx-gallery>=0.17.0",
     "numpydoc>=1.0.0"
 ]
 test = [
@@ -185,6 +186,8 @@ convention = "numpy"
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
 "Tests/*" = ["D", "PLR2004"]
+"Examples/*" = ["D205", "D400"]
+"Gallery/*" = ["D205", "D400"]
 
 [tool.ruff.format]
 quote-style = "double"

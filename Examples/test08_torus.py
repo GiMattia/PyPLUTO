@@ -1,4 +1,6 @@
-"""MHD Torus test.
+"""
+Test 08 - MHD Torus test
+========================
 
 This test shows how to plot two quantities in two different subplots,
 together with the plotting of streamlines in one of them and the
@@ -17,7 +19,13 @@ components need to be converted from spherical into cartesian through
 the cartesian_vector method before converting them on the cartesian mesh
 grid. The image is then saved and shown on screen.
 
+.. image:: /../../Examples/test08_torus.png
+   :align: center
+   :width: 600px
+
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test08_torus.png"
 
 # Loading the relevant packages
 import numpy as np

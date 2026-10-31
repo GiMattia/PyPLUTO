@@ -1,0 +1,303 @@
+:orphan:
+
+PLUTO test problems
+===================
+
+Complete examples on the output of standard PLUTO test problems, bundled
+with pyPLUTO: each loads a simulation and builds a publication-ready
+figure.
+
+
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to plot different 1D quantities from a test problem in the same plot.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test01_sod_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test01_sod`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 01 - HD Sod shock tube</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to display a 2D quantity from a test problem in a single subplot.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test02_ot_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test02_ot`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 02 - MHD Orszag-Tang vortex</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to display a 2D quantity from a test problem at different times in different subplots.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test03_rti_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test03_rti`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 03 - MHD Rayleigh-Taylor instability</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to compute and plot contour lines of the vector potential from a test problem in non-Cartesian coordinates.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test04_rotor_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test04_rotor`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 04 - MHD Rotor test</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to compute streamlines and field lines of the magnetic field in a display with two subplots.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test05_fieldloop_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test05_fieldloop`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 05 - MHD Field loop test</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to plot different 2D quantities from a test problem in the same plot with two zooms.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test06_diskplanet_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test06_diskplanet`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 06 - HD Disk planet test</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to plot a more complex figure with a customized number of subplots and the insert of text inside the plots.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test07_khi_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test07_khi`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 07 - RMHD Kelvin-Helmholtz instability test</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to plot two quantities in two different subplots, together with the plotting of streamlines in one of them and the plotting of the field lines in the other one.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test08_torus_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test08_torus`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 08 - MHD Torus test</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to plot different quantities with customized legends in two different subplots referring to initial and final time data.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test09_blast_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test09_blast`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 09 - MHD Blast test</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to produce an interactive animation of a display.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test10_riemann2d_thumb.gif
+    :alt:
+
+  :doc:`/pluto_tests/test10_riemann2d`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 10 - HD Riemann 2D test (configuration 3)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to plot data from the Load class and the LoadPart class simultaneously and how to produce a scatter plot.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test11_xpoint_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test11_xpoint`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 11 - Particles CR Xpoint test</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to plot data from the Load class and the LoadPart class simultaneously and how to produce a scatter plot on a omplex axes grid.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test12_riemannlp_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test12_riemannlp`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 12 - LP Riemann 2D test</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to plot data from the Load class when handling data obtained from a simulation with AMR.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test13_flowpastcyl_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test13_flowpastcyl`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 13 - AMR Flow past cylinder test</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This test shows how to volume-render a 3D quantity from a test problem with the interactive ray-marching renderer.">
+
+.. only:: html
+
+  .. image:: /pluto_tests/images/thumb/sphx_glr_test16_jet_thumb.png
+    :alt:
+
+  :doc:`/pluto_tests/test16_jet`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Test 16 - MHD Jet volume rendering</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /pluto_tests/test01_sod
+   /pluto_tests/test02_ot
+   /pluto_tests/test03_rti
+   /pluto_tests/test04_rotor
+   /pluto_tests/test05_fieldloop
+   /pluto_tests/test06_diskplanet
+   /pluto_tests/test07_khi
+   /pluto_tests/test08_torus
+   /pluto_tests/test09_blast
+   /pluto_tests/test10_riemann2d
+   /pluto_tests/test11_xpoint
+   /pluto_tests/test12_riemannlp
+   /pluto_tests/test13_flowpastcyl
+   /pluto_tests/test16_jet
+
+
+.. only:: html
+
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
+
+    .. container:: sphx-glr-download sphx-glr-download-python
+
+      :download:`Download all examples in Python source code: pluto_tests_python.zip </pluto_tests/pluto_tests_python.zip>`
+
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download all examples in Jupyter notebooks: pluto_tests_jupyter.zip </pluto_tests/pluto_tests_jupyter.zip>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

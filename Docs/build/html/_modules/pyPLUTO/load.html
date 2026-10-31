@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyPLUTO.load &#8212; PyPLUTO 1.1.1 documentation</title>
+    <title>pyPLUTO.load &#8212; PyPLUTO 1.3 documentation</title>
   
   
   
@@ -26,26 +25,32 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=c83e6b79" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../_static/documentation_options.js?v=c55cb9cb"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyPLUTO/load';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
   
@@ -95,7 +100,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -115,7 +120,7 @@
   
   
   
-    <p class="title logo__title">PyPLUTO 1.1.1 documentation</p>
+    <p class="title logo__title">PyPLUTO 1.3 documentation</p>
   
 </a></div>
     
@@ -172,6 +177,13 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../gallery/index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../examples.html">
     Examples
   </a>
@@ -205,7 +217,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -216,15 +228,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -235,7 +247,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -308,6 +320,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../gallery/index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../examples.html">
     Examples
   </a>
@@ -340,15 +359,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -412,13 +431,32 @@
                 <article class="bd-article">
                   
   <h1>Source code for pyPLUTO.load</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;The Load class loads the data (fluid) from the output files.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""The Load class loads the data (fluid) from the output files.</span>
+
+<span class="sd">Load is a facade: it implements almost nothing itself. It builds the state,</span>
+<span class="sd">builds a manager for each family of operations on that same state, and then</span>
+<span class="sd">every public method is two lines handing the call to the manager that does</span>
+<span class="sd">the work. `pyPLUTO/template.py` describes the pattern and why it is used.</span>
+
+<span class="sd">Reading this file is therefore mostly reading the class docstring, which is</span>
+<span class="sd">the user-facing documentation of every keyword, and the four pieces of</span>
+<span class="sd">machinery that are not delegation: the `__new__` overloads that decide what</span>
+<span class="sd">type a load is, the constructor, and the two attribute hooks that make</span>
+<span class="sd">`Data.rho` work.</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Unpack</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">overload</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Generic</span><span class="p">,</span>
+    <span class="n">Literal</span><span class="p">,</span>
+    <span class="n">NoReturn</span><span class="p">,</span>
+    <span class="n">TypeVar</span><span class="p">,</span>
+    <span class="n">Unpack</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+    <span class="n">overload</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
@@ -445,19 +483,19 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.nabla</span><span class="w"> </span><span class="kn">import</span> <span class="n">NablaManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.set_units</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetUnitsManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.toolfuncs.transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransformManager</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.configure</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_text</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.pperrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyPLUTOAttributeError</span><span class="p">,</span> <span class="n">PyPLUTOCopyError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.pplogging</span><span class="w"> </span><span class="kn">import</span> <span class="n">PPLog</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.resolver</span><span class="w"> </span><span class="kn">import</span> <span class="n">AttrResolver</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_text</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-<span class="n">_VarT</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_VarT&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;np.ndarray | dict[int, np.ndarray]&quot;</span><span class="p">)</span>
+<span class="n">_VarT</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"_VarT"</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">"np.ndarray | dict[int, np.ndarray]"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Load">
 <a class="viewcode-back" href="../../load.html#pyPLUTO.Load">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Load</span><span class="p">(</span><span class="n">LoadMixin</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">_VarT</span><span class="p">]):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Load class loads the data (fluid) from the output files.</span>
+<span class="w">    </span><span class="sd">"""The Load class loads the data (fluid) from the output files.</span>
 
 <span class="sd">    The initialization corresponds to the loading, if wanted, of one or more</span>
 <span class="sd">    datafiles for the fluid. The data are loaded in a memory mapped numpy</span>
@@ -481,15 +519,15 @@
 <span class="sd">        the format from the list of possible formats. HDF5 (AMR) formats have</span>
 <span class="sd">        not been implemented yet.</span>
 <span class="sd">    - defh: bool | str | None, default None</span>
-<span class="sd">        The path to the definitions header file. If True, the code will look for</span>
-<span class="sd">        the default definitions header file. If a string is provided, it will be</span>
-<span class="sd">        used as the path to the definitions header file. If False, the code will</span>
-<span class="sd">        not attempt to read the definitions header file.</span>
+<span class="sd">        Whether to read the definitions header file. If True, the code will</span>
+<span class="sd">        look for definitions.h (or .hpp) in the simulation folder. If False,</span>
+<span class="sd">        the code will not attempt to read it. A string is currently accepted</span>
+<span class="sd">        and ignored: the file is looked for by name in the folder either way.</span>
 <span class="sd">    - endian: str | None, default None</span>
 <span class="sd">        Endianess of the datafiles. Should be used only if specific</span>
 <span class="sd">        architectures are used, since the code computes it by itself. Valid</span>
-<span class="sd">        values are &#39;big&#39; and &#39;little&#39; (or &#39;&lt;&#39; and &#39;&gt;&#39;).</span>
-<span class="sd">    - full3d: bool, default True</span>
+<span class="sd">        values are 'big' and 'little' (or '&lt;' and '&gt;').</span>
+<span class="sd">    - full3D: bool, default False</span>
 <span class="sd">        If disabled, the 3D meshgrids for the grid in non-cartesian coordinates</span>
 <span class="sd">        are not used. Instead, a combination of an external loop and2D meshgrid</span>
 <span class="sd">        is employed. The aim is to allow for cartesian meshes from non-cartesian</span>
@@ -502,22 +540,32 @@
 <span class="sd">        files, otherwise for the multiple files each corresponding to the loaded</span>
 <span class="sd">        variables. Should be used only if both single files and multiple files</span>
 <span class="sd">        are present in the same format for the same datatype.</span>
-<span class="sd">    - nout: int | str | list | None, default &#39;last&#39;</span>
+<span class="sd">    - nout: int | str | list | None, default 'last'</span>
 <span class="sd">        The files to be loaded. Possible choices are int values (which</span>
-<span class="sd">        correspond to the number of the output file), strings (&#39;last&#39;, which</span>
-<span class="sd">        corresponds to the last file, &#39;all&#39;, which corresponds to all files) or</span>
-<span class="sd">        a list of the aforementioned types. Note that the &#39;all&#39; value should be</span>
+<span class="sd">        correspond to the number of the output file), strings ('last', which</span>
+<span class="sd">        corresponds to the last file, 'all', which corresponds to all files) or</span>
+<span class="sd">        a list of the aforementioned types. Note that the 'all' value should be</span>
 <span class="sd">        used carefully, e.g. only when the data need to be shown interactively.</span>
-<span class="sd">    - path: str, default &#39;./&#39;</span>
+<span class="sd">    - path: str, default './'</span>
 <span class="sd">        The path of the folder where the files should be loaded.</span>
 <span class="sd">    - plini: bool | str | None, default None</span>
 <span class="sd">        The path to the pluto.ini file. If True, the code will look for the</span>
 <span class="sd">        default pluto.ini file. If a string is provided, it will be used as the</span>
 <span class="sd">        path to the pluto.ini file. If False, the code will not attempt to read</span>
 <span class="sd">        the pluto.ini file.</span>
-<span class="sd">    - text: bool | None, default None</span>
-<span class="sd">        Controls output verbosity. None (default) prints standard load info at</span>
-<span class="sd">        INFO level. False silences all output. True enables full DEBUG logging.</span>
+<span class="sd">    - skip_units: str | list[str] | None, default None</span>
+<span class="sd">        The variables that keep plain arrays when units are attached. Has no</span>
+<span class="sd">        effect unless 'units' is given.</span>
+<span class="sd">    - text: bool | "default" | "verbose" | None, default None</span>
+<span class="sd">        What this object prints. None follows the package (pp.configure);</span>
+<span class="sd">        False shows only the warnings, "default" the ordinary information,</span>
+<span class="sd">        True or "verbose" also the debug details.</span>
+<span class="sd">    - units: bool | str | list[str] | None, default None</span>
+<span class="sd">        The variables that are converted to astropy units while loading. True</span>
+<span class="sd">        converts every variable, a name or a list of names only those.</span>
+<span class="sd">    - user_units: dict[str, float] | None, default None</span>
+<span class="sd">        Unit scales given by the user, e.g. {'unit_density': 1.0}, taking</span>
+<span class="sd">        precedence over the ones read from the simulation.</span>
 <span class="sd">    - var: str | list[str] | bool | None, default True</span>
 <span class="sd">        The variables to be loaded. The default value, True, corresponds to all</span>
 <span class="sd">        the variables.</span>
@@ -541,12 +589,12 @@
 <span class="sd">    - Example #3: Load the data from the default folder but last output is</span>
 <span class="sd">        specified</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=&quot;last&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout="last")</span>
 <span class="sd">        Loading folder ./,     output [1]</span>
 
 <span class="sd">    - Example #4: Load the data from the default folder and all outputs</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=&quot;all&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout="all")</span>
 <span class="sd">        Loading folder ./,     output [0, 1, 2, 3, 4]</span>
 
 <span class="sd">    - Example #5: Load the data from the default folder and multiple</span>
@@ -558,33 +606,39 @@
 <span class="sd">    - Example #6: Load the data from the default folder and multiple selected</span>
 <span class="sd">        outputs and variables</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=[0, 1, 2], var=[&quot;rho&quot;, &quot;vel1&quot;])</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=[0, 1, 2], var=["rho", "vel1"])</span>
 <span class="sd">        Loading folder ./,     output [0, 1, 2]</span>
 
 <span class="sd">    - Example #7: Load the data from the default folder, multiple selected</span>
 <span class="sd">        outputs and variables, without text</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=[0, 1, 2], vars=[&quot;rho&quot;, &quot;vel1&quot;], text=False)</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(nout=[0, 1, 2], vars=["rho", "vel1"], text=False)</span>
 
 <span class="sd">    - Example #8: Load the data from the default format with selected output</span>
 <span class="sd">        and format</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(data=&quot;vtk&quot;, nout=0)</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(data="vtk", nout=0)</span>
 <span class="sd">        Loading folder ./,     output [0]</span>
 
 <span class="sd">    - Example #9: Load the data from the default folder with selected output,</span>
 <span class="sd">        variables and format</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(data=&quot;vtk&quot;, nout=0, vars=[&quot;rho&quot;, &quot;vel1&quot;])</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(data="vtk", nout=0, vars=["rho", "vel1"])</span>
 <span class="sd">        Loading folder ./,     output [0]</span>
 
 <span class="sd">    - Example #10: Load the data from a specific folder with selected output</span>
 
-<span class="sd">        &gt;&gt;&gt; D = pp.Load(path=&quot;./data/&quot;, nout=0)</span>
+<span class="sd">        &gt;&gt;&gt; D = pp.Load(path="./data/", nout=0)</span>
 <span class="sd">        Loading folder ./data/,     output [0]</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
+    <span class="c1"># The three overloads exist to tell the type checkers what a variable of</span>
+    <span class="c1"># this load will be. Asking for one output gives arrays, asking for</span>
+    <span class="c1"># several gives a dict of arrays keyed by output number, so `D.rho` has a</span>
+    <span class="c1"># different type depending on the nout that was passed. The overloads let</span>
+    <span class="c1"># that be known from the call rather than discovered at runtime; only the</span>
+    <span class="c1"># signatures are read, the last definition is the one that runs.</span>
     <span class="nd">@overload</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -596,7 +650,7 @@
     <span class="nd">@overload</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span>  <span class="c1"># pyright: ignore[reportOverlappingOverload]</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">nout</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
+        <span class="n">nout</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"all"</span><span class="p">],</span>
         <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">LoadKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Load</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span> <span class="o">...</span>
@@ -612,30 +666,41 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">:</span> <span class="nb">object</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Load</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="n">Load</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Allocate a new Load instance.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Allocate a new Load instance."""</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
-            <span class="s2">&quot;Load[np.ndarray] | Load[dict[int, np.ndarray]]&quot;</span><span class="p">,</span>
+            <span class="s2">"Load[np.ndarray] | Load[dict[int, np.ndarray]]"</span><span class="p">,</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">),</span>
         <span class="p">)</span>
 
     <span class="nd">@track_kwargs</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">nout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;last&quot;</span><span class="p">,</span>
+        <span class="n">nout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">"last"</span><span class="p">,</span>
         <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">LoadKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Load class.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Initialize the Load class."""</span>
+        <span class="c1"># The state comes first and everything else is built on it. Note it is</span>
+        <span class="c1"># assigned through the name "state", which __setattr__ below treats as</span>
+        <span class="c1"># the one exception to its forwarding: without that, this line would</span>
+        <span class="c1"># try to store the state inside a state that does not exist yet.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span> <span class="n">LoadState</span> <span class="o">=</span> <span class="n">LoadState</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-        <span class="n">set_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">full3D</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;full3D&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">full3D</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;level&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">level</span><span class="p">)</span>
-        <span class="n">InitLoadManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">nout</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">FiledefpliniManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;defh&quot;</span><span class="p">),</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plini&quot;</span><span class="p">))</span>
 
+        <span class="c1"># Verbosity is settled before anything can log.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">classlog</span> <span class="o">=</span> <span class="n">check_text</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"text"</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">full3D</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"full3D"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">full3D</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"level"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">level</span><span class="p">)</span>
+
+        <span class="c1"># The reading happens here: these two fill the state with the grid,</span>
+        <span class="c1"># the variables and the metadata. _check=False because this call is</span>
+        <span class="c1"># not the outermost one -- __init__ is, and it judges the keywords.</span>
+        <span class="n">InitLoadManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">nout</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">FiledefpliniManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"defh"</span><span class="p">),</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"plini"</span><span class="p">))</span>
+
+        <span class="c1"># Every manager is given the same state object, which is how a result</span>
+        <span class="c1"># written by one is visible to all the others.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ReadFileManager</span> <span class="o">=</span> <span class="n">ReadFilesManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">WriteFileManager</span> <span class="o">=</span> <span class="n">WriteFilesManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span> <span class="o">=</span> <span class="n">FindLinesManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
@@ -645,48 +710,45 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">UnitManager</span> <span class="o">=</span> <span class="n">UnitManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SetUnitsManager</span> <span class="o">=</span> <span class="n">SetUnitsManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">unit_userdef</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;user_units&quot;</span><span class="p">,</span> <span class="p">{})</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">unit_userdef</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"user_units"</span><span class="p">,</span> <span class="p">{})</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">UnitManager</span><span class="o">.</span><span class="n">_make_units_dict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unit_attached</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
-        <span class="n">units</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="n">skip_units</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;skip_units&quot;</span><span class="p">)</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"units"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">skip_units</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"skip_units"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">units</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">to_astropy_units</span><span class="p">(</span><span class="n">var</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="n">skip_units</span><span class="o">=</span><span class="n">skip_units</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">pathdir</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;nout&quot;</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nout</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)):</span>
-                    <span class="n">nout_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nout</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">nout_out</span> <span class="o">=</span> <span class="p">(</span>
-                        <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nout</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-                    <span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"path"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">pathdir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">"nout"</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nout</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)):</span>
+                <span class="n">nout_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nout</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">nout_out</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Load: folder </span><span class="si">%s</span><span class="s2">,     output </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">nout_out</span><span class="p">)</span>
+                <span class="n">nout_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nout</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nout_out</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">PPLog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Load: folder </span><span class="si">%s</span><span class="s2">,     output </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">nout_out</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the repr of the Load class.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the repr of the Load class."""</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Load(nout=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nout</span><span class="si">!r}</span><span class="s2">, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;path=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">pathdir</span><span class="si">!r}</span><span class="s2">, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;geom=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">geom</span><span class="si">!r}</span><span class="s2">)&quot;</span>
+            <span class="sa">f</span><span class="s2">"Load(nout=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">nout</span><span class="si">!r}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"path=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">pathdir</span><span class="si">!r}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"geom=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">geom</span><span class="si">!r}</span><span class="s2">)"</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the string representation of the Load class.&quot;&quot;&quot;</span>
-        <span class="n">text3</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;        - Projections </span><span class="si">{</span><span class="p">[</span><span class="s1">&#39;x1c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;x2c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;x1rc&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;x2rc&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="n">text3</span> <span class="o">=</span> <span class="n">text3</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">&quot;CARTESIAN&quot;</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the string representation of the Load class."""</span>
+        <span class="n">text3</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"        - Projections </span><span class="si">{</span><span class="p">[</span><span class="s1">'x1c'</span><span class="p">,</span><span class="w"> </span><span class="s1">'x2c'</span><span class="p">,</span><span class="w"> </span><span class="s1">'x1rc'</span><span class="p">,</span><span class="w"> </span><span class="s1">'x2rc'</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="n">text3</span> <span class="o">=</span> <span class="n">text3</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span> <span class="o">!=</span> <span class="s2">"CARTESIAN"</span> <span class="k">else</span> <span class="s2">""</span>
 
-        <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"""</span>
 <span class="s2">        Load class.</span>
 <span class="s2">        It loads the data.</span>
 
 <span class="s2">        File properties:</span>
 <span class="s2">        - Current path loaded (pathdir)      </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">pathdir</span><span class="si">}</span>
-<span class="s2">        - Format loaded       (format)       </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">datatype</span><span class="si">}</span>
+<span class="s2">        - Format loaded       (datatype)     </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">datatype</span><span class="si">}</span>
 
 <span class="s2">        Simulation properties</span>
 <span class="s2">        - Dimensions    (dim)      </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">dim</span><span class="si">}</span>
@@ -697,42 +759,89 @@
 <span class="s2">        - Time loaded   (ntime)    </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ntime</span><span class="si">}</span>
 
 <span class="s2">        Public attributes available:</span>
-<span class="s2">        - Number of cells in each direction </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;nx1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nx2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nx3&quot;</span><span class="p">]</span><span class="si">}</span>
-<span class="s2">        - Grid values (cell center)         </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x3&quot;</span><span class="p">]</span><span class="si">}</span>
-<span class="s2">        - Grid values (face center)         </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;x1r&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x2r&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;x3r&quot;</span><span class="p">]</span><span class="si">}</span>
-<span class="s2">        - Cells size                        </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;dx1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;dx2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;dx3&quot;</span><span class="p">]</span><span class="si">}</span>
-<span class="s2">        - Time attributes                   </span><span class="si">{</span><span class="p">[</span><span class="s2">&quot;outlist&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;timelist&quot;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">text3</span><span class="si">}</span>
+<span class="s2">        - Number of cells in each direction </span><span class="si">{</span><span class="p">[</span><span class="s2">"nx1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"nx2"</span><span class="p">,</span><span class="w"> </span><span class="s2">"nx3"</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        - Grid values (cell center)         </span><span class="si">{</span><span class="p">[</span><span class="s2">"x1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"x2"</span><span class="p">,</span><span class="w"> </span><span class="s2">"x3"</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        - Grid values (face center)         </span><span class="si">{</span><span class="p">[</span><span class="s2">"x1r"</span><span class="p">,</span><span class="w"> </span><span class="s2">"x2r"</span><span class="p">,</span><span class="w"> </span><span class="s2">"x3r"</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        - Cells size                        </span><span class="si">{</span><span class="p">[</span><span class="s2">"dx1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dx2"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dx3"</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        - Time attributes                   </span><span class="si">{</span><span class="p">[</span><span class="s2">"outlist"</span><span class="p">,</span><span class="w"> </span><span class="s2">"timelist"</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">text3</span><span class="si">}</span>
 <span class="s2">        Variables available:</span>
-<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">d_info</span><span class="p">[</span><span class="s2">&quot;varslist&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span>
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">d_info</span><span class="p">[</span><span class="s2">"varslist"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span>
 <span class="s2">        Variables loaded:</span>
 <span class="s2">        </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">d_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span>
 
 <span class="s2">        Public methods available:</span>
 
-<span class="s2">        - slices</span>
 <span class="s2">        - cartesian_vector</span>
-<span class="s2">        - reshape_cartesian</span>
-<span class="s2">        - write_file</span>
-<span class="s2">        - fourier</span>
-<span class="s2">        - nabla</span>
+<span class="s2">        - curl</span>
+<span class="s2">        - divergence</span>
 <span class="s2">        - find_contour</span>
 <span class="s2">        - find_fieldlines</span>
-<span class="s2">        - vector_field</span>
+<span class="s2">        - fourier</span>
+<span class="s2">        - gradient</span>
+<span class="s2">        - mirror</span>
+<span class="s2">        - read_file</span>
+<span class="s2">        - reshape_cartesian</span>
+<span class="s2">        - reshape_uniform</span>
+<span class="s2">        - slices</span>
+<span class="s2">        - to_astropy_units</span>
+<span class="s2">        - to_code_units</span>
+<span class="s2">        - write_file</span>
 
-<span class="s2">        Please refrain from using &quot;private&quot; methods and attributes.</span>
-<span class="s2">        &quot;&quot;&quot;</span>
+<span class="s2">        Please refrain from using "private" methods and attributes.</span>
+<span class="s2">        """</span>
         <span class="k">return</span> <span class="n">text</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_VarT</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the attribute of the Load class.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get the attribute of the Load class.</span>
+
+<span class="sd">        Called only for names Python could not find the usual way, so the</span>
+<span class="sd">        fields with a property on LoadMixin never reach here: this is the</span>
+<span class="sd">        path for the loaded variables, whose names come from the simulation</span>
+<span class="sd">        and cannot be declared in advance.</span>
+
+<span class="sd">        The value goes through AttrResolver, which is what turns a</span>
+<span class="sd">        memory-mapped window into an array the state owns, once, on the first</span>
+<span class="sd">        access. See `utils/resolver.py`.</span>
+
+<span class="sd">        `state` itself and the special names are refused at once: before</span>
+<span class="sd">        __init__ has run, as on an object copy or pickle builds, there is no</span>
+<span class="sd">        state to read them from, and reading it would call __getattr__ again,</span>
+<span class="sd">        forever.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"state"</span> <span class="ow">or</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"__"</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">PyPLUTOAttributeError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;_VarT&quot;</span><span class="p">,</span> <span class="n">AttrResolver</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">"_VarT"</span><span class="p">,</span> <span class="n">AttrResolver</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the attribute of the Load class.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;state&quot;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Set the attribute of the Load class.</span>
+
+<span class="sd">        Every assignment is forwarded to the state, so `D.rho = ...` and a</span>
+<span class="sd">        user's own `D.my_var = ...` are stored in the one place the managers</span>
+<span class="sd">        read from.</span>
+
+<span class="sd">        Two exceptions, both in the first line: the state itself, which has to</span>
+<span class="sd">        live on the Load, and anything assigned before the state exists, which</span>
+<span class="sd">        is what makes the first line of __init__ possible.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"state"</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"state"</span><span class="p">):</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Refuse to be copied or pickled, with a way out.</span>
+
+<span class="sd">        copy, deepcopy and pickle all ask for the state through this method.</span>
+<span class="sd">        A copy sharing the state would change with the original, a full one</span>
+<span class="sd">        would read every memory-mapped variable into RAM, and the open maps</span>
+<span class="sd">        cannot be pickled at all; so none is made. Parallel analysis does not</span>
+<span class="sd">        need it: each worker loads its own output.</span>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="n">PyPLUTOCopyError</span><span class="p">(</span>
+            <span class="s2">"A Load cannot be copied or pickled. To analyse several outputs "</span>
+            <span class="s2">"in parallel, pass the output numbers to the workers and call "</span>
+            <span class="s2">"pp.Load inside each of them."</span>
+        <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">write_file</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -744,7 +853,7 @@
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">WriteFileKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write file method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Write file method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">WriteFileManager</span><span class="o">.</span><span class="n">write_file</span><span class="p">(</span>
             <span class="n">data</span><span class="p">,</span>
             <span class="n">filename</span><span class="p">,</span>
@@ -755,6 +864,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
 
+    <span class="c1"># Every method below follows this shape: a one-line placeholder docstring,</span>
+    <span class="c1"># a body that forwards to the manager, and this line copying the manager's</span>
+    <span class="c1"># full documentation onto the facade method. Without the copy, `help(D.</span>
+    <span class="c1"># write_file)` would show the placeholder instead of the real thing.</span>
     <span class="n">write_file</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">WriteFilesManager</span><span class="o">.</span><span class="n">write_file</span><span class="o">.</span><span class="vm">__doc__</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">read_file</span><span class="p">(</span>
@@ -764,7 +877,7 @@
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ReadFileKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read file method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Read file method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ReadFileManager</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span>
             <span class="n">filename</span><span class="p">,</span>
             <span class="n">datatype</span><span class="p">,</span>
@@ -782,7 +895,7 @@
         <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">edge_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gradient method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Gradient method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NablaManager</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span>
             <span class="n">var</span><span class="p">,</span>
             <span class="n">x1slice</span><span class="p">,</span>
@@ -803,7 +916,7 @@
         <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">edge_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Divergence method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Divergence method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NablaManager</span><span class="o">.</span><span class="n">divergence</span><span class="p">(</span>
             <span class="n">v1</span><span class="p">,</span>
             <span class="n">v2</span><span class="p">,</span>
@@ -826,7 +939,7 @@
         <span class="n">x3slice</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">edge_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Curl method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Curl method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NablaManager</span><span class="o">.</span><span class="n">curl</span><span class="p">(</span>
             <span class="n">v1</span><span class="p">,</span>
             <span class="n">v2</span><span class="p">,</span>
@@ -845,7 +958,7 @@
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">FourierKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fourier method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Fourier method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FourierManager</span><span class="o">.</span><span class="n">fourier</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">fourier</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">FourierManager</span><span class="o">.</span><span class="n">fourier</span><span class="o">.</span><span class="vm">__doc__</span>
@@ -860,7 +973,7 @@
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">SlicesKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Slices method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Slices method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">slices</span><span class="p">(</span>
             <span class="n">var</span><span class="p">,</span>
             <span class="n">diag</span><span class="p">,</span>
@@ -876,11 +989,11 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">mirror</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">var</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-        <span class="n">dirs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">=</span> <span class="s2">&quot;l&quot;</span><span class="p">,</span>
+        <span class="n">dirs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">=</span> <span class="s2">"l"</span><span class="p">,</span>
         <span class="n">xax</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">yax</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mirror method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Mirror method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">xax</span><span class="p">,</span> <span class="n">yax</span><span class="p">)</span>
 
     <span class="n">mirror</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">TransformManager</span><span class="o">.</span><span class="n">mirror</span><span class="o">.</span><span class="vm">__doc__</span>
@@ -892,7 +1005,7 @@
         <span class="n">xax</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">yax</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Repeat method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Repeat method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">xax</span><span class="p">,</span> <span class="n">yax</span><span class="p">)</span>
 
     <span class="n">repeat</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">TransformManager</span><span class="o">.</span><span class="n">repeat</span><span class="o">.</span><span class="vm">__doc__</span>
@@ -903,7 +1016,7 @@
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">CartesianVectorKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cartesian vector method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Cartesian vector method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">cartesian_vector</span><span class="p">(</span>
             <span class="n">var</span><span class="p">,</span>
             <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span>
@@ -920,7 +1033,7 @@
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ReshapeKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reshape cartesian method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Reshape cartesian method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">reshape_cartesian</span><span class="p">(</span>
             <span class="n">var1</span><span class="p">,</span>
             <span class="n">var2</span><span class="p">,</span>
@@ -939,7 +1052,7 @@
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ReshapeKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reshape uniform method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Reshape uniform method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransformManager</span><span class="o">.</span><span class="n">reshape_uniform</span><span class="p">(</span>
             <span class="n">var1</span><span class="p">,</span>
             <span class="n">var2</span><span class="p">,</span>
@@ -958,11 +1071,11 @@
         <span class="n">y0</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">x1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">x2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">FindFieldlinesKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find fieldlines method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Find fieldlines method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span><span class="o">.</span><span class="n">find_fieldlines</span><span class="p">(</span>
             <span class="n">var1</span><span class="p">,</span>
             <span class="n">var2</span><span class="p">,</span>
@@ -983,7 +1096,7 @@
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">FindContourKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find contour method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Find contour method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FindLinesManager</span><span class="o">.</span><span class="n">find_contour</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="n">_check</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">find_contour</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">FindLinesManager</span><span class="o">.</span><span class="n">find_contour</span><span class="o">.</span><span class="vm">__doc__</span>
@@ -993,7 +1106,7 @@
         <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">skip_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;To astropy units method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""To astropy units method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">SetUnitsManager</span><span class="o">.</span><span class="n">to_astropy_units</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">skip_units</span><span class="p">)</span>
 
     <span class="n">to_astropy_units</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">SetUnitsManager</span><span class="o">.</span><span class="n">to_astropy_units</span><span class="o">.</span><span class="vm">__doc__</span>
@@ -1003,7 +1116,7 @@
         <span class="n">var</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">skip_units</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;To code units method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""To code units method."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">SetUnitsManager</span><span class="o">.</span><span class="n">to_code_units</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">skip_units</span><span class="p">)</span>
 
     <span class="n">to_code_units</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">SetUnitsManager</span><span class="o">.</span><span class="n">to_code_units</span><span class="o">.</span><span class="vm">__doc__</span></div>
@@ -1037,8 +1150,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1058,8 +1171,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.2.0.
   </p>
 </div>
       
@@ -1072,7 +1184,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

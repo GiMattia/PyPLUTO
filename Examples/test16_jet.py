@@ -1,4 +1,6 @@
-"""MHD jet volume rendering test.
+"""
+Test 16 - MHD Jet volume rendering
+==================================
 
 This test shows how to volume-render a 3D quantity from a test problem
 with the interactive ray-marching renderer.
@@ -28,7 +30,13 @@ since saving a file should be strictly related to a single Image class.
 Conversely, the pp.show displays all the figures generated in the script
 (here only one).
 
+.. image:: /../../Examples/test16_jet.png
+   :align: center
+   :width: 600px
+
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test16_jet.png"
 
 # Loading the relevant packages
 import numpy as np

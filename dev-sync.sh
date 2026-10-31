@@ -61,6 +61,9 @@ run_pixi_sync() {
 
   echo ">>> pixi: installing full environment"
   pixi install -e full
+
+  echo ">>> pixi: installing local-dev environment"
+  pixi install -e local-dev
 }
 
 echo ">>> Mode: $mode"

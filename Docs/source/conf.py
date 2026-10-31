@@ -30,7 +30,29 @@ extensions = [
     "sphinx.ext.autosectionlabel",
     "numpydoc",
     "sphinx.ext.viewcode",
+    "sphinx_gallery.gen_gallery",
 ]
+
+# Two galleries: the scripts in Gallery/ are run and give their figures, and
+# the methods they call collect them in a box of examples (backreferences);
+# the PLUTO test problems in Examples/ are not run, and show the figure each
+# script saves
+sphinx_gallery_conf = {
+    "examples_dirs": ["../../Gallery", "../../Examples"],
+    "gallery_dirs": ["gallery", "pluto_tests"],
+    "filename_pattern": r"/Gallery/",
+    "within_subsection_order": "FileNameSortKey",
+    "doc_module": ("pyPLUTO",),
+    "backreferences_dir": "gen_modules/backreferences",
+    "write_computation_times": False,
+    "remove_config_comments": True,
+    # The images depend on pyPLUTO too, so unchanged scripts run again
+    "run_stale_examples": True,
+}
+
+# The gallery index repeats the heading of each topic page by design
+suppress_warnings = ["autosectionlabel.gallery/index"]
+
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
 }
@@ -49,11 +71,25 @@ html_show_sourcelink = False
 
 html_theme = "pydata_sphinx_theme"
 
+html_title = "PyPLUTO"
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 html_theme_options = {
-    "navbar_align": "content",  # or "left", doesn't affect this feature but is good practice
-    "show_nav_level": 2,  # <--- KEY LINE: Show all nav items at the top
+    "navbar_align": "left",
+    "show_nav_level": 2,
+    # All eight pages in the bar, with no "More" menu
+    "header_links_before_dropdown": 8,
+    # Search as an icon next to the color mode, like matplotlib
+    "navbar_persistent": [],
+    "navbar_end": ["search-button", "theme-switcher", "navbar-icon-links"],
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/GiMattia/PyPLUTO",
+            "icon": "fa-brands fa-github",
+            "type": "fontawesome",
+        },
+    ],
 }
 
 # Add 'qualname' to autodoc_default_options

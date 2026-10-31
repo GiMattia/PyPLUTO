@@ -1,4 +1,6 @@
-"""HD shock tube test.
+"""
+Test 01 - HD Sod shock tube
+===========================
 
 This test shows how to plot different 1D quantities from a test problem
 in the same plot.
@@ -19,7 +21,13 @@ since saving a file should be strictly related to a single Image class.
 Conversely, the pp.show displays all the figures generated in the script
 (here only one).
 
+.. image:: /../../Examples/test01_sod.png
+   :align: center
+   :width: 600px
+
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test01_sod.png"
 
 # Loading the relevant packages
 import pyPLUTO

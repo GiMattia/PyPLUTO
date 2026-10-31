@@ -27,9 +27,9 @@ Contents
 .. toctree::
 
    install
-   loadclass
-   toolsmethods
-   imageclass
+   Load <loadclass>
+   Tools <toolsmethods>
+   Plot <imageclass>
    gui
    examples
    faq

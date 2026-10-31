@@ -294,6 +294,24 @@ def test_the_inset_is_an_axis_of_the_image() -> None:
     assert len(axins.get_lines()) == 2
 
 
+def test_the_parent_stays_the_last_considered_axis() -> None:
+    """Zoom on a map, then ask for a colorbar without saying where.
+
+    An inset is a detail of its panel, so what follows without ax goes on
+    the panel: the bar describes the parent's map. It used to be cut from
+    the inset, tiny and next to it, since the inset had become the last
+    considered axis.
+    """
+    image = pp.Image(text=False)
+    mesh = image.display(bowl, x1=coord, x2=coord)
+    image.zoom(**WINDOW)
+
+    cbar = image.colorbar()
+
+    assert image.lastax is image.ax[0]
+    assert cbar.mappable is mesh
+
+
 def test_the_inset_shows_no_axis_index() -> None:
     """Zoom on an image that labels its axes with their index.
 

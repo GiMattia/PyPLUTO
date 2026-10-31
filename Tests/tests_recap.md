@@ -1,16 +1,21 @@
 # Tests recap
 
-**2523 tests** · 19 known bugs as expected failures · in-scope coverage
-**84.9%** (88.5% without the parked files) · target 100%
+**2526 tests** · 19 known bugs as expected failures · in-scope coverage
+**84.9%** (88.6% without the parked files) · target 100%
 
 | Status | Files |
 |---|---|
-| reviewed | 35 |
+| completed | 1 |
+| reviewed | 34 |
 | almost | 0 |
 | to review | 35 |
 | to write | 5 |
 | out of scope | 5 |
 
+- **completed** — reviewed, then gone through once more with the user:
+  every behavior checked again, every line of the source and of its test
+  read and agreed, the bugs found on the way fixed, and its examples added
+  to the gallery (see *Completing a file*).
 - **reviewed** — every step of the per-file checklist below is done,
   documentation included, and coverage is at 100%.
 - **almost** — the checklist is done, but coverage is not yet 100%.
@@ -55,7 +60,7 @@ test, or a test would compare the code with itself.
 | `gui/services.py` | `gui/test_services.py` | 30 | 88% | to review |
 | `gui/state_accessors.py` | `gui/test_state_accessors.py` | 15 | 100% | to review |
 | `image.py` | `test_image.py` | 122 | 100% | reviewed |
-| `imagefuncs/colorbar.py` | `imagefuncs/test_colorbar.py` | 41 | 100% | reviewed |
+| `imagefuncs/colorbar.py` | `imagefuncs/test_colorbar.py` | 52 | 100% | completed |
 | `imagefuncs/contour.py` | `imagefuncs/test_contour.py` | 33 | 100% | reviewed |
 | `imagefuncs/create_axes.py` | `imagefuncs/test_create_axes.py` | 50 | 100% | reviewed |
 | `imagefuncs/display.py` | `imagefuncs/test_display.py` | 33 | 100% | reviewed |
@@ -72,7 +77,7 @@ test, or a test would compare the code with itself.
 | `imagefuncs/ticks.py` | `imagefuncs/test_ticks.py` | 18 | 100% | to review |
 | `imagefuncs/volengine.py` | `imagefuncs/test_volengine.py` | 49 | 59% | to review |
 | `imagefuncs/volume.py` | `imagefuncs/test_volume.py` | 5 | 91% | to review |
-| `imagefuncs/zoom.py` | `imagefuncs/test_zoom.py` | 51 | 100% | reviewed |
+| `imagefuncs/zoom.py` | `imagefuncs/test_zoom.py` | 52 | 100% | reviewed |
 | `imagekwargs.py` | `test_imagekwargs.py` | 141 | 100% | reviewed |
 | `imagemixin.py` | `test_imagemixin.py` | 127 | 100% | reviewed |
 | `imagestate.py` | `test_imagestate.py` | 56 | 100% | reviewed |
@@ -446,6 +451,12 @@ in `test_with_issues.py`, or -- if it is a design choice -- a row in
   A size that differs by one pixel is matplotlib rounding a tight bounding
   box the other way and is safe to accept; a differing region inside a frame
   is a real plotting change and must be understood first.
+- `test_gallery.py` — the same check for the gallery: every script in
+  `Gallery/<topic>/` is run in a fresh interpreter and each figure it
+  leaves open is compared pixel by pixel with
+  `Tests/Ref_figs/gallery/<topic>/`. Collected by pytest, since the scripts
+  draw synthetic data and run in a moment. A new script gets its reference
+  with `--update`, and `--check` lists what differs, as above.
 
 ## Per-file checklist
 
@@ -505,6 +516,26 @@ pass: a file is finished when a new developer can read it.
    grows.
 9. **Bookkeeping** — update the file's row and the totals at the top; run
    `_test_examples.py` after every few files.
+
+## Completing a file
+
+A reviewed file moves to **completed** after a second pass, with the user,
+one file at a time (decided 2026-10-31):
+
+1. **Reading** — the user reads the source and asks about anything unclear.
+2. **Bug hunt** — real edge cases, and how the file meets the others: its
+   callers, the `Image` facade, its row in `imagekwargs.py`, the docstrings
+   that repeat its keywords, its page in the docs. Each fix says which
+   other files it reaches.
+3. **Fixes** — one file at a time, each guarded by a test.
+4. **Gallery** — scripts in `Gallery/<topic>/`, written from the same
+   template, their references made with `python Tests/test_gallery.py
+   --update`, and a box of examples on the page of each method they call.
+5. **Tests** — the user reads the test file; coverage stays at 100%, and a
+   copy of the test file is clean under pyright and ty.
+6. **Gallery pages** — the user checks the built pages.
+7. **Closing** — `_test_examples.py --check`, the full suite, the CHANGELOG
+   and this recap, in the same commit as the work.
 
 ## Deferred structural improvements
 
@@ -604,6 +635,8 @@ afternoon, and none is urgent.
 
 | Where | What |
 |---|---|
+| `imagefuncs/colorbar.py`, `imagekwargs.py`, the docstrings of `contour`, `display`, `scatter`, `streamplot`, `zoom`, `interactive` | **The colorbar did not know where it stood.** Found in the completing pass (2026-10-31). An unknown `cpos` was drawn anyway, on matplotlib's default side; `cax` could be the axis described, drawing the bar over its own map; the gap was measured from the frame, so on the left and on top the bar covered the tick labels, the axis title and the panel title; on the left and on top the ticks and label faced the axis, since matplotlib puts them on the right or at the bottom; a second bar on an axis was cut from a divider of its own, placed without knowing of the first, and landed on the tick labels; contour lines always got the continuous bar, with no way to matplotlib's own. Now `cpos` is checked first and a wrong one raises a `PyPLUTOOptionError`; `cax` equal to the axis described raises a `PyPLUTOAxisError`; `side_space` measures what the axis draws on that side (the facing axis, and on top the title) and the gap `cpad` starts there, in inches; `location=cpos` puts the ticks and label on the outer side, also in a given `cax`; the divider of an axis that has a bar is found again in its locator, so the next bar is cut from it and the map shrinks for both; `fillmap` (default `True`, decided 2026-10-31) gives contour lines the continuous bar, and `False` matplotlib's own. `find_ax` is public. The `extend` and `extendrect` entries said the opposite of what they do in every docstring repeating them. ruff's branch count on `colorbar` (13 > 12) is accepted until `_check` is removed. Guarded by `test_the_default_side_is_the_documented_one`, `test_colorbar_positions`, `test_the_bar_covers_nothing_the_axis_draws`, `test_the_gap_is_in_inches`, `test_no_space_where_nothing_is_drawn`, `test_the_title_takes_space_on_top`, `test_two_bars_on_one_map`, `test_a_side_that_does_not_exist`, `test_a_given_axis_takes_the_side_of_its_ticks`, `test_the_axis_described_is_not_a_place_for_the_bar` and `test_fillmap_off_gives_the_bar_of_the_lines`. |
+| `imagefuncs/zoom.py` | **After a zoom, the next call without `ax` went into the inset.** `zoom` sets up and fills the inset through `set_axis` and `zoomcopy`, whose managers recorded it as the last considered axis, so `zoom(...)` followed by `colorbar()` put the bar beside the inset. An inset is a detail of its panel (decided 2026-10-31): the panel stays the last considered axis. Guarded by `test_the_parent_stays_the_last_considered_axis`. |
 | `imagefuncs/scatter.py`, `imagefuncs/plot.py` | **`scatter` built a legend with nothing labeled.** Unlike `plot`, it called `legend` whatever was on the axis, so `scatter(x, y, legpos="best")` without `label` gave an empty frame and matplotlib's *"No artists with labels found"*. It now checks `get_legend_handles_labels` as `plot` does: no legend, our warning, and the position kept, so the first labeled drawing brings the legend. One message for both, since lines and points share the axis (decided 2026-10-30): *"legpos is set but nothing on the axis has a label: no legend is drawn."* Guarded by `test_a_legend_without_any_label_is_not_drawn` and `test_a_label_after_legpos_brings_the_legend` in `test_scatter.py`. |
 | `utils/inspector.py`, `imagefuncs/plot.py`, `imagefuncs/scatter.py`, `template.py` | **Legend keywords given with `legpos=None` were reported as unused.** The legend keywords reach `legend` only when a legend is drawn, so in a loop with `legpos=0 if j == 1 else None, legsize=15` every other panel warned "Unused kwargs: {'legsize'}" (found in a gPLUTO script, 2026-10-26). Rule decided: `legpos` given in the call, with any value, makes the other legend keywords legitimate, forgotten if no legend is drawn; without it they are still reported. `track_kwargs` gained `switch_keys` (decided 2026-10-30), next to `extra_keys`: `{"legpos": LegendManager.legend}` counts the keys `legend` reads as read whenever `legpos` is in the call. Like `extra_keys` it only counts them, never takes them out of the call, so a legend that is drawn still gets them. The module docstring of `inspector.py` and the template explain both options. Guarded by the three switch tests in `test_inspector.py` and the legend-keyword tests in `test_plot.py` and `test_scatter.py` (the former strict xfail). |
 | `imagefuncs/ticks.py`, `imagefuncs/set_axis.py`, `imagestate.py`, `imagemixin.py`, `imagefuncs/create_axes.py`, `imagekwargs.py`, the drawing managers, `pyproject.toml` | **A scale given again undid the ticks and the minor ticks set before.** matplotlib's `set_xscale`/`set_yscale` give the axis the default locator and formatter of the scale, even when the scale does not change, so `plot(..., xscale="log", xtickslabels=None)` followed by `plot(..., ax=0, xscale="log")` brought the labels back (found in a gPLUTO script, 2026-10-26). The fix came with a new rule for the labels (decided 2026-10-28): labels go only on known ticks, those of the same call or, on an axis of the figure, those kept from an earlier one. Labels without ticks are ignored with a `PyPLUTOConflictWarning`, a count different from the ticks with a `PyPLUTOOptionWarning`, and what was kept stays; `None` hides the labels without ticks; ticks given alone forget the old labels and get matplotlib's automatic ones back (every tick labeled on a non-linear scale), with the minor ticks of the scale; numbers as labels are written by `ScalarFormatter(useMathText=True).format_data`. This replaces the case design of `setxticks`/`setyticks`, `xtickspin`/`ytickspin` and `update_ticks` (the `ticks.py` row below), which is removed: `TicksManager` has `set_ticks`, `shared`, `check_labels` and `apply_ticks`, and the state one per-axis field `ticks`, `{"x": (ticks, labels), "y": ...}`. `set_axis` applies the kept ticks again when a scale is given without ticks. `minorticks` is kept per axis and direction (`"off"` stays until `"on"`), and the scale is set before the minor ticks, which are applied again after it. Shared axes share their ticks and minor ticks per direction, so both are kept for every axis sharing that direction. `Axis.minorticks_on` needs matplotlib 3.9, now the minimum. Guarded by `test_a_sequence_of_calls` and the shared-axes, log and minor-ticks tests in `test_ticks.py`, and by `test_a_scale_given_again_keeps_the_ticks` (the former strict xfail), `test_a_scale_given_again_keeps_fixed_labels`, `test_minor_ticks_switched_off_stay_off` and `test_minor_ticks_follow_the_shared_direction_only` in `test_set_axis.py`. |

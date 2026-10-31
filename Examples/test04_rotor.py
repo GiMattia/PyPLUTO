@@ -1,4 +1,6 @@
-"""MHD Rotor test.
+"""
+Test 04 - MHD Rotor test
+========================
 
 This test shows how to compute and plot contour lines of the vector potential
 from a test problem in non-Cartesian coordinates.
@@ -18,13 +20,19 @@ different colors of a cmap. Conversely, the lines in the right plot have
 different colors based on their contour level.
 
 IMPORTANT: in order to produce the contour lines of the vector potential, the
-following lines should be added to the definitions.h file:
+following lines should be added to the definitions.h file::
 
-#define  UPDATE_VECTOR_POTENTIAL        YES
+    #define  UPDATE_VECTOR_POTENTIAL        YES
 
 in the user-defined constants section.
 
+.. image:: /../../Examples/test04_rotor.png
+   :align: center
+   :width: 600px
+
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test04_rotor.png"
 
 import numpy as np
 

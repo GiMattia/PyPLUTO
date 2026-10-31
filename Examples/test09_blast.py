@@ -1,4 +1,6 @@
-"""MHD Blast test.
+"""
+Test 09 - MHD Blast test
+========================
 
 This test shows how to plot different quantities with customized legends
 in two different subplots referring to initial and final time data.
@@ -13,7 +15,13 @@ legend method are then used to plot a highly informative plot of density
 and pression with customized legend labels. The image is then saved and
 shown on screen.
 
+.. image:: /../../Examples/test09_blast.png
+   :align: center
+   :width: 600px
+
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test09_blast.png"
 
 # Loading the relevant packages
 import numpy as np

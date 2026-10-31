@@ -1,4 +1,6 @@
-"""HD disk-planet test.
+"""
+Test 06 - HD Disk planet test
+=============================
 
 This test shows how to plot different 2D quantities from a test problem
 in the same plot with two zooms.
@@ -26,7 +28,13 @@ The second zoom is also plotted with a different variable with respect
 to the main plot, to show the flexibility of the zoom method in plotting
 different quantities in the same region.
 
+.. image:: /../../Examples/test06_diskplanet.png
+   :align: center
+   :width: 600px
+
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test06_diskplanet.png"
 
 # Loading the relevant packages
 import numpy as np

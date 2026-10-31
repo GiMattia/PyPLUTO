@@ -1,4 +1,6 @@
-"""Particles CR Xpoint test.
+"""
+Test 11 - Particles CR Xpoint test
+==================================
 
 This test shows how to plot data from the Load class and the LoadPart
 class simultaneously and how to produce a scatter plot.
@@ -14,7 +16,13 @@ the simulation time. The spectrum and plot method are then used to show
 the velocity spectra of the particles at the beginning and at the end of
 the simulation. The image is then saved and shown on screen.
 
+.. image:: /../../Examples/test11_xpoint.png
+   :align: center
+   :width: 600px
+
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test11_xpoint.png"
 
 import matplotlib.pyplot as plt
 import numpy as np

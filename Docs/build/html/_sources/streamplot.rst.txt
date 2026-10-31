@@ -5,6 +5,10 @@ Image.streamplot
 
 .. automethod:: pyPLUTO.imagefuncs.streamplot.StreamplotManager.streamplot
 
+.. rubric:: Examples in the gallery
+
+.. minigallery:: pyPLUTO.Image.streamplot
+
 |
 
 ----

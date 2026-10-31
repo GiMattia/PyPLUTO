@@ -132,6 +132,10 @@ class InteractiveManager(ImageMixin):
             Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
             computed from the number of rows and columns (or [8,5] for a single
             plot).
+        - fillmap: bool, default True
+            For contour lines only: if True, the colorbar is continuous on
+            their color scale, as for a map; if False, it is matplotlib's own,
+            with a line at each level.
         - fillstyle: {'full', 'left', 'right', 'bottom', 'top', 'none'},
             default 'full'
             Sets the marker filling. The default value is the fully filled

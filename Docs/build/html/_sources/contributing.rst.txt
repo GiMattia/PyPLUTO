@@ -54,7 +54,7 @@ Prerequisites
 
 - Python ``>=3.11`` (the CI matrix currently tests ``3.12``, ``3.13``, and ``3.14``)
 - Git
-- A virtual environment tool (``uv``, ``pixi``, ``venv``, ``conda``, etc.)
+- `uv <https://docs.astral.sh/uv/>`_ (required); `pixi <https://pixi.sh>`_ is optional
 
 |
 
@@ -63,16 +63,18 @@ Prerequisites
 Local Setup
 -----------
 
-Fork and clone the repository:
+Fork PyPLUTO on GitHub, then clone your fork and set it up:
 
 .. code-block:: console
 
-   $ git clone https://github.com/GiMattia/PyPLUTO.git
+   $ git clone https://github.com/<your-username>/PyPLUTO.git
    $ cd PyPLUTO
+   $ ./dev-sync.sh
 
-**Option A: uv (recommended)**
+**uv (required)**
 
-Create a reproducible environment from the lockfile:
+``./dev-sync.sh`` creates a reproducible environment from ``uv.lock``, the same
+as:
 
 .. code-block:: console
 
@@ -85,29 +87,16 @@ Run commands inside the synced environment with ``uv run``, for example:
    $ uv run pre-commit run --all-files
    $ uv run pytest -v ./Tests
 
-**Option B: pixi**
+**pixi (optional)**
 
-Install the ``full`` environment declared in ``pyproject.toml``:
-
-.. code-block:: console
-
-   $ pixi install -e full
-
-Run tools in that environment:
+For those who already use pixi: ``pixi.lock`` gives the development
+environment (tests, docs, pre-commit) as ``local-dev``. If pixi is installed,
+``./dev-sync.sh`` installs it too:
 
 .. code-block:: console
 
-   $ pixi run -e all pre-commit run --all-files
-   $ pixi run -e all pytest -v ./Tests
-
-**Option C: pip fallback (not lockfile-based)**
-
-.. code-block:: console
-
-   $ pip install -r requirements_dev.txt
-
-``requirements_dev.txt`` installs the project in editable mode with development
-extras.
+   $ pixi install -e local-dev
+   $ pixi run -e local-dev pytest -v ./Tests
 
 |
 
@@ -139,7 +128,8 @@ Current checks include:
 
 - standard ``pre-commit-hooks`` sanity checks
 - ``ruff`` lint/format
-- lock consistency checks (``uv lock --check``, ``pixi lock --check``)
+- lock consistency checks: ``uv lock --check``; ``pixi lock --check`` only
+  where pixi is installed, and always in CI
 - ``pyright`` type checking (``pre-push`` and ``manual`` stages)
 - ``pytest`` with coverage threshold (``manual``, fail-under 45 %)
 
@@ -228,6 +218,11 @@ Workflow for Pull Requests
 
 CI runs style checks and tests across multiple OSes and Python versions.
 A PR is expected to pass all checks.
+
+If your PR changes the dependencies in ``pyproject.toml``, the pixi lock check
+in CI may fail. Nothing to do on your side: the maintainers update
+``pixi.lock`` on your branch, so please leave "Allow edits by maintainers"
+checked.
 
 |
 

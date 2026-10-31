@@ -9,7 +9,9 @@ from matplotlib.cm import ScalarMappable
 from matplotlib.collections import LineCollection, PathCollection, QuadMesh
 from matplotlib.colorbar import Colorbar
 from matplotlib.contour import ContourSet, QuadContourSet
+from matplotlib.transforms import Bbox
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from mpl_toolkits.axes_grid1.axes_divider import AxesDivider
 
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
 from pyPLUTO.imagefuncs.ticks import TicksManager
@@ -17,7 +19,12 @@ from pyPLUTO.imagekwargs import ColorbarKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pperrors import PyPLUTODataError, PyPLUTOInternalError
+from pyPLUTO.utils.pperrors import (
+    PyPLUTOAxisError,
+    PyPLUTODataError,
+    PyPLUTOInternalError,
+    PyPLUTOOptionError,
+)
 from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTOConflictWarning
 
 
@@ -63,8 +70,7 @@ class ColorbarManager(ImageMixin):
         ----------
         - axs: Axes | int, default None
             The axis whose collection the colorbar describes, and next to which
-            it is placed. If None, the current axis of the figure is used when
-            it is one of the image axes, otherwise the last of them.
+            it is placed. If None, the last considered axis is used.
         - bottom: float, default varies
             The bottom limit of the axis / axes set. For the figure layout it
             is the space from the bottom border to the plot (default 0.1); for
@@ -72,26 +78,28 @@ class ColorbarManager(ImageMixin):
             height).
         - cax: Axes | int, default None
             The axis where the colorbar should be placed. If None, a new axis
-            is created next to the axis axs.
+            is created next to the axis axs. It cannot be axs itself.
         - clabel: str, default None
             Sets the label of the colorbar.
         - cpad: float, default 0.07
-            The space between the axis and the colorbar, in inches. Not used
-            when cax is given.
+            The space between the colorbar and the tick labels and titles of
+            the axis on that side, in inches. Not used when cax is given.
         - cpos: {'top','bottom','left','right'}, default 'right'
-            Enables the colorbar and sets its position. If not defined, no
-            colorbar is shown.
+            The side of axs where the colorbar is placed, with its ticks and
+            label on the outer side. With cax, it sets only the orientation
+            and the side of the ticks.
         - cticks: list[float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks on
             the colorbar. In order to completely remove the ticks the keyword
             should be used with None. The same rules as xticks.
-        - ctickslabels: str | list[str] | list[float] | None | bool, default True
+        - ctickslabels: str | list[str | float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the colorbar. In order to remove the labels, keeping the
             ticks, the keyword should be used with None. Fixed labels should
             always correspond to fixed ticks, as for xtickslabels.
         - extend: {'neither','both','min','max'}, default 'neither'
-            Sets the extension of the triangular colorbar extension.
+            The ends of the colorbar that get an extension, for the values
+            beyond its limits.
         - extendrect: bool, default False
             If True, the colorbar extensions are rectangular instead of
             triangular.
@@ -99,6 +107,10 @@ class ColorbarManager(ImageMixin):
             Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
             computed from the number of rows and columns (or [8,5] for a single
             plot).
+        - fillmap: bool, default True
+            For contour lines only: if True, the colorbar is continuous on
+            their color scale, as for a map; if False, it is matplotlib's own,
+            with a line at each level.
         - fontsize: float, default 17.0
             Sets the fontsize for all the axis components.
         - hratio: [float], default [1.0]
@@ -165,6 +177,7 @@ class ColorbarManager(ImageMixin):
         Returns
         -------
         - Colorbar
+            The colorbar drawn, to adjust its label or ticks afterwards.
 
         Examples
         --------
@@ -216,13 +229,21 @@ class ColorbarManager(ImageMixin):
         if self.state.fig is None:
             raise PyPLUTOInternalError("No figure is present.")
 
-        # Assign the source axis
-        axs = self._find_ax(pcm, axs)
+        # The side of the colorbar, checked before anything is drawn
+        cpos = kwargs.get("cpos", "right")
+        if cpos not in ("left", "right", "top", "bottom"):
+            raise PyPLUTOOptionError(
+                "cpos must be 'left', 'right', 'top' or 'bottom', "
+                f"not {cpos!r}."
+            )
+
+        # The axis described: the one of pcm, else axs or the last considered
+        axs = self.find_ax(pcm, axs)
 
         # Without a collection, take the last one drawn on the axis that is
         # colored by data: a map, contour lines, streamlines by magnitude.
-        # Contour lines keep their levels even when drawn in a fixed color
-        mappable: ScalarMappable
+        # Contour lines keep their levels even when drawn in a fixed color:in
+        # that case colors is not None (while it is None for a colormap)
         if pcm is None:
             drawn = [
                 c
@@ -238,39 +259,51 @@ class ColorbarManager(ImageMixin):
         else:
             mappable = pcm
 
-        # Contour lines give matplotlib's colorbar one block per level; a
-        # mappable with the same scale gives the continuous bar of a map
-        if isinstance(mappable, ContourSet) and not mappable.filled:
+        # Contour lines give matplotlib's colorbar one block per level; with
+        # fillmap, a mappable with the same scale gives the bar of a map
+        fill = kwargs.get("fillmap", True)
+        if fill and isinstance(mappable, ContourSet) and not mappable.filled:
             mappable = ScalarMappable(norm=mappable.norm, cmap=mappable.cmap)
-
-        # Select the keywords to position the colorbar
-        cpad = kwargs.get("cpad", 0.07)
-        cpos = kwargs.get("cpos", "right")
-        ccor = "vertical" if cpos in ["left", "right"] else "horizontal"
 
         # Assign the colorbar axis, if cax is None create a new one
         bar: Axes
         if cax is None:
-            divider = make_axes_locatable(axs)
-            bar = divider.append_axes(cpos, size="7%", pad=cpad)
+            # The gap starts past the tick labels and titles on that side
+            pad = kwargs.get("cpad", 0.07) + self.side_space(axs, cpos)
+
+            # An axis with a bar keeps its divider in its locator, and the
+            # next bar must use it too, or the two overlap
+            owner = getattr(axs.get_axes_locator(), "func", None)
+            found = getattr(owner, "__self__", None)
+            divider = (
+                found
+                if isinstance(found, AxesDivider)
+                else make_axes_locatable(axs)
+            )
+            bar = divider.append_axes(cpos, size="7%", pad=pad)
         else:
             bar, naxc = self.ImageToolsManager.assign_ax(
                 cax,
                 _check=False,
                 **kwargs,
             )
+            if bar is axs:
+                raise PyPLUTOAxisError(
+                    "cax is the axis the colorbar describes: give another one."
+                )
             self.ImageToolsManager.hide_text(naxc, bar.texts)
 
             # The bar's axis is not drawn on: the panel it describes stays the
             # last considered one
             self.state.lastax = axs
 
-        # Place the colorbar
+        # Place the colorbar; location sets the orientation and puts the ticks
+        # and the label on the outer side
         cbar = self.state.fig.colorbar(
             mappable,
             cax=bar,
             label=kwargs.get("clabel", ""),
-            orientation=ccor,
+            location=cpos,
             extend=kwargs.get("extend", "neither"),
             extendrect=kwargs.get("extendrect", False),
         )
@@ -280,7 +313,7 @@ class ColorbarManager(ImageMixin):
         ctk = kwargs.get("cticks", True)
         ctl = kwargs.get("ctickslabels", True)
         if ctk is not True or ctl is not True:
-            axis = "y" if ccor == "vertical" else "x"
+            axis = "y" if cpos in ("left", "right") else "x"
             self.TicksManager.set_ticks(cbar.ax, ctk, ctl, axis, minor="off")
 
         # Ensure, if needed, the tight layout
@@ -289,36 +322,48 @@ class ColorbarManager(ImageMixin):
 
         return cbar
 
-    @track_kwargs
-    def _find_ax(
+    def find_ax(
         self,
         pcm: (
             QuadMesh | PathCollection | LineCollection | QuadContourSet | None
-        ) = None,
-        axs: Axes | int | None = None,
+        ),
+        axs: Axes | int | None,
     ) -> Axes:
-        """Find and return the appropriate axis based on the input.
+        """Return the axis whose collection the colorbar describes.
+
+        A collection knows the axis it was drawn on, so that one is used when
+        pcm is given. Otherwise the axis is axs, or without it the last
+        considered axis: going through assign_ax is what keeps the axis of an
+        earlier colorbar, which matplotlib may hold as its current one, from
+        being chosen.
 
         Parameters
         ----------
-        - axs: Axes | int | None, default None
-            The axis or index of the axis to find. If None, the last used axis
-            will be returned.
-        - pcm: matplotlib collection or None, default None
-            The collection for which to find the corresponding axis.
-            Accepted types: QuadMesh, PathCollection, LineCollection,
-            QuadContourSet.
+        - pcm (not optional): QuadMesh | PathCollection | LineCollection |
+            QuadContourSet | None
+            The collection the colorbar describes, or None.
+        - axs (not optional): Axes | int | None
+            The axis, or its index, to use when pcm is None.
 
         Returns
         -------
         - Axes
+            The axis described, which becomes the last considered one.
 
         Raises
         ------
-        - ValueError
-            If no figure is present or if the specified axis index is invalid.
-        - TypeError
-            If the provided axs parameter is not of type Axes or int.
+        - PyPLUTOInternalError
+            If pcm was never added to an axis.
+
+        Examples
+        --------
+        - Example #1: the axis of a map
+
+            >>> manager.find_ax(mesh, None)
+
+        - Example #2: the second axis of the image
+
+            >>> manager.find_ax(None, 1)
 
         """
         # A collection knows the axis it was drawn on
@@ -327,8 +372,56 @@ class ColorbarManager(ImageMixin):
                 raise PyPLUTOInternalError("Expected an Axes instance.")
             axs = pcm.axes
 
-        # Without one, assign_ax picks the current pyPLUTO axis: never the
-        # axis of a colorbar, which matplotlib may hold as the current one
-        axs, _ = self.ImageToolsManager.assign_ax(axs, _check=False)
+        return self.ImageToolsManager.assign_ax(axs, _check=False)[0]
 
-        return axs
+    def side_space(self, axs: Axes, cpos: str) -> float:
+        """Return how far, in inches, an axis draws past its frame on a side.
+
+        A colorbar cut from one side of an axis has to start past what the
+        axis draws there, or it covers it: the tick labels and the title of
+        the y axis on the left and the right, those of the x axis below, and
+        on top the x axis and the title of the panel. Only what faces that
+        side counts, so the last x tick label, which overhangs the right
+        corner, does not push a bar on the right away. Tick labels drawn
+        inside the frame give no space.
+
+        The space is measured when the bar is placed, so a title added later
+        is not counted.
+
+        Parameters
+        ----------
+        - axs (not optional): Axes
+            The axis the colorbar is placed next to.
+        - cpos (not optional): str
+            The side, 'left', 'right', 'top' or 'bottom'.
+
+        Returns
+        -------
+        - float
+            The space in inches, 0 when nothing is drawn past the frame.
+
+        Examples
+        --------
+        - Example #1: the space taken by the y tick labels and title
+
+            >>> manager.side_space(ax, "left")
+            0.52
+
+        """
+        frame = axs.get_window_extent()
+
+        # Only what faces that side: the y axis left and right, the x axis
+        # below, the x axis and the title on top
+        facing = axs.yaxis if cpos in ("left", "right") else axs.xaxis
+        boxes = [facing.get_tightbbox() or frame]
+        if cpos == "top" and axs.get_title():
+            boxes.append(axs.title.get_window_extent())
+        full = Bbox.union(boxes)
+
+        beyond = {
+            "left": frame.x0 - full.x0,
+            "right": full.x1 - frame.x1,
+            "bottom": frame.y0 - full.y0,
+            "top": full.y1 - frame.y1,
+        }[cpos]
+        return max(beyond, 0.0) / axs.figure.dpi

@@ -1,4 +1,6 @@
-"""HD Riemann 2D test (configuration 3).
+"""
+Test 10 - HD Riemann 2D test (configuration 3)
+==============================================
 
 This test shows how to produce an interactive animation of a display.
 
@@ -11,13 +13,19 @@ made of 2D plots of the density. The animation is then saved as a .gif file.
 
 IMPORTANT: In order to produce the frames of the interactive animation, the line
 in pluto.ini file that determines the time at which a .vtk output file is
-printed should be changed in
+printed should be changed in::
 
-vtk       0.1  -1   multiple_files
+    vtk       0.1  -1   multiple_files
 
 in the static grid output section.
 
+.. image:: /../../Examples/test10_riemann2d.gif
+   :align: center
+   :width: 600px
+
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test10_riemann2d.gif"
 
 # Loading the relevant packages
 import pyPLUTO

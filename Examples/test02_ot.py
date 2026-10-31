@@ -1,4 +1,6 @@
-"""Classical MHD Orszag-Tang test.
+"""
+Test 02 - MHD Orszag-Tang vortex
+================================
 
 This test shows how to display a 2D quantity from a test problem in a
 single subplot.
@@ -13,7 +15,13 @@ before the string and the LaTeX interpreter is activated by setting it
 to True. All the keywords necessary to customize the plot are within the
 display method. The image is then saved and shown on screen.
 
+.. image:: /../../Examples/test02_ot.png
+   :align: center
+   :width: 600px
+
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test02_ot.png"
 
 # Loading the relevant packages
 import pyPLUTO

@@ -1,4 +1,6 @@
-"""AMR Flow past cylinder test.
+"""
+Test 13 - AMR Flow past cylinder test
+=====================================
 
 This test shows how to plot data from the Load class when handling data obtained
 from a simulation with AMR.
@@ -11,7 +13,13 @@ is created. The display method is used to plot the density, and the oplotbox
 method is used to show the AMR levels. The image is then saved and
 shown on screen.
 
+.. image:: /../../Examples/test13_flowpastcyl.png
+   :align: center
+   :width: 600px
+
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test13_flowpastcyl.png"
 
 # Loading the relevant packages
 import numpy as np

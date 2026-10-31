@@ -1,51 +1,55 @@
 Examples
 ========
 
-The following benchmark problems showcase PyPLUTO's capabilities using data
-from standard PLUTO test problems. All necessary data is bundled with the
-package, so no PLUTO installation is required.
+The examples come in two groups:
 
-After installing PyPLUTO (``pip install py-pluto``), examples are accessible
-via the command-line interface:
+- The :doc:`gallery <gallery/index>` shows one feature at a time: short
+  scripts on synthetic data, grouped by topic, each with its figure and
+  its code. They run as they are, with nothing but pyPLUTO installed, and
+  every page can be downloaded as a Python script or a Jupyter notebook.
 
-.. code-block:: console
-
-   $ pypluto-examples list          # list all available examples
-   $ pypluto-examples copy          # copy example scripts to ./pypluto_examples/
-   $ pypluto-examples run test01_sod  # run one example directly
-
-or through the Python API:
-
-.. code-block:: python
-
-   import pyPLUTO as pp
-
-   print(pp.examples_path())        # path to the installed examples directory
-   pp.copy_examples()               # copies scripts to ./pypluto_examples/
-   pp.run_example("test01_sod")     # runs one example script
-
-The example scripts themselves load data via ``pyPLUTO.find_example()``, which
-resolves the bundled data path regardless of the installation method.
+- The :doc:`PLUTO test problems <pluto_tests/index>` are complete
+  scripts: each loads the output of a standard PLUTO test problem and
+  builds a publication-ready figure, combining loading, the analysis
+  tools and plotting. The data are bundled with pyPLUTO, so no PLUTO
+  installation is needed.
 
 |
 
 ----
 
-.. toctree::
+Running the PLUTO test problems
+-------------------------------
 
-  test01_sod
-  test02_ot
-  test03_rti
-  test04_rotor
-  test05_fieldloop
-  test06_diskplanet
-  test07_khi
-  test08_torus
-  test09_blast
-  test10_riemann2d
-  test11_crxpoint
-  test12_riemannlp
-  test13_flowpastcyl
+The scripts of the test problems are installed with pyPLUTO
+(``pip install py-pluto``), and can be listed, copied and run from the
+command line:
+
+.. code-block:: console
+
+   $ pypluto-examples list            # list the examples
+   $ pypluto-examples copy            # copy them to ./pypluto_examples/
+   $ pypluto-examples run test01_sod  # run one
+
+or from Python:
+
+.. code-block:: python
+
+   import pyPLUTO as pp
+
+   print(pp.examples_path())     # where they are installed
+   pp.copy_examples()            # copy them to ./pypluto_examples/
+   pp.run_example("test01_sod")  # run one
+
+Each script finds its data through ``pyPLUTO.find_example()``, which gives
+the path of the bundled data however pyPLUTO was installed.
+
+.. toctree::
+  :hidden:
+  :maxdepth: 1
+
+  gallery/index
+  pluto_tests/index
 
 |
 

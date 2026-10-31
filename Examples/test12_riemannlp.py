@@ -1,4 +1,6 @@
-"""Particle LP Riemann 2D test.
+"""
+Test 12 - LP Riemann 2D test
+============================
 
 This test shows how to plot data from the Load class and the LoadPart
 class simultaneously and how to produce a scatter plot on a omplex axes
@@ -14,7 +16,13 @@ loaded particles at the final time of the simulation. Two color bars are
 then created in order to show the particle identity and the fluid
 velocity values. The image is then saved and shown on screen.
 
+.. image:: /../../Examples/test12_riemannlp.png
+   :align: center
+   :width: 600px
+
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test12_riemannlp.png"
 
 # Loading the relevant packages
 import numpy as np

@@ -5,6 +5,10 @@ Image.scatter
 
 .. automethod:: pyPLUTO.imagefuncs.scatter.ScatterManager.scatter
 
+.. rubric:: Examples in the gallery
+
+.. minigallery:: pyPLUTO.Image.scatter
+
 |
 
 ----

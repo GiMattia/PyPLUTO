@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 
@@ -7,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyPLUTO.imagefuncs.zoom &#8212; PyPLUTO 1.1.1 documentation</title>
+    <title>pyPLUTO.imagefuncs.zoom &#8212; PyPLUTO 1.3 documentation</title>
   
   
   
@@ -26,26 +25,32 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=0790524f97105ba85085" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=c83e6b79" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=6bda2a82" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../../_static/documentation_options.js?v=c55cb9cb"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pyPLUTO/imagefuncs/zoom';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
   
@@ -95,7 +100,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -115,7 +120,7 @@
   
   
   
-    <p class="title logo__title">PyPLUTO 1.1.1 documentation</p>
+    <p class="title logo__title">PyPLUTO 1.3 documentation</p>
   
 </a></div>
     
@@ -172,6 +177,13 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../gallery/index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../../examples.html">
     Examples
   </a>
@@ -205,7 +217,7 @@
         <div class="navbar-item navbar-persistent--container">
           
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -216,15 +228,15 @@
         <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -235,7 +247,7 @@
   
     <div class="navbar-persistent--mobile">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
  <i class="fa-solid fa-magnifying-glass"></i>
  <span class="search-button__default-text">Search</span>
  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -308,6 +320,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../gallery/index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../examples.html">
     Examples
   </a>
@@ -340,15 +359,15 @@
           <div class="navbar-item">
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
     <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
     <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
     <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -412,44 +431,55 @@
                 <article class="bd-article">
                   
   <h1>Source code for pyPLUTO.imagefuncs.zoom</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Module to manage the zoom functionality in pyPLUTO.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Module to manage the zoom functionality in pyPLUTO."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Unpack</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Unpack</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.artist</span><span class="w"> </span><span class="kn">import</span> <span class="n">Artist</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.axes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuadMesh</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.collections</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Collection</span><span class="p">,</span>
+    <span class="n">LineCollection</span><span class="p">,</span>
+    <span class="n">PathCollection</span><span class="p">,</span>
+    <span class="n">QuadMesh</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.contour</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContourSet</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.colorbar</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColorbarManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.create_axes</span><span class="w"> </span><span class="kn">import</span> <span class="n">CreateAxesManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">DisplayManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.imagetools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageToolsManager</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">PlotManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.range</span><span class="w"> </span><span class="kn">import</span> <span class="n">RangeManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagefuncs.set_axis</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxisManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagekwargs</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetLocKwargs</span><span class="p">,</span> <span class="n">ZoomKwargs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagemixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageMixin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.imagestate</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageState</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.inspector</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_kwargs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.pperrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyPLUTODataError</span><span class="p">,</span> <span class="n">PyPLUTOInternalError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyPLUTO.utils.ppwarnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">PPWarn</span><span class="p">,</span> <span class="n">PyPLUTOConflictWarning</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ZoomManager</span><span class="p">(</span><span class="n">ImageMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manager for the zoom functionality in pyPLUTO.</span>
+<span class="w">    </span><span class="sd">"""Manager for the zoom functionality in pyPLUTO.</span>
 
 <span class="sd">    This class provides methods to create inset zooms of existing plots or</span>
 <span class="sd">    displays. It allows customization of the zoom axes, including position,</span>
 <span class="sd">    size, and various display options.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">ImageState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the ZoomManager with the given state.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Initialize the ZoomManager with the given state."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">CreateAxesManager</span> <span class="o">=</span> <span class="n">CreateAxesManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">PlotManager</span> <span class="o">=</span> <span class="n">PlotManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">DisplayManager</span> <span class="o">=</span> <span class="n">DisplayManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span> <span class="o">=</span> <span class="n">AxisManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ColorbarManager</span> <span class="o">=</span> <span class="n">ColorbarManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CreateAxesManager</span> <span class="o">=</span> <span class="n">CreateAxesManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DisplayManager</span> <span class="o">=</span> <span class="n">DisplayManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span> <span class="o">=</span> <span class="n">ImageToolsManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span> <span class="o">=</span> <span class="n">RangeManager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ZoomManager.zoom">
 <a class="viewcode-back" href="../../../zoom.html#pyPLUTO.imagefuncs.zoom.ZoomManager.zoom">[docs]</a>
@@ -460,65 +490,90 @@
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ZoomKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Axes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creation of an inset zoom of an already existent plot or display.</span>
+<span class="w">        </span><span class="sd">"""Creation of an inset zoom of an already existent plot or display.</span>
 
-<span class="sd">        It creates a set of axes within the same figure as the original plot or</span>
-<span class="sd">        display, and can be placed anywhere in the figure.</span>
-<span class="sd">        The zoom thus created is to all intents and purposes a self-sufficient</span>
-<span class="sd">        plot or display, with all the necessary customization options.</span>
+<span class="sd">        The inset is an axis inside the parent, filled with what the parent</span>
+<span class="sd">        shows, seen closer: every line and collection -- maps, curves, points,</span>
+<span class="sd">        contour lines, streamlines, grids -- is copied, in the order it was</span>
+<span class="sd">        drawn, and the region it shows is marked on the parent. With var, a</span>
+<span class="sd">        different 2D quantity is drawn in place of the map, on the same grid,</span>
+<span class="sd">        with a colormap, a scale and a colorbar of its own; what was drawn</span>
+<span class="sd">        over the map is still copied on top. Texts, legends and the arrows of</span>
+<span class="sd">        streamlines are not copied.</span>
+
+<span class="sd">        The inset is placed in units of its parent: by pos, or by a start and</span>
+<span class="sd">        a size in each direction, from 0.6 and spanning 0.15 unless told</span>
+<span class="sd">        otherwise. An end given (right, top) wins over the rest: alone it</span>
+<span class="sd">        moves the start, with a start it sets the size, and with a size as</span>
+<span class="sd">        well the start is taken back from the two. The inset is an axis of</span>
+<span class="sd">        the image like any other, so it can be drawn on afterwards through</span>
+<span class="sd">        its index; the parent stays the last considered axis, so what follows</span>
+<span class="sd">        without ax (a colorbar, a line) goes on the parent. An inset colorbar</span>
+<span class="sd">        switches the tight layout of the figure off, since matplotlib cannot</span>
+<span class="sd">        lay it out.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        - alpha: float, default 1.0</span>
-<span class="sd">            Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is</span>
-<span class="sd">            fully transparent.</span>
-<span class="sd">        - aspect: &#39;auto&#39; | &#39;equal&#39; | float, default &#39;auto&#39;</span>
-<span class="sd">            Sets the aspect ratio of the plot. The &#39;auto&#39; keyword is the</span>
-<span class="sd">            default option. The &#39;equal&#39; keyword sets the same scaling for x and</span>
+<span class="sd">        - alpha: float, default None</span>
+<span class="sd">            Sets the opacity of the map that var draws in the inset, where 1.0</span>
+<span class="sd">            is fully opaque and 0.0 is fully transparent. Without var the</span>
+<span class="sd">            inset copies the opacity of what it shows.</span>
+<span class="sd">        - aspect: 'auto' | 'equal' | float, default 'auto'</span>
+<span class="sd">            Sets the aspect ratio of the plot. The 'auto' keyword is the</span>
+<span class="sd">            default option. The 'equal' keyword sets the same scaling for x and</span>
 <span class="sd">            y. A float fixes the ratio between the y-scale and the x-scale (1.0</span>
-<span class="sd">            is the same as &#39;equal&#39;).</span>
+<span class="sd">            is the same as 'equal').</span>
 <span class="sd">        - ax: ax object, default None</span>
 <span class="sd">            The axis to customize. If None the current axis will be selected.</span>
-<span class="sd">        - bottom: float, default varies</span>
-<span class="sd">            The bottom limit of the axis / axes set. For the figure layout it</span>
-<span class="sd">            is the space from the bottom border to the plot (default 0.1); for</span>
-<span class="sd">            an inset zoom it is the bottom position of the inset (default 0.6 +</span>
-<span class="sd">            height).</span>
+<span class="sd">        - axalpha: float, default None</span>
+<span class="sd">            Sets the opacity of the whole inset, where 1.0 is fully opaque and</span>
+<span class="sd">            0.0 is fully transparent: background, spines, ticks, labels and</span>
+<span class="sd">            everything shown in it. The parent axis keeps its own.</span>
+<span class="sd">        - bottom: float, default 0.6</span>
+<span class="sd">            The bottom of the inset, in units of the parent axis.</span>
 <span class="sd">        - clabel: str, default None</span>
 <span class="sd">            Sets the label of the colorbar.</span>
-<span class="sd">        - cmap: str, default &#39;hot&#39;</span>
-<span class="sd">            Selects the colormap. Some useful colormaps are: plasma, magma,</span>
+<span class="sd">        - cmap: str, default the map's</span>
+<span class="sd">            The colormap of the map in the inset: it restyles the copy, or is</span>
+<span class="sd">            the colormap of var. Some useful colormaps are: plasma, magma,</span>
 <span class="sd">            seismic. Please avoid colormaps like jet or rainbow, which are not</span>
 <span class="sd">            perceptively uniform and not suited for people with vision</span>
 <span class="sd">            deficiencies.</span>
 <span class="sd">        - cpad: float, default 0.07</span>
-<span class="sd">            Fraction of original axes between colorbar and the axes (in axes</span>
-<span class="sd">            units).</span>
-<span class="sd">        - cpos: {&#39;top&#39;,&#39;bottom&#39;,&#39;left&#39;,&#39;right&#39;}, default None</span>
-<span class="sd">            Enables the colorbar and sets its position. If not defined, no</span>
-<span class="sd">            colorbar is shown.</span>
-<span class="sd">        - cscale: {&#39;linear&#39;,&#39;log&#39;,&#39;symlog&#39;,&#39;twoslope&#39;}, default &#39;linear&#39;</span>
-<span class="sd">            Sets the colorbar scale. Default is the linear (&#39;norm&#39;) scale.</span>
+<span class="sd">            The space between the inset and its colorbar, in inches.</span>
+<span class="sd">        - cpos: {'top','bottom','left','right'}, default None</span>
+<span class="sd">            Gives the map of the inset a colorbar on that side. If not</span>
+<span class="sd">            defined, no colorbar is shown. It switches the tight layout of</span>
+<span class="sd">            the figure off.</span>
+<span class="sd">        - cscale: {'linear','log','symlog','twoslope'}, default the map's</span>
+<span class="sd">            The color scale of the map in the inset: it restyles the copy, or</span>
+<span class="sd">            is the scale of var.</span>
 <span class="sd">        - cticks: {[float], None}, default None</span>
 <span class="sd">            If enabled (and different from None), sets manually the ticks on</span>
 <span class="sd">            the colorbar.</span>
 <span class="sd">        - ctickslabels: str, default None</span>
 <span class="sd">            If enabled, sets manually ticks labels on the colorbar.</span>
-<span class="sd">        - extend: {&#39;neither&#39;,&#39;both&#39;,&#39;min&#39;,&#39;max&#39;}, default &#39;neither&#39;</span>
-<span class="sd">            Sets the extension of the triangular colorbar extension.</span>
+<span class="sd">        - extend: {'neither','both','min','max'}, default 'neither'</span>
+<span class="sd">            The ends of the colorbar that get an extension, for the values</span>
+<span class="sd">            beyond its limits.</span>
 <span class="sd">        - extendrect: bool, default False</span>
-<span class="sd">            If True, the colorbar extension will be triangular.</span>
+<span class="sd">            If True, the colorbar extensions are rectangular instead of</span>
+<span class="sd">            triangular.</span>
 <span class="sd">        - figsize: list[float], default varies</span>
 <span class="sd">            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],</span>
 <span class="sd">            computed from the number of rows and columns (or [8,5] for a single</span>
 <span class="sd">            plot).</span>
+<span class="sd">        - fillmap: bool, default True</span>
+<span class="sd">            For contour lines only: if True, the colorbar is continuous on</span>
+<span class="sd">            their color scale, as for a map; if False, it is matplotlib's own,</span>
+<span class="sd">            with a line at each level.</span>
 <span class="sd">        - fontsize: float, default 17.0</span>
 <span class="sd">            Sets the fontsize for all the axis components.</span>
 <span class="sd">        - grid: bool | string, default False</span>
 <span class="sd">            Enables/disables the grid on the plot. If True it enables both axes</span>
-<span class="sd">            grids. If &#39;x&#39; or &#39;y&#39; it enables only the x- or y-axis grid.</span>
+<span class="sd">            grids. If 'x' or 'y' it enables only the x- or y-axis grid.</span>
 <span class="sd">        - height: float, default 0.15</span>
-<span class="sd">            The height of the axis / axes set (used for an inset zoom).</span>
+<span class="sd">            The height of the inset, in units of the parent axis.</span>
 <span class="sd">        - hratio: [float], default [1.0]</span>
 <span class="sd">            Ratio between the rows of the plot. The default is that every plot</span>
 <span class="sd">            row has the same height.</span>
@@ -526,16 +581,11 @@
 <span class="sd">            The space between plot rows (in figure units). If not enough or too</span>
 <span class="sd">            many spaces are considered, the program will remove the excess and</span>
 <span class="sd">            fill the lacks with [0.1].</span>
-<span class="sd">        - label: str, default None</span>
-<span class="sd">            Associates a label to the plot, used for the creation of the</span>
-<span class="sd">            legend.</span>
 <span class="sd">        - labelsize: float, default fontsize</span>
 <span class="sd">            Sets the labels fontsize (which is the same for both labels). The</span>
-<span class="sd">            default value corresponds to the value of the keyword &#39;fontsize&#39;.</span>
-<span class="sd">        - left: float, default varies</span>
-<span class="sd">            The left limit of the axis / axes set. For the figure layout it is</span>
-<span class="sd">            the space from the left border to the plot (default 0.125); for an</span>
-<span class="sd">            inset zoom it is the left position of the inset (default 0.6).</span>
+<span class="sd">            default value corresponds to the value of the keyword 'fontsize'.</span>
+<span class="sd">        - left: float, default 0.6</span>
+<span class="sd">            The left side of the inset, in units of the parent axis.</span>
 <span class="sd">        - minorticks: str, default None</span>
 <span class="sd">            If not None enables the minor ticks on the plot (for both grid</span>
 <span class="sd">            axes).</span>
@@ -544,36 +594,44 @@
 <span class="sd">        - nrow: int, default 1</span>
 <span class="sd">            The number of rows of subplots.</span>
 <span class="sd">        - pos: [float,float,float,float], default None</span>
-<span class="sd">            Position of the inset plot (left, right, bottom, top).</span>
-<span class="sd">            If missing the code will look for the single keywords</span>
-<span class="sd">            (top/bottom, left, width, height).</span>
+<span class="sd">            The four sides of the inset, as [left, right, bottom, top], in</span>
+<span class="sd">            units of the parent axis. If missing, the inset is placed by left,</span>
+<span class="sd">            bottom, right, top, width and height.</span>
 <span class="sd">        - proj: str, default None</span>
 <span class="sd">            Custom projection for the plot (e.g. 3D). Recommended only if</span>
 <span class="sd">            needed. WARNING: pyPLUTO does not support 3D plotting for now, only</span>
 <span class="sd">            3D axes. The 3D plot feature will be available in future releases.</span>
-<span class="sd">        - right: float, default varies</span>
-<span class="sd">            The right limit of the axis / axes set. For the figure layout it is</span>
-<span class="sd">            the space from the right border to the plot (default 0.9); for an</span>
-<span class="sd">            inset zoom it is the right position of the inset (default left +</span>
-<span class="sd">            0.15).</span>
-<span class="sd">        - shading: {&#39;flat&#39;, &#39;nearest&#39;, &#39;auto&#39;, &#39;gouraud&#39;}, default &#39;auto&#39;</span>
+<span class="sd">        - right: float, default left + width</span>
+<span class="sd">            The right side of the inset, in units of the parent axis. It wins</span>
+<span class="sd">            over width: alone it moves left, and with a width as well left is</span>
+<span class="sd">            taken back from the two, with a warning.</span>
+<span class="sd">        - shading: {'flat', 'nearest', 'auto', 'gouraud'}, default 'auto'</span>
+<span class="sd">            With var only: the shading of var. A copied map keeps its own.</span>
 <span class="sd">            The shading between the grid points. If not defined, the shading</span>
-<span class="sd">            will be one between &#39;flat&#39; and &#39;nearest&#39; depending on the size of</span>
-<span class="sd">            the x, y and z arrays. The &#39;flat&#39; shading works only if, given a</span>
+<span class="sd">            will be one between 'flat' and 'nearest' depending on the size of</span>
+<span class="sd">            the x, y and z arrays. The 'flat' shading works only if, given a</span>
 <span class="sd">            NxM z-array, the x- and y-arrays have sizes of, respectively, N+1</span>
 <span class="sd">            and M+1. All the other shadings require a N x-array and a M</span>
 <span class="sd">            y-array.</span>
-<span class="sd">        - sharex: bool | str | Matplotlib axis, default False</span>
-<span class="sd">            Enables/disables the sharing of the x-axis between the subplots.</span>
-<span class="sd">        - sharey: bool | str | Matplotlib axis, default False</span>
-<span class="sd">            Enables/disables the sharing of the y-axis between the subplots.</span>
+<span class="sd">        - sharex: bool | int | 'all' | 'row' | 'col' | Axes, default None</span>
+<span class="sd">            Shares the x-axis: True or 'all' with the first axis (in</span>
+<span class="sd">            create_axes, the first of those it makes), an index with that</span>
+<span class="sd">            axis of the image, an Axes with that axis. 'row' and 'col' share</span>
+<span class="sd">            within each row or column of the axes a create_axes call makes,</span>
+<span class="sd">            and are refused for axes that already exist.</span>
+<span class="sd">        - sharexaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None</span>
+<span class="sd">            Deprecated, use sharex.</span>
+<span class="sd">        - sharey: bool | int | 'all' | 'row' | 'col' | Axes, default None</span>
+<span class="sd">            Shares the y-axis, as sharex does.</span>
+<span class="sd">        - shareyaxes: bool | int | 'all' | 'row' | 'col' | Axes, default None</span>
+<span class="sd">            Deprecated, use sharey.</span>
 <span class="sd">        - suptitle: str, default None</span>
 <span class="sd">            Creates a figure title over all the subplots.</span>
-<span class="sd">        - ticksdir: {&#39;in&#39;, &#39;out&#39;}, default &#39;in&#39;</span>
-<span class="sd">            Sets the ticks direction. The default option is &#39;in&#39;.</span>
+<span class="sd">        - ticksdir: {'in', 'out'}, default 'in'</span>
+<span class="sd">            Sets the ticks direction. The default option is 'in'.</span>
 <span class="sd">        - tickssize: float | bool, default True</span>
 <span class="sd">            Sets the ticks fontsize (which is the same for both grid axes). The</span>
-<span class="sd">            default value corresponds to the value of the keyword &#39;fontsize&#39;.</span>
+<span class="sd">            default value corresponds to the value of the keyword 'fontsize'.</span>
 <span class="sd">        - tight: bool, default True</span>
 <span class="sd">            Enables/disables tight layout options for the figure. In case of a</span>
 <span class="sd">            highly customized plot (e.g. ratios or space between rows and</span>
@@ -585,29 +643,24 @@
 <span class="sd">            Sets the distance between the title and the top of the plot.</span>
 <span class="sd">        - titlesize: float, default fontsize</span>
 <span class="sd">            Sets the title fontsize. The default value corresponds to the value</span>
-<span class="sd">            of the keyword &#39;fontsize&#39;.</span>
-<span class="sd">        - top: float, default varies</span>
-<span class="sd">            The top limit of the axis / axes set. For the figure layout it is</span>
-<span class="sd">            the space from the top border to the plot (default 0.9); for an</span>
-<span class="sd">            inset zoom it is the top position of the inset (default bottom +</span>
-<span class="sd">            height).</span>
+<span class="sd">            of the keyword 'fontsize'.</span>
+<span class="sd">        - top: float, default bottom + height</span>
+<span class="sd">            The top of the inset, in units of the parent axis. It wins over</span>
+<span class="sd">            height: alone it moves bottom, and with a height as well bottom</span>
+<span class="sd">            is taken back from the two, with a warning.</span>
 <span class="sd">        - transpose: True/False, default False</span>
-<span class="sd">            Transposes the variable matrix. Use is not recommended if not</span>
-<span class="sd">            really necessary (e.g. in case of highly customized variables and</span>
-<span class="sd">            plots).</span>
+<span class="sd">            With var only: declares var as var[y, x] instead of var[x, y].</span>
 <span class="sd">        - tresh: float, default max(abs(vmin),vmax)*0.01</span>
-<span class="sd">            Sets the threshold for the colormap (used with composite</span>
-<span class="sd">            colorscales such as twoslope or symlog).</span>
-<span class="sd">        - var: str | list[str] | np.ndarray | bool | None, default True</span>
-<span class="sd">            The variable to be loaded / plotted. When loading, it selects the</span>
-<span class="sd">            variables (True loads all, or pass a string or list for a subset);</span>
-<span class="sd">            when plotting, it is the array to display.</span>
-<span class="sd">        - vmax: float</span>
-<span class="sd">            The maximum value of the variable to be computed / plotted.</span>
-<span class="sd">        - vmin: float</span>
-<span class="sd">            The minimum value of the variable to be computed / plotted.</span>
+<span class="sd">            The threshold of a symlog or twoslope scale in the inset.</span>
+<span class="sd">        - var: np.ndarray, default None</span>
+<span class="sd">            A 2D quantity, indexed as var[x, y], drawn in place of the map of</span>
+<span class="sd">            the parent, on its grid unless x1 and x2 are given.</span>
+<span class="sd">        - vmax: float, default the map's</span>
+<span class="sd">            The top of the color scale in the inset.</span>
+<span class="sd">        - vmin: float, default the map's</span>
+<span class="sd">            The bottom of the color scale in the inset.</span>
 <span class="sd">        - width: float, default 0.15</span>
-<span class="sd">            The width of the axis / axes set (used for an inset zoom).</span>
+<span class="sd">            The width of the inset, in units of the parent axis.</span>
 <span class="sd">        - wratio: [float], default [1.0]</span>
 <span class="sd">            Ratio between the columns of the plot. The default is that every</span>
 <span class="sd">            plot column has the same width.</span>
@@ -615,27 +668,24 @@
 <span class="sd">            The space between plot columns (in figure units). If not enough or</span>
 <span class="sd">            too many spaces are considered, the program will remove the excess</span>
 <span class="sd">            and fill the lacks with [0.1].</span>
-<span class="sd">        - x1: np.ndarray, default &#39;Default&#39;</span>
-<span class="sd">            The x-axis array. If not defined, a default array will be</span>
-<span class="sd">            generated.</span>
-<span class="sd">        - x2: np.ndarray, default &#39;Default&#39;</span>
-<span class="sd">            The y-axis array. If not defined, a default array will be</span>
-<span class="sd">            generated.</span>
+<span class="sd">        - x1: np.ndarray, default the grid of the map</span>
+<span class="sd">            With var only, and together with x2: the x-coordinates of var.</span>
+<span class="sd">        - x2: np.ndarray, default the grid of the map</span>
+<span class="sd">            With var only, and together with x1: the y-coordinates of var.</span>
 <span class="sd">        - xlabelpad: float, default 4.0</span>
 <span class="sd">            The padding between the x-axis label and the axis.</span>
-<span class="sd">        - xrange: [float, float], default &#39;Default&#39;</span>
-<span class="sd">            Sets the range in the x-direction. If not defined, the range is</span>
-<span class="sd">            computed automatically from the x-array.</span>
-<span class="sd">        - xscale: {&#39;linear&#39;,&#39;log&#39;}, default &#39;linear&#39;</span>
-<span class="sd">            If enabled (and different from &#39;Default&#39;), sets automatically the</span>
+<span class="sd">        - xrange: [float, float], default the parent's</span>
+<span class="sd">            The x-range the inset shows.</span>
+<span class="sd">        - xscale: {'linear','log'}, default 'linear'</span>
+<span class="sd">            If enabled (and different from 'Default'), sets automatically the</span>
 <span class="sd">            scale on the x-axis. Data in log scale should be used with the</span>
-<span class="sd">            keyword &#39;log&#39;, while data in linear scale should be used with the</span>
-<span class="sd">            keyword &#39;linear&#39;.</span>
+<span class="sd">            keyword 'log', while data in linear scale should be used with the</span>
+<span class="sd">            keyword 'linear'.</span>
 <span class="sd">        - xticks: list[float] | None | bool, default True</span>
 <span class="sd">            If enabled (and different from True), sets manually ticks on the</span>
 <span class="sd">            x-axis. In order to completely remove the ticks the keyword should</span>
 <span class="sd">            be used with None.</span>
-<span class="sd">        - xtickslabels: list[str] | None | bool, default True</span>
+<span class="sd">        - xtickslabels: str | list[str] | list[float] | None | bool, default True</span>
 <span class="sd">            If enabled (and different from True), sets manually the ticks</span>
 <span class="sd">            labels on the x-axis. In order to completely remove the ticks the</span>
 <span class="sd">            keyword should be used with None. Note that fixed tickslabels</span>
@@ -646,19 +696,18 @@
 <span class="sd">            The threshold parameter for the x-axis symlog/asinh scale.</span>
 <span class="sd">        - ylabelpad: float, default 4.0</span>
 <span class="sd">            The padding between the y-axis label and the axis.</span>
-<span class="sd">        - yrange: [float, float], default &#39;Default&#39;</span>
-<span class="sd">            Sets the range in the y-direction. If not defined, the range is</span>
-<span class="sd">            computed automatically from the y-array.</span>
-<span class="sd">        - yscale: {&#39;linear&#39;,&#39;log&#39;}, default &#39;linear&#39;</span>
-<span class="sd">            If enabled (and different from &#39;Default&#39;), sets automatically the</span>
+<span class="sd">        - yrange: [float, float], default the parent's</span>
+<span class="sd">            The y-range the inset shows.</span>
+<span class="sd">        - yscale: {'linear','log'}, default 'linear'</span>
+<span class="sd">            If enabled (and different from 'Default'), sets automatically the</span>
 <span class="sd">            scale on the y-axis. Data in log scale should be used with the</span>
-<span class="sd">            keyword &#39;log&#39;, while data in linear scale should be used with the</span>
-<span class="sd">            keyword &#39;linear&#39;.</span>
+<span class="sd">            keyword 'log', while data in linear scale should be used with the</span>
+<span class="sd">            keyword 'linear'.</span>
 <span class="sd">        - yticks: list[float] | None | bool, default True</span>
 <span class="sd">            If enabled (and different from True), sets manually ticks on the</span>
 <span class="sd">            y-axis. In order to completely remove the ticks the keyword should</span>
 <span class="sd">            be used with None.</span>
-<span class="sd">        - ytickslabels: list[str] | None | bool, default True</span>
+<span class="sd">        - ytickslabels: str | list[str] | list[float] | None | bool, default True</span>
 <span class="sd">            If enabled (and different from True), sets manually the ticks</span>
 <span class="sd">            labels on the y-axis. In order to completely remove the ticks the</span>
 <span class="sd">            keyword should be used with None. Note that fixed tickslabels</span>
@@ -667,7 +716,7 @@
 <span class="sd">            Sets and places the label of the y-axis.</span>
 <span class="sd">        - ytresh: float</span>
 <span class="sd">            The threshold parameter for the y-axis symlog/asinh scale.</span>
-<span class="sd">        - zoomcolor: str, default &#39;k&#39;</span>
+<span class="sd">        - zoomcolor: str, default 'k'</span>
 <span class="sd">            Sets the color of the inset zoom lines.</span>
 <span class="sd">        - zoomlines: bool, default True</span>
 <span class="sd">            Keyword in order to add/remove the inset zoom lines. The default</span>
@@ -684,8 +733,7 @@
 <span class="sd">            &gt;&gt;&gt; import pyPLUTO as pp</span>
 <span class="sd">            &gt;&gt;&gt; I = pp.Image()</span>
 <span class="sd">            &gt;&gt;&gt; I.plot(x1, var)</span>
-<span class="sd">            &gt;&gt;&gt; I.zoom(pos = [0.1,0.2,0.1,0.3], xrange = [1,10], y</span>
-<span class="sd">            ... range = [10,20])</span>
+<span class="sd">            &gt;&gt;&gt; I.zoom(pos=[0.1,0.2,0.1,0.3], xrange=[1, 10], yrange=[10, 20])</span>
 
 <span class="sd">        - Example #2: create a simple zoom of a 2d plot</span>
 
@@ -708,349 +756,315 @@
 <span class="sd">            &gt;&gt;&gt; I.display(var, x1=x1, x2=x2)</span>
 <span class="sd">            &gt;&gt;&gt; I.zoom(var=var2, xrange=[1, 10], yrange=[10, 20])</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tight</span> <span class="o">=</span> <span class="kc">False</span>
-
-        <span class="c1"># Set or create figure and axes</span>
-        <span class="n">ax</span><span class="p">,</span> <span class="n">nax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">assign_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No figure is present. Please create a figure first.&quot;</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PyPLUTOInternalError</span><span class="p">(</span><span class="s2">"No figure is present."</span><span class="p">)</span>
+
+        <span class="c1"># The colorbar of an inset is an axis tight_layout cannot handle, so</span>
+        <span class="c1"># it would warn on every later layout: switched off for the figure,</span>
+        <span class="c1"># but only then, since an inset alone lays out fine</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cpos"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">tight</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Find the axis to zoom into: its keywords are not passed, since left,</span>
+        <span class="c1"># right, top and bottom place the inset and must not lay out new axes</span>
+        <span class="n">ax</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">assign_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="c1"># Sets position of the zoom</span>
-        <span class="k">if</span> <span class="n">pos</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">pos</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"pos"</span><span class="p">):</span>
             <span class="n">axins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">place_inset_pos</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">axins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">place_inset_loc</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;fontsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fontsize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;titlesize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;titlesize&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"fontsize"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fontsize"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"titlesize"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"titlesize"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fontsize</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">axins</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">CreateAxesManager</span><span class="o">.</span><span class="n">add_ax</span><span class="p">(</span><span class="n">axins</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ax</span><span class="p">))</span>
 
         <span class="c1"># Set ticks (None is the default value)</span>
-        <span class="k">if</span> <span class="s2">&quot;xticks&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xticks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="s2">&quot;yticks&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;yticks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="s2">"xticks"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"xticks"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="s2">"yticks"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"yticks"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span><span class="o">.</span><span class="n">set_axis</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axins</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">hide_text</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">axins</span><span class="p">),</span> <span class="n">axins</span><span class="o">.</span><span class="n">texts</span>
+        <span class="p">)</span>
 
-        <span class="n">pcm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">collections</span>
+        <span class="c1"># The inset shows what the parent shows, or var in place of its map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoomcopy</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">axins</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="c1"># Plots the lines</span>
-        <span class="n">pcm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">collections</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pcm</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">zoomdisplay</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nax</span><span class="p">,</span> <span class="n">axins</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">zoomplot</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">axins</span><span class="p">)</span>
+        <span class="c1"># The copies are made after set_axis, so they take the inset's</span>
+        <span class="c1"># axalpha now</span>
+        <span class="n">nins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">axins</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">axalpha</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">axalpha</span><span class="p">[</span><span class="n">nins</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">AxisManager</span><span class="o">.</span><span class="n">set_axalpha</span><span class="p">(</span><span class="n">axins</span><span class="p">,</span> <span class="n">nins</span><span class="p">,</span> <span class="n">axalpha</span><span class="p">)</span>
 
         <span class="c1"># Indicates the inset zoom</span>
-        <span class="n">zoomc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;zoomcolor&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;zoomlines&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">zoomc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"zoomcolor"</span><span class="p">,</span> <span class="s2">"k"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"zoomlines"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">indicate_inset_zoom</span><span class="p">(</span><span class="n">axins</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">zoomc</span><span class="p">)</span>
 
-        <span class="n">axins</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">zoomc</span><span class="p">)</span>
-        <span class="n">axins</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;bottom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">zoomc</span><span class="p">)</span>
-        <span class="n">axins</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;right&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">zoomc</span><span class="p">)</span>
-        <span class="n">axins</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;top&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">zoomc</span><span class="p">)</span>
+        <span class="n">axins</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">"left"</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">zoomc</span><span class="p">)</span>
+        <span class="n">axins</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">"bottom"</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">zoomc</span><span class="p">)</span>
+        <span class="n">axins</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">"right"</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">zoomc</span><span class="p">)</span>
+        <span class="n">axins</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">"top"</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">zoomc</span><span class="p">)</span>
+
+        <span class="c1"># An inset is a detail of its panel: the panel stays the last</span>
+        <span class="c1"># considered axis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">lastax</span> <span class="o">=</span> <span class="n">ax</span>
 
         <span class="k">return</span> <span class="n">axins</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">zoomplot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span> <span class="n">axins</span><span class="p">:</span> <span class="n">Axes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the lines on the inset zoom.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        - ax: Axes</span>
-<span class="sd">            The axis containing the lines to be plotted.</span>
-<span class="sd">        - axins: Axes</span>
-<span class="sd">            The inset axis where the lines will be plotted.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        - None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_lines</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">PlotManager</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-                <span class="n">i</span><span class="o">.</span><span class="n">get_xdata</span><span class="p">(),</span>
-                <span class="n">i</span><span class="o">.</span><span class="n">get_ydata</span><span class="p">(),</span>
-                <span class="n">c</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">get_color</span><span class="p">(),</span>
-                <span class="n">ls</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">get_linestyle</span><span class="p">(),</span>
-                <span class="n">lw</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">get_linewidth</span><span class="p">(),</span>
-                <span class="n">marker</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">get_marker</span><span class="p">(),</span>
-                <span class="n">ms</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">get_markersize</span><span class="p">(),</span>
-                <span class="n">ax</span><span class="o">=</span><span class="n">axins</span><span class="p">,</span>
-                <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="p">)</span>
-
     <span class="nd">@track_kwargs</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">zoomdisplay</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">zoomcopy</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span>
-        <span class="n">nax</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">axins</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span>
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ZoomKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the zoom on the inset zoom, for a display plot.</span>
+<span class="w">        </span><span class="sd">"""Fill the inset with what the parent axis shows.</span>
+
+<span class="sd">        Every line and collection of the parent -- maps, curves, points,</span>
+<span class="sd">        contour lines, streamlines, grids -- is copied into the inset in the</span>
+<span class="sd">        order it was drawn, so the inset is exactly the parent, seen closer.</span>
+<span class="sd">        With var, another quantity is drawn in place of the map, on its</span>
+<span class="sd">        grid, and everything drawn over the map is still copied on top.</span>
+
+<span class="sd">        Without var, the map keywords restyle the copied maps: cmap changes</span>
+<span class="sd">        the colormap, and cscale, vmin, vmax and tresh rebuild the color</span>
+<span class="sd">        scale from the one the map had. The inset shows the same window as</span>
+<span class="sd">        the parent unless xrange or yrange are given.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        - alpha: float, default 1.0</span>
-<span class="sd">            Sets the opacity of the plot, where 1.0 is fully opaque and 0.0 is</span>
-<span class="sd">            fully transparent.</span>
-<span class="sd">        - aspect: &#39;auto&#39; | &#39;equal&#39; | float, default &#39;auto&#39;</span>
-<span class="sd">            Sets the aspect ratio of the plot. The &#39;auto&#39; keyword is the</span>
-<span class="sd">            default option. The &#39;equal&#39; keyword sets the same scaling for x and</span>
-<span class="sd">            y. A float fixes the ratio between the y-scale and the x-scale (1.0</span>
-<span class="sd">            is the same as &#39;equal&#39;).</span>
-<span class="sd">        - ax: ax object, default None</span>
-<span class="sd">            The axis to customize. If None the current axis will be selected.</span>
-<span class="sd">        - bottom: float, default varies</span>
-<span class="sd">            The bottom limit of the axis / axes set. For the figure layout it</span>
-<span class="sd">            is the space from the bottom border to the plot (default 0.1); for</span>
-<span class="sd">            an inset zoom it is the bottom position of the inset (default 0.6 +</span>
-<span class="sd">            height).</span>
-<span class="sd">        - clabel: str, default None</span>
-<span class="sd">            Sets the label of the colorbar.</span>
-<span class="sd">        - cmap: str, default &#39;hot&#39;</span>
-<span class="sd">            Selects the colormap. Some useful colormaps are: plasma, magma,</span>
-<span class="sd">            seismic. Please avoid colormaps like jet or rainbow, which are not</span>
-<span class="sd">            perceptively uniform and not suited for people with vision</span>
-<span class="sd">            deficiencies.</span>
-<span class="sd">        - cpad: float, default 0.07</span>
-<span class="sd">            Fraction of original axes between colorbar and the axes (in axes</span>
-<span class="sd">            units).</span>
-<span class="sd">        - cpos: {&#39;top&#39;,&#39;bottom&#39;,&#39;left&#39;,&#39;right&#39;}, default None</span>
-<span class="sd">            Enables the colorbar and sets its position. If not defined, no</span>
-<span class="sd">            colorbar is shown.</span>
-<span class="sd">        - cscale: {&#39;linear&#39;,&#39;log&#39;,&#39;symlog&#39;,&#39;twoslope&#39;}, default &#39;linear&#39;</span>
-<span class="sd">            Sets the colorbar scale. Default is the linear (&#39;norm&#39;) scale.</span>
-<span class="sd">        - cticks: {[float], None}, default None</span>
-<span class="sd">            If enabled (and different from None), sets manually the ticks on</span>
-<span class="sd">            the colorbar.</span>
-<span class="sd">        - ctickslabels: str, default None</span>
-<span class="sd">            If enabled, sets manually ticks labels on the colorbar.</span>
-<span class="sd">        - extend: {&#39;neither&#39;,&#39;both&#39;,&#39;min&#39;,&#39;max&#39;}, default &#39;neither&#39;</span>
-<span class="sd">            Sets the extension of the triangular colorbar extension.</span>
-<span class="sd">        - extendrect: bool, default False</span>
-<span class="sd">            If True, the colorbar extension will be triangular.</span>
-<span class="sd">        - figsize: list[float], default varies</span>
-<span class="sd">            Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],</span>
-<span class="sd">            computed from the number of rows and columns (or [8,5] for a single</span>
-<span class="sd">            plot).</span>
-<span class="sd">        - fontsize: float, default 17.0</span>
-<span class="sd">            Sets the fontsize for all the axis components.</span>
-<span class="sd">        - grid: bool | string, default False</span>
-<span class="sd">            Enables/disables the grid on the plot. If True it enables both axes</span>
-<span class="sd">            grids. If &#39;x&#39; or &#39;y&#39; it enables only the x- or y-axis grid.</span>
-<span class="sd">        - hratio: [float], default [1.0]</span>
-<span class="sd">            Ratio between the rows of the plot. The default is that every plot</span>
-<span class="sd">            row has the same height.</span>
-<span class="sd">        - hspace: [float], default []</span>
-<span class="sd">            The space between plot rows (in figure units). If not enough or too</span>
-<span class="sd">            many spaces are considered, the program will remove the excess and</span>
-<span class="sd">            fill the lacks with [0.1].</span>
-<span class="sd">        - labelsize: float, default fontsize</span>
-<span class="sd">            Sets the labels fontsize (which is the same for both labels). The</span>
-<span class="sd">            default value corresponds to the value of the keyword &#39;fontsize&#39;.</span>
-<span class="sd">        - left: float, default varies</span>
-<span class="sd">            The left limit of the axis / axes set. For the figure layout it is</span>
-<span class="sd">            the space from the left border to the plot (default 0.125); for an</span>
-<span class="sd">            inset zoom it is the left position of the inset (default 0.6).</span>
-<span class="sd">        - minorticks: str, default None</span>
-<span class="sd">            If not None enables the minor ticks on the plot (for both grid</span>
-<span class="sd">            axes).</span>
-<span class="sd">        - ncol: int, default 1</span>
-<span class="sd">            The number of columns of subplots.</span>
-<span class="sd">        - nrow: int, default 1</span>
-<span class="sd">            The number of rows of subplots.</span>
-<span class="sd">        - proj: str, default None</span>
-<span class="sd">            Custom projection for the plot (e.g. 3D). Recommended only if</span>
-<span class="sd">            needed. WARNING: pyPLUTO does not support 3D plotting for now, only</span>
-<span class="sd">            3D axes. The 3D plot feature will be available in future releases.</span>
-<span class="sd">        - right: float, default varies</span>
-<span class="sd">            The right limit of the axis / axes set. For the figure layout it is</span>
-<span class="sd">            the space from the right border to the plot (default 0.9); for an</span>
-<span class="sd">            inset zoom it is the right position of the inset (default left +</span>
-<span class="sd">            0.15).</span>
-<span class="sd">        - shading: {&#39;flat&#39;, &#39;nearest&#39;, &#39;auto&#39;, &#39;gouraud&#39;}, default &#39;auto&#39;</span>
-<span class="sd">            The shading between the grid points. If not defined, the shading</span>
-<span class="sd">            will be one between &#39;flat&#39; and &#39;nearest&#39; depending on the size of</span>
-<span class="sd">            the x, y and z arrays. The &#39;flat&#39; shading works only if, given a</span>
-<span class="sd">            NxM z-array, the x- and y-arrays have sizes of, respectively, N+1</span>
-<span class="sd">            and M+1. All the other shadings require a N x-array and a M</span>
-<span class="sd">            y-array.</span>
-<span class="sd">        - sharex: bool | str | Matplotlib axis, default False</span>
-<span class="sd">            Enables/disables the sharing of the x-axis between the subplots.</span>
-<span class="sd">        - sharey: bool | str | Matplotlib axis, default False</span>
-<span class="sd">            Enables/disables the sharing of the y-axis between the subplots.</span>
-<span class="sd">        - suptitle: str, default None</span>
-<span class="sd">            Creates a figure title over all the subplots.</span>
-<span class="sd">        - ticksdir: {&#39;in&#39;, &#39;out&#39;}, default &#39;in&#39;</span>
-<span class="sd">            Sets the ticks direction. The default option is &#39;in&#39;.</span>
-<span class="sd">        - tickssize: float | bool, default True</span>
-<span class="sd">            Sets the ticks fontsize (which is the same for both grid axes). The</span>
-<span class="sd">            default value corresponds to the value of the keyword &#39;fontsize&#39;.</span>
-<span class="sd">        - tight: bool, default True</span>
-<span class="sd">            Enables/disables tight layout options for the figure. In case of a</span>
-<span class="sd">            highly customized plot (e.g. ratios or space between rows and</span>
-<span class="sd">            columns) the option is set by default to False since that option</span>
-<span class="sd">            would not be available for standard matplotlib functions.</span>
-<span class="sd">        - title: str, default None</span>
-<span class="sd">            Places the title of the plot on top of it.</span>
-<span class="sd">        - titlepad: float, default 8.0</span>
-<span class="sd">            Sets the distance between the title and the top of the plot.</span>
-<span class="sd">        - titlesize: float, default fontsize</span>
-<span class="sd">            Sets the title fontsize. The default value corresponds to the value</span>
-<span class="sd">            of the keyword &#39;fontsize&#39;.</span>
-<span class="sd">        - top: float, default varies</span>
-<span class="sd">            The top limit of the axis / axes set. For the figure layout it is</span>
-<span class="sd">            the space from the top border to the plot (default 0.9); for an</span>
-<span class="sd">            inset zoom it is the top position of the inset (default bottom +</span>
-<span class="sd">            height).</span>
-<span class="sd">        - transpose: True/False, default False</span>
-<span class="sd">            Transposes the variable matrix. Use is not recommended if not</span>
-<span class="sd">            really necessary (e.g. in case of highly customized variables and</span>
-<span class="sd">            plots).</span>
+<span class="sd">        - ax (not optional): Axes</span>
+<span class="sd">            The parent axis, whose artists are copied.</span>
+<span class="sd">        - axins (not optional): Axes</span>
+<span class="sd">            The inset axis, which is filled.</span>
+<span class="sd">        - cmap: str, default the map's</span>
+<span class="sd">            Restyles the copied maps with this colormap.</span>
+<span class="sd">        - cpos: {'top','bottom','left','right'}, default None</span>
+<span class="sd">            Gives the inset map a colorbar on that side.</span>
+<span class="sd">        - cscale: {'linear','log','symlog','twoslope'}, default the map's</span>
+<span class="sd">            Restyles the copied maps with this color scale.</span>
 <span class="sd">        - tresh: float, default max(abs(vmin),vmax)*0.01</span>
-<span class="sd">            Sets the threshold for the colormap (used with composite</span>
-<span class="sd">            colorscales such as twoslope or symlog).</span>
-<span class="sd">        - var: str | list[str] | np.ndarray | bool | None, default True</span>
-<span class="sd">            The variable to be loaded / plotted. When loading, it selects the</span>
-<span class="sd">            variables (True loads all, or pass a string or list for a subset);</span>
-<span class="sd">            when plotting, it is the array to display.</span>
-<span class="sd">        - vmax: float</span>
-<span class="sd">            The maximum value of the variable to be computed / plotted.</span>
-<span class="sd">        - vmin: float</span>
-<span class="sd">            The minimum value of the variable to be computed / plotted.</span>
-<span class="sd">        - wratio: [float], default [1.0]</span>
-<span class="sd">            Ratio between the columns of the plot. The default is that every</span>
-<span class="sd">            plot column has the same width.</span>
-<span class="sd">        - wspace: [float], default []</span>
-<span class="sd">            The space between plot columns (in figure units). If not enough or</span>
-<span class="sd">            too many spaces are considered, the program will remove the excess</span>
-<span class="sd">            and fill the lacks with [0.1].</span>
-<span class="sd">        - x1: np.ndarray, default &#39;Default&#39;</span>
-<span class="sd">            The x-axis array. If not defined, a default array will be</span>
-<span class="sd">            generated.</span>
-<span class="sd">        - x2: np.ndarray, default &#39;Default&#39;</span>
-<span class="sd">            The y-axis array. If not defined, a default array will be</span>
-<span class="sd">            generated.</span>
-<span class="sd">        - xlabelpad: float, default 4.0</span>
-<span class="sd">            The padding between the x-axis label and the axis.</span>
-<span class="sd">        - xrange: [float, float], default &#39;Default&#39;</span>
-<span class="sd">            Sets the range in the x-direction. If not defined, the range is</span>
-<span class="sd">            computed automatically from the x-array.</span>
-<span class="sd">        - xscale: {&#39;linear&#39;,&#39;log&#39;}, default &#39;linear&#39;</span>
-<span class="sd">            If enabled (and different from &#39;Default&#39;), sets automatically the</span>
-<span class="sd">            scale on the x-axis. Data in log scale should be used with the</span>
-<span class="sd">            keyword &#39;log&#39;, while data in linear scale should be used with the</span>
-<span class="sd">            keyword &#39;linear&#39;.</span>
-<span class="sd">        - xticks: list[float] | None | bool, default True</span>
-<span class="sd">            If enabled (and different from True), sets manually ticks on the</span>
-<span class="sd">            x-axis. In order to completely remove the ticks the keyword should</span>
-<span class="sd">            be used with None.</span>
-<span class="sd">        - xtickslabels: list[str] | None | bool, default True</span>
-<span class="sd">            If enabled (and different from True), sets manually the ticks</span>
-<span class="sd">            labels on the x-axis. In order to completely remove the ticks the</span>
-<span class="sd">            keyword should be used with None. Note that fixed tickslabels</span>
-<span class="sd">            should always correspond to fixed ticks.</span>
-<span class="sd">        - xtitle: str, default None</span>
-<span class="sd">            Sets and places the label of the x-axis.</span>
-<span class="sd">        - xtresh: float</span>
-<span class="sd">            The threshold parameter for the x-axis symlog/asinh scale.</span>
-<span class="sd">        - ylabelpad: float, default 4.0</span>
-<span class="sd">            The padding between the y-axis label and the axis.</span>
-<span class="sd">        - yrange: [float, float], default &#39;Default&#39;</span>
-<span class="sd">            Sets the range in the y-direction. If not defined, the range is</span>
-<span class="sd">            computed automatically from the y-array.</span>
-<span class="sd">        - yscale: {&#39;linear&#39;,&#39;log&#39;}, default &#39;linear&#39;</span>
-<span class="sd">            If enabled (and different from &#39;Default&#39;), sets automatically the</span>
-<span class="sd">            scale on the y-axis. Data in log scale should be used with the</span>
-<span class="sd">            keyword &#39;log&#39;, while data in linear scale should be used with the</span>
-<span class="sd">            keyword &#39;linear&#39;.</span>
-<span class="sd">        - yticks: list[float] | None | bool, default True</span>
-<span class="sd">            If enabled (and different from True), sets manually ticks on the</span>
-<span class="sd">            y-axis. In order to completely remove the ticks the keyword should</span>
-<span class="sd">            be used with None.</span>
-<span class="sd">        - ytickslabels: list[str] | None | bool, default True</span>
-<span class="sd">            If enabled (and different from True), sets manually the ticks</span>
-<span class="sd">            labels on the y-axis. In order to completely remove the ticks the</span>
-<span class="sd">            keyword should be used with None. Note that fixed tickslabels</span>
-<span class="sd">            should always correspond to fixed ticks.</span>
-<span class="sd">        - ytitle: str, default None</span>
-<span class="sd">            Sets and places the label of the y-axis.</span>
-<span class="sd">        - ytresh: float</span>
-<span class="sd">            The threshold parameter for the y-axis symlog/asinh scale.</span>
-<span class="sd">        - zoomcolor: str, default &#39;k&#39;</span>
-<span class="sd">            Sets the color of the inset zoom lines.</span>
+<span class="sd">            The threshold of a restyled symlog or twoslope scale.</span>
+<span class="sd">        - var: np.ndarray, default None</span>
+<span class="sd">            A 2D quantity drawn in place of the map of the parent.</span>
+<span class="sd">        - vmax: float, default the map's</span>
+<span class="sd">            The top of the color scale of the restyled maps.</span>
+<span class="sd">        - vmin: float, default the map's</span>
+<span class="sd">            The bottom of the color scale of the restyled maps.</span>
+<span class="sd">        - xrange: [float, float], default the parent's</span>
+<span class="sd">            The x-range of the inset.</span>
+<span class="sd">        - yrange: [float, float], default the parent's</span>
+<span class="sd">            The y-range of the inset.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        - None</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">pcm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">pnr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pcm</span><span class="o">.</span><span class="n">norm</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">dict_norm</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;Normalize&quot;</span><span class="p">:</span> <span class="s2">&quot;norm&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;LogNorm&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;SymLogNorm&quot;</span><span class="p">:</span> <span class="s2">&quot;symlog&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;TwoSlopeNorm&quot;</span><span class="p">:</span> <span class="s2">&quot;twoslope&quot;</span><span class="p">,</span>
-        <span class="p">}</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: copy an axis into an inset of it</span>
 
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">,</span> <span class="n">pcm</span><span class="o">.</span><span class="n">cmap</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cscale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;cscale&quot;</span><span class="p">,</span> <span class="n">dict_norm</span><span class="p">[</span><span class="n">pnr</span><span class="p">])</span>
+<span class="sd">            &gt;&gt;&gt; self.zoomcopy(ax, axins)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pcm</span><span class="p">,</span> <span class="n">QuadMesh</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s2">&quot;The zoom can be applied only to a QuadMesh object.&quot;</span><span class="p">,</span>
+<span class="sd">        """</span>
+        <span class="n">maps</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">collections</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">QuadMesh</span><span class="p">)]</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">maps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">maps</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="c1"># With var, another quantity takes the place of the map</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">swap</span> <span class="o">:=</span> <span class="s2">"var"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">zoomdisplay</span><span class="p">(</span><span class="n">axins</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Every other line and collection, in the order they were drawn</span>
+        <span class="n">copies</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">new</span>
+            <span class="k">for</span> <span class="n">artist</span> <span class="ow">in</span> <span class="p">[</span><span class="o">*</span><span class="n">ax</span><span class="o">.</span><span class="n">collections</span><span class="p">,</span> <span class="o">*</span><span class="n">ax</span><span class="o">.</span><span class="n">lines</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">swap</span> <span class="ow">and</span> <span class="n">artist</span> <span class="ow">is</span> <span class="n">base</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="p">(</span><span class="n">new</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copyartist</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">axins</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">]</span>
+        <span class="n">meshes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">copies</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">QuadMesh</span><span class="p">)]</span>
+
+        <span class="c1"># Without var, the map keywords restyle the copied maps</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">find_cmap</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cmap"</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">swap</span> <span class="ow">and</span> <span class="n">cmap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="n">meshes</span><span class="p">:</span>
+                <span class="n">mesh</span><span class="o">.</span><span class="n">set_cmap</span><span class="p">(</span><span class="n">cmap</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">swap</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">&amp;</span> <span class="p">{</span><span class="s2">"cscale"</span><span class="p">,</span> <span class="s2">"vmin"</span><span class="p">,</span> <span class="s2">"vmax"</span><span class="p">,</span> <span class="s2">"tresh"</span><span class="p">}:</span>
+            <span class="k">for</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="n">meshes</span><span class="p">:</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"LogNorm"</span><span class="p">:</span> <span class="s2">"log"</span><span class="p">,</span> <span class="s2">"SymLogNorm"</span><span class="p">:</span> <span class="s2">"symlog"</span><span class="p">}</span>
+                <span class="n">scale</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">"TwoSlopeNorm"</span><span class="p">:</span> <span class="s2">"twoslope"</span><span class="p">}</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">norm</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">"norm"</span><span class="p">)</span>
+                <span class="n">lims</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get_clim</span><span class="p">()</span>
+                <span class="n">vmin</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"vmin"</span><span class="p">,</span> <span class="n">lims</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">vmax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"vmax"</span><span class="p">,</span> <span class="n">lims</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">tresh</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tresh"</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">vmin</span><span class="p">),</span> <span class="n">vmax</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">)</span>
+                <span class="n">norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ImageToolsManager</span><span class="o">.</span><span class="n">set_cscale</span><span class="p">(</span>
+                    <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cscale"</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">tresh</span>
+                <span class="p">)</span>
+                <span class="n">mesh</span><span class="o">.</span><span class="n">set_norm</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">swap</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cpos"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">meshes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ColorbarManager</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">meshes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># The inset shows the window of the parent unless one is given</span>
+        <span class="n">nins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">axins</span><span class="p">)</span>
+        <span class="n">fix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span><span class="o">.</span><span class="n">fixrange</span>
+        <span class="k">if</span> <span class="s2">"xrange"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">xlim</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span><span class="o">.</span><span class="n">set_xrange</span><span class="p">(</span><span class="n">axins</span><span class="p">,</span> <span class="n">nins</span><span class="p">,</span> <span class="n">xlim</span><span class="p">,</span> <span class="n">fix</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"yrange"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">ylim</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">RangeManager</span><span class="o">.</span><span class="n">set_yrange</span><span class="p">(</span><span class="n">axins</span><span class="p">,</span> <span class="n">nins</span><span class="p">,</span> <span class="n">ylim</span><span class="p">,</span> <span class="n">fix</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">copyartist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">artist</span><span class="p">:</span> <span class="n">Artist</span><span class="p">,</span> <span class="n">axins</span><span class="p">:</span> <span class="n">Axes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Artist</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Copy one line or collection of the parent axis into the inset.</span>
+
+<span class="sd">        The geometry is rebuilt for each kind of artist, and everything else</span>
+<span class="sd">        -- colors, widths, markers, colormap, color scale, the values of a</span>
+<span class="sd">        map -- is taken over by update_from, so the copy is drawn exactly as</span>
+<span class="sd">        the original. Two things of the original belong to the parent and</span>
+<span class="sd">        are pointed at the inset instead: the transform, when it is the</span>
+<span class="sd">        parent's data (a scatter keeps its marker transform, in points, and</span>
+<span class="sd">        places its markers through the inset's data), and the clipping.</span>
+<span class="sd">        Anything else -- texts, legends, the arrows of streamlines, which</span>
+<span class="sd">        matplotlib draws as separate patches -- is not copied.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - artist (not optional): Artist</span>
+<span class="sd">            The line or collection of the parent axis.</span>
+<span class="sd">        - axins (not optional): Axes</span>
+<span class="sd">            The inset axis.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - Artist | None</span>
+<span class="sd">            The copy, already on the inset, or None if not copied.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: copy the map of an axis</span>
+
+<span class="sd">            &gt;&gt;&gt; self.copyartist(ax.collections[0], axins)</span>
+
+<span class="sd">        """</span>
+        <span class="n">new</span><span class="p">:</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="n">Collection</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">Line2D</span><span class="p">):</span>
+            <span class="n">new</span> <span class="o">=</span> <span class="n">Line2D</span><span class="p">(</span><span class="n">artist</span><span class="o">.</span><span class="n">get_xdata</span><span class="p">(),</span> <span class="n">artist</span><span class="o">.</span><span class="n">get_ydata</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">QuadMesh</span><span class="p">):</span>
+            <span class="c1"># A mesh keeps its antialiasing apart from its style: pcolormesh</span>
+            <span class="c1"># turns it off, a bare QuadMesh on, which shows the cell edges</span>
+            <span class="n">gouraud</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="s2">"_shading"</span><span class="p">,</span> <span class="s2">"flat"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"gouraud"</span>
+            <span class="n">new</span> <span class="o">=</span> <span class="n">QuadMesh</span><span class="p">(</span>
+                <span class="n">artist</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">(),</span>
+                <span class="n">antialiased</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="s2">"_antialiased"</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="n">shading</span><span class="o">=</span><span class="s2">"gouraud"</span> <span class="k">if</span> <span class="n">gouraud</span> <span class="k">else</span> <span class="s2">"flat"</span><span class="p">,</span>
             <span class="p">)</span>
-
-        <span class="n">ccd</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;np.ndarray[Any, Any]&quot;</span><span class="p">,</span> <span class="n">pcm</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">())</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">ccd</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">])</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;x2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">ccd</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">])</span>
-
-        <span class="n">psh</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;shading&quot;</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pcm</span><span class="p">,</span> <span class="s2">&quot;_shading&quot;</span><span class="p">,</span> <span class="s2">&quot;flat&quot;</span><span class="p">))</span>
-        <span class="n">leny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">yc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">yc</span><span class="p">)</span>
-        <span class="n">lxc</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xc</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">psh</span> <span class="o">==</span> <span class="s2">&quot;flat&quot;</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">xc</span><span class="p">)</span>
-        <span class="n">lyc</span> <span class="o">=</span> <span class="n">leny</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">psh</span> <span class="o">==</span> <span class="s2">&quot;flat&quot;</span> <span class="k">else</span> <span class="n">leny</span>
-        <span class="c1"># if psh == &#39;flat&#39;:</span>
-        <span class="c1">#    lxc = len(xc) - 1</span>
-        <span class="c1">#    lyc = len(xc[0]) - 1</span>
-        <span class="c1"># else:</span>
-        <span class="c1">#    lxc = len(xc)</span>
-        <span class="c1">#    lyc = len(xc[0])</span>
-        <span class="n">arr</span> <span class="o">=</span> <span class="n">pcm</span><span class="o">.</span><span class="n">get_array</span><span class="p">()</span>
-        <span class="k">if</span> <span class="s2">&quot;var&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">arr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">pcm0</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;var&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">arr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">pcm0</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">lxc</span><span class="p">,</span> <span class="n">lyc</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">ContourSet</span><span class="p">):</span>
+            <span class="n">new</span> <span class="o">=</span> <span class="n">PathCollection</span><span class="p">(</span><span class="n">artist</span><span class="o">.</span><span class="n">get_paths</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">LineCollection</span><span class="p">):</span>
+            <span class="n">new</span> <span class="o">=</span> <span class="n">LineCollection</span><span class="p">(</span><span class="n">artist</span><span class="o">.</span><span class="n">get_segments</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">artist</span><span class="p">,</span> <span class="n">PathCollection</span><span class="p">):</span>
+            <span class="n">new</span> <span class="o">=</span> <span class="n">PathCollection</span><span class="p">(</span>
+                <span class="n">artist</span><span class="o">.</span><span class="n">get_paths</span><span class="p">(),</span>
+                <span class="n">sizes</span><span class="o">=</span><span class="n">artist</span><span class="o">.</span><span class="n">get_sizes</span><span class="p">(),</span>
+                <span class="n">offsets</span><span class="o">=</span><span class="n">artist</span><span class="o">.</span><span class="n">get_offsets</span><span class="p">(),</span>
+                <span class="n">offset_transform</span><span class="o">=</span><span class="n">axins</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;No variable is present in the zoom display. &quot;</span>
-                <span class="s2">&quot;Please provide a variable to plot.&quot;</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="c1"># pcm0 = kwargs.pop(&#39;var&#39;, pcm.reshape((lxc, lyc)).T)</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;vmin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;vmin&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">vlims</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;vmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;vmax&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">vlims</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tresh&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;tresh&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">vlims</span><span class="p">[</span><span class="n">nax</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;shading&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
-            <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;flat&quot;</span><span class="p">,</span> <span class="s2">&quot;nearest&quot;</span><span class="p">,</span> <span class="s2">&quot;gouraud&quot;</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">psh</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">pcm0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pcm0</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;var&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pcm0</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">DisplayManager</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axins</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># The style is the original's; what pointed at the parent's data</span>
+        <span class="c1"># now points at the inset's, and the copy is clipped to the inset</span>
+        <span class="n">new</span><span class="o">.</span><span class="n">update_from</span><span class="p">(</span><span class="n">artist</span><span class="p">)</span>
+        <span class="n">new</span><span class="o">.</span><span class="n">set_zorder</span><span class="p">(</span><span class="n">artist</span><span class="o">.</span><span class="n">get_zorder</span><span class="p">())</span>
+        <span class="n">new</span><span class="o">.</span><span class="n">set_rasterized</span><span class="p">(</span><span class="n">artist</span><span class="o">.</span><span class="n">get_rasterized</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">artist</span><span class="o">.</span><span class="n">axes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">artist</span><span class="o">.</span><span class="n">get_transform</span><span class="p">()</span> <span class="ow">is</span> <span class="p">(</span>
+            <span class="n">artist</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">transData</span>
+        <span class="p">):</span>
+            <span class="n">new</span><span class="o">.</span><span class="n">set_transform</span><span class="p">(</span><span class="n">axins</span><span class="o">.</span><span class="n">transData</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="n">Line2D</span><span class="p">):</span>
+            <span class="n">axins</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">axins</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="n">autolim</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">new</span><span class="o">.</span><span class="n">set_clip_path</span><span class="p">(</span><span class="n">axins</span><span class="o">.</span><span class="n">patch</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new</span>
+
+    <span class="nd">@track_kwargs</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">zoomdisplay</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">axins</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span>
+        <span class="n">base</span><span class="p">:</span> <span class="n">QuadMesh</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">ZoomKwargs</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Display another quantity in the inset, on the grid of the map.</span>
+
+<span class="sd">        The inset of a map can show a different 2D quantity of the same</span>
+<span class="sd">        region -- a velocity next to a density -- with a colormap, a color</span>
+<span class="sd">        scale and a colorbar of its own. It is drawn by display, on the grid</span>
+<span class="sd">        of the map of the parent axis unless x1 and x2 are given together;</span>
+<span class="sd">        everything drawn over that map is copied on top of it afterwards by</span>
+<span class="sd">        zoomcopy. A gouraud map holds a vertex on each border with the value</span>
+<span class="sd">        of its cell, so var is given the same border, as display does for a</span>
+<span class="sd">        map, and lies on exactly the same grid.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        - axins (not optional): Axes</span>
+<span class="sd">            The inset axis, where var is drawn.</span>
+<span class="sd">        - base (not optional): QuadMesh | None</span>
+<span class="sd">            The map of the parent axis, whose grid is used, or None.</span>
+<span class="sd">        - x1: np.ndarray, default the grid of the map</span>
+<span class="sd">            The x-coordinates of var, given together with x2.</span>
+<span class="sd">        - x2: np.ndarray, default the grid of the map</span>
+<span class="sd">            The y-coordinates of var, given together with x1.</span>
+
+<span class="sd">        The other keywords are passed on to display, which draws var, and are</span>
+<span class="sd">        documented there.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        - None</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        - Example #1: a velocity in the inset of a map of the density</span>
+
+<span class="sd">            &gt;&gt;&gt; self.zoomdisplay(axins, base, var=D.vx1, cmap="RdBu_r")</span>
+
+<span class="sd">        """</span>
+        <span class="c1"># A grid is given whole or not at all: half of one would be completed</span>
+        <span class="c1"># from the map's, which has another shape</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">&amp;</span> <span class="p">{</span><span class="s2">"x1"</span><span class="p">,</span> <span class="s2">"x2"</span><span class="p">})</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PyPLUTODataError</span><span class="p">(</span><span class="s2">"x1 and x2 must be given together."</span><span class="p">)</span>
+
+        <span class="c1"># The grid of the map, unless one is given. A gouraud map has a vertex</span>
+        <span class="c1"># on each border holding the value of its cell, so var is given the</span>
+        <span class="c1"># same border, as display does, and the inset reaches the same edges</span>
+        <span class="k">if</span> <span class="n">base</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">())</span>
+            <span class="n">gouraud</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="s2">"_shading"</span><span class="p">,</span> <span class="s2">"flat"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"gouraud"</span>
+            <span class="k">if</span> <span class="n">gouraud</span> <span class="ow">and</span> <span class="s2">"x1"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s2">"x2"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"var"</span><span class="p">))</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">"var"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"edge"</span><span class="p">)</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">"shading"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"gouraud"</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"x1"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"x1"</span><span class="p">,</span> <span class="n">grid</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"x2"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"x2"</span><span class="p">,</span> <span class="n">grid</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="s2">"x1"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">or</span> <span class="s2">"x2"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s2">"The zoom of var needs a grid: a map on the axis, or x1, x2."</span>
+            <span class="k">raise</span> <span class="n">PyPLUTODataError</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">DisplayManager</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axins</span><span class="p">,</span> <span class="n">_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">place_inset_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Axes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Place an inset axes given the position (left, top, bottom, right).</span>
+<span class="w">        </span><span class="sd">"""Place an inset axes given the position (left, top, bottom, right).</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1063,7 +1077,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        - Axes</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Compute the position of the inset axis and return it</span>
         <span class="n">left</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">bottom</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
@@ -1078,7 +1092,7 @@
         <span class="n">_check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">SetLocKwargs</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Axes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Place an inset axes given different keywords.</span>
+<span class="w">        </span><span class="sd">"""Place an inset axes given different keywords.</span>
 
 <span class="sd">        In case both top and bottom are given, the top is given priority and a</span>
 <span class="sd">        warning is raised.</span>
@@ -1115,23 +1129,35 @@
 <span class="sd">        -------</span>
 <span class="sd">        - Axes</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Check if both &quot;top&quot; and &quot;bottom&quot; keywords are given</span>
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;top&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">):</span>
-            <span class="n">warn</span> <span class="o">=</span> <span class="s2">&quot;Both top and height are specified. Using top and height.&quot;</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="c1"># The inset starts at 0.6 of its parent and spans 0.15</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"left"</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">)</span>
+        <span class="n">bottom</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"bottom"</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">)</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"width"</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">)</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">):</span>
-            <span class="n">warn</span> <span class="o">=</span> <span class="s2">&quot;Both right and width are specified. Using right and width.&quot;</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># An end given wins: with a size as well the box is over-determined</span>
+        <span class="c1"># and the start is taken back from the two; with a start it sets the</span>
+        <span class="c1"># size, and alone it moves the start, keeping the default size</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">right</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"right"</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"width"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">warn</span> <span class="o">=</span> <span class="s2">"Both right and width are specified: left is set to "</span>
+                <span class="n">warn</span> <span class="o">+=</span> <span class="s2">"right - width."</span>
+                <span class="n">PPWarn</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="n">PyPLUTOConflictWarning</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">"left"</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s2">"width"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">width</span> <span class="o">=</span> <span class="n">right</span> <span class="o">-</span> <span class="n">left</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">left</span> <span class="o">=</span> <span class="n">right</span> <span class="o">-</span> <span class="n">width</span>
 
-        <span class="c1"># Compute the position of the inset axis and return it</span>
-        <span class="n">left</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">)</span>
-        <span class="n">right</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">left</span> <span class="o">+</span> <span class="mf">0.15</span><span class="p">)</span>
-        <span class="n">width</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span>
-        <span class="n">bottom</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">)</span>
-        <span class="n">top</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="n">bottom</span> <span class="o">+</span> <span class="mf">0.15</span><span class="p">)</span>
-        <span class="n">height</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="n">top</span> <span class="o">-</span> <span class="n">bottom</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">top</span> <span class="o">:=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"top"</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"height"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">warn</span> <span class="o">=</span> <span class="s2">"Both top and height are specified: bottom is set to "</span>
+                <span class="n">warn</span> <span class="o">+=</span> <span class="s2">"top - height."</span>
+                <span class="n">PPWarn</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warn</span><span class="p">,</span> <span class="n">PyPLUTOConflictWarning</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">"bottom"</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s2">"height"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">height</span> <span class="o">=</span> <span class="n">top</span> <span class="o">-</span> <span class="n">bottom</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">bottom</span> <span class="o">=</span> <span class="n">top</span> <span class="o">-</span> <span class="n">height</span>
 
         <span class="k">return</span> <span class="n">ax</span><span class="o">.</span><span class="n">inset_axes</span><span class="p">((</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
 </pre></div>
@@ -1163,8 +1189,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=0790524f97105ba85085"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=0790524f97105ba85085"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1184,8 +1210,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
-    <br/>
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.2.0.
   </p>
 </div>
       
@@ -1198,7 +1223,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.18.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

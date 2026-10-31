@@ -89,13 +89,14 @@ Run commands inside the synced environment with ``uv run``, for example:
 
 **pixi (optional)**
 
-For those who already use pixi: ``pixi.lock`` gives an environment with
-PyPLUTO and all its extras (no development tools, which come with uv). If pixi
-is installed, ``./dev-sync.sh`` installs it too:
+For those who already use pixi: ``pixi.lock`` gives the development
+environment (tests, docs, pre-commit) as ``local-dev``. If pixi is installed,
+``./dev-sync.sh`` installs it too:
 
 .. code-block:: console
 
-   $ pixi install -e full
+   $ pixi install -e local-dev
+   $ pixi run -e local-dev pytest -v ./Tests
 
 |
 

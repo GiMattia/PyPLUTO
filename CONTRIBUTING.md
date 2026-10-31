@@ -79,12 +79,13 @@ uv run pytest -v ./Tests
 
 ### `pixi` (optional)
 
-For those who already use pixi: `pixi.lock` gives an environment with PyPLUTO
-and all its extras (no development tools, which come with uv). If pixi is
-installed, `./dev-sync.sh` installs it too:
+For those who already use pixi: `pixi.lock` gives the development environment
+(tests, docs, pre-commit) as `local-dev`. If pixi is installed,
+`./dev-sync.sh` installs it too:
 
 ```bash
-pixi install -e full
+pixi install -e local-dev
+pixi run -e local-dev pytest -v ./Tests
 ```
 
 ## Pre-commit and Quality Checks
@@ -142,7 +143,7 @@ above. The intent is to switch to one of them once they mature. Install them
 only if you want to experiment:
 
 ```bash
-uv sync --group typefuture
+uv sync --group typefuture     # or: pixi install -e typefuture
 ```
 
 A couple of legacy modules (`amr.py`, `nabla.py`) are excluded from type

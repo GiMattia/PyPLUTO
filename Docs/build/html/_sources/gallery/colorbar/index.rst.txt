@@ -1,0 +1,195 @@
+
+
+.. _sphx_glr_gallery_colorbar:
+
+Colorbars
+---------
+
+The colorbar of a map, of contour lines, of points or of streamlines: where
+it goes, what it describes, and how its ticks are chosen.
+
+
+.. raw:: html
+
+  <div id='sg-tag-list' class='sphx-glr-tag-list'></div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="cax places the colorbar in an axis of the figure instead of cutting one from the map: here a thin third column holds the bar shared by two maps on the same scale.">
+
+.. only:: html
+
+  .. image:: /gallery/colorbar/images/thumb/sphx_glr_colorbar_in_an_axis_thumb.png
+    :alt:
+
+  :doc:`/gallery/colorbar/colorbar_in_an_axis`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">A colorbar in an axis of its own</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Contour lines get a continuous colorbar on their color scale, as a map does. With fillmap=False the colorbar is matplotlib&#x27;s own instead, with a line at each level.">
+
+.. only:: html
+
+  .. image:: /gallery/colorbar/images/thumb/sphx_glr_contour_lines_thumb.png
+    :alt:
+
+  :doc:`/gallery/colorbar/contour_lines`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">The colorbar of contour lines</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="When the color scale is narrower than the data, extend adds a pointed end to the colorbar for the values beyond its limits: on both ends, or only on the &#x27;min&#x27; or the &#x27;max&#x27; one. With extendrect=True the ends are rectangular.">
+
+.. only:: html
+
+  .. image:: /gallery/colorbar/images/thumb/sphx_glr_extensions_thumb.png
+    :alt:
+
+  :doc:`/gallery/colorbar/extensions`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Extensions of a colorbar</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="cpos puts the colorbar on any side of the map, with its ticks and label on the outer side. cpad is the space past the tick labels and titles the map draws there, so the bar never covers them.">
+
+.. only:: html
+
+  .. image:: /gallery/colorbar/images/thumb/sphx_glr_four_sides_thumb.png
+    :alt:
+
+  :doc:`/gallery/colorbar/four_sides`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">The four sides</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="A colorbar asked for with colorbar() after the map, or drawn together with it by display(cpos=...): the two give the same bar.">
+
+.. only:: html
+
+  .. image:: /gallery/colorbar/images/thumb/sphx_glr_one_colorbar_thumb.png
+    :alt:
+
+  :doc:`/gallery/colorbar/one_colorbar`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">One colorbar</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="scatter and streamplot draw a colorbar with cpos too, when their color comes from a variable: the value at each point, or the speed of the flow.">
+
+.. only:: html
+
+  .. image:: /gallery/colorbar/images/thumb/sphx_glr_other_drawings_thumb.png
+    :alt:
+
+  :doc:`/gallery/colorbar/other_drawings`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Points and streamlines colored by data</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The ticks of a colorbar follow the rules of xticks: cticks fixes them, ctickslabels names them, and None removes them. On a logarithmic scale every fixed tick gets its label, not only the powers of ten.">
+
+.. only:: html
+
+  .. image:: /gallery/colorbar/images/thumb/sphx_glr_ticks_thumb.png
+    :alt:
+
+  :doc:`/gallery/colorbar/ticks`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Ticks of a colorbar</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="A map can have more than one colorbar: each is cut from its side, and the map shrinks for all of them. cpad sets the space between a bar and the map, in inches.">
+
+.. only:: html
+
+  .. image:: /gallery/colorbar/images/thumb/sphx_glr_two_colorbars_thumb.png
+    :alt:
+
+  :doc:`/gallery/colorbar/two_colorbars`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Two colorbars and the space around them</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="An inset made by zoom can have a colorbar of its own, given with cpos. The parent stays the last considered axis, so a colorbar() asked for after the zoom describes the parent&#x27;s map.">
+
+.. only:: html
+
+  .. image:: /gallery/colorbar/images/thumb/sphx_glr_zoom_thumb.png
+    :alt:
+
+  :doc:`/gallery/colorbar/zoom`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">The colorbar of a zoom</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /gallery/colorbar/colorbar_in_an_axis
+   /gallery/colorbar/contour_lines
+   /gallery/colorbar/extensions
+   /gallery/colorbar/four_sides
+   /gallery/colorbar/one_colorbar
+   /gallery/colorbar/other_drawings
+   /gallery/colorbar/ticks
+   /gallery/colorbar/two_colorbars
+   /gallery/colorbar/zoom
+

@@ -18,6 +18,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Settings: `greet`, `text`, `colors`, `warnings` and `errors`, set in a `pypluto.toml` (in `~/.config/pypluto/` or in the current folder), with the `PYPLUTO_*` environment variables, or with `pp.configure(...)`, also in a `with` block. `pp.configure()` gives back the settings in use
 - `pp.PyPLUTOError`, the base of the errors PyPLUTO raises on purpose; a wrong setting raises one
 - Errors and warnings named by what went wrong, each also its closest built-in, in `pyPLUTO.utils.pperrors` (attribute, axis, config, copy, data, internal, missing-feature and option errors) and `pyPLUTO.utils.ppwarnings` (behavior, config, conflict, dependency, deprecation, keyword and option warnings). An internal error, a bug in PyPLUTO, is always shown in full and ends asking to report it; a missing feature ends saying where to ask for it
+- A gallery in the documentation: short scripts on synthetic data, one figure each, starting with the colorbars. Each method page lists the gallery examples that call it, and the tests compare their figures pixel by pixel
+- `fillmap` in `colorbar` and in the methods that place one: `False` gives contour lines matplotlib's own bar, with a line at each level
 
 ### Changed (preliminary)
 - Updated golden reference images and the example test harness for a newer matplotlib version
@@ -41,6 +43,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `pp.colorerr`, `pp.colorwarn` and `pp.greet` are removed: they were read before they could be set. Use the settings instead
 - Ticks labels go only on known ticks: those given in the same call or, on an axis of the figure, in an earlier one (new `TicksManager`, `imagefuncs/ticks.py`). Labels without ticks, or in a number different from the ticks, are ignored with a warning; ticks given alone get automatic labels again. Labels can be numbers, written as matplotlib writes a value (`3e4` as 3×10⁴). `minorticks="off"` stays until `"on"` is given
 - Requires matplotlib 3.9 or later
+- Documentation: the PLUTO test problems are a gallery generated from the scripts, and the Examples page introduces both groups. The top bar fits on one line, with search, color mode and GitHub as icons
 - Development: uv is required and pixi is optional. The pixi lock check is skipped where pixi is not installed and always runs in CI; `dev-sync.sh` stops without uv; the contributing guide has a first-time setup and no longer offers pip
 
 ### Fixed
@@ -73,6 +76,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `create_axes`: a fontsize and a size given to it reach the state, and so does the size computed from the grid; a `tight` overruled by a custom layout now warns
 - `zoom`: the inset copies everything drawn on the axis (lines, scatter, contours, streamlines over a map), not only a map or plain curves; `top`/`right` given with a size or alone place the inset where asked; the tight layout of the figure is switched off only for an inset with its own colorbar; `width`, `height` and `label` are declared
 - `colorbar`: works after `contour`, `streamplot` or lines, taking the last collection coloured by data; a second colorbar no longer crashes; contour lines get a continuous bar instead of blocks; `ctickslabels` works with an array of `cticks`, and ticks follow the same rules as `xticks`
+- `colorbar`: an unknown `cpos` raises an error before anything is drawn; `cax` cannot be the axis described; the gap starts past the tick labels and titles on that side, so a bar on the left or on top no longer covers them; the ticks and label are on the outer side; a second bar on the same axis no longer lands on its tick labels
+- `zoom`: what follows without `ax` (a colorbar, a line) goes on the panel, not on the inset
+- The `extend` and `extendrect` entries of the drawing methods describe what they do; `extendrect` said the opposite
 - `contour`/`streamplot`/`display`: `transpose` works on rectangular fields (and `transpose=1` on `display`); `c` together with `cmap` warns and drops the colormap instead of crashing; `streamplot` colours the lines by the magnitude when given `cmap` or `cpos`, takes the palette otherwise, applies `alpha`, accepts lists and no longer copies the field
 - `Image(fig=...)`: the figure given is no longer closed, the keywords given with it are applied, `nwin` with it warns, and its tight layout is kept
 - Field lines (`find_fieldlines`) end exactly on the domain border instead of past it

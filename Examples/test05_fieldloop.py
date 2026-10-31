@@ -1,4 +1,6 @@
-"""Classical MHD Field loop test.
+"""
+Test 05 - MHD Field loop test
+=============================
 
 This test shows how to compute streamlines and field lines of the
 magnetic field in a display with two subplots.
@@ -15,12 +17,18 @@ method is used to plot the field lines previously computed. The image is
 then saved and shown on screen.
 
 IMPORTANT: During the setup of the test, in the pluto.ini file, the simulation
-time at which a .vtk output file is printed should be changed in
+time at which a .vtk output file is printed should be changed in::
 
-dbl     -1.0   -1   single_file
-vtk      2.0   -1   single_file
+    dbl     -1.0   -1   single_file
+    vtk      2.0   -1   single_file
+
+.. image:: /../../Examples/test05_fieldloop.png
+   :align: center
+   :width: 600px
 
 """
+
+# sphinx_gallery_thumbnail_path = "../../Examples/test05_fieldloop.png"
 
 # Loading the relevant packages
 import pyPLUTO

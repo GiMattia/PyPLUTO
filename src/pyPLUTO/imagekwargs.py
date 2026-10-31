@@ -198,6 +198,7 @@ class ColorbarKwargs(CreateAxesKwargs, total=False):
     ctickslabels: str | list[str] | list[float] | bool | None
     extend: str
     extendrect: bool
+    fillmap: bool
 
 
 class ColorScaleKwargs(ColorbarKwargs, SetAxisKwargs, total=False):

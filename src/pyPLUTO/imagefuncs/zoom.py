@@ -72,8 +72,10 @@ class ZoomManager(ImageMixin):
         moves the start, with a start it sets the size, and with a size as
         well the start is taken back from the two. The inset is an axis of
         the image like any other, so it can be drawn on afterwards through
-        its index. An inset colorbar switches the tight layout of the figure
-        off, since matplotlib cannot lay it out.
+        its index; the parent stays the last considered axis, so what follows
+        without ax (a colorbar, a line) goes on the parent. An inset colorbar
+        switches the tight layout of the figure off, since matplotlib cannot
+        lay it out.
 
         Parameters
         ----------
@@ -117,13 +119,19 @@ class ZoomManager(ImageMixin):
         - ctickslabels: str, default None
             If enabled, sets manually ticks labels on the colorbar.
         - extend: {'neither','both','min','max'}, default 'neither'
-            Sets the extension of the triangular colorbar extension.
+            The ends of the colorbar that get an extension, for the values
+            beyond its limits.
         - extendrect: bool, default False
-            If True, the colorbar extension will be triangular.
+            If True, the colorbar extensions are rectangular instead of
+            triangular.
         - figsize: list[float], default varies
             Sets the figure size. The default is [6*sqrt(ncol), 5*sqrt(nrow)],
             computed from the number of rows and columns (or [8,5] for a single
             plot).
+        - fillmap: bool, default True
+            For contour lines only: if True, the colorbar is continuous on
+            their color scale, as for a map; if False, it is matplotlib's own,
+            with a line at each level.
         - fontsize: float, default 17.0
             Sets the fontsize for all the axis components.
         - grid: bool | string, default False
@@ -367,6 +375,10 @@ class ZoomManager(ImageMixin):
         axins.spines["bottom"].set_color(zoomc)
         axins.spines["right"].set_color(zoomc)
         axins.spines["top"].set_color(zoomc)
+
+        # An inset is a detail of its panel: the panel stays the last
+        # considered axis
+        self.state.lastax = ax
 
         return axins
 

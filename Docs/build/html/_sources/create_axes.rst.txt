@@ -5,6 +5,10 @@ Image.create_axes
 
 .. automethod:: pyPLUTO.imagefuncs.create_axes.CreateAxesManager.create_axes
 
+.. rubric:: Examples in the gallery
+
+.. minigallery:: pyPLUTO.Image.create_axes
+
 |
 
 ----

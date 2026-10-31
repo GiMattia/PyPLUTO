@@ -1,6 +1,10 @@
 
 dist/
 Docs/Figures/__pycache__/
+Docs/source/gallery/
+Docs/source/pluto_tests/
+Docs/source/gen_modules/
+Docs/source/sg_execution_times.rst
 .approval_tests_temp/
 */__pycache__/
 */PyPLUTO.egg-info/

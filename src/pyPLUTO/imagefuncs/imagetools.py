@@ -6,13 +6,12 @@ import importlib
 import inspect
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Unpack, cast
+from typing import Unpack
 
 import matplotlib.colors as mcol
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.colors import Normalize
-from matplotlib.figure import Figure
 from matplotlib.text import Text
 
 from pyPLUTO.imagefuncs.create_axes import CreateAxesManager
@@ -20,11 +19,7 @@ from pyPLUTO.imagekwargs import CreateAxesKwargs, TextKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pperrors import (
-    PyPLUTOAxisError,
-    PyPLUTOInternalError,
-    PyPLUTOOptionError,
-)
+from pyPLUTO.utils.pperrors import PyPLUTOAxisError, PyPLUTOOptionError
 from pyPLUTO.utils.ppwarnings import (
     PPWarn,
     PyPLUTOBehaviorWarning,
@@ -106,8 +101,6 @@ class ImageToolsManager(ImageMixin):
             >>> I.savefig("namefile.png")
 
         """
-        if not self.state.fig:
-            raise PyPLUTOInternalError("No figure to save.")
         out_path = Path(filename)
 
         if script_relative and not out_path.is_absolute():
@@ -263,16 +256,11 @@ class ImageToolsManager(ImageMixin):
         # clear the record before text itself could check anything.
         ax, nax = self.assign_ax(ax, _check=False, **kwargs)
 
-        # assign_ax above raises when the state holds no figure, so by here
-        # there is always one: the cast says that to the type checkers without
-        # a second check that could never fail.
-        fig = cast("Figure", self.state.fig)
-
         # Dictionary with the possible 'xycoords' values
         coordinates = {
             "fraction": ax.transAxes,
             "points": ax.transData,
-            "figure": fig.transFigure,
+            "figure": self.state.fig.transFigure,
         }
 
         # Set the 'xycoords' keyword
@@ -414,8 +402,6 @@ class ImageToolsManager(ImageMixin):
             >>> _assign_ax([ax], **kwargs)
 
         """
-        if self.state.fig is None:
-            raise PyPLUTOInternalError("No figure is present.")
         # Check if the axis is None and no axis is present, or a layout is
         # given: the axes asked for are created, a grid if ncol or nrow say so
         if ax is None and (not self.state.ax or LAYOUT & kwargs.keys()):

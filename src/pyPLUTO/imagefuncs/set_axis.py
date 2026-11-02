@@ -347,7 +347,7 @@ class AxisManager(ImageMixin):
 
         # Reinforces the tight_layout if needed
         self.state.tight = kwargs.get("tight", self.state.tight)
-        if self.state.tight is not False and self.state.fig is not None:
+        if self.state.tight is not False:
             self.state.fig.tight_layout()
 
         # End of the function

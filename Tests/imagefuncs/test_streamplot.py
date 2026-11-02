@@ -26,7 +26,7 @@ from matplotlib.colors import to_hex
 from matplotlib.patches import FancyArrowPatch, Rectangle
 
 import pyPLUTO as pp
-from pyPLUTO.utils.pperrors import PyPLUTODataError, PyPLUTOInternalError
+from pyPLUTO.utils.pperrors import PyPLUTODataError
 from pyPLUTO.utils.ppwarnings import (
     PyPLUTOConflictWarning,
     PyPLUTOKeywordWarning,
@@ -417,19 +417,6 @@ def test_streamplot_on_second_axis() -> None:
 
 
 # ---- The figure ----
-def test_a_streamplot_without_a_figure() -> None:
-    """Draw on an image whose figure is gone.
-
-    There is nothing to draw on, and saying so is better than the error
-    matplotlib would give further down, in a call the user never made.
-    """
-    image = pp.Image(text=False)
-    image.fig = None
-
-    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
-        image.streamplot(vx, vy)
-
-
 def test_the_layout_is_tightened_again() -> None:
     """Draw with a long axis label on a tight figure.
 

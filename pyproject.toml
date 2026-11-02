@@ -267,7 +267,7 @@ local-dev = { features = ["dev", "test", "docs", "notebook"] }
 [tool.pyright]
 pythonVersion = "3.11"
 typeCheckingMode = "standard"
-include = ["src"]
+include = ["src","Tests","Examples"]
 # Lets pyright and Pylance resolve the shared test helpers in Tests/ (e.g.
 # helper_baseload), mirroring pythonpath = ["Tests"] for pytest.
 extraPaths = ["Tests"]
@@ -276,7 +276,6 @@ exclude = [
     "**/node_modules",
     "**/.*",
     "**/.venv",
-    "Tests",
 ]
 
 # NOTE: pyrefly and ty (the `typefuture` dependency group) are kept available

@@ -225,10 +225,6 @@ class ColorbarManager(ImageMixin):
             warn = "Both pcm and axs are not None, pcm will be used"
             PPWarn.warn(warn, PyPLUTOConflictWarning)
 
-        # Standard check on the figure
-        if self.state.fig is None:
-            raise PyPLUTOInternalError("No figure is present.")
-
         # The side of the colorbar, checked before anything is drawn
         cpos = kwargs.get("cpos", "right")
         if cpos not in ("left", "right", "top", "bottom"):

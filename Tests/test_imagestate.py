@@ -4,17 +4,20 @@ The same checks as the two load state files, run against ImageState, and kept
 deliberately parallel to them: the same tests in the same order, so no state
 is held to a lower standard than the others.
 
-ImageState has a single field without a default, lastax, since there is no
-axis to point at before create_axes makes one. It is checked like the
-load-only fields of the load states, by test_unset_until_created.
+ImageState has two fields without a default, fig and lastax, set when Image
+creates the figure and the first axis. They are checked by
+test_unset_until_created, and fig, which is set only once, by
+test_the_figure_is_set_once.
 """
 
 from dataclasses import fields
 
 import pytest
 from helper_image import CONTAINERS, DEFAULTS, WITH_DEFAULT, WITHOUT_DEFAULT
+from matplotlib.figure import Figure
 
 from pyPLUTO.imagestate import ImageState
+from pyPLUTO.utils.pperrors import PyPLUTOAttributeError
 
 # The hand-written table and its views live in helper_image.py: DEFAULTS is
 # what every field holds on a fresh state, WITH_DEFAULT and WITHOUT_DEFAULT
@@ -62,20 +65,36 @@ def test_default(name: str, expected: object) -> None:
 def test_unset_until_created(name: str) -> None:
     """Read a field without a default on a fresh state and expect an error.
 
-    Before any axis exists there is no honest answer for the last considered
-    one, so reading it raises AttributeError rather than handing back a
-    made-up axis.
+    Before Image creates the figure and the first axis, reading fig or
+    lastax raises AttributeError rather than returning None or a made-up
+    axis.
     """
     with pytest.raises(AttributeError):
         getattr(ImageState(), name)
 
 
+def test_the_figure_is_set_once() -> None:
+    """Set the figure, try to set another, and find the first one kept.
+
+    The first assignment is the one Image makes when it creates the figure.
+    A second one would leave the axes on a figure the Image no longer holds,
+    so it must raise and change nothing.
+    """
+    state = ImageState()
+    first = Figure()
+    state.fig = first
+
+    with pytest.raises(PyPLUTOAttributeError, match="cannot be replaced"):
+        state.fig = Figure()
+
+    assert state.fig is first
+
+
 def test_constructor_accepts_the_fields_with_a_default() -> None:
     """Compare what the constructor accepts with the fields having defaults.
 
-    The two groups must line up exactly: lastax is declared init=False, so it
-    cannot be passed to ImageState(...) and point at an axis the Image never
-    made.
+    The two groups must line up exactly: fig and lastax are declared
+    init=False, so they cannot be passed to ImageState(...).
     """
     accepted = {field.name for field in fields(ImageState) if field.init}
     assert accepted == set(WITH_DEFAULT)
@@ -142,5 +161,5 @@ def test_image_state_dynamic_attribute() -> None:
     name is not a field and cannot be one.
     """
     state = ImageState(style="default", LaTeX=True)
-    state.custom_attr = 123  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[unresolved-attribute]
+    state.custom_attr = 123
     assert state.custom_attr == 123  # pyright: ignore[reportAttributeAccessIssue]  # ty: ignore[unresolved-attribute]

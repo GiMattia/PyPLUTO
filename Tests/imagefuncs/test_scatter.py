@@ -33,7 +33,6 @@ from matplotlib.colors import (
 from matplotlib.markers import MarkerStyle
 
 import pyPLUTO as pp
-from pyPLUTO.utils.pperrors import PyPLUTOInternalError
 from pyPLUTO.utils.ppwarnings import (
     PyPLUTOBehaviorWarning,
     PyPLUTOKeywordWarning,
@@ -609,19 +608,6 @@ def test_legend_keywords_reach_the_legend_drawn() -> None:
 
 
 # ---- The figure ----
-def test_a_scatter_without_a_figure() -> None:
-    """Scatter on an image whose figure is gone.
-
-    There is nothing to draw on, and saying so is better than the error
-    matplotlib would give further down, in a call the user never made.
-    """
-    image = pp.Image(text=False)
-    image.fig = None
-
-    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
-        image.scatter(x, y)
-
-
 def test_the_layout_is_tightened_again() -> None:
     """Scatter with a long axis label on a tight figure.
 

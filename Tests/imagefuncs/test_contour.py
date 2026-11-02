@@ -28,7 +28,6 @@ from matplotlib.colors import LogNorm, Normalize, SymLogNorm, TwoSlopeNorm
 from matplotlib.contour import QuadContourSet
 
 import pyPLUTO as pp
-from pyPLUTO.utils.pperrors import PyPLUTOInternalError
 from pyPLUTO.utils.ppwarnings import (
     PyPLUTOConflictWarning,
     PyPLUTOKeywordWarning,
@@ -407,19 +406,6 @@ def test_no_colorbar_unless_one_is_asked_for() -> None:
 
 
 # ---- The figure ----
-def test_a_contour_without_a_figure() -> None:
-    """Draw on an image whose figure is gone.
-
-    There is nothing to draw on, and saying so is better than the error
-    matplotlib would give further down, in a call the user never made.
-    """
-    image = pp.Image(text=False)
-    image.fig = None
-
-    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
-        image.contour(var)
-
-
 def test_the_layout_is_tightened_again() -> None:
     """Draw with a long axis label on a tight figure.
 

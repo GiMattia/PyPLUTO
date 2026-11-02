@@ -29,7 +29,6 @@ from matplotlib.figure import Figure
 from pyPLUTO.image import Image
 from pyPLUTO.imagefuncs.figure import FigureManager
 from pyPLUTO.imagestate import ImageState
-from pyPLUTO.utils.pperrors import PyPLUTOInternalError
 from pyPLUTO.utils.ppwarnings import (
     PyPLUTOBehaviorWarning,
     PyPLUTOConflictWarning,
@@ -321,31 +320,6 @@ def test_tight_changes_the_layout(tight: bool) -> None:
         assert box.x1 == pytest.approx(0.900)
 
 
-def test_create_figure_refuses_a_missing_figure(
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    """Make matplotlib hand back no figure, and check the manager says so.
-
-    It cannot happen through pyplot today, but everything downstream
-    dereferences the figure, so the guard turns a None into a sentence
-    rather than an AttributeError three calls later.
-    """
-    state = ImageState(
-        fig=None, figsize=[8.0, 5.0], fontsize=17, nwin=1, tight=False
-    )
-    manager = FigureManager.__new__(FigureManager)
-    manager.state = state
-    monkeypatch.setattr(plt, "figure", lambda *a, **kw: None)
-    monkeypatch.setattr(mpl.rcParams, "update", lambda *a, **kw: None)
-
-    with pytest.raises(
-        PyPLUTOInternalError, match="The figure could not be created"
-    ):
-        manager.create_figure(
-            replace=False, suptitle=None, suptitlesize="large"
-        )
-
-
 # ---- Replacing or inheriting ----
 def test_a_new_image_replaces_the_window() -> None:
     """Build a second image on the same window, and check it starts clean.
@@ -454,7 +428,7 @@ def test_check_previous_fig_clears_the_existing_figure(
     monkeypatch.setattr(plt, "figure", lambda n: figure)
     monkeypatch.setattr(plt, "close", closed.append)
 
-    manager.check_previous_fig(replace=True)
+    manager.check_previous_fig(None, replace=True)
 
     assert cleared == ["cleared"]
     assert closed == [figure]
@@ -556,11 +530,11 @@ def test_a_figure_numbered_with_something_else_is_ignored() -> None:
     the type checkers that `nwin` stays an int, and this is what covers it:
     a number of another type is left where it is rather than stored.
     """
-    state = ImageState(nwin=4, fig=_LabelledFigure())
+    state = ImageState(nwin=4)
     manager = FigureManager.__new__(FigureManager)
     manager.state = state
 
-    manager.check_previous_fig(replace=False)
+    manager.check_previous_fig(_LabelledFigure(), replace=False)
 
     assert state.nwin == 4
 

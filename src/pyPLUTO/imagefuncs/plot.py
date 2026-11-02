@@ -30,7 +30,6 @@ from pyPLUTO.imagekwargs import PlotKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pperrors import PyPLUTOInternalError
 from pyPLUTO.utils.ppwarnings import (
     PPWarn,
     PyPLUTOBehaviorWarning,
@@ -334,9 +333,6 @@ class PlotManager(ImageMixin):
             # Convert x and y in numpy arrays
             x = np.asarray(x, dtype=float)
             y = np.asarray(y, dtype=float)
-
-        if self.state.fig is None:
-            raise PyPLUTOInternalError("No figure is present.")
 
         # Set or create figure and axes
         ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)

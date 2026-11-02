@@ -17,7 +17,7 @@ from pyPLUTO.imagekwargs import StreamplotKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pperrors import PyPLUTODataError, PyPLUTOInternalError
+from pyPLUTO.utils.pperrors import PyPLUTODataError
 from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTOConflictWarning
 
 
@@ -323,9 +323,6 @@ class StreamplotManager(ImageMixin):
         """
         if np.shape(var1) != np.shape(var2):
             raise PyPLUTODataError("The shapes of the variables are different.")
-
-        if self.state.fig is None:
-            raise PyPLUTOInternalError("No figure is present.")
 
         # Set or create figure and axes
         ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)

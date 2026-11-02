@@ -13,7 +13,6 @@ from pyPLUTO.imagekwargs import FigureKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pperrors import PyPLUTOInternalError
 from pyPLUTO.utils.ppwarnings import (
     PPWarn,
     PyPLUTOBehaviorWarning,
@@ -111,7 +110,7 @@ class FigureManager(ImageMixin):
         withblack = kwargs.pop("withblack", False)
         withwhite = kwargs.pop("withwhite", False)
 
-        self.state.fig = kwargs.get("fig", self.state.fig)
+        fig = kwargs.get("fig")
         self.state.figsize = kwargs.get("figsize", self.state.figsize)
         self.state.fontsize = kwargs.get("fontsize", self.state.fontsize)
         self.state.LaTeX = kwargs.get("LaTeX", self.state.LaTeX)
@@ -119,7 +118,7 @@ class FigureManager(ImageMixin):
         self.state.style = kwargs.get("style", self.state.style)
         self.state.tight = kwargs.get("tight", self.state.tight)
 
-        self.check_previous_fig(replace)
+        self.check_previous_fig(fig, replace)
 
         # A figure carries its own window number and cannot be renumbered, so
         # an nwin given together with `fig` is dropped. Said out loud only
@@ -150,11 +149,11 @@ class FigureManager(ImageMixin):
             withwhite,
         )
         self.assign_LaTeX(self.state.fontweight)
-        self.create_figure(replace, suptitle, suptitlesize)
+        self.create_figure(fig, replace, suptitle, suptitlesize)
 
         # create_figure sizes a figure it creates itself; one attached to
         # with `fig` is resized here, so an explicit figsize reaches it too.
-        if "figsize" in kwargs and self.state.fig is not None:
+        if "figsize" in kwargs:
             self.state.fig.set_size_inches(
                 self.state.figsize[0], self.state.figsize[1]
             )
@@ -356,7 +355,7 @@ class FigureManager(ImageMixin):
 
         # End of the function
 
-    def check_previous_fig(self, replace: bool) -> None:
+    def check_previous_fig(self, fig: Figure | None, replace: bool) -> None:
         """Read what an attached fig carries, and empty the window to replace.
 
         A figure given with `fig` decides the size, the fontsize, the window
@@ -366,6 +365,8 @@ class FigureManager(ImageMixin):
 
         Parameters
         ----------
+        - fig: Figure | None
+            The figure given with `fig`, or None if none was given.
         - replace: bool, default True
             If True, the figure holding the window number is cleared and
             closed, so that a new one can take its place. If False, that
@@ -379,21 +380,18 @@ class FigureManager(ImageMixin):
         --------
         - Example #1: empty the window, to replace what is in it
 
-            >>> _check_previous_fig(True)
+            >>> self.check_previous_fig(None, True)
 
-        - Example #2: inherit the figure already in the window
+        - Example #2: attach to a figure and keep it
 
-            >>> _check_previous_fig(False)
+            >>> self.check_previous_fig(fig, False)
 
         """
-        if isinstance(self.state.fig, Figure):
-            self.state.figsize = [
-                self.state.fig.get_figwidth(),
-                self.state.fig.get_figheight(),
-            ]
+        if fig is not None:
+            self.state.figsize = [fig.get_figwidth(), fig.get_figheight()]
             self.state.fontsize = plt.rcParams["font.size"]
             try:
-                fignum = self.state.fig.number
+                fignum = fig.number
                 if isinstance(fignum, int):
                     self.state.nwin = fignum
             except AttributeError:
@@ -406,7 +404,7 @@ class FigureManager(ImageMixin):
             # pyPLUTO never installs: it calls tight_layout() once instead.
             # So False means "no engine here", not "no tight layout wanted",
             # and only a True is worth inheriting.
-            if self.state.fig.get_tight_layout():
+            if fig.get_tight_layout():
                 self.state.tight = True
 
         # Close the existing figure if it exists (and 'close' is enabled).
@@ -420,6 +418,7 @@ class FigureManager(ImageMixin):
 
     def create_figure(
         self,
+        fig: Figure | None,
         replace: bool,
         suptitle: str | None,
         suptitlesize: int | str,
@@ -430,6 +429,9 @@ class FigureManager(ImageMixin):
 
         Parameters
         ----------
+        - fig: Figure | None
+            The figure given with `fig`, used unless replace is True. If
+            None, a new figure is created.
         - replace: bool, default False
             If True, the existing figure with the same window number will be
             replaced.
@@ -446,37 +448,31 @@ class FigureManager(ImageMixin):
         --------
         - Example #1: Create a new figure
 
-            >>> _create_figure()
+            >>> self.create_figure(None, True, None, "large")
 
         - Example #2: Associate an Image to an existing figure
 
-            >>> _create_figure(fig=fig)
+            >>> self.create_figure(fig, False, None, "large")
 
-        - Example #3: Create a new figure with different size and a figure title
+        - Example #3: Create a new figure with a figure title
 
-            >>> _create_figure(suptitle="Super Title", figsize=[10, 5])
-
-        - Example #4: Create a new figure with a specific window number
-
-            >>> _create_figure(nwin=2)
+            >>> self.create_figure(None, True, "Super Title", "large")
 
         """
-        # Create a new figure instance with the provided window number
-        if self.state.fig is None or replace is True:
-            if plt.fignum_exists(self.state.nwin):
-                # Inheriting the figure already in that window: pyplot hands
-                # it back and warns about every argument given with it, so
-                # the size is applied afterwards instead, in __init__.
-                self.state.fig = plt.figure(self.state.nwin)
-            else:
-                self.state.fig = plt.figure(
-                    self.state.nwin,
-                    figsize=(self.state.figsize[0], self.state.figsize[1]),
-                )
+        # A figure given is used, unless replace asks for a new one
+        if fig is not None and replace is False:
+            self.state.fig = fig
+        elif plt.fignum_exists(self.state.nwin):
+            # Inheriting the figure already in that window: pyplot hands
+            # it back and warns about every argument given with it, so
+            # the size is applied afterwards instead, in __init__.
+            self.state.fig = plt.figure(self.state.nwin)
+        else:
+            self.state.fig = plt.figure(
+                self.state.nwin,
+                figsize=(self.state.figsize[0], self.state.figsize[1]),
+            )
         plt.rcParams.update({"font.size": self.state.fontsize})
-
-        if self.state.fig is None:
-            raise PyPLUTOInternalError("The figure could not be created.")
 
         # Suptitle
         if suptitle is not None:

@@ -14,7 +14,7 @@ from pyPLUTO.imagekwargs import CreateAxesKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pperrors import PyPLUTOAxisError, PyPLUTOInternalError
+from pyPLUTO.utils.pperrors import PyPLUTOAxisError
 from pyPLUTO.utils.ppwarnings import (
     PPWarn,
     PyPLUTOConflictWarning,
@@ -190,12 +190,6 @@ class CreateAxesManager(ImageMixin):
             kwargs["tight"] = False
         else:
             wplot, hplot = None, None
-
-        # Set figure size
-        if self.state.fig is None:
-            raise PyPLUTOInternalError(
-                "You need to create a figure before creating axes.",
-            )
 
         # A size given is marked as chosen, so later calls keep it rather
         # than computing one from their rows and columns

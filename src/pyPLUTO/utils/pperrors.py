@@ -32,7 +32,7 @@ class PyPLUTOError(Exception):
 
 
 class PyPLUTOAttributeError(PyPLUTOError, AttributeError):
-    """The attribute asked for does not exist.
+    """The attribute asked for does not exist, or cannot be set.
 
     Still an AttributeError, so hasattr and getattr with a default work as
     usual, and so do copy and pickle, which look for special methods this
@@ -41,7 +41,8 @@ class PyPLUTOAttributeError(PyPLUTOError, AttributeError):
     Examples
     --------
     - Load.__new__(Load).state, a Load built without __init__, which is
-      what copy and pickle start from.
+      what copy and pickle start from;
+    - I.fig = plt.figure(), on an Image that already has its figure.
 
     """
 

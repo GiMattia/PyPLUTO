@@ -26,7 +26,7 @@ from pyPLUTO.imagekwargs import SetLocKwargs, ZoomKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pperrors import PyPLUTODataError, PyPLUTOInternalError
+from pyPLUTO.utils.pperrors import PyPLUTODataError
 from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTOConflictWarning
 
 
@@ -250,7 +250,7 @@ class ZoomManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             x-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - xtickslabels: str | list[str] | list[float] | None | bool, default True
+        - xtickslabels: str | list[str | float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the x-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -272,7 +272,7 @@ class ZoomManager(ImageMixin):
             If enabled (and different from True), sets manually ticks on the
             y-axis. In order to completely remove the ticks the keyword should
             be used with None.
-        - ytickslabels: str | list[str] | list[float] | None | bool, default True
+        - ytickslabels: str | list[str | float] | None | bool, default True
             If enabled (and different from True), sets manually the ticks
             labels on the y-axis. In order to completely remove the ticks the
             keyword should be used with None. Note that fixed tickslabels
@@ -322,9 +322,6 @@ class ZoomManager(ImageMixin):
             >>> I.zoom(var=var2, xrange=[1, 10], yrange=[10, 20])
 
         """
-        if self.state.fig is None:
-            raise PyPLUTOInternalError("No figure is present.")
-
         # The colorbar of an inset is an axis tight_layout cannot handle, so
         # it would warn on every later layout: switched off for the figure,
         # but only then, since an inset alone lays out fine

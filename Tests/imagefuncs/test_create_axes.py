@@ -30,7 +30,7 @@ from matplotlib.axes import Axes
 
 import pyPLUTO as pp
 import pyPLUTO.imagekwargs as image_kwargs
-from pyPLUTO.utils.pperrors import PyPLUTOAxisError, PyPLUTOInternalError
+from pyPLUTO.utils.pperrors import PyPLUTOAxisError
 from pyPLUTO.utils.ppwarnings import (
     PyPLUTOConflictWarning,
     PyPLUTOOptionWarning,
@@ -561,21 +561,6 @@ def test_each_axis_is_numbered_on_the_plot() -> None:
 
 
 # ---- Refusals and warnings ----
-def test_axes_need_a_figure() -> None:
-    """Ask for axes on an image whose figure was taken away.
-
-    Everything here draws on the figure, so the message says what is
-    missing rather than failing on a None three lines later.
-    """
-    image = _image()
-    image.fig = None
-
-    with pytest.raises(
-        PyPLUTOInternalError, match="create a figure before creating axes"
-    ):
-        image.create_axes()
-
-
 @pytest.mark.parametrize(
     ("create", "wrong"),
     [

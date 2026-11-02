@@ -676,15 +676,6 @@ def test_check_must_be_a_flag() -> None:
         image.colorbar(_check=wrong)
 
 
-def test_a_colorbar_without_a_figure() -> None:
-    """Ask for a colorbar on an image whose figure is gone."""
-    image = pp.Image(text=False)
-    image.fig = None
-
-    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
-        image.colorbar()
-
-
 LONG_LABEL = "a very long colorbar label indeed " * 2
 
 

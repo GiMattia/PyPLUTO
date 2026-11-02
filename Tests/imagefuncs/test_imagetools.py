@@ -30,12 +30,7 @@ import pytest
 import pyPLUTO as pp
 from pyPLUTO.imagefuncs import imagetools
 from pyPLUTO.imagefuncs.imagetools import ImageToolsManager
-from pyPLUTO.imagestate import ImageState
-from pyPLUTO.utils.pperrors import (
-    PyPLUTOAxisError,
-    PyPLUTOInternalError,
-    PyPLUTOOptionError,
-)
+from pyPLUTO.utils.pperrors import PyPLUTOAxisError, PyPLUTOOptionError
 from pyPLUTO.utils.ppwarnings import (
     PyPLUTOBehaviorWarning,
     PyPLUTOKeywordWarning,
@@ -75,15 +70,6 @@ def _manager() -> tuple[ImageToolsManager, pp.Image]:
     """
     image = _image()
     return ImageToolsManager(image.state), image
-
-
-def _stateless_manager() -> ImageToolsManager:
-    """Build a manager on a fresh state, so it has no figure.
-
-    ImageState starts with `fig` set to None, which is the "no figure yet"
-    case each of the three guards below is written for.
-    """
-    return ImageToolsManager(ImageState())
 
 
 def _fake_module(name: str, **attributes: object) -> ModuleType:
@@ -539,16 +525,6 @@ def test_assign_ax_rejects_something_that_is_not_an_axis() -> None:
         manager.assign_ax("nosuchaxis", _check=False)  # pyright: ignore[reportArgumentType]  # ty: ignore[invalid-argument-type]
 
 
-def test_assign_ax_without_a_figure() -> None:
-    """Ask for an axis on a manager whose state has no figure.
-
-    Every manager is built on the state, so one built before the figure --
-    or after it was closed -- must say so rather than fail further in.
-    """
-    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
-        _stateless_manager().assign_ax(None, _check=False)
-
-
 def test_assign_ax_rejects_an_index_out_of_range() -> None:
     """Ask for an axis number the figure does not have.
 
@@ -909,13 +885,3 @@ def test_savefig_script_relative_saves_next_to_the_caller(
         sys.modules.pop("plotting_script", None)
 
     assert (tmp_path / "relative.png").exists()
-
-
-def test_savefig_without_a_figure() -> None:
-    """Save from a manager whose state has no figure.
-
-    Saving nothing would write an empty file, or fail inside matplotlib; the
-    message says which of the two mistakes the user made.
-    """
-    with pytest.raises(PyPLUTOInternalError, match="No figure to save"):
-        _stateless_manager().savefig("nosuchfigure.png")

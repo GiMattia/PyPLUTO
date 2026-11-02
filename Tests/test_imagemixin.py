@@ -9,8 +9,8 @@ the field of the same name, in both directions, for every field. A getter
 pointing at its neighbour raises nothing, and would surface as a plot drawn
 with the wrong limits or the wrong scale.
 
-As in imagestate.py the one field without a default, lastax, is checked like
-the load-only fields of the load mixins, by test_unset_until_created.
+As in imagestate.py the two fields without a default, fig and lastax, are
+checked by test_unset_until_created.
 """
 
 import pytest
@@ -101,9 +101,9 @@ def test_default(name: str, expected: object) -> None:
 def test_unset_until_created(name: str) -> None:
     """Read a property without a default on a fresh image and expect an error.
 
-    The property must not soften the state's behaviour: reading `lastax`
-    before any axis exists has to fail just as reading `state.lastax` does,
-    rather than return None because the getter caught the error.
+    The property must not soften the state's behavior: reading `fig` or
+    `lastax` before they are set has to fail just as reading the state
+    does, rather than return None because the getter caught the error.
     """
     with pytest.raises(AttributeError):
         getattr(_Image(), name)

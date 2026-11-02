@@ -1,7 +1,6 @@
 # Tests recap
 
-**2526 tests** · 19 known bugs as expected failures · in-scope coverage
-**84.9%** (88.6% without the parked files) · target 100%
+19 known bugs as expected failures · in-scope coverage **84.9%** (88.6% without the parked files) · target 100%
 
 | Status | Files |
 |---|---|
@@ -41,88 +40,88 @@ test, or a test would compare the code with itself.
 
 ## Per file
 
-| Source | Test file | Tests | Coverage | Status |
-|---|---|---|---|---|
-| `__init__.py` | `test_init.py` | 36 | 100% | reviewed |
-| `amr.py` | — | — | 3% | out of scope |
-| `baseloadmixin.py` | `test_baseloadmixin.py` | 135 | 100% | reviewed |
-| `baseloadstate.py` | `test_baseloadstate.py` | 46 | 100% | reviewed |
-| `codes/echo_load.py` | — | — | 20% | out of scope |
-| `gui/app_state.py` | `gui/test_app_state.py` | 22 | 100% | to review |
-| `gui/custom_var.py` | — | — | 19% | to write |
-| `gui/custom_var_engine.py` | `gui/test_custom_var_engine.py` | 21 | 75% | to review |
-| `gui/globals.py` | `gui/test_globals.py` | 6 | 100% | to review |
-| `gui/load_controller.py` | `gui/test_load_controller.py` | 11 | 80% | to review |
-| `gui/main.py` | `gui/test_main.py` | 8 | 100% | reviewed |
-| `gui/main_window.py` | `gui/test_main_window.py` | 4 | 81% | to review  |
-| `gui/panels.py` | — | — | 84% | to write |
-| `gui/plot_controller.py` | `gui/test_plot_controller.py` | 17 | 70% | to review |
-| `gui/services.py` | `gui/test_services.py` | 30 | 88% | to review |
-| `gui/state_accessors.py` | `gui/test_state_accessors.py` | 15 | 100% | to review |
-| `image.py` | `test_image.py` | 122 | 100% | reviewed |
-| `imagefuncs/colorbar.py` | `imagefuncs/test_colorbar.py` | 52 | 100% | completed |
-| `imagefuncs/contour.py` | `imagefuncs/test_contour.py` | 33 | 100% | reviewed |
-| `imagefuncs/create_axes.py` | `imagefuncs/test_create_axes.py` | 50 | 100% | reviewed |
-| `imagefuncs/display.py` | `imagefuncs/test_display.py` | 33 | 100% | reviewed |
-| `imagefuncs/figure.py` | `imagefuncs/test_figure.py` | 38 | 100% | reviewed |
-| `imagefuncs/gridplot.py` | `imagefuncs/test_gridplot.py` | 38 | 100% | reviewed |
-| `imagefuncs/imagetools.py` | `imagefuncs/test_imagetools.py` | 58 | 100% | reviewed |
-| `imagefuncs/interactive.py` | `imagefuncs/test_interactive.py` | 8 | 75% | to review |
-| `imagefuncs/legend.py` | `imagefuncs/test_legend.py` | 25 | 100% | reviewed |
-| `imagefuncs/plot.py` | `imagefuncs/test_plot.py` | 46 | 100% | reviewed |
-| `imagefuncs/range.py` | `imagefuncs/test_range.py` | 38 | 100% | reviewed |
-| `imagefuncs/scatter.py` | `imagefuncs/test_scatter.py` | 43 | 100% | reviewed |
-| `imagefuncs/set_axis.py` | `imagefuncs/test_set_axis.py` | 52 | 100% | reviewed |
-| `imagefuncs/streamplot.py` | `imagefuncs/test_streamplot.py` | 29 | 100% | reviewed |
-| `imagefuncs/ticks.py` | `imagefuncs/test_ticks.py` | 18 | 100% | to review |
-| `imagefuncs/volengine.py` | `imagefuncs/test_volengine.py` | 49 | 59% | to review |
-| `imagefuncs/volume.py` | `imagefuncs/test_volume.py` | 5 | 91% | to review |
-| `imagefuncs/zoom.py` | `imagefuncs/test_zoom.py` | 52 | 100% | reviewed |
-| `imagekwargs.py` | `test_imagekwargs.py` | 141 | 100% | reviewed |
-| `imagemixin.py` | `test_imagemixin.py` | 127 | 100% | reviewed |
-| `imagestate.py` | `test_imagestate.py` | 56 | 100% | reviewed |
-| `load.py` | `test_load.py` | 78 | 100% | reviewed |
-| `loadfuncs/baseloadtools.py` | `loadfuncs/test_baseloadtools.py` | 6 | 90% | to write (only the form of `nout` so far) |
-| `loadfuncs/codeselection.py` | `loadfuncs/test_codeselection.py` | 6 | 100% | to review |
-| `loadfuncs/descriptor.py` | `loadfuncs/test_descriptor.py` | 4 | 100% | to review |
-| `loadfuncs/findfiles.py` | `loadfuncs/test_findfiles.py` | 4 | 75% | to review |
-| `loadfuncs/findformat.py` | `loadfuncs/test_findformat.py` | 18 | 96% | to review |
-| `loadfuncs/initload.py` | `loadfuncs/test_initload.py` | 14 | 94% | to review |
-| `loadfuncs/loadvars.py` | `loadfuncs/test_loadvars.py` | 18 | 65% | to review |
-| `loadfuncs/offsetdata.py` | — | — | 100% | to write |
-| `loadfuncs/offsetfluid.py` | `loadfuncs/test_offsetfluid.py` | 9 | 61% | to review |
-| `loadfuncs/offsetpart.py` | `loadfuncs/test_offsetpart.py` | 3 | 79% | to review |
-| `loadfuncs/read_files.py` | `loadfuncs/test_read_files.py` | 12 | 92% | to review |
-| `loadfuncs/readdefplini.py` | `loadfuncs/test_readdefplini.py` | 17 | 97% | to review |
-| `loadfuncs/readgridalone.py` | `loadfuncs/test_readgridalone.py` | 2 | 60% | to review |
-| `loadfuncs/readgridfile.py` | `loadfuncs/test_readgridfile.py` | 1 | 65% | to review |
-| `loadfuncs/readtab.py` | — | — | 92% | to write |
-| `loadfuncs/storepart.py` | `loadfuncs/test_storepart.py` | 5 | 83% | to review |
-| `loadfuncs/write_files.py` | `loadfuncs/test_write_files.py` | 11 | 99% | to review |
-| `loadkwargs.py` | `test_loadkwargs.py` | 51 | 100% | reviewed |
-| `loadmixin.py` | `test_loadmixin.py` | 287 | 100% | reviewed |
-| `loadpart.py` | `test_loadpart.py` | 43 | 100% | reviewed |
-| `loadstate.py` | `test_loadstate.py` | 84 | 100% | reviewed |
-| `template.py` | `test_template.py` | 61 | 100% | reviewed |
-| `toolfuncs/compute_units.py` | `toolfuncs/test_compute_units.py` | 15 | 88% | to review |
-| `toolfuncs/findlines.py` | `toolfuncs/test_findlines.py` | 4 | 60% | out of scope |
-| `toolfuncs/fourier.py` | `toolfuncs/test_fourier.py` | 9 | 94% | to review |
-| `toolfuncs/loadtools.py` | `toolfuncs/test_loadtools.py` | 11 | 96% | to review |
-| `toolfuncs/nabla.py` | — | — | 4% | out of scope |
-| `toolfuncs/parttools.py` | `toolfuncs/test_parttools.py` | 11 | 94% | to review |
-| `toolfuncs/set_units.py` | `toolfuncs/test_set_units.py` | 14 | 82% | to review |
-| `toolfuncs/transform.py` | — | — | 44% | out of scope |
-| `utils/configure.py` | `utils/test_configure.py` | 37 | 100% | reviewed |
-| `utils/examples_api.py` | `utils/test_examples_api.py` | 14 | 51% | to review |
-| `utils/examples_cli.py` | `utils/test_examples_cli.py` | 12 | 92% | to review |
-| `utils/inspector.py` | `utils/test_inspector.py` | 40 | 100% | reviewed |
-| `utils/overtyper.py` | `utils/test_overtyper.py` | 5 | 100% | to review |
-| `utils/pperrors.py` | `utils/test_pperrors.py` | 36 | 100% | reviewed |
-| `utils/pplogging.py` | `utils/test_pplogging.py` | 19 | 100% | reviewed |
-| `utils/ppwarnings.py` | `utils/test_ppwarnings.py` | 16 | 100% | reviewed |
-| `utils/pytools.py` | `utils/test_pytools.py` | 10 | 92% | to review |
-| `utils/resolver.py` | `utils/test_resolver.py` | 26 | 100% | reviewed |
-| `utils/settings.py` | `utils/test_settings.py` | 38 | 100% | reviewed |
+| Source | Test file | Coverage | Status |
+|---|---|---|---|
+| `__init__.py` | `test_init.py` | 100% | reviewed |
+| `amr.py` | — | 3% | out of scope |
+| `baseloadmixin.py` | `test_baseloadmixin.py` | 100% | reviewed |
+| `baseloadstate.py` | `test_baseloadstate.py` | 100% | reviewed |
+| `codes/echo_load.py` | — | 20% | out of scope |
+| `gui/app_state.py` | `gui/test_app_state.py` | 100% | to review |
+| `gui/custom_var.py` | — | 19% | to write |
+| `gui/custom_var_engine.py` | `gui/test_custom_var_engine.py` | 75% | to review |
+| `gui/globals.py` | `gui/test_globals.py` | 100% | to review |
+| `gui/load_controller.py` | `gui/test_load_controller.py` | 80% | to review |
+| `gui/main.py` | `gui/test_main.py` | 100% | reviewed |
+| `gui/main_window.py` | `gui/test_main_window.py` | 81% | to review  |
+| `gui/panels.py` | — | 84% | to write |
+| `gui/plot_controller.py` | `gui/test_plot_controller.py` | 70% | to review |
+| `gui/services.py` | `gui/test_services.py` | 88% | to review |
+| `gui/state_accessors.py` | `gui/test_state_accessors.py` | 100% | to review |
+| `image.py` | `test_image.py` | 100% | reviewed |
+| `imagefuncs/colorbar.py` | `imagefuncs/test_colorbar.py` | 100% | completed |
+| `imagefuncs/contour.py` | `imagefuncs/test_contour.py` | 100% | reviewed |
+| `imagefuncs/create_axes.py` | `imagefuncs/test_create_axes.py` | 100% | reviewed |
+| `imagefuncs/display.py` | `imagefuncs/test_display.py` | 100% | reviewed |
+| `imagefuncs/figure.py` | `imagefuncs/test_figure.py` | 100% | reviewed |
+| `imagefuncs/gridplot.py` | `imagefuncs/test_gridplot.py` | 100% | reviewed |
+| `imagefuncs/imagetools.py` | `imagefuncs/test_imagetools.py` | 100% | reviewed |
+| `imagefuncs/interactive.py` | `imagefuncs/test_interactive.py` | 75% | to review |
+| `imagefuncs/legend.py` | `imagefuncs/test_legend.py` | 100% | reviewed |
+| `imagefuncs/plot.py` | `imagefuncs/test_plot.py` | 100% | reviewed |
+| `imagefuncs/range.py` | `imagefuncs/test_range.py` | 100% | reviewed |
+| `imagefuncs/scatter.py` | `imagefuncs/test_scatter.py` | 100% | reviewed |
+| `imagefuncs/set_axis.py` | `imagefuncs/test_set_axis.py` | 100% | reviewed |
+| `imagefuncs/streamplot.py` | `imagefuncs/test_streamplot.py` | 100% | reviewed |
+| `imagefuncs/ticks.py` | `imagefuncs/test_ticks.py` | 100% | to review |
+| `imagefuncs/volengine.py` | `imagefuncs/test_volengine.py` | 59% | to review |
+| `imagefuncs/volume.py` | `imagefuncs/test_volume.py` | 91% | to review |
+| `imagefuncs/zoom.py` | `imagefuncs/test_zoom.py` | 100% | reviewed |
+| `imagekwargs.py` | `test_imagekwargs.py` | 100% | reviewed |
+| `imagemixin.py` | `test_imagemixin.py` | 100% | reviewed |
+| `imagestate.py` | `test_imagestate.py` | 100% | reviewed |
+| `load.py` | `test_load.py` | 100% | reviewed |
+| `loadfuncs/baseloadtools.py` | `loadfuncs/test_baseloadtools.py` | 90% | to write (only the form of `nout` so far) |
+| `loadfuncs/codeselection.py` | `loadfuncs/test_codeselection.py` | 100% | to review |
+| `loadfuncs/descriptor.py` | `loadfuncs/test_descriptor.py` | 100% | to review |
+| `loadfuncs/findfiles.py` | `loadfuncs/test_findfiles.py` | 75% | to review |
+| `loadfuncs/findformat.py` | `loadfuncs/test_findformat.py` | 96% | to review |
+| `loadfuncs/initload.py` | `loadfuncs/test_initload.py` | 94% | to review |
+| `loadfuncs/loadvars.py` | `loadfuncs/test_loadvars.py` | 65% | to review |
+| `loadfuncs/offsetdata.py` | — | 100% | to write |
+| `loadfuncs/offsetfluid.py` | `loadfuncs/test_offsetfluid.py` | 61% | to review |
+| `loadfuncs/offsetpart.py` | `loadfuncs/test_offsetpart.py` | 79% | to review |
+| `loadfuncs/read_files.py` | `loadfuncs/test_read_files.py` | 92% | to review |
+| `loadfuncs/readdefplini.py` | `loadfuncs/test_readdefplini.py` | 97% | to review |
+| `loadfuncs/readgridalone.py` | `loadfuncs/test_readgridalone.py` | 60% | to review |
+| `loadfuncs/readgridfile.py` | `loadfuncs/test_readgridfile.py` | 65% | to review |
+| `loadfuncs/readtab.py` | — | 92% | to write |
+| `loadfuncs/storepart.py` | `loadfuncs/test_storepart.py` | 83% | to review |
+| `loadfuncs/write_files.py` | `loadfuncs/test_write_files.py` | 99% | to review |
+| `loadkwargs.py` | `test_loadkwargs.py` | 100% | reviewed |
+| `loadmixin.py` | `test_loadmixin.py` | 100% | reviewed |
+| `loadpart.py` | `test_loadpart.py` | 100% | reviewed |
+| `loadstate.py` | `test_loadstate.py` | 100% | reviewed |
+| `template.py` | `test_template.py` | 100% | reviewed |
+| `toolfuncs/compute_units.py` | `toolfuncs/test_compute_units.py` | 88% | to review |
+| `toolfuncs/findlines.py` | `toolfuncs/test_findlines.py` | 60% | out of scope |
+| `toolfuncs/fourier.py` | `toolfuncs/test_fourier.py` | 94% | to review |
+| `toolfuncs/loadtools.py` | `toolfuncs/test_loadtools.py` | 96% | to review |
+| `toolfuncs/nabla.py` | — | 4% | out of scope |
+| `toolfuncs/parttools.py` | `toolfuncs/test_parttools.py` | 94% | to review |
+| `toolfuncs/set_units.py` | `toolfuncs/test_set_units.py` | 82% | to review |
+| `toolfuncs/transform.py` | — | 44% | out of scope |
+| `utils/configure.py` | `utils/test_configure.py` | 100% | reviewed |
+| `utils/examples_api.py` | `utils/test_examples_api.py` | 51% | to review |
+| `utils/examples_cli.py` | `utils/test_examples_cli.py` | 92% | to review |
+| `utils/inspector.py` | `utils/test_inspector.py` | 100% | reviewed |
+| `utils/overtyper.py` | `utils/test_overtyper.py` | 100% | to review |
+| `utils/pperrors.py` | `utils/test_pperrors.py` | 100% | reviewed |
+| `utils/pplogging.py` | `utils/test_pplogging.py` | 100% | reviewed |
+| `utils/ppwarnings.py` | `utils/test_ppwarnings.py` | 100% | reviewed |
+| `utils/pytools.py` | `utils/test_pytools.py` | 92% | to review |
+| `utils/resolver.py` | `utils/test_resolver.py` | 100% | reviewed |
+| `utils/settings.py` | `utils/test_settings.py` | 100% | reviewed |
 
 ## Roadmap
 
@@ -627,7 +626,6 @@ afternoon, and none is urgent.
 | `imagefuncs/imagetools.py`, `interactive.py`, `utils/pytools.py` | The `script_relative` path logic (`Path(name)`, `is_absolute`, `inspect.stack()[n].filename`) is written three times, each with its own frame index, so each works only at one call depth. One helper would do. |
 | `imagefuncs/imagetools.py:40` | Every `ImageToolsManager` builds a `CreateAxesManager`, and thirteen managers build an `ImageToolsManager`, so one `Image` holds fourteen of them. Harmless, since they share the state, but pure duplication. |
 | `_test_examples.py` | Fourteen subprocesses run one after another (73 s). Each is fully isolated in its own `tmp_path`, so `pytest-xdist` would run them in parallel with no change to the file. |
-| `pyproject.toml` | `Tests/` is excluded from pyright (170 errors today). Add files to its scope one by one as they are reviewed, the way ty already covers them, so a reviewed test file stays clean under both checkers. |
 | `load.py`, `loadpart.py`, `image.py` (`__getattr__`) | A misspelled variable, `D.rho2`, raises Python's own `'LoadState' object has no attribute 'rho2'`: only the guard for `state` and the special names raises `PyPLUTOAttributeError`. Wrapping the lookup would let it say "Load has no variable or attribute 'rho2'" and list the variables, but a field that exists and is not filled yet (`nout` on `Load(nout=None)`) lands in the same place and must not be called missing. To design with the 1↔1 review of the facades (decided 2026-10-28). |
 | process | Mutation testing found two holes in `resolver.py` at 100% coverage that no line-coverage tool could see. A periodic `mutmut` run over the reviewed files, or the ad-hoc mutate-and-revert loop used here, is worth institutionalising. |
 
@@ -635,6 +633,7 @@ afternoon, and none is urgent.
 
 | Where | What |
 |---|---|
+| `imagestate.py`, `imagemixin.py`, `utils/pperrors.py`, `imagefuncs/figure.py` and the image managers | **`Image.fig` could be missing or replaced.** `fig` defaulted to `None`, so the managers guarded against a figure that `Image` always creates, and `I.fig = ...` swapped the figure, leaving the axes on the old one. Now `fig` has no default, like `lastax` (decided 2026-11-01): `create_figure` sets it, and the eleven guards against a missing figure are removed with their tests. `IMMUTABLE` in `imagestate.py` lists the fields set once, each with what to do instead, and `ImageState.__setattr__` refuses to replace them with a `PyPLUTOAttributeError`; this covers `I.fig = ...` too, since the Image forwards every assignment to its state (decided 2026-11-02). Guarded by `test_unset_until_created`, `test_the_figure_is_set_once` and `test_the_figure_cannot_be_replaced`. |
 | `imagefuncs/colorbar.py`, `imagekwargs.py`, the docstrings of `contour`, `display`, `scatter`, `streamplot`, `zoom`, `interactive` | **The colorbar did not know where it stood.** Found in the completing pass (2026-10-31). An unknown `cpos` was drawn anyway, on matplotlib's default side; `cax` could be the axis described, drawing the bar over its own map; the gap was measured from the frame, so on the left and on top the bar covered the tick labels, the axis title and the panel title; on the left and on top the ticks and label faced the axis, since matplotlib puts them on the right or at the bottom; a second bar on an axis was cut from a divider of its own, placed without knowing of the first, and landed on the tick labels; contour lines always got the continuous bar, with no way to matplotlib's own. Now `cpos` is checked first and a wrong one raises a `PyPLUTOOptionError`; `cax` equal to the axis described raises a `PyPLUTOAxisError`; `side_space` measures what the axis draws on that side (the facing axis, and on top the title) and the gap `cpad` starts there, in inches; `location=cpos` puts the ticks and label on the outer side, also in a given `cax`; the divider of an axis that has a bar is found again in its locator, so the next bar is cut from it and the map shrinks for both; `fillmap` (default `True`, decided 2026-10-31) gives contour lines the continuous bar, and `False` matplotlib's own. `find_ax` is public. The `extend` and `extendrect` entries said the opposite of what they do in every docstring repeating them. ruff's branch count on `colorbar` (13 > 12) is accepted until `_check` is removed. Guarded by `test_the_default_side_is_the_documented_one`, `test_colorbar_positions`, `test_the_bar_covers_nothing_the_axis_draws`, `test_the_gap_is_in_inches`, `test_no_space_where_nothing_is_drawn`, `test_the_title_takes_space_on_top`, `test_two_bars_on_one_map`, `test_a_side_that_does_not_exist`, `test_a_given_axis_takes_the_side_of_its_ticks`, `test_the_axis_described_is_not_a_place_for_the_bar` and `test_fillmap_off_gives_the_bar_of_the_lines`. |
 | `imagefuncs/zoom.py` | **After a zoom, the next call without `ax` went into the inset.** `zoom` sets up and fills the inset through `set_axis` and `zoomcopy`, whose managers recorded it as the last considered axis, so `zoom(...)` followed by `colorbar()` put the bar beside the inset. An inset is a detail of its panel (decided 2026-10-31): the panel stays the last considered axis. Guarded by `test_the_parent_stays_the_last_considered_axis`. |
 | `imagefuncs/scatter.py`, `imagefuncs/plot.py` | **`scatter` built a legend with nothing labeled.** Unlike `plot`, it called `legend` whatever was on the axis, so `scatter(x, y, legpos="best")` without `label` gave an empty frame and matplotlib's *"No artists with labels found"*. It now checks `get_legend_handles_labels` as `plot` does: no legend, our warning, and the position kept, so the first labeled drawing brings the legend. One message for both, since lines and points share the axis (decided 2026-10-30): *"legpos is set but nothing on the axis has a label: no legend is drawn."* Guarded by `test_a_legend_without_any_label_is_not_drawn` and `test_a_label_after_legpos_brings_the_legend` in `test_scatter.py`. |

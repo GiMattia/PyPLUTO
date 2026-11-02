@@ -28,7 +28,7 @@ from matplotlib.lines import Line2D
 
 import pyPLUTO as pp
 from pyPLUTO.imagekwargs import CheckRangeKwargs, ZoomKwargs
-from pyPLUTO.utils.pperrors import PyPLUTODataError, PyPLUTOInternalError
+from pyPLUTO.utils.pperrors import PyPLUTODataError
 from pyPLUTO.utils.ppwarnings import PyPLUTOConflictWarning
 
 x = np.linspace(0, 1, 101)
@@ -767,12 +767,3 @@ def test_the_zoom_lines_can_be_left_out() -> None:
     image.zoom(zoomlines=False)
 
     assert _indicators(_axis(image)) == []
-
-
-def test_a_zoom_without_a_figure() -> None:
-    """Zoom on an image whose figure is gone."""
-    image = pp.Image(text=False)
-    image.fig = None
-
-    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
-        image.zoom()

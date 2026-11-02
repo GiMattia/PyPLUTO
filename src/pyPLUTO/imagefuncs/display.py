@@ -17,7 +17,6 @@ from pyPLUTO.imagekwargs import DisplayKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pperrors import PyPLUTOInternalError
 
 
 class DisplayManager(ImageMixin):
@@ -301,9 +300,6 @@ class DisplayManager(ImageMixin):
                         cscale = 'symlog', tresh = 0.001, vmin = -1, vmax = 1)
 
         """
-        if self.fig is None:
-            raise PyPLUTOInternalError("No figure is present.")
-
         # Set or create figure and axes
         ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 

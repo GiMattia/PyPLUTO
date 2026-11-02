@@ -15,10 +15,14 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.typing import LegendLocType
 
+from pyPLUTO.utils.pperrors import PyPLUTOAttributeError
 from pyPLUTO.utils.settings import TextValue
 
 # The ticks and the ticks labels of one axis: True automatic, None removed
 Ticks = tuple[list[float] | bool | None, list[str] | bool | None]
+
+# Fields set once, by Image, and what to do instead of replacing them
+IMMUTABLE = {"fig": "build a new Image, with fig= to use another figure"}
 
 
 @dataclass
@@ -30,10 +34,8 @@ class ImageState:
     the different classes that handle the plotting and display of the image at
     runtime.
 
-    Unlike the load states, every field but one has a default: an Image is
-    usable the moment it is built. The exception is `lastax`, written as
-    `field(init=False, repr=False)` like the load-only fields, since there is
-    no axis to point at before `create_axes` makes one.
+    Every field has a default except `fig` and `lastax`, which are set
+    when `Image` creates the figure and the first axis.
 
     Most of the lists are *per axis*, indexed by the axis number that the
     managers call `nax`, and they grow as axes are created. So `nline[2]` is
@@ -62,7 +64,7 @@ class ImageState:
     dictcol: dict[int, str] = field(default_factory=dict)
 
     # The matplotlib figure everything is drawn on
-    fig: Figure | None = None
+    fig: Figure = field(init=False, repr=False)
 
     # Figure size in inches
     figsize: Sequence[float] = field(default_factory=lambda: [8.0, 5.0])
@@ -138,3 +140,45 @@ class ImageState:
 
     # Per axis, the scale of the y axis
     yscale: list[str] = field(default_factory=list)
+
+    def __setattr__(self, name: str, value: object) -> None:
+        """Set a field, refusing to replace one of IMMUTABLE once it is set.
+
+        The axes of the Image live on its figure, so the figure stays the
+        one the Image was built with. `I.fig = ...` lands here too, since
+        the Image forwards every assignment to its state.
+
+        Parameters
+        ----------
+        - name: str
+            The name of the field.
+        - value: object
+            The value to store.
+
+        Returns
+        -------
+        - None
+
+        Raises
+        ------
+        - PyPLUTOAttributeError
+            If name is in IMMUTABLE and the field is already set.
+
+        Examples
+        --------
+        - Example #1: change the figure size
+
+            >>> I.state.figsize = [6.0, 4.0]
+
+        - Example #2: replace the figure, which is refused
+
+            >>> I.state.fig = plt.figure()
+            PyPLUTOAttributeError: fig cannot be replaced once set: build a
+            new Image, with fig= to use another figure.
+
+        """
+        if name in IMMUTABLE and hasattr(self, name):
+            raise PyPLUTOAttributeError(
+                f"{name} cannot be replaced once set: {IMMUTABLE[name]}."
+            )
+        super().__setattr__(name, value)

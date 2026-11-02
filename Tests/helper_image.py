@@ -16,8 +16,8 @@ something independent to compare the code against.
 from helper_all import accessors
 
 # Marks a field with no default: the code fills it in later, so reading it on
-# a fresh state raises AttributeError. For ImageState that is lastax, set by
-# create_axes once there is an axis to point at.
+# a fresh state raises AttributeError. For ImageState those are fig, set when
+# Image creates the figure, and lastax, set by create_axes.
 #
 # Every state helper is written the same way even where a part is empty, so
 # the state and mixin test files can be read side by side and none of them is
@@ -31,7 +31,7 @@ DEFAULTS: dict[str, object] = {
     "classlog": None,
     "color": [],
     "dictcol": {},
-    "fig": None,
+    "fig": UNSET,
     "figsize": [8.0, 5.0],
     "fontsize": 17,
     "fontweight": "normal",

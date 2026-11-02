@@ -17,7 +17,6 @@ from pyPLUTO.imagekwargs import ContourKwargs
 from pyPLUTO.imagemixin import ImageMixin
 from pyPLUTO.imagestate import ImageState
 from pyPLUTO.utils.inspector import track_kwargs
-from pyPLUTO.utils.pperrors import PyPLUTOInternalError
 from pyPLUTO.utils.ppwarnings import PPWarn, PyPLUTOConflictWarning
 
 
@@ -294,9 +293,6 @@ class ContourManager(ImageMixin):
             >>> I.contour(D.rho, x1=D.x1, x2=D.x2, c="k", levels=[0.5, 1.0])
 
         """
-        if self.state.fig is None:
-            raise PyPLUTOInternalError("No figure is present.")
-
         # Set or create figure and axes
         ax, nax = self.ImageToolsManager.assign_ax(ax, _check=False, **kwargs)
 

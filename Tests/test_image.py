@@ -35,6 +35,7 @@ import matplotlib.pyplot as plt
 import pytest
 from helper_all import DummyManager
 from helper_image import DELEGATION, MANAGERS, NOT_DELEGATED
+from matplotlib.figure import Figure
 
 import pyPLUTO as pp
 import pyPLUTO.image as image_mod
@@ -156,6 +157,22 @@ def test_replaced_state_receives_assignments() -> None:
     img.new_field = 42
     assert vars(new_state).get("new_field") == 42
     assert "new_field" not in vars(img)
+
+
+def test_the_figure_cannot_be_replaced() -> None:
+    """Assign another figure on the image, and find the first one kept.
+
+    The assignment is forwarded to the state, which refuses it: the axes
+    live on the figure the Image was built with. A failure means a user
+    could swap the figure and leave every axis behind.
+    """
+    img = pp.Image(text=False)
+    figure = img.fig
+
+    with pytest.raises(PyPLUTOAttributeError, match="cannot be replaced"):
+        img.fig = Figure()
+
+    assert img.fig is figure
 
 
 # ---- Copying ----

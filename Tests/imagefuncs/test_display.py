@@ -33,7 +33,6 @@ from matplotlib.collections import QuadMesh
 from matplotlib.colors import LogNorm, Normalize, SymLogNorm, TwoSlopeNorm
 
 import pyPLUTO as pp
-from pyPLUTO.utils.pperrors import PyPLUTOInternalError
 from pyPLUTO.utils.ppwarnings import PyPLUTOKeywordWarning
 
 # A rectangular variable, so that an accidental transposition cannot pass,
@@ -440,19 +439,6 @@ def test_a_map_on_a_faded_panel_takes_its_axalpha() -> None:
 
 
 # ---- The figure ----
-def test_a_display_without_a_figure() -> None:
-    """Display on an image whose figure is gone.
-
-    There is nothing to draw on, and saying so is better than the error
-    matplotlib would give further down, in a call the user never made.
-    """
-    image = pp.Image(text=False)
-    image.fig = None
-
-    with pytest.raises(PyPLUTOInternalError, match="No figure is present"):
-        image.display(var)
-
-
 def test_the_layout_is_tightened_again() -> None:
     """Display with a long axis label on a tight figure.
 
